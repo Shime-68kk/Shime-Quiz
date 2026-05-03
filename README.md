@@ -1,0 +1,137 @@
+# ShimeChamhoc v2
+
+ShimeChamhoc v2 is a React/Vite, local-first learning app for multi-subject study. It supports importing learning data, studying in a focused Study Room, tracking local progress, reviewing due items, and backing up local v2 learning state.
+
+Current release candidate: **v2.0.0-rc1**
+
+## What is included in v2
+
+- `/dashboard`: learning overview, today journey, goal progress, analytics, mastery, review schedule, Smart Practice, and study history.
+- `/library`: local learning library, JSON/CSV import preview, library export, and v2 backup/restore.
+- `/study-room`: focus-mode item study for multiple-choice, short-answer, and flashcard items.
+- Local persistence for library data, study drafts, study history, spaced repetition schedule, recommendation feedback, study goal, and plan progress.
+- Full, redacted, and progress-only v2 backup export modes.
+
+## Run locally
+
+Install dependencies and start the Vite dev server:
+
+```bash
+npm install
+npm run dev
+```
+
+Open:
+
+```text
+http://127.0.0.1:4173
+```
+
+Build for production:
+
+```bash
+npm run build
+```
+
+Preview the production build:
+
+```bash
+npm run preview
+```
+
+## Import JSON or CSV
+
+Open **Thư viện** and choose a local `.json` or `.csv` file. Files are read in the browser and are not uploaded.
+
+Supported v2 data includes:
+
+- `subjects`
+- `topics`
+- `items`
+
+Supported item types:
+
+- `multiple_choice`
+- `short_answer`
+- `flashcard`
+
+CSV import supports common columns such as `subject`, `topic`, `type`, `prompt`, `choices`, `correctAnswer`, `answer`, `front`, `back`, `explanation`, `tags`, `difficulty`, and `source`. The preview validates data before import. Invalid data is blocked; warnings can still allow import.
+
+## Local persistence
+
+v2 stores learning data locally in the browser with versioned localStorage keys:
+
+- `shimeV2LibraryDataV1`
+- `shimeV2StudyDraftV1`
+- `shimeV2StudyHistoryV1`
+- `shimeV2ReviewScheduleV1`
+- `shimeV2RecommendationFeedbackV1`
+- `shimeV2StudyGoalV1`
+- `shimeV2StudyPlanProgressV1`
+
+There is no account, cloud sync, backend, or cross-device sync in this release candidate.
+
+## Study Room
+
+The Study Room renders v2 learning items locally:
+
+- multiple choice: choose an answer and check it;
+- short answer: type an answer and check it with simple normalized matching;
+- flashcard: reveal the answer side.
+
+Study Room state can restore a local draft after refresh. Finishing a session creates a local result summary, saves v2 study history, and updates the local review schedule. This does not use the old v1 quiz engine.
+
+## Dashboard learning flow
+
+The Dashboard includes:
+
+- **Hành trình hôm nay**: unified recommendation, plan steps, and daily goal summary;
+- **Mục tiêu học tập**: local daily target and focus mode;
+- basic analytics from v2 study history;
+- basic mastery insights;
+- local spaced repetition schedule and due review summary;
+- Smart Practice and due-review entry points;
+- recent study history and detail view.
+
+These features are local heuristics. They are not AI/ML predictions and do not guarantee exam results.
+
+## Backup and restore
+
+Open **Thư viện** and use **Sao lưu dữ liệu** / **Khôi phục dữ liệu**.
+
+Backup modes:
+
+- **Sao lưu đầy đủ**: includes library content, answer keys, and local learning state. This is the only mode that supports full restore in v2.0.0-rc1.
+- **Sao lưu đã ẩn đáp án**: removes direct answer fields where practical. It helps reduce sharing risk but is not encryption and cannot be restored as a full answer-key backup.
+- **Sao lưu tiến trình**: excludes library question content and answer keys. It requires the matching library later to be meaningful and is not restored as a full backup in this release candidate.
+
+Restore validates the file, asks for confirmation, and writes only recognized v2 keys. Redacted and progress-only backups are blocked from full restore with a Vietnamese explanation.
+
+## Local security limitation
+
+ShimeChamhoc v2 is a static, local-first app. Offline scoring requires answer data to exist in the browser. Data and answers can exist in localStorage, in memory, imported files, full backup JSON, and browser DevTools.
+
+Do not use this static/offline mode as an absolute anti-cheat system. True answer-key protection or server-side scoring requires a future backend architecture. Redacted/progress-only backups reduce sharing risk but are not encryption.
+
+## Migration from v1
+
+v2 is a new React/Vite architecture. Stable v1 data may not automatically migrate unless a v2 import/restore flow explicitly supports it. Keep v1 backups separately before testing v2.
+
+The legacy vanilla source remains in the repository during the transition, but v2 uses `src/main.jsx` and React routes.
+
+## QA and release docs
+
+- v2 release checklist: [`RELEASE_QA_V2.md`](RELEASE_QA_V2.md)
+- v2 deployment guide: [`DEPLOY_V2.md`](DEPLOY_V2.md)
+- v2 release notes: [`RELEASE_NOTES_V2.md`](RELEASE_NOTES_V2.md)
+- v2 data model notes: [`docs/V2_DATA_MODEL.md`](docs/V2_DATA_MODEL.md)
+- migration boundaries: [`docs/MIGRATION_BOUNDARIES.md`](docs/MIGRATION_BOUNDARIES.md)
+- design system notes: [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md)
+
+## Known limitations
+
+- No backend, account sync, encryption, notifications, or calendar integration.
+- Redacted/progress-only backups are safer export options but are not full restore modes yet.
+- Direct reload of special Study Room modes may fall back to the default Study Room view.
+- Current learning models are simple local heuristics, not AI.
+- Browser localStorage quota can limit very large libraries or long histories.

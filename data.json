@@ -1,0 +1,62 @@
+{
+  "title": "Quiz Hội nhập kinh tế quốc tế",
+  "shuffle": true,
+  "timeLimit": 600,
+  "questions": [
+    {
+      "text": "Câu 1. Một quốc gia cho rằng chỉ cần phát triển mạnh thị trường trong nước, không cần tham gia sâu vào các quan hệ kinh tế quốc tế vẫn có thể duy trì tăng trưởng lâu dài. Theo lý luận về hội nhập kinh tế quốc tế, nhận định này không phù hợp chủ yếu vì:",
+      "choices": [
+        "Không phù hợp với xu hướng toàn cầu hóa và phân công lao động quốc tế",
+        "Không có đủ nguồn lực tự nhiên",
+        "Không có dân số đông",
+        "Không có doanh nghiệp lớn"
+      ],
+      "answer": 0,
+      "explanation": ""
+    },
+    {
+      "text": "Câu 2. Trong điều kiện lực lượng sản xuất ngày càng phát triển, các quốc gia có xu hướng mở rộng quan hệ kinh tế ra bên ngoài và tham gia sâu vào thị trường thế giới. Điều này phản ánh:",
+      "choices": [
+        "Nhu cầu chủ quan của từng quốc gia",
+        "Tính tất yếu khách quan của hội nhập kinh tế quốc tế",
+        "Sự suy giảm vai trò của thương mại",
+        "Xu hướng đóng cửa nền kinh tế"
+      ],
+      "answer": 1,
+      "explanation": ""
+    },
+    {
+      "text": "Câu 3. Một quốc gia tham gia thương mại quốc tế nhưng không chấp nhận các quy định chung về tiêu chuẩn, thuế quan và cạnh tranh. Trong trường hợp này, có thể nhận định rằng quốc gia đó:",
+      "choices": [
+        "Đã hội nhập đầy đủ",
+        "Hội nhập ở mức hình thức, chưa thực chất",
+        "Không cần hội nhập",
+        "Đã hội nhập toàn diện"
+      ],
+      "answer": 1,
+      "explanation": ""
+    },
+    {
+      "text": "Câu 4. So với hợp tác kinh tế quốc tế thông thường, hội nhập kinh tế quốc tế có điểm khác biệt cơ bản là các quốc gia không chỉ hợp tác mà còn:",
+      "choices": [
+        "Trao đổi hàng hóa nhiều hơn",
+        "Tăng số lượng đối tác",
+        "Cam kết và tuân thủ các quy tắc chung mang tính ràng buộc",
+        "Giảm cạnh tranh"
+      ],
+      "answer": 2,
+      "explanation": ""
+    },
+    {
+      "text": "Câu 5. Trong bối cảnh toàn cầu hóa hiện nay, nếu một quốc gia lựa chọn chính sách “đóng cửa” để bảo vệ nền kinh tế trong nước, về lâu dài điều này có thể dẫn đến:",
+      "choices": [
+        "Tăng trưởng ổn định và bền vững",
+        "Nâng cao năng lực cạnh tranh",
+        "Giảm sự phụ thuộc quốc tế",
+        "Hạn chế khả năng tiếp cận công nghệ và thị trường"
+      ],
+      "answer": 3,
+      "explanation": ""
+    }
+  ]
+}

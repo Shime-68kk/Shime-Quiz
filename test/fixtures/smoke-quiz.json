@@ -1,0 +1,77 @@
+{
+  "title": "Smoke Test Quiz",
+  "shuffle": false,
+  "timeLimit": 300,
+  "questions": [
+    {
+      "id": "smoke-q1",
+      "chapter": "Basics",
+      "category": "Navigation",
+      "text": "What should the user click to import a JSON quiz file?",
+      "choices": [
+        "Nạp JSON",
+        "Hướng dẫn",
+        "Thống kê",
+        "Lịch sử"
+      ],
+      "answer": 0,
+      "explanation": "The toolbar action named Nạp JSON opens the JSON file picker."
+    },
+    {
+      "id": "smoke-q2",
+      "chapter": "Learning",
+      "category": "History",
+      "text": "Which feature lets a user review a completed attempt later?",
+      "choices": [
+        "History detail",
+        "Theme toggle",
+        "Mobile menu",
+        "PWA manifest"
+      ],
+      "answer": 0,
+      "explanation": "History detail shows the saved questions, selected answers, and correct answers."
+    },
+    {
+      "id": "smoke-q3",
+      "chapter": "Math",
+      "category": "Formula",
+      "text": "If a quiz has 5 questions and the user answers 3 correctly, the score percentage is calculated as \\(3/5 \\times 100\\). What is the result?",
+      "choices": [
+        "20%",
+        "40%",
+        "60%",
+        "80%"
+      ],
+      "answer": 2,
+      "explanation": "\\(3/5 \\times 100 = 60\\%\\)."
+    },
+    {
+      "id": "smoke-q4",
+      "chapter": "Retention",
+      "category": "Review",
+      "text": "What should spaced repetition prioritize?",
+      "choices": [
+        "Questions due for review",
+        "Only questions answered correctly forever",
+        "Only the first question",
+        "Random UI buttons"
+      ],
+      "answer": 0,
+      "explanation": "Due questions are the ones scheduled for review now."
+    },
+    {
+      "id": "smoke-q5",
+      "chapter": "Organization",
+      "category": "Collections",
+      "text": "What is a collection used for?",
+      "choices": [
+        "Grouping important questions for practice",
+        "Changing the browser language",
+        "Clearing the PWA cache",
+        "Submitting a bug report automatically"
+      ],
+      "answer": 0,
+      "explanation": "Collections store stable question references so users can practice selected questions."
+    }
+  ]
+}
