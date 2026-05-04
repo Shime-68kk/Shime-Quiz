@@ -1,6 +1,7 @@
 import { getLocalStorage } from '../utils/storage.js';
 import { hashString } from '../utils/hash.js';
 import { normalizeDate } from '../utils/date.js';
+import { publishLearningStorageChanged } from './localStorageSync.js';
 import { clamp, safeNumber } from '../utils/number.js';
 export const STUDY_HISTORY_STORAGE_KEY = 'shimeV2StudyHistoryV1';
 export const STUDY_HISTORY_SCHEMA_VERSION = 'v2-study-history-v1';
@@ -11,6 +12,11 @@ export const STUDY_HISTORY_LIMIT = 50;
 function emitHistoryUpdated(detail = {}) {
   if (typeof window === 'undefined' || typeof window.dispatchEvent !== 'function') return;
   window.dispatchEvent(new CustomEvent(STUDY_HISTORY_UPDATED_EVENT, { detail }));
+  publishLearningStorageChanged({
+    key: STUDY_HISTORY_STORAGE_KEY,
+    section: 'studyHistory',
+    reason: detail.reason || 'history_changed'
+  });
 }
 
 

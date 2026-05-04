@@ -3,11 +3,13 @@ import { createLearningDataAdapter, normalizeLearningData, summarizeLearningData
 import { validateLearningDataImport } from './importValidator.js';
 import mockLearningData from './mockLearningData.js';
 import { getLocalStorage } from '../utils/storage.js';
+import { publishLearningStorageChanged, subscribeLearningStorageChanged } from '../state/localStorageSync.js';
 
 export const LIBRARY_STORAGE_KEY = 'shimeV2LibraryDataV1';
 export const LIBRARY_SCHEMA_VERSION = 'v2-library-data-v1';
 
 const listeners = new Set();
+let unsubscribeLearningStorageSync = null;
 
 function createMockMetadata(notice) {
   return {
@@ -104,9 +106,31 @@ function emitChange() {
   listeners.forEach(listener => listener());
 }
 
+function reloadLearningDataFromStorage() {
+  const next = readPersistedLibrary();
+  currentLearningData = next.data;
+  currentMetadata = next.metadata;
+  emitChange();
+}
+
+function ensureLearningStorageSubscription() {
+  if (unsubscribeLearningStorageSync || typeof window === 'undefined') return;
+  unsubscribeLearningStorageSync = subscribeLearningStorageChanged(message => {
+    if (message.key !== LIBRARY_STORAGE_KEY && message.section !== 'library') return;
+    reloadLearningDataFromStorage();
+  }, { keys: [LIBRARY_STORAGE_KEY], sections: ['library'] });
+}
+
 export function subscribeLearningData(listener) {
   listeners.add(listener);
-  return () => listeners.delete(listener);
+  ensureLearningStorageSubscription();
+  return () => {
+    listeners.delete(listener);
+    if (!listeners.size && unsubscribeLearningStorageSync) {
+      unsubscribeLearningStorageSync();
+      unsubscribeLearningStorageSync = null;
+    }
+  };
 }
 
 export function getLearningDataSnapshot() {
@@ -136,6 +160,7 @@ export function setLearningData(rawData, options = {}) {
   if (storage && !options.skipStorage) {
     try {
       storage.setItem(LIBRARY_STORAGE_KEY, JSON.stringify(payload));
+      publishLearningStorageChanged({ key: LIBRARY_STORAGE_KEY, section: 'library', reason: 'library_saved' });
     } catch (error) {
       currentLearningData = validation.normalizedData;
       currentMetadata = {
@@ -158,6 +183,7 @@ export function resetLearningDataToMock() {
   if (storage) {
     try {
       storage.removeItem(LIBRARY_STORAGE_KEY);
+      publishLearningStorageChanged({ key: LIBRARY_STORAGE_KEY, section: 'library', reason: 'library_cleared' });
     } catch {
       // The in-memory reset is still safe even when storage removal fails.
     }

@@ -20,6 +20,7 @@ import {
 import { computeStudyGoalProgress, readStudyGoal, STUDY_GOAL_UPDATED_EVENT } from '../state/studyGoalStorage.js';
 import { readStudyHistory, STUDY_HISTORY_UPDATED_EVENT } from '../state/studyHistoryStorage.js';
 import { getDueReviewSummary } from '../study/dueReviewSelector.js';
+import { subscribeLearningStorageChanged } from '../state/localStorageSync.js';
 
 const DashboardLearningDataContext = createContext(null);
 
@@ -49,12 +50,16 @@ export function DashboardLearningDataProvider({ children }) {
     window.addEventListener(RECOMMENDATION_FEEDBACK_UPDATED_EVENT, refresh);
     window.addEventListener(STUDY_GOAL_UPDATED_EVENT, refresh);
     window.addEventListener(STUDY_PLAN_PROGRESS_UPDATED_EVENT, refresh);
+    const unsubscribeStorageSync = subscribeLearningStorageChanged(refresh, {
+      sections: ['studyHistory', 'reviewSchedule', 'recommendationFeedback', 'studyGoal', 'studyPlanProgress', 'library']
+    });
     return () => {
       window.removeEventListener(STUDY_HISTORY_UPDATED_EVENT, refresh);
       window.removeEventListener(REVIEW_SCHEDULE_UPDATED_EVENT, refresh);
       window.removeEventListener(RECOMMENDATION_FEEDBACK_UPDATED_EVENT, refresh);
       window.removeEventListener(STUDY_GOAL_UPDATED_EVENT, refresh);
       window.removeEventListener(STUDY_PLAN_PROGRESS_UPDATED_EVENT, refresh);
+      unsubscribeStorageSync();
     };
   }, []);
 

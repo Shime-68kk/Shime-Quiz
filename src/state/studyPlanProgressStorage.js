@@ -1,5 +1,6 @@
 import { getLocalDateKey, normalizeDate } from '../utils/date.js';
 import { getLocalStorage } from '../utils/storage.js';
+import { publishLearningStorageChanged } from './localStorageSync.js';
 
 export const STUDY_PLAN_PROGRESS_STORAGE_KEY = 'shimeV2StudyPlanProgressV1';
 export const STUDY_PLAN_PROGRESS_SCHEMA_VERSION = 'v2-study-plan-progress-v1';
@@ -10,6 +11,11 @@ const STUDY_PLAN_PROGRESS_DAY_LIMIT = 14;
 function emitPlanProgressUpdated(detail = {}) {
   if (typeof window === 'undefined' || typeof window.dispatchEvent !== 'function') return;
   window.dispatchEvent(new CustomEvent(STUDY_PLAN_PROGRESS_UPDATED_EVENT, { detail }));
+  publishLearningStorageChanged({
+    key: STUDY_PLAN_PROGRESS_STORAGE_KEY,
+    section: 'studyPlanProgress',
+    reason: detail.reason || 'plan_progress_changed'
+  });
 }
 
 function uniqueStrings(values = []) {
@@ -91,6 +97,21 @@ function readEnvelope() {
   }
 }
 
+
+function mergeDayRecords(latestDay, nextDay, fallbackDateKey = getLocalDateKey()) {
+  const latest = normalizeDayRecord(latestDay, fallbackDateKey) || emptyDay(fallbackDateKey);
+  const next = normalizeDayRecord(nextDay, latest.dateKey) || latest;
+  const completedStepIds = uniqueStrings([...(latest.completedStepIds || []), ...(next.completedStepIds || [])]);
+  return normalizeDayRecord({
+    dateKey: next.dateKey || latest.dateKey,
+    completedStepIds,
+    dismissedStepIds: uniqueStrings([...(latest.dismissedStepIds || []), ...(next.dismissedStepIds || [])])
+      .filter(id => !completedStepIds.includes(id)),
+    activeStepId: next.activeStepId || latest.activeStepId || '',
+    updatedAt: next.updatedAt || new Date().toISOString()
+  }, fallbackDateKey);
+}
+
 function writeDays(days = [], detail = {}) {
   const storage = getLocalStorage();
   if (!storage) return { ok: false, error: 'storage_unavailable', days: [] };
@@ -119,11 +140,18 @@ function updateDay(dateKey = getLocalDateKey(), updater, reason = 'plan_progress
   const nextDay = normalizeDayRecord({ ...updater(existing), updatedAt: new Date().toISOString() }, safeDateKey);
   if (!nextDay) return { ok: false, error: 'invalid_plan_progress_day' };
 
-  if (index >= 0) days[index] = nextDay;
-  else days.unshift(nextDay);
+  // Re-read immediately before writing and merge by day/step ids. This keeps
+  // close multi-tab updates from dropping a completed/dismissed step that was
+  // written after the first read.
+  const latest = readEnvelope();
+  const latestDays = Array.isArray(latest.days) ? latest.days.slice() : [];
+  const latestIndex = latestDays.findIndex(day => day.dateKey === safeDateKey);
+  const mergedDay = mergeDayRecords(latestIndex >= 0 ? latestDays[latestIndex] : existing, nextDay, safeDateKey);
+  if (latestIndex >= 0) latestDays[latestIndex] = mergedDay;
+  else latestDays.unshift(mergedDay);
 
-  const result = writeDays(days, { reason, dateKey: safeDateKey });
-  return { ...result, day: nextDay };
+  const result = writeDays(latestDays, { reason, dateKey: safeDateKey });
+  return { ...result, day: mergedDay };
 }
 
 export function readStudyPlanProgress(dateKey = getLocalDateKey()) {
@@ -168,9 +196,21 @@ export function unmarkStudyPlanStepComplete(stepId, dateKey = getLocalDateKey())
 }
 
 export function resetStudyPlanProgressForDate(dateKey = getLocalDateKey()) {
-  const current = readEnvelope();
   const safeDateKey = getLocalDateKey(`${dateKey}T00:00:00`);
-  const days = (current.days || []).filter(day => day.dateKey !== safeDateKey);
+  const current = readEnvelope();
+  if (!current.ok && current.error === 'storage_unavailable') {
+    return { ok: false, error: current.error, days: [], day: emptyDay(safeDateKey) };
+  }
+
+  // Re-read the latest snapshot immediately before writing the reset. The
+  // operation removes only the requested day from that latest snapshot so a
+  // close write from another tab to a different day is preserved.
+  const latest = readEnvelope();
+  if (!latest.ok && latest.error === 'storage_unavailable') {
+    return { ok: false, error: latest.error, days: [], day: emptyDay(safeDateKey) };
+  }
+
+  const days = (latest.days || []).filter(day => day.dateKey !== safeDateKey);
   const result = writeDays(days, { reason: 'plan_progress_reset_today', dateKey: safeDateKey });
   return { ...result, day: emptyDay(safeDateKey) };
 }

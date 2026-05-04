@@ -2,6 +2,7 @@ import { getLocalDateKey, normalizeDate } from '../utils/date.js';
 import { hashString } from '../utils/hash.js';
 import { clampInteger } from '../utils/number.js';
 import { getLocalStorage } from '../utils/storage.js';
+import { publishLearningStorageChanged } from './localStorageSync.js';
 
 export const STUDY_GOAL_STORAGE_KEY = 'shimeV2StudyGoalV1';
 export const STUDY_GOAL_SCHEMA_VERSION = 'v2-study-goal-v1';
@@ -19,6 +20,11 @@ export const DEFAULT_DAILY_ITEM_TARGET = 10;
 function emitGoalUpdated(detail = {}) {
   if (typeof window === 'undefined' || typeof window.dispatchEvent !== 'function') return;
   window.dispatchEvent(new CustomEvent(STUDY_GOAL_UPDATED_EVENT, { detail }));
+  publishLearningStorageChanged({
+    key: STUDY_GOAL_STORAGE_KEY,
+    section: 'studyGoal',
+    reason: detail.reason || 'goal_changed'
+  });
 }
 
 function normalizeTargetDate(value) {

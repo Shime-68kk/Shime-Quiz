@@ -1,6 +1,7 @@
 import { getLocalStorage } from '../utils/storage.js';
 import { clamp } from '../utils/number.js';
 import { normalizeDate } from '../utils/date.js';
+import { publishLearningStorageChanged } from './localStorageSync.js';
 export const REVIEW_SCHEDULE_STORAGE_KEY = 'shimeV2ReviewScheduleV1';
 export const REVIEW_SCHEDULE_SCHEMA_VERSION = 'v2-review-schedule-v1';
 export const REVIEW_SCHEDULE_UPDATED_EVENT = 'shime-v2-review-schedule-updated';
@@ -11,6 +12,11 @@ export const MAX_EASE_FACTOR = 2.8;
 function emitReviewScheduleUpdated(detail = {}) {
   if (typeof window === 'undefined' || typeof window.dispatchEvent !== 'function') return;
   window.dispatchEvent(new CustomEvent(REVIEW_SCHEDULE_UPDATED_EVENT, { detail }));
+  publishLearningStorageChanged({
+    key: REVIEW_SCHEDULE_STORAGE_KEY,
+    section: 'reviewSchedule',
+    reason: detail.reason || 'schedule_changed'
+  });
 }
 
 function nowIso() {
