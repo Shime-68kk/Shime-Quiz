@@ -214,7 +214,7 @@ Use `workflow_dispatch` from the GitHub Actions tab when a manual CI smoke run i
 
 ### CI commands
 
-The workflow uses an Ubuntu GitHub-hosted runner, sets up Node.js 22, and runs:
+The workflow uses an Ubuntu GitHub-hosted runner, sets up Node.js 20 LTS, and runs:
 
 ```bash
 npm ci
