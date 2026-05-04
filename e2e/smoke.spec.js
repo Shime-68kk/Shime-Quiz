@@ -161,9 +161,12 @@ test('Study Room default flow can answer items, finish, and persist local histor
   await page.getByRole('button', { name: 'Kiểm tra đáp án' }).click();
 
   await page.getByRole('button', { name: 'Hoàn thành phiên học' }).click();
-  await expect(page.getByRole('heading', { name: 'Tổng kết phiên học' })).toBeVisible();
-  await expect(page.getByText('Kết quả học tập đã được lưu cục bộ')).toBeVisible();
-  await expect(page.getByText(/lịch sử học|lịch ôn tập/i)).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: 'Tổng kết phiên học' })).toBeVisible();
+  const resultSummary = page.locator('.studyResultHero');
+  await expect(resultSummary).toBeVisible();
+  await expect(resultSummary.getByRole('heading', { level: 2, name: 'Tổng kết phiên học' })).toBeVisible();
+  await expect(resultSummary.getByText('Kết quả học tập đã được lưu cục bộ')).toBeVisible();
+  await expect(resultSummary.locator('.studyHistorySaveMessage')).toContainText(/lịch sử học|lịch ôn tập/i);
 
   const storageState = await page.evaluate(() => ({
     keys: Object.keys(window.localStorage),
