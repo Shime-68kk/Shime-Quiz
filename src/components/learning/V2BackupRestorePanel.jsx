@@ -217,7 +217,11 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
             ? result.message || 'File sao lưu này không thể khôi phục như bản đầy đủ.'
             : result.error === 'storage_unavailable'
               ? 'Trình duyệt không cho phép ghi bộ nhớ cục bộ.'
-              : 'Một phần dữ liệu sao lưu không thể ghi vào bộ nhớ cục bộ.'
+              : result.error === 'storage_preflight_failed'
+                ? 'Bộ nhớ cục bộ không đủ dung lượng để khôi phục an toàn.'
+                : result.rollbackOk === false
+                  ? 'Khôi phục thất bại và không thể hoàn tác đầy đủ. Hãy tải lại trang và kiểm tra dữ liệu.'
+                  : 'Khôi phục bị chặn để tránh trạng thái dữ liệu khôi phục một phần.'
         });
         return;
       }

@@ -1,7 +1,7 @@
 {
-  "name": "ShimeChamhoc Quiz",
-  "short_name": "ShimeQuiz",
-  "description": "Lightweight quiz and learning app for offline study.",
+  "name": "ShimeChamhoc v2",
+  "short_name": "Shime v2",
+  "description": "Ứng dụng học tập cục bộ hỗ trợ nhập học liệu, luyện tập và sao lưu dữ liệu v2.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
@@ -9,7 +9,17 @@
   "theme_color": "#07111f",
   "orientation": "portrait-primary",
   "icons": [
-    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
-    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }

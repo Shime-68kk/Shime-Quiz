@@ -1,0 +1,23 @@
+{
+  "version": "v2-e2e-invalid-choice-answer",
+  "subjects": [
+    { "id": "subject-invalid-choice", "title": "Môn lỗi đáp án" }
+  ],
+  "topics": [
+    { "id": "topic-invalid-choice", "subjectId": "subject-invalid-choice", "title": "Chủ đề lỗi đáp án" }
+  ],
+  "items": [
+    {
+      "id": "item-invalid-choice-answer",
+      "type": "multiple_choice",
+      "subjectId": "subject-invalid-choice",
+      "topicId": "topic-invalid-choice",
+      "prompt": "Câu này có đáp án không khớp lựa chọn.",
+      "choices": [
+        { "id": "a", "text": "Lựa chọn A" },
+        { "id": "b", "text": "Lựa chọn B" }
+      ],
+      "correctAnswer": "c"
+    }
+  ]
+}

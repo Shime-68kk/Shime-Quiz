@@ -9,7 +9,7 @@ function asArray(value) {
 }
 
 function safeNonNegativeNumber(value) {
-  return Math.max(0, safeNonNegativeNumber(value, 0));
+  return Math.max(0, safeNumber(value, 0));
 }
 
 function safeDate(value) {

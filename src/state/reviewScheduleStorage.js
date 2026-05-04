@@ -57,6 +57,20 @@ function normalizeEnvelope(payload) {
   };
 }
 
+function mergeScheduleRecords(primaryRecords = [], existingRecords = []) {
+  const byItemId = new Map();
+
+  existingRecords.map(normalizeScheduleRecord).filter(Boolean).forEach(record => {
+    byItemId.set(record.itemId, record);
+  });
+
+  primaryRecords.map(normalizeScheduleRecord).filter(Boolean).forEach(record => {
+    byItemId.set(record.itemId, record);
+  });
+
+  return Array.from(byItemId.values()).sort((left, right) => new Date(left.dueAt) - new Date(right.dueAt));
+}
+
 function readEnvelope() {
   const storage = getLocalStorage();
   if (!storage) return { schemaVersion: REVIEW_SCHEDULE_SCHEMA_VERSION, updatedAt: '', records: [], storageAvailable: false };
@@ -75,11 +89,14 @@ function readEnvelope() {
   }
 }
 
-function writeRecords(records = []) {
+function writeRecords(records = [], options = {}) {
   const storage = getLocalStorage();
   if (!storage) return { ok: false, error: 'storage_unavailable', records: [] };
 
-  const normalizedRecords = records.map(normalizeScheduleRecord).filter(Boolean);
+  const sourceRecords = options.mergeWithLatest
+    ? mergeScheduleRecords(records, readEnvelope().records || [])
+    : records;
+  const normalizedRecords = sourceRecords.map(normalizeScheduleRecord).filter(Boolean);
   const uniqueRecords = [];
   const seen = new Set();
   normalizedRecords.forEach(record => {
@@ -225,7 +242,7 @@ export function updateReviewScheduleFromHistoryRecord(historyRecord) {
   });
 
   const records = Array.from(byItemId.values()).sort((left, right) => new Date(left.dueAt) - new Date(right.dueAt));
-  const result = writeRecords(records);
+  const result = writeRecords(records, { mergeWithLatest: true });
   return {
     ...result,
     updatedCount,

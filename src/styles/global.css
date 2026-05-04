@@ -456,6 +456,8 @@ h1 {
 
   .pageHeader__actions {
     width: 100%;
+    flex-direction: column;
+    flex-wrap: wrap;
   }
 
   .cardGrid--three,
@@ -1211,6 +1213,7 @@ code {
   color: var(--color-primary-strong);
   background: var(--color-primary-soft);
   font-weight: 900;
+  pointer-events: none;
 }
 
 .choiceOption__text {

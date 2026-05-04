@@ -2,7 +2,9 @@
 
 ShimeChamhoc v2 is a React/Vite, local-first learning app for multi-subject study. It supports importing learning data, studying in a focused Study Room, tracking local progress, reviewing due items, and backing up local v2 learning state.
 
-Current release candidate: **v2.0.0-rc1**
+Current beta label: **v2.0.0-beta-ai.1**
+
+Release status: **AI-verified beta candidate**. This build is not manually QA-certified on physical devices; beta users should report UI/runtime/import/export issues.
 
 ## What is included in v2
 
@@ -69,7 +71,7 @@ v2 stores learning data locally in the browser with versioned localStorage keys:
 - `shimeV2StudyGoalV1`
 - `shimeV2StudyPlanProgressV1`
 
-There is no account, cloud sync, backend, or cross-device sync in this release candidate.
+There is no account, cloud sync, backend, or cross-device sync in this beta build.
 
 ## Study Room
 
@@ -101,11 +103,17 @@ Open **Thư viện** and use **Sao lưu dữ liệu** / **Khôi phục dữ li�
 
 Backup modes:
 
-- **Sao lưu đầy đủ**: includes library content, answer keys, and local learning state. This is the only mode that supports full restore in v2.0.0-rc1.
+- **Sao lưu đầy đủ**: includes library content, answer keys, and local learning state. This is the only mode that supports full restore in v2.0.0-beta-ai.1.
 - **Sao lưu đã ẩn đáp án**: removes direct answer fields where practical. It helps reduce sharing risk but is not encryption and cannot be restored as a full answer-key backup.
-- **Sao lưu tiến trình**: excludes library question content and answer keys. It requires the matching library later to be meaningful and is not restored as a full backup in this release candidate.
+- **Sao lưu tiến trình**: excludes library question content and answer keys. It requires the matching library later to be meaningful and is not restored as a full backup in this beta candidate.
 
 Restore validates the file, asks for confirmation, and writes only recognized v2 keys. Redacted and progress-only backups are blocked from full restore with a Vietnamese explanation.
+
+## Deployment and PWA note
+
+v2.0.0-beta-ai.1 is deployable as a static Vite app. The release includes Vietnamese web app manifest metadata and a safe `sw.js` file for compatibility with origins that previously used a service worker, but the React v2 entry does not actively register a new service worker in this beta. Treat offline/PWA cache behavior as best-effort only unless verified on the target staging host.
+
+See [`DEPLOY_V2.md`](DEPLOY_V2.md) for Netlify, Vercel, Cloudflare Pages, GitHub Pages, SPA fallback, and cache troubleshooting notes.
 
 ## Local security limitation
 
@@ -131,6 +139,8 @@ The legacy vanilla source remains in the repository during the transition, but v
 ## Known limitations
 
 - No backend, account sync, encryption, notifications, or calendar integration.
+- Not manually QA-certified on physical devices.
+- Full real-browser/manual/device staging smoke remains required before wider release.
 - Redacted/progress-only backups are safer export options but are not full restore modes yet.
 - Direct reload of special Study Room modes may fall back to the default Study Room view.
 - Current learning models are simple local heuristics, not AI.

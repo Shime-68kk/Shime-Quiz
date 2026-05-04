@@ -155,7 +155,7 @@ Phase 3E adds a v2 library-only export. The exported JSON keeps `subjects`, `top
 {
   "schemaVersion": "v2-library-data-v1",
   "exportedAt": "2026-05-03T00:00:00.000Z",
-  "appVersion": "2.0.0-rc1",
+  "appVersion": "2.0.0-beta-ai.1",
   "sourceSummary": {
     "sourceType": "json",
     "sourceName": "my-library.json",

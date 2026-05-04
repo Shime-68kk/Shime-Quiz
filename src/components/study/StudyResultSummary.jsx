@@ -21,7 +21,7 @@ function SummaryMetric({ label, value, hint }) {
   );
 }
 
-export default function StudyResultSummary({ summary, historyMessage = '', onRestart, onContinue, onGoToLibrary }) {
+export default function StudyResultSummary({ summary, persistenceNote = '', historyMessage = '', onRestart, onContinue, onGoToLibrary }) {
   if (!summary) return null;
 
   return (
@@ -32,7 +32,7 @@ export default function StudyResultSummary({ summary, historyMessage = '', onRes
             <Badge tone="success">Tổng kết phiên học</Badge>
             <h2>Tổng kết phiên học</h2>
             <p>
-              Kết quả này chỉ lưu trong phiên hiện tại. Chưa ghi lịch sử, mastery, analytics hoặc spaced repetition.
+              {persistenceNote || 'Kết quả học tập được xử lý cục bộ trên trình duyệt này. Lịch sử học và lịch ôn tập sẽ được cập nhật khi phiên học hoàn tất thành công.'}
             </p>
           </div>
           <div className="studyResultHero__score" aria-label={`Tỷ lệ đúng ${summary.accuracy}%`}>

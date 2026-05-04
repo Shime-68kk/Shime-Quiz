@@ -1,0 +1,8 @@
+{
+  "version": "v2-e2e-invalid-json",
+  "subjects": [
+    { "id": "subject-invalid", "title": "Môn lỗi" }
+  ],
+  "topics": [],
+  "items": []
+}

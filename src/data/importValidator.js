@@ -90,6 +90,28 @@ function hasShortAnswerValue(item) {
   return Boolean(cleanString(item.answer ?? item.correctAnswer)) || asArray(item.acceptableAnswers).some(cleanString);
 }
 
+function getChoiceText(choice) {
+  if (typeof choice === 'string') return cleanString(choice);
+  if (!choice || typeof choice !== 'object') return '';
+  return cleanString(choice.text ?? choice.label ?? choice.value);
+}
+
+function getChoiceId(choice, index) {
+  if (typeof choice === 'string') return String(index + 1);
+  if (!choice || typeof choice !== 'object') return String(index + 1);
+  return cleanString(choice.id) || String(index + 1);
+}
+
+function getValidChoicesWithIdentity(choices) {
+  return asArray(choices)
+    .map((choice, index) => {
+      const text = getChoiceText(choice);
+      if (!text) return null;
+      return { id: getChoiceId(choice, index), text };
+    })
+    .filter(Boolean);
+}
+
 function validateItems(rawItems, subjectIds, topicIds, errors, warnings) {
   if (!Array.isArray(rawItems)) {
     pushIssue(errors, 'items_required', 'items phải là mảng.', 'items');
@@ -126,15 +148,20 @@ function validateItems(rawItems, subjectIds, topicIds, errors, warnings) {
     }
 
     if (type === ITEM_TYPES.MULTIPLE_CHOICE) {
-      const choices = asArray(item.choices).filter(choice => {
-        if (typeof choice === 'string') return Boolean(cleanString(choice));
-        return Boolean(cleanString(choice?.text ?? choice?.label ?? choice?.value));
-      });
+      const rawChoices = asArray(item.choices);
+      const choices = getValidChoicesWithIdentity(item.choices);
+      const malformedChoiceCount = rawChoices.length - choices.length;
       if (!choices.length) {
         pushIssue(errors, 'multiple_choice_choices_required', `Item ${id || `#${index + 1}`} cần choices.`, `items[${index}].choices`);
       }
-      if (!cleanString(item.correctAnswer)) {
+      if (malformedChoiceCount > 0) {
+        pushIssue(warnings, 'multiple_choice_choices_malformed', `Item ${id || `#${index + 1}`} có ${malformedChoiceCount} lựa chọn rỗng hoặc không hợp lệ đã bị bỏ qua.`, `items[${index}].choices`);
+      }
+      const correctAnswer = cleanString(item.correctAnswer);
+      if (!correctAnswer) {
         pushIssue(errors, 'multiple_choice_answer_required', `Item ${id || `#${index + 1}`} cần correctAnswer.`, `items[${index}].correctAnswer`);
+      } else if (choices.length && !choices.some(choice => choice.id === correctAnswer || choice.text === correctAnswer)) {
+        pushIssue(errors, 'multiple_choice_answer_mismatch', `Item ${id || `#${index + 1}`} có correctAnswer không khớp id hoặc nội dung của choices.`, `items[${index}].correctAnswer`);
       }
     }
 
@@ -194,6 +221,10 @@ export function validateLearningDataImport(rawData) {
   addDuplicateWarnings(items, 'items', warnings);
 
   const summary = summarizePreview(data);
+
+  if (!errors.length && summary.validItems === 0) {
+    pushIssue(errors, 'import_no_valid_items', 'Không có mục học hợp lệ để nạp.', 'items');
+  }
 
   return {
     ok: errors.length === 0,

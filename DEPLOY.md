@@ -1,8 +1,8 @@
-# Deployment Guide — ShimeChamhoc v2.0.0-rc1
+# Deployment Guide — ShimeChamhoc v2.0.0-beta-ai.1
 
 ShimeChamhoc v2 is a React/Vite static app. It does not require an app-owned API, database, account system, or server runtime for core learning flows.
 
-> v2 staging/beta deployment details live in [`DEPLOY_V2.md`](DEPLOY_V2.md). Keep this file as the short deployment guide and use `DEPLOY_V2.md` for platform-specific RC validation.
+> v2 staging/beta deployment details live in [`DEPLOY_V2.md`](DEPLOY_V2.md). Keep this file as the short deployment guide and use `DEPLOY_V2.md` for platform-specific beta validation.
 
 
 ## Build output

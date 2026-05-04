@@ -1,6 +1,6 @@
 import { validateLearningDataImport } from '../data/importValidator.js';
 import { downloadJsonFile } from '../data/libraryExport.js';
-import { LIBRARY_SCHEMA_VERSION, setLearningData } from '../data/learningDataStore.js';
+import { LIBRARY_SCHEMA_VERSION, LIBRARY_STORAGE_KEY, setLearningData } from '../data/learningDataStore.js';
 import { APP_VERSION } from '../version.js';
 import { getLocalStorage } from '../utils/storage.js';
 import {
@@ -484,6 +484,86 @@ function writeRawSection(storage, name, section) {
   }
 }
 
+function getBackupSourceName(payload) {
+  return `Bản sao lưu ${payload?.exportedAt ? new Date(payload.exportedAt).toLocaleDateString('vi-VN') : 'v2'}`;
+}
+
+function makeRestoredLibraryPayload(libraryData, payload) {
+  const importedAt = new Date().toISOString();
+  const sourceName = getBackupSourceName(payload);
+  return {
+    schemaVersion: LIBRARY_SCHEMA_VERSION,
+    importedAt,
+    sourceName,
+    sourceType: 'backup',
+    metadata: {
+      schemaVersion: LIBRARY_SCHEMA_VERSION,
+      importedAt,
+      sourceName,
+      sourceType: 'backup'
+    },
+    data: libraryData
+  };
+}
+
+function createRestoreWrites(validation, payload) {
+  const writes = [];
+  const libraryPayload = makeRestoredLibraryPayload(validation.sections.library, payload);
+  writes.push({ key: LIBRARY_STORAGE_KEY, value: JSON.stringify(libraryPayload), section: 'library' });
+
+  Object.keys(SECTION_CONFIG).forEach(name => {
+    if (!validation.sections[name]) return;
+    const config = SECTION_CONFIG[name];
+    writes.push({
+      key: config.key,
+      value: JSON.stringify(validation.sections[name]),
+      section: name,
+      eventName: config.eventName
+    });
+  });
+
+  return writes;
+}
+
+function preflightRestoreWrites(storage, writes) {
+  const probeKey = '__shime_v2_restore_probe__';
+  try {
+    storage.setItem(probeKey, writes.map(write => write.value).join('\n'));
+    storage.removeItem(probeKey);
+    return { ok: true };
+  } catch (error) {
+    try {
+      storage.removeItem(probeKey);
+    } catch {
+      // Ignore cleanup failure; the restore will still be blocked safely.
+    }
+    return { ok: false, error: 'storage_preflight_failed', storageError: error };
+  }
+}
+
+function snapshotRestoreKeys(storage, writes) {
+  return new Map(writes.map(write => [write.key, storage.getItem(write.key)]));
+}
+
+function rollbackRestoreWrites(storage, snapshot) {
+  const rollbackErrors = [];
+  snapshot.forEach((value, key) => {
+    try {
+      if (value == null) storage.removeItem(key);
+      else storage.setItem(key, value);
+    } catch (error) {
+      rollbackErrors.push({ key, error });
+    }
+  });
+  return rollbackErrors;
+}
+
+function emitRestoreEvents(writes) {
+  writes.forEach(write => {
+    if (write.eventName) emitEvent(write.eventName, { reason: 'v2_backup_restored' });
+  });
+}
+
 export function restoreV2BackupPayload(payload) {
   const validation = validateV2BackupPayload(payload);
   if (!validation.ok) return { ok: false, validation, error: 'validation_failed' };
@@ -494,29 +574,53 @@ export function restoreV2BackupPayload(payload) {
   const storage = getLocalStorage();
   if (!storage) return { ok: false, validation, error: 'storage_unavailable' };
 
+  const writes = createRestoreWrites(validation, payload);
+  const preflight = preflightRestoreWrites(storage, writes);
+  if (!preflight.ok) {
+    return { ok: false, validation, error: preflight.error, storageError: preflight.storageError };
+  }
+
+  const snapshot = snapshotRestoreKeys(storage, writes);
+  const writtenSections = [];
+
+  try {
+    writes.forEach(write => {
+      storage.setItem(write.key, write.value);
+      writtenSections.push(write.section);
+    });
+  } catch (error) {
+    const rollbackErrors = rollbackRestoreWrites(storage, snapshot);
+    return {
+      ok: false,
+      validation,
+      error: 'restore_write_failed',
+      storageError: error,
+      writtenSections,
+      rollbackOk: rollbackErrors.length === 0,
+      rollbackErrors
+    };
+  }
+
   const libraryResult = setLearningData(validation.sections.library, {
     sourceType: 'backup',
-    sourceName: `Bản sao lưu ${payload?.exportedAt ? new Date(payload.exportedAt).toLocaleDateString('vi-VN') : 'v2'}`
+    sourceName: getBackupSourceName(payload),
+    skipStorage: true
   });
 
   if (!libraryResult.ok) {
-    return { ok: false, validation, error: 'library_restore_failed', libraryResult };
+    const rollbackErrors = rollbackRestoreWrites(storage, snapshot);
+    return {
+      ok: false,
+      validation,
+      error: 'library_restore_failed',
+      libraryResult,
+      writtenSections,
+      rollbackOk: rollbackErrors.length === 0,
+      rollbackErrors
+    };
   }
 
-  const writtenSections = ['library'];
-  const writeErrors = [];
-
-  Object.keys(SECTION_CONFIG).forEach(name => {
-    if (!validation.sections[name]) return;
-    const result = writeRawSection(storage, name, validation.sections[name]);
-    if (result.ok) writtenSections.push(name);
-    else writeErrors.push(result);
-  });
-
-  if (writeErrors.length) {
-    return { ok: false, validation, error: 'partial_restore_failed', writtenSections, writeErrors };
-  }
-
+  emitRestoreEvents(writes);
   return { ok: true, validation, writtenSections };
 }
 
