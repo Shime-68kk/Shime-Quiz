@@ -1,7 +1,65 @@
+import { z } from 'zod';
 import { ITEM_TYPES, normalizeLearningData } from './learningDataAdapter.js';
 
 const VALID_ITEM_TYPES = new Set(Object.values(ITEM_TYPES));
 const MAX_SAMPLE_ITEMS = 5;
+
+const V2ChoiceSchema = z.union([
+  z.string(),
+  z.object({
+    id: z.string().optional(),
+    text: z.string().optional(),
+    label: z.string().optional(),
+    value: z.string().optional()
+  }).passthrough()
+]);
+
+const V2SubjectSchema = z.object({
+  id: z.string().optional(),
+  title: z.string().optional(),
+  name: z.string().optional(),
+  description: z.string().optional(),
+  courses: z.array(z.object({
+    id: z.string().optional(),
+    title: z.string().optional(),
+    name: z.string().optional(),
+    description: z.string().optional()
+  }).passthrough()).optional()
+}).passthrough();
+
+const V2TopicSchema = z.object({
+  id: z.string().optional(),
+  subjectId: z.string().optional(),
+  courseId: z.string().optional(),
+  title: z.string().optional(),
+  name: z.string().optional(),
+  description: z.string().optional()
+}).passthrough();
+
+const V2ItemSchema = z.object({
+  id: z.string().optional(),
+  type: z.string().optional(),
+  subjectId: z.string().optional(),
+  topicId: z.string().optional(),
+  prompt: z.string().optional(),
+  question: z.string().optional(),
+  front: z.string().optional(),
+  back: z.string().optional(),
+  choices: z.array(V2ChoiceSchema).optional(),
+  correctAnswer: z.string().optional(),
+  answer: z.string().optional(),
+  acceptableAnswers: z.array(z.string()).optional(),
+  explanation: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  difficulty: z.string().optional(),
+  source: z.string().optional()
+}).passthrough();
+
+const V2ImportSchema = z.object({
+  subjects: z.array(V2SubjectSchema),
+  topics: z.array(V2TopicSchema),
+  items: z.array(V2ItemSchema)
+}).passthrough();
 
 function asArray(value) {
   return Array.isArray(value) ? value : [];
@@ -13,6 +71,48 @@ function cleanString(value) {
 
 function pushIssue(target, code, message, path) {
   target.push({ code, message, path });
+}
+
+function pathToString(path) {
+  if (!Array.isArray(path) || !path.length) return '$';
+  return path.reduce((parts, segment) => {
+    if (typeof segment === 'number') return `${parts}[${segment}]`;
+    return parts === '$' ? `${parts}.${segment}` : `${parts}.${segment}`;
+  }, '$');
+}
+
+function formatZodExpected(issue) {
+  if (issue.code === 'invalid_type') {
+    return `kiểu dữ liệu không hợp lệ (cần ${issue.expected}, nhận ${issue.received}).`;
+  }
+  if (issue.code === 'invalid_union') {
+    return 'kiểu dữ liệu không khớp với schema v2.';
+  }
+  return issue.message || 'dữ liệu không khớp với schema v2.';
+}
+
+function validateRuntimeSchema(data, errors) {
+  const result = V2ImportSchema.safeParse(data);
+  if (result.success) {
+    return {
+      ok: true,
+      data: result.data,
+      errors: []
+    };
+  }
+
+  const schemaErrors = result.error.issues.map(issue => ({
+    code: 'schema_invalid_type',
+    message: `Schema v2 tại ${pathToString(issue.path)} có ${formatZodExpected(issue)}`,
+    path: pathToString(issue.path)
+  }));
+  errors.push(...schemaErrors);
+
+  return {
+    ok: false,
+    data,
+    errors: schemaErrors
+  };
 }
 
 function countBy(values, getKey) {
@@ -42,7 +142,7 @@ function validateSubjects(rawSubjects, errors) {
   }
 
   rawSubjects.forEach((subject, index) => {
-    if (!subject || typeof subject !== 'object') {
+    if (!subject || typeof subject !== 'object' || Array.isArray(subject)) {
       pushIssue(errors, 'subject_invalid', `Subject #${index + 1} phải là object.`, `subjects[${index}]`);
       return;
     }
@@ -66,7 +166,7 @@ function validateTopics(rawTopics, subjectIds, errors, warnings) {
   }
 
   rawTopics.forEach((topic, index) => {
-    if (!topic || typeof topic !== 'object') {
+    if (!topic || typeof topic !== 'object' || Array.isArray(topic)) {
       pushIssue(errors, 'topic_invalid', `Topic #${index + 1} phải là object.`, `topics[${index}]`);
       return;
     }
@@ -92,13 +192,13 @@ function hasShortAnswerValue(item) {
 
 function getChoiceText(choice) {
   if (typeof choice === 'string') return cleanString(choice);
-  if (!choice || typeof choice !== 'object') return '';
+  if (!choice || typeof choice !== 'object' || Array.isArray(choice)) return '';
   return cleanString(choice.text ?? choice.label ?? choice.value);
 }
 
 function getChoiceId(choice, index) {
   if (typeof choice === 'string') return String(index + 1);
-  if (!choice || typeof choice !== 'object') return String(index + 1);
+  if (!choice || typeof choice !== 'object' || Array.isArray(choice)) return String(index + 1);
   return cleanString(choice.id) || String(index + 1);
 }
 
@@ -119,7 +219,7 @@ function validateItems(rawItems, subjectIds, topicIds, errors, warnings) {
   }
 
   rawItems.forEach((item, index) => {
-    if (!item || typeof item !== 'object') {
+    if (!item || typeof item !== 'object' || Array.isArray(item)) {
       pushIssue(errors, 'item_invalid', `Item #${index + 1} phải là object.`, `items[${index}]`);
       return;
     }
@@ -209,6 +309,8 @@ export function validateLearningDataImport(rawData) {
     pushIssue(errors, 'root_object_required', 'File JSON phải là object chứa subjects, topics và items.', '$');
   }
 
+  const schemaResult = validateRuntimeSchema(data, errors);
+
   const subjects = validateSubjects(data.subjects, errors);
   addDuplicateWarnings(subjects, 'subjects', warnings);
   const subjectIds = new Set(subjects.map(subject => cleanString(subject?.id)).filter(Boolean));
@@ -221,6 +323,7 @@ export function validateLearningDataImport(rawData) {
   addDuplicateWarnings(items, 'items', warnings);
 
   const summary = summarizePreview(data);
+  const normalizedData = normalizeLearningData(data);
 
   if (!errors.length && summary.validItems === 0) {
     pushIssue(errors, 'import_no_valid_items', 'Không có mục học hợp lệ để nạp.', 'items');
@@ -231,44 +334,67 @@ export function validateLearningDataImport(rawData) {
     canImport: errors.length === 0,
     errors,
     warnings,
+    rejectedItems: errors
+      .filter(error => typeof error.path === 'string' && error.path.includes('items['))
+      .map(error => ({ code: error.code, message: error.message, path: error.path })),
     summary,
-    normalizedData: normalizeLearningData(data)
+    normalizedData,
+    schema: {
+      ok: schemaResult.ok,
+      errors: schemaResult.errors
+    }
   };
 }
 
 export function parseLearningDataJson(text) {
   try {
     const rawData = JSON.parse(text);
+    const validation = validateLearningDataImport(rawData);
     return {
-      ok: true,
+      ok: validation.ok,
       rawData,
-      validation: validateLearningDataImport(rawData)
+      validation,
+      warnings: validation.warnings,
+      errors: validation.errors
     };
   } catch (error) {
-    return {
+    const validation = {
       ok: false,
-      rawData: null,
-      validation: {
+      canImport: false,
+      errors: [{
+        code: 'json_parse_error',
+        message: `Không đọc được JSON: ${error.message}`,
+        path: '$'
+      }],
+      warnings: [],
+      rejectedItems: [],
+      summary: {
+        subjectCount: 0,
+        topicCount: 0,
+        itemCount: 0,
+        validSubjects: 0,
+        validTopics: 0,
+        validItems: 0,
+        itemTypeCounts: {},
+        sampleItems: []
+      },
+      normalizedData: normalizeLearningData({}),
+      schema: {
         ok: false,
-        canImport: false,
         errors: [{
           code: 'json_parse_error',
           message: `Không đọc được JSON: ${error.message}`,
           path: '$'
-        }],
-        warnings: [],
-        summary: {
-          subjectCount: 0,
-          topicCount: 0,
-          itemCount: 0,
-          validSubjects: 0,
-          validTopics: 0,
-          validItems: 0,
-          itemTypeCounts: {},
-          sampleItems: []
-        },
-        normalizedData: normalizeLearningData({})
+        }]
       }
+    };
+
+    return {
+      ok: false,
+      rawData: null,
+      validation,
+      warnings: [],
+      errors: validation.errors
     };
   }
 }

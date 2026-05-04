@@ -256,3 +256,11 @@ Phase 6B keeps the v2 local-first architecture on `localStorage` and adds lightw
 This improves multi-tab freshness but does not make `localStorage` transactional. Closely timed writes can still be limited by browser storage behavior, quota errors, tab crashes, or private-mode restrictions. IndexedDB, backend sync, account sync, and stronger conflict resolution remain future work, not part of this beta hardening phase.
 
 The sync payload must remain metadata-only: storage key, section, reason, timestamp, and source id. It must not broadcast full library content, answer keys, prompts, or backup payloads.
+
+## 19. Phase 6C import validation hardening
+
+Phase 6C keeps the existing v2 JSON/CSV import schema and adds runtime schema validation before the existing semantic validator. The validator uses Result-style return objects so malformed JSON, wrong field types, missing fields, invalid item types, empty usable imports, and invalid `multiple_choice.correctAnswer` values are reported as Vietnamese validation feedback instead of raw exceptions.
+
+This phase does not add PDF, OCR, Markdown, RAG, backend sync, accounts, encryption, or a new storage format. It also does not change scoring, spaced repetition, mastery, backup schema, or the v2 import fields documented in `docs/V2_DATA_MODEL.md`.
+
+Current behavior intentionally remains conservative: if any item-level errors are present, the import is blocked, even when some items could be normalized. The preview still reports valid item counts and rejected item paths so a future phase can decide whether partial import should become a user-facing feature.
