@@ -3,6 +3,7 @@ import { downloadJsonFile } from '../data/libraryExport.js';
 import { LIBRARY_SCHEMA_VERSION, LIBRARY_STORAGE_KEY, setLearningData } from '../data/learningDataStore.js';
 import { APP_VERSION } from '../version.js';
 import { getLocalStorage } from '../utils/storage.js';
+import { publishLearningStorageChanged } from './localStorageSync.js';
 import {
   RECOMMENDATION_FEEDBACK_SCHEMA_VERSION,
   RECOMMENDATION_FEEDBACK_STORAGE_KEY,
@@ -133,6 +134,15 @@ const SECTION_CONFIG = {
 function emitEvent(eventName, detail = {}) {
   if (typeof window === 'undefined' || typeof window.dispatchEvent !== 'function') return;
   window.dispatchEvent(new CustomEvent(eventName, { detail }));
+}
+
+function publishRestoreStorageChanged(write) {
+  if (!write?.key) return;
+  publishLearningStorageChanged({
+    key: write.key,
+    section: write.section || '',
+    reason: 'v2_backup_restored'
+  });
 }
 
 function padDatePart(value) {
@@ -561,6 +571,7 @@ function rollbackRestoreWrites(storage, snapshot) {
 function emitRestoreEvents(writes) {
   writes.forEach(write => {
     if (write.eventName) emitEvent(write.eventName, { reason: 'v2_backup_restored' });
+    publishRestoreStorageChanged(write);
   });
 }
 

@@ -1,6 +1,7 @@
 import { normalizeDate, getLocalDateKey } from '../utils/date.js';
 import { hashString } from '../utils/hash.js';
 import { getLocalStorage } from '../utils/storage.js';
+import { publishLearningStorageChanged } from './localStorageSync.js';
 
 export const RECOMMENDATION_FEEDBACK_STORAGE_KEY = 'shimeV2RecommendationFeedbackV1';
 export const RECOMMENDATION_FEEDBACK_SCHEMA_VERSION = 'v2-recommendation-feedback-v1';
@@ -17,6 +18,11 @@ export const RECOMMENDATION_FEEDBACK_TYPES = {
 function emitFeedbackUpdated(detail = {}) {
   if (typeof window === 'undefined' || typeof window.dispatchEvent !== 'function') return;
   window.dispatchEvent(new CustomEvent(RECOMMENDATION_FEEDBACK_UPDATED_EVENT, { detail }));
+  publishLearningStorageChanged({
+    key: RECOMMENDATION_FEEDBACK_STORAGE_KEY,
+    section: 'recommendationFeedback',
+    reason: detail.reason || 'feedback_changed'
+  });
 }
 
 export function getTodayDateKey(date = new Date()) {
@@ -84,14 +90,32 @@ function readEnvelope() {
   }
 }
 
-function writeRecords(records = []) {
+function mergeFeedbackRecords(primaryRecords = [], existingRecords = []) {
+  const merged = [];
+  const seen = new Set();
+  [...primaryRecords, ...existingRecords].forEach(record => {
+    const normalized = normalizeRecord(record);
+    if (!normalized || seen.has(normalized.id)) return;
+    seen.add(normalized.id);
+    merged.push(normalized);
+  });
+  return merged
+    .sort((left, right) => new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime())
+    .slice(0, RECOMMENDATION_FEEDBACK_LIMIT);
+}
+
+function writeRecords(records = [], options = {}) {
   const storage = getLocalStorage();
   if (!storage) return { ok: false, error: 'storage_unavailable', records: [] };
+
+  const sourceRecords = options.mergeWithLatest
+    ? mergeFeedbackRecords(records, readEnvelope().records || [])
+    : records;
 
   const payload = normalizeEnvelope({
     schemaVersion: RECOMMENDATION_FEEDBACK_SCHEMA_VERSION,
     updatedAt: new Date().toISOString(),
-    records
+    records: sourceRecords
   });
 
   try {
@@ -122,8 +146,9 @@ export function saveRecommendationFeedback({ recommendationType, feedback, reaso
     reasonCode
   });
 
-  const current = readEnvelope();
-  const result = writeRecords([record, ...(current.records || [])]);
+  // Re-read/merge latest records immediately before writing to reduce lost-update
+  // risk when several tabs submit recommendation feedback close together.
+  const result = writeRecords([record], { mergeWithLatest: true });
   if (!result.ok) return { ...result, saved: false, record };
   return { ok: true, saved: true, record, records: result.records };
 }

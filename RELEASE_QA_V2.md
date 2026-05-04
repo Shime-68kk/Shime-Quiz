@@ -248,3 +248,11 @@ A successful CI E2E smoke run may support the narrow claim that the automated Pl
 - guaranteed data safety
 
 Do not claim CI E2E smoke passed until a real GitHub Actions run completes successfully and the run evidence is recorded.
+
+## 18. Phase 6B localStorage multi-tab resilience
+
+Phase 6B keeps the v2 local-first architecture on `localStorage` and adds lightweight cross-tab refresh notifications for learning-state changes. The app uses metadata-only `BroadcastChannel` messages with a `storage` event fallback so another open tab can refresh dashboard/library-derived state after study history, review schedule, recommendation feedback, study goal, study plan progress, or library/restore writes change local storage.
+
+This improves multi-tab freshness but does not make `localStorage` transactional. Closely timed writes can still be limited by browser storage behavior, quota errors, tab crashes, or private-mode restrictions. IndexedDB, backend sync, account sync, and stronger conflict resolution remain future work, not part of this beta hardening phase.
+
+The sync payload must remain metadata-only: storage key, section, reason, timestamp, and source id. It must not broadcast full library content, answer keys, prompts, or backup payloads.
