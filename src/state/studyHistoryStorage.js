@@ -30,6 +30,22 @@ function getHistoryEnvelope(records = []) {
   };
 }
 
+function mergeHistoryRecords(primaryRecords = [], existingRecords = []) {
+  const merged = [];
+  const seen = new Set();
+
+  [...primaryRecords, ...existingRecords].forEach(record => {
+    const normalized = normalizeRecord(record);
+    if (!normalized || seen.has(normalized.id)) return;
+    seen.add(normalized.id);
+    merged.push(normalized);
+  });
+
+  return merged
+    .sort((a, b) => new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime())
+    .slice(0, STUDY_HISTORY_LIMIT);
+}
+
 function normalizeStatus(status) {
   const known = new Set(['correct', 'wrong', 'unanswered', 'reviewed_flashcard', 'unscored']);
   return known.has(status) ? status : 'unscored';
@@ -191,15 +207,17 @@ export function saveStudyHistoryRecord(record) {
   const normalizedRecord = normalizeRecord(record);
   if (!normalizedRecord) return { ok: false, saved: false, error: 'invalid_record' };
 
-  const current = readEnvelope();
-  const records = current.records || [];
+  // localStorage is not transactional, but re-reading immediately before writing
+  // reduces lost-update risk when another tab saved a different record.
+  const latest = readEnvelope();
+  const records = latest.records || [];
   const existingIndex = records.findIndex(item => item.id === normalizedRecord.id);
 
   if (existingIndex >= 0) {
     return { ok: true, saved: false, duplicate: true, record: records[existingIndex], records };
   }
 
-  const result = writeRecords([normalizedRecord, ...records]);
+  const result = writeRecords(mergeHistoryRecords([normalizedRecord], records));
   if (!result.ok) return { ...result, saved: false, record: normalizedRecord };
   return { ok: true, saved: true, record: normalizedRecord, records: result.records };
 }

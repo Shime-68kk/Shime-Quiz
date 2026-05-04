@@ -126,6 +126,7 @@ export default function StudyRoom() {
   const [historySaveMessage, setHistorySaveMessage] = useState('');
   const [reviewScheduleMessage, setReviewScheduleMessage] = useState('');
   const [planProgressMessage, setPlanProgressMessage] = useState('');
+  const [resultPersistenceNote, setResultPersistenceNote] = useState('');
   const draftReadyRef = useRef(false);
   const saveTimerRef = useRef(null);
 
@@ -147,6 +148,7 @@ export default function StudyRoom() {
     setHistorySaveMessage('');
     setReviewScheduleMessage('');
     setPlanProgressMessage('');
+    setResultPersistenceNote('');
 
     if (!items.length) {
       setCurrentIndex(0);
@@ -158,6 +160,7 @@ export default function StudyRoom() {
       setHistorySaveMessage('');
       setReviewScheduleMessage('');
       setPlanProgressMessage('');
+      setResultPersistenceNote('');
       return;
     }
 
@@ -281,6 +284,7 @@ export default function StudyRoom() {
     setHistorySaveMessage('');
     setReviewScheduleMessage('');
     setPlanProgressMessage('');
+    setResultPersistenceNote('');
     setStatusMessage(message === 'Đã làm lại phiên học. Thư viện dữ liệu không bị thay đổi.'
       ? isDueReviewMode
         ? 'Đã làm lại phiên ôn tập. Thư viện dữ liệu không bị thay đổi.'
@@ -334,6 +338,13 @@ export default function StudyRoom() {
     const planProgressResult = planStepId
       ? markStudyPlanStepComplete(planStepId, planDateKey)
       : null;
+    const persistenceNote = historyResult.ok
+      ? historyResult.duplicate
+        ? 'Phiên học này đã có trong lịch sử cục bộ. Lịch ôn tập không cập nhật lại để tránh ghi trùng.'
+        : reviewScheduleResult?.ok
+          ? 'Kết quả học tập đã được lưu cục bộ. Lịch sử học và lịch ôn tập đã được cập nhật trên trình duyệt này.'
+          : 'Kết quả học tập đã được lưu vào lịch sử cục bộ, nhưng lịch ôn tập chưa cập nhật thành công.'
+      : 'Kết quả chỉ hiển thị trong phiên hiện tại vì không thể lưu lịch sử học cục bộ.';
 
     draftReadyRef.current = false;
     clearStudyDraft();
@@ -357,6 +368,7 @@ export default function StudyRoom() {
       : historyResult.duplicate
         ? 'Lịch ôn tập không cập nhật lại để tránh trùng phiên học.'
         : 'Lịch ôn tập chưa được cập nhật.');
+    setResultPersistenceNote(persistenceNote);
     setPlanProgressMessage(planProgressResult
       ? planProgressResult.ok
         ? 'Đã cập nhật tiến trình kế hoạch hôm nay.'
@@ -374,6 +386,7 @@ export default function StudyRoom() {
     setHistorySaveMessage('');
     setReviewScheduleMessage('');
     setPlanProgressMessage('');
+    setResultPersistenceNote('');
     setStatusMessage(isDueReviewMode
       ? 'Bạn có thể tiếp tục ôn tập từ câu hiện tại.'
       : isSmartPracticeMode
@@ -389,7 +402,7 @@ export default function StudyRoom() {
   }
 
   const draftStatusText = completedAttempt
-    ? 'Phiên học đã hoàn thành. Kết quả chỉ hiển thị cục bộ trong phiên này.'
+    ? resultPersistenceNote || 'Phiên học đã hoàn thành. Kết quả học tập được xử lý cục bộ trên trình duyệt này.'
     : saveStatus === 'saving'
       ? 'Đang lưu tiến trình cục bộ...'
       : saveStatus === 'saved'
@@ -454,6 +467,7 @@ export default function StudyRoom() {
         ) : completedAttempt ? (
           <StudyResultSummary
             summary={completedAttempt.summary}
+            persistenceNote={resultPersistenceNote}
             historyMessage={[historySaveMessage, reviewScheduleMessage, planProgressMessage].filter(Boolean).join(' ')}
             onRestart={resetSessionDraft}
             onContinue={continueStudy}

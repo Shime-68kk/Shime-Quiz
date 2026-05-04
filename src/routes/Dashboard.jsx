@@ -10,6 +10,7 @@ import TodayJourneyCard from '../components/learning/TodayJourneyCard.jsx';
 import ReviewSchedulePanel from '../components/study/ReviewSchedulePanel.jsx';
 import SmartPracticePanel from '../components/study/SmartPracticePanel.jsx';
 import StudyHistoryPanel from '../components/study/StudyHistoryPanel.jsx';
+import { useNavigate } from 'react-router-dom';
 import { DashboardLearningDataProvider, useDashboardLearningData } from '../dashboard/DashboardLearningDataContext.jsx';
 
 const itemTypeLabels = {
@@ -58,6 +59,7 @@ export default function Dashboard() {
 }
 
 function DashboardContent() {
+  const navigate = useNavigate();
   const { adapter, librarySummary: summary, dataSource, subjects } = useDashboardLearningData();
   const itemTypeEntries = Object.entries(summary.itemTypeCounts);
   const summaries = buildSummaries(summary);
@@ -75,7 +77,7 @@ function DashboardContent() {
         eyebrow="Bảng điều khiển"
         title="Chào mừng quay lại"
         subtitle="Tổng quan dữ liệu học v2 từ bộ chuyển đổi cục bộ. Logic học thích ứng sẽ được nối vào dịch vụ riêng ở giai đoạn sau."
-        actions={<Button type="button" size="lg">Học tiếp</Button>}
+        actions={<Button type="button" size="lg" onClick={() => navigate('/study-room')}>Học tiếp</Button>}
       />
 
       <Card title="Nguồn dữ liệu" eyebrow="Trạng thái thư viện" className="dataSourceCard">

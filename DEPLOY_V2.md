@@ -1,6 +1,6 @@
 # ShimeChamhoc v2 Staging / Beta Deployment Guide
 
-Release candidate: **v2.0.0-rc1**
+Beta label: **v2.0.0-beta-ai.1**
 
 ShimeChamhoc v2 is a React/Vite static web app. Core learning features run locally in the browser: library import, Study Room, history, analytics, spaced repetition, mastery, recommendations, goals, plans, and backup/restore. No app-owned backend is required for the v2 static deployment.
 
@@ -173,20 +173,20 @@ Important notes:
 
 - GitHub Pages does not support server-side rewrite rules like Netlify/Vercel.
 - Direct refresh of `/dashboard` can 404 unless you use a Pages-compatible fallback strategy, such as a copied `404.html` fallback or hash routing in a future phase.
-- For this RC, prefer testing GitHub Pages from the app root URL and navigating inside the app, or add the `404.html` fallback in the deployment pipeline.
+- For this beta, prefer testing GitHub Pages from the app root URL and navigating inside the app, or add the `404.html` fallback in the deployment pipeline.
 
 ## 9. PWA / service worker notes
 
-The v2 React app is static/local-first and PWA-friendly. A deploy-safe `sw.js` is included in the public deployment artifact mainly for service-worker update compatibility on origins that previously had a registered worker. The v2 React entry does not add a new service-worker registration in this phase. If a staging host serves or already has a registered service worker:
+The v2 React app is static/local-first. It includes Vietnamese PWA metadata and a deploy-safe `sw.js` mainly for compatibility on origins that previously had a registered worker, but the v2 React entry does **not** actively register a new service worker in this beta. Do not market this beta as a fully offline PWA. If a staging host serves or already has a registered service worker:
 
 - serve `sw.js` from the same path scope as `index.html`
 - do not cache `sw.js` with long immutable headers
-- keep the service worker cache version aligned with the release, currently `shimechamhoc-v2.0.0-rc1`
+- keep the service worker cache version aligned with the release, currently `shimechamhoc-v2.0.0-beta-ai.1`
 - verify `sw.js` does not precache source-only paths such as `/src/*` in production
 - deploy the full build together to avoid mixed old/new assets
 - ask beta testers to hard reload or clear site data if stale behavior appears
 
-Current deployment configs set `sw.js` to `no-cache` when served.
+Current deployment configs set `sw.js` to `no-cache` when served. Offline behavior is best-effort only in this beta and must be verified manually if a service worker is active.
 
 ## 10. Security/dependency note
 
@@ -232,5 +232,5 @@ Use a clean browser profile or clear site data before the first pass.
 16. Confirm redacted/progress-only restore is blocked with Vietnamese explanation.
 17. Check mobile width around 320–390px.
 18. Check keyboard navigation for sidebar/bottom nav, import, study actions, and backup buttons.
-19. If PWA/service worker is active, reload twice and confirm no stale-cache loop.
+19. If a service worker is active from this or an older deployment, reload twice and confirm no stale-cache loop; otherwise mark PWA/offline as not active for this beta.
 20. Confirm no unexpected red console errors.

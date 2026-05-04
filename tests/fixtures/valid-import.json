@@ -1,0 +1,50 @@
+{
+  "version": "v2-e2e-fixture-1",
+  "subjects": [
+    {
+      "id": "subject-e2e",
+      "title": "Môn kiểm thử E2E",
+      "description": "Dữ liệu kiểm thử tự động cục bộ."
+    }
+  ],
+  "topics": [
+    {
+      "id": "topic-e2e",
+      "subjectId": "subject-e2e",
+      "title": "Chủ đề kiểm thử",
+      "description": "Chủ đề dùng cho smoke test."
+    }
+  ],
+  "items": [
+    {
+      "id": "item-e2e-mc",
+      "type": "multiple_choice",
+      "subjectId": "subject-e2e",
+      "topicId": "topic-e2e",
+      "prompt": "Đáp án đúng của câu kiểm thử là gì?",
+      "choices": [
+        { "id": "a", "text": "Sai" },
+        { "id": "b", "text": "Đúng" }
+      ],
+      "correctAnswer": "b",
+      "explanation": "Dùng để kiểm thử import hợp lệ."
+    },
+    {
+      "id": "item-e2e-short",
+      "type": "short_answer",
+      "subjectId": "subject-e2e",
+      "topicId": "topic-e2e",
+      "prompt": "Nhập cụm từ kiểm thử.",
+      "correctAnswer": "kiểm thử",
+      "explanation": "Dùng để kiểm thử câu trả lời ngắn."
+    },
+    {
+      "id": "item-e2e-flashcard",
+      "type": "flashcard",
+      "subjectId": "subject-e2e",
+      "topicId": "topic-e2e",
+      "prompt": "Thẻ ghi nhớ kiểm thử",
+      "answer": "Nội dung mặt sau của thẻ."
+    }
+  ]
+}

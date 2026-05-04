@@ -1,13 +1,28 @@
-# ShimeChamhoc v2.0.0-rc1 Release QA Checklist
+# ShimeChamhoc v2.0.0-beta-ai.1 Release QA Checklist
 
-Release candidate: **v2.0.0-rc1**.
+Beta label: **v2.0.0-beta-ai.1**. AI-verified candidate only; not manually QA-certified on physical devices.
 
-This checklist covers the React/Vite v2 local-first learning app. User-facing app copy should remain Vietnamese. The app is static/offline-friendly, but full answer-key protection is not possible without future server-side scoring.
+This checklist covers the React/Vite v2 local-first learning app. User-facing app copy should remain Vietnamese. The app is static/local-first; offline/PWA cache behavior is not release-certified unless a tester confirms an active service worker. Full answer-key protection is not possible without future server-side scoring.
+
+
+## Required staging evidence
+
+For Phase 5B beta approval, attach or record:
+
+- browser and device/viewport used;
+- whether the browser profile was clean/incognito;
+- console result showing no critical red errors;
+- screenshots or notes for JSON/CSV import, Study Room completion, localStorage persistence, backup/restore, and mobile layout;
+- service worker/PWA state: active, inactive, or intentionally not registered in this beta.
+
+## Manual QA limitation
+
+This checklist is still required before broader beta/production use. Do not mark this build as real-device QA certified until the checklist is completed in a real browser/device environment.
 
 ## 1. Fresh load and shell
 
 - [ ] Open the app from a clean browser profile or after clearing site data.
-- [ ] Confirm `/dashboard` renders without console errors.
+- [ ] Confirm `/dashboard` renders without critical red console errors and record the console status.
 - [ ] Confirm desktop sidebar appears on desktop widths.
 - [ ] Confirm mobile bottom navigation appears on mobile widths.
 - [ ] Confirm `/study-room` hides sidebar and bottom navigation.
@@ -142,3 +157,54 @@ This checklist covers the React/Vite v2 local-first learning app. User-facing ap
 - **READY**: build passes, no blockers/high bugs, critical flows work manually.
 - **READY AFTER FIXES**: only low/medium bugs with clear patches remain.
 - **NOT READY**: boot failure, import failure, restore data-loss risk, Study Room crash, or non-Vietnamese blocker in visible UI.
+
+## 16. Automated E2E smoke harness
+
+Phase 6A adds a minimal Playwright smoke harness that complements the previous AI-only source/runtime validation. It does not replace real Chrome/Edge manual smoke or real-device QA.
+
+### Install browsers when needed
+
+After dependencies are installed with `npm ci`, install the local Playwright browser binary if it is not already available:
+
+```bash
+npx playwright install chromium
+```
+
+### Run automated smoke
+
+```bash
+npm run build
+npm run test:e2e:smoke
+```
+
+The smoke command runs against local Vite preview on `127.0.0.1:4173`. It must not depend on Netlify, external services, accounts, or network APIs.
+
+### Current automated coverage
+
+- Route rendering for `/`, `/dashboard`, `/library`, and `/study-room`.
+- Critical console error and uncaught page error capture.
+- Dashboard **Học tiếp** CTA navigation to Study Room.
+- Mobile viewport smoke at 375px for Dashboard, Library, and Study Room, including document-level horizontal overflow checks.
+- JSON import UI smoke for valid data, malformed JSON, empty usable import, and invalid `multiple_choice.correctAnswer`.
+- Default Study Room flow through multiple choice, flashcard, short answer, session finish, Vietnamese result summary, and local persistence keys.
+- Backup panel smoke for full backup download and restore file input availability.
+- Basic keyboard focus reachability for Dashboard, Library, and Study Room.
+
+### Known limitations
+
+- This harness is browser automation smoke only; it is not full manual smoke approval.
+- It is not manually QA-certified on physical devices.
+- It currently uses deterministic mock/fixture data and the default local browser context.
+- It does not certify production-grade PWA/offline behavior, stale service worker behavior, or all browser/device combinations.
+- Beta users should still report UI, runtime, import, export, backup, and restore issues found during real use.
+
+
+### CI execution
+
+The Playwright smoke harness is also wired for GitHub Actions in `.github/workflows/e2e-smoke.yml`. The workflow runs on pull requests, manual `workflow_dispatch`, and pushes to `main`. It installs dependencies with `npm ci`, builds the app, runs the existing source/runtime validators, installs Playwright Chromium with `npx playwright install --with-deps chromium`, and then runs `npm run test:e2e:smoke`.
+
+If the E2E step fails, the workflow uploads available Playwright artifacts from `playwright-report/` and `test-results/` so traces, screenshots, and failure output can be reviewed. Missing artifact folders are ignored.
+
+A passing CI E2E smoke run means the automated browser smoke suite passed on the GitHub-hosted Ubuntu runner and complements AI-only release validation. It still does not mean full manual smoke approval, real-device QA, or production-grade PWA/offline certification. The app remains not manually QA-certified on physical devices until that separate QA work is completed.
+
+To trigger the workflow manually, open GitHub Actions, choose **E2E Smoke**, and run the workflow from the selected branch.

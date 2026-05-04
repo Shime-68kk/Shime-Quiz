@@ -133,7 +133,7 @@ export function setLearningData(rawData, options = {}) {
   const payload = makePersistedPayload(validation.normalizedData, metadata);
   const storage = getLocalStorage();
 
-  if (storage) {
+  if (storage && !options.skipStorage) {
     try {
       storage.setItem(LIBRARY_STORAGE_KEY, JSON.stringify(payload));
     } catch (error) {
