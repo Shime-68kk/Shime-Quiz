@@ -124,7 +124,10 @@ test('import UI accepts valid JSON and blocks invalid import fixtures with Vietn
   await invalidChoicePreview.getByRole('button', { name: 'Hủy xem trước' }).click();
 
   await importInput.setInputFiles('tests/fixtures/malformed-import.json');
-  await expect(page.getByText('Không đọc được file')).toBeVisible();
+  await expect(page.getByText('Không thể import file này')).toBeVisible();
+  const malformedPreview = page.locator('.importPreview');
+  await expect(malformedPreview.getByText('Lỗi cần sửa')).toBeVisible();
+  await expect(malformedPreview.getByText(/Không đọc được JSON/).first()).toBeVisible();
 
   await expectNoCriticalErrors(criticalErrors);
 });
@@ -136,7 +139,9 @@ test('Study Room default flow can answer items, finish, and persist local histor
   await page.goto('/study-room');
   await expect(page.getByRole('heading', { name: 'Phòng học tập trung' })).toBeVisible();
 
-  await page.getByLabel(/Application/).check();
+  const applicationChoice = page.locator('.choiceOption').filter({ hasText: 'Application' }).first();
+  await applicationChoice.click();
+  await expect(page.getByLabel(/Application/)).toBeChecked();
   await page.getByRole('button', { name: 'Kiểm tra đáp án' }).click();
   await expect(page.getByText('Đúng')).toBeVisible();
 
@@ -146,7 +151,9 @@ test('Study Room default flow can answer items, finish, and persist local histor
   await expect(page.getByText(/Truyền dữ liệu đầu cuối/)).toBeVisible();
 
   await page.getByRole('button', { name: 'Item tiếp theo' }).click();
-  await page.getByLabel(/10\.0\.0\.0\/8/).check();
+  const privateRangeChoice = page.locator('.choiceOption').filter({ hasText: /10\.0\.0\.0\/8/ }).first();
+  await privateRangeChoice.click();
+  await expect(page.getByLabel(/10\.0\.0\.0\/8/)).toBeChecked();
   await page.getByRole('button', { name: 'Kiểm tra đáp án' }).click();
 
   await page.getByRole('button', { name: 'Item tiếp theo' }).click();
