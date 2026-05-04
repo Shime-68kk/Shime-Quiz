@@ -1,4 +1,4 @@
-name: E2E Smoke
+name: Playwright E2E Smoke
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   e2e-smoke:
-    name: Playwright E2E smoke
+    name: E2E smoke
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -17,10 +17,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
@@ -29,27 +29,39 @@ jobs:
       - name: Build app
         run: npm run build
 
-      - name: Run source/runtime validators
-        run: |
-          node scripts/validate-smoke-fixture.js
-          node scripts/validate-v2-release-hardening.js
-          node scripts/validate-exam-readiness.js
-          node scripts/validate-recommendation-feedback.js
-          node scripts/validate-weighted-selection.js
+      - name: Validate smoke fixture
+        run: node scripts/validate-smoke-fixture.js
+
+      - name: Validate v2 release hardening
+        run: node scripts/validate-v2-release-hardening.js
+
+      - name: Validate exam readiness
+        run: node scripts/validate-exam-readiness.js
+
+      - name: Validate recommendation feedback
+        run: node scripts/validate-recommendation-feedback.js
+
+      - name: Validate weighted selection
+        run: node scripts/validate-weighted-selection.js
 
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Run Playwright smoke
+      - name: Run Playwright E2E smoke
         run: npm run test:e2e:smoke
 
-      - name: Upload Playwright failure artifacts
+      - name: Upload Playwright report
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-smoke-artifacts
-          path: |
-            playwright-report/
-            test-results/
+          name: playwright-report
+          path: playwright-report/
           if-no-files-found: ignore
-          retention-days: 14
+
+      - name: Upload Playwright test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-test-results
+          path: test-results/
+          if-no-files-found: ignore

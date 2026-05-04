@@ -198,13 +198,53 @@ The smoke command runs against local Vite preview on `127.0.0.1:4173`. It must n
 - It does not certify production-grade PWA/offline behavior, stale service worker behavior, or all browser/device combinations.
 - Beta users should still report UI, runtime, import, export, backup, and restore issues found during real use.
 
+## 17. GitHub Actions E2E smoke workflow
 
-### CI execution
+Phase 6A.CI adds a browser-capable GitHub Actions workflow for the Playwright smoke harness at `.github/workflows/e2e-smoke.yml`.
 
-The Playwright smoke harness is also wired for GitHub Actions in `.github/workflows/e2e-smoke.yml`. The workflow runs on pull requests, manual `workflow_dispatch`, and pushes to `main`. It installs dependencies with `npm ci`, builds the app, runs the existing source/runtime validators, installs Playwright Chromium with `npx playwright install --with-deps chromium`, and then runs `npm run test:e2e:smoke`.
+### Workflow triggers
 
-If the E2E step fails, the workflow uploads available Playwright artifacts from `playwright-report/` and `test-results/` so traces, screenshots, and failure output can be reviewed. Missing artifact folders are ignored.
+The workflow runs on:
 
-A passing CI E2E smoke run means the automated browser smoke suite passed on the GitHub-hosted Ubuntu runner and complements AI-only release validation. It still does not mean full manual smoke approval, real-device QA, or production-grade PWA/offline certification. The app remains not manually QA-certified on physical devices until that separate QA work is completed.
+- `pull_request`
+- `workflow_dispatch`
+- `push` to `main`
 
-To trigger the workflow manually, open GitHub Actions, choose **E2E Smoke**, and run the workflow from the selected branch.
+Use `workflow_dispatch` from the GitHub Actions tab when a manual CI smoke run is needed without changing app code.
+
+### CI commands
+
+The workflow uses an Ubuntu GitHub-hosted runner, sets up Node.js 22, and runs:
+
+```bash
+npm ci
+npm run build
+node scripts/validate-smoke-fixture.js
+node scripts/validate-v2-release-hardening.js
+node scripts/validate-exam-readiness.js
+node scripts/validate-recommendation-feedback.js
+node scripts/validate-weighted-selection.js
+npx playwright install --with-deps chromium
+npm run test:e2e:smoke
+```
+
+### Failure artifacts
+
+If the E2E smoke job fails, the workflow uploads available Playwright artifacts from:
+
+- `playwright-report/`
+- `test-results/`
+
+Missing artifact folders are ignored so artifact upload does not hide the original failure.
+
+### Release-claim limitation
+
+A successful CI E2E smoke run may support the narrow claim that the automated Playwright smoke passed in that GitHub Actions environment. It still does not mean:
+
+- full manual QA approval
+- real-device QA certification
+- production-grade PWA/offline certification
+- zero runtime risk
+- guaranteed data safety
+
+Do not claim CI E2E smoke passed until a real GitHub Actions run completes successfully and the run evidence is recorded.

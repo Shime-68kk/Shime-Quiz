@@ -111,13 +111,17 @@ test('import UI accepts valid JSON and blocks invalid import fixtures with Vietn
 
   await importInput.setInputFiles('tests/fixtures/invalid-import.json');
   await expect(page.getByText('Không thể import file này')).toBeVisible();
-  await expect(page.getByText(/Không có mục học hợp lệ|Chưa có mục học hợp lệ|File có lỗi cấu trúc/)).toBeVisible();
-  await page.getByRole('button', { name: 'Hủy xem trước' }).click();
+  const invalidImportPreview = page.locator('.importPreview');
+  await expect(invalidImportPreview.getByText('Lỗi cần sửa')).toBeVisible();
+  await expect(invalidImportPreview.getByText(/Không có mục học hợp lệ|Chưa có mục học hợp lệ|File có lỗi cấu trúc/).first()).toBeVisible();
+  await invalidImportPreview.getByRole('button', { name: 'Hủy xem trước' }).click();
 
   await importInput.setInputFiles('tests/fixtures/invalid-choice-answer.json');
   await expect(page.getByText('Không thể import file này')).toBeVisible();
-  await expect(page.getByText(/Đáp án đúng|correctAnswer|lựa chọn/i)).toBeVisible();
-  await page.getByRole('button', { name: 'Hủy xem trước' }).click();
+  const invalidChoicePreview = page.locator('.importPreview');
+  await expect(invalidChoicePreview.getByText('Lỗi cần sửa')).toBeVisible();
+  await expect(invalidChoicePreview.getByText(/Đáp án đúng|correctAnswer|lựa chọn/i).first()).toBeVisible();
+  await invalidChoicePreview.getByRole('button', { name: 'Hủy xem trước' }).click();
 
   await importInput.setInputFiles('tests/fixtures/malformed-import.json');
   await expect(page.getByText('Không đọc được file')).toBeVisible();
@@ -174,7 +178,8 @@ test('backup controls are usable and full backup download can be triggered', asy
 
   await expect(page.getByRole('heading', { name: 'Thư viện học liệu' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Sao lưu dữ liệu' })).toBeVisible();
-  await expect(page.getByText('Sao lưu đầy đủ')).toBeVisible();
+  const backupModeChooser = page.locator('.backupModeChooser');
+  await expect(backupModeChooser.getByText('Sao lưu đầy đủ')).toBeVisible();
 
   const downloadPromise = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Sao lưu dữ liệu' }).click();
