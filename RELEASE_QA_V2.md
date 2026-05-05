@@ -280,3 +280,24 @@ The validator checks Dashboard-scale derived data behavior with:
 It verifies that Dashboard analytics derivations complete without throwing, preserve expected result shapes, handle empty or malformed inputs safely, avoid mutating inputs, and stay under a generous CI threshold.
 
 This is a synthetic performance guardrail only. It does not certify real-device performance, low-end mobile behavior, Safari/iOS behavior, or complete absence of browser jank. Manual real-device QA remains required before making stronger performance claims.
+
+## 21. Phase 6E backup/restore disaster-recovery drill
+
+Phase 6E adds a lightweight backup/restore disaster-recovery validator.
+
+The validator checks:
+- full backup creation and successful restore
+- malformed backup rejection
+- missing required full-backup library section rejection
+- redacted backup restore blocking
+- progress-only backup restore blocking
+- storage preflight failure
+- simulated mid-restore write failure rollback
+- in-memory library update timing
+- no sync publish before failed restore
+- metadata-only sync after successful restore
+- unchanged backup schema marker
+
+Full backup is the main disaster-recovery format and may contain library content, prompts, choices, correct answers, flashcard backs, explanations, and progress data. Redacted and progress-only backups reduce sharing risk but are not encryption and are not full restore sources.
+
+Restore rollback remains best-effort. Browser storage quota errors, private browsing restrictions, tab crashes, and device/browser-specific behavior can still prevent recovery. This validator does not certify production-grade data recovery or replace manual real-device backup/restore QA.
