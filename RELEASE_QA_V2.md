@@ -264,3 +264,19 @@ Phase 6C keeps the existing v2 JSON/CSV import schema and adds runtime schema va
 This phase does not add PDF, OCR, Markdown, RAG, backend sync, accounts, encryption, or a new storage format. It also does not change scoring, spaced repetition, mastery, backup schema, or the v2 import fields documented in `docs/V2_DATA_MODEL.md`.
 
 Current behavior intentionally remains conservative: if any item-level errors are present, the import is blocked, even when some items could be normalized. The preview still reports valid item counts and rejected item paths so a future phase can decide whether partial import should become a user-facing feature.
+
+## 20. Phase 6D dashboard analytics performance guardrail
+
+Phase 6D adds a lightweight synthetic Dashboard analytics performance validator.
+
+The validator checks Dashboard-scale derived data behavior with:
+- study history sessions
+- item result records
+- library items
+- review schedule records
+- recommendation feedback
+- active study goal data
+
+It verifies that Dashboard analytics derivations complete without throwing, preserve expected result shapes, handle empty or malformed inputs safely, avoid mutating inputs, and stay under a generous CI threshold.
+
+This is a synthetic performance guardrail only. It does not certify real-device performance, low-end mobile behavior, Safari/iOS behavior, or complete absence of browser jank. Manual real-device QA remains required before making stronger performance claims.
