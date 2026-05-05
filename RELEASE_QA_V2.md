@@ -301,3 +301,15 @@ The validator checks:
 Full backup is the main disaster-recovery format and may contain library content, prompts, choices, correct answers, flashcard backs, explanations, and progress data. Redacted and progress-only backups reduce sharing risk but are not encryption and are not full restore sources.
 
 Restore rollback remains best-effort. Browser storage quota errors, private browsing restrictions, tab crashes, and device/browser-specific behavior can still prevent recovery. This validator does not certify production-grade data recovery or replace manual real-device backup/restore QA.
+
+## 22. Phase 6H public deployment readiness and Lighthouse hygiene
+
+Phase 6H adds public deployment readiness documentation and static metadata hygiene for the local-first Netlify deployment.
+
+The app remains a static/local-first React app. Core v2 learning flows do not require login, account backend, Supabase/Firebase, SSR, or API secrets. Learning data is stored in the user’s browser localStorage. Opening the Dashboard does not expose other users’ remote data in the current local-first model, but data may remain visible on the same browser/device. Users on shared devices should clear site data or use a separate browser profile.
+
+Phase 6H also documents that rate limiting, CORS, backend secret rotation, and account security become active concerns only if future cloud sync/API/backend features are added.
+
+Public metadata and deployment hygiene include title/description metadata, Open Graph/Twitter metadata, manifest/icon linkage, robots handling, and conservative static deployment notes. A canonical URL and sitemap should only be added after a stable production domain is selected; do not hardcode a random Netlify preview URL as canonical.
+
+Lighthouse has not been certified by this phase unless a report is attached for the exact deployed URL and commit. Do not claim Lighthouse passed, production security certification, real-device QA, or production-grade PWA/offline certification from this checklist alone.
