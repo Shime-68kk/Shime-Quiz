@@ -9,6 +9,7 @@ import Toast from '../components/Toast.jsx';
 import V2BackupRestorePanel from '../components/learning/V2BackupRestorePanel.jsx';
 import { parseCsvImport } from '../data/csvImportParser.js';
 import { parseLearningDataJson } from '../data/importValidator.js';
+import { parseTextQuizDraft } from '../data/textQuizParser.js';
 import { createLibraryBackupFileName, createLibraryExportPayload, downloadJsonFile } from '../data/libraryExport.js';
 import { resetLearningDataToMock, setLearningData, useLearningDataAdapter, useLearningDataSource, useLearningDataSummary } from '../data/learningDataStore.js';
 import { selectWeightedPracticeItems } from '../learning/weightedPracticeSelector.js';
@@ -67,7 +68,7 @@ function ImportPreview({ preview, fileName, onConfirm, onCancel }) {
   const { validation } = preview;
   const { summary, errors, warnings, canImport } = validation;
   const itemTypeEntries = Object.entries(summary.itemTypeCounts);
-  const formatLabel = preview.format === 'csv' ? 'CSV' : 'JSON';
+  const formatLabel = preview.format === 'csv' ? 'CSV' : preview.format === 'text' ? 'Văn bản' : 'JSON';
 
   return (
     <Card title="Xem trước file nạp" eyebrow="Xem trước dữ liệu nạp" variant="elevated" className="importPreview">
@@ -86,6 +87,7 @@ function ImportPreview({ preview, fileName, onConfirm, onCancel }) {
 
       <div className="importSummaryGrid" aria-label="Tóm tắt dữ liệu nạp">
         {preview.format === 'csv' ? <span><strong>{preview.rowsParsed}</strong> dòng CSV</span> : null}
+        {preview.format === 'text' ? <span><strong>{preview.linesParsed}</strong> dòng nội dung</span> : null}
         <span><strong>{summary.subjectCount}</strong> môn học</span>
         <span><strong>{summary.topicCount}</strong> chủ đề</span>
         <span><strong>{summary.itemCount}</strong> mục học</span>
@@ -142,6 +144,8 @@ export default function Library() {
   const [importStatus, setImportStatus] = useState(null);
   const [isReadingFile, setIsReadingFile] = useState(false);
   const [isExportingLibrary, setIsExportingLibrary] = useState(false);
+  const [textDraft, setTextDraft] = useState('');
+  const [isParsingText, setIsParsingText] = useState(false);
   const subjectCards = buildSubjectCards(adapter);
   const sourceLabel = dataSource.sourceType === 'mock'
     ? 'Dữ liệu mẫu'
@@ -214,6 +218,43 @@ export default function Library() {
     if (fileInputRef.current) fileInputRef.current.value = '';
   }
 
+  function resetTextDraftPreview() {
+    setTextDraft('');
+    resetPreview();
+  }
+
+  function parseTextDraft() {
+    setIsParsingText(true);
+    setImportStatus(null);
+
+    try {
+      const result = parseTextQuizDraft(textDraft);
+      setPreview({
+        fileName: 'Nội dung đã dán',
+        format: 'text',
+        linesParsed: result.linesParsed ?? 0,
+        rawData: result.rawData,
+        validation: result.validation
+      });
+      setImportStatus({
+        tone: result.validation.errors.length ? 'danger' : result.validation.warnings.length ? 'warning' : 'success',
+        title: result.validation.errors.length ? 'Không tạo được bản nháp import' : 'Đã tạo bản nháp câu hỏi',
+        description: result.validation.errors.length
+          ? 'Nội dung chưa đủ rõ để import. Hãy xem lỗi/cảnh báo và chỉnh lại mẫu nhập.'
+          : 'Hãy xem lại bản nháp câu hỏi trước khi lưu vào thư viện cục bộ.'
+      });
+    } catch (error) {
+      setPreview(null);
+      setImportStatus({
+        tone: 'danger',
+        title: 'Không phân tích được nội dung',
+        description: error.message || 'Nội dung đã dán không thể chuyển thành bản nháp câu hỏi.'
+      });
+    } finally {
+      setIsParsingText(false);
+    }
+  }
+
   function detectImportFormat(file) {
     const name = file?.name?.toLowerCase() || '';
     if (name.endsWith('.csv') || file?.type === 'text/csv') return 'csv';
@@ -269,8 +310,10 @@ export default function Library() {
       title: result.ok ? 'Đã import và lưu cục bộ' : 'Đã import nhưng chưa lưu được',
       description: result.ok
         ? preview.validation.warnings.length
-          ? 'Nạp thành công và đã lưu cục bộ, nhưng có cảnh báo. Một số tham chiếu không hợp lệ có thể đã bị bộ chuyển đổi bỏ qua.'
-          : `Thư viện đã lưu dữ liệu ${preview.format?.toUpperCase() || 'nạp'} vừa chọn cho lần mở sau.`
+          ? 'Nạp thành công và đã lưu cục bộ, nhưng có cảnh báo. Hãy xem lại các mục đã tạo từ nội dung nguồn.'
+          : preview.format === 'text'
+            ? 'Thư viện đã lưu bản nháp câu hỏi từ nội dung đã dán cho lần mở sau.'
+            : `Thư viện đã lưu dữ liệu ${preview.format?.toUpperCase() || 'nạp'} vừa chọn cho lần mở sau.`
         : 'Dữ liệu đã cập nhật cho phiên hiện tại, nhưng localStorage không lưu được. Hãy kiểm tra dung lượng/quyền lưu trữ của trình duyệt.'
     });
     setPreview(null);
@@ -356,6 +399,46 @@ export default function Library() {
         aria-label="Chọn file JSON hoặc CSV học liệu"
       />
 
+      <Card title="Tạo quiz từ văn bản/Markdown" eyebrow="Bản nháp thân thiện" className="textImportCard">
+        <div className="textImportCard__intro">
+          <p className="muted">
+            Dán nội dung bài học hoặc ghi chú của bạn. Bạn có thể dùng tiêu đề <code>#</code> / <code>##</code> hoặc ghi rõ <code>Môn</code>, <code>Chủ đề</code>. Ứng dụng sẽ tạo bản nháp câu hỏi để bạn xem lại trước khi lưu.
+          </p>
+        </div>
+        <label className="textImportField" htmlFor="text-quiz-draft-input">
+          <span>Nội dung bài học</span>
+          <textarea
+            id="text-quiz-draft-input"
+            value={textDraft}
+            onChange={event => setTextDraft(event.target.value)}
+            placeholder={`Môn: Mạng máy tính
+Chủ đề: OSI
+
+Câu hỏi: Application layer thuộc mô hình nào?
+A. OSI
+B. TCP/IP
+Đáp án: A`}
+            rows={10}
+          />
+        </label>
+        <div className="textImportHelp" aria-label="Gợi ý định dạng văn bản">
+          <Badge tone="info">Trắc nghiệm A, B, C, D</Badge>
+          <Badge tone="info">Flashcard Mặt trước/Mặt sau</Badge>
+          <Badge tone="info">Câu hỏi ngắn + Đáp án</Badge>
+          <Badge tone="neutral">Markdown # / ##</Badge>
+        </div>
+        <div className="textImportActions">
+          <Button type="button" loading={isParsingText} onClick={parseTextDraft} disabled={!textDraft.trim()}>
+            Tạo bản nháp câu hỏi
+          </Button>
+          {textDraft.trim() ? (
+            <Button type="button" variant="ghost" onClick={resetTextDraftPreview}>
+              Xóa nội dung dán
+            </Button>
+          ) : null}
+        </div>
+      </Card>
+
       <Card title="Nguồn dữ liệu thư viện" eyebrow="Lưu cục bộ" className="dataSourceCard">
         <div className="dataSourceCard__content">
           <Badge tone={dataSource.sourceType === 'mock' ? 'neutral' : 'success'}>{sourceLabel}</Badge>
@@ -386,7 +469,7 @@ export default function Library() {
 
       <Card title="Schema import mong đợi" eyebrow="Mô hình dữ liệu v2">
         <p className="muted">
-          File JSON nên chứa <code>subjects</code>, <code>topics</code> và <code>items</code>. File export từ nút <code>Xuất thư viện</code> cũng dùng cấu trúc này và có thêm metadata. CSV nên có cột <code>subject</code>, <code>topic</code>, <code>type</code>, <code>prompt</code>, <code>choices</code>, <code>correctAnswer</code>/<code>answer</code>. Mục học hỗ trợ <code>multiple_choice</code>, <code>short_answer</code> và <code>flashcard</code>.
+          Người dùng có thể dán văn bản/Markdown để tạo bản nháp câu hỏi mà không cần biết schema. File JSON nâng cao vẫn nên chứa <code>subjects</code>, <code>topics</code> và <code>items</code>. File export từ nút <code>Xuất thư viện</code> cũng dùng cấu trúc này và có thêm metadata. CSV nên có cột <code>subject</code>, <code>topic</code>, <code>type</code>, <code>prompt</code>, <code>choices</code>, <code>correctAnswer</code>/<code>answer</code>. Mục học hỗ trợ <code>multiple_choice</code>, <code>short_answer</code> và <code>flashcard</code>.
         </p>
       </Card>
 

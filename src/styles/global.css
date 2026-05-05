@@ -2699,3 +2699,57 @@ code {
     justify-content: flex-start;
   }
 }
+
+/* Phase 7A text/Markdown draft import */
+.textImportCard,
+.textImportCard__intro,
+.textImportField,
+.textImportHelp,
+.textImportActions {
+  min-width: 0;
+}
+
+.textImportCard .card__body {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.textImportField {
+  display: grid;
+  gap: var(--space-2);
+  color: var(--color-text);
+  font-weight: 800;
+}
+
+.textImportField textarea {
+  width: 100%;
+  min-width: 0;
+  resize: vertical;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--color-text);
+  font: inherit;
+  line-height: var(--line-relaxed);
+  box-shadow: inset 0 1px 2px rgba(7, 17, 31, 0.06);
+}
+
+.textImportField textarea:focus-visible {
+  outline: none;
+  border-color: rgba(49, 92, 77, 0.52);
+  box-shadow: var(--shadow-focus);
+}
+
+.textImportHelp,
+.textImportActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+@media (max-width: 720px) {
+  .textImportActions .button {
+    width: 100%;
+  }
+}
