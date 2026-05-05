@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+# Add a Sitemap directive after a stable production domain is configured.
