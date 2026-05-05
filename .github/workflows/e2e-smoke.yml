@@ -44,6 +44,18 @@ jobs:
       - name: Validate weighted selection
         run: node scripts/validate-weighted-selection.js
 
+      - name: Validate storage sync
+        run: node scripts/validate-storage-sync.js
+
+      - name: Validate import validation
+        run: node scripts/validate-import-validation.js
+
+      - name: Validate dashboard performance
+        run: node scripts/validate-dashboard-performance.js
+
+      - name: Validate backup restore recovery
+        run: node scripts/validate-backup-restore-recovery.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
