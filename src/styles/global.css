@@ -2703,16 +2703,19 @@ code {
 /* Phase 7A text/Markdown draft import */
 .textImportCard,
 .textFileImportCard,
+.pdfImportCard,
 .textImportCard__intro,
 .textImportField,
 .textImportHelp,
 .textImportActions,
-.textFileImportActions {
+.textFileImportActions,
+.importSourceMeta {
   min-width: 0;
 }
 
 .textImportCard .card__body,
-.textFileImportCard .card__body {
+.textFileImportCard .card__body,
+.pdfImportCard .card__body {
   display: grid;
   gap: var(--space-4);
 }
@@ -2746,11 +2749,25 @@ code {
 
 .textImportHelp,
 .textImportActions,
-.textFileImportActions {
+.textFileImportActions,
+.importSourceMeta {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-3);
+}
+
+
+.importSourceMeta {
+  background: color-mix(in srgb, var(--color-primary) 8%, var(--color-surface));
+  border: 1px solid color-mix(in srgb, var(--color-primary) 18%, var(--color-border));
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+}
+
+.importSourceMeta span {
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
 }
 
 .textFileImportActions .muted {

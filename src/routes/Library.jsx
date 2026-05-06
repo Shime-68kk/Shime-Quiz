@@ -10,6 +10,7 @@ import V2BackupRestorePanel from '../components/learning/V2BackupRestorePanel.js
 import { parseCsvImport } from '../data/csvImportParser.js';
 import { parseLearningDataJson } from '../data/importValidator.js';
 import { isSupportedTextQuizFileName, parseTextQuizDraft } from '../data/textQuizParser.js';
+import { extractSingleFile, getFileProcessorBaseUrl, isSupportedPdfFileName } from '../services/fileProcessorClient.js';
 import { createLibraryBackupFileName, createLibraryExportPayload, downloadJsonFile } from '../data/libraryExport.js';
 import { resetLearningDataToMock, setLearningData, useLearningDataAdapter, useLearningDataSource, useLearningDataSummary } from '../data/learningDataStore.js';
 import { selectWeightedPracticeItems } from '../learning/weightedPracticeSelector.js';
@@ -68,7 +69,13 @@ function ImportPreview({ preview, fileName, onConfirm, onCancel }) {
   const { validation } = preview;
   const { summary, errors, warnings, canImport } = validation;
   const itemTypeEntries = Object.entries(summary.itemTypeCounts);
-  const formatLabel = preview.format === 'csv' ? 'CSV' : preview.format === 'text' ? 'Văn bản' : 'JSON';
+  const formatLabel = preview.format === 'csv'
+    ? 'CSV'
+    : preview.format === 'text'
+      ? 'Văn bản'
+      : preview.format === 'pdf'
+        ? 'PDF qua EduGen'
+        : 'JSON';
 
   return (
     <Card title="Xem trước file nạp" eyebrow="Xem trước dữ liệu nạp" variant="elevated" className="importPreview">
@@ -93,6 +100,16 @@ function ImportPreview({ preview, fileName, onConfirm, onCancel }) {
         <span><strong>{summary.itemCount}</strong> mục học</span>
         <span><strong>{summary.validItems}</strong> mục hợp lệ</span>
       </div>
+
+      {preview.sourceMetadata ? (
+        <div className="importSourceMeta" aria-label="Thông tin nguồn trích xuất">
+          <span><strong>File nguồn:</strong> {preview.sourceMetadata.originalName || fileName}</span>
+          {preview.sourceMetadata.fileType ? <span><strong>Loại:</strong> {preview.sourceMetadata.fileType}</span> : null}
+          {Number.isFinite(preview.sourceMetadata.wordCount) ? <span><strong>Số từ:</strong> {preview.sourceMetadata.wordCount}</span> : null}
+          {Number.isFinite(preview.sourceMetadata.lineCount) ? <span><strong>Số dòng:</strong> {preview.sourceMetadata.lineCount}</span> : null}
+          {preview.sourceMetadata.extractionMethod ? <span><strong>Cách trích xuất:</strong> {preview.sourceMetadata.extractionMethod}</span> : null}
+        </div>
+      ) : null}
 
       <div className="badgeList" aria-label="Phân bổ loại mục hợp lệ">
         {itemTypeEntries.length ? itemTypeEntries.map(([type, count]) => (
@@ -141,6 +158,7 @@ export default function Library() {
   const summary = useLearningDataSummary();
   const fileInputRef = useRef(null);
   const textFileInputRef = useRef(null);
+  const pdfFileInputRef = useRef(null);
   const [preview, setPreview] = useState(null);
   const [importStatus, setImportStatus] = useState(null);
   const [isReadingFile, setIsReadingFile] = useState(false);
@@ -148,6 +166,7 @@ export default function Library() {
   const [textDraft, setTextDraft] = useState('');
   const [isParsingText, setIsParsingText] = useState(false);
   const [isReadingTextFile, setIsReadingTextFile] = useState(false);
+  const [isExtractingPdf, setIsExtractingPdf] = useState(false);
   const subjectCards = buildSubjectCards(adapter);
   const sourceLabel = dataSource.sourceType === 'mock'
     ? 'Dữ liệu mẫu'
@@ -218,11 +237,16 @@ export default function Library() {
     textFileInputRef.current?.click();
   }
 
+  function openPdfFilePicker() {
+    pdfFileInputRef.current?.click();
+  }
+
   function resetPreview() {
     setPreview(null);
     setImportStatus(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
     if (textFileInputRef.current) textFileInputRef.current.value = '';
+    if (pdfFileInputRef.current) pdfFileInputRef.current.value = '';
   }
 
   function resetTextDraftPreview() {
@@ -230,18 +254,25 @@ export default function Library() {
     resetPreview();
   }
 
-  function createTextDraftPreview(sourceText, sourceName, successDescription = 'Hãy xem lại bản nháp câu hỏi trước khi lưu vào thư viện cục bộ.') {
+  function createTextDraftPreview(sourceText, sourceName, options = {}) {
+    const {
+      format = 'text',
+      successTitle = 'Đã tạo bản nháp câu hỏi',
+      successDescription = 'Hãy xem lại bản nháp câu hỏi trước khi lưu vào thư viện cục bộ.',
+      sourceMetadata = null
+    } = typeof options === 'string' ? { successDescription: options } : options;
     const result = parseTextQuizDraft(sourceText);
     setPreview({
       fileName: sourceName,
-      format: 'text',
+      format,
       linesParsed: result.linesParsed ?? 0,
       rawData: result.rawData,
-      validation: result.validation
+      validation: result.validation,
+      sourceMetadata
     });
     setImportStatus({
       tone: result.validation.errors.length ? 'danger' : result.validation.warnings.length ? 'warning' : 'success',
-      title: result.validation.errors.length ? 'Không tạo được bản nháp import' : 'Đã tạo bản nháp câu hỏi',
+      title: result.validation.errors.length ? 'Không tạo được bản nháp import' : successTitle,
       description: result.validation.errors.length
         ? 'Nội dung chưa đủ rõ để import. Hãy xem lỗi/cảnh báo và chỉnh lại mẫu nhập.'
         : successDescription
@@ -296,7 +327,9 @@ export default function Library() {
         return;
       }
 
-      createTextDraftPreview(text, file.name, 'Đã đọc file. Hãy xem lại bản nháp trước khi lưu.');
+      createTextDraftPreview(text, file.name, {
+        successDescription: 'Đã đọc file. Hãy xem lại bản nháp trước khi lưu.'
+      });
     } catch (error) {
       setPreview(null);
       setImportStatus({
@@ -307,6 +340,65 @@ export default function Library() {
     } finally {
       setIsReadingTextFile(false);
       if (textFileInputRef.current) textFileInputRef.current.value = '';
+    }
+  }
+
+
+  async function handlePdfDraftFile(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsExtractingPdf(true);
+    setImportStatus(null);
+
+    try {
+      if (!isSupportedPdfFileName(file.name)) {
+        setPreview(null);
+        setImportStatus({
+          tone: 'danger',
+          title: 'Định dạng file chưa hỗ trợ',
+          description: 'Chỉ hỗ trợ file PDF trong bước này.'
+        });
+        return;
+      }
+
+      const extractionResult = await extractSingleFile(file);
+      if (!extractionResult.ok) {
+        const isConnectionError = extractionResult.code === 'edugen_network_error';
+        setPreview(null);
+        setImportStatus({
+          tone: 'danger',
+          title: isConnectionError ? 'Không kết nối được EduGen' : 'Không trích xuất được PDF',
+          description: extractionResult.message || 'Không trích xuất được nội dung PDF.'
+        });
+        return;
+      }
+
+      const sourceMetadata = {
+        originalName: extractionResult.file.originalName || file.name,
+        fileType: extractionResult.file.fileType || 'pdf',
+        wordCount: extractionResult.extraction.wordCount,
+        lineCount: extractionResult.extraction.lineCount,
+        charCount: extractionResult.extraction.charCount,
+        extractionMethod: extractionResult.parserMetadata.extractionMethod
+      };
+
+      createTextDraftPreview(extractionResult.cleanedText, file.name, {
+        format: 'pdf',
+        successTitle: 'Đã trích xuất PDF',
+        successDescription: 'Đã trích xuất PDF. Hãy xem lại bản nháp trước khi lưu.',
+        sourceMetadata
+      });
+    } catch (error) {
+      setPreview(null);
+      setImportStatus({
+        tone: 'danger',
+        title: 'Không trích xuất được PDF',
+        description: error.message || 'Không trích xuất được nội dung PDF.'
+      });
+    } finally {
+      setIsExtractingPdf(false);
+      if (pdfFileInputRef.current) pdfFileInputRef.current.value = '';
     }
   }
 
@@ -373,6 +465,8 @@ export default function Library() {
     });
     setPreview(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
+    if (textFileInputRef.current) textFileInputRef.current.value = '';
+    if (pdfFileInputRef.current) pdfFileInputRef.current.value = '';
   }
 
 
@@ -463,6 +557,15 @@ export default function Library() {
         aria-label="Chọn file .txt hoặc .md để tạo bản nháp câu hỏi"
       />
 
+      <input
+        ref={pdfFileInputRef}
+        type="file"
+        accept=".pdf,application/pdf"
+        className="srOnly"
+        onChange={handlePdfDraftFile}
+        aria-label="Chọn file PDF để tạo bản nháp câu hỏi qua EduGen"
+      />
+
       <Card title="Tạo quiz từ văn bản/Markdown" eyebrow="Bản nháp thân thiện" className="textImportCard">
         <div className="textImportCard__intro">
           <p className="muted">
@@ -514,6 +617,20 @@ B. TCP/IP
             Chọn file .txt hoặc .md
           </Button>
           <span className="muted">Hỗ trợ ghi chú văn bản, Markdown # / ##, trắc nghiệm, flashcard và câu hỏi ngắn.</span>
+        </div>
+      </Card>
+
+      <Card title="Tạo quiz từ PDF" eyebrow="EduGen" className="pdfImportCard">
+        <div className="textImportCard__intro">
+          <p className="muted">
+            Chọn file PDF để trích xuất chữ bằng EduGen rồi tạo bản nháp câu hỏi. Cần chạy EduGen File Processor trước khi dùng tính năng này. Mặc định dùng <code>VITE_FILE_PROCESSOR_URL</code> hoặc <code>{getFileProcessorBaseUrl()}</code>.
+          </p>
+        </div>
+        <div className="textFileImportActions">
+          <Button type="button" variant="secondary" loading={isExtractingPdf} onClick={openPdfFilePicker}>
+            Chọn file PDF
+          </Button>
+          <span className="muted">EduGen chỉ trích xuất chữ; bản nháp vẫn đi qua kiểm tra và xem trước trước khi lưu.</span>
         </div>
       </Card>
 
