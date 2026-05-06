@@ -44,6 +44,12 @@ function createIssue(code, message, path = '') {
   return { code, message, path };
 }
 
+
+export function isSupportedTextQuizFileName(fileName) {
+  const name = compactWhitespace(fileName).toLowerCase();
+  return name.endsWith('.txt') || name.endsWith('.md');
+}
+
 function ensureSubject(subjectsById, title) {
   const safeTitle = compactWhitespace(title) || DEFAULT_SUBJECT_TITLE;
   const id = `subject:${slugify(safeTitle, 'subject')}`;

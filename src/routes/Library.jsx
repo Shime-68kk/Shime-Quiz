@@ -9,7 +9,7 @@ import Toast from '../components/Toast.jsx';
 import V2BackupRestorePanel from '../components/learning/V2BackupRestorePanel.jsx';
 import { parseCsvImport } from '../data/csvImportParser.js';
 import { parseLearningDataJson } from '../data/importValidator.js';
-import { parseTextQuizDraft } from '../data/textQuizParser.js';
+import { isSupportedTextQuizFileName, parseTextQuizDraft } from '../data/textQuizParser.js';
 import { createLibraryBackupFileName, createLibraryExportPayload, downloadJsonFile } from '../data/libraryExport.js';
 import { resetLearningDataToMock, setLearningData, useLearningDataAdapter, useLearningDataSource, useLearningDataSummary } from '../data/learningDataStore.js';
 import { selectWeightedPracticeItems } from '../learning/weightedPracticeSelector.js';
@@ -140,12 +140,14 @@ export default function Library() {
   const dataSource = useLearningDataSource();
   const summary = useLearningDataSummary();
   const fileInputRef = useRef(null);
+  const textFileInputRef = useRef(null);
   const [preview, setPreview] = useState(null);
   const [importStatus, setImportStatus] = useState(null);
   const [isReadingFile, setIsReadingFile] = useState(false);
   const [isExportingLibrary, setIsExportingLibrary] = useState(false);
   const [textDraft, setTextDraft] = useState('');
   const [isParsingText, setIsParsingText] = useState(false);
+  const [isReadingTextFile, setIsReadingTextFile] = useState(false);
   const subjectCards = buildSubjectCards(adapter);
   const sourceLabel = dataSource.sourceType === 'mock'
     ? 'Dữ liệu mẫu'
@@ -212,10 +214,15 @@ export default function Library() {
     fileInputRef.current?.click();
   }
 
+  function openTextFilePicker() {
+    textFileInputRef.current?.click();
+  }
+
   function resetPreview() {
     setPreview(null);
     setImportStatus(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
+    if (textFileInputRef.current) textFileInputRef.current.value = '';
   }
 
   function resetTextDraftPreview() {
@@ -223,26 +230,31 @@ export default function Library() {
     resetPreview();
   }
 
+  function createTextDraftPreview(sourceText, sourceName, successDescription = 'Hãy xem lại bản nháp câu hỏi trước khi lưu vào thư viện cục bộ.') {
+    const result = parseTextQuizDraft(sourceText);
+    setPreview({
+      fileName: sourceName,
+      format: 'text',
+      linesParsed: result.linesParsed ?? 0,
+      rawData: result.rawData,
+      validation: result.validation
+    });
+    setImportStatus({
+      tone: result.validation.errors.length ? 'danger' : result.validation.warnings.length ? 'warning' : 'success',
+      title: result.validation.errors.length ? 'Không tạo được bản nháp import' : 'Đã tạo bản nháp câu hỏi',
+      description: result.validation.errors.length
+        ? 'Nội dung chưa đủ rõ để import. Hãy xem lỗi/cảnh báo và chỉnh lại mẫu nhập.'
+        : successDescription
+    });
+    return result;
+  }
+
   function parseTextDraft() {
     setIsParsingText(true);
     setImportStatus(null);
 
     try {
-      const result = parseTextQuizDraft(textDraft);
-      setPreview({
-        fileName: 'Nội dung đã dán',
-        format: 'text',
-        linesParsed: result.linesParsed ?? 0,
-        rawData: result.rawData,
-        validation: result.validation
-      });
-      setImportStatus({
-        tone: result.validation.errors.length ? 'danger' : result.validation.warnings.length ? 'warning' : 'success',
-        title: result.validation.errors.length ? 'Không tạo được bản nháp import' : 'Đã tạo bản nháp câu hỏi',
-        description: result.validation.errors.length
-          ? 'Nội dung chưa đủ rõ để import. Hãy xem lỗi/cảnh báo và chỉnh lại mẫu nhập.'
-          : 'Hãy xem lại bản nháp câu hỏi trước khi lưu vào thư viện cục bộ.'
-      });
+      createTextDraftPreview(textDraft, 'Nội dung đã dán');
     } catch (error) {
       setPreview(null);
       setImportStatus({
@@ -252,6 +264,49 @@ export default function Library() {
       });
     } finally {
       setIsParsingText(false);
+    }
+  }
+
+  async function handleTextQuizFile(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsReadingTextFile(true);
+    setImportStatus(null);
+
+    try {
+      if (!isSupportedTextQuizFileName(file.name)) {
+        setPreview(null);
+        setImportStatus({
+          tone: 'danger',
+          title: 'Định dạng file chưa hỗ trợ',
+          description: 'Chỉ hỗ trợ file .txt hoặc .md trong bước này.'
+        });
+        return;
+      }
+
+      const text = await file.text();
+      if (!text.trim()) {
+        setPreview(null);
+        setImportStatus({
+          tone: 'warning',
+          title: 'File trống',
+          description: 'File không có nội dung văn bản.'
+        });
+        return;
+      }
+
+      createTextDraftPreview(text, file.name, 'Đã đọc file. Hãy xem lại bản nháp trước khi lưu.');
+    } catch (error) {
+      setPreview(null);
+      setImportStatus({
+        tone: 'danger',
+        title: 'Không đọc được file văn bản',
+        description: error.message || 'Không đọc được file văn bản.'
+      });
+    } finally {
+      setIsReadingTextFile(false);
+      if (textFileInputRef.current) textFileInputRef.current.value = '';
     }
   }
 
@@ -312,7 +367,7 @@ export default function Library() {
         ? preview.validation.warnings.length
           ? 'Nạp thành công và đã lưu cục bộ, nhưng có cảnh báo. Hãy xem lại các mục đã tạo từ nội dung nguồn.'
           : preview.format === 'text'
-            ? 'Thư viện đã lưu bản nháp câu hỏi từ nội dung đã dán cho lần mở sau.'
+            ? 'Thư viện đã lưu bản nháp câu hỏi từ văn bản/Markdown cho lần mở sau.'
             : `Thư viện đã lưu dữ liệu ${preview.format?.toUpperCase() || 'nạp'} vừa chọn cho lần mở sau.`
         : 'Dữ liệu đã cập nhật cho phiên hiện tại, nhưng localStorage không lưu được. Hãy kiểm tra dung lượng/quyền lưu trữ của trình duyệt.'
     });
@@ -399,6 +454,15 @@ export default function Library() {
         aria-label="Chọn file JSON hoặc CSV học liệu"
       />
 
+      <input
+        ref={textFileInputRef}
+        type="file"
+        accept=".txt,.md,text/plain,text/markdown,text/x-markdown"
+        className="srOnly"
+        onChange={handleTextQuizFile}
+        aria-label="Chọn file .txt hoặc .md để tạo bản nháp câu hỏi"
+      />
+
       <Card title="Tạo quiz từ văn bản/Markdown" eyebrow="Bản nháp thân thiện" className="textImportCard">
         <div className="textImportCard__intro">
           <p className="muted">
@@ -436,6 +500,20 @@ B. TCP/IP
               Xóa nội dung dán
             </Button>
           ) : null}
+        </div>
+      </Card>
+
+      <Card title="Tạo quiz từ file văn bản/Markdown" eyebrow="File cục bộ" className="textFileImportCard">
+        <div className="textImportCard__intro">
+          <p className="muted">
+            Chọn file <code>.txt</code> hoặc <code>.md</code> để đọc nội dung ngay trong trình duyệt và tạo bản nháp câu hỏi. File không được tải lên máy chủ và bản nháp luôn cần xem trước trước khi lưu.
+          </p>
+        </div>
+        <div className="textFileImportActions">
+          <Button type="button" variant="secondary" loading={isReadingTextFile} onClick={openTextFilePicker}>
+            Chọn file .txt hoặc .md
+          </Button>
+          <span className="muted">Hỗ trợ ghi chú văn bản, Markdown # / ##, trắc nghiệm, flashcard và câu hỏi ngắn.</span>
         </div>
       </Card>
 

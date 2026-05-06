@@ -313,3 +313,9 @@ Phase 6H also documents that rate limiting, CORS, backend secret rotation, and a
 Public metadata and deployment hygiene include title/description metadata, Open Graph/Twitter metadata, manifest/icon linkage, robots handling, and conservative static deployment notes. A canonical URL and sitemap should only be added after a stable production domain is selected; do not hardcode a random Netlify preview URL as canonical.
 
 Lighthouse has not been certified by this phase unless a report is attached for the exact deployed URL and commit. Do not claim Lighthouse passed, production security certification, real-device QA, or production-grade PWA/offline certification from this checklist alone.
+
+## Phase 7B — Local .txt/.md file upload for text/Markdown quiz drafts
+
+Phase 7B adds a local `.txt` / `.md` file upload path in the Library page. The browser reads the selected text file locally, reuses the Phase 7A `textQuizParser`, and sends the generated draft through the existing import validation and preview flow before the user saves anything.
+
+This does not add PDF, Word/DOCX, PPTX, ZIP, OCR, AI quiz generation, backend services, authentication, cloud sync, or schema changes. JSON/CSV import and paste-based text/Markdown draft import remain available.
