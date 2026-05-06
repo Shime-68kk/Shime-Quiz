@@ -9,6 +9,7 @@ import Toast from '../components/Toast.jsx';
 import V2BackupRestorePanel from '../components/learning/V2BackupRestorePanel.jsx';
 import { parseCsvImport } from '../data/csvImportParser.js';
 import { parseLearningDataJson } from '../data/importValidator.js';
+import { reviewQuizDraftQuality } from '../data/quizDraftQuality.js';
 import { isSupportedTextQuizFileName, parseTextQuizDraft } from '../data/textQuizParser.js';
 import { extractSingleFile, getFileProcessorBaseUrl, isSupportedEduGenDocumentFileName } from '../services/fileProcessorClient.js';
 import { createLibraryBackupFileName, createLibraryExportPayload, downloadJsonFile } from '../data/libraryExport.js';
@@ -59,6 +60,59 @@ function IssueList({ title, issues, tone }) {
         ))}
       </ul>
       {issues.length > 8 ? <p className="muted">Còn {issues.length - 8} mục khác. Hãy sửa file rồi thử lại.</p> : null}
+    </div>
+  );
+}
+
+const qualityToneByLevel = {
+  error: 'danger',
+  warning: 'warning',
+  info: 'info'
+};
+
+function QualityReviewPanel({ review }) {
+  if (!review) return null;
+
+  const warnings = review.warnings || [];
+  const { summary } = review;
+  const seriousWarnings = warnings.filter(warning => warning.level !== 'info');
+  const advisoryInfo = warnings.filter(warning => warning.level === 'info');
+
+  return (
+    <div className="qualityReview" aria-label="Đánh giá chất lượng bản nháp">
+      <div className="qualityReview__header">
+        <div>
+          <strong>Đánh giá chất lượng bản nháp</strong>
+          <p className="muted">
+            {warnings.length
+              ? 'Bản nháp có một số điểm nên xem lại trước khi lưu.'
+              : 'Không có cảnh báo chất lượng nghiêm trọng.'}
+          </p>
+        </div>
+        <div className="qualityReview__badges" aria-label="Tóm tắt cảnh báo chất lượng">
+          <Badge tone={summary.errorCount ? 'danger' : warnings.length ? 'warning' : 'success'}>
+            {warnings.length ? `${warnings.length} cảnh báo` : 'Ổn để xem lại'}
+          </Badge>
+          {summary.itemWarningCount ? <Badge tone="neutral">{summary.itemWarningCount} mục cần xem</Badge> : null}
+        </div>
+      </div>
+
+      {warnings.length ? (
+        <ul className="qualityReview__list">
+          {[...seriousWarnings, ...advisoryInfo].slice(0, 10).map((warning, index) => (
+            <li key={`${warning.code}-${warning.path}-${index}`} className={`qualityReview__item qualityReview__item--${qualityToneByLevel[warning.level] || 'warning'}`}>
+              <Badge tone={qualityToneByLevel[warning.level] || 'warning'}>
+                {warning.level === 'info' ? 'Gợi ý' : warning.level === 'error' ? 'Cần xem lại' : 'Cảnh báo'}
+              </Badge>
+              <span>{warning.message}</span>
+              {warning.path ? <small>{warning.path}</small> : null}
+            </li>
+          ))}
+        </ul>
+      ) : null}
+
+      {warnings.length > 10 ? <p className="muted">Còn {warnings.length - 10} cảnh báo khác. Hãy xem kỹ bản nháp sau khi lưu.</p> : null}
+      <p className="muted">Đây chỉ là gợi ý kiểm tra chất lượng. Vẫn có thể lưu sau khi xem lại nếu nội dung phù hợp.</p>
     </div>
   );
 }
@@ -121,6 +175,7 @@ function ImportPreview({ preview, fileName, onConfirm, onCancel }) {
 
       <IssueList title="Lỗi cần sửa" issues={errors} tone="danger" />
       <IssueList title="Cảnh báo" issues={warnings} tone="warning" />
+      <QualityReviewPanel review={preview.qualityReview} />
 
       <div className="sampleItems" aria-label="Mục học mẫu đã phân tích">
         <strong>Mục học mẫu</strong>
@@ -262,12 +317,14 @@ export default function Library() {
       sourceMetadata = null
     } = typeof options === 'string' ? { successDescription: options } : options;
     const result = parseTextQuizDraft(sourceText);
+    const qualityReview = reviewQuizDraftQuality(result.rawData);
     setPreview({
       fileName: sourceName,
       format,
       linesParsed: result.linesParsed ?? 0,
       rawData: result.rawData,
       validation: result.validation,
+      qualityReview,
       sourceMetadata
     });
     setImportStatus({
@@ -419,12 +476,14 @@ export default function Library() {
       const text = await file.text();
       const format = detectImportFormat(file);
       const result = format === 'csv' ? parseCsvImport(text) : parseLearningDataJson(text);
+      const qualityReview = result.rawData ? reviewQuizDraftQuality(result.rawData) : null;
       setPreview({
         fileName: file.name,
         format,
         rowsParsed: result.rowsParsed ?? null,
         rawData: result.rawData,
-        validation: result.validation
+        validation: result.validation,
+        qualityReview
       });
       setImportStatus({
         tone: result.validation.errors.length ? 'danger' : result.validation.warnings.length ? 'warning' : 'success',

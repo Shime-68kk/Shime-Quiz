@@ -2781,3 +2781,100 @@ code {
     width: 100%;
   }
 }
+
+/* Phase 7F quiz draft quality review */
+.qualityReview,
+.qualityReview__header,
+.qualityReview__badges,
+.qualityReview__list,
+.qualityReview__item {
+  min-width: 0;
+}
+
+.qualityReview {
+  display: grid;
+  gap: var(--space-3);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 18%, var(--color-border));
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  background: color-mix(in srgb, var(--color-primary) 7%, var(--color-surface));
+}
+
+.qualityReview__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.qualityReview__header strong,
+.qualityReview__header p {
+  margin: 0;
+}
+
+.qualityReview__badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
+.qualityReview__list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.qualityReview__item {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--space-2) var(--space-3);
+  align-items: start;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.qualityReview__item small {
+  grid-column: 2;
+  color: var(--color-text-muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: var(--font-size-xs);
+}
+
+.qualityReview__item--danger {
+  border-color: rgba(181, 59, 59, 0.26);
+  background: rgba(181, 59, 59, 0.06);
+}
+
+.qualityReview__item--warning {
+  border-color: rgba(167, 101, 19, 0.26);
+  background: rgba(167, 101, 19, 0.07);
+}
+
+.qualityReview__item--info {
+  border-color: rgba(49, 92, 77, 0.18);
+  background: rgba(49, 92, 77, 0.06);
+}
+
+@media (max-width: 720px) {
+  .qualityReview__header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .qualityReview__badges {
+    justify-content: flex-start;
+  }
+
+  .qualityReview__item {
+    grid-template-columns: 1fr;
+  }
+
+  .qualityReview__item small {
+    grid-column: 1;
+  }
+}

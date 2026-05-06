@@ -68,6 +68,9 @@ jobs:
       - name: Validate EduGen document integration
         run: node scripts/validate-edugen-document-integration.js
 
+      - name: Validate quiz draft quality
+        run: node scripts/validate-quiz-draft-quality.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
