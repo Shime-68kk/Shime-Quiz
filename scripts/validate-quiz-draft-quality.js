@@ -71,6 +71,26 @@ function run() {
   duplicateChoiceDraft.items[0].choices[1].text = 'OSI';
   assertHasCode(reviewQuizDraftQuality(duplicateChoiceDraft), 'duplicate_choices', 'duplicate choices should be detected');
 
+  const duplicateChoiceIdDraft = buildCleanDraft();
+  duplicateChoiceIdDraft.items[0].choices = [
+    { id: 'A', text: 'Lựa chọn 1' },
+    { id: 'A', text: 'Lựa chọn 2' },
+    { id: 'B', text: 'Lựa chọn 3' }
+  ];
+  const duplicateChoiceIdBefore = clone(duplicateChoiceIdDraft);
+  const duplicateChoiceIdReview = reviewQuizDraftQuality(duplicateChoiceIdDraft);
+  assert.deepEqual(duplicateChoiceIdDraft, duplicateChoiceIdBefore, 'duplicate choice id review must not mutate input');
+  assertHasCode(duplicateChoiceIdReview, 'duplicate_choice_ids', 'duplicate choice ids should be detected');
+  assertNoCode(duplicateChoiceIdReview, 'duplicate_choices', 'different choice text should not require duplicate text warning');
+
+  const duplicateChoiceIdCaseDraft = buildCleanDraft();
+  duplicateChoiceIdCaseDraft.items[0].choices = [
+    { id: ' A ', text: 'Lựa chọn 1' },
+    { id: 'a', text: 'Lựa chọn 2' },
+    { id: 'B', text: 'Lựa chọn 3' }
+  ];
+  assertHasCode(reviewQuizDraftQuality(duplicateChoiceIdCaseDraft), 'duplicate_choice_ids', 'duplicate choice ids should be compared after trim/case normalization');
+
   const answerMismatchDraft = buildCleanDraft();
   answerMismatchDraft.items[0].correctAnswer = 'Z';
   const mismatchReview = reviewQuizDraftQuality(answerMismatchDraft);

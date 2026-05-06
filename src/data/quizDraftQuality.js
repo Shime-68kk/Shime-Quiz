@@ -71,6 +71,11 @@ function getChoiceId(choice, index) {
   return cleanString(choice.id) || String(index + 1);
 }
 
+function getExplicitChoiceId(choice) {
+  if (!choice || typeof choice !== 'object' || Array.isArray(choice)) return '';
+  return cleanString(choice.id);
+}
+
 function getValidChoices(choices) {
   return asArray(choices)
     .map((choice, index) => {
@@ -183,6 +188,23 @@ export function reviewQuizItemQuality(item, context = {}) {
       warnings.push(createWarning({
         code: 'duplicate_choices',
         message: 'Một số lựa chọn trắc nghiệm bị trùng nội dung.',
+        itemId,
+        itemIndex,
+        path: `${pathPrefix}.choices`
+      }));
+    }
+
+    const explicitChoiceIdCounts = asArray(item?.choices).reduce((counts, choice) => {
+      const id = normalizeComparableText(getExplicitChoiceId(choice));
+      if (!id) return counts;
+      counts.set(id, (counts.get(id) || 0) + 1);
+      return counts;
+    }, new Map());
+
+    if ([...explicitChoiceIdCounts.values()].some(count => count > 1)) {
+      warnings.push(createWarning({
+        code: 'duplicate_choice_ids',
+        message: 'Phát hiện mã lựa chọn bị trùng. Hãy kiểm tra lại các đáp án để tránh nhầm lẫn khi chấm câu hỏi.',
         itemId,
         itemIndex,
         path: `${pathPrefix}.choices`
