@@ -56,6 +56,12 @@ jobs:
       - name: Validate backup restore recovery
         run: node scripts/validate-backup-restore-recovery.js
 
+      - name: Validate text quiz parser
+        run: node scripts/validate-text-quiz-parser.js
+
+      - name: Validate text file import
+        run: node scripts/validate-text-file-import.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
