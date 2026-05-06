@@ -319,3 +319,11 @@ Lighthouse has not been certified by this phase unless a report is attached for 
 Phase 7B adds a local `.txt` / `.md` file upload path in the Library page. The browser reads the selected text file locally, reuses the Phase 7A `textQuizParser`, and sends the generated draft through the existing import validation and preview flow before the user saves anything.
 
 This does not add PDF, Word/DOCX, PPTX, ZIP, OCR, AI quiz generation, backend services, authentication, cloud sync, or schema changes. JSON/CSV import and paste-based text/Markdown draft import remain available.
+
+## Phase 7D — Minimal EduGen PDF-to-draft integration
+
+Phase 7D adds a minimal Shime PDF-to-draft path through the standalone EduGen File Processor. Shime sends a selected PDF to EduGen `POST /api/extract/single`, consumes only `extraction.cleanedText`, then reuses the existing `parseTextQuizDraft` parser and import validation/preview flow. The user must review the generated draft and explicitly confirm save; there is no auto-save after extraction.
+
+EduGen remains a separate service. Shime does not copy EduGen source code and does not directly import EduGen JSON as library data.
+
+This phase is PDF-only inside Shime. It does not add DOCX, PPTX, ZIP, OCR, AI quiz generation, backend/auth/cloud sync, storage schema changes, backup schema changes, scoring changes, spaced repetition changes, mastery changes, or weighted-selection changes.
