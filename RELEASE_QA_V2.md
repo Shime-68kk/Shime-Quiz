@@ -337,3 +337,12 @@ This phase is PDF-only inside Shime. It does not add DOCX, PPTX, ZIP, OCR, AI qu
 - There is no auto-save after extraction.
 - Legacy `.doc` and `.ppt` files are not supported.
 - This does not add OCR, AI quiz generation, backend/auth/cloud sync, schema/storage changes, scoring/SRT/mastery changes, or production security certification.
+
+### Phase 7F — Quiz draft quality review
+
+- Adds advisory quality review warnings for draft imports before saving.
+- Covers generated/imported drafts from text/Markdown, local text files, EduGen document extraction, and the shared import preview path.
+- Warnings help users notice duplicate choices, missing answers, short prompts, default subject/topic names, and very small drafts.
+- Existing import validation remains the hard blocking layer; quality warnings do not guarantee automatic high-quality quiz generation.
+- No AI, OCR, schema/storage/scoring/SRT/mastery, backend/auth/cloud sync, or auto-save changes were added.
+- Users should still review draft questions before saving.
