@@ -10,7 +10,7 @@ import V2BackupRestorePanel from '../components/learning/V2BackupRestorePanel.js
 import { parseCsvImport } from '../data/csvImportParser.js';
 import { parseLearningDataJson } from '../data/importValidator.js';
 import { isSupportedTextQuizFileName, parseTextQuizDraft } from '../data/textQuizParser.js';
-import { extractSingleFile, getFileProcessorBaseUrl, isSupportedPdfFileName } from '../services/fileProcessorClient.js';
+import { extractSingleFile, getFileProcessorBaseUrl, isSupportedEduGenDocumentFileName } from '../services/fileProcessorClient.js';
 import { createLibraryBackupFileName, createLibraryExportPayload, downloadJsonFile } from '../data/libraryExport.js';
 import { resetLearningDataToMock, setLearningData, useLearningDataAdapter, useLearningDataSource, useLearningDataSummary } from '../data/learningDataStore.js';
 import { selectWeightedPracticeItems } from '../learning/weightedPracticeSelector.js';
@@ -73,8 +73,8 @@ function ImportPreview({ preview, fileName, onConfirm, onCancel }) {
     ? 'CSV'
     : preview.format === 'text'
       ? 'Văn bản'
-      : preview.format === 'pdf'
-        ? 'PDF qua EduGen'
+      : preview.format === 'document'
+        ? 'Tài liệu qua EduGen'
         : 'JSON';
 
   return (
@@ -158,7 +158,7 @@ export default function Library() {
   const summary = useLearningDataSummary();
   const fileInputRef = useRef(null);
   const textFileInputRef = useRef(null);
-  const pdfFileInputRef = useRef(null);
+  const documentFileInputRef = useRef(null);
   const [preview, setPreview] = useState(null);
   const [importStatus, setImportStatus] = useState(null);
   const [isReadingFile, setIsReadingFile] = useState(false);
@@ -166,7 +166,7 @@ export default function Library() {
   const [textDraft, setTextDraft] = useState('');
   const [isParsingText, setIsParsingText] = useState(false);
   const [isReadingTextFile, setIsReadingTextFile] = useState(false);
-  const [isExtractingPdf, setIsExtractingPdf] = useState(false);
+  const [isExtractingDocument, setIsExtractingDocument] = useState(false);
   const subjectCards = buildSubjectCards(adapter);
   const sourceLabel = dataSource.sourceType === 'mock'
     ? 'Dữ liệu mẫu'
@@ -237,8 +237,8 @@ export default function Library() {
     textFileInputRef.current?.click();
   }
 
-  function openPdfFilePicker() {
-    pdfFileInputRef.current?.click();
+  function openDocumentFilePicker() {
+    documentFileInputRef.current?.click();
   }
 
   function resetPreview() {
@@ -246,7 +246,7 @@ export default function Library() {
     setImportStatus(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
     if (textFileInputRef.current) textFileInputRef.current.value = '';
-    if (pdfFileInputRef.current) pdfFileInputRef.current.value = '';
+    if (documentFileInputRef.current) documentFileInputRef.current.value = '';
   }
 
   function resetTextDraftPreview() {
@@ -344,20 +344,20 @@ export default function Library() {
   }
 
 
-  async function handlePdfDraftFile(event) {
+  async function handleDocumentDraftFile(event) {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    setIsExtractingPdf(true);
+    setIsExtractingDocument(true);
     setImportStatus(null);
 
     try {
-      if (!isSupportedPdfFileName(file.name)) {
+      if (!isSupportedEduGenDocumentFileName(file.name)) {
         setPreview(null);
         setImportStatus({
           tone: 'danger',
           title: 'Định dạng file chưa hỗ trợ',
-          description: 'Chỉ hỗ trợ file PDF trong bước này.'
+          description: 'Chỉ hỗ trợ file PDF, DOCX, PPTX hoặc ZIP trong bước này.'
         });
         return;
       }
@@ -368,15 +368,15 @@ export default function Library() {
         setPreview(null);
         setImportStatus({
           tone: 'danger',
-          title: isConnectionError ? 'Không kết nối được EduGen' : 'Không trích xuất được PDF',
-          description: extractionResult.message || 'Không trích xuất được nội dung PDF.'
+          title: isConnectionError ? 'Không kết nối được EduGen' : 'Không trích xuất được tài liệu',
+          description: extractionResult.message || 'Không trích xuất được nội dung tài liệu.'
         });
         return;
       }
 
       const sourceMetadata = {
         originalName: extractionResult.file.originalName || file.name,
-        fileType: extractionResult.file.fileType || 'pdf',
+        fileType: extractionResult.file.fileType || file.name.split('.').pop()?.toLowerCase() || '',
         wordCount: extractionResult.extraction.wordCount,
         lineCount: extractionResult.extraction.lineCount,
         charCount: extractionResult.extraction.charCount,
@@ -384,21 +384,21 @@ export default function Library() {
       };
 
       createTextDraftPreview(extractionResult.cleanedText, file.name, {
-        format: 'pdf',
-        successTitle: 'Đã trích xuất PDF',
-        successDescription: 'Đã trích xuất PDF. Hãy xem lại bản nháp trước khi lưu.',
+        format: 'document',
+        successTitle: 'Đã trích xuất tài liệu',
+        successDescription: 'Đã trích xuất tài liệu. Hãy xem lại bản nháp trước khi lưu.',
         sourceMetadata
       });
     } catch (error) {
       setPreview(null);
       setImportStatus({
         tone: 'danger',
-        title: 'Không trích xuất được PDF',
-        description: error.message || 'Không trích xuất được nội dung PDF.'
+        title: 'Không trích xuất được tài liệu',
+        description: error.message || 'Không trích xuất được nội dung tài liệu.'
       });
     } finally {
-      setIsExtractingPdf(false);
-      if (pdfFileInputRef.current) pdfFileInputRef.current.value = '';
+      setIsExtractingDocument(false);
+      if (documentFileInputRef.current) documentFileInputRef.current.value = '';
     }
   }
 
@@ -466,7 +466,7 @@ export default function Library() {
     setPreview(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
     if (textFileInputRef.current) textFileInputRef.current.value = '';
-    if (pdfFileInputRef.current) pdfFileInputRef.current.value = '';
+    if (documentFileInputRef.current) documentFileInputRef.current.value = '';
   }
 
 
@@ -558,12 +558,12 @@ export default function Library() {
       />
 
       <input
-        ref={pdfFileInputRef}
+        ref={documentFileInputRef}
         type="file"
-        accept=".pdf,application/pdf"
+        accept=".pdf,.docx,.pptx,.zip,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/zip"
         className="srOnly"
-        onChange={handlePdfDraftFile}
-        aria-label="Chọn file PDF để tạo bản nháp câu hỏi qua EduGen"
+        onChange={handleDocumentDraftFile}
+        aria-label="Chọn file PDF, DOCX, PPTX hoặc ZIP để tạo bản nháp câu hỏi qua EduGen"
       />
 
       <Card title="Tạo quiz từ văn bản/Markdown" eyebrow="Bản nháp thân thiện" className="textImportCard">
@@ -620,17 +620,17 @@ B. TCP/IP
         </div>
       </Card>
 
-      <Card title="Tạo quiz từ PDF" eyebrow="EduGen" className="pdfImportCard">
+      <Card title="Tạo quiz từ tài liệu" eyebrow="EduGen" className="documentImportCard">
         <div className="textImportCard__intro">
           <p className="muted">
-            Chọn file PDF để trích xuất chữ bằng EduGen rồi tạo bản nháp câu hỏi. Cần chạy EduGen File Processor trước khi dùng tính năng này. Mặc định dùng <code>VITE_FILE_PROCESSOR_URL</code> hoặc <code>{getFileProcessorBaseUrl()}</code>.
+            Chọn file PDF, DOCX, PPTX hoặc ZIP để trích xuất chữ bằng EduGen rồi tạo bản nháp câu hỏi. Cần chạy EduGen File Processor trước khi dùng tính năng này. Mặc định dùng <code>VITE_FILE_PROCESSOR_URL</code> hoặc <code>{getFileProcessorBaseUrl()}</code>.
           </p>
         </div>
         <div className="textFileImportActions">
-          <Button type="button" variant="secondary" loading={isExtractingPdf} onClick={openPdfFilePicker}>
-            Chọn file PDF
+          <Button type="button" variant="secondary" loading={isExtractingDocument} onClick={openDocumentFilePicker}>
+            Chọn file tài liệu
           </Button>
-          <span className="muted">EduGen chỉ trích xuất chữ; bản nháp vẫn đi qua kiểm tra và xem trước trước khi lưu.</span>
+          <span className="muted">EduGen chỉ trích xuất chữ từ PDF, DOCX, PPTX hoặc ZIP; bản nháp vẫn đi qua kiểm tra và xem trước trước khi lưu.</span>
         </div>
       </Card>
 

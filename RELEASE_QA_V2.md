@@ -327,3 +327,13 @@ Phase 7D adds a minimal Shime PDF-to-draft path through the standalone EduGen Fi
 EduGen remains a separate service. Shime does not copy EduGen source code and does not directly import EduGen JSON as library data.
 
 This phase is PDF-only inside Shime. It does not add DOCX, PPTX, ZIP, OCR, AI quiz generation, backend/auth/cloud sync, storage schema changes, backup schema changes, scoring changes, spaced repetition changes, mastery changes, or weighted-selection changes.
+
+
+## Phase 7E — EduGen document-to-draft import
+
+- Phase 7E expands the EduGen draft import path in Shime to PDF, DOCX, PPTX, and ZIP files.
+- EduGen remains a separate service; Shime sends the selected file to `POST /api/extract/single` and consumes only `extraction.cleanedText`.
+- Generated drafts still go through the existing `parseTextQuizDraft` parser, import validation, and preview before the user confirms save.
+- There is no auto-save after extraction.
+- Legacy `.doc` and `.ppt` files are not supported.
+- This does not add OCR, AI quiz generation, backend/auth/cloud sync, schema/storage changes, scoring/SRT/mastery changes, or production security certification.
