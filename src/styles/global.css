@@ -2702,14 +2702,17 @@ code {
 
 /* Phase 7A text/Markdown draft import */
 .textImportCard,
+.textFileImportCard,
 .textImportCard__intro,
 .textImportField,
 .textImportHelp,
-.textImportActions {
+.textImportActions,
+.textFileImportActions {
   min-width: 0;
 }
 
-.textImportCard .card__body {
+.textImportCard .card__body,
+.textFileImportCard .card__body {
   display: grid;
   gap: var(--space-4);
 }
@@ -2742,14 +2745,22 @@ code {
 }
 
 .textImportHelp,
-.textImportActions {
+.textImportActions,
+.textFileImportActions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: var(--space-3);
 }
 
+.textFileImportActions .muted {
+  flex: 1;
+  min-width: min(240px, 100%);
+}
+
 @media (max-width: 720px) {
-  .textImportActions .button {
+  .textImportActions .button,
+  .textFileImportActions .button {
     width: 100%;
   }
 }
