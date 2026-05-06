@@ -59,3 +59,8 @@ EduGen CORS should allow Shime local preview/dev origins such as:
 - backend accounts/auth/cloud sync
 - schema/storage/scoring/SRT/mastery changes
 - production hosted/security certification
+
+
+## Phase 7E follow-up
+
+Phase 7E keeps the PDF flow above and expands the same EduGen boundary to DOCX, PPTX, and ZIP in Shime. Shime still consumes only `extraction.cleanedText`, still shows a draft preview before save, and still does not add OCR or AI quiz generation.

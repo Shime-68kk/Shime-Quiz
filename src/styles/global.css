@@ -2703,7 +2703,7 @@ code {
 /* Phase 7A text/Markdown draft import */
 .textImportCard,
 .textFileImportCard,
-.pdfImportCard,
+.documentImportCard,
 .textImportCard__intro,
 .textImportField,
 .textImportHelp,
@@ -2715,7 +2715,7 @@ code {
 
 .textImportCard .card__body,
 .textFileImportCard .card__body,
-.pdfImportCard .card__body {
+.documentImportCard .card__body {
   display: grid;
   gap: var(--space-4);
 }
