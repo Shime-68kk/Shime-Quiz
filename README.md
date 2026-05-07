@@ -1,6 +1,6 @@
 # ShimeChamhoc v2
 
-ShimeChamhoc v2 is a React/Vite, local-first learning app for multi-subject study. It supports importing learning data, studying in a focused Study Room, tracking local progress, reviewing due items, and backing up local v2 learning state.
+ShimeChamhoc v2 is a React/Vite, local-first learning app for multi-subject study. It helps learners turn local study content into reviewed quiz drafts, focused Study Room sessions, and browser-based progress tracking without claiming cloud-backed or production-certified status.
 
 Current beta label: **v2.0.0-beta-ai.1**
 
@@ -15,6 +15,15 @@ Release status: **release candidate with Phase 8H Ubuntu manual smoke passed**. 
 Current supported import paths include JSON/CSV import, paste text/Markdown draft import, local `.txt`/`.md` draft import, and PDF/DOCX/PPTX/ZIP draft import through a separately configured EduGen service. EduGen is not bundled into Shime; hosted or frontend-only deployments need a browser-reachable `VITE_FILE_PROCESSOR_URL` for document import.
 
 AI-related support is manual only: Shime can help users export a prompt and review pasted AI output, but it does not provide built-in AI quiz generation, external AI/API calls, API key/BYOK support, OCR, backend accounts, authentication, or cloud sync.
+
+
+## Suggested demo flow
+
+For a launch or reviewer walkthrough, use the demo order in [`docs/demo-script.md`](docs/demo-script.md): Dashboard, Library, import, advisory draft quality review, Study Room, today-plan completion guard, manual AI prompt/export, and the EduGen document import caveat.
+
+## Screenshots to capture
+
+For README or public documentation screenshots, use [`docs/screenshot-checklist.md`](docs/screenshot-checklist.md). The checklist highlights recommended Dashboard, Library, import preview, quality review, Study Room, manual AI, EduGen, and release-doc link screenshots while avoiding unsupported AI/OCR/API/cloud implications.
 
 ## What is included in v2
 
