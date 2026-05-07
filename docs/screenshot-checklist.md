@@ -2,6 +2,11 @@
 
 Use this checklist when preparing README, public release, or demo screenshots. Screenshots should show real release-candidate workflows without implying unsupported AI, OCR, API-key, backend, cloud, or hosted production/security certification features.
 
+
+## Demo sample pack
+
+Use [`docs/demo-samples/README.md`](demo-samples/README.md) when preparing screenshot data. The sample pack provides synthetic JSON, CSV, text/Markdown, and manual AI paste-back examples so public screenshots do not need private or copyrighted content.
+
 ## Recommended screenshots
 
 ### 1. Dashboard overview

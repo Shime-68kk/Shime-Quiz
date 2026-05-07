@@ -440,3 +440,11 @@ This phase is PDF-only inside Shime. It does not add DOCX, PPTX, ZIP, OCR, AI qu
 - No runtime app behavior, user-facing app feature, import/parser, EduGen source, AI/API/BYOK/OCR/backend, schema/storage/scoring/SRT/mastery, package version, or dependency changes were added.
 - Release claims remain constrained: no built-in AI generation, no external AI/API integration, no API key/BYOK support, no OCR, no backend/auth/cloud sync, no hosted production/security certification, and EduGen is not bundled into Shime.
 
+## Phase 8K — Public demo sample pack / import fixture polish
+
+- Phase 8K is documentation/demo-sample/fixture-readiness only and does not change runtime app behavior.
+- Adds `docs/demo-samples/README.md` plus sample JSON, CSV, text/Markdown, and manual AI output files for public demos, reviewer checks, and screenshot preparation.
+- Updates README, public release notes, demo script, and screenshot checklist with links to the public demo sample pack.
+- Adds `scripts/validate-demo-sample-pack.js` to verify sample files, docs links, Phase 8K QA notes, package version stability, claim guardrails, and practical parse/import compatibility where current helper modules can be safely invoked.
+- Registers `node scripts/validate-demo-sample-pack.js` in `.github/workflows/e2e-smoke.yml` while preserving existing validators and Playwright E2E smoke behavior.
+- No runtime app behavior changes, user-facing feature changes, import/parser changes, EduGen source changes, AI/API/BYOK/OCR/backend changes, schema/storage/scoring/SRT/mastery changes, package version changes, or dependency changes were made.

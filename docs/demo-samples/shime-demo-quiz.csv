@@ -1,0 +1,4 @@
+subject,topic,type,prompt,choices,correctAnswer,answer,explanation,difficulty,source
+Kỹ năng học tập,Ôn tập chủ động,multiple_choice,"Khi demo import, bước nào nên xảy ra trước khi lưu nội dung vào thư viện?","Preview bản nháp|Bỏ qua kiểm tra|Tự động lưu không hỏi|Tắt cảnh báo",Preview bản nháp,,"Shime dùng preview và xác nhận lưu để người dùng kiểm tra nội dung trước khi thêm vào thư viện.",cơ bản,public-demo-sample
+Kỹ năng học tập,Ôn tập chủ động,multiple_choice,"Trong bản demo công khai, nên dùng loại nội dung nào?","Nội dung tổng hợp an toàn|Đề thi có bản quyền|Thông tin cá nhân|Dữ liệu nhạy cảm",Nội dung tổng hợp an toàn,,"Nội dung mẫu nên trung lập, giáo dục và không chứa dữ liệu nhạy cảm hoặc tài liệu có bản quyền.",cơ bản,public-demo-sample
+Kỹ năng học tập,Ôn tập chủ động,short_answer,"Shime lưu dữ liệu học tập chính ở đâu trong bản hiện tại?",,local browser,local browser,"Shime là local-first trong bản release-candidate hiện tại.",cơ bản,public-demo-sample
