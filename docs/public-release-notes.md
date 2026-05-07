@@ -61,15 +61,15 @@ This is not a hosted production security certification. Local browser storage, i
 
 The current release candidate does not include:
 
-- Built-in AI quiz generation.
-- External AI/API integration from Shime.
-- API key support or BYOK support.
-- OCR support.
-- Backend accounts, authentication, cloud sync, or cross-device sync.
-- Hosted production/security certification.
-- EduGen bundled into the Shime frontend.
-- Frontend-only PDF/DOCX/PPTX/ZIP import without a browser-reachable EduGen service.
-- Legacy `.doc` or `.ppt` import support.
+- Does not include built-in AI quiz generation.
+- Does not include external AI/API integration from Shime.
+- Does not include API key support or BYOK support.
+- Does not include OCR support.
+- Does not include backend accounts, authentication, cloud sync, or cross-device sync.
+- Does not include hosted production/security certification.
+- Does not include EduGen bundled into the Shime frontend.
+- Does not include frontend-only PDF/DOCX/PPTX/ZIP import without a browser-reachable EduGen service.
+- Does not include legacy `.doc` or `.ppt` import support.
 - Guaranteed correctness, privacy, or quality for content produced by external AI tools.
 
 ## Honest deployment notes
@@ -88,6 +88,10 @@ For the most complete RC experience:
 4. Set `VITE_FILE_PROCESSOR_URL` for environments that need PDF/DOCX/PPTX/ZIP import.
 5. Review every imported or AI-assisted draft in the preview and advisory quality review before saving.
 6. Avoid claiming production security certification, OCR, built-in AI generation, API-key/BYOK support, backend accounts, or cloud sync for this release candidate.
+
+## Demo and screenshot planning
+
+For public walkthroughs and reviewer demos, see [`docs/demo-script.md`](demo-script.md). For README/public documentation capture planning, see [`docs/screenshot-checklist.md`](screenshot-checklist.md). Both documents preserve the current release-candidate boundaries around manual AI workflows, separate EduGen document import, no OCR, no backend/cloud sync, and no hosted production or security certification claims.
 
 ## Final RC smoke status
 

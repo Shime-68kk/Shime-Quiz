@@ -98,6 +98,9 @@ jobs:
       - name: Validate public release docs
         run: node scripts/validate-public-release-docs.js
 
+      - name: Validate demo readiness docs
+        run: node scripts/validate-demo-readiness-docs.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

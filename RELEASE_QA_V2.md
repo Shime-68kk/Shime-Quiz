@@ -429,3 +429,14 @@ This phase is PDF-only inside Shime. It does not add DOCX, PPTX, ZIP, OCR, AI qu
 - No runtime app behavior, user-facing app feature, import/parser, EduGen source, AI/API/BYOK/OCR/backend, schema/storage/scoring/SRT/mastery, package version, or dependency changes were added.
 - Release claims remain constrained: no built-in AI generation, no external AI/API integration, no API key/BYOK support, no OCR, no backend/auth/cloud sync, no hosted production/security certification, and EduGen is not bundled into Shime.
 
+## Phase 8J — Landing / public README polish and demo script
+
+- Phase 8J is documentation/launch-readiness only and does not change runtime app behavior.
+- Adds `docs/demo-script.md` with a 60-second pitch, 3-minute guided demo flow, honest manual AI positioning, honest EduGen positioning, demo fallback guidance, and demo forbidden-claims guidance.
+- Adds `docs/screenshot-checklist.md` with recommended README/public documentation screenshots and warnings against implying unsupported AI/OCR/API/cloud/backend/security-certified capabilities.
+- Updates `README.md` conservatively with a tagline-style summary, suggested demo flow link, and screenshot checklist link while preserving public release and deployment readiness links.
+- Updates `docs/public-release-notes.md` with links to the demo script and screenshot checklist.
+- Adds `scripts/validate-demo-readiness-docs.js` and CI coverage for launch/readiness documentation claim guardrails.
+- No runtime app behavior, user-facing app feature, import/parser, EduGen source, AI/API/BYOK/OCR/backend, schema/storage/scoring/SRT/mastery, package version, or dependency changes were added.
+- Release claims remain constrained: no built-in AI generation, no external AI/API integration, no API key/BYOK support, no OCR, no backend/auth/cloud sync, no hosted production/security certification, and EduGen is not bundled into Shime.
+
