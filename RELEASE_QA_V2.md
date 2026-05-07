@@ -354,3 +354,11 @@ This phase is PDF-only inside Shime. It does not add DOCX, PPTX, ZIP, OCR, AI qu
 - EduGen remains a separate service. Shime requires a reachable `VITE_FILE_PROCESSOR_URL` for document extraction, especially from hosted deployments.
 - The manual smoke checklist for import readiness is documented in `docs/import-readiness-checklist.md`.
 - This phase does not add OCR, AI quiz generation, backend/auth/cloud sync, schema/storage/scoring/SRT/mastery changes, auto-save, or automatic correction/fixing.
+
+### Phase 8A — AI quiz draft generation planning and safety contract
+
+- Phase 8A is planning/spec only. It does not add working AI generation, API keys, backend calls, external provider calls, OCR, schema/storage changes, or auto-save.
+- The planning docs are `docs/ai-quiz-draft-generation-plan.md` and `docs/ai-safety-and-privacy-contract.md`.
+- Any future AI draft flow must require explicit user action before sending content to an AI provider, disclose privacy implications, and keep preview-before-save.
+- Future AI output must still be normalized into the existing flat v2 draft shape, pass import validation, and show advisory quality review before the user confirms save.
+- Do not claim Shime supports AI quiz generation until a later implementation phase is explicitly built, reviewed, tested, and merged.
