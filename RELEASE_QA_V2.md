@@ -372,3 +372,12 @@ This phase is PDF-only inside Shime. It does not add DOCX, PPTX, ZIP, OCR, AI qu
 - AI results still go through existing parsing, import validation, advisory quality review, preview, and user-confirm-save.
 - This phase does not add working built-in AI quiz generation, OCR, schema/storage changes, scoring/SRT/mastery changes, auto-import, or auto-save.
 - User-facing privacy warning remains required because copied content may leave the user's device when pasted into an external AI tool.
+
+
+### Phase 8C — Manual AI output import hardening
+
+- Adds advisory checks for manual AI paste-back output before users run the existing text/Markdown import flow.
+- Flags common formatting issues such as JSON-like AI output, extra commentary, missing answer markers, missing choice labels, Markdown tables, and weak parse signals.
+- Preserves the existing flow: parseTextQuizDraft -> import validation -> advisory quality review -> preview -> user confirms save.
+- does not add built-in AI generation, external AI/API calls, API key handling, BYOK, backend/auth/cloud sync, OCR, auto-import, or auto-save.
+- does not guarantee AI correctness, privacy, or automatic high-quality quiz generation; users must still verify AI output before saving.

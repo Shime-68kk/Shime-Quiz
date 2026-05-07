@@ -8,6 +8,7 @@ import PageHeader from '../components/PageHeader.jsx';
 import Toast from '../components/Toast.jsx';
 import V2BackupRestorePanel from '../components/learning/V2BackupRestorePanel.jsx';
 import { buildManualAiQuizPrompt, getManualAiPromptWarnings } from '../data/aiPromptBuilder.js';
+import { reviewManualAiOutputText } from '../data/aiOutputReview.js';
 import { parseCsvImport } from '../data/csvImportParser.js';
 import { parseLearningDataJson } from '../data/importValidator.js';
 import { reviewQuizDraftQuality } from '../data/quizDraftQuality.js';
@@ -70,6 +71,36 @@ const qualityToneByLevel = {
   warning: 'warning',
   info: 'info'
 };
+
+function AiOutputReviewPanel({ review }) {
+  if (!review) return null;
+
+  const warnings = review.warnings || [];
+
+  return (
+    <div className="aiOutputReview" aria-label="Kiểm tra kết quả AI thủ công">
+      <div>
+        <strong>Kiểm tra kết quả AI thủ công</strong>
+        <p className="muted">Shime chỉ kiểm tra định dạng và chất lượng cơ bản. Bạn vẫn cần tự kiểm chứng nội dung.</p>
+      </div>
+      {warnings.length ? (
+        <ul className="aiOutputReview__list">
+          {warnings.slice(0, 8).map((warning, index) => (
+            <li key={`${warning.code}-${index}`} className={`aiOutputReview__item aiOutputReview__item--${qualityToneByLevel[warning.level] || 'warning'}`}>
+              <Badge tone={qualityToneByLevel[warning.level] || 'warning'}>
+                {warning.level === 'info' ? 'Gợi ý' : warning.level === 'error' ? 'Cần xem lại' : 'Cảnh báo'}
+              </Badge>
+              <span>{warning.message}</span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="muted">Không thấy vấn đề định dạng AI phổ biến. Hãy tiếp tục xem trước, kiểm tra chất lượng và xác nhận lưu nếu nội dung phù hợp.</p>
+      )}
+      <p className="muted">Nếu AI trả JSON hoặc thêm lời bình, hãy yêu cầu AI trả lại đúng định dạng văn bản/Markdown của Shime. Nếu AI trả bảng, hãy chuyển bảng thành câu hỏi rõ ràng.</p>
+    </div>
+  );
+}
 
 function QualityReviewPanel({ review }) {
   if (!review) return null;
@@ -232,6 +263,7 @@ export default function Library() {
   });
   const [aiPromptResult, setAiPromptResult] = useState(null);
   const [aiPromptStatus, setAiPromptStatus] = useState(null);
+  const [aiOutputReview, setAiOutputReview] = useState(null);
   const subjectCards = buildSubjectCards(adapter);
   const sourceLabel = dataSource.sourceType === 'mock'
     ? 'Dữ liệu mẫu'
@@ -316,7 +348,20 @@ export default function Library() {
 
   function resetTextDraftPreview() {
     setTextDraft('');
+    setAiOutputReview(null);
     resetPreview();
+  }
+
+  function reviewManualAiPasteBack() {
+    const review = reviewManualAiOutputText(textDraft);
+    setAiOutputReview(review);
+    setImportStatus({
+      tone: review.summary.errorCount ? 'warning' : review.summary.warningCount ? 'warning' : 'success',
+      title: 'Đã kiểm tra kết quả AI thủ công',
+      description: review.summary.warningCount
+        ? 'Hãy xem các gợi ý định dạng trước khi tạo bản nháp import.'
+        : 'Chưa thấy vấn đề định dạng AI phổ biến. Bạn vẫn cần tự kiểm chứng nội dung trước khi lưu.'
+    });
   }
 
   function createTextDraftPreview(sourceText, sourceName, options = {}) {
@@ -352,6 +397,7 @@ export default function Library() {
     setImportStatus(null);
 
     try {
+      setAiOutputReview(reviewManualAiOutputText(textDraft));
       createTextDraftPreview(textDraft, 'Nội dung đã dán');
     } catch (error) {
       setPreview(null);
@@ -802,7 +848,10 @@ export default function Library() {
           <textarea
             id="text-quiz-draft-input"
             value={textDraft}
-            onChange={event => setTextDraft(event.target.value)}
+            onChange={event => {
+              setTextDraft(event.target.value);
+              setAiOutputReview(null);
+            }}
             placeholder={`Môn: Mạng máy tính
 Chủ đề: OSI
 
@@ -823,12 +872,20 @@ B. TCP/IP
           <Button type="button" loading={isParsingText} onClick={parseTextDraft} disabled={!textDraft.trim()}>
             Tạo bản nháp câu hỏi
           </Button>
+          <Button type="button" variant="secondary" onClick={reviewManualAiPasteBack} disabled={!textDraft.trim()}>
+            Kiểm tra kết quả AI thủ công
+          </Button>
           {textDraft.trim() ? (
             <Button type="button" variant="ghost" onClick={resetTextDraftPreview}>
               Xóa nội dung dán
             </Button>
           ) : null}
         </div>
+        <div className="manualAiPasteBackHint" role="note">
+          <strong>Dán kết quả AI thủ công?</strong>
+          <span>Shime không tự gọi AI. Nếu bạn dán kết quả từ công cụ AI bên ngoài, hãy kiểm tra định dạng, tạo bản nháp, xem cảnh báo chất lượng rồi mới lưu.</span>
+        </div>
+        <AiOutputReviewPanel review={aiOutputReview} />
       </Card>
 
       <Card title="Tạo quiz từ file văn bản/Markdown" eyebrow="File cục bộ" className="textFileImportCard">
