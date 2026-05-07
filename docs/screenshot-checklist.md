@@ -2,6 +2,8 @@
 
 Use this checklist when preparing README, public release, or demo screenshots. Screenshots should show real release-candidate workflows without implying unsupported AI, OCR, API-key, backend, cloud, or hosted production/security certification features.
 
+For recommended screenshot filenames, image folder path, and alt text, see [`docs/visual-asset-guidance.md`](visual-asset-guidance.md).
+
 
 ## Demo sample pack
 

@@ -448,3 +448,13 @@ This phase is PDF-only inside Shime. It does not add DOCX, PPTX, ZIP, OCR, AI qu
 - Adds `scripts/validate-demo-sample-pack.js` to verify sample files, docs links, Phase 8K QA notes, package version stability, claim guardrails, and practical parse/import compatibility where current helper modules can be safely invoked.
 - Registers `node scripts/validate-demo-sample-pack.js` in `.github/workflows/e2e-smoke.yml` while preserving existing validators and Playwright E2E smoke behavior.
 - No runtime app behavior changes, user-facing feature changes, import/parser changes, EduGen source changes, AI/API/BYOK/OCR/backend changes, schema/storage/scoring/SRT/mastery changes, package version changes, or dependency changes were made.
+
+## Phase 8M — README screenshots placeholder / visual asset guidance
+
+- Phase 8M is documentation/visual-asset/readiness only and does not change runtime app behavior.
+- Adds `docs/visual-asset-guidance.md` with recommended screenshot filenames, recommended `docs/assets/screenshots/` path, alt text, demo sample pack usage guidance, EduGen visual boundary guidance, and unsupported-claim guardrails.
+- Updates README with a conservative screenshots/demo assets section linking the screenshot checklist, visual asset guidance, and demo sample pack.
+- Updates screenshot checklist, demo script, and public release notes with links to the visual asset guidance.
+- No actual screenshot/image assets are added in this phase.
+- Adds `scripts/validate-visual-asset-guidance.js` and CI coverage for visual asset documentation claim guardrails.
+- No runtime app behavior changes, user-facing feature changes, import/parser changes, EduGen source changes, AI/API/BYOK/OCR/backend changes, schema/storage/scoring/SRT/mastery changes, package version changes, or dependency changes were made.

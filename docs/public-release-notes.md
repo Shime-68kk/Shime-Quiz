@@ -91,7 +91,7 @@ For the most complete RC experience:
 
 ## Demo and screenshot planning
 
-For public walkthroughs and reviewer demos, see [`docs/demo-script.md`](demo-script.md). For README/public documentation capture planning, see [`docs/screenshot-checklist.md`](screenshot-checklist.md). Both documents preserve the current release-candidate boundaries around manual AI workflows, separate EduGen document import, no OCR, no backend/cloud sync, and no hosted production or security certification claims.
+For public walkthroughs and reviewer demos, see [`docs/demo-script.md`](demo-script.md). For README/public documentation capture planning, see [`docs/screenshot-checklist.md`](screenshot-checklist.md) and [`docs/visual-asset-guidance.md`](visual-asset-guidance.md). These documents preserve the current release-candidate boundaries around manual AI workflows, separate EduGen document import, no OCR, no backend/cloud sync, and no hosted production or security certification claims.
 
 
 ## Public demo samples
