@@ -408,3 +408,13 @@ This phase is PDF-only inside Shime. It does not add DOCX, PPTX, ZIP, OCR, AI qu
 - Incomplete plan items can still be marked complete, and the existing local study-plan progress storage shape is preserved.
 - Added `scripts/validate-dashboard-plan-completion-guard.js` and CI coverage for the regression.
 - Scope remains dashboard UX/state hardening only: no AI/API/backend/import/EduGen/scoring/SRT/mastery/schema/storage migration changes.
+
+## Phase 8G — Release candidate hardening / status consolidation
+
+- Phase 8G is docs/release-readiness only and does not change runtime app behavior.
+- Adds `docs/release-candidate-status.md` to consolidate current capabilities, validator coverage, allowed/forbidden claims, manual smoke gaps, and deployment caveats.
+- Phase 8F.1 remains **PARTIAL / manual Ubuntu browser smoke still pending** unless a separate real Ubuntu browser test is provided. Do not claim Phase 8F.1 browser smoke passed from this phase.
+- Adds `scripts/validate-release-candidate-status.js` and CI coverage for release-candidate status wording.
+- The validator chain includes all current release validators, including dashboard plan completion guard, AI draft evaluation fixtures, AI integration readiness, manual AI output hardening, import UX readiness, EduGen document integration, and text import validators.
+- Release claims remain constrained: no built-in AI generation, no external AI/API calls, no API key/BYOK support, no OCR, no backend/auth/cloud sync, no hosted production/security certification, and EduGen is not bundled into Shime.
+
