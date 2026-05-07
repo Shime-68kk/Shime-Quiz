@@ -392,3 +392,12 @@ This phase is PDF-only inside Shime. It does not add DOCX, PPTX, ZIP, OCR, AI qu
 - Do not claim Shime supports built-in AI quiz generation, external AI API calls, API keys/BYOK, backend AI generation, or automatic high-quality quiz generation from this phase.
 - no auto-save or auto-import behavior was added.
 
+
+## Phase 8E — AI Draft Evaluation Fixtures / Provider-Output Test Suite
+
+- Adds a static AI draft evaluation fixture suite for future provider-output readiness.
+- This is not built-in AI generation and does not call an AI provider.
+- No API calls, no API keys, no BYOK implementation, and no backend/auth/cloud sync are added.
+- The fixtures exercise good and bad AI-like output through manual AI output review, `parseTextQuizDraft`, import validation, and quiz draft quality review.
+- Existing validation/quality review/preview/user-confirm-save boundaries remain.
+- The suite documents that Shime cannot prove factual correctness, privacy behavior of external AI tools, no hallucination, or perfect quiz quality.
