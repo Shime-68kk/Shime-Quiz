@@ -92,6 +92,9 @@ jobs:
       - name: Validate AI draft evaluation fixtures
         run: node scripts/validate-ai-draft-evaluation-fixtures.js
 
+      - name: Validate release candidate status
+        run: node scripts/validate-release-candidate-status.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
