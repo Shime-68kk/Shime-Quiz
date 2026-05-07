@@ -1,0 +1,98 @@
+# Deployment readiness notes
+
+## Purpose
+
+These notes summarize the current deployment boundaries for the Shime Quiz release candidate. They are intended for release-readiness review and cautious staging/deployment planning, not as a production security certification.
+
+## Local development and preview basics
+
+Use the existing Node/Vite workflow:
+
+```bash
+npm ci
+npm run build
+npm run preview
+```
+
+For day-to-day local development, use:
+
+```bash
+npm run dev
+```
+
+The app is local-first and stores supported study data in the browser. Browser storage limits, user browser settings, extensions, and manual backup practices can affect the user experience.
+
+## Frontend hosting caveat
+
+The Shime frontend can be hosted as a static Vite app for core local-first study workflows. Static hosting alone is enough for app shell access, Dashboard, Library, Study Room, JSON/CSV import, paste text/Markdown import, and local `.txt`/`.md` import.
+
+Static frontend hosting alone is not enough for PDF/DOCX/PPTX/ZIP import. Document import requires the user's browser to reach a separate EduGen service.
+
+## Document import configuration
+
+For document import, configure:
+
+```text
+VITE_FILE_PROCESSOR_URL=<browser-reachable EduGen service URL>
+```
+
+EduGen must be hosted or run separately from Shime. It is not bundled into Shime. The expected document import boundary is:
+
+```text
+PDF/DOCX/PPTX/ZIP file
+-> EduGen extraction service
+-> extraction.cleanedText
+-> Shime text draft parsing
+-> import validation
+-> advisory quality review
+-> preview
+-> user confirms save
+```
+
+If `VITE_FILE_PROCESSOR_URL` is missing, incorrect, blocked by CORS/network policy, or points to a service unavailable from the user's browser, PDF/DOCX/PPTX/ZIP import should be considered unavailable in that deployment.
+
+## Explicit non-goals for this release candidate
+
+This release candidate does not include:
+
+- Backend accounts, authentication, or cloud sync.
+- OCR support.
+- Built-in AI provider integration.
+- External AI/API calls from Shime.
+- API key support or BYOK support.
+- EduGen bundled into the Shime frontend.
+- Hosted production/security certification.
+- Legacy `.doc` or `.ppt` import support.
+
+## Suggested pre-release checklist
+
+Before publishing or widening access:
+
+- Run `npm ci`.
+- Run `npm run build` and confirm it completes successfully.
+- Run the static validator chain, including `node scripts/validate-public-release-docs.js`.
+- Confirm README, public release notes, and deployment readiness notes use only allowed release claims.
+- Confirm no runtime app behavior changed during documentation-only phases.
+- Confirm `VITE_FILE_PROCESSOR_URL` is configured only in environments that should support PDF/DOCX/PPTX/ZIP import.
+- Confirm the target browser can reach EduGen if document import is advertised for that environment.
+- Confirm user-facing copy does not promise OCR, built-in AI generation, external AI/API integration, backend accounts, cloud sync, or production security certification.
+
+## Post-deploy smoke checklist
+
+After deploying or previewing a candidate environment:
+
+- Open the app shell.
+- Open Dashboard.
+- Open Library.
+- Open Study Room.
+- Confirm JSON/CSV import surfaces are visible.
+- Confirm text/Markdown and `.txt`/`.md` import surfaces are visible.
+- If document import is intended, confirm the browser can reach the configured EduGen service through `VITE_FILE_PROCESSOR_URL`.
+- Confirm manual AI prompt/export and manual AI output review surfaces are present, without claiming built-in AI generation.
+- Confirm there is no API key/BYOK field.
+- Confirm Dashboard "Kế hoạch hôm nay" completed items remain complete when clicked again.
+- Refresh and confirm local state remains stable for the tested data.
+
+## Release communication guidance
+
+Use cautious language: release candidate, local-first, browser-local workflows, separate EduGen requirement for document import, manual AI workflow only, and user review before save. Avoid language that implies production certification, server-backed privacy guarantees, OCR, built-in AI generation, external AI/API integration, API-key/BYOK support, backend accounts, or cloud sync.

@@ -418,3 +418,14 @@ This phase is PDF-only inside Shime. It does not add DOCX, PPTX, ZIP, OCR, AI qu
 - The validator chain includes all current release validators, including dashboard plan completion guard, AI draft evaluation fixtures, AI integration readiness, manual AI output hardening, import UX readiness, EduGen document integration, and text import validators.
 - Release claims remain constrained: no built-in AI generation, no external AI/API calls, no API key/BYOK support, no OCR, no backend/auth/cloud sync, no hosted production/security certification, and EduGen is not bundled into Shime.
 
+## Phase 8I — Public release notes / deployment readiness copy
+
+- Phase 8I is documentation/release-readiness only and does not change runtime app behavior.
+- Adds `docs/public-release-notes.md` for public-facing release-candidate capabilities, limitations, EduGen boundaries, manual AI workflow boundaries, deployment caveats, recommended setup, and Phase 8H final RC manual smoke status.
+- Adds `docs/deployment-readiness.md` for local preview basics, frontend hosting caveats, `VITE_FILE_PROCESSOR_URL`, separate EduGen hosting requirements, unsupported backend/OCR/AI-provider claims, and pre/post-deploy smoke checklists.
+- Updates `README.md` conservatively to link the public release notes and deployment readiness notes and summarize supported capabilities accurately.
+- Adds `scripts/validate-public-release-docs.js` and CI coverage for the public release/deployment documentation claim guardrails.
+- Phase 8H final RC manual smoke already passed by user confirmation on Ubuntu browser.
+- No runtime app behavior, user-facing app feature, import/parser, EduGen source, AI/API/BYOK/OCR/backend, schema/storage/scoring/SRT/mastery, package version, or dependency changes were added.
+- Release claims remain constrained: no built-in AI generation, no external AI/API integration, no API key/BYOK support, no OCR, no backend/auth/cloud sync, no hosted production/security certification, and EduGen is not bundled into Shime.
+

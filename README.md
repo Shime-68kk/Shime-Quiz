@@ -4,7 +4,17 @@ ShimeChamhoc v2 is a React/Vite, local-first learning app for multi-subject stud
 
 Current beta label: **v2.0.0-beta-ai.1**
 
-Release status: **AI-verified beta candidate**. This build is not manually QA-certified on physical devices; beta users should report UI/runtime/import/export issues.
+Release status: **release candidate with Phase 8H Ubuntu manual smoke passed**. This is not a hosted production/security certification or broad device certification; users should still verify the target environment before wider release.
+
+
+## Public release and deployment readiness
+
+- Public release notes: [`docs/public-release-notes.md`](docs/public-release-notes.md)
+- Deployment readiness notes: [`docs/deployment-readiness.md`](docs/deployment-readiness.md)
+
+Current supported import paths include JSON/CSV import, paste text/Markdown draft import, local `.txt`/`.md` draft import, and PDF/DOCX/PPTX/ZIP draft import through a separately configured EduGen service. EduGen is not bundled into Shime; hosted or frontend-only deployments need a browser-reachable `VITE_FILE_PROCESSOR_URL` for document import.
+
+AI-related support is manual only: Shime can help users export a prompt and review pasted AI output, but it does not provide built-in AI quiz generation, external AI/API calls, API key/BYOK support, OCR, backend accounts, authentication, or cloud sync.
 
 ## What is included in v2
 
@@ -130,6 +140,8 @@ The legacy vanilla source remains in the repository during the transition, but v
 ## QA and release docs
 
 - v2 release checklist: [`RELEASE_QA_V2.md`](RELEASE_QA_V2.md)
+- public release notes: [`docs/public-release-notes.md`](docs/public-release-notes.md)
+- deployment readiness notes: [`docs/deployment-readiness.md`](docs/deployment-readiness.md)
 - v2 deployment guide: [`DEPLOY_V2.md`](DEPLOY_V2.md)
 - v2 release notes: [`RELEASE_NOTES_V2.md`](RELEASE_NOTES_V2.md)
 - v2 data model notes: [`docs/V2_DATA_MODEL.md`](docs/V2_DATA_MODEL.md)
