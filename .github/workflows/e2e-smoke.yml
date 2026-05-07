@@ -107,6 +107,9 @@ jobs:
       - name: Validate visual asset guidance
         run: node scripts/validate-visual-asset-guidance.js
 
+      - name: Validate demo sample quickstart
+        run: node scripts/validate-demo-sample-quickstart.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

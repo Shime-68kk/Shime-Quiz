@@ -458,3 +458,14 @@ This phase is PDF-only inside Shime. It does not add DOCX, PPTX, ZIP, OCR, AI qu
 - No actual screenshot/image assets are added in this phase.
 - Adds `scripts/validate-visual-asset-guidance.js` and CI coverage for visual asset documentation claim guardrails.
 - No runtime app behavior changes, user-facing feature changes, import/parser changes, EduGen source changes, AI/API/BYOK/OCR/backend changes, schema/storage/scoring/SRT/mastery changes, package version changes, or dependency changes were made.
+
+## Phase 8N — In-app demo sample quickstart
+
+- Phase 8N adds a small Library quickstart for loading a local demo sample quiz into the existing import preview flow.
+- Adds `src/data/demoSampleQuiz.js` with safe, neutral, Vietnamese-friendly sample content compatible with existing import validation and advisory quiz draft quality review.
+- Updates the Library route so **Dùng quiz mẫu** creates a draft preview only; users still review validation, advisory quality review, and explicitly confirm save before anything is stored locally.
+- The quickstart does not auto-save, does not reset localStorage, does not call AI/API, does not use EduGen, and does not bypass preview/review/save safety.
+- Updates README, demo script, screenshot checklist, and public release notes with conservative quickstart documentation.
+- Adds `scripts/validate-demo-sample-quickstart.js` and CI coverage for the in-app demo quickstart guardrails.
+- No import/parser changes, EduGen source changes, AI/API/BYOK/OCR/backend changes, schema/storage/scoring/SRT/mastery changes, package version changes, or dependency changes were made.
+
