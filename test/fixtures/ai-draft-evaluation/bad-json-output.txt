@@ -1,0 +1,9 @@
+{
+  "questions": [
+    {
+      "question": "TCP hoạt động ở tầng nào?",
+      "choices": ["Application", "Transport", "Network", "Data Link"],
+      "answer": "Transport"
+    }
+  ]
+}
