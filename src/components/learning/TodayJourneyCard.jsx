@@ -13,8 +13,7 @@ import { useDashboardLearningData } from '../../dashboard/DashboardLearningDataC
 import {
   markStudyPlanStepActive,
   markStudyPlanStepComplete,
-  resetStudyPlanProgressForDate,
-  unmarkStudyPlanStepComplete
+  resetStudyPlanProgressForDate
 } from '../../state/studyPlanProgressStorage.js';
 
 function getRecommendationBadgeText(type) {
@@ -125,19 +124,22 @@ export default function TodayJourneyCard() {
   function toggleStepComplete(step) {
     if (!step?.id) return;
     const status = planStepProgress.getStatus(step.id);
-    const result = status === 'completed'
-      ? unmarkStudyPlanStepComplete(step.id, planProgressState?.dateKey)
-      : markStudyPlanStepComplete(step.id, planProgressState?.dateKey);
+    if (status === 'completed') {
+      setPlanStatus({
+        tone: 'success',
+        text: 'Bước này đã hoàn thành và sẽ không tự bỏ đánh dấu khi bấm lại.'
+      });
+      return;
+    }
+
+    const result = markStudyPlanStepComplete(step.id, planProgressState?.dateKey);
 
     if (!result.ok) {
       setPlanStatus({ tone: 'danger', text: 'Không thể lưu tiến trình kế hoạch cục bộ.' });
       return;
     }
 
-    setPlanStatus({
-      tone: 'success',
-      text: status === 'completed' ? 'Đã bỏ đánh dấu bước này.' : 'Đã đánh dấu hoàn thành.'
-    });
+    setPlanStatus({ tone: 'success', text: 'Đã đánh dấu hoàn thành.' });
   }
 
   function resetTodayProgress() {
@@ -263,7 +265,7 @@ export default function TodayJourneyCard() {
                   <div className="studyPlanStep__action">
                     <Button type="button" size="sm" onClick={() => runStep(step)}>{step.actionLabel}</Button>
                     <Button type="button" size="sm" variant="ghost" onClick={() => toggleStepComplete(step)}>
-                      {isCompleted ? 'Bỏ đánh dấu' : 'Đánh dấu hoàn thành'}
+                      {isCompleted ? 'Đã hoàn thành' : 'Đánh dấu hoàn thành'}
                     </Button>
                   </div>
                 </article>
