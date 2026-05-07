@@ -362,3 +362,13 @@ This phase is PDF-only inside Shime. It does not add DOCX, PPTX, ZIP, OCR, AI qu
 - Any future AI draft flow must require explicit user action before sending content to an AI provider, disclose privacy implications, and keep preview-before-save.
 - Future AI output must still be normalized into the existing flat v2 draft shape, pass import validation, and show advisory quality review before the user confirms save.
 - Do not claim Shime supports AI quiz generation until a later implementation phase is explicitly built, reviewed, tested, and merged.
+
+### Phase 8B — Manual AI prompt/export workflow
+
+- Phase 8B adds a manual prompt/export helper in Library.
+- Shime builds a prompt locally so users can manually copy it to an external AI tool if they choose.
+- Shime does not send content to AI, does not call external AI APIs, does not handle API keys, and does not add backend/auth/cloud sync.
+- Users must manually paste any AI result back into the existing text/Markdown import flow.
+- AI results still go through existing parsing, import validation, advisory quality review, preview, and user-confirm-save.
+- This phase does not add working built-in AI quiz generation, OCR, schema/storage changes, scoring/SRT/mastery changes, auto-import, or auto-save.
+- User-facing privacy warning remains required because copied content may leave the user's device when pasted into an external AI tool.

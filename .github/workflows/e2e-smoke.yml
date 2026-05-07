@@ -77,6 +77,9 @@ jobs:
       - name: Validate AI planning docs
         run: node scripts/validate-ai-planning-docs.js
 
+      - name: Validate AI prompt export
+        run: node scripts/validate-ai-prompt-export.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
