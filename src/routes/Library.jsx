@@ -7,6 +7,7 @@ import EmptyState from '../components/EmptyState.jsx';
 import PageHeader from '../components/PageHeader.jsx';
 import Toast from '../components/Toast.jsx';
 import V2BackupRestorePanel from '../components/learning/V2BackupRestorePanel.jsx';
+import { buildManualAiQuizPrompt, getManualAiPromptWarnings } from '../data/aiPromptBuilder.js';
 import { parseCsvImport } from '../data/csvImportParser.js';
 import { parseLearningDataJson } from '../data/importValidator.js';
 import { reviewQuizDraftQuality } from '../data/quizDraftQuality.js';
@@ -222,6 +223,15 @@ export default function Library() {
   const [isParsingText, setIsParsingText] = useState(false);
   const [isReadingTextFile, setIsReadingTextFile] = useState(false);
   const [isExtractingDocument, setIsExtractingDocument] = useState(false);
+  const [aiPromptSource, setAiPromptSource] = useState('');
+  const [aiPromptOptions, setAiPromptOptions] = useState({
+    multipleChoiceCount: 5,
+    flashcardCount: 3,
+    shortAnswerCount: 2,
+    languageMode: 'keep_source'
+  });
+  const [aiPromptResult, setAiPromptResult] = useState(null);
+  const [aiPromptStatus, setAiPromptStatus] = useState(null);
   const subjectCards = buildSubjectCards(adapter);
   const sourceLabel = dataSource.sourceType === 'mock'
     ? 'Dữ liệu mẫu'
@@ -459,6 +469,45 @@ export default function Library() {
     }
   }
 
+
+  function updateAiPromptOption(key, value) {
+    setAiPromptOptions(current => ({ ...current, [key]: value }));
+  }
+
+  function generateManualAiPrompt() {
+    const result = buildManualAiQuizPrompt({
+      ...aiPromptOptions,
+      sourceText: aiPromptSource
+    });
+    setAiPromptResult(result);
+    setAiPromptStatus({
+      tone: result.ok ? (result.warnings.length ? 'warning' : 'success') : 'warning',
+      title: result.ok ? 'Đã tạo prompt thủ công' : 'Chưa thể tạo prompt',
+      description: result.ok
+        ? 'Hãy sao chép prompt và tự dán vào công cụ AI bên ngoài nếu bạn đồng ý chia sẻ nội dung đó.'
+        : (result.warnings[0]?.message || 'Hãy kiểm tra nội dung nguồn và số lượng câu hỏi mong muốn.')
+    });
+  }
+
+  async function copyManualAiPrompt() {
+    if (!aiPromptResult?.ok || !aiPromptResult.prompt) return;
+
+    try {
+      await navigator.clipboard.writeText(aiPromptResult.prompt);
+      setAiPromptStatus({
+        tone: 'success',
+        title: 'Đã sao chép prompt',
+        description: 'Hãy tự dán prompt vào công cụ AI bên ngoài, rồi dán kết quả AI vào ô văn bản/Markdown của Shime để xem trước.'
+      });
+    } catch (error) {
+      setAiPromptStatus({
+        tone: 'warning',
+        title: 'Không tự động sao chép được',
+        description: 'Trình duyệt không cho phép sao chép tự động. Hãy bôi đen prompt và sao chép thủ công.'
+      });
+    }
+  }
+
   function detectImportFormat(file) {
     const name = file?.name?.toLowerCase() || '';
     if (name.endsWith('.csv') || file?.type === 'text/csv') return 'csv';
@@ -641,6 +690,105 @@ export default function Library() {
           </div>
         </div>
         <p className="muted">Nếu dùng bản deploy online, trình duyệt cần truy cập được EduGen service đã cấu hình qua <code>VITE_FILE_PROCESSOR_URL</code>. Một số định dạng tài liệu cũ hoặc tài liệu quét có thể không dùng được trong bước này.</p>
+      </Card>
+
+
+      <Card title="Tạo prompt AI thủ công" eyebrow="Không gửi dữ liệu tự động" className="manualAiPromptCard">
+        <div className="manualAiPromptCard__intro">
+          <p className="muted">
+            Shime chỉ tạo prompt trong trình duyệt. Shime không tự gửi dữ liệu cho AI, không dùng API key và không tự import kết quả AI. Bạn tự sao chép prompt sang công cụ AI bên ngoài rồi dán kết quả vào ô văn bản/Markdown để xem trước.
+          </p>
+          <div className="manualAiPromptWarning" role="note">
+            <strong>Lưu ý quyền riêng tư:</strong>
+            <span>Nội dung bạn sao chép sang công cụ AI bên ngoài có thể rời khỏi thiết bị. Hãy kiểm tra chính sách bảo mật của công cụ AI bạn dùng. AI có thể tạo sai nội dung, cần xem lại trước khi lưu.</span>
+          </div>
+        </div>
+
+        <label className="textImportField" htmlFor="manual-ai-source-input">
+          <span>Nội dung nguồn để tạo prompt</span>
+          <textarea
+            id="manual-ai-source-input"
+            value={aiPromptSource}
+            onChange={event => {
+              setAiPromptSource(event.target.value);
+              setAiPromptResult(null);
+              setAiPromptStatus(null);
+            }}
+            placeholder="Dán nội dung bài học hoặc phần chữ đã trích xuất. Shime sẽ tạo prompt để bạn tự dùng với công cụ AI bên ngoài."
+            rows={7}
+          />
+        </label>
+
+        <div className="manualAiPromptOptions" aria-label="Tùy chọn prompt AI thủ công">
+          <label>
+            <span>Trắc nghiệm</span>
+            <input
+              type="number"
+              min="0"
+              max="20"
+              value={aiPromptOptions.multipleChoiceCount}
+              onChange={event => updateAiPromptOption('multipleChoiceCount', event.target.value)}
+            />
+          </label>
+          <label>
+            <span>Flashcard</span>
+            <input
+              type="number"
+              min="0"
+              max="20"
+              value={aiPromptOptions.flashcardCount}
+              onChange={event => updateAiPromptOption('flashcardCount', event.target.value)}
+            />
+          </label>
+          <label>
+            <span>Câu hỏi ngắn</span>
+            <input
+              type="number"
+              min="0"
+              max="20"
+              value={aiPromptOptions.shortAnswerCount}
+              onChange={event => updateAiPromptOption('shortAnswerCount', event.target.value)}
+            />
+          </label>
+          <label>
+            <span>Ngôn ngữ</span>
+            <select
+              value={aiPromptOptions.languageMode}
+              onChange={event => updateAiPromptOption('languageMode', event.target.value)}
+            >
+              <option value="keep_source">Giữ ngôn ngữ nguồn</option>
+              <option value="vi">Tiếng Việt</option>
+            </select>
+          </label>
+        </div>
+
+        <div className="textImportActions">
+          <Button type="button" variant="secondary" onClick={generateManualAiPrompt} disabled={!aiPromptSource.trim()}>
+            Tạo prompt
+          </Button>
+          <Button type="button" onClick={copyManualAiPrompt} disabled={!aiPromptResult?.ok}>
+            Sao chép prompt
+          </Button>
+        </div>
+
+        {aiPromptStatus ? <Toast tone={aiPromptStatus.tone} title={aiPromptStatus.title} description={aiPromptStatus.description} /> : null}
+
+        {aiPromptResult?.warnings?.length ? (
+          <div className="importIssues importIssues--warning">
+            <strong>Gợi ý trước khi dùng prompt</strong>
+            <ul>
+              {aiPromptResult.warnings.map(warning => <li key={warning.code}>{warning.message}</li>)}
+            </ul>
+          </div>
+        ) : null}
+
+        {aiPromptResult?.prompt ? (
+          <label className="manualAiPromptPreview" htmlFor="manual-ai-prompt-preview">
+            <span>Prompt đã tạo</span>
+            <textarea id="manual-ai-prompt-preview" value={aiPromptResult.prompt} readOnly rows={12} />
+            <small>Dán kết quả AI vào ô nhập văn bản/Markdown bên dưới để chạy kiểm tra, xem trước và đánh giá chất lượng trước khi lưu.</small>
+          </label>
+        ) : null}
       </Card>
 
       <Card title="Tạo quiz từ văn bản/Markdown" eyebrow="Bản nháp thân thiện" className="textImportCard">
