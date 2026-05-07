@@ -6,6 +6,11 @@ Shime Quiz is a local-first study and quiz app for building a study library, imp
 
 Shime is privacy-conscious because the main app is local-first and many workflows happen in the browser, but this is not a hosted production or security certification. Manual AI support is workflow-only: Shime helps users prepare prompts and review pasted AI output, but it does not provide built-in AI generation, API keys, BYOK, or external AI/API calls.
 
+
+## Demo sample pack
+
+For stable demo content, use the public sample pack at [`docs/demo-samples/README.md`](demo-samples/README.md). It includes JSON, CSV, text/Markdown, and manual AI paste-back samples that are synthetic, education-oriented, and designed for the current supported import paths.
+
 ## 3-minute guided demo flow
 
 ### 1. Dashboard / Overview

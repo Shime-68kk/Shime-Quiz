@@ -17,6 +17,11 @@ Current supported import paths include JSON/CSV import, paste text/Markdown draf
 AI-related support is manual only: Shime can help users export a prompt and review pasted AI output, but it does not provide built-in AI quiz generation, external AI/API calls, API key/BYOK support, OCR, backend accounts, authentication, or cloud sync.
 
 
+
+## Public demo sample pack
+
+Use [`docs/demo-samples/README.md`](docs/demo-samples/README.md) for small synthetic JSON, CSV, text/Markdown, and manual AI paste-back samples that exercise supported demo paths without relying on external services. The samples preserve the current boundaries: EduGen remains separate for document import, and AI support remains manual/workflow-only.
+
 ## Suggested demo flow
 
 For a launch or reviewer walkthrough, use the demo order in [`docs/demo-script.md`](docs/demo-script.md): Dashboard, Library, import, advisory draft quality review, Study Room, today-plan completion guard, manual AI prompt/export, and the EduGen document import caveat.

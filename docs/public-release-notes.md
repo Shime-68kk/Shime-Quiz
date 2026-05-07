@@ -93,6 +93,11 @@ For the most complete RC experience:
 
 For public walkthroughs and reviewer demos, see [`docs/demo-script.md`](demo-script.md). For README/public documentation capture planning, see [`docs/screenshot-checklist.md`](screenshot-checklist.md). Both documents preserve the current release-candidate boundaries around manual AI workflows, separate EduGen document import, no OCR, no backend/cloud sync, and no hosted production or security certification claims.
 
+
+## Public demo samples
+
+A small public demo sample pack is available at [`docs/demo-samples/README.md`](demo-samples/README.md). It provides synthetic JSON, CSV, text/Markdown, and manual AI paste-back samples for demos and screenshot preparation without changing runtime behavior or adding external-service dependencies.
+
 ## Final RC smoke status
 
 Phase 8H final RC manual smoke passed on the user's Ubuntu browser. The verified surfaces included app shell, Dashboard, Library, Study Room access, Dashboard "Kế hoạch hôm nay" completion guard behavior, import surfaces, manual AI prompt/export, manual AI output review, and the absence of built-in AI generation or API-key/BYOK fields.

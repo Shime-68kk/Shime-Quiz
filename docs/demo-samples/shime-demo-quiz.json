@@ -1,0 +1,79 @@
+{
+  "version": "v2-demo-sample",
+  "subjects": [
+    {
+      "id": "subject:demo-study-skills",
+      "title": "Kỹ năng học tập",
+      "description": "Bộ mẫu công khai, trung lập để demo import Shime Quiz."
+    }
+  ],
+  "topics": [
+    {
+      "id": "topic:demo-active-recall",
+      "subjectId": "subject:demo-study-skills",
+      "title": "Ôn tập chủ động",
+      "description": "Ví dụ ngắn cho demo JSON import."
+    }
+  ],
+  "items": [
+    {
+      "id": "demo-mcq-active-recall",
+      "type": "multiple_choice",
+      "subjectId": "subject:demo-study-skills",
+      "topicId": "topic:demo-active-recall",
+      "prompt": "Kỹ thuật nào giúp người học tự nhớ lại kiến thức thay vì chỉ đọc lại ghi chú?",
+      "choices": [
+        { "id": "A", "text": "Ôn tập chủ động" },
+        { "id": "B", "text": "Đọc lướt một lần" },
+        { "id": "C", "text": "Bỏ qua phần khó" },
+        { "id": "D", "text": "Chỉ xem đáp án" }
+      ],
+      "correctAnswer": "A",
+      "explanation": "Ôn tập chủ động yêu cầu người học tự gợi nhớ kiến thức, giúp phát hiện phần chưa hiểu rõ.",
+      "difficulty": "cơ bản",
+      "source": "public-demo-sample"
+    },
+    {
+      "id": "demo-mcq-spaced-review",
+      "type": "multiple_choice",
+      "subjectId": "subject:demo-study-skills",
+      "topicId": "topic:demo-active-recall",
+      "prompt": "Vì sao nên chia lịch ôn thành nhiều lần ngắn thay vì dồn vào một buổi duy nhất?",
+      "choices": [
+        { "id": "A", "text": "Để tránh phải xem lại bài" },
+        { "id": "B", "text": "Để tăng cơ hội củng cố trí nhớ theo thời gian" },
+        { "id": "C", "text": "Để bỏ qua phần giải thích" },
+        { "id": "D", "text": "Để giảm số câu hỏi cần học" }
+      ],
+      "correctAnswer": "B",
+      "explanation": "Ôn cách quãng giúp người học gặp lại nội dung nhiều lần ở các thời điểm khác nhau.",
+      "difficulty": "cơ bản",
+      "source": "public-demo-sample"
+    },
+    {
+      "id": "demo-short-review",
+      "type": "short_answer",
+      "subjectId": "subject:demo-study-skills",
+      "topicId": "topic:demo-active-recall",
+      "prompt": "Tên gọi ngắn gọn của việc tự nhớ lại kiến thức trước khi xem đáp án là gì?",
+      "answer": "ôn tập chủ động",
+      "correctAnswer": "ôn tập chủ động",
+      "acceptableAnswers": ["ôn tập chủ động", "active recall"],
+      "explanation": "Người học cố gắng trả lời trước, sau đó mới so sánh với đáp án hoặc ghi chú.",
+      "difficulty": "cơ bản",
+      "source": "public-demo-sample"
+    },
+    {
+      "id": "demo-card-preview-save",
+      "type": "flashcard",
+      "subjectId": "subject:demo-study-skills",
+      "topicId": "topic:demo-active-recall",
+      "prompt": "Import preview",
+      "front": "Vì sao Shime yêu cầu preview trước khi lưu bản nháp import?",
+      "back": "Để người dùng kiểm tra nội dung, cảnh báo chất lượng và xác nhận trước khi lưu.",
+      "answer": "Để người dùng kiểm tra nội dung, cảnh báo chất lượng và xác nhận trước khi lưu.",
+      "correctAnswer": "Để người dùng kiểm tra nội dung, cảnh báo chất lượng và xác nhận trước khi lưu.",
+      "source": "public-demo-sample"
+    }
+  ]
+}
