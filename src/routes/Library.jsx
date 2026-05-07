@@ -9,6 +9,7 @@ import Toast from '../components/Toast.jsx';
 import V2BackupRestorePanel from '../components/learning/V2BackupRestorePanel.jsx';
 import { buildManualAiQuizPrompt, getManualAiPromptWarnings } from '../data/aiPromptBuilder.js';
 import { reviewManualAiOutputText } from '../data/aiOutputReview.js';
+import { demoSampleQuiz } from '../data/demoSampleQuiz.js';
 import { parseCsvImport } from '../data/csvImportParser.js';
 import { parseLearningDataJson } from '../data/importValidator.js';
 import { reviewQuizDraftQuality } from '../data/quizDraftQuality.js';
@@ -560,6 +561,37 @@ export default function Library() {
     return 'json';
   }
 
+  function loadDemoSampleQuickstart() {
+    setImportStatus(null);
+    setAiOutputReview(null);
+
+    try {
+      const result = parseLearningDataJson(JSON.stringify(demoSampleQuiz));
+      const qualityReview = result.rawData ? reviewQuizDraftQuality(result.rawData) : null;
+      setPreview({
+        fileName: 'Bộ quiz mẫu cục bộ',
+        format: 'json',
+        rawData: result.rawData,
+        validation: result.validation,
+        qualityReview
+      });
+      setImportStatus({
+        tone: result.validation.errors.length ? 'danger' : result.validation.warnings.length ? 'warning' : 'success',
+        title: result.validation.errors.length ? 'Không thể tải bộ mẫu' : 'Đã tải bộ quiz mẫu',
+        description: result.validation.errors.length
+          ? 'Bộ mẫu chưa qua được kiểm tra import. Hãy xem lỗi trong bản xem trước.'
+          : 'Đây là bộ mẫu cục bộ, không do Shime tạo bằng AI và không gọi AI/API. Hãy xem trước, đọc đánh giá chất lượng rồi tự xác nhận lưu nếu muốn.'
+      });
+    } catch (error) {
+      setPreview(null);
+      setImportStatus({
+        tone: 'danger',
+        title: 'Không tải được bộ mẫu',
+        description: error.message || 'Không thể tạo bản xem trước từ bộ mẫu cục bộ.'
+      });
+    }
+  }
+
   async function handleImportFile(event) {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -719,6 +751,23 @@ export default function Library() {
         onChange={handleDocumentDraftFile}
         aria-label="Chọn file PDF, DOCX, PPTX hoặc ZIP để tạo bản nháp câu hỏi qua EduGen"
       />
+
+      <Card title="Thử nhanh với quiz mẫu" eyebrow="Demo cục bộ" className="demoSampleQuickstartCard">
+        <div className="textImportCard__intro">
+          <p className="muted">
+            Tải một bộ quiz mẫu an toàn, trung lập và có sẵn trong ứng dụng để thử nhanh luồng import. Bộ mẫu này là dữ liệu cục bộ, không do Shime tạo bằng AI, không gọi AI/API và không dùng EduGen.
+          </p>
+          <p className="muted">
+            Shime chỉ tạo bản xem trước từ bộ mẫu; bạn vẫn cần xem lại, đọc đánh giá chất lượng và bấm xác nhận lưu nếu muốn thêm vào thư viện cục bộ.
+          </p>
+        </div>
+        <div className="textImportActions">
+          <Button type="button" variant="secondary" onClick={loadDemoSampleQuickstart}>
+            Dùng quiz mẫu
+          </Button>
+          <span className="muted">Không tự lưu, không reset dữ liệu hiện có.</span>
+        </div>
+      </Card>
 
       <Card title="Chọn cách nhập phù hợp" eyebrow="Hướng dẫn nhanh" className="importMethodGuideCard">
         <div className="importMethodGuide" aria-label="Gợi ý chọn cách nhập học liệu">

@@ -9,6 +9,8 @@ For recommended screenshot filenames, image folder path, and alt text, see [`doc
 
 Use [`docs/demo-samples/README.md`](demo-samples/README.md) when preparing screenshot data. The sample pack provides synthetic JSON, CSV, text/Markdown, and manual AI paste-back examples so public screenshots do not need private or copyrighted content.
 
+For an in-app screenshot path without manually uploading files, use the Library **Dùng quiz mẫu** quickstart. Capture the resulting preview and quality review before saving, and avoid implying the sample is AI-generated, API-backed, EduGen-powered, or auto-saved.
+
 ## Recommended screenshots
 
 ### 1. Dashboard overview

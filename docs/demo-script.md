@@ -13,6 +13,8 @@ For stable demo content, use the public sample pack at [`docs/demo-samples/READM
 
 For screenshot naming, recommended alt text, and visual claim guardrails, see [`docs/visual-asset-guidance.md`](visual-asset-guidance.md).
 
+For the fastest in-app walkthrough, open Library and use **Dùng quiz mẫu**. This loads a local sample into the existing preview, validation, advisory quality review, and confirm-save flow. It does not call AI/API, does not use EduGen, and does not auto-save.
+
 ## 3-minute guided demo flow
 
 ### 1. Dashboard / Overview

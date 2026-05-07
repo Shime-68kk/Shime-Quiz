@@ -22,6 +22,10 @@ AI-related support is manual only: Shime can help users export a prompt and revi
 
 Use [`docs/demo-samples/README.md`](docs/demo-samples/README.md) for small synthetic JSON, CSV, text/Markdown, and manual AI paste-back samples that exercise supported demo paths without relying on external services. The samples preserve the current boundaries: EduGen remains separate for document import, and AI support remains manual/workflow-only.
 
+## In-app demo sample quickstart
+
+The Library includes a local **Dùng quiz mẫu** quickstart so reviewers and new users can load a safe sample quiz without uploading files. The quickstart only creates an import preview: users still review validation results, advisory quality review, and explicitly confirm save before anything is stored locally. It does not call AI/API, does not use EduGen, and does not auto-save or reset existing data.
+
 ## Suggested demo flow
 
 For a launch or reviewer walkthrough, use the demo order in [`docs/demo-script.md`](docs/demo-script.md): Dashboard, Library, import, advisory draft quality review, Study Room, today-plan completion guard, manual AI prompt/export, and the EduGen document import caveat.

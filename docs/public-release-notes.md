@@ -98,6 +98,10 @@ For public walkthroughs and reviewer demos, see [`docs/demo-script.md`](demo-scr
 
 A small public demo sample pack is available at [`docs/demo-samples/README.md`](demo-samples/README.md). It provides synthetic JSON, CSV, text/Markdown, and manual AI paste-back samples for demos and screenshot preparation without changing runtime behavior or adding external-service dependencies.
 
+## In-app demo sample quickstart
+
+The Library includes a local demo sample quickstart for trying Shime without manually uploading sample files. It loads a safe sample quiz into the same preview, import validation, advisory quality review, and confirm-save flow used by other imports. It does not auto-save, call AI/API, use EduGen, or change the document-import boundary.
+
 ## Final RC smoke status
 
 Phase 8H final RC manual smoke passed on the user's Ubuntu browser. The verified surfaces included app shell, Dashboard, Library, Study Room access, Dashboard "Kế hoạch hôm nay" completion guard behavior, import surfaces, manual AI prompt/export, manual AI output review, and the absence of built-in AI generation or API-key/BYOK fields.
