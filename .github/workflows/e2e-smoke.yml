@@ -53,6 +53,9 @@ jobs:
       - name: Validate dashboard performance
         run: node scripts/validate-dashboard-performance.js
 
+      - name: Validate dashboard plan completion guard
+        run: node scripts/validate-dashboard-plan-completion-guard.js
+
       - name: Validate backup restore recovery
         run: node scripts/validate-backup-restore-recovery.js
 

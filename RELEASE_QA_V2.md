@@ -401,3 +401,10 @@ This phase is PDF-only inside Shime. It does not add DOCX, PPTX, ZIP, OCR, AI qu
 - The fixtures exercise good and bad AI-like output through manual AI output review, `parseTextQuizDraft`, import validation, and quiz draft quality review.
 - Existing validation/quality review/preview/user-confirm-save boundaries remain.
 - The suite documents that Shime cannot prove factual correctness, privacy behavior of external AI tools, no hallucination, or perfect quiz quality.
+
+## Phase 8F — Dashboard plan completion guard
+
+- Dashboard/Overview “Kế hoạch hôm nay” now treats completed plan items as stable: clicking a completed item again no longer toggles it back to incomplete.
+- Incomplete plan items can still be marked complete, and the existing local study-plan progress storage shape is preserved.
+- Added `scripts/validate-dashboard-plan-completion-guard.js` and CI coverage for the regression.
+- Scope remains dashboard UX/state hardening only: no AI/API/backend/import/EduGen/scoring/SRT/mastery/schema/storage migration changes.
