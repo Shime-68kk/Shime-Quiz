@@ -346,3 +346,11 @@ This phase is PDF-only inside Shime. It does not add DOCX, PPTX, ZIP, OCR, AI qu
 - Existing import validation remains the hard blocking layer; quality warnings do not guarantee automatic high-quality quiz generation.
 - No AI, OCR, schema/storage/scoring/SRT/mastery, backend/auth/cloud sync, or auto-save changes were added.
 - Users should still review draft questions before saving.
+
+### Phase 7G — Import UX polish and release readiness
+
+- Phase 7G improves Library import guidance, EduGen setup/error wording, and release-readiness documentation.
+- No new import file types were added; existing text, `.txt`/`.md`, and EduGen PDF/DOCX/PPTX/ZIP flows remain unchanged.
+- EduGen remains a separate service. Shime requires a reachable `VITE_FILE_PROCESSOR_URL` for document extraction, especially from hosted deployments.
+- The manual smoke checklist for import readiness is documented in `docs/import-readiness-checklist.md`.
+- This phase does not add OCR, AI quiz generation, backend/auth/cloud sync, schema/storage/scoring/SRT/mastery changes, auto-save, or automatic correction/fixing.

@@ -71,6 +71,9 @@ jobs:
       - name: Validate quiz draft quality
         run: node scripts/validate-quiz-draft-quality.js
 
+      - name: Validate import UX release readiness
+        run: node scripts/validate-import-ux-release-readiness.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

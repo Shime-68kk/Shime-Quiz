@@ -2701,6 +2701,8 @@ code {
 }
 
 /* Phase 7A text/Markdown draft import */
+.importMethodGuideCard,
+.importMethodGuide,
 .textImportCard,
 .textFileImportCard,
 .documentImportCard,
@@ -2713,11 +2715,36 @@ code {
   min-width: 0;
 }
 
+.importMethodGuideCard .card__body,
 .textImportCard .card__body,
 .textFileImportCard .card__body,
 .documentImportCard .card__body {
   display: grid;
   gap: var(--space-4);
+}
+
+.importMethodGuide {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.importMethodGuide > div {
+  min-width: 0;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 14%, var(--color-border));
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  background: color-mix(in srgb, var(--color-primary) 5%, var(--color-surface));
+}
+
+.importMethodGuide strong {
+  display: block;
+  margin-bottom: var(--space-1);
+  color: var(--color-text);
+}
+
+.importMethodGuide p {
+  margin: 0;
 }
 
 .textImportField {
@@ -2776,6 +2803,10 @@ code {
 }
 
 @media (max-width: 720px) {
+  .importMethodGuide {
+    grid-template-columns: 1fr;
+  }
+
   .textImportActions .button,
   .textFileImportActions .button {
     width: 100%;

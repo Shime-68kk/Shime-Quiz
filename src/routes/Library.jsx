@@ -625,6 +625,24 @@ export default function Library() {
         aria-label="Chọn file PDF, DOCX, PPTX hoặc ZIP để tạo bản nháp câu hỏi qua EduGen"
       />
 
+      <Card title="Chọn cách nhập phù hợp" eyebrow="Hướng dẫn nhanh" className="importMethodGuideCard">
+        <div className="importMethodGuide" aria-label="Gợi ý chọn cách nhập học liệu">
+          <div>
+            <strong>Dán văn bản/Markdown</strong>
+            <p className="muted">Dùng khi bạn đã có nội dung dạng câu hỏi, flashcard hoặc ghi chú có cấu trúc.</p>
+          </div>
+          <div>
+            <strong>Tải .txt/.md</strong>
+            <p className="muted">Dùng khi nội dung đã nằm trong file văn bản cục bộ.</p>
+          </div>
+          <div>
+            <strong>Tải PDF/DOCX/PPTX/ZIP</strong>
+            <p className="muted">Dùng khi bạn đang chạy EduGen File Processor. EduGen chỉ trích xuất chữ; Shime vẫn tạo bản nháp, kiểm tra và yêu cầu xem trước trước khi lưu.</p>
+          </div>
+        </div>
+        <p className="muted">Nếu dùng bản deploy online, trình duyệt cần truy cập được EduGen service đã cấu hình qua <code>VITE_FILE_PROCESSOR_URL</code>. Một số định dạng tài liệu cũ hoặc tài liệu quét có thể không dùng được trong bước này.</p>
+      </Card>
+
       <Card title="Tạo quiz từ văn bản/Markdown" eyebrow="Bản nháp thân thiện" className="textImportCard">
         <div className="textImportCard__intro">
           <p className="muted">
@@ -682,14 +700,14 @@ B. TCP/IP
       <Card title="Tạo quiz từ tài liệu" eyebrow="EduGen" className="documentImportCard">
         <div className="textImportCard__intro">
           <p className="muted">
-            Chọn file PDF, DOCX, PPTX hoặc ZIP để trích xuất chữ bằng EduGen rồi tạo bản nháp câu hỏi. Cần chạy EduGen File Processor trước khi dùng tính năng này. Mặc định dùng <code>VITE_FILE_PROCESSOR_URL</code> hoặc <code>{getFileProcessorBaseUrl()}</code>.
+            Chọn file PDF, DOCX, PPTX hoặc ZIP để trích xuất chữ bằng EduGen rồi tạo bản nháp câu hỏi. Cần chạy EduGen File Processor trước khi dùng tính năng này; bản deploy online cũng cần URL EduGen có thể truy cập từ trình duyệt. Mặc định dùng <code>VITE_FILE_PROCESSOR_URL</code> hoặc <code>{getFileProcessorBaseUrl()}</code>.
           </p>
         </div>
         <div className="textFileImportActions">
           <Button type="button" variant="secondary" loading={isExtractingDocument} onClick={openDocumentFilePicker}>
             Chọn file tài liệu
           </Button>
-          <span className="muted">EduGen chỉ trích xuất chữ từ PDF, DOCX, PPTX hoặc ZIP; bản nháp vẫn đi qua kiểm tra và xem trước trước khi lưu.</span>
+          <span className="muted">EduGen chỉ trích xuất chữ; Shime luôn yêu cầu xem trước bản nháp trước khi lưu.</span>
         </div>
       </Card>
 

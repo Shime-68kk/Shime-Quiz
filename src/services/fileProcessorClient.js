@@ -135,7 +135,7 @@ export async function extractSingleFile(file, options = {}) {
   } catch {
     return createError(
       'edugen_network_error',
-      'Không kết nối được EduGen File Processor. Hãy kiểm tra service và cấu hình VITE_FILE_PROCESSOR_URL.'
+      'Không kết nối được EduGen File Processor. Hãy kiểm tra service, CORS và cấu hình VITE_FILE_PROCESSOR_URL; nếu dùng bản deploy online, URL EduGen phải truy cập được từ trình duyệt.'
     );
   }
 }
