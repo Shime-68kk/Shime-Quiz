@@ -381,3 +381,14 @@ This phase is PDF-only inside Shime. It does not add DOCX, PPTX, ZIP, OCR, AI qu
 - Preserves the existing flow: parseTextQuizDraft -> import validation -> advisory quality review -> preview -> user confirms save.
 - does not add built-in AI generation, external AI/API calls, API key handling, BYOK, backend/auth/cloud sync, OCR, auto-import, or auto-save.
 - does not guarantee AI correctness, privacy, or automatic high-quality quiz generation; users must still verify AI output before saving.
+
+### Phase 8D — AI integration readiness / provider contract planning
+
+- Phase 8D is planning/readiness only. It does not add built-in AI generation, API calls, provider SDKs, does not add API key handling, does not add BYOK, backend/auth/cloud sync, OCR, schema/storage changes, auto-import, or auto-save.
+- The readiness document is `docs/ai-integration-readiness.md`.
+- Any future AI provider flow must require explicit user confirmation before sending content, disclose that data may leave the device, and preserve the validation/quality-review/preview/user-confirm-save path.
+- Phase 8B manual prompt/export remains the default safe mode until a later security decision approves a provider architecture.
+- Future provider options such as BYOK, hosted backend proxy, or local/private models require separate design, security review, implementation, and testing.
+- Do not claim Shime supports built-in AI quiz generation, external AI API calls, API keys/BYOK, backend AI generation, or automatic high-quality quiz generation from this phase.
+- no auto-save or auto-import behavior was added.
+
