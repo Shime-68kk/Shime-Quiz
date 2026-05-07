@@ -80,6 +80,9 @@ jobs:
       - name: Validate AI prompt export
         run: node scripts/validate-ai-prompt-export.js
 
+      - name: Validate AI output import hardening
+        run: node scripts/validate-ai-output-import-hardening.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
