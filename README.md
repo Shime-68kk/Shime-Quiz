@@ -30,6 +30,10 @@ For a launch or reviewer walkthrough, use the demo order in [`docs/demo-script.m
 
 For README or public documentation screenshots, use [`docs/screenshot-checklist.md`](docs/screenshot-checklist.md). The checklist highlights recommended Dashboard, Library, import preview, quality review, Study Room, manual AI, EduGen, and release-doc link screenshots while avoiding unsupported AI/OCR/API/cloud implications.
 
+## Screenshots / Demo assets
+
+README and public screenshots are prepared through guidance/checklists, not committed as image files in this phase. Use [`docs/screenshot-checklist.md`](docs/screenshot-checklist.md), [`docs/visual-asset-guidance.md`](docs/visual-asset-guidance.md), and [`docs/demo-samples/README.md`](docs/demo-samples/README.md) when capturing future visual assets. Do not reference screenshot image files until those files are actually added and reviewed.
+
 ## What is included in v2
 
 - `/dashboard`: learning overview, today journey, goal progress, analytics, mastery, review schedule, Smart Practice, and study history.
