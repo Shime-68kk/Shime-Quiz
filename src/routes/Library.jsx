@@ -754,6 +754,10 @@ export default function Library() {
 
       <Card title="Thử nhanh với quiz mẫu" eyebrow="Demo cục bộ" className="demoSampleQuickstartCard">
         <div className="textImportCard__intro">
+          <div className="manualAiPromptWarning" role="note">
+            <strong>Mới dùng Shime?</strong>
+            <span>Bấm “Dùng quiz mẫu” để thử nhanh quy trình tạo quiz. Quiz mẫu chỉ mở phần xem trước/kiểm tra chất lượng; bạn vẫn cần xác nhận trước khi lưu. Không dùng AI/API và không cần EduGen.</span>
+          </div>
           <p className="muted">
             Tải một bộ quiz mẫu an toàn, trung lập và có sẵn trong ứng dụng để thử nhanh luồng import. Bộ mẫu này là dữ liệu cục bộ, không do Shime tạo bằng AI, không gọi AI/API và không dùng EduGen.
           </p>

@@ -15,6 +15,8 @@ For screenshot naming, recommended alt text, and visual claim guardrails, see [`
 
 For the fastest in-app walkthrough, open Library and use **Dùng quiz mẫu**. This loads a local sample into the existing preview, validation, advisory quality review, and confirm-save flow. It does not call AI/API, does not use EduGen, and does not auto-save.
 
+Phase 8P adds a small first-run Library hint near this button. In the demo, describe it as a discovery aid only: it does not auto-load the sample, does not auto-save, does not persist a dismissal state, does not call AI/API, and does not require EduGen.
+
 ## 3-minute guided demo flow
 
 ### 1. Dashboard / Overview

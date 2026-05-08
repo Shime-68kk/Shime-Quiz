@@ -110,6 +110,9 @@ jobs:
       - name: Validate demo sample quickstart
         run: node scripts/validate-demo-sample-quickstart.js
 
+      - name: Validate demo quickstart onboarding
+        run: node scripts/validate-demo-quickstart-onboarding.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
