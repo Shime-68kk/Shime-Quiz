@@ -129,7 +129,7 @@ Before later release-management phases, confirm:
 
 Recommended next steps after this audit is accepted:
 
-- Perform **GitHub Actions / CI Green Verification** as a later step.
+- Perform **GitHub Actions / CI Green Verification** as a later step using [`docs/ci-green-verification.md`](ci-green-verification.md).
 - Make a release tag/version decision as a later step.
 - Draft the GitHub release as a later step.
 - Verify source archive/package cleanliness as a later step.
@@ -145,4 +145,4 @@ Safe statements after this phase:
 - Current release candidate capabilities and caveats are audited.
 - A release tag readiness checklist exists for later release planning.
 
-Do not say production certified. Do not say security certified. Do not say release published. Do not say release tag created. Do not say GitHub Actions CI is green unless a current CI run is actually verified.
+Do not say production certified. Do not say security certified. Do not say release published. Do not say release tag created. Do not say GitHub Actions CI is green unless a current CI run is actually verified. Phase 8Y CI green verification guidance is tracked in [`docs/ci-green-verification.md`](ci-green-verification.md).

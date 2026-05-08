@@ -131,6 +131,9 @@ jobs:
       - name: Validate final RC audit
         run: node scripts/validate-final-rc-audit.js
 
+      - name: Validate CI green verification docs
+        run: node scripts/validate-ci-green-verification.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
