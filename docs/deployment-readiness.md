@@ -108,3 +108,9 @@ For the current release candidate, keep deployment wording conservative:
 - Manual AI workflows are copy/paste only; this release candidate does not include a built-in AI provider, AI/API integration, API-key field, or BYOK support.
 - OCR is not included. EduGen extracts available document text and is not bundled into Shime.
 - This documentation does not certify a hosted production or security posture; target deployments still need environment-specific verification.
+
+## Final RC audit reference
+
+See [`docs/final-rc-audit.md`](final-rc-audit.md) for the current release-candidate audit and release tag readiness checklist. The audit confirms that frontend-only deployment can host the app shell, while PDF/DOCX/PPTX/ZIP document import still requires a separate browser-reachable EduGen service.
+
+The final RC audit does not certify production readiness or security posture, does not create a release tag, and does not publish a GitHub release. GitHub Actions / CI Green Verification remains a later step unless a current CI run is actually verified.

@@ -114,3 +114,7 @@ Not allowed without a real passing run:
 ## Scope reminders
 
 The onboarding E2E path does not require EduGen and does not call AI/API providers. It protects the local Dashboard-to-Library onboarding flow, the **Dùng quiz mẫu** quickstart, preview/validation/quality review visibility, and confirm-save safety.
+
+## Final RC audit reference
+
+The local E2E guide is referenced by the final RC audit in [`docs/final-rc-audit.md`](final-rc-audit.md). Use this guide as supporting evidence only when the relevant E2E command actually passes in the named environment. The final RC audit does not create a release tag, publish a release, or certify production/security readiness.
