@@ -9,7 +9,8 @@
     "preview": "vite preview --host 127.0.0.1 --port 4173",
     "test:e2e": "playwright test",
     "test:e2e:smoke": "playwright test e2e/smoke.spec.js --project=chromium",
-    "validate:import": "node scripts/validate-import-validation.js"
+    "validate:import": "node scripts/validate-import-validation.js",
+    "test:e2e:onboarding": "playwright test e2e/onboarding-smoke.spec.js --project=chromium"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",

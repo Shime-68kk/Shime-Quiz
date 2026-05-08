@@ -148,3 +148,9 @@ Flashcard:
 Mặt trước: What is Shime's current AI workflow?
 Mặt sau: The current workflow is manual prompt/export and manual pasted-output review only; Shime does not call AI/API providers.
 ```
+
+## Phase 8V onboarding smoke coverage note
+
+A targeted onboarding Playwright smoke spec now covers the release-candidate demo path from Dashboard first-run onboarding to Library onboarding and the **Dùng quiz mẫu** preview flow. The test is intended to protect the same safe-demo story used in this script: guide users to Library, open the local demo sample through preview/validation/quality review, and require explicit confirmation before local save.
+
+The coverage does not require EduGen for the local demo sample and does not introduce built-in AI generation, external AI/API calls, API key/BYOK support, OCR, backend/cloud sync, or production/security certification.
