@@ -556,3 +556,37 @@ Scope guardrails:
 - No AI generation, external AI/API calls, API key/BYOK support, OCR, backend/auth/cloud sync, or hosted production/security certification.
 - No storage/schema/scoring/SRT/mastery changes.
 - No package version or dependency changes.
+
+
+## Phase 8W - Local E2E Verification Guide / Playwright Browser Setup Docs
+
+Scope: documentation, local QA guidance, static validator, and CI validator registration only.
+
+What changed:
+
+- Added `docs/local-e2e-verification.md` with Ubuntu/local Playwright Chromium setup guidance.
+- Documented `npx playwright install chromium` and `npx playwright install --with-deps chromium` for missing browser/system dependency cases.
+- Documented the local commands `npm ci`, `npm run build`, `npm run test:e2e:smoke`, and `npm run test:e2e:onboarding`.
+- Documented port-conflict handling for 4173/4174, missing Chromium classification, failure categories, and claims-control rules.
+- Linked the local E2E guide from README, public release notes, and demo script.
+- Added `scripts/validate-local-e2e-verification-docs.js`.
+- Registered `node scripts/validate-local-e2e-verification-docs.js` in `.github/workflows/e2e-smoke.yml` while preserving previous validators and Playwright smoke commands.
+
+Verification reference:
+
+- Phase 8V onboarding E2E coverage exists.
+- The local Ubuntu onboarding E2E run passed after Playwright Chromium was installed: `npm run test:e2e:onboarding` completed with 3 tests passed.
+- Future automated E2E pass claims still require actual successful command output in the target environment.
+- Missing Chromium remains an environment/browser issue, not an app failure.
+
+Scope guardrails:
+
+- No runtime app behavior changes.
+- No user-facing app feature changes.
+- No E2E test logic changes.
+- No import/parser changes.
+- No EduGen changes.
+- No AI/API/OCR/backend changes.
+- No storage/schema/scoring/SRT/mastery changes.
+- No package version changes.
+- No dependency changes.
