@@ -134,6 +134,9 @@ jobs:
       - name: Validate CI green verification docs
         run: node scripts/validate-ci-green-verification.js
 
+      - name: Validate release tag decision
+        run: node scripts/validate-release-tag-decision.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

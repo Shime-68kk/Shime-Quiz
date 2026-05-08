@@ -55,3 +55,8 @@ PDF/DOCX/PPTX/ZIP document import E2E would require a separately configured, bro
 ## Release-readiness conclusion
 
 Phase 8Y can conclude that CI green verification documentation and workflow expectations exist. It cannot conclude that GitHub Actions CI is green unless a real GitHub Actions run passes on the target branch/commit. It also does not create a release tag, publish a GitHub release, or provide production/security certification.
+
+
+## Release tag decision handoff
+
+After CI green verification guidance is reviewed, Phase 9A documents version and release tag options in [`docs/release-tag-decision.md`](release-tag-decision.md). That document records the current package version and possible RC tag strategies, but it does not create a release tag, publish a GitHub release, or certify production/security readiness.
