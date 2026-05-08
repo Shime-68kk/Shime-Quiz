@@ -154,3 +154,10 @@ Mặt sau: The current workflow is manual prompt/export and manual pasted-output
 A targeted onboarding Playwright smoke spec now covers the release-candidate demo path from Dashboard first-run onboarding to Library onboarding and the **Dùng quiz mẫu** preview flow. The test is intended to protect the same safe-demo story used in this script: guide users to Library, open the local demo sample through preview/validation/quality review, and require explicit confirmation before local save.
 
 The coverage does not require EduGen for the local demo sample and does not introduce built-in AI generation, external AI/API calls, API key/BYOK support, OCR, backend/cloud sync, or production/security certification.
+
+
+## Local E2E verification reference
+
+For maintainers validating the demo path before a presentation or release check, use [`docs/local-e2e-verification.md`](local-e2e-verification.md). It documents Playwright Chromium setup on Ubuntu and the local commands `npm run test:e2e:smoke` and `npm run test:e2e:onboarding`.
+
+Only say automated onboarding E2E passed after `npm run test:e2e:onboarding` actually exits successfully. If Chromium is missing, report the run as environment-blocked rather than an app failure.

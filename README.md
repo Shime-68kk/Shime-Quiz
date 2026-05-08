@@ -49,6 +49,13 @@ When the Library has no saved quiz items, an empty-state guide points new users 
 
 The Dashboard also includes a first-run getting-started callout when there is no meaningful saved library or study data. It points users to the Library as the safe start location for the demo sample quickstart, JSON/CSV import, text/Markdown import, manual AI copy/paste workflow, and separately configured EduGen document import. The callout does not auto-load, auto-save, reset storage, call AI/API, or bypass preview/review/confirm-save.
 
+
+## Local E2E verification
+
+Onboarding E2E smoke coverage exists for the Dashboard first-run onboarding, Library empty-state onboarding, and **Dùng quiz mẫu** quickstart safety path. See [`docs/local-e2e-verification.md`](docs/local-e2e-verification.md) for Ubuntu Playwright Chromium setup and the commands `npm run test:e2e:smoke` and `npm run test:e2e:onboarding`.
+
+Automated onboarding E2E passed on the local Ubuntu run after Playwright Chromium was installed. Future pass claims require actual successful command output in the target environment; missing Chromium should be reported as environment-blocked, not as an app failure.
+
 ## Suggested demo flow
 
 For a launch or reviewer walkthrough, use the demo order in [`docs/demo-script.md`](docs/demo-script.md): Dashboard, Library, import, advisory draft quality review, Study Room, today-plan completion guard, manual AI prompt/export, and the EduGen document import caveat.

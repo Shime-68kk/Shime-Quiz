@@ -125,6 +125,9 @@ jobs:
       - name: Validate onboarding E2E smoke coverage
         run: node scripts/validate-onboarding-e2e-smoke.js
 
+      - name: Validate local E2E verification docs
+        run: node scripts/validate-local-e2e-verification-docs.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

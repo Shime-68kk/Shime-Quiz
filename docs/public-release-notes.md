@@ -133,3 +133,10 @@ Phase 8H final RC manual smoke passed on the user's Ubuntu browser. The verified
 Phase 8V adds automated Playwright smoke coverage for the onboarding/demo quickstart flows introduced in Phase 8N through Phase 8S. The targeted smoke path checks Dashboard first-run onboarding, Library onboarding, the **Dùng quiz mẫu** quickstart, preview/validation/quality review visibility, and the absence of auto-save before explicit confirmation.
 
 This is test automation only. It does not change runtime app behavior, import/parser logic, EduGen behavior, AI/API behavior, storage schema, scoring, SRT, or mastery logic.
+
+
+## Local E2E verification setup
+
+Phase 8W adds [`docs/local-e2e-verification.md`](local-e2e-verification.md) for Ubuntu maintainers who need to install Playwright Chromium and run `npm run test:e2e:smoke` plus `npm run test:e2e:onboarding`. The onboarding E2E coverage exists, and the local Ubuntu run passed after Playwright Chromium was installed.
+
+A future automated E2E pass should only be claimed when the relevant command actually exits successfully in that environment. Missing Chromium or browser-launch failures should be reported as environment-blocked, not as product failures. EduGen is not required for onboarding E2E; PDF/DOCX/PPTX/ZIP document-import E2E would require a separate browser-reachable EduGen service if that path is tested.
