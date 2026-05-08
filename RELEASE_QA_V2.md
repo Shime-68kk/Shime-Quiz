@@ -478,3 +478,11 @@ This phase is PDF-only inside Shime. It does not add DOCX, PPTX, ZIP, OCR, AI qu
 - Adds `scripts/validate-demo-quickstart-onboarding.js` and CI coverage for the onboarding hint guardrails.
 - No import/parser changes, EduGen source changes, scoring/SRT/mastery changes, storage/backup schema changes, package version changes, or dependency changes were made.
 
+## Phase 8Q — Library empty-state onboarding polish
+
+- Phase 8Q adds a small, non-blocking Library empty-state onboarding section for users with no saved quiz items.
+- The empty state points users to safe first actions: local demo sample quickstart, JSON/CSV import, text/Markdown paste/import, manual AI prompt/export copy-paste workflow, and separately configured EduGen document import.
+- The empty state is guidance only: it does not auto-load the demo sample, does not auto-save, does not insert directly into the Library, does not reset localStorage, and does not add a new storage key or schema migration.
+- Existing import, manual AI, EduGen document import, preview, validation, advisory quality review, and explicit confirm-save behavior remain unchanged.
+- Adds `scripts/validate-library-empty-state-onboarding.js` and CI coverage for the empty-state onboarding guardrails.
+- No import/parser changes, EduGen source changes, AI/API/BYOK/OCR/backend changes, scoring/SRT/mastery changes, storage/backup schema changes, package version changes, or dependency changes were made.

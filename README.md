@@ -28,6 +28,8 @@ The Library includes a local **Dùng quiz mẫu** quickstart so reviewers and ne
 
 A small first-run hint beside the quickstart helps new users discover this path. The hint does not auto-load the sample, does not auto-save, does not add storage keys, does not call AI/API, and does not require EduGen; it only explains that the user must continue through preview, review, and confirm-save.
 
+When the Library has no saved quiz items, an empty-state guide points new users to safe first actions: use the local demo sample, import JSON/CSV, paste text/Markdown, use the manual AI prompt/export copy-paste workflow, or configure a separate EduGen service for document import. This empty state is guidance only: it does not auto-load, auto-save, bypass preview/review/confirm-save, call AI/API, or require EduGen.
+
 ## Suggested demo flow
 
 For a launch or reviewer walkthrough, use the demo order in [`docs/demo-script.md`](docs/demo-script.md): Dashboard, Library, import, advisory draft quality review, Study Room, today-plan completion guard, manual AI prompt/export, and the EduGen document import caveat.

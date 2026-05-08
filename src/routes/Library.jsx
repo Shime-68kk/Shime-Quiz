@@ -752,6 +752,32 @@ export default function Library() {
         aria-label="Chọn file PDF, DOCX, PPTX hoặc ZIP để tạo bản nháp câu hỏi qua EduGen"
       />
 
+      {subjectCards.length === 0 ? (
+        <Card title="Thư viện của bạn đang trống" eyebrow="Bắt đầu nhanh" className="libraryEmptyOnboardingCard">
+          <div className="textImportCard__intro">
+            <p className="muted">
+              Bắt đầu nhanh bằng quiz mẫu, import JSON/CSV, hoặc dán nội dung text/Markdown. Phần này chỉ hướng dẫn bạn đến các luồng hiện có và không tự nạp hay tự lưu dữ liệu.
+            </p>
+            <p className="muted">
+              Quiz mẫu chỉ mở phần xem trước/kiểm tra chất lượng. Bạn vẫn cần xác nhận trước khi lưu vào thư viện cục bộ.
+            </p>
+            <p className="muted">
+              AI trong Shime hiện là quy trình thủ công: tạo prompt, copy sang công cụ bên ngoài, rồi dán kết quả lại để kiểm tra. Shime không gọi AI/API và không có API key/BYOK.
+            </p>
+            <p className="muted">
+              Import tài liệu PDF/DOCX/PPTX/ZIP cần EduGen chạy riêng và được cấu hình; EduGen không được bundle vào Shime và chỉ trích xuất chữ khi service hỗ trợ.
+            </p>
+          </div>
+          <div className="textImportHelp" aria-label="Cách bắt đầu khi thư viện trống">
+            <Badge tone="info">Dùng quiz mẫu</Badge>
+            <Badge tone="info">Nạp JSON/CSV</Badge>
+            <Badge tone="info">Dán text/Markdown</Badge>
+            <Badge tone="neutral">AI thủ công copy/paste</Badge>
+            <Badge tone="neutral">EduGen riêng khi cần tài liệu</Badge>
+          </div>
+        </Card>
+      ) : null}
+
       <Card title="Thử nhanh với quiz mẫu" eyebrow="Demo cục bộ" className="demoSampleQuickstartCard">
         <div className="textImportCard__intro">
           <div className="manualAiPromptWarning" role="note">
@@ -1016,7 +1042,7 @@ B. TCP/IP
         <EmptyState
           icon="＋"
           title="Chưa có dữ liệu học liệu"
-          description="Bộ chuyển đổi đang trả về dữ liệu rỗng an toàn. Hãy nạp JSON hoặc CSV đúng cấu trúc v2 để xem trước trước khi dùng."
+          description="Thư viện đang trống. Hãy dùng quiz mẫu, nạp JSON/CSV, dán text/Markdown, hoặc dùng quy trình AI thủ công copy/paste để tạo bản nháp. Mọi đường dẫn vẫn cần xem trước, kiểm tra chất lượng và xác nhận lưu."
           action={<Button type="button" variant="secondary" size="sm" onClick={openFilePicker}>Nạp JSON/CSV</Button>}
         />
       ) : null}
