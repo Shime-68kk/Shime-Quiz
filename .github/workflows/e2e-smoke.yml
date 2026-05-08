@@ -140,6 +140,9 @@ jobs:
       - name: Validate GitHub release draft
         run: node scripts/validate-github-release-draft.js
 
+      - name: Validate release package cleanliness
+        run: node scripts/validate-release-package-cleanliness.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

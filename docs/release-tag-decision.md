@@ -100,3 +100,8 @@ Unsafe claims after Phase 9A:
 - Do not claim OCR support.
 - Do not claim EduGen is bundled into Shime.
 - Do not claim backend/cloud sync.
+
+
+## Phase 9C release package/source archive verification reference
+
+Before creating any tag, review [`docs/release-package-cleanliness.md`](release-package-cleanliness.md). The Phase 9C guide documents source archive cleanliness checks, generated artifact exclusions, dry-run cleanup guidance, and claims boundaries. It does not create a tag, publish a GitHub Release, publish a release package, or change package version.
