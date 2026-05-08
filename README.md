@@ -7,6 +7,12 @@ Current beta label: **v2.0.0-beta-ai.1**
 Release status: **release candidate with Phase 8H Ubuntu manual smoke passed**. This is not a hosted production/security certification or broad device certification; users should still verify the target environment before wider release.
 
 
+## Final RC audit / release tag readiness
+
+Final release-candidate audit documentation exists at [`docs/final-rc-audit.md`](docs/final-rc-audit.md). It summarizes the audited Phase 8W baseline, current RC capabilities and caveats, EduGen and manual AI boundaries, scoped Ubuntu/manual/E2E evidence, and release tag readiness checklist.
+
+This audit does not create a release tag, publish a GitHub release, certify production readiness, certify security posture, or claim GitHub Actions / CI Green Verification unless a current CI run is actually verified.
+
 ## Public release and deployment readiness
 
 
@@ -194,6 +200,7 @@ The legacy vanilla source remains in the repository during the transition, but v
 - v2 release checklist: [`RELEASE_QA_V2.md`](RELEASE_QA_V2.md)
 - public release notes: [`docs/public-release-notes.md`](docs/public-release-notes.md)
 - deployment readiness notes: [`docs/deployment-readiness.md`](docs/deployment-readiness.md)
+- final RC audit: [`docs/final-rc-audit.md`](docs/final-rc-audit.md)
 - v2 deployment guide: [`DEPLOY_V2.md`](DEPLOY_V2.md)
 - v2 release notes: [`RELEASE_NOTES_V2.md`](RELEASE_NOTES_V2.md)
 - v2 data model notes: [`docs/V2_DATA_MODEL.md`](docs/V2_DATA_MODEL.md)

@@ -140,3 +140,9 @@ This is test automation only. It does not change runtime app behavior, import/pa
 Phase 8W adds [`docs/local-e2e-verification.md`](local-e2e-verification.md) for Ubuntu maintainers who need to install Playwright Chromium and run `npm run test:e2e:smoke` plus `npm run test:e2e:onboarding`. The onboarding E2E coverage exists, and the local Ubuntu run passed after Playwright Chromium was installed.
 
 A future automated E2E pass should only be claimed when the relevant command actually exits successfully in that environment. Missing Chromium or browser-launch failures should be reported as environment-blocked, not as product failures. EduGen is not required for onboarding E2E; PDF/DOCX/PPTX/ZIP document-import E2E would require a separate browser-reachable EduGen service if that path is tested.
+
+## Final RC audit / release tag readiness
+
+Phase 8X adds [`docs/final-rc-audit.md`](final-rc-audit.md) as the final release-candidate audit and release tag readiness reference for the current Phase 8W baseline. It audits current capabilities, caveats, Ubuntu browser smoke evidence, local onboarding E2E evidence, EduGen boundaries, manual AI boundaries, unsupported claims, and later release-management next steps.
+
+The final RC audit does not create a release tag, publish a GitHub release, certify production readiness, certify security posture, or claim GitHub Actions / CI Green Verification unless a current CI run is actually verified.

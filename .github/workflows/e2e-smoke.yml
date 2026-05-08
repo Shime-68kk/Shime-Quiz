@@ -128,6 +128,9 @@ jobs:
       - name: Validate local E2E verification docs
         run: node scripts/validate-local-e2e-verification-docs.js
 
+      - name: Validate final RC audit
+        run: node scripts/validate-final-rc-audit.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

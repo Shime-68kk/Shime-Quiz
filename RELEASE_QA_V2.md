@@ -590,3 +590,35 @@ Scope guardrails:
 - No storage/schema/scoring/SRT/mastery changes.
 - No package version changes.
 - No dependency changes.
+
+
+## Phase 8X - Final RC Audit / Release Tag Readiness
+
+Scope: documentation, final RC audit, release tag readiness checklist, static validator, and CI validator registration only.
+
+What changed:
+
+- Added `docs/final-rc-audit.md` as the final release-candidate audit for the Phase 8W baseline.
+- Documented current capabilities and caveats that can be safely claimed.
+- Audited manual Ubuntu browser smoke references for the demo quickstart, Library empty-state onboarding, and Dashboard first-run onboarding.
+- Audited local onboarding E2E evidence: `npm run test:e2e:onboarding` passed on local Ubuntu after Playwright Chromium was installed, with future pass claims requiring actual command output.
+- Audited EduGen boundary: EduGen is separate, not bundled, and PDF/DOCX/PPTX/ZIP import requires a configured browser-reachable service.
+- Audited manual AI boundary: manual prompt/export and paste/import workflow only, with no built-in AI generation, external AI/API calls, or API key/BYOK support.
+- Added release tag readiness checklist and next-step caveats for later GitHub Actions / CI Green Verification, release tag/version decision, GitHub release draft, and package cleanliness review.
+- Added `scripts/validate-final-rc-audit.js`.
+- Registered `node scripts/validate-final-rc-audit.js` in `.github/workflows/e2e-smoke.yml` while preserving previous validators and Playwright smoke commands.
+
+Scope guardrails:
+
+- No runtime app behavior changes.
+- No user-facing app feature changes.
+- No E2E test logic changes.
+- No import/parser changes.
+- No EduGen source changes.
+- No AI/API/BYOK/OCR/backend changes.
+- No storage/schema/scoring/SRT/mastery changes.
+- No package version changes.
+- No dependency changes.
+- No release tag created.
+- No GitHub release published.
+- No production/security certification claim.
