@@ -127,3 +127,9 @@ These improvements preserve the existing import safety model: the demo sample an
 ## Final RC smoke status
 
 Phase 8H final RC manual smoke passed on the user's Ubuntu browser. The verified surfaces included app shell, Dashboard, Library, Study Room access, Dashboard "Kế hoạch hôm nay" completion guard behavior, import surfaces, manual AI prompt/export, manual AI output review, and the absence of built-in AI generation or API-key/BYOK fields.
+
+## Onboarding E2E smoke coverage
+
+Phase 8V adds automated Playwright smoke coverage for the onboarding/demo quickstart flows introduced in Phase 8N through Phase 8S. The targeted smoke path checks Dashboard first-run onboarding, Library onboarding, the **Dùng quiz mẫu** quickstart, preview/validation/quality review visibility, and the absence of auto-save before explicit confirmation.
+
+This is test automation only. It does not change runtime app behavior, import/parser logic, EduGen behavior, AI/API behavior, storage schema, scoring, SRT, or mastery logic.

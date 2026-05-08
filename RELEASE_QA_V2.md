@@ -525,3 +525,34 @@ Scope guardrails:
 Validation added:
 
 - `node scripts/validate-public-positioning-lock.js` checks final public positioning docs, onboarding/demo verification references, deployment caveats, screenshot guidance, claim guardrails, unchanged package version, and CI registration.
+
+## Phase 8V - Onboarding Flow E2E Smoke Coverage
+
+Scope: E2E/test automation and release-safety validation only.
+
+What changed:
+
+- Added `e2e/onboarding-smoke.spec.js` to cover the Phase 8N-8S onboarding/demo quickstart path.
+- Added `npm run test:e2e:onboarding` for targeted onboarding smoke execution without changing the existing `npm run test:e2e:smoke` command.
+- Added `scripts/validate-onboarding-e2e-smoke.js` to statically verify onboarding E2E coverage, CI registration, unchanged package version/dependency metadata, and claim guardrails.
+- Registered `node scripts/validate-onboarding-e2e-smoke.js` in `.github/workflows/e2e-smoke.yml`.
+- Added `npm run test:e2e:onboarding` to CI after the existing Playwright smoke command and after Playwright Chromium installation.
+- Updated public release notes and demo script with concise Phase 8V coverage notes.
+
+Coverage intent:
+
+- Dashboard first-run onboarding appears in the empty-data state and points to Library safe start options.
+- Library onboarding surfaces the local demo sample quickstart, JSON/CSV import, text/Markdown import, manual AI copy/paste boundaries, and separate EduGen document-import boundary.
+- The **Dùng quiz mẫu** quickstart opens the existing preview, validation, and advisory quality review flow.
+- The demo sample is not auto-saved before explicit confirmation.
+- No API key/BYOK UI is expected, and EduGen is not required for the local demo sample quickstart.
+
+Scope guardrails:
+
+- No runtime app behavior changes.
+- No user-facing app feature changes.
+- No import/parser changes.
+- No EduGen source changes.
+- No AI generation, external AI/API calls, API key/BYOK support, OCR, backend/auth/cloud sync, or hosted production/security certification.
+- No storage/schema/scoring/SRT/mastery changes.
+- No package version or dependency changes.

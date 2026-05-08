@@ -122,11 +122,17 @@ jobs:
       - name: Validate public positioning lock
         run: node scripts/validate-public-positioning-lock.js
 
+      - name: Validate onboarding E2E smoke coverage
+        run: node scripts/validate-onboarding-e2e-smoke.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
       - name: Run Playwright E2E smoke
         run: npm run test:e2e:smoke
+
+      - name: Run onboarding E2E smoke
+        run: npm run test:e2e:onboarding
 
       - name: Upload Playwright report
         if: failure()
