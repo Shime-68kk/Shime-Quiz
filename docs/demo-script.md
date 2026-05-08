@@ -25,6 +25,8 @@ If the Library is empty, point out the empty-state onboarding before using the s
 
 Open the Dashboard first. Point out the learning overview, today's journey, goal progress, due-review surfaces, and local study history. Explain that these are local study helpers, not AI predictions or guaranteed learning outcomes.
 
+If the app is in a first-run empty-data state, point out the Dashboard getting-started callout. Say: "This Dashboard hint sends new users to the Library, where they can use the local demo sample, import JSON/CSV, paste text/Markdown, use the manual AI copy-paste workflow, or configure EduGen separately for document imports. It does not auto-load or auto-save; preview, review, and confirm-save still apply."
+
 Suggested wording:
 
 > "This Dashboard gives learners a local study overview: what to review, what progress looks like, and what steps are available today. It is designed to help guide study sessions without requiring an account or cloud sync."

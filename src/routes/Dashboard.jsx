@@ -60,7 +60,17 @@ export default function Dashboard() {
 
 function DashboardContent() {
   const navigate = useNavigate();
-  const { adapter, librarySummary: summary, dataSource, subjects } = useDashboardLearningData();
+  const {
+    adapter,
+    librarySummary: summary,
+    dataSource,
+    subjects,
+    historyRecords,
+    scheduleRecords,
+    feedbackRecords,
+    studyGoal,
+    planProgressState
+  } = useDashboardLearningData();
   const itemTypeEntries = Object.entries(summary.itemTypeCounts);
   const summaries = buildSummaries(summary);
   const sourceLabel = dataSource.sourceType === 'mock'
@@ -70,6 +80,14 @@ function DashboardContent() {
       : dataSource.sourceType === 'json'
         ? 'Đã nạp JSON'
          : 'Dữ liệu đã nạp';
+  const hasStudyPlanProgress = Boolean(planProgressState?.day?.completedStepIds?.length);
+  const isFirstRunEmptyState = dataSource.sourceType === 'mock'
+    && !dataSource.importedAt
+    && historyRecords.length === 0
+    && scheduleRecords.length === 0
+    && feedbackRecords.length === 0
+    && !studyGoal
+    && !hasStudyPlanProgress;
 
   return (
     <div className="pageStack">
@@ -94,6 +112,27 @@ function DashboardContent() {
         </div>
       </Card>
 
+      {isFirstRunEmptyState ? (
+        <Card title="Chưa có dữ liệu học tập" eyebrow="Bắt đầu an toàn" className="dashboardFirstRunOnboardingCard">
+          <div className="textImportCard__intro">
+            <p className="muted">
+              Hãy bắt đầu ở Thư viện: dùng quiz mẫu, import JSON/CSV, hoặc dán nội dung text/Markdown. Phần này chỉ dẫn bạn đến luồng Thư viện hiện có, không tự nạp và không tự lưu dữ liệu.
+            </p>
+            <p className="muted">
+              Quiz mẫu chỉ mở phần xem trước/kiểm tra chất lượng. Bạn vẫn cần xác nhận trước khi lưu vào thư viện cục bộ.
+            </p>
+            <p className="muted">
+              AI trong Shime là quy trình thủ công copy/paste: Shime không gọi AI/API và không có API key/BYOK. Import tài liệu PDF/DOCX/PPTX/ZIP cần EduGen chạy riêng và được cấu hình.
+            </p>
+          </div>
+          <div className="textImportActions">
+            <Button type="button" variant="secondary" onClick={() => navigate('/library')}>
+              Mở Thư viện
+            </Button>
+            <span className="muted">Không auto-load, không auto-save, không reset dữ liệu.</span>
+          </div>
+        </Card>
+      ) : null}
 
       <TodayJourneyCard />
 

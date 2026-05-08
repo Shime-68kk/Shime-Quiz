@@ -106,6 +106,8 @@ A first-run Library hint helps users discover the quickstart. The hint is only g
 
 When the Library has no saved quiz items, an empty-state onboarding guide points users to the local demo sample, JSON/CSV import, text/Markdown paste import, the manual AI prompt/export copy-paste workflow, and separately configured EduGen document import. The empty state is guidance only: it does not auto-load, auto-save, bypass preview/review/confirm-save, call AI/API, or require EduGen.
 
+When Dashboard opens before a user has meaningful saved library or study data, a first-run callout points to the Library as the safe start location. It mentions the demo sample quickstart, JSON/CSV import, text/Markdown import, manual AI copy/paste workflow, and separately configured EduGen document import. It does not auto-load, auto-save, call AI/API, require EduGen, or bypass preview/review/confirm-save.
+
 ## Final RC smoke status
 
 Phase 8H final RC manual smoke passed on the user's Ubuntu browser. The verified surfaces included app shell, Dashboard, Library, Study Room access, Dashboard "Kế hoạch hôm nay" completion guard behavior, import surfaces, manual AI prompt/export, manual AI output review, and the absence of built-in AI generation or API-key/BYOK fields.

@@ -116,6 +116,9 @@ jobs:
       - name: Validate Library empty-state onboarding
         run: node scripts/validate-library-empty-state-onboarding.js
 
+      - name: Validate Dashboard first-run onboarding
+        run: node scripts/validate-dashboard-first-run-onboarding.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

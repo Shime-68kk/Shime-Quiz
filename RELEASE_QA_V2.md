@@ -486,3 +486,12 @@ This phase is PDF-only inside Shime. It does not add DOCX, PPTX, ZIP, OCR, AI qu
 - Existing import, manual AI, EduGen document import, preview, validation, advisory quality review, and explicit confirm-save behavior remain unchanged.
 - Adds `scripts/validate-library-empty-state-onboarding.js` and CI coverage for the empty-state onboarding guardrails.
 - No import/parser changes, EduGen source changes, AI/API/BYOK/OCR/backend changes, scoring/SRT/mastery changes, storage/backup schema changes, package version changes, or dependency changes were made.
+
+## Phase 8S — Dashboard first-run empty-state onboarding
+
+- Phase 8S adds a small, non-blocking Dashboard first-run callout for users with no meaningful saved library or study data.
+- The callout points users to the Library as the safe start location for the local demo sample quickstart, JSON/CSV import, text/Markdown paste/import, manual AI prompt/export copy-paste workflow, and separately configured EduGen document import.
+- The callout is guidance only: it does not auto-load the demo sample, does not auto-save, does not insert directly into the Library, does not reset localStorage, and does not add a new storage key or schema migration.
+- Existing Dashboard metrics, today-plan behavior, recommendations, study history, import/manual AI/EduGen flows, Library quickstart, preview, validation, advisory quality review, and explicit confirm-save behavior remain unchanged.
+- Adds `scripts/validate-dashboard-first-run-onboarding.js` and CI coverage for the Dashboard first-run onboarding guardrails.
+- No import/parser changes, EduGen source changes, AI/API/BYOK/OCR/backend changes, scoring/SRT/mastery changes, storage/backup schema changes, package version changes, or dependency changes were made.
