@@ -17,6 +17,8 @@ For the fastest in-app walkthrough, open Library and use **Dùng quiz mẫu**. T
 
 Phase 8P adds a small first-run Library hint near this button. In the demo, describe it as a discovery aid only: it does not auto-load the sample, does not auto-save, does not persist a dismissal state, does not call AI/API, and does not require EduGen.
 
+If the Library is empty, point out the empty-state onboarding before using the sample. Say: "This empty state suggests safe first steps: try the local sample, import JSON/CSV, paste text/Markdown, use the manual AI copy-paste workflow, or configure EduGen separately for document imports. It does not auto-load or auto-save; the preview, review, and confirm-save steps still apply."
+
 ## 3-minute guided demo flow
 
 ### 1. Dashboard / Overview

@@ -104,6 +104,8 @@ The Library includes a local demo sample quickstart for trying Shime without man
 
 A first-run Library hint helps users discover the quickstart. The hint is only guidance copy: it does not auto-load the sample, does not auto-save, does not change storage schema, does not call AI/API, and does not require EduGen.
 
+When the Library has no saved quiz items, an empty-state onboarding guide points users to the local demo sample, JSON/CSV import, text/Markdown paste import, the manual AI prompt/export copy-paste workflow, and separately configured EduGen document import. The empty state is guidance only: it does not auto-load, auto-save, bypass preview/review/confirm-save, call AI/API, or require EduGen.
+
 ## Final RC smoke status
 
 Phase 8H final RC manual smoke passed on the user's Ubuntu browser. The verified surfaces included app shell, Dashboard, Library, Study Room access, Dashboard "Kế hoạch hôm nay" completion guard behavior, import surfaces, manual AI prompt/export, manual AI output review, and the absence of built-in AI generation or API-key/BYOK fields.
