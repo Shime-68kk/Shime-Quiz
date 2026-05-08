@@ -747,3 +747,36 @@ Not changed:
 - No production/security certification claim.
 
 Recommended next phase: Phase 9D — Release Tag / Publish Checklist.
+
+## Phase 9D — Release Tag / Publish Checklist
+
+Status: documentation/static-validator/CI registration only.
+
+Scope:
+- Release tag / publish checklist document: `docs/release-tag-publish-checklist.md`.
+- Final pre-tag checklist covering clean/up-to-date main branch, clean `git status --short`, user-selected tag name, release draft review, source/archive cleanliness review, public docs review, and final RC audit review.
+- Validation checklist covering `npm ci`, `npm run build`, full static validator chain, E2E evidence only when claiming E2E pass, and GitHub Actions green only when claiming CI green.
+- Source/archive cleanliness checkpoint references `docs/release-package-cleanliness.md`.
+- GitHub release draft checkpoint references `docs/github-release-draft.md`.
+- Vite chunk-size warning documented as non-blocking if `npm run build` still completes successfully.
+- Stop conditions documented for dirty git status, failing build, failing validators, missing release tag decision, missing release draft, generated artifacts/secrets, CI not green when claiming CI green, and E2E not passing when claiming E2E pass.
+- Static validator: `scripts/validate-release-tag-publish-checklist.js`.
+- CI coverage for `validate-release-tag-publish-checklist`.
+
+Phase 9D does not:
+- change package version
+- create a release tag
+- publish a GitHub release
+- publish a release package
+- change runtime app behavior
+- change user-facing features
+- change E2E test logic
+- change import/parser logic
+- change EduGen source
+- add AI/API/OCR/backend behavior
+- change storage/schema/scoring/SRT/mastery behavior
+- change dependencies
+- does not claim production certification
+- does not claim security certification
+
+Recommended next step: stop and ask the user whether to create the actual release tag/publish flow, or run optional regression hardening phases 9E–9H.

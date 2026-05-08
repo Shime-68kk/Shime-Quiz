@@ -152,3 +152,7 @@ Do not say production certified. Do not say security certified. Do not say relea
 ## Phase 9C release package/source archive verification reference
 
 Release package/source archive verification guidance is documented in [`docs/release-package-cleanliness.md`](release-package-cleanliness.md). This later release-finalization step documents generated/local artifacts that must not be committed, dry-run cleanup guidance, and source archive cleanliness checks before any tag or publish step. It does not create a release tag, publish a GitHub Release, publish a release package, or certify production/security readiness.
+
+## Phase 9D release tag / publish checklist reference
+
+The final release tag / publish checklist is documented in [`docs/release-tag-publish-checklist.md`](release-tag-publish-checklist.md). It records pre-tag checks, validation requirements, source/archive cleanliness checkpoints, GitHub Release draft checkpoints, example tag commands marked as examples only, stop conditions, and claims boundaries. Phase 9D does not create a release tag, publish a GitHub Release, publish a release package, change package version, or certify production/security readiness.

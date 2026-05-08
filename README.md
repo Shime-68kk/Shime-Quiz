@@ -242,3 +242,7 @@ The legacy vanilla source remains in the repository during the transition, but v
 ## Release package cleanliness
 
 Release package/source archive cleanliness guidance is documented in [`docs/release-package-cleanliness.md`](docs/release-package-cleanliness.md). It documents generated/local artifacts that should not be committed before a tag or GitHub Release. Phase 9C does not publish a release package, create a release tag, publish a GitHub Release, change package version, or certify production/security readiness.
+
+## Release tag / publish checklist
+
+Final release tag and publish steps are documented in [`docs/release-tag-publish-checklist.md`](docs/release-tag-publish-checklist.md). The checklist covers pre-tag review, validation evidence, source archive cleanliness, GitHub Release draft review, safe example tag commands, stop conditions, and claims control. Phase 9D does not change the package version, create a release tag, publish a GitHub Release, publish a release package, or certify production/security readiness. The existing Vite chunk-size warning is documented as non-blocking when `npm run build` still completes successfully.

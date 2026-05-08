@@ -105,3 +105,7 @@ Unsafe claims after Phase 9A:
 ## Phase 9C release package/source archive verification reference
 
 Before creating any tag, review [`docs/release-package-cleanliness.md`](release-package-cleanliness.md). The Phase 9C guide documents source archive cleanliness checks, generated artifact exclusions, dry-run cleanup guidance, and claims boundaries. It does not create a tag, publish a GitHub Release, publish a release package, or change package version.
+
+## Phase 9D release tag / publish checklist reference
+
+After the user chooses a tag/version strategy, review [`docs/release-tag-publish-checklist.md`](release-tag-publish-checklist.md) before creating any tag or publishing any GitHub Release. The checklist documents final pre-tag validation, source archive cleanliness, GitHub Release draft review, safe example commands, stop conditions, and claims controls. Phase 9D does not create a tag, publish a GitHub Release, publish a release package, or change package version.
