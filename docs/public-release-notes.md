@@ -108,6 +108,22 @@ When the Library has no saved quiz items, an empty-state onboarding guide points
 
 When Dashboard opens before a user has meaningful saved library or study data, a first-run callout points to the Library as the safe start location. It mentions the demo sample quickstart, JSON/CSV import, text/Markdown import, manual AI copy/paste workflow, and separately configured EduGen document import. It does not auto-load, auto-save, call AI/API, require EduGen, or bypass preview/review/confirm-save.
 
+
+
+## Current release-candidate positioning
+
+Phase 8N through Phase 8T completed the onboarding and demo quickstart polish for this release candidate:
+
+- Phase 8N added the in-app Library **Dùng quiz mẫu** quickstart.
+- Phase 8O verified the demo sample quickstart in the user's Ubuntu browser.
+- Phase 8P added a first-run hint beside the Library quickstart.
+- Phase 8Q added Library empty-state onboarding.
+- Phase 8R verified Library empty-state onboarding in the user's Ubuntu browser.
+- Phase 8S added Dashboard first-run onboarding.
+- Phase 8T verified Dashboard first-run onboarding in the user's Ubuntu browser.
+
+These improvements preserve the existing import safety model: the demo sample and import flows still require preview, validation, advisory quality review, and explicit confirm-save before content is stored locally. They do not auto-load or auto-save content. EduGen remains a separate configured service for PDF/DOCX/PPTX/ZIP document import, and AI support remains a manual copy/paste workflow only; Shime does not call AI/API providers.
+
 ## Final RC smoke status
 
 Phase 8H final RC manual smoke passed on the user's Ubuntu browser. The verified surfaces included app shell, Dashboard, Library, Study Room access, Dashboard "Kế hoạch hôm nay" completion guard behavior, import surfaces, manual AI prompt/export, manual AI output review, and the absence of built-in AI generation or API-key/BYOK fields.

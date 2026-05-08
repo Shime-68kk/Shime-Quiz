@@ -9,6 +9,23 @@ Release status: **release candidate with Phase 8H Ubuntu manual smoke passed**. 
 
 ## Public release and deployment readiness
 
+
+## Current RC capabilities
+
+This release-candidate documentation locks the current public positioning for Shime Quiz:
+
+- Local-first quiz study app with browser-local study data and no backend account requirement.
+- Library **Dùng quiz mẫu** demo sample quickstart for trying a bundled local sample.
+- Library first-run hint and empty-state onboarding that point users to safe first actions.
+- Dashboard first-run onboarding that sends empty-data users to Library before they start studying.
+- JSON/CSV import, paste text/Markdown draft import, and local `.txt`/`.md` draft import.
+- PDF/DOCX/PPTX/ZIP draft import only through a separately configured, browser-reachable EduGen File Processor service.
+- Advisory quiz draft quality review before save, including duplicate-choice style warnings where applicable.
+- Manual AI prompt/export and manual pasted-output review/import hardening.
+- Public demo sample pack plus demo, deployment, screenshot, and visual-asset readiness docs.
+
+The demo sample quickstart and import paths keep the safety boundary: users review validation, advisory quality review, preview, and confirm-save before local storage is updated. Shime does not provide built-in AI quiz generation, external AI/API integration, API key/BYOK support, OCR, backend/cloud sync, bundled EduGen, or production/security certification.
+
 - Public release notes: [`docs/public-release-notes.md`](docs/public-release-notes.md)
 - Deployment readiness notes: [`docs/deployment-readiness.md`](docs/deployment-readiness.md)
 

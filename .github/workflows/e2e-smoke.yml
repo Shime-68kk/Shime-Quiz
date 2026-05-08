@@ -119,6 +119,9 @@ jobs:
       - name: Validate Dashboard first-run onboarding
         run: node scripts/validate-dashboard-first-run-onboarding.js
 
+      - name: Validate public positioning lock
+        run: node scripts/validate-public-positioning-lock.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

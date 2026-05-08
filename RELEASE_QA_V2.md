@@ -495,3 +495,33 @@ This phase is PDF-only inside Shime. It does not add DOCX, PPTX, ZIP, OCR, AI qu
 - Existing Dashboard metrics, today-plan behavior, recommendations, study history, import/manual AI/EduGen flows, Library quickstart, preview, validation, advisory quality review, and explicit confirm-save behavior remain unchanged.
 - Adds `scripts/validate-dashboard-first-run-onboarding.js` and CI coverage for the Dashboard first-run onboarding guardrails.
 - No import/parser changes, EduGen source changes, AI/API/BYOK/OCR/backend changes, scoring/SRT/mastery changes, storage/backup schema changes, package version changes, or dependency changes were made.
+
+
+## Phase 8U - RC Polish Summary / Final Public Positioning Lock
+
+Scope: documentation/public positioning/readiness only.
+
+What changed:
+
+- Locked README current RC capability positioning for the local-first app, Library demo sample quickstart, Library empty-state onboarding, Dashboard first-run onboarding, supported import paths, manual AI workflow, advisory quality review, demo sample pack, and readiness docs.
+- Updated public release notes with Phase 8N-8T onboarding/demo quickstart improvements and Ubuntu browser verification references for the demo quickstart, Library empty-state onboarding, and Dashboard first-run onboarding.
+- Added a recommended RC demo path from Dashboard first-run onboarding to Library, demo sample preview/quality review, optional confirm-save, Study Room, manual AI boundary, and EduGen boundary.
+- Reaffirmed deployment readiness boundaries: frontend-only app shell hosting, browser-reachable separate EduGen requirement for document import, browser-local data, no backend/auth/cloud sync, no built-in AI/API provider, and no OCR.
+- Added Dashboard first-run onboarding, Library empty-state onboarding, Library quickstart, and demo sample preview/quality review to visual asset guidance and screenshot checklist.
+- Added `scripts/validate-public-positioning-lock.js`.
+- Registered `node scripts/validate-public-positioning-lock.js` in `.github/workflows/e2e-smoke.yml`.
+
+Scope guardrails:
+
+- No runtime app behavior changes.
+- No user-facing app feature changes.
+- No import/parser changes.
+- No EduGen source changes.
+- No AI generation, external AI/API calls, API key/BYOK support, OCR, backend/auth/cloud sync, or hosted production/security certification.
+- No storage/schema/scoring/SRT/mastery changes.
+- No package version or dependency changes.
+- No screenshot/image assets added.
+
+Validation added:
+
+- `node scripts/validate-public-positioning-lock.js` checks final public positioning docs, onboarding/demo verification references, deployment caveats, screenshot guidance, claim guardrails, unchanged package version, and CI registration.
