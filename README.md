@@ -30,6 +30,8 @@ A small first-run hint beside the quickstart helps new users discover this path.
 
 When the Library has no saved quiz items, an empty-state guide points new users to safe first actions: use the local demo sample, import JSON/CSV, paste text/Markdown, use the manual AI prompt/export copy-paste workflow, or configure a separate EduGen service for document import. This empty state is guidance only: it does not auto-load, auto-save, bypass preview/review/confirm-save, call AI/API, or require EduGen.
 
+The Dashboard also includes a first-run getting-started callout when there is no meaningful saved library or study data. It points users to the Library as the safe start location for the demo sample quickstart, JSON/CSV import, text/Markdown import, manual AI copy/paste workflow, and separately configured EduGen document import. The callout does not auto-load, auto-save, reset storage, call AI/API, or bypass preview/review/confirm-save.
+
 ## Suggested demo flow
 
 For a launch or reviewer walkthrough, use the demo order in [`docs/demo-script.md`](docs/demo-script.md): Dashboard, Library, import, advisory draft quality review, Study Room, today-plan completion guard, manual AI prompt/export, and the EduGen document import caveat.
