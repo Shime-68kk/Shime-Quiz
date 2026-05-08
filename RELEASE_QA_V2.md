@@ -469,3 +469,12 @@ This phase is PDF-only inside Shime. It does not add DOCX, PPTX, ZIP, OCR, AI qu
 - Adds `scripts/validate-demo-sample-quickstart.js` and CI coverage for the in-app demo quickstart guardrails.
 - No import/parser changes, EduGen source changes, AI/API/BYOK/OCR/backend changes, schema/storage/scoring/SRT/mastery changes, package version changes, or dependency changes were made.
 
+## Phase 8P — First-run onboarding hint for demo quickstart
+
+- Phase 8P adds a small, non-blocking Library onboarding hint near **Dùng quiz mẫu** so new users can discover the local demo sample quickstart.
+- The hint is copy-only guidance: it does not auto-load the demo sample, does not auto-save, does not insert anything directly into the Library, does not reset localStorage, and does not add a new storage key or schema migration.
+- The existing demo sample quickstart still routes through preview, import validation, advisory quality review, and explicit confirm-save before anything is stored locally.
+- The hint and quickstart do not call AI/API, do not add API key/BYOK support, do not require EduGen, do not add OCR, and do not add backend/auth/cloud sync.
+- Adds `scripts/validate-demo-quickstart-onboarding.js` and CI coverage for the onboarding hint guardrails.
+- No import/parser changes, EduGen source changes, scoring/SRT/mastery changes, storage/backup schema changes, package version changes, or dependency changes were made.
+

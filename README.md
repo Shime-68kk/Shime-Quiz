@@ -26,6 +26,8 @@ Use [`docs/demo-samples/README.md`](docs/demo-samples/README.md) for small synth
 
 The Library includes a local **Dùng quiz mẫu** quickstart so reviewers and new users can load a safe sample quiz without uploading files. The quickstart only creates an import preview: users still review validation results, advisory quality review, and explicitly confirm save before anything is stored locally. It does not call AI/API, does not use EduGen, and does not auto-save or reset existing data.
 
+A small first-run hint beside the quickstart helps new users discover this path. The hint does not auto-load the sample, does not auto-save, does not add storage keys, does not call AI/API, and does not require EduGen; it only explains that the user must continue through preview, review, and confirm-save.
+
 ## Suggested demo flow
 
 For a launch or reviewer walkthrough, use the demo order in [`docs/demo-script.md`](docs/demo-script.md): Dashboard, Library, import, advisory draft quality review, Study Room, today-plan completion guard, manual AI prompt/export, and the EduGen document import caveat.

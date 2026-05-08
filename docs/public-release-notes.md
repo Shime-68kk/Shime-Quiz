@@ -102,6 +102,8 @@ A small public demo sample pack is available at [`docs/demo-samples/README.md`](
 
 The Library includes a local demo sample quickstart for trying Shime without manually uploading sample files. It loads a safe sample quiz into the same preview, import validation, advisory quality review, and confirm-save flow used by other imports. It does not auto-save, call AI/API, use EduGen, or change the document-import boundary.
 
+A first-run Library hint helps users discover the quickstart. The hint is only guidance copy: it does not auto-load the sample, does not auto-save, does not change storage schema, does not call AI/API, and does not require EduGen.
+
 ## Final RC smoke status
 
 Phase 8H final RC manual smoke passed on the user's Ubuntu browser. The verified surfaces included app shell, Dashboard, Library, Study Room access, Dashboard "Kế hoạch hôm nay" completion guard behavior, import surfaces, manual AI prompt/export, manual AI output review, and the absence of built-in AI generation or API-key/BYOK fields.
