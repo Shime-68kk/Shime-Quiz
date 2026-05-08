@@ -128,3 +128,7 @@ Unsafe claims after Phase 9C:
 ## Next step
 
 After Phase 9C is accepted, the recommended next phase is **Phase 9D — Release Tag / Publish Checklist**. Phase 9D should remain a checklist/decision gate unless the user explicitly asks to create a tag or publish a GitHub Release.
+
+## Phase 9D release tag / publish checklist reference
+
+After source archive cleanliness is reviewed, use [`docs/release-tag-publish-checklist.md`](release-tag-publish-checklist.md) as the final decision gate before any tag or GitHub Release publishing action. Phase 9D documents pre-tag checks, validation requirements, stop conditions, and example tag commands as examples only. It does not create a release tag, publish a GitHub Release, publish a release package, or change package version.

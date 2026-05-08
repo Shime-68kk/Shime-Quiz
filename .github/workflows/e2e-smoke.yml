@@ -143,6 +143,9 @@ jobs:
       - name: Validate release package cleanliness
         run: node scripts/validate-release-package-cleanliness.js
 
+      - name: Validate release tag publish checklist
+        run: node scripts/validate-release-tag-publish-checklist.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
