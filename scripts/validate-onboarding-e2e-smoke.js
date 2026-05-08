@@ -47,8 +47,11 @@ assertIncludes(spec, 'Dùng quiz mẫu', 'spec must cover the “Dùng quiz mẫ
 assertMatches(spec, /Xem trước file nạp|preview/i, 'spec must check preview/validation appears.');
 assertMatches(spec, /Đánh giá chất lượng bản nháp|quality review/i, 'spec must check quality review appears.');
 assertMatches(spec, /Đã import và lưu cục bộ|localStorage|auto-save/i, 'spec must check no auto-save before confirmation.');
-assertMatches(spec, /API key|BYOK/i, 'spec must check API key/BYOK UI is absent.');
+assertMatches(spec, /getByRole\('textbox', \{ name: \/API key\|BYOK\/i \}\)/, 'spec must check actual API key/BYOK textboxes are absent.');
+assertMatches(spec, /getByLabel\(\/API key\|BYOK\/i\)/, 'spec must check actual API key/BYOK labelled controls are absent.');
+assertMatches(spec, /getByRole\('button', \{ name: \/connect\.\*AI\|generate\.\*with\.\*AI\|enable\.\*OCR\|scan\.\*OCR\|sync\.\*cloud\|enable\.\*cloud\/i \}\)/, 'spec must check actual unsupported AI/OCR/cloud action buttons are absent.');
 assertMatches(spec, /EduGen/i, 'spec must ensure EduGen is not required for the demo quickstart.');
+assertNotMatches(spec, /getByText\(\/[^\n/]*(API key\|BYOK|OCR support|cloud sync|built-in AI generation)[^\n/]*\/i\)\.toHaveCount\(0\)/, 'spec must not use broad forbidden-term text-count assertions that fail on allowed negative guardrail copy.');
 assertMatches(spec, /localStorage\.clear\(\)|sessionStorage\.clear\(\)/, 'spec must start from clean browser storage.');
 assertNotMatches(spec, /fetch\(|route\(.*EduGen|localhost:3001|VITE_FILE_PROCESSOR_URL/i, 'onboarding E2E must not require EduGen or network setup.');
 

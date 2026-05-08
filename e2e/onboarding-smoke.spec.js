@@ -33,7 +33,12 @@ async function expectNoCriticalErrors(criticalErrors) {
 }
 
 async function expectNoUnsupportedAiOrCloudUi(page) {
-  await expect(page.getByText(/API key|BYOK|OCR support|cloud sync|built-in AI generation/i)).toHaveCount(0);
+  // Allowed guardrail copy may mention unsupported features in negative form.
+  // These assertions target actual controls that would enable unsupported AI/BYOK/OCR/cloud behavior.
+  await expect(page.getByRole('textbox', { name: /API key|BYOK/i })).toHaveCount(0);
+  await expect(page.getByLabel(/API key|BYOK/i)).toHaveCount(0);
+  await expect(page.getByRole('button', { name: /connect.*AI|generate.*with.*AI|enable.*OCR|scan.*OCR|sync.*cloud|enable.*cloud/i })).toHaveCount(0);
+  await expect(page.getByRole('form', { name: /API key|BYOK|OCR|cloud sync/i })).toHaveCount(0);
 }
 
 test.beforeEach(async ({ page }) => {
@@ -110,7 +115,7 @@ test('Demo sample quickstart opens preview and does not auto-save before confirm
   const storageKeysBeforeSave = await page.evaluate(() => Object.keys(window.localStorage));
   expect(storageKeysBeforeSave.some(key => /library/i.test(key))).toBe(false);
 
-  await expect(page.getByText(/API key|BYOK/i)).toHaveCount(0);
+  await expectNoUnsupportedAiOrCloudUi(page);
   await expect(page.getByText(/EduGen.*required|phải chạy EduGen để dùng quiz mẫu/i)).toHaveCount(0);
   await expectNoCriticalErrors(criticalErrors);
 });
