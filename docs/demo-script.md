@@ -19,6 +19,22 @@ Phase 8P adds a small first-run Library hint near this button. In the demo, desc
 
 If the Library is empty, point out the empty-state onboarding before using the sample. Say: "This empty state suggests safe first steps: try the local sample, import JSON/CSV, paste text/Markdown, use the manual AI copy-paste workflow, or configure EduGen separately for document imports. It does not auto-load or auto-save; the preview, review, and confirm-save steps still apply."
 
+
+
+## Recommended RC demo path after onboarding polish
+
+Use this short path when presenting the current release candidate:
+
+1. Start on Dashboard and point out the first-run onboarding callout when the app has no meaningful saved study data.
+2. Use the callout to go to Library as the safe start location.
+3. Show the Library empty-state onboarding and the local **Dùng quiz mẫu** quickstart.
+4. Click **Dùng quiz mẫu** and show the preview, validation, and advisory quality review before save.
+5. Confirm save only if desired for the demo, then optionally open Study Room.
+6. Mention the manual AI workflow honestly: users copy a prompt to an outside tool themselves and paste output back for review; Shime does not call AI/API providers.
+7. Mention EduGen separately: PDF/DOCX/PPTX/ZIP import requires a separately running, browser-reachable EduGen service and is not OCR.
+
+Do not claim screenshots already exist unless actual image files are present. This demo path relies on existing screens and the local demo sample quickstart, not new screenshot assets.
+
 ## 3-minute guided demo flow
 
 ### 1. Dashboard / Overview
@@ -129,6 +145,6 @@ D. Local Study Room
 Giải thích: PDF/DOCX/PPTX/ZIP draft import depends on a separately configured EduGen service.
 
 Flashcard:
-Mặt trước: Does Shime include built-in AI generation?
-Mặt sau: No. The current workflow is manual prompt/export and manual pasted-output review only.
+Mặt trước: What is Shime's current AI workflow?
+Mặt sau: The current workflow is manual prompt/export and manual pasted-output review only; Shime does not call AI/API providers.
 ```

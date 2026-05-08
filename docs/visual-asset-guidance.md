@@ -50,3 +50,17 @@ Avoid screenshots, captions, alt text, or surrounding copy that imply unsupporte
 ## README/public docs usage
 
 For now, README and public documentation should link to this guidance and the screenshot checklist rather than embed missing images. Add actual Markdown image references only after screenshot files are captured, reviewed, committed, and verified by a later validator.
+
+
+## Onboarding screenshots added to the capture plan
+
+For the current release-candidate onboarding polish, also consider these future screenshots after they are explicitly captured and approved:
+
+| Screenshot | Recommended filename | Recommended alt text |
+| --- | --- | --- |
+| Dashboard first-run onboarding | `dashboard-first-run-onboarding.png` | Dashboard first-run onboarding callout guiding an empty-data user to Library safe start options. |
+| Library empty-state onboarding | `library-empty-state-onboarding.png` | Library empty-state onboarding explaining demo sample, JSON/CSV import, text/Markdown import, manual AI copy/paste, and separate EduGen document import. |
+| Library demo sample quickstart | `library-demo-sample-quickstart.png` | Library Dùng quiz mẫu quickstart before loading the local sample into preview and review. |
+| Demo sample preview and quality review | `demo-sample-preview-quality-review.png` | Demo sample preview with validation and advisory quality review before confirm-save. |
+
+Keep the same visual guardrails: these screenshots should not imply auto-save, built-in AI generation, AI/API calls, OCR, backend/cloud sync, bundled EduGen, or production/security certification.

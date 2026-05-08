@@ -96,3 +96,15 @@ After deploying or previewing a candidate environment:
 ## Release communication guidance
 
 Use cautious language: release candidate, local-first, browser-local workflows, separate EduGen requirement for document import, manual AI workflow only, and user review before save. Avoid language that implies production certification, server-backed privacy guarantees, OCR, built-in AI generation, external AI/API integration, API-key/BYOK support, backend accounts, or cloud sync.
+
+
+## Current RC deployment positioning lock
+
+For the current release candidate, keep deployment wording conservative:
+
+- A frontend-only deployment can host the Shime app shell and local-first study workflows.
+- PDF/DOCX/PPTX/ZIP document import requires a separately hosted, browser-reachable EduGen File Processor service configured through `VITE_FILE_PROCESSOR_URL`.
+- Browser-local study data remains in browser storage; this release candidate does not include backend accounts, authentication, or cloud sync.
+- Manual AI workflows are copy/paste only; this release candidate does not include a built-in AI provider, AI/API integration, API-key field, or BYOK support.
+- OCR is not included. EduGen extracts available document text and is not bundled into Shime.
+- This documentation does not certify a hosted production or security posture; target deployments still need environment-specific verification.
