@@ -75,6 +75,12 @@ Version and release tag options are documented in [`docs/release-tag-decision.md
 
 Phase 9A does not change `package.json`, create a git tag, publish a GitHub release, or certify production/security readiness. The next release-finalization step is Phase 9B — GitHub Release Draft.
 
+## GitHub release draft
+
+GitHub Release draft content is documented in [`docs/github-release-draft.md`](docs/github-release-draft.md). It provides later-publication release notes, draft title/tag placeholders, capability notes, install/run commands, validation expectations, EduGen and manual AI boundaries, and a pre-publish checklist.
+
+Phase 9B does not change the package version, create a release tag, publish a GitHub release, certify production readiness, or certify security readiness. The next release-finalization step is Phase 9C — Release Package / Source Archive Verification.
+
 ## Suggested demo flow
 
 For a launch or reviewer walkthrough, use the demo order in [`docs/demo-script.md`](docs/demo-script.md): Dashboard, Library, import, advisory draft quality review, Study Room, today-plan completion guard, manual AI prompt/export, and the EduGen document import caveat.

@@ -131,11 +131,12 @@ Recommended next steps after this audit is accepted:
 
 - Perform **GitHub Actions / CI Green Verification** as a later step using [`docs/ci-green-verification.md`](ci-green-verification.md).
 - Review the Phase 9A version / release tag decision document at [`docs/release-tag-decision.md`](release-tag-decision.md) before choosing a tag.
+- Review the Phase 9B GitHub Release Draft at [`docs/github-release-draft.md`](github-release-draft.md) before publishing release notes.
 - Draft the GitHub release as a later step.
 - Verify source archive/package cleanliness as a later step.
 - Optionally prepare a screenshot asset pack only with real reviewed screenshots.
 
-This phase does not decide the release version, create a release tag, create a GitHub release draft, publish a release, or certify production/security readiness. Phase 9A documents release tag/version options in [`docs/release-tag-decision.md`](release-tag-decision.md); the user must still approve any package version or tag action later.
+This phase does not decide the release version, create a release tag, publish a release, or certify production/security readiness. Phase 9B provides a GitHub Release Draft document for later publication, but it does not publish a release. Phase 9A documents release tag/version options in [`docs/release-tag-decision.md`](release-tag-decision.md); the user must still approve any package version or tag action later.
 
 ## Safe conclusion
 

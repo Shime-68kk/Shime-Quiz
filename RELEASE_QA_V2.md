@@ -686,3 +686,33 @@ Scope guardrails:
 - No production/security certification claim.
 
 Recommended next phase: Phase 9B — GitHub Release Draft.
+
+## Phase 9B - GitHub Release Draft
+
+Scope: GitHub release draft documentation, static validator, and CI validator registration only.
+
+What changed:
+
+- Added `docs/github-release-draft.md` with safe release notes content for later publication.
+- Documented draft title options and a tag placeholder that requires user approval before publishing.
+- Drafted the current capability summary, install/run commands, validation expectations, EduGen boundary, manual AI boundary, unsupported claims, and release checklist before publishing.
+- Linked the GitHub release draft document from README, the final RC audit, the release tag decision document, and CI green verification docs.
+- Added `scripts/validate-github-release-draft.js`.
+- Registered `node scripts/validate-github-release-draft.js` in `.github/workflows/e2e-smoke.yml` while preserving previous validators, Playwright Chromium install, E2E smoke/onboarding commands, and failure artifact uploads.
+
+Scope guardrails:
+
+- No package version change.
+- No release tag created.
+- No GitHub release published.
+- No runtime app behavior changes.
+- No user-facing app feature changes.
+- No E2E test logic changes.
+- No import/parser changes.
+- No EduGen source changes.
+- No AI/API/BYOK/OCR/backend changes.
+- No storage/schema/scoring/SRT/mastery changes.
+- No dependency changes.
+- No production/security certification claim.
+
+Recommended next phase: Phase 9C — Release Package / Source Archive Verification.

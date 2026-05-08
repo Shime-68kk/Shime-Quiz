@@ -137,6 +137,9 @@ jobs:
       - name: Validate release tag decision
         run: node scripts/validate-release-tag-decision.js
 
+      - name: Validate GitHub release draft
+        run: node scripts/validate-github-release-draft.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

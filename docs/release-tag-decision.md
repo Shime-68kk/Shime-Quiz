@@ -11,6 +11,7 @@ Phase 9A is documentation, release-readiness, static validation, and CI registra
 - Project baseline: completed/merged through Phase 8Y.
 - Final RC audit documentation exists: [`docs/final-rc-audit.md`](final-rc-audit.md).
 - CI green verification documentation exists: [`docs/ci-green-verification.md`](ci-green-verification.md).
+- GitHub Release draft documentation is prepared later in Phase 9B at [`docs/github-release-draft.md`](github-release-draft.md).
 - Release tag has not been created in this phase.
 - GitHub release has not been published in this phase.
 - Current `package.json` version: `2.0.0-beta-ai.1`.
@@ -56,7 +57,7 @@ Before a release tag is created, verify:
 - Public docs are reviewed.
 - Final RC audit is reviewed.
 - CI green verification guide is reviewed.
-- Release notes/draft are prepared in Phase 9B — GitHub Release Draft.
+- Release notes/draft are prepared in Phase 9B — GitHub Release Draft at [`docs/github-release-draft.md`](github-release-draft.md).
 - Package/source archive cleanliness is checked in Phase 9C.
 - Final release checklist is completed in Phase 9D.
 
