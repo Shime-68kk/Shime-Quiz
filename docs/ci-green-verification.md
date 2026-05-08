@@ -60,3 +60,5 @@ Phase 8Y can conclude that CI green verification documentation and workflow expe
 ## Release tag decision handoff
 
 After CI green verification guidance is reviewed, Phase 9A documents version and release tag options in [`docs/release-tag-decision.md`](release-tag-decision.md). That document records the current package version and possible RC tag strategies, but it does not create a release tag, publish a GitHub release, or certify production/security readiness.
+
+After the tag decision document is reviewed, Phase 9B prepares GitHub Release draft content in [`docs/github-release-draft.md`](github-release-draft.md). The draft is for later publication only; it does not create a release tag or publish a GitHub Release.
