@@ -62,6 +62,12 @@ Onboarding E2E smoke coverage exists for the Dashboard first-run onboarding, Lib
 
 Automated onboarding E2E passed on the local Ubuntu run after Playwright Chromium was installed. Future pass claims require actual successful command output in the target environment; missing Chromium should be reported as environment-blocked, not as an app failure.
 
+## GitHub Actions / CI Green Verification
+
+CI green verification guidance exists at [`docs/ci-green-verification.md`](docs/ci-green-verification.md). It documents the expected GitHub Actions release-readiness workflow: `npm ci`, `npm run build`, the full static validator chain, Playwright Chromium setup with `npx playwright install --with-deps chromium`, `npm run test:e2e:smoke`, and `npm run test:e2e:onboarding`.
+
+Do not claim GitHub Actions CI is green unless an actual GitHub Actions run passes for the relevant branch and commit. Phase 8Y does not create a release tag, publish a GitHub release, certify hosted production readiness, or certify security readiness.
+
 ## Suggested demo flow
 
 For a launch or reviewer walkthrough, use the demo order in [`docs/demo-script.md`](docs/demo-script.md): Dashboard, Library, import, advisory draft quality review, Study Room, today-plan completion guard, manual AI prompt/export, and the EduGen document import caveat.
@@ -201,6 +207,7 @@ The legacy vanilla source remains in the repository during the transition, but v
 - public release notes: [`docs/public-release-notes.md`](docs/public-release-notes.md)
 - deployment readiness notes: [`docs/deployment-readiness.md`](docs/deployment-readiness.md)
 - final RC audit: [`docs/final-rc-audit.md`](docs/final-rc-audit.md)
+- CI green verification guide: [`docs/ci-green-verification.md`](docs/ci-green-verification.md)
 - v2 deployment guide: [`DEPLOY_V2.md`](DEPLOY_V2.md)
 - v2 release notes: [`RELEASE_NOTES_V2.md`](RELEASE_NOTES_V2.md)
 - v2 data model notes: [`docs/V2_DATA_MODEL.md`](docs/V2_DATA_MODEL.md)

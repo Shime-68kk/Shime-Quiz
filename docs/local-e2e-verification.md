@@ -118,3 +118,8 @@ The onboarding E2E path does not require EduGen and does not call AI/API provide
 ## Final RC audit reference
 
 The local E2E guide is referenced by the final RC audit in [`docs/final-rc-audit.md`](final-rc-audit.md). Use this guide as supporting evidence only when the relevant E2E command actually passes in the named environment. The final RC audit does not create a release tag, publish a release, or certify production/security readiness.
+
+
+## CI green verification reference
+
+For GitHub Actions workflow expectations and CI claims-control rules, see [`docs/ci-green-verification.md`](ci-green-verification.md). Local E2E success helps reproduce the expected browser behavior, but GitHub Actions CI green can only be claimed after the actual workflow passes for the relevant branch and commit.

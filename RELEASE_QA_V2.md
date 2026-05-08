@@ -622,3 +622,35 @@ Scope guardrails:
 - No release tag created.
 - No GitHub release published.
 - No production/security certification claim.
+
+## Phase 8Y - GitHub Actions / CI Green Verification
+
+Scope: CI verification guidance, workflow expectation documentation, static validator, and CI validator registration only.
+
+What changed:
+
+- Added `docs/ci-green-verification.md` documenting the expected GitHub Actions release-readiness workflow.
+- Documented expected checks: `npm ci`, `npm run build`, full static validator chain, Playwright Chromium install via `npx playwright install --with-deps chromium`, `npm run test:e2e:smoke`, and `npm run test:e2e:onboarding`.
+- Documented how to classify CI failures as app bugs, test bugs, browser/environment issues, timeout/flakiness, or selector issues.
+- Documented claims control: GitHub Actions CI green and GitHub Actions E2E pass can only be claimed after an actual passing GitHub Actions run for the relevant branch/commit.
+- Documented that Phase 8Y does not create a release tag, publish a GitHub release, certify production readiness, or certify security readiness.
+- Added `scripts/validate-ci-green-verification.js`.
+- Registered `node scripts/validate-ci-green-verification.js` in `.github/workflows/e2e-smoke.yml` while preserving all previous validators, Playwright Chromium install, E2E smoke/onboarding commands, and failure artifact uploads.
+
+Scope guardrails:
+
+- No runtime app behavior changes.
+- No user-facing app feature changes.
+- No E2E test logic changes.
+- No import/parser changes.
+- No EduGen source changes.
+- No AI/API/BYOK/OCR/backend changes.
+- No storage/schema/scoring/SRT/mastery changes.
+- No package version changes.
+- No dependency changes.
+- No broad `continue-on-error`.
+- No skipped E2E.
+- No release tag created.
+- No GitHub release published.
+- No production/security certification claim.
+
