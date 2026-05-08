@@ -148,3 +148,8 @@ Unsafe claims after Phase 9B:
 - Do not say package version changed.
 - Do not say production certified.
 - Do not say security certified.
+
+
+## Phase 9C release package/source archive verification reference
+
+Before publishing this draft as a GitHub Release, review [`docs/release-package-cleanliness.md`](release-package-cleanliness.md). Phase 9C documents release package/source archive verification, generated/local artifact exclusions, and dry-run cleanup guidance. It does not publish a release package, create a tag, publish a GitHub Release, change package version, or certify production/security readiness.

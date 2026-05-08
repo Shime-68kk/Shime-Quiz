@@ -716,3 +716,34 @@ Scope guardrails:
 - No production/security certification claim.
 
 Recommended next phase: Phase 9C — Release Package / Source Archive Verification.
+
+## Phase 9C — Release Package / Source Archive Verification
+
+Scope: documentation/release package cleanliness/static-validator/CI registration only.
+
+Added:
+
+- Release package/source archive cleanliness document: `docs/release-package-cleanliness.md`.
+- Forbidden generated/local artifact list covering `node_modules/`, `dist/`, `test-results/`, `playwright-report/`, `coverage/`, `.env`, `.env.*`, local temp files, `FETCH_HEAD`, `.DS_Store`, debug logs, package-manager error logs, and secret/key files.
+- Source archive cleanliness checklist covering clean `git status --short`, up-to-date main, no generated build output, no dependency folders, no Playwright artifacts, no coverage artifacts, no local environment/secrets, reviewed README/release docs, reviewed package version/tag decision, reviewed GitHub release draft, static validators, build, and E2E evidence if claiming E2E pass.
+- Dry-run cleanup guidance using `git clean -ndX` and `git clean -nd` before any destructive cleanup command.
+- Static validator: `scripts/validate-release-package-cleanliness.js`.
+- CI coverage for `validate-release-package-cleanliness`.
+
+Not changed:
+
+- No package version change.
+- No dependency change.
+- No release tag created.
+- No GitHub release published.
+- No release package published.
+- No runtime app behavior changes.
+- No user-facing feature changes.
+- No E2E logic changes.
+- No import/parser changes.
+- No EduGen source changes.
+- No AI/API/OCR/backend changes.
+- No storage/schema/scoring/SRT/mastery changes.
+- No production/security certification claim.
+
+Recommended next phase: Phase 9D — Release Tag / Publish Checklist.

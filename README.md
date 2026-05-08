@@ -237,3 +237,8 @@ The legacy vanilla source remains in the repository during the transition, but v
 - Direct reload of special Study Room modes may fall back to the default Study Room view.
 - Current learning models are simple local heuristics, not AI.
 - Browser localStorage quota can limit very large libraries or long histories.
+
+
+## Release package cleanliness
+
+Release package/source archive cleanliness guidance is documented in [`docs/release-package-cleanliness.md`](docs/release-package-cleanliness.md). It documents generated/local artifacts that should not be committed before a tag or GitHub Release. Phase 9C does not publish a release package, create a release tag, publish a GitHub Release, change package version, or certify production/security readiness.
