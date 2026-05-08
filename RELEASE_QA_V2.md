@@ -654,3 +654,35 @@ Scope guardrails:
 - No GitHub release published.
 - No production/security certification claim.
 
+
+
+## Phase 9A - Version / Release Tag Decision
+
+Scope: release tag/version decision documentation, static validator, and CI validator registration only.
+
+What changed:
+
+- Added `docs/release-tag-decision.md` documenting version and release tag strategy options.
+- Captured the current `package.json` version in the decision document.
+- Documented options including keeping the existing package version, using a future `v2.0.0-rc1` tag, using a future `v2.0.0-rc2` tag if the user wants a new RC after Phase 8X/8Y, or keeping beta-style tag continuity.
+- Documented that the final package version/tag decision belongs to the user and should be approved before any tag or version change.
+- Linked the release tag decision document from README, the final RC audit, and CI green verification docs.
+- Added `scripts/validate-release-tag-decision.js`.
+- Registered `node scripts/validate-release-tag-decision.js` in `.github/workflows/e2e-smoke.yml` while preserving previous validators, Playwright Chromium install, E2E smoke/onboarding commands, and failure artifact uploads.
+
+Scope guardrails:
+
+- No package version change unless explicitly requested by the user.
+- No release tag created.
+- No GitHub release published.
+- No runtime app behavior changes.
+- No user-facing app feature changes.
+- No E2E test logic changes.
+- No import/parser changes.
+- No EduGen source changes.
+- No AI/API/BYOK/OCR/backend changes.
+- No storage/schema/scoring/SRT/mastery changes.
+- No dependency changes.
+- No production/security certification claim.
+
+Recommended next phase: Phase 9B — GitHub Release Draft.

@@ -68,6 +68,13 @@ CI green verification guidance exists at [`docs/ci-green-verification.md`](docs/
 
 Do not claim GitHub Actions CI is green unless an actual GitHub Actions run passes for the relevant branch and commit. Phase 8Y does not create a release tag, publish a GitHub release, certify hosted production readiness, or certify security readiness.
 
+
+## Version / release tag decision
+
+Version and release tag options are documented in [`docs/release-tag-decision.md`](docs/release-tag-decision.md). The current package version is captured there, along with RC tag options such as keeping the existing package version, using a future `v2.0.0-rc1` tag, using a future `v2.0.0-rc2` tag if the user wants a new RC after the final audit/CI-readiness phases, or keeping beta-style tag continuity.
+
+Phase 9A does not change `package.json`, create a git tag, publish a GitHub release, or certify production/security readiness. The next release-finalization step is Phase 9B — GitHub Release Draft.
+
 ## Suggested demo flow
 
 For a launch or reviewer walkthrough, use the demo order in [`docs/demo-script.md`](docs/demo-script.md): Dashboard, Library, import, advisory draft quality review, Study Room, today-plan completion guard, manual AI prompt/export, and the EduGen document import caveat.
@@ -208,6 +215,7 @@ The legacy vanilla source remains in the repository during the transition, but v
 - deployment readiness notes: [`docs/deployment-readiness.md`](docs/deployment-readiness.md)
 - final RC audit: [`docs/final-rc-audit.md`](docs/final-rc-audit.md)
 - CI green verification guide: [`docs/ci-green-verification.md`](docs/ci-green-verification.md)
+- version / release tag decision: [`docs/release-tag-decision.md`](docs/release-tag-decision.md)
 - v2 deployment guide: [`DEPLOY_V2.md`](DEPLOY_V2.md)
 - v2 release notes: [`RELEASE_NOTES_V2.md`](RELEASE_NOTES_V2.md)
 - v2 data model notes: [`docs/V2_DATA_MODEL.md`](docs/V2_DATA_MODEL.md)
