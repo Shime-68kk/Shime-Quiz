@@ -174,3 +174,8 @@ Release tag creation planning is documented in [`docs/release-tag-creation-plan.
 ## Phase 10N GitHub Release publication plan
 
 Phase 10N adds [`docs/github-release-publication-plan.md`](github-release-publication-plan.md), documenting how a future GitHub Release can be prepared and published only after explicit user approval. No release tag, GitHub Release, or release package is created by this phase.
+
+
+## Release package assembly planning
+
+Phase 10O adds [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) for future user-approved source/deploy/evidence package assembly. No release package has been created, published, or uploaded.

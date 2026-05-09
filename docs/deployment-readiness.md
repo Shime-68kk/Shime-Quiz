@@ -142,3 +142,8 @@ Tag creation planning is documented in [`docs/release-tag-creation-plan.md`](rel
 ## GitHub Release publication plan
 
 Publication planning is documented in [`docs/github-release-publication-plan.md`](github-release-publication-plan.md). Deployment readiness remains separate from release publication, and Phase 10N does not publish a GitHub Release or release package.
+
+
+## Release package assembly planning
+
+See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) for future user-approved package assembly, package exclusions, and verification. Frontend deployment and package upload remain separate decisions.

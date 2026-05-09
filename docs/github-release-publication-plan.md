@@ -143,3 +143,8 @@ Next options:
 
 - User-approved actual tag creation and GitHub Release publication.
 - Phase 10O — Release Package Assembly Plan.
+
+
+## Release package assembly follow-up
+
+See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) for the future user-approved release package assembly plan. No release package has been created or uploaded by that plan, and GitHub Release publication remains a separate explicit approval step.

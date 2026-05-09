@@ -162,3 +162,8 @@ Release tag creation planning is documented in [`docs/release-tag-creation-plan.
 ## Related GitHub Release publication plan
 
 The optional evidence collected by this pack can support the later [`docs/github-release-publication-plan.md`](github-release-publication-plan.md). Phase 10N does not claim those evidence runs passed and does not publish a GitHub Release.
+
+
+## Release package assembly reference
+
+See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) for how future package assembly should include only approved evidence artifacts and avoid fake/mock screenshots, generated artifacts, secrets, and local user data/backups.

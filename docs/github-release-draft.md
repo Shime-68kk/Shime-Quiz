@@ -230,3 +230,8 @@ Before this draft is published, review [`docs/release-tag-creation-plan.md`](rel
 ## Publication plan reference
 
 The GitHub Release publication workflow is planned in [`docs/github-release-publication-plan.md`](github-release-publication-plan.md). This draft remains source content for later review; it is not a published GitHub Release.
+
+
+## Release package assembly reference
+
+See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) for package asset planning. Release package/upload artifacts remain separate from the GitHub Release draft unless explicitly approved by the user.

@@ -140,3 +140,8 @@ The follow-up tag creation plan is documented in [`docs/release-tag-creation-pla
 ## Related GitHub Release publication plan
 
 The release gate now links to the GitHub Release publication plan in [`docs/github-release-publication-plan.md`](github-release-publication-plan.md). Publication remains gated by explicit user approval, and release package/upload artifacts remain separate unless explicitly approved.
+
+
+## Release package assembly reference
+
+See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) for the future package assembly and upload checklist. Package assembly/upload remains gated by explicit user approval and remains separate from tag/publish actions.
