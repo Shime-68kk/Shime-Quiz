@@ -780,3 +780,30 @@ Phase 9D does not:
 - does not claim security certification
 
 Recommended next step: stop and ask the user whether to create the actual release tag/publish flow, or run optional regression hardening phases 9E–9H.
+
+## Phase 9E — Import Surface Manual Regression Smoke
+
+Scope: documentation/import-regression-smoke/static-validator/CI only.
+
+Added:
+- Import surface manual regression smoke checklist: `docs/import-regression-smoke.md`.
+- Coverage for JSON import, CSV import, paste text/Markdown draft import, local `.txt/.md` file import, public demo sample pack import, in-app **“Dùng quiz mẫu”** quickstart, manual AI output paste/import, EduGen unavailable behavior, and EduGen configured PDF/DOCX/PPTX/ZIP import only when a separate browser-reachable service is configured.
+- Evidence rules for manual smoke claims: do not claim manual import regression passed without an actual tester/user run, and do not claim EduGen document import passed without the separate service being configured and tested.
+- Static validator: `scripts/validate-import-regression-smoke.js`.
+- CI coverage for `validate-import-regression-smoke`.
+
+Phase 9E does not:
+- Change runtime app behavior.
+- Change user-facing app features.
+- Change import/parser logic.
+- Change E2E logic.
+- Change EduGen source.
+- Add AI/API/OCR/backend behavior.
+- Change storage/schema/scoring/SRT/mastery logic.
+- Change package version or dependencies.
+- Create a release tag.
+- Publish a GitHub Release.
+- Publish a release package.
+- Do not claim production/security certification.
+
+Recommended next phase: Phase 9F — Backup / Restore Manual Regression Smoke.
