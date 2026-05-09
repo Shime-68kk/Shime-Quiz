@@ -170,6 +170,9 @@ jobs:
       - name: Validate screenshot asset pack
         run: node scripts/validate-screenshot-asset-pack.js
 
+      - name: Validate README public-facing guide
+        run: node scripts/validate-readme-public-facing.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

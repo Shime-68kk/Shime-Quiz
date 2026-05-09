@@ -82,3 +82,7 @@ Direct-route and static-host fallback guidance is documented in [`docs/direct-ro
 ## Phase 10D screenshot asset pack reference
 
 Screenshot asset pack guidance is documented in [`docs/screenshot-asset-pack.md`](screenshot-asset-pack.md). Social preview metadata uses `public/og-image.svg`; app screenshots for README or GitHub Release materials remain pending actual capture and review.
+
+## README public-facing reference
+
+The README public-facing rewrite/split guide is available at [`docs/readme-public-facing-guide.md`](readme-public-facing-guide.md). Metadata and README copy should remain aligned without claiming SEO ranking success or all-crawler rendering.

@@ -110,3 +110,7 @@ Direct-route and static-host fallback guidance is documented in [`docs/direct-ro
 ## Phase 10D screenshot asset pack reference
 
 Screenshot capture guidance is documented in [`docs/screenshot-asset-pack.md`](screenshot-asset-pack.md). Actual screenshots are pending capture, so public landing docs should link to the checklist rather than embed missing images. Do not use screenshots or captions to imply AI/API calls, OCR, cloud sync, bundled EduGen, frontend-only document conversion, release publication, or certification claims.
+
+## README public-facing reference
+
+The README public-facing rewrite/split guide is available at [`docs/readme-public-facing-guide.md`](readme-public-facing-guide.md). The README should summarize the landing page, local-first model, supported imports, and boundaries while linking detailed public polish docs.
