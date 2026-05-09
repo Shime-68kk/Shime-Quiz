@@ -101,3 +101,7 @@ Recommended next phase: Phase 10D — Screenshot Asset Pack.
 ## Phase 10D screenshot asset pack reference
 
 Direct-route screenshots should follow [`docs/screenshot-asset-pack.md`](screenshot-asset-pack.md). Capture `/`, `/dashboard`, `/library`, `/study-room`, and fallback routes only after verifying they match the current app and do not imply SSR, all-crawler rendering, auth/login, cloud sync, or release publication.
+
+## README public-facing reference
+
+The README public-facing rewrite/split guide is available at [`docs/readme-public-facing-guide.md`](readme-public-facing-guide.md). README route guidance should remain concise and should not claim SSR, all-crawler rendering, auth/login redirects, or direct-route smoke pass without evidence.

@@ -161,3 +161,7 @@ Before creating a tag or publishing a GitHub Release, review [`docs/direct-route
 ## Phase 10D screenshot checkpoint
 
 Before publishing, review [`docs/screenshot-asset-pack.md`](screenshot-asset-pack.md). If screenshots are added to README or GitHub Release notes, verify that every referenced image exists, opens, matches the current UI, avoids private data, and does not imply unsupported features or certification claims.
+
+## README public-facing rewrite reference
+
+Before tag/publish, review the concise public README and [`docs/readme-public-facing-guide.md`](readme-public-facing-guide.md). Do not claim screenshots, release publication, production/security/accessibility certification, or unsupported AI/EduGen/cloud capabilities unless separately verified and allowed.

@@ -1040,3 +1040,29 @@ Validator and CI coverage:
 - Registered `node scripts/validate-screenshot-asset-pack.js` in `.github/workflows/e2e-smoke.yml` while preserving prior validators, Playwright install, E2E smoke/onboarding, and failure artifact upload.
 
 Recommended next phase: Phase 10E — README Public-Facing Rewrite / Split.
+
+
+## Phase 10E — README Public-Facing Rewrite / Split
+
+Status: documentation/static-validator/CI only.
+
+Phase 10E rewrites `README.md` into a shorter public-facing entry point and adds `docs/readme-public-facing-guide.md` for README structure and claims-control guidance.
+
+Covered:
+- Public-facing README intro, quick start, demo quickstart, supported imports, local-first privacy, learning features, manual AI boundary, EduGen boundary, public polish docs, release docs, validation, and unsupported/not-claimed section.
+- Detailed release and guardrail docs are linked instead of duplicated in full.
+- Screenshot status remains explicit: screenshot capture checklist exists, but actual screenshot image files are pending unless real reviewed files are added.
+- Claim guardrails are preserved for no built-in AI generation, no external AI/API calls, no API key/BYOK support, no OCR, no backend/cloud sync, no EduGen bundled into Shime, no frontend-only document conversion, no production/security/accessibility certification, no SEO ranking/all-crawlers-render success, and no release tag/GitHub Release publication claim.
+
+Scope control:
+- No runtime app behavior changes.
+- No user-facing app feature changes.
+- No screenshot image assets added.
+- No package version/dependency changes.
+- No release tag created.
+- No GitHub Release published.
+- No production/security/accessibility certification claim.
+
+Validation/CI:
+- Added `scripts/validate-readme-public-facing.js`.
+- CI runs `node scripts/validate-readme-public-facing.js` with the existing validator chain.

@@ -189,3 +189,7 @@ Direct-route / SPA fallback audit guidance is documented in [`docs/direct-route-
 ## Phase 10D screenshot asset pack reference
 
 Screenshot capture guidance is documented in [`docs/screenshot-asset-pack.md`](screenshot-asset-pack.md). Actual screenshots are pending capture, so the draft release should not embed screenshot image links until real files exist and have been reviewed for private data and unsupported claims.
+
+## README public-facing rewrite reference
+
+The public README rewrite/split guide is available at [`docs/readme-public-facing-guide.md`](readme-public-facing-guide.md). Release draft copy should stay aligned with the concise README while preserving EduGen, manual AI, screenshot, release, and certification boundaries.

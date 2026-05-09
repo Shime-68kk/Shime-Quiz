@@ -189,3 +189,7 @@ Direct-route / SPA fallback audit guidance is documented in [`docs/direct-route-
 ## Phase 10D screenshot asset pack reference
 
 Screenshot asset pack guidance is documented in [`docs/screenshot-asset-pack.md`](screenshot-asset-pack.md). Actual screenshots are pending capture and review; do not claim screenshot capture completed or README screenshots available until real image files exist.
+
+## Phase 10E README public-facing rewrite
+
+README public-facing rewrite/split guidance exists at [`docs/readme-public-facing-guide.md`](readme-public-facing-guide.md). It keeps README concise for public users while preserving detailed release docs and claim guardrails; it does not change runtime behavior, package version, screenshots, release tags, GitHub Release status, or certification claims.

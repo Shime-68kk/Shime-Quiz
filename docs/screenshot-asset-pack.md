@@ -114,3 +114,7 @@ When real screenshots are added later, verify:
 Recommended next phase: Phase 10E — README Public-Facing Rewrite / Split.
 
 If screenshots remain deferred, another safe option is Phase 10F — Performance / Bundle-Size Audit.
+
+## README usage reference
+
+README screenshot embeds should remain absent until actual reviewed screenshot image files exist. The README public-facing rewrite guide is available at [`docs/readme-public-facing-guide.md`](readme-public-facing-guide.md) and keeps the screenshot status explicit.
