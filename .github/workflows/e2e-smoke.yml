@@ -182,6 +182,9 @@ jobs:
       - name: Validate EduGen boundary polish
         run: node scripts/validate-edugen-boundary-polish.js
 
+      - name: Validate cross-device export import
+        run: node scripts/validate-cross-device-export-import.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

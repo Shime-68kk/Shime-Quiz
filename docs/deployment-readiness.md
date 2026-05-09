@@ -118,3 +118,7 @@ The final RC audit does not certify production readiness or security posture, do
 ## EduGen boundary polish reference
 
 For public-release copy and deployment evidence rules around the separate EduGen/File Processor boundary, see [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md). PDF/DOCX/PPTX/ZIP document import still requires `VITE_FILE_PROCESSOR_URL` to point to a separate browser-reachable processor; frontend-only hosting alone does not provide document conversion. This reference does not claim OCR, bundled EduGen, backend/cloud sync, production/security certification, release tag creation, or GitHub Release publication.
+
+## Phase 10I cross-device portability reference
+
+Cross-device export/import guidance is documented in [`docs/cross-device-export-import.md`](cross-device-export-import.md). Static hosting does not add automatic account/cloud/backend sync; users move data between browsers/devices through explicit backup/export and restore/import. Full backup files may include private quiz content, answers, progress, study history, and local app data.

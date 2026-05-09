@@ -1,0 +1,229 @@
+#!/usr/bin/env node
+import fs from 'node:fs';
+import path from 'node:path';
+import { execSync } from 'node:child_process';
+
+const root = process.cwd();
+const failures = [];
+
+function read(relativePath) {
+  const fullPath = path.join(root, relativePath);
+  if (!fs.existsSync(fullPath)) {
+    failures.push(`${relativePath} is missing.`);
+    return '';
+  }
+  return fs.readFileSync(fullPath, 'utf8');
+}
+function assertIncludes(content, needle, message) {
+  if (!content.includes(needle)) failures.push(message || `Missing ${needle}`);
+}
+function assertMatches(content, regex, message) {
+  if (!regex.test(content)) failures.push(message || `Missing pattern ${regex}`);
+}
+function gitTrackedFiles() {
+  try {
+    return execSync('git ls-files', { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })
+      .split(/\r?\n/)
+      .filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+function changedFiles() {
+  try {
+    return execSync('git diff --name-only HEAD', { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })
+      .split(/\r?\n/)
+      .filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+function contextAround(text, match, span = 300) {
+  const index = match.index ?? text.search(match);
+  if (index < 0) return '';
+  return text.slice(Math.max(0, index - span), Math.min(text.length, index + span));
+}
+function guarded(context) {
+  return /no |not |does not|do not|must not|without|unless|unsupported|forbidden|avoid|separate|separately|requires|required|manual|only|caveat|future|later|not bundled|not included|not claim|has not been|should not|cannot|before|placeholder|actual|evidence|configured|tested|unavailable|boundary|claim|imply|safe claims|unsafe claims|pending|reviewed|checklist|this phase does not|local-first|docs only|documented|browser-local|explicit|private|source\/destination|clean-profile|implemented/i.test(context);
+}
+function markdownLinks(markdown) {
+  const refs = [];
+  const pattern = /!?(\[[^\]]*\])\(([^)]+)\)/g;
+  let match;
+  while ((match = pattern.exec(markdown)) !== null) {
+    const raw = match[2].trim().split(/\s+/)[0].replace(/^<|>$/g, '');
+    refs.push({ target: raw, isImage: match[0].startsWith('!') });
+  }
+  return refs;
+}
+function isExternal(target) {
+  return /^https?:\/\//i.test(target) || /^mailto:/i.test(target);
+}
+function resolveMarkdownTarget(sourceFile, target) {
+  if (isExternal(target) || target.startsWith('#')) return null;
+  const clean = target.split('#')[0].split('?')[0];
+  if (!clean) return null;
+  return path.normalize(path.join(root, path.dirname(sourceFile), clean));
+}
+function forbiddenTrackedFile(file) {
+  const normalized = file.replace(/\\/g, '/');
+  if (/^(node_modules|dist|test-results|playwright-report|coverage)(\/|$)/.test(normalized)) return true;
+  if (/^FETCH_HEAD$|(^|\/)\.DS_Store$/.test(normalized)) return true;
+  if (/\.log$|npm-debug\.log|yarn-error\.log|pnpm-debug\.log/i.test(normalized)) return true;
+  if (normalized === '.env.example') return false;
+  if (/(^|\/)\.env($|\.)/.test(normalized)) return true;
+  const basename = path.basename(normalized).toLowerCase();
+  const lowerPath = normalized.toLowerCase();
+  const secretLike = [
+    /(^|[-_.])service-account([-_.]|$)/,
+    /(^|[-_.])api-key([-_.]|$)/,
+    /(^|[-_.])access-token([-_.]|$)/,
+    /(^|[-_.])private-key([-_.]|$)/,
+    /(^|[-_.])credentials?([-_.]|$)/,
+    /(^|[-_.])secret([-_.]|$)/,
+    /(^|[-_.])token([-_.]|$)/,
+    /^(id_rsa|id_dsa|id_ecdsa|id_ed25519)$/,
+  ];
+  if (secretLike.some((pattern) => pattern.test(basename))) return true;
+  if (lowerPath.endsWith('/key.pem') || basename === 'key.pem') return true;
+  if (lowerPath.endsWith('/private.key') || basename === 'private.key') return true;
+  if (/\.(pem|p12|pfx)$/i.test(basename)) return true;
+  return false;
+}
+
+const doc = read('docs/cross-device-export-import.md');
+const readme = read('README.md');
+const releaseQa = read('RELEASE_QA_V2.md');
+const backupSmoke = read('docs/backup-restore-regression-smoke.md');
+const importSmoke = read('docs/import-regression-smoke.md');
+const publicNotes = read('docs/public-release-notes.md');
+const deployment = read('docs/deployment-readiness.md');
+const edugenBoundary = read('docs/edugen-boundary-polish.md');
+const mobile = read('docs/mobile-ux-smoke.md');
+const finalAudit = read('docs/final-rc-audit.md');
+const releaseDraft = read('docs/github-release-draft.md');
+const publishChecklist = read('docs/release-tag-publish-checklist.md');
+const workflow = read('.github/workflows/e2e-smoke.yml');
+const pkgText = read('package.json');
+const lockText = read('package-lock.json');
+const pkg = pkgText ? JSON.parse(pkgText) : { dependencies: {}, devDependencies: {} };
+const lock = lockText ? JSON.parse(lockText) : { packages: { '': {} } };
+const lockRoot = lock.packages?.[''] || {};
+
+assertMatches(doc, /Phase 10I/i, 'Cross-device export/import doc must mention Phase 10I.');
+assertMatches(doc, /Cross-Device Export\/Import Polish/i, 'Cross-device export/import doc must mention Cross-Device Export/Import Polish.');
+assertMatches(doc, /completed\/merged through Phase 10H/i, 'Cross-device export/import doc must mention completed/merged through Phase 10H.');
+assertMatches(doc, /public landing\/root route polish exists/i, 'Cross-device doc must mention public landing/root route polish exists.');
+assertMatches(doc, /social preview metadata exists/i, 'Cross-device doc must mention social preview metadata exists.');
+assertMatches(doc, /direct-route SPA fallback audit docs exist/i, 'Cross-device doc must mention direct-route SPA fallback audit docs exist.');
+assertMatches(doc, /screenshot capture checklist exists/i, 'Cross-device doc must mention screenshot capture checklist exists.');
+assertMatches(doc, /README public-facing rewrite exists/i, 'Cross-device doc must mention README public-facing rewrite exists.');
+assertMatches(doc, /performance\/bundle-size audit docs exist/i, 'Cross-device doc must mention performance/bundle-size audit docs exist.');
+assertMatches(doc, /mobile UX smoke checklist exists/i, 'Cross-device doc must mention mobile UX smoke checklist exists.');
+assertMatches(doc, /EduGen\/File Processor boundary docs exist/i, 'Cross-device doc must mention EduGen/File Processor boundary docs exist.');
+assertMatches(doc, /release tag has not been created/i, 'Cross-device doc must mention release tag has not been created.');
+assertMatches(doc, /GitHub Release has not been published/i, 'Cross-device doc must mention GitHub Release has not been published.');
+assertMatches(doc, /browser-local storage/i, 'Cross-device doc must mention browser-local storage.');
+assertMatches(doc, /no backend\/cloud sync/i, 'Cross-device doc must mention no backend/cloud sync.');
+assertMatches(doc, /no automatic cross-device sync/i, 'Cross-device doc must mention no automatic cross-device sync.');
+assertMatches(doc, /explicit export\/import|backup\/restore/i, 'Cross-device doc must mention explicit export/import or backup/restore.');
+assertMatches(doc, /source device/i, 'Cross-device doc must mention source device.');
+assertMatches(doc, /destination device|clean browser profile/i, 'Cross-device doc must mention destination device or clean browser profile.');
+assertMatches(doc, /backup files? (are|as) private|backup files.*private/i, 'Cross-device doc must mention backup files are private.');
+assertMatches(doc, /full backup may include (quiz content, answers, progress, study history, and local app data|quiz content.*answers.*progress.*study history.*local app data)/i, 'Cross-device doc must mention full backup private data categories.');
+assertMatches(doc, /no encrypted backup claim unless implemented/i, 'Cross-device doc must mention no encrypted backup claim unless implemented.');
+['JSON','CSV','text/Markdown','.txt/.md'].forEach((term) => assertIncludes(doc, term, `Cross-device doc must mention ${term}.`));
+assertMatches(doc, /PDF\/DOCX\/PPTX\/ZIP requires separate configured EduGen\/File Processor service/i, 'Cross-device doc must mention document import requires separate configured EduGen/File Processor service.');
+assertMatches(doc, /Do not claim cross-device restore passed unless.*actual.*run|do not claim cross-device restore passed unless actual/i, 'Cross-device doc must include evidence rule for cross-device restore pass.');
+assertMatches(doc, /Phase 10J.*Final Public Release Readiness Re-Audit|actual manual cross-device backup\/restore smoke/i, 'Cross-device doc must mention Phase 10J or manual cross-device backup/restore smoke.');
+
+assertIncludes(readme, 'docs/cross-device-export-import.md', 'README.md must link to docs/cross-device-export-import.md.');
+assertMatches(releaseQa, /Phase 10I/i, 'RELEASE_QA_V2.md must include Phase 10I.');
+assertMatches(backupSmoke, /cross-device-export-import\.md|cross-device export\/import/i, 'Backup/restore smoke doc must link/reference cross-device export/import.');
+assertMatches(importSmoke, /cross-device-export-import\.md|cross-device export\/import/i, 'Import regression smoke doc must link/reference cross-device export/import.');
+assertMatches(publicNotes, /cross-device-export-import\.md|cross-device export\/import/i, 'Public release notes must link/reference cross-device export/import.');
+assertMatches(deployment, /cross-device-export-import\.md|cross-device export\/import/i, 'Deployment readiness must link/reference cross-device export/import.');
+assertMatches(edugenBoundary, /cross-device-export-import\.md|cross-device export\/import/i, 'EduGen boundary polish must link/reference cross-device export/import.');
+assertMatches(mobile, /cross-device-export-import\.md|cross-device export\/import/i, 'Mobile UX smoke doc must link/reference cross-device export/import.');
+assertMatches(finalAudit, /cross-device-export-import\.md|cross-device export\/import/i, 'Final RC audit must link/reference cross-device export/import.');
+assertMatches(releaseDraft, /cross-device-export-import\.md|cross-device export\/import/i, 'GitHub release draft must link/reference cross-device export/import.');
+assertMatches(publishChecklist, /cross-device-export-import\.md|cross-device export\/import/i, 'Release tag publish checklist must link/reference cross-device export/import.');
+assertIncludes(workflow, 'node scripts/validate-cross-device-export-import.js', 'Workflow must include validate-cross-device-export-import.');
+
+if (pkg.version !== '2.0.0-beta-ai.1') failures.push(`package version changed unexpectedly: ${pkg.version}`);
+if (JSON.stringify(pkg.dependencies || {}) !== JSON.stringify(lockRoot.dependencies || {})) failures.push('package dependencies and lock root dependencies differ.');
+if (JSON.stringify(pkg.devDependencies || {}) !== JSON.stringify(lockRoot.devDependencies || {})) failures.push('package devDependencies and lock root devDependencies differ.');
+
+for (const file of gitTrackedFiles()) {
+  if (forbiddenTrackedFile(file)) failures.push(`Forbidden generated/secret artifact is tracked: ${file}`);
+}
+
+const allowedChanged = new Set([
+  '.github/workflows/e2e-smoke.yml',
+  'README.md',
+  'RELEASE_QA_V2.md',
+  'docs/cross-device-export-import.md',
+  'docs/backup-restore-regression-smoke.md',
+  'docs/import-regression-smoke.md',
+  'docs/import-ux-release-readiness.md',
+  'docs/public-release-notes.md',
+  'docs/deployment-readiness.md',
+  'docs/edugen-boundary-polish.md',
+  'docs/mobile-ux-smoke.md',
+  'docs/performance-bundle-audit.md',
+  'docs/final-rc-audit.md',
+  'docs/github-release-draft.md',
+  'docs/release-tag-publish-checklist.md',
+  'scripts/validate-cross-device-export-import.js'
+]);
+for (const file of changedFiles()) {
+  if (!allowedChanged.has(file)) failures.push(`Unexpected changed file for Phase 10I: ${file}`);
+  if (/^(e2e\/|src\/)/.test(file)) failures.push(`Runtime/E2E source file changed unexpectedly: ${file}`);
+  if (/^(package\.json|package-lock\.json)$/.test(file)) failures.push(`${file} changed unexpectedly.`);
+}
+
+const claimFiles = [
+  ['README.md', readme],
+  ['RELEASE_QA_V2.md', releaseQa],
+  ['docs/cross-device-export-import.md', doc],
+  ['docs/backup-restore-regression-smoke.md', backupSmoke],
+  ['docs/import-regression-smoke.md', importSmoke],
+  ['docs/public-release-notes.md', publicNotes],
+  ['docs/deployment-readiness.md', deployment],
+  ['docs/edugen-boundary-polish.md', edugenBoundary],
+  ['docs/mobile-ux-smoke.md', mobile],
+  ['docs/final-rc-audit.md', finalAudit],
+  ['docs/github-release-draft.md', releaseDraft],
+  ['docs/release-tag-publish-checklist.md', publishChecklist]
+];
+const forbiddenClaims = [
+  [/automatic cloud sync|cloud sync|backend sync|account sync/gi, 'automatic cloud/backend/account sync'],
+  [/cross-device restore (passed|verified|complete|works)/gi, 'cross-device restore passed'],
+  [/encrypted backups?|backup encryption/gi, 'encrypted backup'],
+  [/production certification|security certification|accessibility certification/gi, 'certification'],
+  [/release tag (created|has been created)|GitHub Release (published|has been published)/gi, 'release publication'],
+  [/built-in AI generation|external AI\/API integration|external AI\/API calls/gi, 'AI/API integration'],
+  [/\bOCR\b/gi, 'OCR'],
+  [/EduGen (is )?bundled|bundled EduGen|EduGen bundled/gi, 'EduGen bundled'],
+  [/frontend-only (hosting )?(can|does|will|supports).*convert|frontend-only PDF\/DOCX\/PPTX\/ZIP conversion/gi, 'frontend-only document conversion']
+];
+for (const [file, text] of claimFiles) {
+  for (const [pattern, label] of forbiddenClaims) {
+    let match;
+    while ((match = pattern.exec(text)) !== null) {
+      const context = contextAround(text, match);
+      if (!guarded(context)) failures.push(`${file} includes potentially misleading claim without boundary context: ${label}.`);
+    }
+  }
+  for (const link of markdownLinks(text)) {
+    const resolved = resolveMarkdownTarget(file, link.target);
+    if (resolved && !fs.existsSync(resolved)) failures.push(`${file} links to missing file: ${link.target}`);
+  }
+}
+
+if (failures.length) {
+  console.error('Cross-device export/import validation failed:');
+  for (const failure of failures) console.error(`- ${failure}`);
+  process.exit(1);
+}
+console.log('Cross-device export/import validation passed.');

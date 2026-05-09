@@ -129,3 +129,7 @@ Unsafe claims without separate evidence:
 ## Recommended next step
 
 Phase 10I — Cross-Device Export/Import Polish, or an actual manual EduGen configured smoke if the user wants document-import evidence before release.
+
+## Phase 10I cross-device export/import reference
+
+Cross-device data portability guidance is documented in [`docs/cross-device-export-import.md`](cross-device-export-import.md). It complements the EduGen boundary by keeping local content imports, document conversion requirements, and full app backup/restore portability separate and explicit.

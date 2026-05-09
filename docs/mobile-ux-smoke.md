@@ -108,3 +108,7 @@ Recommended next step: Phase 10H — EduGen Boundary / Integration Polish, or ru
 ## EduGen boundary polish reference
 
 Mobile smoke reviewers should also check [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md). On mobile viewports, document-import copy should still explain that PDF/DOCX/PPTX/ZIP requires a separate configured browser-reachable EduGen/File Processor service and should not imply OCR, bundled EduGen, frontend-only document conversion, backend/cloud sync, or a document import pass without an actual configured run.
+
+## Phase 10I cross-device export/import reference
+
+Mobile or cross-device testing should use [`docs/cross-device-export-import.md`](cross-device-export-import.md) to verify that users understand explicit backup/export and restore/import portability, no automatic cloud/account sync, and private backup file handling.

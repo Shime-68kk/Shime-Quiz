@@ -206,3 +206,7 @@ Before using public release notes to claim mobile readiness, run the checklist i
 ## EduGen boundary polish reference
 
 Before publishing release copy, review [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md). The GitHub Release draft should say that PDF/DOCX/PPTX/ZIP document import requires a separate configured browser-reachable EduGen/File Processor service through `VITE_FILE_PROCESSOR_URL`, and should not claim OCR, bundled EduGen, frontend-only document conversion, backend/cloud sync, or a document import pass without actual configured run evidence.
+
+## Phase 10I cross-device export/import reference
+
+The GitHub Release draft should link to [`docs/cross-device-export-import.md`](cross-device-export-import.md) for local-first data portability. It can say manual backup/restore portability workflow is documented, but must not claim automatic cloud/account sync, encrypted backups, or cross-device restore pass without actual run evidence.
