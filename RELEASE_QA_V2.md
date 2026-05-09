@@ -800,7 +800,7 @@ Phase 9E does not:
 - Change EduGen source.
 - Add AI/API/OCR/backend behavior.
 - Change storage/schema/scoring/SRT/mastery logic.
-- Change package version or dependencies.
+- Do not change package version or dependencies.
 - Create a release tag.
 - Publish a GitHub Release.
 - Publish a release package.
@@ -830,7 +830,7 @@ Phase 9F does not:
 - Change EduGen source.
 - Add AI/API/OCR/backend behavior.
 - Change scoring/SRT/mastery/study history/recommendation logic.
-- Change package version or dependencies.
+- Do not change package version or dependencies.
 - Create a release tag.
 - Publish a GitHub Release.
 - Publish a release package.
@@ -860,7 +860,7 @@ Phase 9G does not:
 - Change E2E logic.
 - Change EduGen source.
 - Add AI/API/OCR/backend behavior.
-- Change package version or dependencies.
+- Do not change package version or dependencies.
 - Create a release tag.
 - Publish a GitHub release.
 - Publish a release package.
@@ -895,7 +895,7 @@ Phase 9H does not:
 - Change E2E logic.
 - Change EduGen source.
 - Add AI/API/OCR/backend behavior.
-- Change package version or dependencies.
+- Do not change package version or dependencies.
 - Create a release tag.
 - Publish a GitHub release.
 - Publish a release package.
@@ -936,8 +936,8 @@ Phase 10A does not:
 - Do not add auth/login, middleware, protected routes, backend, or cloud sync.
 - Do not add built-in AI generation, external AI/API calls, API key/BYOK support, or OCR.
 - Do not bundle EduGen into Shime or make frontend-only document conversion claims.
-- Change import/parser behavior, backup/restore behavior, storage schema, Study Room logic, Dashboard learning logic, scoring/SRT/mastery/study history/recommendation logic, or E2E test logic.
-- Change package version or dependencies.
+- Do not change import/parser behavior, backup/restore behavior, storage schema, Study Room logic, Dashboard learning logic, scoring/SRT/mastery/study history/recommendation logic, or E2E test logic.
+- Do not change package version or dependencies.
 - Create a release tag, publish a GitHub Release, or publish a release package.
 - Claim production, security, accessibility, SEO, crawler indexing, or social preview certification/completion.
 
@@ -945,3 +945,31 @@ Validator and CI coverage:
 
 - Added `scripts/validate-public-landing-page.js`.
 - Registered `node scripts/validate-public-landing-page.js` in `.github/workflows/e2e-smoke.yml` while preserving prior validators, Playwright install, E2E smoke/onboarding, and failure artifact upload.
+
+## Phase 10B — SEO / Open Graph / Social Preview Metadata
+
+Phase 10B adds basic static SEO/social preview metadata for the React/Vite SPA public entry point and documents it in [`docs/social-preview-metadata.md`](docs/social-preview-metadata.md). This phase updates `index.html` title/description, Open Graph tags, Twitter/social card tags, and a static preview image at `public/og-image.svg`.
+
+Scope and limitations:
+
+- This is a Vite SPA metadata/social-preview polish phase, not a Next.js App Router change.
+- Static metadata is available from `index.html`; body content may still require JavaScript rendering.
+- Do not claim SEO ranking improvement, SEO optimization success, or that all crawlers render SPA content.
+- Do not claim production/security/accessibility certification.
+- Do not claim release tag creation, GitHub Release publication, or release package publication.
+
+Phase 10B does not:
+
+- Do not add auth/login, middleware, backend, or cloud sync.
+- Do not add built-in AI generation, external AI/API calls, API key/BYOK support, or OCR.
+- Do not bundle EduGen into Shime or make frontend-only PDF/DOCX/PPTX/ZIP document conversion claims.
+- Do not change import/parser behavior, backup/restore behavior, storage schema, Study Room logic, Dashboard learning logic, scoring/SRT/mastery/study history/recommendation logic, or E2E test logic.
+- Do not change package version or dependencies.
+
+Validator and CI coverage:
+
+- Added `scripts/validate-social-preview-metadata.js`.
+- Registered `node scripts/validate-social-preview-metadata.js` in `.github/workflows/e2e-smoke.yml` while preserving prior validators, Playwright install, E2E smoke/onboarding, and failure artifact upload.
+
+Recommended next phase: Phase 10C — Direct Route / SPA Fallback UX Audit.
+

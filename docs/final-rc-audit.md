@@ -176,3 +176,8 @@ Accessibility / keyboard manual smoke guidance is documented in [`docs/accessibi
 ## Phase 10A public landing/root route polish reference
 
 Public landing page/root route polish is documented in [`docs/public-landing-page.md`](public-landing-page.md). The root route introduces ShimeChamhoc more clearly for new visitors and summarizes local-first use, supported imports, the Library demo quickstart, Study Room, Dashboard, backup/restore, EduGen separate-service boundary, and manual AI boundary. Phase 10A does not create a release tag, publish a GitHub Release, add auth/login, add backend/cloud sync, bundle EduGen, add OCR, or claim production/security/accessibility certification. SEO/Open Graph metadata remains a separate future phase.
+
+
+## Phase 10B SEO / social preview metadata reference
+
+Basic static SEO/social preview metadata is documented in [`docs/social-preview-metadata.md`](social-preview-metadata.md). It records the `index.html` metadata, Open Graph/Twitter social card tags, and static preview image added after public landing/root route polish. It does not claim SEO ranking improvement, all-crawler rendering success, production/security/accessibility certification, release tag creation, or GitHub Release publication.

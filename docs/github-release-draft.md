@@ -176,3 +176,8 @@ Accessibility / keyboard manual smoke guidance is documented in [`docs/accessibi
 ## Phase 10A public landing/root route polish reference
 
 Public landing page/root route polish is documented in [`docs/public-landing-page.md`](public-landing-page.md). It gives new visitors a clearer user-facing introduction before they enter Dashboard or Library. Do not use this as a claim that SEO/Open Graph optimization is complete, that all crawlers render app content, that a release tag was created, or that a GitHub Release was published.
+
+
+## Phase 10B SEO / social preview metadata reference
+
+Basic static SEO/social preview metadata is documented in [`docs/social-preview-metadata.md`](social-preview-metadata.md). Use it as a reference for later public sharing metadata, but do not claim search ranking improvement, all-crawler rendering success, release tag creation, GitHub Release publication, or production/security/accessibility certification.

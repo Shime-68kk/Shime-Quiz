@@ -98,3 +98,7 @@ Unsafe claims after Phase 10A:
 ## Recommended next step
 
 Recommended next phase: Phase 10B — SEO / Open Graph / Social Preview Metadata.
+
+## Phase 10B social preview metadata reference
+
+Basic static SEO/social preview metadata is documented in [`docs/social-preview-metadata.md`](social-preview-metadata.md). Phase 10B adds `index.html` title/description, Open Graph and Twitter/social card tags, and a static preview image. The Phase 10A recommended next step was Phase 10B — SEO / Open Graph / Social Preview Metadata; after Phase 10B, the recommended next step is Phase 10C — Direct Route / SPA Fallback UX Audit. Do not claim SEO optimization success or that all crawlers render SPA content.
