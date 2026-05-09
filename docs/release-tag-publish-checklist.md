@@ -186,3 +186,7 @@ Before publishing, review [`docs/cross-device-export-import.md`](cross-device-ex
 ## Final public release readiness re-audit checkpoint
 
 Before creating a tag or publishing a GitHub Release, review [`docs/final-public-release-readiness-reaudit.md`](final-public-release-readiness-reaudit.md). It documents Phase 10A–10I readiness inventory, evidence gaps, forbidden claims, and final validation expectations.
+
+## Phase 10K release candidate tag/publish gate
+
+The release candidate tag/publish gate is documented in [`release-candidate-tag-publish-gate.md`](release-candidate-tag-publish-gate.md). It records that no release tag has been created, no GitHub Release has been published, no release package has been published, and explicit user approval is required before any tag or publish action. Known evidence gaps and allowed/forbidden claims remain documented.

@@ -1214,3 +1214,40 @@ Claim guardrails:
 - Can claim Phase 10 public-polish docs are inventoried.
 - Can claim known evidence gaps are documented.
 - Do not claim release tag creation, GitHub Release publication, release package publication, or certification.
+
+## Phase 10K — Release Candidate Tag Decision / Publish Gate
+
+Phase 10K adds the release candidate tag decision / publish gate document and static validator. It documents current publication state, tag options as proposals only, explicit user approval before any tag/publish action, available evidence, remaining evidence gaps, and allowed/forbidden release claims.
+
+Files added/changed:
+- `.github/workflows/e2e-smoke.yml`
+- `README.md`
+- `RELEASE_QA_V2.md`
+- `docs/release-candidate-tag-publish-gate.md`
+- `docs/final-public-release-readiness-reaudit.md`
+- `docs/final-rc-audit.md`
+- `docs/github-release-draft.md`
+- `docs/release-tag-decision.md`
+- `docs/release-tag-publish-checklist.md`
+- `docs/release-package-cleanliness.md`
+- `docs/public-release-notes.md`
+- `docs/deployment-readiness.md`
+- `scripts/validate-release-candidate-tag-publish-gate.js`
+
+Scope and claims:
+- Release candidate tag/publish gate docs exist.
+- Tag/publish decision checklist exists.
+- Tag options are examples only.
+- Explicit user approval is required before tag/publish.
+- Evidence available: `npm ci`, `npm run build`, full static validator chain, documented non-blocking Vite/Rolldown chunk-size warning, docs/validators/CI coverage.
+- Evidence gaps remain documented: screenshots, manual mobile UX, configured EduGen document import, cross-device backup/restore, environment-blocked E2E, and Lighthouse/Core Web Vitals unless separately run.
+- No runtime app behavior changes.
+- No package version/dependency changes.
+- No release tag created.
+- No GitHub Release published.
+- No release package published.
+- No production/security/accessibility/performance certification claim.
+
+Validator / CI:
+- New validator: `scripts/validate-release-candidate-tag-publish-gate.js`.
+- CI coverage added in `.github/workflows/e2e-smoke.yml`.

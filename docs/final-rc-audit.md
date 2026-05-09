@@ -214,3 +214,7 @@ Cross-device export/import guidance exists at [`docs/cross-device-export-import.
 ## Phase 10J final public release readiness re-audit
 
 Final public release readiness re-audit documentation exists at [`docs/final-public-release-readiness-reaudit.md`](final-public-release-readiness-reaudit.md). It inventories Phase 10A–10I public-polish docs, known evidence gaps, validation expectations, and claim guardrails; it does not create a release tag, publish a GitHub Release, publish a release package, or claim production/security/accessibility/performance certification.
+
+## Phase 10K release candidate tag/publish gate
+
+The release candidate tag/publish gate is documented in [`release-candidate-tag-publish-gate.md`](release-candidate-tag-publish-gate.md). It records that no release tag has been created, no GitHub Release has been published, no release package has been published, and explicit user approval is required before any tag or publish action. Known evidence gaps and allowed/forbidden claims remain documented.

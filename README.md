@@ -112,13 +112,14 @@ Actual screenshot image files are not included yet; the screenshot checklist exi
 - Study Room / Dashboard regression smoke checklist: [`docs/study-dashboard-regression-smoke.md`](docs/study-dashboard-regression-smoke.md)
 - Accessibility / keyboard smoke checklist: [`docs/accessibility-keyboard-smoke.md`](docs/accessibility-keyboard-smoke.md)
 - Final public release readiness re-audit: [`docs/final-public-release-readiness-reaudit.md`](docs/final-public-release-readiness-reaudit.md)
+- Release candidate tag/publish gate: [`docs/release-candidate-tag-publish-gate.md`](docs/release-candidate-tag-publish-gate.md)
 - Full QA/release checklist: [`RELEASE_QA_V2.md`](RELEASE_QA_V2.md)
 - README rewrite/split guide: [`docs/readme-public-facing-guide.md`](docs/readme-public-facing-guide.md)
 - Performance / bundle-size audit: [`docs/performance-bundle-audit.md`](docs/performance-bundle-audit.md)
 - Mobile UX smoke checklist: [`docs/mobile-ux-smoke.md`](docs/mobile-ux-smoke.md)
 - EduGen/File Processor boundary polish: [`docs/edugen-boundary-polish.md`](docs/edugen-boundary-polish.md)
 
-The release tag decision, GitHub Release draft, and publish checklist are documentation only. They do not create a tag, publish a GitHub Release, or certify production/security/accessibility readiness.
+The release candidate tag/publish gate documents that explicit user approval is required before tagging or publishing. The release tag decision, GitHub Release draft, and publish checklist are documentation only. They do not create a tag, publish a GitHub Release, or certify production/security/accessibility readiness.
 
 ## Validation
 
