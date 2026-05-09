@@ -159,3 +159,6 @@ Shime does not claim or include:
 - no mobile UX pass claim unless an actual responsive/mobile run provides evidence
 - no release tag creation or GitHub Release publication
 - no actual screenshot capture or README screenshots until real screenshot files exist
+
+## Manual evidence pack
+Optional pre-release evidence collection is documented in [`docs/manual-evidence-run-pack.md`](docs/manual-evidence-run-pack.md). It covers screenshots, mobile/responsive smoke, configured EduGen document import smoke, cross-device backup/restore smoke, E2E when Chromium is available, and optional Lighthouse/Core Web Vitals measurement. This README does not claim those evidence runs passed unless they are actually performed.

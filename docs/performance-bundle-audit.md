@@ -113,3 +113,7 @@ Performance notes do not change the local-first data model. Cross-device export/
 ## Final public release readiness re-audit
 
 The final public release readiness re-audit is documented in [`docs/final-public-release-readiness-reaudit.md`](final-public-release-readiness-reaudit.md). It carries forward the known non-blocking Vite/Rolldown chunk-size warning and confirms there is no performance optimization or Lighthouse/Core Web Vitals pass claim without measurement.
+
+
+## Phase 10L manual evidence reference
+Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-run-pack.md) includes optional Lighthouse/Core Web Vitals measurement guidance. No Lighthouse/Core Web Vitals pass or performance certification is claimed unless measured.

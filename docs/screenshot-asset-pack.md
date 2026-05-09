@@ -131,3 +131,7 @@ Future screenshot capture should consider the responsive/manual mobile surfaces 
 ## Final public release readiness re-audit
 
 The final public release readiness re-audit is documented in [`docs/final-public-release-readiness-reaudit.md`](final-public-release-readiness-reaudit.md). It records that screenshot capture checklist exists while actual screenshots remain not captured unless real image files are later added.
+
+
+## Phase 10L manual evidence reference
+Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-run-pack.md) includes the optional screenshot evidence checklist. Actual screenshots are not claimed until real image files exist.

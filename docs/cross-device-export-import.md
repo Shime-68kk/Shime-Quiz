@@ -127,3 +127,7 @@ Recommended next phase after this, if accepted: **Phase 10J — Final Public Rel
 ## Final public release readiness re-audit
 
 The final public release readiness re-audit is documented in [`docs/final-public-release-readiness-reaudit.md`](final-public-release-readiness-reaudit.md). It records cross-device export/import guidance as documentation only and does not claim cross-device restore passed without actual source/destination or clean-profile evidence.
+
+
+## Phase 10L manual evidence reference
+Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-run-pack.md) includes the optional cross-device backup/restore evidence checklist. Cross-device restore is not claimed as passed without a source/destination or clean-profile run.

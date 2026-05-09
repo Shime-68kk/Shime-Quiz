@@ -137,3 +137,7 @@ Cross-device data portability guidance is documented in [`docs/cross-device-expo
 ## Final public release readiness re-audit
 
 The final public release readiness re-audit is documented in [`docs/final-public-release-readiness-reaudit.md`](final-public-release-readiness-reaudit.md). It includes EduGen/File Processor boundary docs in the readiness inventory and preserves no-OCR, no-bundled-EduGen, and no-frontend-only-document-conversion guardrails.
+
+
+## Phase 10L manual evidence reference
+Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-run-pack.md) includes the optional configured EduGen document import evidence checklist. Configured document import is not claimed as passed without a real service run.

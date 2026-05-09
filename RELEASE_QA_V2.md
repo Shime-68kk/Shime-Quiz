@@ -1251,3 +1251,32 @@ Scope and claims:
 Validator / CI:
 - New validator: `scripts/validate-release-candidate-tag-publish-gate.js`.
 - CI coverage added in `.github/workflows/e2e-smoke.yml`.
+
+## Phase 10L — Manual Evidence Run Pack
+Status: documentation/static-validator/CI registration only.
+
+Phase 10L adds [`docs/manual-evidence-run-pack.md`](docs/manual-evidence-run-pack.md), a single optional pre-release evidence checklist for screenshots, mobile/responsive smoke, configured EduGen document import smoke, cross-device backup/restore smoke, E2E smoke/onboarding when Chromium is available, and optional Lighthouse/Core Web Vitals measurement.
+
+Evidence recording template fields include date/time, commit SHA/branch, environment, commands run, browser/device, screenshots captured, PASS/PARTIAL/FAIL, blockers, evidence artifacts, and claims allowed after the run.
+
+Claims rules:
+- No evidence pass is claimed by this phase.
+- Do not claim screenshots captured unless actual image files exist.
+- Do not claim mobile UX passed unless an actual mobile/responsive run passes.
+- Do not claim configured EduGen import passed unless an actual configured service run passes.
+- Do not claim cross-device restore passed unless an actual source/destination or clean-profile run passes.
+- Do not claim E2E passed unless tests pass.
+- Do not claim Lighthouse/Core Web Vitals pass unless measured.
+- Do not claim release tag created, GitHub Release published, or release package published.
+- Do not claim production/security/accessibility/performance certification.
+
+Scope control:
+- No runtime app behavior changes.
+- No package version/dependency changes.
+- No screenshot image assets added.
+- No release tag created.
+- No GitHub Release published.
+- No release package published.
+
+Validator: `scripts/validate-manual-evidence-run-pack.js`.
+CI coverage: `.github/workflows/e2e-smoke.yml` runs the validator.
