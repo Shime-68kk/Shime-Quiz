@@ -1094,3 +1094,25 @@ Scope guardrails:
 - No Lighthouse/Core Web Vitals claim unless measured.
 - No production/security/accessibility/performance certification claim.
 - No backend/auth/cloud sync, built-in AI generation, external AI/API calls, API key/BYOK support, OCR, or EduGen bundling added.
+
+## Phase 10G — Mobile UX Smoke / Responsive Polish
+
+Status: documentation/static-validator/CI only.
+
+Adds:
+- Mobile UX smoke checklist documentation: `docs/mobile-ux-smoke.md`.
+- Suggested responsive viewports: `360x640`, `375x667`, `390x844`, `412x915`, and `768x1024` tablet.
+- Mobile surfaces covered: root `/`, `/dashboard`, `/library`, Dashboard, Library, Study Room, `Dùng quiz mẫu` demo quickstart, import controls, JSON/CSV/text/Markdown/`.txt/.md` surfaces, EduGen boundary, manual AI workflow, preview/review/confirm-save, backup/restore, readable text, horizontal overflow, clipped controls, and tap reachability.
+- Evidence rules: do not claim mobile UX smoke passed unless an actual mobile/responsive run passes; do not claim Lighthouse/Core Web Vitals pass unless measured; do not claim mobile performance certification.
+- Static validator: `scripts/validate-mobile-ux-smoke.js`.
+- CI coverage for `validate-mobile-ux-smoke`.
+
+Scope guardrails:
+- No runtime app behavior changes unless explicitly stated; none were made in Phase 10G.
+- No CSS/layout changes.
+- No package version/dependency changes.
+- No release tag created.
+- No GitHub Release published.
+- No production/security/accessibility certification claim.
+- No mobile UX pass claim without run evidence.
+- No backend/auth/cloud sync, built-in AI generation, external AI/API calls, API key/BYOK support, OCR, or EduGen bundling added.

@@ -110,3 +110,7 @@ The README public-facing rewrite/split guide is available at [`docs/readme-publi
 ## Phase 10F performance / bundle-size audit reference
 
 Direct-route fallback behavior remains separate from bundle-size claims. See [`docs/performance-bundle-audit.md`](performance-bundle-audit.md) for current build warning documentation and future route-level lazy loading/code splitting considerations.
+
+## Mobile direct-route smoke reference
+
+Direct-route fallback should also be manually checked on responsive/mobile viewports using [`docs/mobile-ux-smoke.md`](mobile-ux-smoke.md).

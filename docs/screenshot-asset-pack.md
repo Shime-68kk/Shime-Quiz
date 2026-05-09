@@ -123,3 +123,7 @@ README screenshot embeds should remain absent until actual reviewed screenshot i
 ## Phase 10F performance / bundle-size audit reference
 
 Screenshot planning should remain separate from performance claims. See [`docs/performance-bundle-audit.md`](performance-bundle-audit.md) for the current bundle-size warning documentation. Do not use screenshots or captions to claim performance optimized behavior, Lighthouse/Core Web Vitals pass, or mobile performance certification unless actually measured.
+
+## Mobile screenshot planning reference
+
+Future screenshot capture should consider the responsive/manual mobile surfaces in [`docs/mobile-ux-smoke.md`](mobile-ux-smoke.md). The mobile checklist does not claim mobile UX passed unless an actual run verifies it.
