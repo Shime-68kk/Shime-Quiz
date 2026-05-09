@@ -105,3 +105,8 @@ Direct-route screenshots should follow [`docs/screenshot-asset-pack.md`](screens
 ## README public-facing reference
 
 The README public-facing rewrite/split guide is available at [`docs/readme-public-facing-guide.md`](readme-public-facing-guide.md). README route guidance should remain concise and should not claim SSR, all-crawler rendering, auth/login redirects, or direct-route smoke pass without evidence.
+
+
+## Phase 10F performance / bundle-size audit reference
+
+Direct-route fallback behavior remains separate from bundle-size claims. See [`docs/performance-bundle-audit.md`](performance-bundle-audit.md) for current build warning documentation and future route-level lazy loading/code splitting considerations.

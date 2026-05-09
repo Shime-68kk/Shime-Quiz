@@ -118,3 +118,8 @@ If screenshots remain deferred, another safe option is Phase 10F — Performance
 ## README usage reference
 
 README screenshot embeds should remain absent until actual reviewed screenshot image files exist. The README public-facing rewrite guide is available at [`docs/readme-public-facing-guide.md`](readme-public-facing-guide.md) and keeps the screenshot status explicit.
+
+
+## Phase 10F performance / bundle-size audit reference
+
+Screenshot planning should remain separate from performance claims. See [`docs/performance-bundle-audit.md`](performance-bundle-audit.md) for the current bundle-size warning documentation. Do not use screenshots or captions to claim performance optimized behavior, Lighthouse/Core Web Vitals pass, or mobile performance certification unless actually measured.

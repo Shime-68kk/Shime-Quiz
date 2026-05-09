@@ -86,3 +86,8 @@ Screenshot asset pack guidance is documented in [`docs/screenshot-asset-pack.md`
 ## README public-facing reference
 
 The README public-facing rewrite/split guide is available at [`docs/readme-public-facing-guide.md`](readme-public-facing-guide.md). Metadata and README copy should remain aligned without claiming SEO ranking success or all-crawler rendering.
+
+
+## Phase 10F performance / bundle-size audit reference
+
+Social preview metadata remains separate from performance claims. See [`docs/performance-bundle-audit.md`](performance-bundle-audit.md) for the known non-blocking Vite/Rolldown chunk-size warning. This metadata phase does not claim performance optimization, Lighthouse, or Core Web Vitals results.

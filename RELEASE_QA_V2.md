@@ -1066,3 +1066,31 @@ Scope control:
 Validation/CI:
 - Added `scripts/validate-readme-public-facing.js`.
 - CI runs `node scripts/validate-readme-public-facing.js` with the existing validator chain.
+
+
+## Phase 10F — Performance / Bundle-Size Audit
+
+Status: documentation/static-validator/CI only.
+
+Adds:
+- Performance / bundle-size audit documentation: `docs/performance-bundle-audit.md`.
+- Build observation that `npm run build` passes while the known Vite/Rolldown chunk-size warning appears.
+- Current observed largest JS chunk and gzip size when visible from local build output.
+- Interpretation that the chunk-size warning is non-blocking unless build fails.
+- Future optimization options such as route-level lazy loading/code splitting and dependency review.
+- Static validator: `scripts/validate-performance-bundle-audit.js`.
+- CI coverage for `validate-performance-bundle-audit`.
+
+Scope guardrails:
+- No runtime app behavior changes.
+- No Vite config changes.
+- No warning suppression.
+- No chunk limit increase just to hide the warning.
+- No package version or dependency changes.
+- No screenshot image assets added.
+- No release tag created.
+- No GitHub Release published.
+- No performance optimization claim unless implemented and measured.
+- No Lighthouse/Core Web Vitals claim unless measured.
+- No production/security/accessibility/performance certification claim.
+- No backend/auth/cloud sync, built-in AI generation, external AI/API calls, API key/BYOK support, OCR, or EduGen bundling added.

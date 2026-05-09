@@ -173,6 +173,9 @@ jobs:
       - name: Validate README public-facing guide
         run: node scripts/validate-readme-public-facing.js
 
+      - name: Validate performance bundle audit
+        run: node scripts/validate-performance-bundle-audit.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

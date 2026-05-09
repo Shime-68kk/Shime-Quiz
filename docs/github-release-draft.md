@@ -193,3 +193,8 @@ Screenshot capture guidance is documented in [`docs/screenshot-asset-pack.md`](s
 ## README public-facing rewrite reference
 
 The public README rewrite/split guide is available at [`docs/readme-public-facing-guide.md`](readme-public-facing-guide.md). Release draft copy should stay aligned with the concise README while preserving EduGen, manual AI, screenshot, release, and certification boundaries.
+
+
+## Phase 10F performance / bundle-size audit reference
+
+Before publishing release notes, review [`docs/performance-bundle-audit.md`](performance-bundle-audit.md). It documents the known non-blocking Vite/Rolldown chunk-size warning and the rule that performance optimization, Lighthouse, Core Web Vitals, or mobile performance claims require actual measurement.
