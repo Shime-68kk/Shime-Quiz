@@ -172,3 +172,7 @@ Backup / restore manual regression smoke steps are documented in [`docs/backup-r
 ## Phase 9H accessibility / keyboard smoke reference
 
 Accessibility / keyboard manual smoke guidance is documented in [`docs/accessibility-keyboard-smoke.md`](accessibility-keyboard-smoke.md). It documents keyboard navigation, focus visibility, reachable controls, import, Library, demo quickstart, preview/review/confirm-save, Study Room, Dashboard, backup/restore, readable labels, visible validation/error messages, EduGen unavailable guidance, manual AI caveats, and evidence rules. Phase 9H does not change runtime behavior and does not claim WCAG compliance, accessibility certification, production/security certification, or a manual accessibility/keyboard pass without an actual tester/user run.
+
+## Phase 10A public landing/root route polish reference
+
+Public landing page/root route polish is documented in [`docs/public-landing-page.md`](public-landing-page.md). It gives new visitors a clearer user-facing introduction before they enter Dashboard or Library. Do not use this as a claim that SEO/Open Graph optimization is complete, that all crawlers render app content, that a release tag was created, or that a GitHub Release was published.

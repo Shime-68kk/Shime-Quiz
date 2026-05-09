@@ -158,6 +158,9 @@ jobs:
       - name: Validate accessibility keyboard smoke
         run: node scripts/validate-accessibility-keyboard-smoke.js
 
+      - name: Validate public landing page
+        run: node scripts/validate-public-landing-page.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
