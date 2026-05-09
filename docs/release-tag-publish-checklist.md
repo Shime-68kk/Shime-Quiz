@@ -133,3 +133,7 @@ After Phase 9D is accepted, stop and ask the user whether to create the actual r
 ## Import regression smoke checkpoint
 
 Before creating a tag or publishing a GitHub Release, review [`docs/import-regression-smoke.md`](import-regression-smoke.md). Manual import regression pass claims require actual run evidence. EduGen PDF/DOCX/PPTX/ZIP pass claims require a separately configured and browser-reachable EduGen/File Processor service.
+
+## Backup/restore regression smoke checkpoint
+
+Before creating a tag or publishing a GitHub Release, review [`docs/backup-restore-regression-smoke.md`](backup-restore-regression-smoke.md). Manual backup/restore regression pass claims require actual run evidence, and state-preservation claims should only mention categories that were actually checked.

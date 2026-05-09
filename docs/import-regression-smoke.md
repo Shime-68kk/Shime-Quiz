@@ -184,3 +184,7 @@ Do not claim:
 ## Recommended next step
 
 Recommended next phase after this, if continuing hardening: **Phase 9F — Backup / Restore Manual Regression Smoke**. Alternatively, stop and decide whether to proceed to the actual release tag/publish flow.
+
+## Phase 9F backup/restore regression smoke reference
+
+After import surface smoke documentation, the next optional hardening guide is [`docs/backup-restore-regression-smoke.md`](backup-restore-regression-smoke.md). It covers export/restore, malformed backup handling, local-first restore boundaries, and evidence rules for manual backup/restore claims.
