@@ -167,6 +167,9 @@ jobs:
       - name: Validate direct route SPA fallback
         run: node scripts/validate-direct-route-spa-fallback.js
 
+      - name: Validate screenshot asset pack
+        run: node scripts/validate-screenshot-asset-pack.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

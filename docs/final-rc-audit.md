@@ -185,3 +185,7 @@ Basic static SEO/social preview metadata is documented in [`docs/social-preview-
 ## Phase 10C direct-route / SPA fallback reference
 
 Direct-route / SPA fallback audit guidance is documented in [`docs/direct-route-spa-fallback.md`](direct-route-spa-fallback.md). It records React/Vite SPA static-host fallback expectations for `/`, `/dashboard`, `/library`, `/study-room`, and unknown routes. It does not claim SSR, all-crawler rendering, production/security/accessibility certification, release tag creation, or GitHub Release publication.
+
+## Phase 10D screenshot asset pack reference
+
+Screenshot asset pack guidance is documented in [`docs/screenshot-asset-pack.md`](screenshot-asset-pack.md). Actual screenshots are pending capture and review; do not claim screenshot capture completed or README screenshots available until real image files exist.

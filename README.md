@@ -93,6 +93,8 @@ For README or public documentation screenshots, use [`docs/screenshot-checklist.
 
 README and public screenshots are prepared through guidance/checklists, not committed as image files in this phase. Use [`docs/screenshot-checklist.md`](docs/screenshot-checklist.md), [`docs/visual-asset-guidance.md`](docs/visual-asset-guidance.md), and [`docs/demo-samples/README.md`](docs/demo-samples/README.md) when capturing future visual assets. Do not reference screenshot image files until those files are actually added and reviewed.
 
+Phase 10D adds the screenshot asset pack checklist at [`docs/screenshot-asset-pack.md`](docs/screenshot-asset-pack.md). Actual screenshots are pending capture; README should not embed screenshot image links until real reviewed files exist under `docs/assets/screenshots/`.
+
 ## What is included in v2
 
 - `/dashboard`: learning overview, today journey, goal progress, analytics, mastery, review schedule, Smart Practice, and study history.

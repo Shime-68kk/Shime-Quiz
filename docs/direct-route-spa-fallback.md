@@ -97,3 +97,7 @@ Unsafe claims after Phase 10C:
 ## Recommended next step
 
 Recommended next phase: Phase 10D — Screenshot Asset Pack.
+
+## Phase 10D screenshot asset pack reference
+
+Direct-route screenshots should follow [`docs/screenshot-asset-pack.md`](screenshot-asset-pack.md). Capture `/`, `/dashboard`, `/library`, `/study-room`, and fallback routes only after verifying they match the current app and do not imply SSR, all-crawler rendering, auth/login, cloud sync, or release publication.

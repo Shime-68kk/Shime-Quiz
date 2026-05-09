@@ -78,3 +78,7 @@ Recommended next phase: Phase 10C — Direct Route / SPA Fallback UX Audit.
 ## Phase 10C direct-route / SPA fallback reference
 
 Direct-route and static-host fallback guidance is documented in [`docs/direct-route-spa-fallback.md`](direct-route-spa-fallback.md). Static metadata remains available from `index.html`, but React/Vite SPA body content may require JavaScript rendering. Phase 10C documents fallback/manual smoke expectations and does not claim SSR, all crawlers render SPA content, or direct-route smoke passed without evidence.
+
+## Phase 10D screenshot asset pack reference
+
+Screenshot asset pack guidance is documented in [`docs/screenshot-asset-pack.md`](screenshot-asset-pack.md). Social preview metadata uses `public/og-image.svg`; app screenshots for README or GitHub Release materials remain pending actual capture and review.
