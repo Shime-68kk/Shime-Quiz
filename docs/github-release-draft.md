@@ -164,4 +164,7 @@ Import surface manual regression smoke steps are documented in [`docs/import-reg
 
 ## Backup/restore regression smoke note
 
+
+
+Study Room / Dashboard learning flow smoke steps are documented in [`docs/study-dashboard-regression-smoke.md`](study-dashboard-regression-smoke.md). Do not add release-note claims that manual Study Room/Dashboard regression passed, or that all learning state categories updated, unless the relevant manual smoke run actually passed and each category was checked.
 Backup / restore manual regression smoke steps are documented in [`docs/backup-restore-regression-smoke.md`](backup-restore-regression-smoke.md). Do not add release-note claims that backup/restore regression passed, or that all state categories were preserved, unless the relevant manual smoke run actually passed and each category was checked.

@@ -136,4 +136,7 @@ Before creating a tag or publishing a GitHub Release, review [`docs/import-regre
 
 ## Backup/restore regression smoke checkpoint
 
+
+
+Before creating a tag or publishing a GitHub Release, review [`docs/study-dashboard-regression-smoke.md`](study-dashboard-regression-smoke.md). Manual Study Room/Dashboard regression pass claims require actual run evidence, and learning state claims should only mention categories that were actually checked.
 Before creating a tag or publishing a GitHub Release, review [`docs/backup-restore-regression-smoke.md`](backup-restore-regression-smoke.md). Manual backup/restore regression pass claims require actual run evidence, and state-preservation claims should only mention categories that were actually checked.

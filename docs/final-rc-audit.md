@@ -161,6 +161,10 @@ The final release tag / publish checklist is documented in [`docs/release-tag-pu
 
 Import surface manual regression smoke guidance is documented in [`docs/import-regression-smoke.md`](import-regression-smoke.md). It covers JSON/CSV import, text/Markdown paste import, local `.txt/.md` import, public demo sample files, **“Dùng quiz mẫu”**, manual AI output paste/import, EduGen unavailable behavior, and the separate configured EduGen document import path. It does not claim manual import regression passed unless an actual tester/user run provides evidence.
 
+
+## Phase 9G Study Room / Dashboard regression smoke reference
+
+Study Room / Dashboard learning flow smoke guidance is documented in [`docs/study-dashboard-regression-smoke.md`](study-dashboard-regression-smoke.md). It documents saved quiz setup, Study Room answer flow, local learning state checks, Dashboard progress checks, recommendation/study plan checks, and evidence rules. It does not claim manual Study Room/Dashboard regression passed unless an actual tester/user run provides evidence.
 ## Phase 9F backup/restore regression smoke reference
 
 Backup / restore manual regression smoke guidance is documented in [`docs/backup-restore-regression-smoke.md`](backup-restore-regression-smoke.md). It documents export/restore, bad-backup handling, state-preservation checks, and local-first/no-backend boundaries. It does not claim manual backup/restore regression passed unless an actual tester/user run provides evidence.

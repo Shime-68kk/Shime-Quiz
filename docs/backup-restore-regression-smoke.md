@@ -158,6 +158,11 @@ Do not claim:
 - Do not claim OCR.
 - Do not claim EduGen bundled into Shime.
 
+
+## Phase 9G Study Room / Dashboard regression smoke reference
+
+The next optional hardening guide is [`docs/study-dashboard-regression-smoke.md`](study-dashboard-regression-smoke.md). It covers saved quiz setup, Library-to-Study-Room flow, answer handling, study progress/history, review schedule/SRT, Dashboard progress checks, recommendations, study goal/plan progress, and evidence rules.
+
 ## Recommended next step
 
 Recommended next phase after this, if continuing hardening: **Phase 9G — Study Room / Dashboard Learning Flow Smoke**. Alternatively, stop and decide whether to proceed to the actual release tag/publish flow.
