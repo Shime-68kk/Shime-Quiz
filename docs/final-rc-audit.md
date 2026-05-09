@@ -193,3 +193,8 @@ Screenshot asset pack guidance is documented in [`docs/screenshot-asset-pack.md`
 ## Phase 10E README public-facing rewrite
 
 README public-facing rewrite/split guidance exists at [`docs/readme-public-facing-guide.md`](readme-public-facing-guide.md). It keeps README concise for public users while preserving detailed release docs and claim guardrails; it does not change runtime behavior, package version, screenshots, release tags, GitHub Release status, or certification claims.
+
+
+## Phase 10F performance / bundle-size audit reference
+
+The final RC audit now references [`docs/performance-bundle-audit.md`](performance-bundle-audit.md). That document records the known non-blocking Vite/Rolldown chunk-size warning, confirms the warning should not be hidden by raising limits just to suppress output, and does not claim performance optimization success.

@@ -165,3 +165,8 @@ Before publishing, review [`docs/screenshot-asset-pack.md`](screenshot-asset-pac
 ## README public-facing rewrite reference
 
 Before tag/publish, review the concise public README and [`docs/readme-public-facing-guide.md`](readme-public-facing-guide.md). Do not claim screenshots, release publication, production/security/accessibility certification, or unsupported AI/EduGen/cloud capabilities unless separately verified and allowed.
+
+
+## Phase 10F performance / bundle-size audit checkpoint
+
+Review [`docs/performance-bundle-audit.md`](performance-bundle-audit.md) before tag/publish decisions. The known Vite/Rolldown chunk-size warning is documented as non-blocking if `npm run build` passes; do not claim performance optimized behavior, Lighthouse/Core Web Vitals pass, or performance certification without actual measured evidence.

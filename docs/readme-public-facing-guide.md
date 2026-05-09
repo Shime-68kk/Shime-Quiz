@@ -72,3 +72,8 @@ Before accepting a README/public-facing change:
 ## Recommended next step
 
 Continue with Phase 10F — Performance / Bundle-Size Audit, or capture real screenshots first if the user wants visuals before README screenshot embeds.
+
+
+## Phase 10F performance audit reference
+
+The README should link to [`docs/performance-bundle-audit.md`](performance-bundle-audit.md) so public readers can find the current build/performance caveat. The performance / bundle-size audit documents the known Vite/Rolldown chunk-size warning, does not claim performance optimized behavior, and does not claim Lighthouse/Core Web Vitals results unless measured.

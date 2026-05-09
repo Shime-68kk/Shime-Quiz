@@ -110,6 +110,7 @@ Actual screenshot image files are not included yet; the screenshot checklist exi
 - Accessibility / keyboard smoke checklist: [`docs/accessibility-keyboard-smoke.md`](docs/accessibility-keyboard-smoke.md)
 - Full QA/release checklist: [`RELEASE_QA_V2.md`](RELEASE_QA_V2.md)
 - README rewrite/split guide: [`docs/readme-public-facing-guide.md`](docs/readme-public-facing-guide.md)
+- Performance / bundle-size audit: [`docs/performance-bundle-audit.md`](docs/performance-bundle-audit.md)
 
 The release tag decision, GitHub Release draft, and publish checklist are documentation only. They do not create a tag, publish a GitHub Release, or certify production/security/accessibility readiness.
 
@@ -146,5 +147,6 @@ Shime does not claim or include:
 - no security certification
 - no accessibility/WCAG certification
 - no SEO ranking improvement or all-crawlers-render success
+- no performance optimization, Lighthouse, Core Web Vitals, or mobile performance certification claim
 - no release tag creation or GitHub Release publication
 - no actual screenshot capture or README screenshots until real screenshot files exist

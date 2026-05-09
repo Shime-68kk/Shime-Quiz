@@ -114,3 +114,8 @@ Screenshot capture guidance is documented in [`docs/screenshot-asset-pack.md`](s
 ## README public-facing reference
 
 The README public-facing rewrite/split guide is available at [`docs/readme-public-facing-guide.md`](readme-public-facing-guide.md). The README should summarize the landing page, local-first model, supported imports, and boundaries while linking detailed public polish docs.
+
+
+## Phase 10F performance / bundle-size audit reference
+
+The public landing page is covered by the performance / bundle-size audit in [`docs/performance-bundle-audit.md`](performance-bundle-audit.md). The audit documents the known Vite/Rolldown chunk-size warning and does not claim SEO, crawler rendering, Lighthouse, Core Web Vitals, or performance optimization success.
