@@ -158,3 +158,7 @@ Phase 10I adds [`docs/cross-device-export-import.md`](cross-device-export-import
 ## Phase 10J final public release readiness re-audit
 
 Phase 10J adds [`docs/final-public-release-readiness-reaudit.md`](final-public-release-readiness-reaudit.md), a final public readiness inventory after Phase 10A–10I. It documents remaining evidence gaps and claim guardrails. It does not create a release tag, publish a GitHub Release, publish a release package, or certify production/security/accessibility/performance readiness.
+
+## Phase 10K release candidate tag/publish gate
+
+The release candidate tag/publish gate is documented in [`release-candidate-tag-publish-gate.md`](release-candidate-tag-publish-gate.md). It records that no release tag has been created, no GitHub Release has been published, no release package has been published, and explicit user approval is required before any tag or publish action. Known evidence gaps and allowed/forbidden claims remain documented.

@@ -109,3 +109,7 @@ Before creating any tag, review [`docs/release-package-cleanliness.md`](release-
 ## Phase 9D release tag / publish checklist reference
 
 After the user chooses a tag/version strategy, review [`docs/release-tag-publish-checklist.md`](release-tag-publish-checklist.md) before creating any tag or publishing any GitHub Release. The checklist documents final pre-tag validation, source archive cleanliness, GitHub Release draft review, safe example commands, stop conditions, and claims controls. Phase 9D does not create a tag, publish a GitHub Release, publish a release package, or change package version.
+
+## Phase 10K release candidate tag/publish gate
+
+The release candidate tag/publish gate is documented in [`release-candidate-tag-publish-gate.md`](release-candidate-tag-publish-gate.md). It records that no release tag has been created, no GitHub Release has been published, no release package has been published, and explicit user approval is required before any tag or publish action. Known evidence gaps and allowed/forbidden claims remain documented.

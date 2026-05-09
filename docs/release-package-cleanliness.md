@@ -132,3 +132,7 @@ After Phase 9C is accepted, the recommended next phase is **Phase 9D — Release
 ## Phase 9D release tag / publish checklist reference
 
 After source archive cleanliness is reviewed, use [`docs/release-tag-publish-checklist.md`](release-tag-publish-checklist.md) as the final decision gate before any tag or GitHub Release publishing action. Phase 9D documents pre-tag checks, validation requirements, stop conditions, and example tag commands as examples only. It does not create a release tag, publish a GitHub Release, publish a release package, or change package version.
+
+## Phase 10K release candidate tag/publish gate
+
+The release candidate tag/publish gate is documented in [`release-candidate-tag-publish-gate.md`](release-candidate-tag-publish-gate.md). It records that no release tag has been created, no GitHub Release has been published, no release package has been published, and explicit user approval is required before any tag or publish action. Known evidence gaps and allowed/forbidden claims remain documented.

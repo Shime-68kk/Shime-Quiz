@@ -1,0 +1,230 @@
+#!/usr/bin/env node
+import fs from 'node:fs';
+import path from 'node:path';
+import { execSync } from 'node:child_process';
+
+const root = process.cwd();
+const failures = [];
+
+function read(relativePath) {
+  const fullPath = path.join(root, relativePath);
+  if (!fs.existsSync(fullPath)) {
+    failures.push(`${relativePath} is missing.`);
+    return '';
+  }
+  return fs.readFileSync(fullPath, 'utf8');
+}
+function assertIncludes(content, needle, message) {
+  if (!content.includes(needle)) failures.push(message || `Missing ${needle}`);
+}
+function assertMatches(content, regex, message) {
+  if (!regex.test(content)) failures.push(message || `Missing pattern ${regex}`);
+}
+function gitTrackedFiles() {
+  try {
+    return execSync('git ls-files', { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })
+      .split(/\r?\n/)
+      .filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+function changedFiles() {
+  try {
+    return execSync('git diff --name-only HEAD', { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })
+      .split(/\r?\n/)
+      .filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+function contextAround(text, match, span = 320) {
+  const index = match.index ?? text.search(match);
+  if (index < 0) return '';
+  return text.slice(Math.max(0, index - span), Math.min(text.length, index + span));
+}
+function guarded(context) {
+  return /no |not |does not|do not|must not|without|unless|unsupported|forbidden|avoid|separate|separately|requires|required|manual|only|caveat|future|later|not bundled|not included|not claim|has not been|should not|cannot|before|placeholder|actual|evidence|configured|tested|unavailable|boundary|claim|imply|safe claims|unsafe claims|pending|reviewed|checklist|this phase does not|local-first|docs only|documented|browser-local|explicit|private|source\/destination|clean-profile|implemented|not measured|not captured|not run|not published|not created|gap|gaps|examples only|user approval|hold/i.test(context);
+}
+function markdownLinks(markdown) {
+  const refs = [];
+  const pattern = /!?(\[[^\]]*\])\(([^)]+)\)/g;
+  let match;
+  while ((match = pattern.exec(markdown)) !== null) {
+    const raw = match[2].trim().split(/\s+/)[0].replace(/^<|>$/g, '');
+    refs.push({ target: raw, isImage: match[0].startsWith('!') });
+  }
+  return refs;
+}
+function isExternal(target) {
+  return /^https?:\/\//i.test(target) || /^mailto:/i.test(target);
+}
+function resolveMarkdownTarget(sourceFile, target) {
+  if (isExternal(target) || target.startsWith('#')) return null;
+  const clean = target.split('#')[0].split('?')[0];
+  if (!clean) return null;
+  return path.normalize(path.join(root, path.dirname(sourceFile), clean));
+}
+function forbiddenTrackedFile(file) {
+  const normalized = file.replace(/\\/g, '/');
+  if (/^(node_modules|dist|test-results|playwright-report|coverage)(\/|$)/.test(normalized)) return true;
+  if (/^FETCH_HEAD$|(^|\/)\.DS_Store$/.test(normalized)) return true;
+  if (/\.log$|npm-debug\.log|yarn-error\.log|pnpm-debug\.log/i.test(normalized)) return true;
+  if (normalized === '.env.example') return false;
+  if (/(^|\/)\.env($|\.)/.test(normalized)) return true;
+  const basename = path.basename(normalized).toLowerCase();
+  const lowerPath = normalized.toLowerCase();
+  const secretLike = [
+    /(^|[-_.])service-account([-_.]|$)/,
+    /(^|[-_.])api-key([-_.]|$)/,
+    /(^|[-_.])access-token([-_.]|$)/,
+    /(^|[-_.])private-key([-_.]|$)/,
+    /(^|[-_.])credentials?([-_.]|$)/,
+    /(^|[-_.])secret([-_.]|$)/,
+    /(^|[-_.])token([-_.]|$)/,
+    /^(id_rsa|id_dsa|id_ecdsa|id_ed25519)$/,
+  ];
+  if (secretLike.some((pattern) => pattern.test(basename))) return true;
+  if (lowerPath.endsWith('/key.pem') || basename === 'key.pem') return true;
+  if (lowerPath.endsWith('/private.key') || basename === 'private.key') return true;
+  if (/\.(pem|p12|pfx)$/i.test(basename)) return true;
+  return false;
+}
+
+const doc = read('docs/release-candidate-tag-publish-gate.md');
+const readme = read('README.md');
+const releaseQa = read('RELEASE_QA_V2.md');
+const finalReaudit = read('docs/final-public-release-readiness-reaudit.md');
+const finalAudit = read('docs/final-rc-audit.md');
+const releaseDraft = read('docs/github-release-draft.md');
+const tagDecision = read('docs/release-tag-decision.md');
+const publishChecklist = read('docs/release-tag-publish-checklist.md');
+const packageCleanliness = read('docs/release-package-cleanliness.md');
+const publicNotes = read('docs/public-release-notes.md');
+const deployment = read('docs/deployment-readiness.md');
+const workflow = read('.github/workflows/e2e-smoke.yml');
+const pkgText = read('package.json');
+const lockText = read('package-lock.json');
+const pkg = pkgText ? JSON.parse(pkgText) : { dependencies: {}, devDependencies: {} };
+const lock = lockText ? JSON.parse(lockText) : { packages: { '': {} } };
+const lockRoot = lock.packages?.[''] || {};
+
+assertMatches(doc, /Phase 10K/i, 'Gate doc must mention Phase 10K.');
+assertMatches(doc, /Release Candidate Tag Decision \/ Publish Gate/i, 'Gate doc must mention Release Candidate Tag Decision / Publish Gate.');
+assertMatches(doc, /completed\/merged through Phase 10J/i, 'Gate doc must mention completed/merged through Phase 10J.');
+assertMatches(doc, /final public release readiness re-audit docs exist/i, 'Gate doc must mention final public release readiness re-audit docs exist.');
+assertMatches(doc, /release tag has not been created/i, 'Gate doc must mention release tag has not been created.');
+assertMatches(doc, /GitHub Release has not been published/i, 'Gate doc must mention GitHub Release has not been published.');
+assertMatches(doc, /release package has not been published/i, 'Gate doc must mention release package has not been published.');
+assertMatches(doc, /explicit user approval.*tag\/publish|tag\/publish.*explicit user approval/i, 'Gate doc must mention explicit user approval before tag/publish.');
+assertMatches(doc, /do not tag automatically/i, 'Gate doc must mention do not tag automatically.');
+assertMatches(doc, /do not publish automatically/i, 'Gate doc must mention do not publish automatically.');
+assertIncludes(doc, 'npm ci', 'Gate doc must mention npm ci.');
+assertIncludes(doc, 'npm run build', 'Gate doc must mention npm run build.');
+assertMatches(doc, /full static validator chain/i, 'Gate doc must mention full static validator chain.');
+assertMatches(doc, /Vite\/Rolldown chunk-size warning is documented as non-blocking/i, 'Gate doc must mention Vite/Rolldown chunk-size warning is documented as non-blocking.');
+assertMatches(doc, /screenshots not captured unless separately done/i, 'Gate doc must mention screenshot evidence gap.');
+assertMatches(doc, /manual mobile UX smoke not run unless separately done/i, 'Gate doc must mention mobile evidence gap.');
+assertMatches(doc, /configured EduGen document import smoke not run unless separately done/i, 'Gate doc must mention configured EduGen evidence gap.');
+assertMatches(doc, /cross-device backup\/restore smoke not run unless separately done/i, 'Gate doc must mention cross-device backup/restore evidence gap.');
+assertMatches(doc, /Lighthouse\/Core Web Vitals not measured unless separately done/i, 'Gate doc must mention Lighthouse/Core Web Vitals evidence gap.');
+assertMatches(doc, /proposed tag names are examples only/i, 'Gate doc must mention proposed tag names are examples only.');
+assertMatches(doc, /final tag name must be chosen by the user/i, 'Gate doc must mention final tag name must be chosen by user.');
+assertMatches(doc, /Phase 10L.*Manual Evidence Run Pack|user-approved release tag creation/i, 'Gate doc must mention Phase 10L or user-approved release tag creation.');
+
+assertIncludes(readme, 'docs/release-candidate-tag-publish-gate.md', 'README.md must link to docs/release-candidate-tag-publish-gate.md.');
+assertMatches(releaseQa, /Phase 10K/i, 'RELEASE_QA_V2.md must include Phase 10K.');
+const linkedDocs = [
+  ['docs/final-public-release-readiness-reaudit.md', finalReaudit],
+  ['docs/final-rc-audit.md', finalAudit],
+  ['docs/github-release-draft.md', releaseDraft],
+  ['docs/release-tag-decision.md', tagDecision],
+  ['docs/release-tag-publish-checklist.md', publishChecklist],
+  ['docs/release-package-cleanliness.md', packageCleanliness],
+  ['docs/public-release-notes.md', publicNotes],
+  ['docs/deployment-readiness.md', deployment],
+];
+for (const [file, text] of linkedDocs) {
+  assertMatches(text, /release-candidate-tag-publish-gate\.md|release candidate tag\/publish gate|release candidate tag publish gate/i, `${file} must link/reference release candidate tag publish gate.`);
+}
+assertIncludes(workflow, 'node scripts/validate-release-candidate-tag-publish-gate.js', 'Workflow must include validate-release-candidate-tag-publish-gate.');
+
+if (pkg.version !== '2.0.0-beta-ai.1') failures.push(`package version changed unexpectedly: ${pkg.version}`);
+if (JSON.stringify(pkg.dependencies || {}) !== JSON.stringify(lockRoot.dependencies || {})) failures.push('package dependencies and lock root dependencies differ.');
+if (JSON.stringify(pkg.devDependencies || {}) !== JSON.stringify(lockRoot.devDependencies || {})) failures.push('package devDependencies and lock root devDependencies differ.');
+
+for (const file of gitTrackedFiles()) {
+  if (forbiddenTrackedFile(file)) failures.push(`Forbidden generated/secret artifact is tracked: ${file}`);
+}
+
+const allowedChanged = new Set([
+  '.github/workflows/e2e-smoke.yml',
+  'README.md',
+  'RELEASE_QA_V2.md',
+  'docs/release-candidate-tag-publish-gate.md',
+  'docs/final-public-release-readiness-reaudit.md',
+  'docs/final-rc-audit.md',
+  'docs/github-release-draft.md',
+  'docs/release-tag-decision.md',
+  'docs/release-tag-publish-checklist.md',
+  'docs/release-package-cleanliness.md',
+  'docs/public-release-notes.md',
+  'docs/deployment-readiness.md',
+  'scripts/validate-release-candidate-tag-publish-gate.js',
+]);
+for (const file of changedFiles()) {
+  if (!allowedChanged.has(file)) failures.push(`Unexpected changed file for Phase 10K: ${file}`);
+  if (/^(e2e\/|src\/)/.test(file)) failures.push(`Runtime/E2E source file changed unexpectedly: ${file}`);
+  if (/^(package\.json|package-lock\.json)$/.test(file)) failures.push(`${file} changed unexpectedly.`);
+}
+
+const claimFiles = [
+  ['README.md', readme],
+  ['RELEASE_QA_V2.md', releaseQa],
+  ['docs/release-candidate-tag-publish-gate.md', doc],
+  ['docs/final-public-release-readiness-reaudit.md', finalReaudit],
+  ['docs/final-rc-audit.md', finalAudit],
+  ['docs/github-release-draft.md', releaseDraft],
+  ['docs/release-tag-decision.md', tagDecision],
+  ['docs/release-tag-publish-checklist.md', publishChecklist],
+  ['docs/release-package-cleanliness.md', packageCleanliness],
+  ['docs/public-release-notes.md', publicNotes],
+  ['docs/deployment-readiness.md', deployment],
+];
+const forbiddenClaims = [
+  [/release tag (created|has been created)|GitHub Release (published|has been published)|release package (published|has been published)/gi, 'release publication'],
+  [/production certification|security certification|accessibility certification|performance certification/gi, 'certification'],
+  [/built-in AI generation|external AI\/API integration|external AI\/API calls/gi, 'AI/API integration'],
+  [/API key\/BYOK support/gi, 'API key/BYOK support'],
+  [/\bOCR\b/gi, 'OCR'],
+  [/EduGen (is )?bundled|bundled EduGen|EduGen bundled/gi, 'EduGen bundled'],
+  [/frontend-only (hosting )?(can|does|will|supports).*convert|frontend-only PDF\/DOCX\/PPTX\/ZIP conversion/gi, 'frontend-only document conversion'],
+  [/backend\/cloud sync|backend sync|cloud sync|account sync/gi, 'backend/cloud/account sync'],
+  [/automatic cross-device sync/gi, 'automatic cross-device sync'],
+  [/encrypted backups?|backup encryption/gi, 'encrypted backup'],
+  [/screenshots captured|actual screenshots captured/gi, 'screenshots captured'],
+  [/mobile UX passed|mobile UX pass/gi, 'mobile UX passed'],
+  [/configured EduGen import passed|EduGen document import passed/gi, 'configured EduGen import passed'],
+  [/cross-device restore passed|cross-device restore verified/gi, 'cross-device restore passed'],
+  [/Lighthouse\/Core Web Vitals pass|Core Web Vitals pass/gi, 'Lighthouse/Core Web Vitals pass'],
+];
+for (const [file, text] of claimFiles) {
+  for (const [pattern, label] of forbiddenClaims) {
+    let match;
+    while ((match = pattern.exec(text)) !== null) {
+      const context = contextAround(text, match);
+      if (!guarded(context)) failures.push(`${file} includes potentially misleading claim without boundary context: ${label}.`);
+    }
+  }
+  for (const link of markdownLinks(text)) {
+    const resolved = resolveMarkdownTarget(file, link.target);
+    if (resolved && !fs.existsSync(resolved)) failures.push(`${file} links to missing file: ${link.target}`);
+  }
+}
+
+if (failures.length) {
+  console.error('Release candidate tag/publish gate validation failed:');
+  for (const failure of failures) console.error(`- ${failure}`);
+  process.exit(1);
+}
+console.log('Release candidate tag/publish gate validation passed.');

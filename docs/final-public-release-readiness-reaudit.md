@@ -131,3 +131,7 @@ Before proceeding to release/tag/publish work:
 Recommended next phase: **Phase 10K — Release Candidate Tag Decision / Publish Gate**.
 
 Alternative: perform a manual evidence run before release if the user wants screenshots/mobile/EduGen/cross-device proof before tag/publish decisions.
+
+## Phase 10K release candidate tag/publish gate
+
+The release candidate tag/publish gate is documented in [`release-candidate-tag-publish-gate.md`](release-candidate-tag-publish-gate.md). It records that no release tag has been created, no GitHub Release has been published, no release package has been published, and explicit user approval is required before any tag or publish action. Known evidence gaps and allowed/forbidden claims remain documented.
