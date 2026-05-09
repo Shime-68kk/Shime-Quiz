@@ -170,3 +170,7 @@ Recommended next phase after this, if continuing hardening: **Phase 9G — Study
 ## Phase 9H accessibility / keyboard smoke reference
 
 Accessibility / keyboard manual smoke guidance is documented in [`docs/accessibility-keyboard-smoke.md`](accessibility-keyboard-smoke.md). It documents keyboard navigation, focus visibility, reachable controls, import, Library, demo quickstart, preview/review/confirm-save, Study Room, Dashboard, backup/restore, readable labels, visible validation/error messages, EduGen unavailable guidance, manual AI caveats, and evidence rules. Phase 9H does not change runtime behavior and does not claim WCAG compliance, accessibility certification, production/security certification, or a manual accessibility/keyboard pass without an actual tester/user run.
+
+## Phase 10I cross-device export/import reference
+
+Cross-device portability guidance is documented in [`docs/cross-device-export-import.md`](cross-device-export-import.md). It clarifies that moving Shime data between browsers/devices requires explicit user export/import/backup/restore, that full backups may contain private study data and answers, and that no automatic cloud/account/backend sync or encrypted backup claim is made without implementation and evidence.

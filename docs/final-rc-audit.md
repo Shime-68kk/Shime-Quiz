@@ -206,3 +206,7 @@ Mobile UX / responsive smoke checklist documentation exists at [`docs/mobile-ux-
 ## EduGen boundary polish reference
 
 EduGen/File Processor boundary polish is documented in [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md). It reiterates that PDF/DOCX/PPTX/ZIP document import requires `VITE_FILE_PROCESSOR_URL` pointing to a separate browser-reachable service, frontend-only hosting alone does not provide document conversion, EduGen is not bundled, OCR is not included, and no backend/cloud sync is added.
+
+## Phase 10I cross-device export/import reference
+
+Cross-device export/import guidance exists at [`docs/cross-device-export-import.md`](cross-device-export-import.md). It documents the local-first portability workflow, backup privacy notes, and evidence rules; it does not add runtime behavior, storage/schema changes, package/dependency changes, cloud/account sync, encrypted backup claims, a release tag, or a GitHub Release.

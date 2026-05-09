@@ -200,3 +200,7 @@ Accessibility / keyboard manual smoke guidance is documented in [`docs/accessibi
 ## EduGen boundary polish reference
 
 Import smoke testers should use [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md) for the current document-import copy rules and evidence requirements. Do not claim PDF/DOCX/PPTX/ZIP document import passed unless a separate configured browser-reachable EduGen/File Processor service was actually tested.
+
+## Phase 10I cross-device export/import reference
+
+Cross-device portability guidance is documented in [`docs/cross-device-export-import.md`](cross-device-export-import.md). Import smoke claims should distinguish local content imports from full backup/restore portability and must not imply automatic cloud/account sync or backend sync.

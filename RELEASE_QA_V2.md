@@ -1151,3 +1151,38 @@ Claim guardrails:
 - Can claim frontend-only hosting alone does not provide document conversion.
 - Do not claim document import passed without actual configured run evidence.
 - Do not claim OCR, bundled EduGen, backend/cloud sync, release tag creation, GitHub Release publication, or production/security/accessibility certification.
+
+## Phase 10I — Cross-Device Export/Import Polish
+
+Scope: documentation/static-validator/CI registration only. Runtime UI copy was not changed in this phase.
+
+Adds:
+- Cross-device export/import guidance document: `docs/cross-device-export-import.md`.
+- Local-first portability model: browser-local storage, no backend/cloud sync, no account sync, and no automatic cross-device sync.
+- Explicit export/import or backup/restore workflow for moving data between source device and destination device or clean browser profile.
+- Backup privacy notes: full backup may contain quiz content, answers, progress, study history, and local app data; backups should be kept private.
+- Supported import/export surfaces: backup/restore portability, JSON, CSV, text/Markdown, `.txt/.md`, and PDF/DOCX/PPTX/ZIP only through a separate configured EduGen/File Processor service.
+- Evidence rules: do not claim cross-device restore passed without actual run evidence; do not claim encrypted backups unless implemented.
+- Static validator: `scripts/validate-cross-device-export-import.js`.
+- CI coverage in `.github/workflows/e2e-smoke.yml`.
+
+Scope controls:
+- Runtime app behavior changed? NO.
+- UI copy changed? NO.
+- Backup/restore logic changed? NO.
+- Storage/schema changed? NO.
+- Import/parser logic changed? NO.
+- File processor client behavior changed? NO.
+- Package version/dependencies changed? NO.
+- Do not claim release tag created.
+- Do not claim GitHub Release published.
+- Do not claim encrypted backup unless implemented.
+- Do not claim backend/cloud sync or account sync.
+- Do not claim production/security/accessibility certification.
+
+Claim guardrails:
+- Can claim cross-device export/import guidance exists.
+- Can claim manual backup/restore portability workflow is documented.
+- Can claim no automatic cloud/account sync is provided.
+- Do not claim cross-device restore passed without actual run evidence.
+- Do not claim encrypted backups, backend/cloud sync, account sync, release tag creation, GitHub Release publication, or production/security/accessibility certification.

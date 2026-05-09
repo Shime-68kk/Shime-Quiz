@@ -150,3 +150,7 @@ The final RC audit does not create a release tag, publish a GitHub release, cert
 ## Phase 10H — EduGen boundary polish
 
 Phase 10H adds [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md) to keep public copy and deployment guidance clear about the EduGen/File Processor boundary. JSON/CSV/text/Markdown/`.txt/.md` remain local import surfaces. PDF/DOCX/PPTX/ZIP document import requires a separately configured, browser-reachable EduGen/File Processor service through `VITE_FILE_PROCESSOR_URL`; frontend-only hosting alone does not provide document conversion. This phase does not bundle EduGen, add OCR, add backend/cloud sync, change import/parser behavior, create a release tag, publish a GitHub Release, or certify production/security readiness.
+
+## Phase 10I — Cross-device export/import guidance
+
+Phase 10I adds [`docs/cross-device-export-import.md`](cross-device-export-import.md) to explain the local-first portability model. Moving data between devices requires explicit user export/import/backup/restore; full backups may contain private study data and answers. This phase does not add cloud/account/backend sync, encrypted backups, runtime backup/restore changes, package/dependency changes, a release tag, or a GitHub Release.

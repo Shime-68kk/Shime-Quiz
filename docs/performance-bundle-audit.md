@@ -105,3 +105,7 @@ Mobile UX / responsive smoke guidance is documented in [`docs/mobile-ux-smoke.md
 ## EduGen boundary polish reference
 
 Performance and bundle-size notes should not turn into capability claims. See [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md) for the separate EduGen/File Processor boundary; Phase 10F and Phase 10H do not add OCR, backend/cloud sync, bundled EduGen, or frontend-only PDF/DOCX/PPTX/ZIP conversion.
+
+## Phase 10I cross-device export/import reference
+
+Performance notes do not change the local-first data model. Cross-device export/import guidance is documented in [`docs/cross-device-export-import.md`](cross-device-export-import.md), including explicit user backup/restore portability and no automatic cloud/account/backend sync.

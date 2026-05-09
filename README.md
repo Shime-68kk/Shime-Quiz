@@ -63,10 +63,12 @@ Recommendations and quality review are advisory local heuristics, not guarantees
 Shime is designed as a static, local-first browser app:
 
 - no backend/auth/cloud sync
+- no automatic cross-device/account sync
 - no account required
 - no cross-device sync service
 - browser-local storage for app data
 - backup export/import for user-controlled portability
+- moving data between devices requires explicit user export/import/backup/restore; full backups may contain private study data and answers
 
 Local/browser storage is not a secure server-side vault. Do not use this app as an anti-cheat or production security system.
 
@@ -106,6 +108,7 @@ Actual screenshot image files are not included yet; the screenshot checklist exi
 - Release tag / publish checklist: [`docs/release-tag-publish-checklist.md`](docs/release-tag-publish-checklist.md)
 - Import regression smoke checklist: [`docs/import-regression-smoke.md`](docs/import-regression-smoke.md)
 - Backup/restore regression smoke checklist: [`docs/backup-restore-regression-smoke.md`](docs/backup-restore-regression-smoke.md)
+- Cross-device export/import guidance: [`docs/cross-device-export-import.md`](docs/cross-device-export-import.md)
 - Study Room / Dashboard regression smoke checklist: [`docs/study-dashboard-regression-smoke.md`](docs/study-dashboard-regression-smoke.md)
 - Accessibility / keyboard smoke checklist: [`docs/accessibility-keyboard-smoke.md`](docs/accessibility-keyboard-smoke.md)
 - Full QA/release checklist: [`RELEASE_QA_V2.md`](RELEASE_QA_V2.md)
@@ -139,6 +142,7 @@ If Chromium/browser setup is missing, report that as environment-blocked rather 
 Shime does not claim or include:
 
 - no backend/auth/cloud sync
+- no automatic cross-device/account sync
 - no built-in AI generation
 - no external AI/API integration
 - no API key/BYOK support

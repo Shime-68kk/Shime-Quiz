@@ -178,3 +178,7 @@ Optional pre-publish mobile checks are documented in [`docs/mobile-ux-smoke.md`]
 ## EduGen boundary polish checkpoint
 
 Before creating a tag or publishing a GitHub Release, review [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md). Confirm JSON/CSV/text/Markdown/`.txt/.md` remain described as local import surfaces, and PDF/DOCX/PPTX/ZIP import is described as requiring a separate configured browser-reachable EduGen/File Processor service. Do not claim document import passed unless a real configured run verifies it.
+
+## Phase 10I cross-device export/import checkpoint
+
+Before publishing, review [`docs/cross-device-export-import.md`](cross-device-export-import.md). Confirm release notes do not imply automatic cloud/account/backend sync, encrypted backups, or cross-device restore pass evidence unless an actual source/destination or clean-profile run was completed.
