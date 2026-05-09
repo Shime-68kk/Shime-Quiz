@@ -102,3 +102,7 @@ Recommended next phase: Phase 10B — SEO / Open Graph / Social Preview Metadata
 ## Phase 10B social preview metadata reference
 
 Basic static SEO/social preview metadata is documented in [`docs/social-preview-metadata.md`](social-preview-metadata.md). Phase 10B adds `index.html` title/description, Open Graph and Twitter/social card tags, and a static preview image. The Phase 10A recommended next step was Phase 10B — SEO / Open Graph / Social Preview Metadata; after Phase 10B, the recommended next step is Phase 10C — Direct Route / SPA Fallback UX Audit. Do not claim SEO optimization success or that all crawlers render SPA content.
+
+## Phase 10C direct-route / SPA fallback reference
+
+Direct-route and static-host fallback guidance is documented in [`docs/direct-route-spa-fallback.md`](direct-route-spa-fallback.md). Phase 10C documents how `/`, `/dashboard`, `/library`, `/study-room`, and unknown routes should be manually smoked in a React/Vite SPA with static-host fallback to `index.html`. It does not claim SSR, all-crawler rendering, direct-route smoke pass, auth/login, backend/cloud sync, release tag creation, or GitHub Release publication.

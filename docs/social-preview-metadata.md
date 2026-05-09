@@ -74,3 +74,7 @@ Unsafe claims after Phase 10B:
 ## Recommended next step
 
 Recommended next phase: Phase 10C — Direct Route / SPA Fallback UX Audit.
+
+## Phase 10C direct-route / SPA fallback reference
+
+Direct-route and static-host fallback guidance is documented in [`docs/direct-route-spa-fallback.md`](direct-route-spa-fallback.md). Static metadata remains available from `index.html`, but React/Vite SPA body content may require JavaScript rendering. Phase 10C documents fallback/manual smoke expectations and does not claim SSR, all crawlers render SPA content, or direct-route smoke passed without evidence.

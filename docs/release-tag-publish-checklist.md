@@ -153,3 +153,7 @@ Before creating a tag or publishing a GitHub Release, review [`docs/public-landi
 ## Phase 10B SEO / social preview metadata checkpoint
 
 Before creating a tag or publishing a GitHub Release, review [`docs/social-preview-metadata.md`](social-preview-metadata.md). Phase 10B adds basic static `index.html` metadata, Open Graph/Twitter social card tags, and a static preview image. It does not create a release tag, publish a GitHub Release, certify production/security/accessibility readiness, claim SEO ranking improvement, or guarantee all crawlers render SPA content.
+
+## Phase 10C direct-route / SPA fallback checkpoint
+
+Before creating a tag or publishing a GitHub Release, review [`docs/direct-route-spa-fallback.md`](direct-route-spa-fallback.md). Manually smoke `/`, `/dashboard`, `/library`, `/study-room`, and an unknown route on the target static host if making direct-route claims. Phase 10C does not add auth/login, middleware, backend/cloud sync, SSR, package version changes, release tag creation, or GitHub Release publishing.

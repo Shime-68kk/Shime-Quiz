@@ -796,14 +796,14 @@ Phase 9E does not:
 - Change runtime app behavior.
 - Change user-facing app features.
 - Change import/parser logic.
-- Change E2E logic.
+- Do not change E2E logic.
 - Change EduGen source.
 - Add AI/API/OCR/backend behavior.
 - Change storage/schema/scoring/SRT/mastery logic.
 - Do not change package version or dependencies.
-- Create a release tag.
-- Publish a GitHub Release.
-- Publish a release package.
+- Do not create a release tag.
+- Do not publish a GitHub Release.
+- Do not publish a release package.
 - Do not claim production/security certification.
 
 Recommended next phase: Phase 9F — Backup / Restore Manual Regression Smoke.
@@ -824,16 +824,16 @@ Phase 9F does not:
 - Change runtime app behavior.
 - Change user-facing app features.
 - Change backup/restore logic.
-- Change storage/schema behavior.
+- Do not change storage/schema behavior.
 - Change import/parser logic.
-- Change E2E logic.
+- Do not change E2E logic.
 - Change EduGen source.
 - Add AI/API/OCR/backend behavior.
-- Change scoring/SRT/mastery/study history/recommendation logic.
+- Do not change scoring/SRT/mastery/study history/recommendation logic.
 - Do not change package version or dependencies.
-- Create a release tag.
-- Publish a GitHub Release.
-- Publish a release package.
+- Do not create a release tag.
+- Do not publish a GitHub Release.
+- Do not publish a release package.
 - Do not claim production/security certification.
 
 Recommended next phase: Phase 9G — Study Room / Dashboard Learning Flow Smoke.
@@ -852,18 +852,18 @@ Added:
 Phase 9G does not:
 - Change runtime app behavior.
 - Change user-facing features.
-- Change Study Room logic.
+- Do not change Study Room logic.
 - Change Dashboard runtime logic.
-- Change scoring/SRT/mastery/study history/recommendation logic.
-- Change storage/schema behavior.
-- Change import/parser behavior.
-- Change E2E logic.
+- Do not change scoring/SRT/mastery/study history/recommendation logic.
+- Do not change storage/schema behavior.
+- Do not change import/parser behavior.
+- Do not change E2E logic.
 - Change EduGen source.
 - Add AI/API/OCR/backend behavior.
 - Do not change package version or dependencies.
-- Create a release tag.
+- Do not create a release tag.
 - Publish a GitHub release.
-- Publish a release package.
+- Do not publish a release package.
 - Do not claim production/security certification.
 
 Recommended next phase: Phase 9H — Accessibility / Keyboard Smoke.
@@ -886,19 +886,19 @@ Phase 9H does not:
 - Change user-facing features.
 - Change accessibility implementation.
 - Change keyboard/focus behavior.
-- Change Study Room logic.
+- Do not change Study Room logic.
 - Change Dashboard runtime logic.
-- Change scoring/SRT/mastery/study history/recommendation logic.
+- Do not change scoring/SRT/mastery/study history/recommendation logic.
 - Change backup/restore logic.
-- Change storage/schema behavior.
-- Change import/parser behavior.
-- Change E2E logic.
+- Do not change storage/schema behavior.
+- Do not change import/parser behavior.
+- Do not change E2E logic.
 - Change EduGen source.
 - Add AI/API/OCR/backend behavior.
 - Do not change package version or dependencies.
-- Create a release tag.
+- Do not create a release tag.
 - Publish a GitHub release.
-- Publish a release package.
+- Do not publish a release package.
 - Do not claim WCAG compliance.
 - Do not claim accessibility certification.
 - Do not claim production/security certification.
@@ -973,3 +973,38 @@ Validator and CI coverage:
 
 Recommended next phase: Phase 10C — Direct Route / SPA Fallback UX Audit.
 
+## Phase 10C — Direct Route / SPA Fallback UX Audit
+
+Phase 10C adds direct-route/static-hosting fallback audit documentation at [`docs/direct-route-spa-fallback.md`](docs/direct-route-spa-fallback.md). The guide documents React/Vite SPA direct-route behavior, static-host fallback to `index.html`, existing Vercel/Netlify/`_redirects` fallback expectations, and a manual smoke checklist for `/`, `/dashboard`, `/library`, `/study-room`, and unknown routes.
+
+Scope and limitations:
+- This is a Vite SPA/static-host fallback audit phase, not a Next.js App Router change.
+- Static metadata exists, but app body content may require JavaScript rendering.
+- Simple crawlers may not render SPA body content.
+- No SSR claim is made.
+- No all-crawlers-render claim is made.
+- No direct-route smoke pass is claimed without actual run evidence.
+- No auth/login, middleware, backend, cloud sync, or protected routes are added.
+
+Phase 10C does not:
+- Do not add built-in AI generation.
+- Do not add external AI/API calls.
+- Do not add API key/BYOK support.
+- Do not bundle EduGen/File Processor.
+- Do not add OCR.
+- Do not change import/parser behavior.
+- Do not change backup/restore behavior.
+- Do not change storage/schema behavior.
+- Do not change Study Room logic.
+- Do not change Dashboard learning logic.
+- Do not change scoring/SRT/mastery/study history/recommendation logic.
+- Do not change E2E logic.
+- Do not change package version or dependencies.
+- Do not create a release tag.
+- Do not publish a GitHub Release.
+- Do not publish a release package.
+- Do not claim production/security/accessibility certification.
+
+Validator and CI:
+- Added `scripts/validate-direct-route-spa-fallback.js`.
+- Registered `node scripts/validate-direct-route-spa-fallback.js` in `.github/workflows/e2e-smoke.yml` while preserving prior validators, Playwright install, E2E smoke/onboarding, and failure artifact upload.
