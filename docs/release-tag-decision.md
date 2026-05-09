@@ -117,3 +117,7 @@ The release candidate tag/publish gate is documented in [`release-candidate-tag-
 ## Phase 10M release tag creation plan
 
 A later tag command plan is documented in [`docs/release-tag-creation-plan.md`](release-tag-creation-plan.md). Candidate tag names remain examples only until the user chooses one.
+
+## Phase 10N GitHub Release publication plan
+
+See [`docs/github-release-publication-plan.md`](github-release-publication-plan.md) for the publication plan that follows tag selection. Publication requires explicit user approval and does not happen in Phase 10N.

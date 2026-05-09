@@ -114,6 +114,7 @@ Actual screenshot image files are not included yet; the screenshot checklist exi
 - Final public release readiness re-audit: [`docs/final-public-release-readiness-reaudit.md`](docs/final-public-release-readiness-reaudit.md)
 - Release candidate tag/publish gate: [`docs/release-candidate-tag-publish-gate.md`](docs/release-candidate-tag-publish-gate.md)
 - Release tag creation plan: [`docs/release-tag-creation-plan.md`](docs/release-tag-creation-plan.md)
+- GitHub Release publication plan: [`docs/github-release-publication-plan.md`](docs/github-release-publication-plan.md)
 - Full QA/release checklist: [`RELEASE_QA_V2.md`](RELEASE_QA_V2.md)
 - README rewrite/split guide: [`docs/readme-public-facing-guide.md`](docs/readme-public-facing-guide.md)
 - Performance / bundle-size audit: [`docs/performance-bundle-audit.md`](docs/performance-bundle-audit.md)
@@ -167,3 +168,7 @@ Optional pre-release evidence collection is documented in [`docs/manual-evidence
 ## Phase 10M release tag creation plan
 
 The release tag creation plan is documented in [`docs/release-tag-creation-plan.md`](docs/release-tag-creation-plan.md). It provides a user-approved tag command plan and checklist only. No release tag has been created, no GitHub Release has been published, no release package has been published, and package version/dependencies remain unchanged.
+
+## Phase 10N GitHub Release publication plan
+
+The GitHub Release publication plan is documented in [`docs/github-release-publication-plan.md`](docs/github-release-publication-plan.md). It is a publication checklist and release-note plan only. No release tag has been created, no GitHub Release has been published, no release package has been published, and package version/dependencies remain unchanged. GitHub Release publication remains gated by explicit user approval.

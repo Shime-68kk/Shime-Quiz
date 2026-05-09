@@ -138,3 +138,7 @@ Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-r
 ## Phase 10M release tag creation plan
 
 Tag creation planning is documented in [`docs/release-tag-creation-plan.md`](release-tag-creation-plan.md). Deployment readiness does not imply a tag has been created, a GitHub Release has been published, or a release package has been published.
+
+## GitHub Release publication plan
+
+Publication planning is documented in [`docs/github-release-publication-plan.md`](github-release-publication-plan.md). Deployment readiness remains separate from release publication, and Phase 10N does not publish a GitHub Release or release package.

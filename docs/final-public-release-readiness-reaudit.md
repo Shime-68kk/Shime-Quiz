@@ -143,3 +143,7 @@ Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-r
 ## Phase 10M release tag creation plan
 
 Release tag creation planning is documented in [`docs/release-tag-creation-plan.md`](release-tag-creation-plan.md). No release tag, GitHub Release, or release package is claimed by the plan.
+
+## Related GitHub Release publication plan
+
+Phase 10N adds [`docs/github-release-publication-plan.md`](github-release-publication-plan.md) as a publication planning document. It does not create a tag, publish a GitHub Release, publish a release package, or change package version.

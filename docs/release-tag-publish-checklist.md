@@ -198,3 +198,7 @@ Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-r
 ## Phase 10M release tag creation plan
 
 The release tag creation plan in [`docs/release-tag-creation-plan.md`](release-tag-creation-plan.md) documents pre-tag validation, example tag commands, rollback notes, and explicit user approval requirements.
+
+## GitHub Release publication plan
+
+See [`docs/github-release-publication-plan.md`](github-release-publication-plan.md) for the Phase 10N publication checklist and notes plan. The UI/CLI examples are documentation only and must not be executed without explicit user approval.

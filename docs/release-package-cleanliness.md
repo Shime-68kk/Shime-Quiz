@@ -144,3 +144,7 @@ Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-r
 ## Phase 10M release tag creation plan
 
 Use [`docs/release-tag-creation-plan.md`](release-tag-creation-plan.md) before any tag command. Release package publication remains separate and is not claimed by the plan.
+
+## GitHub Release publication plan relation
+
+Release package/upload artifacts remain separate from the GitHub Release publication plan in [`docs/github-release-publication-plan.md`](github-release-publication-plan.md) unless explicitly approved by the user.
