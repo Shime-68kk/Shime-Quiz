@@ -148,3 +148,8 @@ Use [`docs/release-tag-creation-plan.md`](release-tag-creation-plan.md) before a
 ## GitHub Release publication plan relation
 
 Release package/upload artifacts remain separate from the GitHub Release publication plan in [`docs/github-release-publication-plan.md`](github-release-publication-plan.md) unless explicitly approved by the user.
+
+
+## Release package assembly plan
+
+See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) for the future user-approved package assembly plan. It extends this cleanliness checklist with package variants, assembly commands as documentation only, verification steps, and release asset guidance.

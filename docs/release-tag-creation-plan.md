@@ -123,3 +123,8 @@ After this plan is accepted, the next step is either user-approved actual tag cr
 ## Phase 10N GitHub Release publication plan
 
 See [`docs/github-release-publication-plan.md`](github-release-publication-plan.md) for the follow-up GitHub Release publication plan. The plan is documentation only: no release tag is created, no GitHub Release is published, no release package is published, and explicit user approval remains required.
+
+
+## Release package assembly reference
+
+See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) for the package contents, exclusions, verification checklist, and user-approval gate for any future release package assembly. No package is created by that plan.

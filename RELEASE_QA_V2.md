@@ -1346,3 +1346,46 @@ Validator:
 
 CI coverage:
 - `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-github-release-publication-plan.js` and preserves previous validators.
+
+
+## Phase 10O — Release Package Assembly Plan
+
+Status: DOCUMENTATION / STATIC VALIDATOR / CI ONLY.
+
+Phase 10O adds [`docs/release-package-assembly-plan.md`](docs/release-package-assembly-plan.md), a release package assembly plan for a future user-approved release.
+
+Coverage:
+- Package policy: this phase does not create, publish, or upload a release package.
+- Package assembly and package upload/publication require explicit user approval.
+- Release tag creation and GitHub Release publication remain separate actions.
+- Recommended source-package contents are documented.
+- Exclusions are documented for `node_modules`, `dist` unless explicitly building a deploy artifact, `test-results`, `playwright-report`, `coverage`, `.git`, `FETCH_HEAD`, real `.env` files, private keys, credentials, service account files, local user data/backups, and fake/mock screenshots.
+- Optional package variants are documented: source package, deploy artifact package, and documentation/evidence package.
+- Assembly and verification checklists are documented, including `npm ci`, `npm run build`, full static validator chain, package unzip verification, generated-artifact checks, secret checks, and safe-claims review.
+- Command examples such as `git archive`, clean zip assembly, and checksum generation are a plan only and are not executed in this phase.
+- Release asset guidance states that package upload remains separate and requires explicit user approval.
+
+Evidence gaps remain documented:
+- screenshots not captured unless separately done
+- manual mobile UX smoke not run unless separately done
+- configured EduGen import smoke not run unless separately done
+- cross-device restore smoke not run unless separately done
+- Lighthouse/Core Web Vitals not measured unless separately done
+- E2E may be environment-blocked if Chromium is unavailable
+
+Scope control:
+- No runtime app behavior changes.
+- No package version or dependency changes.
+- No release package created.
+- No release package uploaded or published.
+- No release tag created.
+- No GitHub Release published.
+- No screenshot image assets added.
+- No production/security/accessibility/performance certification claim.
+- No unsupported AI/EduGen/OCR/backend/cloud/account-sync claims.
+
+Validator:
+- `scripts/validate-release-package-assembly-plan.js`
+
+CI coverage:
+- `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-release-package-assembly-plan.js` and preserves previous validators.

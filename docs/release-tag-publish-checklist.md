@@ -202,3 +202,8 @@ The release tag creation plan in [`docs/release-tag-creation-plan.md`](release-t
 ## GitHub Release publication plan
 
 See [`docs/github-release-publication-plan.md`](github-release-publication-plan.md) for the Phase 10N publication checklist and notes plan. The UI/CLI examples are documentation only and must not be executed without explicit user approval.
+
+
+## Release package assembly reference
+
+See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) before assembling or uploading any release package. The checklist documents allowed contents, exclusions, verification, and explicit user approval requirements.

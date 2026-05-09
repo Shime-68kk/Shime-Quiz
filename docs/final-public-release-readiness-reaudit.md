@@ -147,3 +147,8 @@ Release tag creation planning is documented in [`docs/release-tag-creation-plan.
 ## Related GitHub Release publication plan
 
 Phase 10N adds [`docs/github-release-publication-plan.md`](github-release-publication-plan.md) as a publication planning document. It does not create a tag, publish a GitHub Release, publish a release package, or change package version.
+
+
+## Release package assembly reference
+
+See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) for the release package assembly plan, including package contents, exclusions, verification, and user-approval gating. No release package has been created or published.

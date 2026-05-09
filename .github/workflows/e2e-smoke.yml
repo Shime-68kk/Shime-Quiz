@@ -224,3 +224,6 @@ jobs:
           name: playwright-test-results
           path: test-results/
           if-no-files-found: ignore
+
+      - name: Validate release package assembly plan
+        run: node scripts/validate-release-package-assembly-plan.js
