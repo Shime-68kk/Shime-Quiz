@@ -157,3 +157,7 @@ Before creating a tag or publishing a GitHub Release, review [`docs/social-previ
 ## Phase 10C direct-route / SPA fallback checkpoint
 
 Before creating a tag or publishing a GitHub Release, review [`docs/direct-route-spa-fallback.md`](direct-route-spa-fallback.md). Manually smoke `/`, `/dashboard`, `/library`, `/study-room`, and an unknown route on the target static host if making direct-route claims. Phase 10C does not add auth/login, middleware, backend/cloud sync, SSR, package version changes, release tag creation, or GitHub Release publishing.
+
+## Phase 10D screenshot checkpoint
+
+Before publishing, review [`docs/screenshot-asset-pack.md`](screenshot-asset-pack.md). If screenshots are added to README or GitHub Release notes, verify that every referenced image exists, opens, matches the current UI, avoids private data, and does not imply unsupported features or certification claims.

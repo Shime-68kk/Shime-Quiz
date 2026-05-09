@@ -185,3 +185,7 @@ Basic static SEO/social preview metadata is documented in [`docs/social-preview-
 ## Phase 10C direct-route / SPA fallback reference
 
 Direct-route / SPA fallback audit guidance is documented in [`docs/direct-route-spa-fallback.md`](direct-route-spa-fallback.md). Use it before publishing to understand static-host fallback expectations. Do not use it to claim SSR, all-crawler rendering, direct-route smoke pass without evidence, release tag creation, or GitHub Release publication.
+
+## Phase 10D screenshot asset pack reference
+
+Screenshot capture guidance is documented in [`docs/screenshot-asset-pack.md`](screenshot-asset-pack.md). Actual screenshots are pending capture, so the draft release should not embed screenshot image links until real files exist and have been reviewed for private data and unsupported claims.

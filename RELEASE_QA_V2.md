@@ -1008,3 +1008,35 @@ Phase 10C does not:
 Validator and CI:
 - Added `scripts/validate-direct-route-spa-fallback.js`.
 - Registered `node scripts/validate-direct-route-spa-fallback.js` in `.github/workflows/e2e-smoke.yml` while preserving prior validators, Playwright install, E2E smoke/onboarding, and failure artifact upload.
+
+## Phase 10D — Screenshot Asset Pack
+
+Phase 10D adds screenshot asset pack/checklist documentation at [`docs/screenshot-asset-pack.md`](docs/screenshot-asset-pack.md) and prepares `docs/assets/screenshots/` with `.gitkeep` for future real screenshots.
+
+Screenshot asset status:
+- Actual screenshots included: NO.
+- Screenshots are pending actual capture from the current app.
+- README and GitHub Release docs should link to the checklist rather than embed missing screenshot images.
+- Do not claim screenshots exist or screenshot capture completed unless actual reviewed image files are present.
+
+Screenshot capture rules:
+- Use the current app build and public release-safe sample data.
+- Avoid private data, secrets, browser-extension noise, and unsupported visual claims.
+- Do not fake screenshots or add misleading mockups.
+- Only reference screenshot image files that actually exist.
+
+Phase 10D does not:
+- Change runtime app behavior or user-facing app features.
+- Do not claim auth/login, middleware, backend, or cloud sync; none were added.
+- Do not claim built-in AI generation, external AI/API calls, API key/BYOK support, or OCR; none were added.
+- Do not claim EduGen is bundled or that frontend-only hosting provides PDF/DOCX/PPTX/ZIP document conversion.
+- Change import/parser behavior, backup/restore behavior, storage schema, Study Room logic, Dashboard learning logic, scoring/SRT/mastery/study history/recommendation logic, or E2E logic.
+- Change package version or dependencies.
+- Create a release tag, publish a GitHub Release, or publish a release package.
+- Do not claim production/security/accessibility certification.
+
+Validator and CI coverage:
+- Added `scripts/validate-screenshot-asset-pack.js`.
+- Registered `node scripts/validate-screenshot-asset-pack.js` in `.github/workflows/e2e-smoke.yml` while preserving prior validators, Playwright install, E2E smoke/onboarding, and failure artifact upload.
+
+Recommended next phase: Phase 10E — README Public-Facing Rewrite / Split.

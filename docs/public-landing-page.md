@@ -106,3 +106,7 @@ Basic static SEO/social preview metadata is documented in [`docs/social-preview-
 ## Phase 10C direct-route / SPA fallback reference
 
 Direct-route and static-host fallback guidance is documented in [`docs/direct-route-spa-fallback.md`](direct-route-spa-fallback.md). Phase 10C documents how `/`, `/dashboard`, `/library`, `/study-room`, and unknown routes should be manually smoked in a React/Vite SPA with static-host fallback to `index.html`. It does not claim SSR, all-crawler rendering, direct-route smoke pass, auth/login, backend/cloud sync, release tag creation, or GitHub Release publication.
+
+## Phase 10D screenshot asset pack reference
+
+Screenshot capture guidance is documented in [`docs/screenshot-asset-pack.md`](screenshot-asset-pack.md). Actual screenshots are pending capture, so public landing docs should link to the checklist rather than embed missing images. Do not use screenshots or captions to imply AI/API calls, OCR, cloud sync, bundled EduGen, frontend-only document conversion, release publication, or certification claims.
