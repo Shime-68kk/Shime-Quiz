@@ -136,3 +136,7 @@ Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-r
 ## Phase 10M release tag creation plan
 
 The follow-up tag creation plan is documented in [`docs/release-tag-creation-plan.md`](release-tag-creation-plan.md). It provides example tag names and command plans only; explicit user approval is required before tag creation or publishing.
+
+## Related GitHub Release publication plan
+
+The release gate now links to the GitHub Release publication plan in [`docs/github-release-publication-plan.md`](github-release-publication-plan.md). Publication remains gated by explicit user approval, and release package/upload artifacts remain separate unless explicitly approved.

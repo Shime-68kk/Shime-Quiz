@@ -158,3 +158,7 @@ The user may run this manual evidence pack, proceed with user-approved release t
 ## Phase 10M release tag creation plan
 
 Release tag creation planning is documented in [`docs/release-tag-creation-plan.md`](release-tag-creation-plan.md). It keeps actual tag creation gated on explicit user approval and does not claim a tag, GitHub Release, or release package has been published.
+
+## Related GitHub Release publication plan
+
+The optional evidence collected by this pack can support the later [`docs/github-release-publication-plan.md`](github-release-publication-plan.md). Phase 10N does not claim those evidence runs passed and does not publish a GitHub Release.

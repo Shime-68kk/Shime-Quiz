@@ -1306,3 +1306,43 @@ Scope control:
 
 Validator: `scripts/validate-release-tag-creation-plan.js`.
 CI coverage: `.github/workflows/e2e-smoke.yml` runs the validator.
+
+## Phase 10N — GitHub Release Publication Plan
+
+Status: DOCUMENTATION / STATIC VALIDATOR / CI ONLY.
+
+Phase 10N adds [`docs/github-release-publication-plan.md`](docs/github-release-publication-plan.md), a GitHub Release publication plan for the current release-candidate state.
+
+Coverage:
+- Publication policy: this phase does not publish a GitHub Release.
+- GitHub Release publication requires explicit user approval.
+- A release tag should exist before publishing a GitHub Release.
+- The final tag name must be chosen by user.
+- Release notes must preserve claims guardrails.
+- Release package/upload artifacts remain separate unless explicitly approved.
+- Pre-publication checklist covers latest validated main, clean working tree, approved release tag, `npm ci`, `npm run build`, full static validator chain, optional E2E, optional manual evidence pack, generated-artifact check, secret check, and release-note review.
+- GitHub UI / `gh release create` examples are documentation only and are not executed in this phase.
+- Rollback/correction notes are documented.
+
+Evidence gaps remain documented:
+- screenshots not captured unless separately done
+- manual mobile UX smoke not run unless separately done
+- configured EduGen import smoke not run unless separately done
+- cross-device restore smoke not run unless separately done
+- Lighthouse/Core Web Vitals not measured unless separately done
+- E2E may be environment-blocked if Chromium is unavailable
+
+Scope control:
+- No runtime app behavior changes.
+- No package version or dependency changes.
+- No release tag created.
+- No GitHub Release published.
+- No release package published.
+- No production/security/accessibility/performance certification claim.
+- No unsupported AI/EduGen/OCR/backend/cloud/account-sync claims.
+
+Validator:
+- `scripts/validate-github-release-publication-plan.js`
+
+CI coverage:
+- `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-github-release-publication-plan.js` and preserves previous validators.

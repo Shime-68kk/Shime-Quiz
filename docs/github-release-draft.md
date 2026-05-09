@@ -226,3 +226,7 @@ Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-r
 ## Phase 10M release tag creation plan
 
 Before this draft is published, review [`docs/release-tag-creation-plan.md`](release-tag-creation-plan.md). Tag creation and GitHub Release publication require explicit user approval and remain separate actions.
+
+## Publication plan reference
+
+The GitHub Release publication workflow is planned in [`docs/github-release-publication-plan.md`](github-release-publication-plan.md). This draft remains source content for later review; it is not a published GitHub Release.

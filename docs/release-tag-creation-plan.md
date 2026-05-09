@@ -119,3 +119,7 @@ Do not claim:
 ## Recommended next step
 
 After this plan is accepted, the next step is either user-approved actual tag creation or **Phase 10N — GitHub Release Publication Plan**.
+
+## Phase 10N GitHub Release publication plan
+
+See [`docs/github-release-publication-plan.md`](github-release-publication-plan.md) for the follow-up GitHub Release publication plan. The plan is documentation only: no release tag is created, no GitHub Release is published, no release package is published, and explicit user approval remains required.

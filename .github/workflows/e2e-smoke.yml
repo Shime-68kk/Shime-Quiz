@@ -197,6 +197,9 @@ jobs:
       - name: Validate release tag creation plan
         run: node scripts/validate-release-tag-creation-plan.js
 
+      - name: Validate GitHub Release publication plan
+        run: node scripts/validate-github-release-publication-plan.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
