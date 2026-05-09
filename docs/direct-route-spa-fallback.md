@@ -114,3 +114,7 @@ Direct-route fallback behavior remains separate from bundle-size claims. See [`d
 ## Mobile direct-route smoke reference
 
 Direct-route fallback should also be manually checked on responsive/mobile viewports using [`docs/mobile-ux-smoke.md`](mobile-ux-smoke.md).
+
+## EduGen boundary polish reference
+
+Direct-route and static-hosting docs should link users to [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md) when describing PDF/DOCX/PPTX/ZIP import. SPA fallback can serve the app shell, but frontend-only hosting alone does not provide document conversion and does not bundle EduGen.

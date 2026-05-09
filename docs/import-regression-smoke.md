@@ -196,3 +196,7 @@ After import surface smoke documentation, the next optional hardening guide is [
 ## Phase 9H accessibility / keyboard smoke reference
 
 Accessibility / keyboard manual smoke guidance is documented in [`docs/accessibility-keyboard-smoke.md`](accessibility-keyboard-smoke.md). It documents keyboard navigation, focus visibility, reachable controls, import, Library, demo quickstart, preview/review/confirm-save, Study Room, Dashboard, backup/restore, readable labels, visible validation/error messages, EduGen unavailable guidance, manual AI caveats, and evidence rules. Phase 9H does not change runtime behavior and does not claim WCAG compliance, accessibility certification, production/security certification, or a manual accessibility/keyboard pass without an actual tester/user run.
+
+## EduGen boundary polish reference
+
+Import smoke testers should use [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md) for the current document-import copy rules and evidence requirements. Do not claim PDF/DOCX/PPTX/ZIP document import passed unless a separate configured browser-reachable EduGen/File Processor service was actually tested.

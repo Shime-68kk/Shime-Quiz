@@ -179,6 +179,9 @@ jobs:
       - name: Validate mobile UX smoke
         run: node scripts/validate-mobile-ux-smoke.js
 
+      - name: Validate EduGen boundary polish
+        run: node scripts/validate-edugen-boundary-polish.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

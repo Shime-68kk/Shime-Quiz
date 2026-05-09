@@ -64,3 +64,7 @@ EduGen CORS should allow Shime local preview/dev origins such as:
 ## Phase 7E follow-up
 
 Phase 7E keeps the PDF flow above and expands the same EduGen boundary to DOCX, PPTX, and ZIP in Shime. Shime still consumes only `extraction.cleanedText`, still shows a draft preview before save, and still does not add OCR or AI quiz generation.
+
+## Phase 10H boundary polish reference
+
+See [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md) for the current public-release wording rules. PDF import continues to require a separate configured browser-reachable EduGen/File Processor service through `VITE_FILE_PROCESSOR_URL`; Shime does not bundle EduGen and does not include OCR.

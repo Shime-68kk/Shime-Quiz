@@ -1116,3 +1116,38 @@ Scope guardrails:
 - No production/security/accessibility certification claim.
 - No mobile UX pass claim without run evidence.
 - No backend/auth/cloud sync, built-in AI generation, external AI/API calls, API key/BYOK support, OCR, or EduGen bundling added.
+
+## Phase 10H — EduGen Boundary / Integration Polish
+
+Scope: documentation/static-validator/CI registration only. Runtime UI copy was not changed in this phase.
+
+Adds:
+- EduGen/File Processor boundary polish document: `docs/edugen-boundary-polish.md`.
+- Clear supported local import surfaces: JSON, CSV, paste text/Markdown, and local `.txt/.md` files.
+- Clear PDF/DOCX/PPTX/ZIP service requirement: a separate configured browser-reachable EduGen/File Processor service.
+- `VITE_FILE_PROCESSOR_URL` boundary for hosted document import.
+- Frontend-only hosting limitation: frontend-only hosting alone does not provide document conversion.
+- Evidence rules: do not claim document import passed without a real configured run.
+- Static validator: `scripts/validate-edugen-boundary-polish.js`.
+- CI coverage in `.github/workflows/e2e-smoke.yml`.
+
+Scope controls:
+- Runtime app behavior changed? NO.
+- UI copy changed? NO.
+- Import/parser logic changed? NO.
+- File processor client behavior changed? NO.
+- Package version/dependencies changed? NO.
+- Do not claim release tag created.
+- Do not claim GitHub Release published.
+- Do not claim EduGen bundled into Shime.
+- Do not claim OCR.
+- Do not claim backend/cloud sync.
+- Do not claim built-in AI generation or external AI/API calls.
+- Do not claim production/security/accessibility certification.
+
+Claim guardrails:
+- Can claim EduGen/File Processor boundary docs exist.
+- Can claim document import requires a separate configured browser-reachable service.
+- Can claim frontend-only hosting alone does not provide document conversion.
+- Do not claim document import passed without actual configured run evidence.
+- Do not claim OCR, bundled EduGen, backend/cloud sync, release tag creation, GitHub Release publication, or production/security/accessibility certification.

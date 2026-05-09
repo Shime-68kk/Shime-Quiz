@@ -123,3 +123,7 @@ The public landing page is covered by the performance / bundle-size audit in [`d
 ## Mobile UX smoke reference
 
 The public landing/root route should be checked against the responsive surfaces in [`docs/mobile-ux-smoke.md`](mobile-ux-smoke.md) before claiming mobile UX pass.
+
+## EduGen boundary polish reference
+
+Public landing copy should stay aligned with [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md): PDF/DOCX/PPTX/ZIP document import requires a separate configured browser-reachable EduGen/File Processor service, while JSON/CSV/text/Markdown/`.txt/.md` are local import surfaces. Do not imply OCR, bundled EduGen, frontend-only document conversion, backend/cloud sync, release publication, or certification claims.

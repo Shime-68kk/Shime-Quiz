@@ -104,3 +104,7 @@ Unsafe claims unless separately verified:
 ## Recommended next step
 
 Recommended next step: Phase 10H — EduGen Boundary / Integration Polish, or run an actual manual mobile smoke run if the user wants mobile evidence before release.
+
+## EduGen boundary polish reference
+
+Mobile smoke reviewers should also check [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md). On mobile viewports, document-import copy should still explain that PDF/DOCX/PPTX/ZIP requires a separate configured browser-reachable EduGen/File Processor service and should not imply OCR, bundled EduGen, frontend-only document conversion, backend/cloud sync, or a document import pass without an actual configured run.

@@ -63,3 +63,7 @@ EduGen CORS should allow Shime local preview/dev origins such as:
 - production hosted/security certification
 
 ZIP extraction quality depends on EduGen and the supported files inside the archive. Shime treats ZIP like any other EduGen-supported document source and only consumes the cleaned text returned by EduGen.
+
+## Phase 10H boundary polish reference
+
+See [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md) for the current public-release wording rules. PDF/DOCX/PPTX/ZIP import continues to require a separate configured browser-reachable EduGen/File Processor service through `VITE_FILE_PROCESSOR_URL`; Shime does not bundle EduGen and does not include OCR.

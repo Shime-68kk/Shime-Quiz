@@ -174,3 +174,7 @@ Review [`docs/performance-bundle-audit.md`](performance-bundle-audit.md) before 
 ## Mobile UX smoke checkpoint
 
 Optional pre-publish mobile checks are documented in [`docs/mobile-ux-smoke.md`](mobile-ux-smoke.md). Do not claim mobile UX pass, mobile performance certification, or Lighthouse/Core Web Vitals pass unless actually measured.
+
+## EduGen boundary polish checkpoint
+
+Before creating a tag or publishing a GitHub Release, review [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md). Confirm JSON/CSV/text/Markdown/`.txt/.md` remain described as local import surfaces, and PDF/DOCX/PPTX/ZIP import is described as requiring a separate configured browser-reachable EduGen/File Processor service. Do not claim document import passed unless a real configured run verifies it.

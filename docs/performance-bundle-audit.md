@@ -101,3 +101,7 @@ Phase 10G — Mobile UX Smoke / Responsive Polish, or an optional performance op
 ## Phase 10G mobile UX smoke reference
 
 Mobile UX / responsive smoke guidance is documented in [`docs/mobile-ux-smoke.md`](mobile-ux-smoke.md). It documents mobile viewports and responsive manual test surfaces without claiming mobile UX pass, Lighthouse/Core Web Vitals pass, or mobile performance certification without measured evidence.
+
+## EduGen boundary polish reference
+
+Performance and bundle-size notes should not turn into capability claims. See [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md) for the separate EduGen/File Processor boundary; Phase 10F and Phase 10H do not add OCR, backend/cloud sync, bundled EduGen, or frontend-only PDF/DOCX/PPTX/ZIP conversion.

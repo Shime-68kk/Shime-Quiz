@@ -114,3 +114,7 @@ For the current release candidate, keep deployment wording conservative:
 See [`docs/final-rc-audit.md`](final-rc-audit.md) for the current release-candidate audit and release tag readiness checklist. The audit confirms that frontend-only deployment can host the app shell, while PDF/DOCX/PPTX/ZIP document import still requires a separate browser-reachable EduGen service.
 
 The final RC audit does not certify production readiness or security posture, does not create a release tag, and does not publish a GitHub release. GitHub Actions / CI Green Verification remains a later step unless a current CI run is actually verified.
+
+## EduGen boundary polish reference
+
+For public-release copy and deployment evidence rules around the separate EduGen/File Processor boundary, see [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md). PDF/DOCX/PPTX/ZIP document import still requires `VITE_FILE_PROCESSOR_URL` to point to a separate browser-reachable processor; frontend-only hosting alone does not provide document conversion. This reference does not claim OCR, bundled EduGen, backend/cloud sync, production/security certification, release tag creation, or GitHub Release publication.

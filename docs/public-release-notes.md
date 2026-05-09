@@ -146,3 +146,7 @@ A future automated E2E pass should only be claimed when the relevant command act
 Phase 8X adds [`docs/final-rc-audit.md`](final-rc-audit.md) as the final release-candidate audit and release tag readiness reference for the current Phase 8W baseline. It audits current capabilities, caveats, Ubuntu browser smoke evidence, local onboarding E2E evidence, EduGen boundaries, manual AI boundaries, unsupported claims, and later release-management next steps.
 
 The final RC audit does not create a release tag, publish a GitHub release, certify production readiness, certify security posture, or claim GitHub Actions / CI Green Verification unless a current CI run is actually verified.
+
+## Phase 10H — EduGen boundary polish
+
+Phase 10H adds [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md) to keep public copy and deployment guidance clear about the EduGen/File Processor boundary. JSON/CSV/text/Markdown/`.txt/.md` remain local import surfaces. PDF/DOCX/PPTX/ZIP document import requires a separately configured, browser-reachable EduGen/File Processor service through `VITE_FILE_PROCESSOR_URL`; frontend-only hosting alone does not provide document conversion. This phase does not bundle EduGen, add OCR, add backend/cloud sync, change import/parser behavior, create a release tag, publish a GitHub Release, or certify production/security readiness.
