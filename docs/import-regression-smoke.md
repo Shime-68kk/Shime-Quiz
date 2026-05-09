@@ -192,3 +192,7 @@ After import and backup/restore smoke documentation, the next optional hardening
 ## Phase 9F backup/restore regression smoke reference
 
 After import surface smoke documentation, the next optional hardening guide is [`docs/backup-restore-regression-smoke.md`](backup-restore-regression-smoke.md). It covers export/restore, malformed backup handling, local-first restore boundaries, and evidence rules for manual backup/restore claims.
+
+## Phase 9H accessibility / keyboard smoke reference
+
+Accessibility / keyboard manual smoke guidance is documented in [`docs/accessibility-keyboard-smoke.md`](accessibility-keyboard-smoke.md). It documents keyboard navigation, focus visibility, reachable controls, import, Library, demo quickstart, preview/review/confirm-save, Study Room, Dashboard, backup/restore, readable labels, visible validation/error messages, EduGen unavailable guidance, manual AI caveats, and evidence rules. Phase 9H does not change runtime behavior and does not claim WCAG compliance, accessibility certification, production/security certification, or a manual accessibility/keyboard pass without an actual tester/user run.

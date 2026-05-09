@@ -868,3 +868,39 @@ Phase 9G does not:
 
 Recommended next phase: Phase 9H — Accessibility / Keyboard Smoke.
 
+
+## Phase 9H — Accessibility / Keyboard Smoke
+
+Scope: documentation/accessibility-keyboard-smoke/static-validator/CI only.
+
+Added:
+- Accessibility / keyboard manual smoke checklist: `docs/accessibility-keyboard-smoke.md`.
+- Checklist coverage for keyboard navigation, focus visibility, controls, import surfaces, Library, demo quickstart, preview/review/confirm-save, Study Room, Dashboard, backup/restore controls, readable labels, validation/error messages, EduGen unavailable guidance, and manual AI workflow caveats.
+- Evidence rules: do not claim manual accessibility smoke passed or manual keyboard smoke passed unless an actual tester/user run passes.
+- Explicit boundary: this is not a full accessibility audit; do not claim WCAG compliance or accessibility certification.
+- Static validator: `scripts/validate-accessibility-keyboard-smoke.js`.
+- CI coverage for `validate-accessibility-keyboard-smoke`.
+
+Phase 9H does not:
+- Change runtime app behavior.
+- Change user-facing features.
+- Change accessibility implementation.
+- Change keyboard/focus behavior.
+- Change Study Room logic.
+- Change Dashboard runtime logic.
+- Change scoring/SRT/mastery/study history/recommendation logic.
+- Change backup/restore logic.
+- Change storage/schema behavior.
+- Change import/parser behavior.
+- Change E2E logic.
+- Change EduGen source.
+- Add AI/API/OCR/backend behavior.
+- Change package version or dependencies.
+- Create a release tag.
+- Publish a GitHub release.
+- Publish a release package.
+- Do not claim WCAG compliance.
+- Do not claim accessibility certification.
+- Do not claim production/security certification.
+
+Recommended next step: stop and ask whether to proceed with the actual release tag/publish flow, or run a real manual regression pass using 9E–9H checklists.

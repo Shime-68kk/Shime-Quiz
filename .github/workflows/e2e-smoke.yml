@@ -155,6 +155,9 @@ jobs:
       - name: Validate Study Room Dashboard regression smoke
         run: node scripts/validate-study-dashboard-regression-smoke.js
 
+      - name: Validate accessibility keyboard smoke
+        run: node scripts/validate-accessibility-keyboard-smoke.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
