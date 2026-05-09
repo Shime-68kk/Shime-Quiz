@@ -77,3 +77,7 @@ Continue with Phase 10F — Performance / Bundle-Size Audit, or capture real scr
 ## Phase 10F performance audit reference
 
 The README should link to [`docs/performance-bundle-audit.md`](performance-bundle-audit.md) so public readers can find the current build/performance caveat. The performance / bundle-size audit documents the known Vite/Rolldown chunk-size warning, does not claim performance optimized behavior, and does not claim Lighthouse/Core Web Vitals results unless measured.
+
+## Final public release readiness re-audit
+
+The final public release readiness re-audit is documented in [`docs/final-public-release-readiness-reaudit.md`](final-public-release-readiness-reaudit.md). It includes README public-facing rewrite in the Phase 10 readiness inventory and preserves claim guardrails.

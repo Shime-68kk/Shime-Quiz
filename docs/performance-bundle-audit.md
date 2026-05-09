@@ -109,3 +109,7 @@ Performance and bundle-size notes should not turn into capability claims. See [`
 ## Phase 10I cross-device export/import reference
 
 Performance notes do not change the local-first data model. Cross-device export/import guidance is documented in [`docs/cross-device-export-import.md`](cross-device-export-import.md), including explicit user backup/restore portability and no automatic cloud/account/backend sync.
+
+## Final public release readiness re-audit
+
+The final public release readiness re-audit is documented in [`docs/final-public-release-readiness-reaudit.md`](final-public-release-readiness-reaudit.md). It carries forward the known non-blocking Vite/Rolldown chunk-size warning and confirms there is no performance optimization or Lighthouse/Core Web Vitals pass claim without measurement.

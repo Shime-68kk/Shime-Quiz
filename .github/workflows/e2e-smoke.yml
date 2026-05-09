@@ -185,6 +185,9 @@ jobs:
       - name: Validate cross-device export import
         run: node scripts/validate-cross-device-export-import.js
 
+      - name: Validate final public release readiness re-audit
+        run: node scripts/validate-final-public-release-readiness-reaudit.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

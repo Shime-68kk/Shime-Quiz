@@ -182,3 +182,7 @@ Before creating a tag or publishing a GitHub Release, review [`docs/edugen-bound
 ## Phase 10I cross-device export/import checkpoint
 
 Before publishing, review [`docs/cross-device-export-import.md`](cross-device-export-import.md). Confirm release notes do not imply automatic cloud/account/backend sync, encrypted backups, or cross-device restore pass evidence unless an actual source/destination or clean-profile run was completed.
+
+## Final public release readiness re-audit checkpoint
+
+Before creating a tag or publishing a GitHub Release, review [`docs/final-public-release-readiness-reaudit.md`](final-public-release-readiness-reaudit.md). It documents Phase 10A–10I readiness inventory, evidence gaps, forbidden claims, and final validation expectations.

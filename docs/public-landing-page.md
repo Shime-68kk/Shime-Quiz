@@ -127,3 +127,7 @@ The public landing/root route should be checked against the responsive surfaces 
 ## EduGen boundary polish reference
 
 Public landing copy should stay aligned with [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md): PDF/DOCX/PPTX/ZIP document import requires a separate configured browser-reachable EduGen/File Processor service, while JSON/CSV/text/Markdown/`.txt/.md` are local import surfaces. Do not imply OCR, bundled EduGen, frontend-only document conversion, backend/cloud sync, release publication, or certification claims.
+
+## Final public release readiness re-audit
+
+The final public release readiness re-audit is documented in [`docs/final-public-release-readiness-reaudit.md`](final-public-release-readiness-reaudit.md). It inventories the public landing/root route polish along with other Phase 10 public-polish docs and known evidence gaps.

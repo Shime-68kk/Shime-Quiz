@@ -133,3 +133,7 @@ Phase 10I — Cross-Device Export/Import Polish, or an actual manual EduGen conf
 ## Phase 10I cross-device export/import reference
 
 Cross-device data portability guidance is documented in [`docs/cross-device-export-import.md`](cross-device-export-import.md). It complements the EduGen boundary by keeping local content imports, document conversion requirements, and full app backup/restore portability separate and explicit.
+
+## Final public release readiness re-audit
+
+The final public release readiness re-audit is documented in [`docs/final-public-release-readiness-reaudit.md`](final-public-release-readiness-reaudit.md). It includes EduGen/File Processor boundary docs in the readiness inventory and preserves no-OCR, no-bundled-EduGen, and no-frontend-only-document-conversion guardrails.

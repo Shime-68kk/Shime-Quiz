@@ -112,3 +112,7 @@ Mobile smoke reviewers should also check [`docs/edugen-boundary-polish.md`](edug
 ## Phase 10I cross-device export/import reference
 
 Mobile or cross-device testing should use [`docs/cross-device-export-import.md`](cross-device-export-import.md) to verify that users understand explicit backup/export and restore/import portability, no automatic cloud/account sync, and private backup file handling.
+
+## Final public release readiness re-audit
+
+The final public release readiness re-audit is documented in [`docs/final-public-release-readiness-reaudit.md`](final-public-release-readiness-reaudit.md). It records the mobile UX smoke checklist as documentation only and does not claim a manual mobile UX pass without run evidence.

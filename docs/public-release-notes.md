@@ -154,3 +154,7 @@ Phase 10H adds [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md) to 
 ## Phase 10I — Cross-device export/import guidance
 
 Phase 10I adds [`docs/cross-device-export-import.md`](cross-device-export-import.md) to explain the local-first portability model. Moving data between devices requires explicit user export/import/backup/restore; full backups may contain private study data and answers. This phase does not add cloud/account/backend sync, encrypted backups, runtime backup/restore changes, package/dependency changes, a release tag, or a GitHub Release.
+
+## Phase 10J final public release readiness re-audit
+
+Phase 10J adds [`docs/final-public-release-readiness-reaudit.md`](final-public-release-readiness-reaudit.md), a final public readiness inventory after Phase 10A–10I. It documents remaining evidence gaps and claim guardrails. It does not create a release tag, publish a GitHub Release, publish a release package, or certify production/security/accessibility/performance readiness.

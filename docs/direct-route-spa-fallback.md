@@ -118,3 +118,7 @@ Direct-route fallback should also be manually checked on responsive/mobile viewp
 ## EduGen boundary polish reference
 
 Direct-route and static-hosting docs should link users to [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md) when describing PDF/DOCX/PPTX/ZIP import. SPA fallback can serve the app shell, but frontend-only hosting alone does not provide document conversion and does not bundle EduGen.
+
+## Final public release readiness re-audit
+
+The final public release readiness re-audit is documented in [`docs/final-public-release-readiness-reaudit.md`](final-public-release-readiness-reaudit.md). It records direct-route SPA fallback docs as part of the public readiness inventory without claiming SSR or all crawler rendering.

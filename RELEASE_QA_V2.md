@@ -1186,3 +1186,31 @@ Claim guardrails:
 - Can claim no automatic cloud/account sync is provided.
 - Do not claim cross-device restore passed without actual run evidence.
 - Do not claim encrypted backups, backend/cloud sync, account sync, release tag creation, GitHub Release publication, or production/security/accessibility certification.
+
+## Phase 10J — Final Public Release Readiness Re-Audit
+
+Scope: documentation/static-validator/CI registration only. Runtime app behavior was not changed in this phase.
+
+Adds:
+- Final public release readiness re-audit document: `docs/final-public-release-readiness-reaudit.md`.
+- Readiness inventory for Phase 10A–10I public-polish documentation.
+- Validation inventory covering `npm ci`, `npm run build`, full static validator chain, and optional E2E when Chromium is available.
+- Known evidence gaps: actual screenshots not captured, manual mobile UX smoke not run unless separately done, configured EduGen document import smoke not run unless separately done, cross-device backup/restore smoke not run unless separately done, Lighthouse/Core Web Vitals not measured unless separately done, release tag not created, GitHub Release not published, and release package not published.
+- Known non-blocking Vite/Rolldown chunk-size warning remains documented, non-blocking when build passes, not suppressed, and not used for a performance optimization claim.
+- Allowed and forbidden claims inventory for public release readiness.
+- Static validator: `scripts/validate-final-public-release-readiness-reaudit.js`.
+- CI coverage in `.github/workflows/e2e-smoke.yml`.
+
+Scope controls:
+- Runtime app behavior changed? NO.
+- Package version/dependencies changed? NO.
+- Do not claim release tag created.
+- Do not claim GitHub Release published.
+- Do not claim release package published.
+- Do not claim built-in AI generation, external AI/API integration, API key/BYOK support, OCR, EduGen bundled into Shime, frontend-only document conversion, backend/auth/cloud sync, account sync, automatic cross-device sync, encrypted backups unless implemented, cross-device restore passed without evidence, mobile UX passed without evidence, Lighthouse/Core Web Vitals pass without measurement, SEO ranking/all-crawlers-render success, or production/security/accessibility/performance certification.
+
+Claim guardrails:
+- Can claim final public release readiness re-audit docs exist.
+- Can claim Phase 10 public-polish docs are inventoried.
+- Can claim known evidence gaps are documented.
+- Do not claim release tag creation, GitHub Release publication, release package publication, or certification.

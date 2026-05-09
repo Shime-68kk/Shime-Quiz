@@ -122,3 +122,7 @@ For public-release copy and deployment evidence rules around the separate EduGen
 ## Phase 10I cross-device portability reference
 
 Cross-device export/import guidance is documented in [`docs/cross-device-export-import.md`](cross-device-export-import.md). Static hosting does not add automatic account/cloud/backend sync; users move data between browsers/devices through explicit backup/export and restore/import. Full backup files may include private quiz content, answers, progress, study history, and local app data.
+
+## Final public release readiness re-audit
+
+Final public release readiness is summarized in [`docs/final-public-release-readiness-reaudit.md`](final-public-release-readiness-reaudit.md). Deployment readiness remains bounded: static hosting does not add backend/cloud/account sync, document conversion, release publication, or certification claims.
