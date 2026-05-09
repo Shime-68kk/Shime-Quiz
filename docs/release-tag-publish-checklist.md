@@ -170,3 +170,7 @@ Before tag/publish, review the concise public README and [`docs/readme-public-fa
 ## Phase 10F performance / bundle-size audit checkpoint
 
 Review [`docs/performance-bundle-audit.md`](performance-bundle-audit.md) before tag/publish decisions. The known Vite/Rolldown chunk-size warning is documented as non-blocking if `npm run build` passes; do not claim performance optimized behavior, Lighthouse/Core Web Vitals pass, or performance certification without actual measured evidence.
+
+## Mobile UX smoke checkpoint
+
+Optional pre-publish mobile checks are documented in [`docs/mobile-ux-smoke.md`](mobile-ux-smoke.md). Do not claim mobile UX pass, mobile performance certification, or Lighthouse/Core Web Vitals pass unless actually measured.

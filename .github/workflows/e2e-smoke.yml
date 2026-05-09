@@ -176,6 +176,9 @@ jobs:
       - name: Validate performance bundle audit
         run: node scripts/validate-performance-bundle-audit.js
 
+      - name: Validate mobile UX smoke
+        run: node scripts/validate-mobile-ux-smoke.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

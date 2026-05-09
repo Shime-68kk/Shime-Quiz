@@ -119,3 +119,7 @@ The README public-facing rewrite/split guide is available at [`docs/readme-publi
 ## Phase 10F performance / bundle-size audit reference
 
 The public landing page is covered by the performance / bundle-size audit in [`docs/performance-bundle-audit.md`](performance-bundle-audit.md). The audit documents the known Vite/Rolldown chunk-size warning and does not claim SEO, crawler rendering, Lighthouse, Core Web Vitals, or performance optimization success.
+
+## Mobile UX smoke reference
+
+The public landing/root route should be checked against the responsive surfaces in [`docs/mobile-ux-smoke.md`](mobile-ux-smoke.md) before claiming mobile UX pass.

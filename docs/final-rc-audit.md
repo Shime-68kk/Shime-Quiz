@@ -198,3 +198,7 @@ README public-facing rewrite/split guidance exists at [`docs/readme-public-facin
 ## Phase 10F performance / bundle-size audit reference
 
 The final RC audit now references [`docs/performance-bundle-audit.md`](performance-bundle-audit.md). That document records the known non-blocking Vite/Rolldown chunk-size warning, confirms the warning should not be hidden by raising limits just to suppress output, and does not claim performance optimization success.
+
+## Phase 10G mobile UX smoke reference
+
+Mobile UX / responsive smoke checklist documentation exists at [`docs/mobile-ux-smoke.md`](mobile-ux-smoke.md). It documents surfaces to test and does not claim mobile UX pass, Lighthouse/Core Web Vitals pass, or mobile performance certification without evidence.

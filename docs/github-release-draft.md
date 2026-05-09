@@ -198,3 +198,7 @@ The public README rewrite/split guide is available at [`docs/readme-public-facin
 ## Phase 10F performance / bundle-size audit reference
 
 Before publishing release notes, review [`docs/performance-bundle-audit.md`](performance-bundle-audit.md). It documents the known non-blocking Vite/Rolldown chunk-size warning and the rule that performance optimization, Lighthouse, Core Web Vitals, or mobile performance claims require actual measurement.
+
+## Mobile UX smoke reference
+
+Before using public release notes to claim mobile readiness, run the checklist in [`docs/mobile-ux-smoke.md`](mobile-ux-smoke.md). Do not claim mobile UX passed without actual responsive/mobile run evidence.

@@ -91,3 +91,7 @@ The README public-facing rewrite/split guide is available at [`docs/readme-publi
 ## Phase 10F performance / bundle-size audit reference
 
 Social preview metadata remains separate from performance claims. See [`docs/performance-bundle-audit.md`](performance-bundle-audit.md) for the known non-blocking Vite/Rolldown chunk-size warning. This metadata phase does not claim performance optimization, Lighthouse, or Core Web Vitals results.
+
+## Mobile UX smoke reference
+
+Social preview metadata is static; responsive app behavior is tracked separately in [`docs/mobile-ux-smoke.md`](mobile-ux-smoke.md).

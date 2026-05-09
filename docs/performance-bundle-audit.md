@@ -97,3 +97,7 @@ Do not claim:
 ## Recommended next step
 
 Phase 10G — Mobile UX Smoke / Responsive Polish, or an optional performance optimization phase only if the user wants to reduce bundle size before release.
+
+## Phase 10G mobile UX smoke reference
+
+Mobile UX / responsive smoke guidance is documented in [`docs/mobile-ux-smoke.md`](mobile-ux-smoke.md). It documents mobile viewports and responsive manual test surfaces without claiming mobile UX pass, Lighthouse/Core Web Vitals pass, or mobile performance certification without measured evidence.
