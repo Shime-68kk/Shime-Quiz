@@ -127,3 +127,7 @@ Screenshot planning should remain separate from performance claims. See [`docs/p
 ## Mobile screenshot planning reference
 
 Future screenshot capture should consider the responsive/manual mobile surfaces in [`docs/mobile-ux-smoke.md`](mobile-ux-smoke.md). The mobile checklist does not claim mobile UX passed unless an actual run verifies it.
+
+## Final public release readiness re-audit
+
+The final public release readiness re-audit is documented in [`docs/final-public-release-readiness-reaudit.md`](final-public-release-readiness-reaudit.md). It records that screenshot capture checklist exists while actual screenshots remain not captured unless real image files are later added.

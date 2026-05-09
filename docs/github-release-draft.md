@@ -210,3 +210,7 @@ Before publishing release copy, review [`docs/edugen-boundary-polish.md`](edugen
 ## Phase 10I cross-device export/import reference
 
 The GitHub Release draft should link to [`docs/cross-device-export-import.md`](cross-device-export-import.md) for local-first data portability. It can say manual backup/restore portability workflow is documented, but must not claim automatic cloud/account sync, encrypted backups, or cross-device restore pass without actual run evidence.
+
+## Final public release readiness re-audit checkpoint
+
+Before publishing this draft, review [`docs/final-public-release-readiness-reaudit.md`](final-public-release-readiness-reaudit.md). The re-audit confirms Phase 10 public-polish documentation exists, known evidence gaps are documented, and unsupported release/publication/certification claims remain forbidden.

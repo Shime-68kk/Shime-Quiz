@@ -210,3 +210,7 @@ EduGen/File Processor boundary polish is documented in [`docs/edugen-boundary-po
 ## Phase 10I cross-device export/import reference
 
 Cross-device export/import guidance exists at [`docs/cross-device-export-import.md`](cross-device-export-import.md). It documents the local-first portability workflow, backup privacy notes, and evidence rules; it does not add runtime behavior, storage/schema changes, package/dependency changes, cloud/account sync, encrypted backup claims, a release tag, or a GitHub Release.
+
+## Phase 10J final public release readiness re-audit
+
+Final public release readiness re-audit documentation exists at [`docs/final-public-release-readiness-reaudit.md`](final-public-release-readiness-reaudit.md). It inventories Phase 10A–10I public-polish docs, known evidence gaps, validation expectations, and claim guardrails; it does not create a release tag, publish a GitHub Release, publish a release package, or claim production/security/accessibility/performance certification.

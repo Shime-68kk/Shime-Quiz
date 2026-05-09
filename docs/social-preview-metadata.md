@@ -99,3 +99,7 @@ Social preview metadata is static; responsive app behavior is tracked separately
 ## EduGen boundary polish reference
 
 Static metadata and social preview copy should remain high-level and avoid document-conversion overclaims. See [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md) for wording around the separate EduGen/File Processor service, `VITE_FILE_PROCESSOR_URL`, no OCR, no bundled EduGen, and no frontend-only PDF/DOCX/PPTX/ZIP conversion claim.
+
+## Final public release readiness re-audit
+
+The final public release readiness re-audit is documented in [`docs/final-public-release-readiness-reaudit.md`](final-public-release-readiness-reaudit.md). It keeps social preview metadata claims bounded: no SEO ranking, no all-crawlers-render success, and no release publication claim.

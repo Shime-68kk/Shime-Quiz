@@ -123,3 +123,7 @@ Do not claim:
 ## Recommended next step
 
 Recommended next phase after this, if accepted: **Phase 10J — Final Public Release Readiness Re-Audit**, or run an actual manual cross-device backup/restore smoke if the user wants cross-device portability evidence before release.
+
+## Final public release readiness re-audit
+
+The final public release readiness re-audit is documented in [`docs/final-public-release-readiness-reaudit.md`](final-public-release-readiness-reaudit.md). It records cross-device export/import guidance as documentation only and does not claim cross-device restore passed without actual source/destination or clean-profile evidence.
