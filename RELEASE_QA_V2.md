@@ -837,3 +837,34 @@ Phase 9F does not:
 - Do not claim production/security certification.
 
 Recommended next phase: Phase 9G — Study Room / Dashboard Learning Flow Smoke.
+## Phase 9G — Study Room / Dashboard Learning Flow Smoke
+
+Scope: documentation/study-dashboard-regression-smoke/static-validator/CI only.
+
+Added:
+- Study Room / Dashboard learning flow manual regression smoke checklist: `docs/study-dashboard-regression-smoke.md`.
+- Checklist coverage for saved quiz setup, Library-to-Study-Room flow, answer handling, study history/progress, review schedule/SRT, Dashboard progress, recommendation/recommendation feedback, study goal/plan progress, and no unexpected data reset checks.
+- Local-first/no-backend/no-cloud-sync boundaries and no account/auth sync claims.
+- Evidence rules: do not claim manual Study Room/Dashboard regression passed without an actual tester/user run; do not claim all learning state categories updated unless each category was actually checked.
+- Static validator: `scripts/validate-study-dashboard-regression-smoke.js`.
+- CI coverage for `validate-study-dashboard-regression-smoke`.
+
+Phase 9G does not:
+- Change runtime app behavior.
+- Change user-facing features.
+- Change Study Room logic.
+- Change Dashboard runtime logic.
+- Change scoring/SRT/mastery/study history/recommendation logic.
+- Change storage/schema behavior.
+- Change import/parser behavior.
+- Change E2E logic.
+- Change EduGen source.
+- Add AI/API/OCR/backend behavior.
+- Change package version or dependencies.
+- Create a release tag.
+- Publish a GitHub release.
+- Publish a release package.
+- Do not claim production/security certification.
+
+Recommended next phase: Phase 9H — Accessibility / Keyboard Smoke.
+

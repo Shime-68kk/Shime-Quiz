@@ -185,6 +185,10 @@ Do not claim:
 
 Recommended next phase after this, if continuing hardening: **Phase 9F — Backup / Restore Manual Regression Smoke**. Alternatively, stop and decide whether to proceed to the actual release tag/publish flow.
 
+
+## Phase 9G Study Room / Dashboard regression smoke reference
+
+After import and backup/restore smoke documentation, the next optional hardening guide is [`docs/study-dashboard-regression-smoke.md`](study-dashboard-regression-smoke.md). It covers saved quiz setup, Study Room answer flow, Dashboard progress checks, local-first learning state boundaries, and evidence rules for manual Study Room/Dashboard claims.
 ## Phase 9F backup/restore regression smoke reference
 
 After import surface smoke documentation, the next optional hardening guide is [`docs/backup-restore-regression-smoke.md`](backup-restore-regression-smoke.md). It covers export/restore, malformed backup handling, local-first restore boundaries, and evidence rules for manual backup/restore claims.

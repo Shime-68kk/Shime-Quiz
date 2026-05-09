@@ -254,3 +254,6 @@ Manual import surface regression smoke guidance is documented in [`docs/import-r
 ## Backup / restore regression smoke
 
 Backup/restore manual regression smoke guidance is documented in [`docs/backup-restore-regression-smoke.md`](docs/backup-restore-regression-smoke.md). The checklist covers export backup, restore backup, Library/quiz data preservation, study history/progress, review schedule, recommendation feedback, study goal/plan progress, malformed backup handling, and local-first/no-backend boundaries. Phase 9F does not change backup/restore behavior, storage schema, package version, or release status, and it does not claim manual backup/restore regression passed without an actual tester/user run.
+
+Study Room / Dashboard learning flow smoke guidance is documented in [`docs/study-dashboard-regression-smoke.md`](docs/study-dashboard-regression-smoke.md). The checklist covers saved quiz setup, Library-to-Study-Room flow, answer handling, study history/progress, review schedule/SRT, Dashboard progress, recommendations, study goal/plan progress, local-first boundaries, and evidence rules. Phase 9G does not change Study Room or Dashboard runtime behavior and does not claim manual Study Room/Dashboard regression passed without an actual tester/user run.
+
