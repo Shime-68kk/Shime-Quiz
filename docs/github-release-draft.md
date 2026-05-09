@@ -157,3 +157,7 @@ Before publishing this draft as a GitHub Release, review [`docs/release-package-
 ## Phase 9D release tag / publish checklist reference
 
 Before publishing this draft, review [`docs/release-tag-publish-checklist.md`](release-tag-publish-checklist.md). The checklist documents final tag/publish steps, validation evidence, release package cleanliness review, stop conditions, and safe example commands. Phase 9D does not create a release tag, publish a GitHub Release, publish a release package, change package version, or certify production/security readiness.
+
+## Import regression smoke note
+
+Import surface manual regression smoke steps are documented in [`docs/import-regression-smoke.md`](import-regression-smoke.md). Do not add release-note claims that all import formats passed unless the relevant manual smoke run actually passed. EduGen document import pass claims require a separate configured service to have been tested.

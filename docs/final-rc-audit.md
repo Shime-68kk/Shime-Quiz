@@ -156,3 +156,7 @@ Release package/source archive verification guidance is documented in [`docs/rel
 ## Phase 9D release tag / publish checklist reference
 
 The final release tag / publish checklist is documented in [`docs/release-tag-publish-checklist.md`](release-tag-publish-checklist.md). It records pre-tag checks, validation requirements, source/archive cleanliness checkpoints, GitHub Release draft checkpoints, example tag commands marked as examples only, stop conditions, and claims boundaries. Phase 9D does not create a release tag, publish a GitHub Release, publish a release package, change package version, or certify production/security readiness.
+
+## Phase 9E import regression smoke reference
+
+Import surface manual regression smoke guidance is documented in [`docs/import-regression-smoke.md`](import-regression-smoke.md). It covers JSON/CSV import, text/Markdown paste import, local `.txt/.md` import, public demo sample files, **“Dùng quiz mẫu”**, manual AI output paste/import, EduGen unavailable behavior, and the separate configured EduGen document import path. It does not claim manual import regression passed unless an actual tester/user run provides evidence.

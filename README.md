@@ -246,3 +246,7 @@ Release package/source archive cleanliness guidance is documented in [`docs/rele
 ## Release tag / publish checklist
 
 Final release tag and publish steps are documented in [`docs/release-tag-publish-checklist.md`](docs/release-tag-publish-checklist.md). The checklist covers pre-tag review, validation evidence, source archive cleanliness, GitHub Release draft review, safe example tag commands, stop conditions, and claims control. Phase 9D does not change the package version, create a release tag, publish a GitHub Release, publish a release package, or certify production/security readiness. The existing Vite chunk-size warning is documented as non-blocking when `npm run build` still completes successfully.
+
+## Import regression smoke checklist
+
+Manual import surface regression smoke guidance is documented in [`docs/import-regression-smoke.md`](docs/import-regression-smoke.md). The checklist covers JSON, CSV, paste text/Markdown, local `.txt/.md`, public demo sample pack, **“Dùng quiz mẫu”**, manual AI output paste/import, EduGen unavailable behavior, and the separately configured EduGen PDF/DOCX/PPTX/ZIP path. Phase 9E does not change import/parser behavior, does not claim manual import regression passed without an actual tester/user run, does not claim EduGen document import passed without a separately configured service, and does not create or publish a release.

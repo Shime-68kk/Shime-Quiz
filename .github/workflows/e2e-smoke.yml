@@ -146,6 +146,9 @@ jobs:
       - name: Validate release tag publish checklist
         run: node scripts/validate-release-tag-publish-checklist.js
 
+      - name: Validate import regression smoke
+        run: node scripts/validate-import-regression-smoke.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
