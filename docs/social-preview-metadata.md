@@ -95,3 +95,7 @@ Social preview metadata remains separate from performance claims. See [`docs/per
 ## Mobile UX smoke reference
 
 Social preview metadata is static; responsive app behavior is tracked separately in [`docs/mobile-ux-smoke.md`](mobile-ux-smoke.md).
+
+## EduGen boundary polish reference
+
+Static metadata and social preview copy should remain high-level and avoid document-conversion overclaims. See [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md) for wording around the separate EduGen/File Processor service, `VITE_FILE_PROCESSOR_URL`, no OCR, no bundled EduGen, and no frontend-only PDF/DOCX/PPTX/ZIP conversion claim.

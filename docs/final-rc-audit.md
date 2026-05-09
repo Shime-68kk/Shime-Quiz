@@ -202,3 +202,7 @@ The final RC audit now references [`docs/performance-bundle-audit.md`](performan
 ## Phase 10G mobile UX smoke reference
 
 Mobile UX / responsive smoke checklist documentation exists at [`docs/mobile-ux-smoke.md`](mobile-ux-smoke.md). It documents surfaces to test and does not claim mobile UX pass, Lighthouse/Core Web Vitals pass, or mobile performance certification without evidence.
+
+## EduGen boundary polish reference
+
+EduGen/File Processor boundary polish is documented in [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md). It reiterates that PDF/DOCX/PPTX/ZIP document import requires `VITE_FILE_PROCESSOR_URL` pointing to a separate browser-reachable service, frontend-only hosting alone does not provide document conversion, EduGen is not bundled, OCR is not included, and no backend/cloud sync is added.

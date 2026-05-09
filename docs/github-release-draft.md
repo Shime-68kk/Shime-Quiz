@@ -202,3 +202,7 @@ Before publishing release notes, review [`docs/performance-bundle-audit.md`](per
 ## Mobile UX smoke reference
 
 Before using public release notes to claim mobile readiness, run the checklist in [`docs/mobile-ux-smoke.md`](mobile-ux-smoke.md). Do not claim mobile UX passed without actual responsive/mobile run evidence.
+
+## EduGen boundary polish reference
+
+Before publishing release copy, review [`docs/edugen-boundary-polish.md`](edugen-boundary-polish.md). The GitHub Release draft should say that PDF/DOCX/PPTX/ZIP document import requires a separate configured browser-reachable EduGen/File Processor service through `VITE_FILE_PROCESSOR_URL`, and should not claim OCR, bundled EduGen, frontend-only document conversion, backend/cloud sync, or a document import pass without actual configured run evidence.

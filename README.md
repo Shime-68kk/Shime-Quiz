@@ -37,7 +37,7 @@ Shime supports these local-first import surfaces:
 - local `.txt` / `.md` draft files
 - PDF/DOCX/PPTX/ZIP draft import only through a separately configured, browser-reachable EduGen/File Processor service
 
-EduGen/File Processor is not bundled into Shime. Frontend-only hosting alone does not provide PDF/DOCX/PPTX/ZIP document conversion.
+EduGen/File Processor is not bundled into Shime. Frontend-only hosting alone does not provide PDF/DOCX/PPTX/ZIP document conversion. See [`docs/edugen-boundary-polish.md`](docs/edugen-boundary-polish.md) for deployment copy and evidence rules.
 
 ## Current RC capabilities
 
@@ -112,6 +112,7 @@ Actual screenshot image files are not included yet; the screenshot checklist exi
 - README rewrite/split guide: [`docs/readme-public-facing-guide.md`](docs/readme-public-facing-guide.md)
 - Performance / bundle-size audit: [`docs/performance-bundle-audit.md`](docs/performance-bundle-audit.md)
 - Mobile UX smoke checklist: [`docs/mobile-ux-smoke.md`](docs/mobile-ux-smoke.md)
+- EduGen/File Processor boundary polish: [`docs/edugen-boundary-polish.md`](docs/edugen-boundary-polish.md)
 
 The release tag decision, GitHub Release draft, and publish checklist are documentation only. They do not create a tag, publish a GitHub Release, or certify production/security/accessibility readiness.
 
