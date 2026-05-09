@@ -128,3 +128,7 @@ Do not claim:
 Recommended next phase: **Phase 10L — Manual Evidence Run Pack**.
 
 Alternative: user-approved release tag creation if the user explicitly decides to tag and accepts the documented evidence gaps.
+
+
+## Phase 10L manual evidence reference
+Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-run-pack.md) gathers optional evidence checklists before user-approved tag/publish. No evidence pass is claimed unless the run is actually performed.

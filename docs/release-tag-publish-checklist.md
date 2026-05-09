@@ -190,3 +190,7 @@ Before creating a tag or publishing a GitHub Release, review [`docs/final-public
 ## Phase 10K release candidate tag/publish gate
 
 The release candidate tag/publish gate is documented in [`release-candidate-tag-publish-gate.md`](release-candidate-tag-publish-gate.md). It records that no release tag has been created, no GitHub Release has been published, no release package has been published, and explicit user approval is required before any tag or publish action. Known evidence gaps and allowed/forbidden claims remain documented.
+
+
+## Phase 10L manual evidence reference
+Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-run-pack.md) is an optional pre-tag/pre-publish evidence checklist. Tag/publish still requires explicit user approval.

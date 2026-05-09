@@ -191,6 +191,9 @@ jobs:
       - name: Validate release candidate tag publish gate
         run: node scripts/validate-release-candidate-tag-publish-gate.js
 
+      - name: Validate manual evidence run pack
+        run: node scripts/validate-manual-evidence-run-pack.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
