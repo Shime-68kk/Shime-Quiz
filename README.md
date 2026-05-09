@@ -116,6 +116,7 @@ Actual screenshot image files are not included yet; the screenshot checklist exi
 - Release tag creation plan: [`docs/release-tag-creation-plan.md`](docs/release-tag-creation-plan.md)
 - GitHub Release publication plan: [`docs/github-release-publication-plan.md`](docs/github-release-publication-plan.md)
 - Release package assembly plan: [`docs/release-package-assembly-plan.md`](docs/release-package-assembly-plan.md)
+- Final release execution checklist: [`docs/final-release-execution-checklist.md`](docs/final-release-execution-checklist.md)
 - Full QA/release checklist: [`RELEASE_QA_V2.md`](RELEASE_QA_V2.md)
 - README rewrite/split guide: [`docs/readme-public-facing-guide.md`](docs/readme-public-facing-guide.md)
 - Performance / bundle-size audit: [`docs/performance-bundle-audit.md`](docs/performance-bundle-audit.md)
@@ -177,3 +178,7 @@ The GitHub Release publication plan is documented in [`docs/github-release-publi
 ## Phase 10O release package assembly plan
 
 The release package assembly plan is documented in [`docs/release-package-assembly-plan.md`](docs/release-package-assembly-plan.md). It documents future source/deploy/evidence package options, package contents and exclusions, package verification steps, and release-asset guidance. No release package has been created, published, or uploaded; no release tag has been created; no GitHub Release has been published; package version/dependencies remain unchanged; and package assembly/upload remains gated by explicit user approval.
+
+## Phase 10P final release execution checklist
+
+The final release execution checklist is documented in [`docs/final-release-execution-checklist.md`](docs/final-release-execution-checklist.md). It consolidates the future user-approved release flow, including validation, tag creation, package assembly, GitHub Release publication, release asset upload, and evidence recording. This phase does not execute the release: no release package has been created, published, or uploaded; no release tag has been created; no GitHub Release has been published; package version/dependencies remain unchanged; and all release actions remain gated by explicit user approval.

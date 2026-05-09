@@ -179,3 +179,7 @@ Phase 10N adds [`docs/github-release-publication-plan.md`](github-release-public
 ## Release package assembly planning
 
 Phase 10O adds [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) for future user-approved source/deploy/evidence package assembly. No release package has been created, published, or uploaded.
+
+## Phase 10P final release execution checklist
+
+Phase 10P adds the final release execution checklist: [`docs/final-release-execution-checklist.md`](final-release-execution-checklist.md). It documents a future user-approved execution flow only; no release tag, GitHub Release, release package, asset upload, or package version change is claimed.

@@ -207,3 +207,7 @@ See [`docs/github-release-publication-plan.md`](github-release-publication-plan.
 ## Release package assembly reference
 
 See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) before assembling or uploading any release package. The checklist documents allowed contents, exclusions, verification, and explicit user approval requirements.
+
+## Phase 10P final release execution checklist
+
+The final release execution checklist is documented in [`docs/final-release-execution-checklist.md`](final-release-execution-checklist.md). It consolidates the final tag, package, and GitHub Release steps while keeping all actions user-approved and not executed in Phase 10P.

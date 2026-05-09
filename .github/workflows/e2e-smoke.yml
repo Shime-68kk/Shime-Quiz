@@ -227,3 +227,6 @@ jobs:
 
       - name: Validate release package assembly plan
         run: node scripts/validate-release-package-assembly-plan.js
+
+      - name: Validate final release execution checklist
+        run: node scripts/validate-final-release-execution-checklist.js

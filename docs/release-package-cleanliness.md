@@ -153,3 +153,7 @@ Release package/upload artifacts remain separate from the GitHub Release publica
 ## Release package assembly plan
 
 See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) for the future user-approved package assembly plan. It extends this cleanliness checklist with package variants, assembly commands as documentation only, verification steps, and release asset guidance.
+
+## Phase 10P final release execution checklist
+
+The final release execution checklist is documented in [`docs/final-release-execution-checklist.md`](final-release-execution-checklist.md). It references package cleanliness checks before any future user-approved package assembly or upload.

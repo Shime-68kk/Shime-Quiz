@@ -148,3 +148,7 @@ Next options:
 ## Release package assembly follow-up
 
 See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) for the future user-approved release package assembly plan. No release package has been created or uploaded by that plan, and GitHub Release publication remains a separate explicit approval step.
+
+## Phase 10P final release execution checklist
+
+The final release execution checklist is documented in [`docs/final-release-execution-checklist.md`](final-release-execution-checklist.md). It keeps GitHub Release publication as a separate user-approved action and confirms no release has been published by Phase 10P.
