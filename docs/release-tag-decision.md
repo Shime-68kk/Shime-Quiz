@@ -113,3 +113,7 @@ After the user chooses a tag/version strategy, review [`docs/release-tag-publish
 ## Phase 10K release candidate tag/publish gate
 
 The release candidate tag/publish gate is documented in [`release-candidate-tag-publish-gate.md`](release-candidate-tag-publish-gate.md). It records that no release tag has been created, no GitHub Release has been published, no release package has been published, and explicit user approval is required before any tag or publish action. Known evidence gaps and allowed/forbidden claims remain documented.
+
+## Phase 10M release tag creation plan
+
+A later tag command plan is documented in [`docs/release-tag-creation-plan.md`](release-tag-creation-plan.md). Candidate tag names remain examples only until the user chooses one.

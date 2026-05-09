@@ -1,0 +1,205 @@
+#!/usr/bin/env node
+import fs from 'node:fs';
+import path from 'node:path';
+import { execSync } from 'node:child_process';
+
+const root = process.cwd();
+const failures = [];
+
+function read(relativePath) {
+  const fullPath = path.join(root, relativePath);
+  if (!fs.existsSync(fullPath)) {
+    failures.push(`${relativePath} is missing.`);
+    return '';
+  }
+  return fs.readFileSync(fullPath, 'utf8');
+}
+function assertIncludes(content, needle, message) {
+  if (!content.includes(needle)) failures.push(message || `Missing ${needle}`);
+}
+function assertMatches(content, regex, message) {
+  if (!regex.test(content)) failures.push(message || `Missing pattern ${regex}`);
+}
+function gitTrackedFiles() {
+  try {
+    return execSync('git ls-files', { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })
+      .split(/\r?\n/).filter(Boolean);
+  } catch { return []; }
+}
+function changedFiles() {
+  try {
+    return execSync('git diff --name-only HEAD', { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })
+      .split(/\r?\n/).filter(Boolean);
+  } catch { return []; }
+}
+function contextAround(text, match, span = 360) {
+  const index = match.index ?? text.search(match);
+  if (index < 0) return '';
+  return text.slice(Math.max(0, index - span), Math.min(text.length, index + span));
+}
+function guarded(context) {
+  return /no |not |does not|do not|must not|without|unless|unsupported|forbidden|avoid|separate|requires|required|manual|only|future|later|not bundled|not included|not claim|has not been|should not|cannot|before|placeholder|actual|evidence|configured|tested|unavailable|boundary|claim|imply|safe claims|unsafe claims|pending|reviewed|checklist|this phase does not|local-first|docs only|documented|explicit|private|source\/destination|clean-profile|implemented|not measured|not captured|not run|not published|not created|gap|gaps|examples only|user approval|hold|environment-blocked|optional|if Chromium is available|when Chromium is available|plan only|not executed|rollback|command plan/i.test(context);
+}
+function forbiddenTrackedFile(file) {
+  const normalized = file.replace(/\\/g, '/');
+  if (/^(node_modules|dist|test-results|playwright-report|coverage)(\/|$)/.test(normalized)) return true;
+  if (/^FETCH_HEAD$|(^|\/)\.DS_Store$/.test(normalized)) return true;
+  if (/\.log$|npm-debug\.log|yarn-error\.log|pnpm-debug\.log/i.test(normalized)) return true;
+  if (normalized === '.env.example') return false;
+  if (/(^|\/)\.env($|\.)/.test(normalized)) return true;
+  const basename = path.basename(normalized).toLowerCase();
+  const lowerPath = normalized.toLowerCase();
+  const secretLike = [
+    /(^|[-_.])service-account([-_.]|$)/,
+    /(^|[-_.])api-key([-_.]|$)/,
+    /(^|[-_.])access-token([-_.]|$)/,
+    /(^|[-_.])private-key([-_.]|$)/,
+    /(^|[-_.])credentials?([-_.]|$)/,
+    /(^|[-_.])secret([-_.]|$)/,
+    /(^|[-_.])token([-_.]|$)/,
+    /^(id_rsa|id_dsa|id_ecdsa|id_ed25519)$/,
+  ];
+  if (secretLike.some((pattern) => pattern.test(basename))) return true;
+  if (lowerPath.endsWith('/key.pem') || basename === 'key.pem') return true;
+  if (lowerPath.endsWith('/private.key') || basename === 'private.key') return true;
+  if (/\.(pem|p12|pfx)$/i.test(basename)) return true;
+  return false;
+}
+
+const doc = read('docs/release-tag-creation-plan.md');
+const readme = read('README.md');
+const releaseQa = read('RELEASE_QA_V2.md');
+const manualEvidence = read('docs/manual-evidence-run-pack.md');
+const gate = read('docs/release-candidate-tag-publish-gate.md');
+const finalReaudit = read('docs/final-public-release-readiness-reaudit.md');
+const finalAudit = read('docs/final-rc-audit.md');
+const releaseDraft = read('docs/github-release-draft.md');
+const tagDecision = read('docs/release-tag-decision.md');
+const publishChecklist = read('docs/release-tag-publish-checklist.md');
+const packageCleanliness = read('docs/release-package-cleanliness.md');
+const publicNotes = read('docs/public-release-notes.md');
+const deployment = read('docs/deployment-readiness.md');
+const workflow = read('.github/workflows/e2e-smoke.yml');
+const pkgText = read('package.json');
+const lockText = read('package-lock.json');
+const pkg = pkgText ? JSON.parse(pkgText) : { dependencies: {}, devDependencies: {} };
+const lock = lockText ? JSON.parse(lockText) : { packages: { '': {} } };
+const lockRoot = lock.packages?.[''] || {};
+
+assertMatches(doc, /Phase 10M/i, 'Release tag creation plan must mention Phase 10M.');
+assertMatches(doc, /Release Tag Creation Plan/i, 'Release tag creation plan must mention Release Tag Creation Plan.');
+assertMatches(doc, /completed\/merged through Phase 10L/i, 'Plan must mention completed/merged through Phase 10L.');
+assertMatches(doc, /manual evidence run pack docs exist/i, 'Plan must mention manual evidence run pack docs exist.');
+assertMatches(doc, /release candidate tag\/publish gate docs exist/i, 'Plan must mention release candidate tag/publish gate docs exist.');
+assertMatches(doc, /final public release readiness re-audit docs exist/i, 'Plan must mention final public release readiness re-audit docs exist.');
+assertMatches(doc, /release tag has not been created/i, 'Plan must mention release tag has not been created.');
+assertMatches(doc, /GitHub Release has not been published/i, 'Plan must mention GitHub Release has not been published.');
+assertMatches(doc, /release package has not been published/i, 'Plan must mention release package has not been published.');
+assertMatches(doc, /explicit user approval/i, 'Plan must mention explicit user approval.');
+assertMatches(doc, /final tag name must be chosen by user/i, 'Plan must mention final tag name must be chosen by user.');
+assertMatches(doc, /latest validated main/i, 'Plan must mention latest validated main.');
+assertMatches(doc, /clean working tree/i, 'Plan must mention clean working tree.');
+assertMatches(doc, /validators fail|full static validator chain/i, 'Plan must mention validators fail or full static validator chain.');
+assertMatches(doc, /candidate tag naming options/i, 'Plan must mention candidate tag naming options.');
+assertMatches(doc, /examples only/i, 'Plan must mention examples only.');
+assertIncludes(doc, 'npm ci', 'Plan must mention npm ci.');
+assertIncludes(doc, 'npm run build', 'Plan must mention npm run build.');
+assertIncludes(doc, 'git tag -a', 'Plan must mention git tag -a.');
+assertIncludes(doc, 'git push origin', 'Plan must mention git push origin.');
+assertMatches(doc, /Rollback notes/i, 'Plan must mention rollback notes.');
+assertMatches(doc, /GitHub Release follow-up/i, 'Plan must mention GitHub Release follow-up.');
+assertMatches(doc, /Screenshots not captured unless separately done/i, 'Plan must mention screenshots gap.');
+assertMatches(doc, /Manual mobile UX smoke not run unless separately done/i, 'Plan must mention mobile gap.');
+assertMatches(doc, /Configured EduGen import smoke not run unless separately done/i, 'Plan must mention configured EduGen gap.');
+assertMatches(doc, /Cross-device restore smoke not run unless separately done/i, 'Plan must mention cross-device gap.');
+assertMatches(doc, /Lighthouse\/Core Web Vitals not measured unless separately done/i, 'Plan must mention Lighthouse/Core Web Vitals gap.');
+assertMatches(doc, /user-approved actual tag creation|Phase 10N.*GitHub Release Publication Plan/i, 'Plan must mention next step.');
+
+assertIncludes(readme, 'docs/release-tag-creation-plan.md', 'README.md must link to docs/release-tag-creation-plan.md.');
+assertMatches(releaseQa, /Phase 10M/i, 'RELEASE_QA_V2.md must include Phase 10M.');
+const linkedDocs = [
+  ['docs/manual-evidence-run-pack.md', manualEvidence],
+  ['docs/release-candidate-tag-publish-gate.md', gate],
+  ['docs/final-public-release-readiness-reaudit.md', finalReaudit],
+  ['docs/final-rc-audit.md', finalAudit],
+  ['docs/github-release-draft.md', releaseDraft],
+  ['docs/release-tag-decision.md', tagDecision],
+  ['docs/release-tag-publish-checklist.md', publishChecklist],
+  ['docs/release-package-cleanliness.md', packageCleanliness],
+  ['docs/public-release-notes.md', publicNotes],
+  ['docs/deployment-readiness.md', deployment],
+];
+for (const [file, text] of linkedDocs) {
+  assertMatches(text, /release-tag-creation-plan\.md|release tag creation plan/i, `${file} must link/reference release tag creation plan.`);
+}
+assertIncludes(workflow, 'node scripts/validate-release-tag-creation-plan.js', 'Workflow must include validate-release-tag-creation-plan.');
+
+if (pkg.version !== '2.0.0-beta-ai.1') failures.push(`package version changed unexpectedly: ${pkg.version}`);
+if (JSON.stringify(pkg.dependencies || {}) !== JSON.stringify(lockRoot.dependencies || {})) failures.push('package dependencies and lock root dependencies differ.');
+if (JSON.stringify(pkg.devDependencies || {}) !== JSON.stringify(lockRoot.devDependencies || {})) failures.push('package devDependencies and lock root devDependencies differ.');
+
+for (const file of gitTrackedFiles()) {
+  if (forbiddenTrackedFile(file)) failures.push(`Forbidden generated/secret artifact is tracked: ${file}`);
+}
+
+const allowedChanged = new Set([
+  '.github/workflows/e2e-smoke.yml',
+  'README.md',
+  'RELEASE_QA_V2.md',
+  'docs/release-tag-creation-plan.md',
+  'docs/manual-evidence-run-pack.md',
+  'docs/release-candidate-tag-publish-gate.md',
+  'docs/final-public-release-readiness-reaudit.md',
+  'docs/final-rc-audit.md',
+  'docs/github-release-draft.md',
+  'docs/release-tag-decision.md',
+  'docs/release-tag-publish-checklist.md',
+  'docs/release-package-cleanliness.md',
+  'docs/public-release-notes.md',
+  'docs/deployment-readiness.md',
+  'scripts/validate-release-tag-creation-plan.js',
+]);
+for (const file of changedFiles()) {
+  if (!allowedChanged.has(file)) failures.push(`Unexpected changed file for Phase 10M: ${file}`);
+  if (/^(e2e\/|src\/)/.test(file)) failures.push(`Runtime/E2E source file changed unexpectedly: ${file}`);
+  if (/^(package\.json|package-lock\.json)$/.test(file)) failures.push(`${file} changed unexpectedly.`);
+}
+
+const claimFiles = [
+  ['README.md', readme],
+  ['RELEASE_QA_V2.md', releaseQa],
+  ['docs/release-tag-creation-plan.md', doc],
+  ...linkedDocs,
+];
+const forbiddenClaims = [
+  [/release tag (created|has been created)|GitHub Release (published|has been published)|release package (published|has been published)/gi, 'release publication'],
+  [/production certification|security certification|accessibility certification|performance certification/gi, 'certification'],
+  [/built-in AI generation|external AI\/API integration|external AI\/API calls/gi, 'AI/API integration'],
+  [/API key\/BYOK support/gi, 'API key/BYOK support'],
+  [/\bOCR\b/gi, 'OCR'],
+  [/EduGen bundled|bundled into Shime/gi, 'EduGen bundled'],
+  [/frontend-only .*document conversion|frontend-only PDF\/DOCX\/PPTX\/ZIP conversion/gi, 'frontend-only document conversion'],
+  [/backend\/cloud sync|backend sync|cloud sync|account sync|automatic cross-device sync/gi, 'backend/cloud/account sync'],
+  [/encrypted backups/gi, 'encrypted backups'],
+  [/screenshots captured|actual screenshots captured/gi, 'screenshots captured'],
+  [/mobile UX passed|mobile UX pass/gi, 'mobile UX passed'],
+  [/configured EduGen import passed|EduGen document import passed/gi, 'configured EduGen import passed'],
+  [/cross-device restore passed|cross-device restore verified/gi, 'cross-device restore passed'],
+  [/Lighthouse\/Core Web Vitals pass|Core Web Vitals pass/gi, 'Lighthouse/Core Web Vitals pass'],
+];
+for (const [file, text] of claimFiles) {
+  for (const [regex, label] of forbiddenClaims) {
+    let match;
+    while ((match = regex.exec(text)) !== null) {
+      const context = contextAround(text, match);
+      if (!guarded(context)) failures.push(`${file} may overclaim ${label}: ${match[0]}`);
+    }
+  }
+}
+
+if (failures.length) {
+  console.error('Release tag creation plan validation failed:');
+  for (const failure of failures) console.error(`- ${failure}`);
+  process.exit(1);
+}
+console.log('Release tag creation plan validation passed.');

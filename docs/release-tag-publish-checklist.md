@@ -194,3 +194,7 @@ The release candidate tag/publish gate is documented in [`release-candidate-tag-
 
 ## Phase 10L manual evidence reference
 Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-run-pack.md) is an optional pre-tag/pre-publish evidence checklist. Tag/publish still requires explicit user approval.
+
+## Phase 10M release tag creation plan
+
+The release tag creation plan in [`docs/release-tag-creation-plan.md`](release-tag-creation-plan.md) documents pre-tag validation, example tag commands, rollback notes, and explicit user approval requirements.
