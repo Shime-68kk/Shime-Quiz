@@ -904,3 +904,44 @@ Phase 9H does not:
 - Do not claim production/security certification.
 
 Recommended next step: stop and ask whether to proceed with the actual release tag/publish flow, or run a real manual regression pass using 9E–9H checklists.
+
+## Phase 10A — Public Landing Page / Root Route Polish
+
+Phase 10A adds a public-facing root route landing experience and documentation at [`docs/public-landing-page.md`](docs/public-landing-page.md). The landing route introduces ShimeChamhoc v2 as a local-first quiz study app, points to Dashboard, Library, Study Room, and the Library **Dùng quiz mẫu** path, and summarizes supported local imports, backup/restore, EduGen separate-service boundaries, manual AI copy/paste boundaries, and local-first privacy boundaries.
+
+Landing page checklist:
+
+- Root `/` should show a clear public introduction instead of immediately redirecting to Dashboard.
+- CTAs should route to existing app areas such as Dashboard and Library.
+- Landing copy should mention JSON, CSV, text/Markdown, `.txt/.md`, Library, Study Room, Dashboard, backup/restore, and the local demo quickstart.
+- EduGen/File Processor remains separate and not bundled; PDF/DOCX/PPTX/ZIP import requires a configured browser-reachable service.
+- Manual AI remains manual prompt/export and manual output paste/import only.
+
+CTA/manual smoke expectations:
+
+- Open `/` and verify landing content appears.
+- Open `/dashboard` directly and verify Dashboard still works.
+- Open `/library` directly and verify Library still works.
+- Check Dashboard/Library CTAs from the landing page.
+- Confirm unsupported AI/EduGen/cloud/OCR/certification claims are absent.
+
+React/Vite SPA note:
+
+- This is a React/Vite SPA, not a Next.js App Router project.
+- Phase 10A focuses on user-visible root route polish, not full SEO.
+- SEO/Open Graph/social preview metadata remains a separate future phase.
+
+Phase 10A does not:
+
+- Do not add auth/login, middleware, protected routes, backend, or cloud sync.
+- Do not add built-in AI generation, external AI/API calls, API key/BYOK support, or OCR.
+- Do not bundle EduGen into Shime or make frontend-only document conversion claims.
+- Change import/parser behavior, backup/restore behavior, storage schema, Study Room logic, Dashboard learning logic, scoring/SRT/mastery/study history/recommendation logic, or E2E test logic.
+- Change package version or dependencies.
+- Create a release tag, publish a GitHub Release, or publish a release package.
+- Claim production, security, accessibility, SEO, crawler indexing, or social preview certification/completion.
+
+Validator and CI coverage:
+
+- Added `scripts/validate-public-landing-page.js`.
+- Registered `node scripts/validate-public-landing-page.js` in `.github/workflows/e2e-smoke.yml` while preserving prior validators, Playwright install, E2E smoke/onboarding, and failure artifact upload.

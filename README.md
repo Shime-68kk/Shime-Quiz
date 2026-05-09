@@ -261,3 +261,7 @@ Study Room / Dashboard learning flow smoke guidance is documented in [`docs/stud
 ## Accessibility / keyboard smoke
 
 Accessibility and keyboard manual smoke guidance is documented in [`docs/accessibility-keyboard-smoke.md`](docs/accessibility-keyboard-smoke.md). The checklist covers keyboard navigation, focus visibility, reachable controls, import surfaces, Library, **“Dùng quiz mẫu”**, preview/review/confirm-save, Study Room, Dashboard, backup/restore controls, readable labels, visible validation/error messages, EduGen unavailable guidance, and manual AI caveats. Phase 9H does not change accessibility implementation, keyboard/focus behavior, runtime app behavior, package version, or release status, and it does not claim WCAG compliance, accessibility certification, or manual accessibility/keyboard smoke pass without an actual tester/user run.
+
+## Public landing / root route polish
+
+Public landing page guidance is documented in [`docs/public-landing-page.md`](docs/public-landing-page.md). Phase 10A adds a clearer root route introduction for new visitors, with CTAs to Dashboard, Library, Study Room, and the Library demo quickstart path. It does not add auth/login, backend/cloud sync, EduGen bundling, built-in AI generation, external AI/API calls, OCR, package version changes, release tag creation, or GitHub Release publishing. SEO/Open Graph metadata remains a separate future phase.

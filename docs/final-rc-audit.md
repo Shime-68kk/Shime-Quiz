@@ -172,3 +172,7 @@ Backup / restore manual regression smoke guidance is documented in [`docs/backup
 ## Phase 9H accessibility / keyboard smoke reference
 
 Accessibility / keyboard manual smoke guidance is documented in [`docs/accessibility-keyboard-smoke.md`](accessibility-keyboard-smoke.md). It documents keyboard navigation, focus visibility, reachable controls, import, Library, demo quickstart, preview/review/confirm-save, Study Room, Dashboard, backup/restore, readable labels, visible validation/error messages, EduGen unavailable guidance, manual AI caveats, and evidence rules. Phase 9H does not change runtime behavior and does not claim WCAG compliance, accessibility certification, production/security certification, or a manual accessibility/keyboard pass without an actual tester/user run.
+
+## Phase 10A public landing/root route polish reference
+
+Public landing page/root route polish is documented in [`docs/public-landing-page.md`](public-landing-page.md). The root route introduces ShimeChamhoc more clearly for new visitors and summarizes local-first use, supported imports, the Library demo quickstart, Study Room, Dashboard, backup/restore, EduGen separate-service boundary, and manual AI boundary. Phase 10A does not create a release tag, publish a GitHub Release, add auth/login, add backend/cloud sync, bundle EduGen, add OCR, or claim production/security/accessibility certification. SEO/Open Graph metadata remains a separate future phase.

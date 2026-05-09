@@ -137,3 +137,7 @@ Unsafe claims without later evidence:
 ## Recommended next step
 
 Stop and decide whether to proceed with the actual release tag/publish flow, or run a real manual regression pass using the 9E–9H checklists before publishing.
+
+## Phase 10A public landing keyboard note
+
+If Phase 10A is included in the release candidate, include the root landing page in the manual keyboard smoke path: open `/`, tab through the landing CTAs, and verify the Dashboard, Library, and Study Room navigation controls remain reachable. This does not claim WCAG compliance or accessibility certification. See [`docs/public-landing-page.md`](public-landing-page.md).
