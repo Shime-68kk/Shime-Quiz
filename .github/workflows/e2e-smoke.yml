@@ -161,6 +161,9 @@ jobs:
       - name: Validate public landing page
         run: node scripts/validate-public-landing-page.js
 
+      - name: Validate social preview metadata
+        run: node scripts/validate-social-preview-metadata.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

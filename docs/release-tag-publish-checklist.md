@@ -148,3 +148,8 @@ Accessibility / keyboard manual smoke guidance is documented in [`docs/accessibi
 ## Phase 10A public landing/root route polish checkpoint
 
 Before creating a tag or publishing a GitHub Release, review [`docs/public-landing-page.md`](public-landing-page.md) and manually smoke `/`, `/dashboard`, and `/library`. Phase 10A improves user-visible root route copy and CTAs only; it does not add auth/login, backend/cloud sync, built-in AI generation, external AI/API calls, OCR, EduGen bundling, package version changes, release tag creation, or GitHub Release publishing.
+
+
+## Phase 10B SEO / social preview metadata checkpoint
+
+Before creating a tag or publishing a GitHub Release, review [`docs/social-preview-metadata.md`](social-preview-metadata.md). Phase 10B adds basic static `index.html` metadata, Open Graph/Twitter social card tags, and a static preview image. It does not create a release tag, publish a GitHub Release, certify production/security/accessibility readiness, claim SEO ranking improvement, or guarantee all crawlers render SPA content.

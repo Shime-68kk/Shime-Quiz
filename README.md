@@ -265,3 +265,7 @@ Accessibility and keyboard manual smoke guidance is documented in [`docs/accessi
 ## Public landing / root route polish
 
 Public landing page guidance is documented in [`docs/public-landing-page.md`](docs/public-landing-page.md). Phase 10A adds a clearer root route introduction for new visitors, with CTAs to Dashboard, Library, Study Room, and the Library demo quickstart path. It does not add auth/login, backend/cloud sync, EduGen bundling, built-in AI generation, external AI/API calls, OCR, package version changes, release tag creation, or GitHub Release publishing. SEO/Open Graph metadata remains a separate future phase.
+
+## SEO / social preview metadata
+
+Basic static SEO/social preview metadata is documented in [`docs/social-preview-metadata.md`](docs/social-preview-metadata.md). Phase 10B adds `index.html` title/description, Open Graph and Twitter/social card tags, and a static preview image for sharing. This does not claim SEO optimization success, search ranking improvement, all crawler rendering, production/security/accessibility certification, release tag creation, or GitHub Release publication.
