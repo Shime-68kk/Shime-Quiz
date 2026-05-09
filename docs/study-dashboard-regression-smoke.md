@@ -124,3 +124,7 @@ Unsafe claims after Phase 9G unless separately verified:
 ## Recommended next step
 
 Recommended next phase after this, if continuing hardening: **Phase 9H — Accessibility / Keyboard Smoke**. Alternatively, stop and decide whether to proceed to the actual release tag/publish flow.
+
+## Phase 9H accessibility / keyboard smoke reference
+
+Accessibility / keyboard manual smoke guidance is documented in [`docs/accessibility-keyboard-smoke.md`](accessibility-keyboard-smoke.md). It documents keyboard navigation, focus visibility, reachable controls, import, Library, demo quickstart, preview/review/confirm-save, Study Room, Dashboard, backup/restore, readable labels, visible validation/error messages, EduGen unavailable guidance, manual AI caveats, and evidence rules. Phase 9H does not change runtime behavior and does not claim WCAG compliance, accessibility certification, production/security certification, or a manual accessibility/keyboard pass without an actual tester/user run.

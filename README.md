@@ -257,3 +257,7 @@ Backup/restore manual regression smoke guidance is documented in [`docs/backup-r
 
 Study Room / Dashboard learning flow smoke guidance is documented in [`docs/study-dashboard-regression-smoke.md`](docs/study-dashboard-regression-smoke.md). The checklist covers saved quiz setup, Library-to-Study-Room flow, answer handling, study history/progress, review schedule/SRT, Dashboard progress, recommendations, study goal/plan progress, local-first boundaries, and evidence rules. Phase 9G does not change Study Room or Dashboard runtime behavior and does not claim manual Study Room/Dashboard regression passed without an actual tester/user run.
 
+
+## Accessibility / keyboard smoke
+
+Accessibility and keyboard manual smoke guidance is documented in [`docs/accessibility-keyboard-smoke.md`](docs/accessibility-keyboard-smoke.md). The checklist covers keyboard navigation, focus visibility, reachable controls, import surfaces, Library, **“Dùng quiz mẫu”**, preview/review/confirm-save, Study Room, Dashboard, backup/restore controls, readable labels, visible validation/error messages, EduGen unavailable guidance, and manual AI caveats. Phase 9H does not change accessibility implementation, keyboard/focus behavior, runtime app behavior, package version, or release status, and it does not claim WCAG compliance, accessibility certification, or manual accessibility/keyboard smoke pass without an actual tester/user run.
