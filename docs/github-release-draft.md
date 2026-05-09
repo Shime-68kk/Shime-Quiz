@@ -181,3 +181,7 @@ Public landing page/root route polish is documented in [`docs/public-landing-pag
 ## Phase 10B SEO / social preview metadata reference
 
 Basic static SEO/social preview metadata is documented in [`docs/social-preview-metadata.md`](social-preview-metadata.md). Use it as a reference for later public sharing metadata, but do not claim search ranking improvement, all-crawler rendering success, release tag creation, GitHub Release publication, or production/security/accessibility certification.
+
+## Phase 10C direct-route / SPA fallback reference
+
+Direct-route / SPA fallback audit guidance is documented in [`docs/direct-route-spa-fallback.md`](direct-route-spa-fallback.md). Use it before publishing to understand static-host fallback expectations. Do not use it to claim SSR, all-crawler rendering, direct-route smoke pass without evidence, release tag creation, or GitHub Release publication.

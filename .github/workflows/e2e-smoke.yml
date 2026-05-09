@@ -164,6 +164,9 @@ jobs:
       - name: Validate social preview metadata
         run: node scripts/validate-social-preview-metadata.js
 
+      - name: Validate direct route SPA fallback
+        run: node scripts/validate-direct-route-spa-fallback.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

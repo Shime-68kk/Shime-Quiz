@@ -181,3 +181,7 @@ Public landing page/root route polish is documented in [`docs/public-landing-pag
 ## Phase 10B SEO / social preview metadata reference
 
 Basic static SEO/social preview metadata is documented in [`docs/social-preview-metadata.md`](social-preview-metadata.md). It records the `index.html` metadata, Open Graph/Twitter social card tags, and static preview image added after public landing/root route polish. It does not claim SEO ranking improvement, all-crawler rendering success, production/security/accessibility certification, release tag creation, or GitHub Release publication.
+
+## Phase 10C direct-route / SPA fallback reference
+
+Direct-route / SPA fallback audit guidance is documented in [`docs/direct-route-spa-fallback.md`](direct-route-spa-fallback.md). It records React/Vite SPA static-host fallback expectations for `/`, `/dashboard`, `/library`, `/study-room`, and unknown routes. It does not claim SSR, all-crawler rendering, production/security/accessibility certification, release tag creation, or GitHub Release publication.

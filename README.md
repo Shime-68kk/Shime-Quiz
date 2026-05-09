@@ -269,3 +269,5 @@ Public landing page guidance is documented in [`docs/public-landing-page.md`](do
 ## SEO / social preview metadata
 
 Basic static SEO/social preview metadata is documented in [`docs/social-preview-metadata.md`](docs/social-preview-metadata.md). Phase 10B adds `index.html` title/description, Open Graph and Twitter/social card tags, and a static preview image for sharing. This does not claim SEO optimization success, search ranking improvement, all crawler rendering, production/security/accessibility certification, release tag creation, or GitHub Release publication.
+
+Direct-route / SPA fallback guidance is documented in [`docs/direct-route-spa-fallback.md`](docs/direct-route-spa-fallback.md). Phase 10C audits root/direct route expectations for the React/Vite SPA and documents Vercel/Netlify/static-host fallback behavior. It does not add auth/login, middleware, backend/cloud sync, SSR, package version changes, release tag creation, GitHub Release publishing, or all-crawlers-render claims.
