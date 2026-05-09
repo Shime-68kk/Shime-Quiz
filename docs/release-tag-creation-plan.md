@@ -128,3 +128,7 @@ See [`docs/github-release-publication-plan.md`](github-release-publication-plan.
 ## Release package assembly reference
 
 See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) for the package contents, exclusions, verification checklist, and user-approval gate for any future release package assembly. No package is created by that plan.
+
+## Phase 10P final release execution checklist
+
+The final release execution checklist is documented in [`docs/final-release-execution-checklist.md`](final-release-execution-checklist.md). It keeps tag creation as a separate user-approved action and confirms no tag has been created by Phase 10P.

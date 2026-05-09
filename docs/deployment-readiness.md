@@ -147,3 +147,7 @@ Publication planning is documented in [`docs/github-release-publication-plan.md`
 ## Release package assembly planning
 
 See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) for future user-approved package assembly, package exclusions, and verification. Frontend deployment and package upload remain separate decisions.
+
+## Phase 10P final release execution checklist
+
+The final release execution checklist is documented in [`docs/final-release-execution-checklist.md`](final-release-execution-checklist.md). It keeps deployment/release actions explicit, separate, and user-approved, and it does not claim production/security/accessibility/performance certification.

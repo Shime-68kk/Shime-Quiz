@@ -145,3 +145,7 @@ The release gate now links to the GitHub Release publication plan in [`docs/gith
 ## Release package assembly reference
 
 See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) for the future package assembly and upload checklist. Package assembly/upload remains gated by explicit user approval and remains separate from tag/publish actions.
+
+## Phase 10P final release execution checklist
+
+The final release execution checklist is documented in [`docs/final-release-execution-checklist.md`](final-release-execution-checklist.md). It preserves the release gate rule that tag, package, asset upload, and GitHub Release publication require explicit user approval.

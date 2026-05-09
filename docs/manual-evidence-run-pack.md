@@ -167,3 +167,7 @@ The optional evidence collected by this pack can support the later [`docs/github
 ## Release package assembly reference
 
 See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) for how future package assembly should include only approved evidence artifacts and avoid fake/mock screenshots, generated artifacts, secrets, and local user data/backups.
+
+## Phase 10P final release execution checklist
+
+The final release execution checklist is documented in [`docs/final-release-execution-checklist.md`](final-release-execution-checklist.md). It references the manual evidence pack as optional evidence before release and does not claim evidence was run.

@@ -152,3 +152,7 @@ Phase 10N adds [`docs/github-release-publication-plan.md`](github-release-public
 ## Release package assembly reference
 
 See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) for the release package assembly plan, including package contents, exclusions, verification, and user-approval gating. No release package has been created or published.
+
+## Phase 10P final release execution checklist
+
+The final release execution checklist is documented in [`docs/final-release-execution-checklist.md`](final-release-execution-checklist.md). It turns the final re-audit inventory into an ordered future release execution flow without executing any release action.

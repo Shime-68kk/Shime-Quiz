@@ -1389,3 +1389,37 @@ Validator:
 
 CI coverage:
 - `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-release-package-assembly-plan.js` and preserves previous validators.
+
+## Phase 10P — Final Release Execution Checklist
+
+Status: DOCUMENTATION / STATIC VALIDATOR / CI ONLY.
+
+Phase 10P adds [`docs/final-release-execution-checklist.md`](docs/final-release-execution-checklist.md), a final ordered release execution checklist for a future user-approved release.
+
+Coverage:
+- Current baseline: completed/merged through Phase 10O.
+- Existing release package assembly, GitHub Release publication, release tag creation, manual evidence, release candidate gate, and final public re-audit docs are referenced.
+- Final release execution policy states this phase does not execute release actions.
+- Tag creation, package assembly, release asset upload, and GitHub Release publication are separate user-approved actions.
+- Final tag name must be chosen by user.
+- Ordered release execution flow is documented, including latest `main`, clean working tree, package version decision, `npm ci`, `npm run build`, full static validator chain, optional E2E, optional manual evidence pack, generated-artifact check, secret/user-data check, release-note review, claims review, tag creation, package assembly, GitHub Release publication, asset upload, and release evidence recording.
+- Command checklist is a plan only and includes `git checkout main`, `git pull origin main`, `git status --short`, `npm ci`, `npm run build`, `git tag -a <chosen-tag> -m "<message>"`, `git push origin <chosen-tag>`, package assembly placeholders, and `gh release create <tag>` / GitHub UI guidance.
+- Evidence recording template and pre-release blockers are documented.
+- Existing evidence gaps remain documented: screenshots not captured, manual mobile UX smoke not run, configured EduGen import smoke not run, cross-device restore smoke not run, Lighthouse/Core Web Vitals not measured, and E2E may be environment-blocked if Chromium is unavailable.
+
+Scope control:
+- No runtime app behavior changes.
+- No package version or dependency changes.
+- No final release execution.
+- No release package created, uploaded, or published.
+- No release tag created or pushed.
+- No GitHub Release published.
+- No screenshot image assets added.
+- No production/security/accessibility/performance certification claim.
+- No unsupported AI/EduGen/OCR/backend/cloud/account-sync claims.
+
+Validator:
+- `scripts/validate-final-release-execution-checklist.js`
+
+CI coverage:
+- `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-final-release-execution-checklist.js` and preserves previous validators.

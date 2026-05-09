@@ -235,3 +235,7 @@ The GitHub Release publication workflow is planned in [`docs/github-release-publ
 ## Release package assembly reference
 
 See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) for package asset planning. Release package/upload artifacts remain separate from the GitHub Release draft unless explicitly approved by the user.
+
+## Phase 10P final release execution checklist
+
+The final release execution checklist is documented in [`docs/final-release-execution-checklist.md`](final-release-execution-checklist.md). The GitHub Release draft should be reviewed during that checklist before any user-approved publication.

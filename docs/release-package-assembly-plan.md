@@ -170,3 +170,7 @@ Do not claim any of the following unless separately completed and supported by e
 ## Recommended next step
 
 Recommended next step: user-approved release package assembly, user-approved actual tag/release publication, or Phase 10P — Final Release Execution Checklist.
+
+## Phase 10P final release execution checklist
+
+The final release execution checklist is documented in [`docs/final-release-execution-checklist.md`](final-release-execution-checklist.md). It consolidates package assembly, tag creation, GitHub Release publication, release asset upload, and evidence recording into one future user-approved flow. No release package is created or uploaded by Phase 10P.
