@@ -250,3 +250,7 @@ Final release tag and publish steps are documented in [`docs/release-tag-publish
 ## Import regression smoke checklist
 
 Manual import surface regression smoke guidance is documented in [`docs/import-regression-smoke.md`](docs/import-regression-smoke.md). The checklist covers JSON, CSV, paste text/Markdown, local `.txt/.md`, public demo sample pack, **“Dùng quiz mẫu”**, manual AI output paste/import, EduGen unavailable behavior, and the separately configured EduGen PDF/DOCX/PPTX/ZIP path. Phase 9E does not change import/parser behavior, does not claim manual import regression passed without an actual tester/user run, does not claim EduGen document import passed without a separately configured service, and does not create or publish a release.
+
+## Backup / restore regression smoke
+
+Backup/restore manual regression smoke guidance is documented in [`docs/backup-restore-regression-smoke.md`](docs/backup-restore-regression-smoke.md). The checklist covers export backup, restore backup, Library/quiz data preservation, study history/progress, review schedule, recommendation feedback, study goal/plan progress, malformed backup handling, and local-first/no-backend boundaries. Phase 9F does not change backup/restore behavior, storage schema, package version, or release status, and it does not claim manual backup/restore regression passed without an actual tester/user run.

@@ -161,3 +161,7 @@ Before publishing this draft, review [`docs/release-tag-publish-checklist.md`](r
 ## Import regression smoke note
 
 Import surface manual regression smoke steps are documented in [`docs/import-regression-smoke.md`](import-regression-smoke.md). Do not add release-note claims that all import formats passed unless the relevant manual smoke run actually passed. EduGen document import pass claims require a separate configured service to have been tested.
+
+## Backup/restore regression smoke note
+
+Backup / restore manual regression smoke steps are documented in [`docs/backup-restore-regression-smoke.md`](backup-restore-regression-smoke.md). Do not add release-note claims that backup/restore regression passed, or that all state categories were preserved, unless the relevant manual smoke run actually passed and each category was checked.

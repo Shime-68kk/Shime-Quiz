@@ -149,6 +149,9 @@ jobs:
       - name: Validate import regression smoke
         run: node scripts/validate-import-regression-smoke.js
 
+      - name: Validate backup restore regression smoke
+        run: node scripts/validate-backup-restore-regression-smoke.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

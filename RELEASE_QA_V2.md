@@ -807,3 +807,33 @@ Phase 9E does not:
 - Do not claim production/security certification.
 
 Recommended next phase: Phase 9F — Backup / Restore Manual Regression Smoke.
+
+## Phase 9F — Backup / Restore Manual Regression Smoke
+
+Scope: documentation/backup-restore-regression-smoke/static-validator/CI only.
+
+Added:
+- Backup/restore manual regression smoke checklist: `docs/backup-restore-regression-smoke.md`.
+- Coverage for export backup, restore backup, malformed/bad backup handling, Library data, quiz content, study history/progress, review schedule, recommendation feedback, and study goal/plan progress where applicable.
+- Local-first/no-backend/no-cloud-sync and no account/auth backup boundaries.
+- Evidence rules: do not claim manual backup/restore regression passed unless an actual tester/user run passes, and do not claim all state categories are preserved unless each was actually checked.
+- Static validator: `scripts/validate-backup-restore-regression-smoke.js`.
+- CI coverage for `validate-backup-restore-regression-smoke`.
+
+Phase 9F does not:
+- Change runtime app behavior.
+- Change user-facing app features.
+- Change backup/restore logic.
+- Change storage/schema behavior.
+- Change import/parser logic.
+- Change E2E logic.
+- Change EduGen source.
+- Add AI/API/OCR/backend behavior.
+- Change scoring/SRT/mastery/study history/recommendation logic.
+- Change package version or dependencies.
+- Create a release tag.
+- Publish a GitHub Release.
+- Publish a release package.
+- Do not claim production/security certification.
+
+Recommended next phase: Phase 9G — Study Room / Dashboard Learning Flow Smoke.
