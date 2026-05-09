@@ -134,3 +134,7 @@ The release candidate tag/publish gate is documented in [`release-candidate-tag-
 
 ## Phase 10L manual evidence reference
 Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-run-pack.md) includes optional deployment-adjacent checks for configured EduGen and browser evidence. It does not add backend/cloud sync or publish the release.
+
+## Phase 10M release tag creation plan
+
+Tag creation planning is documented in [`docs/release-tag-creation-plan.md`](release-tag-creation-plan.md). Deployment readiness does not imply a tag has been created, a GitHub Release has been published, or a release package has been published.

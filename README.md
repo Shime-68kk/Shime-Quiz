@@ -113,6 +113,7 @@ Actual screenshot image files are not included yet; the screenshot checklist exi
 - Accessibility / keyboard smoke checklist: [`docs/accessibility-keyboard-smoke.md`](docs/accessibility-keyboard-smoke.md)
 - Final public release readiness re-audit: [`docs/final-public-release-readiness-reaudit.md`](docs/final-public-release-readiness-reaudit.md)
 - Release candidate tag/publish gate: [`docs/release-candidate-tag-publish-gate.md`](docs/release-candidate-tag-publish-gate.md)
+- Release tag creation plan: [`docs/release-tag-creation-plan.md`](docs/release-tag-creation-plan.md)
 - Full QA/release checklist: [`RELEASE_QA_V2.md`](RELEASE_QA_V2.md)
 - README rewrite/split guide: [`docs/readme-public-facing-guide.md`](docs/readme-public-facing-guide.md)
 - Performance / bundle-size audit: [`docs/performance-bundle-audit.md`](docs/performance-bundle-audit.md)
@@ -162,3 +163,7 @@ Shime does not claim or include:
 
 ## Manual evidence pack
 Optional pre-release evidence collection is documented in [`docs/manual-evidence-run-pack.md`](docs/manual-evidence-run-pack.md). It covers screenshots, mobile/responsive smoke, configured EduGen document import smoke, cross-device backup/restore smoke, E2E when Chromium is available, and optional Lighthouse/Core Web Vitals measurement. This README does not claim those evidence runs passed unless they are actually performed.
+
+## Phase 10M release tag creation plan
+
+The release tag creation plan is documented in [`docs/release-tag-creation-plan.md`](docs/release-tag-creation-plan.md). It provides a user-approved tag command plan and checklist only. No release tag has been created, no GitHub Release has been published, no release package has been published, and package version/dependencies remain unchanged.

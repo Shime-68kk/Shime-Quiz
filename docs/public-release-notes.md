@@ -166,3 +166,7 @@ The release candidate tag/publish gate is documented in [`release-candidate-tag-
 
 ## Phase 10L manual evidence reference
 Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-run-pack.md) exists for optional screenshot/mobile/configured EduGen/cross-device/E2E/Lighthouse checks. Public notes should not claim those runs passed without evidence.
+
+## Phase 10M release tag creation plan
+
+Release tag creation planning is documented in [`docs/release-tag-creation-plan.md`](release-tag-creation-plan.md). No release tag has been created and no GitHub Release has been published by this planning phase.

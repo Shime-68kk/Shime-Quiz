@@ -140,3 +140,7 @@ The release candidate tag/publish gate is documented in [`release-candidate-tag-
 
 ## Phase 10L manual evidence reference
 Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-run-pack.md) may produce optional evidence artifacts. Do not commit generated artifacts, private backups, reports, screenshots, or test output unless intentionally reviewed and allowed.
+
+## Phase 10M release tag creation plan
+
+Use [`docs/release-tag-creation-plan.md`](release-tag-creation-plan.md) before any tag command. Release package publication remains separate and is not claimed by the plan.

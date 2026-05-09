@@ -132,3 +132,7 @@ Alternative: user-approved release tag creation if the user explicitly decides t
 
 ## Phase 10L manual evidence reference
 Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-run-pack.md) gathers optional evidence checklists before user-approved tag/publish. No evidence pass is claimed unless the run is actually performed.
+
+## Phase 10M release tag creation plan
+
+The follow-up tag creation plan is documented in [`docs/release-tag-creation-plan.md`](release-tag-creation-plan.md). It provides example tag names and command plans only; explicit user approval is required before tag creation or publishing.

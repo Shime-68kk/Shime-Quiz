@@ -222,3 +222,7 @@ The release candidate tag/publish gate is documented in [`release-candidate-tag-
 
 ## Phase 10L manual evidence reference
 Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-run-pack.md) can be used before publishing if the user wants additional screenshot/mobile/EduGen/cross-device/E2E/Lighthouse evidence. Do not claim those evidence passes unless actually run.
+
+## Phase 10M release tag creation plan
+
+Before this draft is published, review [`docs/release-tag-creation-plan.md`](release-tag-creation-plan.md). Tag creation and GitHub Release publication require explicit user approval and remain separate actions.

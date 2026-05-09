@@ -194,6 +194,9 @@ jobs:
       - name: Validate manual evidence run pack
         run: node scripts/validate-manual-evidence-run-pack.js
 
+      - name: Validate release tag creation plan
+        run: node scripts/validate-release-tag-creation-plan.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

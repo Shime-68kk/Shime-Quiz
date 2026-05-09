@@ -1280,3 +1280,29 @@ Scope control:
 
 Validator: `scripts/validate-manual-evidence-run-pack.js`.
 CI coverage: `.github/workflows/e2e-smoke.yml` runs the validator.
+
+## Phase 10M — Release Tag Creation Plan
+Status: documentation/static-validator/CI registration only.
+
+Phase 10M adds [`docs/release-tag-creation-plan.md`](docs/release-tag-creation-plan.md), a release tag creation plan for the current release-candidate state. Candidate tag names are examples only. Explicit user approval is required before any tag or publish action.
+
+The plan documents:
+- current package version state and publication state
+- pre-tag validation checklist
+- tag command plan only, not executed
+- rollback notes
+- GitHub Release follow-up as a separate, user-approved step
+- manual evidence gaps carried forward from Phase 10L
+- allowed and forbidden release claims
+
+Scope control:
+- No runtime app behavior changes.
+- No package version/dependency changes.
+- No release tag created.
+- No GitHub Release published.
+- No release package published.
+- No screenshot image assets added.
+- No production/security/accessibility/performance certification claim.
+
+Validator: `scripts/validate-release-tag-creation-plan.js`.
+CI coverage: `.github/workflows/e2e-smoke.yml` runs the validator.

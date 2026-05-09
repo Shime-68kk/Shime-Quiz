@@ -154,3 +154,7 @@ Forbidden claims unless the relevant run actually produced evidence:
 ## Recommended next step
 
 The user may run this manual evidence pack, proceed with user-approved release tag creation if evidence gaps are accepted, or continue to **Phase 10M — Release Tag Creation Plan**.
+
+## Phase 10M release tag creation plan
+
+Release tag creation planning is documented in [`docs/release-tag-creation-plan.md`](release-tag-creation-plan.md). It keeps actual tag creation gated on explicit user approval and does not claim a tag, GitHub Release, or release package has been published.
