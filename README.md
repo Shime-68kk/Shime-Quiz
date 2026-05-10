@@ -203,3 +203,9 @@ The release package assembly plan is documented in [`docs/release-package-assemb
 The final release execution checklist is documented in [`docs/final-release-execution-checklist.md`](docs/final-release-execution-checklist.md). It consolidates the future user-approved release flow, including validation, tag creation, package assembly, GitHub Release publication, release asset upload, and evidence recording. This phase does not execute the release: no release package has been created, published, or uploaded; no release tag has been created; no GitHub Release has been published; package version/dependencies remain unchanged; and all release actions remain gated by explicit user approval.
 
 - [Release candidate freeze / final decision memo](docs/release-candidate-freeze-final-decision.md) — final freeze memo; no tag, GitHub Release, or package publication has been executed.
+
+## Phase 11B cross-device transfer UX copy polish
+
+Phase 11B adds friendlier in-app transfer/backup wording around the existing local backup flow. The backup panel now presents the flow as “Transfer data between devices,” with “Save backup file,” “Restore from backup,” and “Move my quizzes to this device” language so non-technical users understand the manual desktop-to-phone path.
+
+Current transfer still uses manual backup/export/import. No QR transfer was implemented, no Web Share implementation was added, no WebRTC/session transfer was implemented, no backend/cloud/account sync was added, no automatic sync was added, no encryption implementation was added, no storage schema changed, no backup file format changed, no package version/dependencies changed, no release tag was created, no GitHub Release was published, and no release package was created or published.
