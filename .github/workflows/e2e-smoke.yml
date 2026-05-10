@@ -242,3 +242,6 @@ jobs:
 
       - name: Validate manual evidence execution checklist
         run: node scripts/validate-manual-evidence-execution-checklist.js
+
+      - name: Validate cross-device transfer UX decision
+        run: node scripts/validate-cross-device-transfer-ux-decision.js

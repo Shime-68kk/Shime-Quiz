@@ -189,3 +189,8 @@ The user may run optional manual evidence and fill this log, proceed with user-a
 
 Manual evidence execution guidance is documented in [`docs/manual-evidence-execution-checklist.md`](manual-evidence-execution-checklist.md). Phase 10T adds a checklist/evidence capture guide only: no manual evidence was executed, no screenshot files were added, no mobile UX pass was claimed, no configured EduGen import pass was claimed, no cross-device restore pass was claimed, no E2E pass was claimed, no Lighthouse/Core Web Vitals pass was claimed, no release tag was created, no GitHub Release was published, no release package was created or published, package version/dependencies remain unchanged, runtime app behavior was not changed, and no production/security/accessibility/performance certification is claimed. Future results should be copied into [`docs/manual-evidence-results-log.md`](manual-evidence-results-log.md) only after actual evidence exists.
 
+
+## Phase 11A cross-device transfer UX decision reference
+
+If future evidence covers transfer UX, record it separately from Phase 11A planning and reference [`docs/cross-device-transfer-ux-decision.md`](cross-device-transfer-ux-decision.md). Phase 11A creates a cross-device transfer UX decision plan only: current portability remains manual backup/export/import, no QR transfer/Web Share/WebRTC/session transfer is implemented, no backend/cloud/account sync or automatic sync is added, no encryption claim is added, runtime behavior and package version/dependencies remain unchanged, and release package/tag/GitHub Release actions remain uncreated/unpublished.
+

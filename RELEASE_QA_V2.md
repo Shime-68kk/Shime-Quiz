@@ -1516,3 +1516,50 @@ Validator:
 CI coverage:
 - `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-manual-evidence-execution-checklist.js` after the manual evidence results log validator and preserves previous validators and Playwright E2E smoke steps.
 
+
+## Phase 11A — Cross-device Transfer UX Decision / Convenience Plan
+
+Status: DOCUMENTATION / STATIC VALIDATOR / CI ONLY.
+
+Phase 11A adds [`docs/cross-device-transfer-ux-decision.md`](docs/cross-device-transfer-ux-decision.md), a Cross-device Transfer UX Decision / Convenience Plan for improving future desktop-to-phone and cross-device transfer UX without changing runtime behavior in this phase.
+
+Coverage:
+- Documents the current baseline completed/merged through Phase 10T.
+- Re-states that the app is local-first/browser-local and current portability remains backup/export/import.
+- Documents that no backend/cloud/account sync exists and no automatic cross-device sync exists.
+- Explains that desktop-to-phone transfer is currently too technical for general users and that JSON/import/export wording should move behind friendlier UX language.
+- Compares candidate solutions: one-click backup plus friendlier import UX, Web Share API sharing, QR code payloads, QR/short transfer code with a temporary transfer session, optional local-first encrypted transfer package, and optional account/cloud sync as future architecture only.
+- Recommends a staged roadmap: Phase 11B transfer UX copy and backup flow polish, Phase 11C backup format/transfer safety hardening, Phase 11D Web Share/mobile sharing prototype, Phase 11E QR/session-code prototype decision, and Phase 12 optional cloud/account sync only with explicit approval.
+- Recommends user-facing language such as Transfer data, Send to another device, Receive data, Save a backup file, Restore from backup, and Move my quizzes to this device.
+- Safety requirements cover backup data that may contain private study data, import preview, merge/replace/keep-both decision points, checksum or error detection, and no encryption/cloud-sync claims until implemented.
+
+Scope control:
+- No runtime app behavior changes.
+- No package version or dependency changes.
+- No backup/restore/import/storage source changes.
+- No QR transfer implementation.
+- No Web Share implementation.
+- No WebRTC/session transfer implementation.
+- No backend/cloud/account sync.
+- No automatic cross-device sync.
+- No encryption implementation or encrypted backup claim.
+- No release package created or published.
+- No release tag created.
+- No GitHub Release published.
+
+Claims guardrails:
+- Safe to claim the cross-device transfer UX decision plan exists.
+- Safe to claim the recommended staged roadmap exists.
+- Do not claim QR transfer implemented.
+- Do not claim Web Share implemented.
+- Do not claim WebRTC/session transfer implemented.
+- Do not claim cloud/account sync implemented.
+- Do not claim automatic cross-device sync implemented.
+- Do not claim encryption implemented.
+
+Validator:
+- `scripts/validate-cross-device-transfer-ux-decision.js`
+
+CI coverage:
+- `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-cross-device-transfer-ux-decision.js` after the Phase 10T manual evidence execution checklist validator and preserves previous validators and Playwright E2E smoke steps.
+

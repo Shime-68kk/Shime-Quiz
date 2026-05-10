@@ -173,3 +173,9 @@ Do not claim:
 ## Recommended next step
 
 The user may approve optional manual evidence execution, approve final release execution, or keep the release candidate unpublished.
+
+
+## Phase 11A cross-device transfer UX decision reference
+
+Future cross-device manual evidence can reference the Phase 11A planning document, [`docs/cross-device-transfer-ux-decision.md`](cross-device-transfer-ux-decision.md). Phase 11A adds a decision plan only: current portability remains manual backup/export/import, no QR transfer/Web Share/WebRTC/session transfer is implemented, no backend/cloud/account sync or automatic sync is added, no encryption claim is added, runtime behavior and package version/dependencies remain unchanged, and release package/tag/GitHub Release actions remain uncreated/unpublished.
+
