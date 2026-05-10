@@ -1900,3 +1900,34 @@ Scope controls for Phase 12D:
 - New validator: `scripts/validate-dashboard-today-card-runtime.js`.
 - CI registration added for the new validator.
 - Build/static validation should pass. E2E is PASS only when browser execution actually passes; otherwise classify browser failures as environment-blocked, not product failure.
+
+## Phase 12F — Unit Test Foundation Plan
+
+Phase 12F adds `docs/unit-test-foundation-plan.md` and keeps Phase 12E as the completed baseline.
+
+Covered planning areas:
+
+- candidate pure-function test targets documented
+- future Vitest strategy documented
+- future CI expectations documented
+- recommended next phase: Phase 12G — Vitest Unit Test Foundation
+
+Scope boundaries:
+
+- no runtime app behavior changes
+- no `src/` changes
+- no `e2e/` changes
+- no tests added
+- no Vitest added
+- no package version/dependency changes
+- no algorithm changes
+- no Study Room/Dashboard behavior changes
+- no storage schema changes
+- no backup format changes
+- no IndexedDB/FSRS/cloud/account/encryption implementation
+- no release package/tag/GitHub Release created
+
+Validation:
+
+- new validator: `scripts/validate-unit-test-foundation-plan.js`
+- CI registration added for the new validator

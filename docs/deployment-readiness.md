@@ -232,3 +232,7 @@ Phase 12D adds Dashboard Today Card UX planning only and does not change deploym
 ## Phase 12E Dashboard Today Card runtime deployment note
 
 Phase 12E adds a Dashboard Today Card runtime surface and does not change deployment requirements. The app remains a local-first/browser-local frontend with no backend, cloud, or account sync requirement. Manual backup/export/import remains the portability model, and EduGen/File Processor boundaries for document conversion remain unchanged.
+
+## Phase 12F unit test planning deployment note
+
+Phase 12F Unit Test Foundation planning does not change deployment requirements. Shime remains a local-first browser app with no backend/cloud/account sync requirement. EduGen/File Processor remains separate; document import using PDF/DOCX/PPTX/ZIP conversion still requires a browser-reachable `VITE_FILE_PROCESSOR_URL`, and frontend-only hosting does not provide document conversion by itself. Manual backup/export/import remains the portability model.

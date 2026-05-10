@@ -1,0 +1,68 @@
+import fs from 'node:fs';
+import { execSync } from 'node:child_process';
+
+const requiredFiles = [
+  'docs/unit-test-foundation-plan.md',
+  'docs/phase12-roadmap-risk-register.md',
+  'README.md',
+  'RELEASE_QA_V2.md',
+  'docs/public-release-notes.md',
+  'docs/deployment-readiness.md',
+  '.github/workflows/e2e-smoke.yml',
+];
+const allowedChangedFiles = new Set([
+  '.github/workflows/e2e-smoke.yml',
+  'README.md',
+  'RELEASE_QA_V2.md',
+  'docs/unit-test-foundation-plan.md',
+  'docs/phase12-roadmap-risk-register.md',
+  'docs/public-release-notes.md',
+  'docs/deployment-readiness.md',
+  'scripts/validate-unit-test-foundation-plan.js',
+]);
+const forbiddenChangedFiles = ['package.json','package-lock.json','vite.config','vite.config.js','vite.config.mjs','playwright.config','playwright.config.js'];
+const forbiddenChangedPrefixes = ['src/','e2e/','tests/','__tests__/'];
+const generatedArtifacts = ['node_modules','dist','test-results','playwright-report','coverage','FETCH_HEAD'];
+const publicClaimFiles = ['README.md','RELEASE_QA_V2.md','docs/unit-test-foundation-plan.md','docs/phase12-roadmap-risk-register.md','docs/public-release-notes.md','docs/deployment-readiness.md'];
+function fail(message){ console.error(`Phase 12F validation failed: ${message}`); process.exit(1); }
+function warn(message){ console.warn(`Phase 12F validation warning: ${message}`); }
+function read(file){ if(!fs.existsSync(file)) fail(`Missing required file: ${file}`); return fs.readFileSync(file,'utf8'); }
+function normalize(text){ return String(text).toLowerCase().replace(/[`*_()[\]\/]+/g,' ').replace(/[\u2010-\u2015]/g,'-').replace(/[“”]/g,'"').replace(/\s+/g,' ').trim(); }
+function requireIncludes(file, terms){ const text=normalize(read(file)); for(const term of terms){ if(!text.includes(normalize(term))) fail(`${file} must mention: ${term}`); } }
+function requireAny(file,label,patterns){ const text=normalize(read(file)); if(!patterns.some((p)=>text.includes(normalize(p)))) fail(`${file} must mention ${label}; accepted wording: ${patterns.join(' | ')}`); }
+function runGit(command, options={}){ try { return execSync(command,{encoding:'utf8',stdio:['ignore','pipe','pipe'],...options}).trim(); } catch { if(!options.silent) warn(`Git command failed; changed-file scope checking may be limited: ${command}`); return ''; } }
+function splitLines(output){ return output ? output.split(/\r?\n/).map((line)=>line.trim()).filter(Boolean) : []; }
+function uniqueSorted(files){ return [...new Set(files)].sort((a,b)=>a.localeCompare(b)); }
+function changedFilesFromPullRequestBase(){ const baseRef=process.env.GITHUB_BASE_REF; if(!baseRef) return []; runGit(`git fetch --no-tags --depth=1 origin ${baseRef}`,{silent:true}); const mergeBase=runGit(`git merge-base HEAD origin/${baseRef}`,{silent:true}); if(!mergeBase){ warn(`Could not compute merge base against origin/${baseRef}; falling back to local changed-file detection.`); return []; } return splitLines(runGit(`git diff --name-only ${mergeBase} HEAD`,{silent:true})); }
+function changedFilesFromLocalFallbacks({includeUntracked=true}={}){ const files=[...splitLines(runGit('git diff --name-only HEAD',{silent:true})),...splitLines(runGit('git diff --cached --name-only',{silent:true}))]; if(includeUntracked) files.push(...splitLines(runGit('git ls-files --others --exclude-standard',{silent:true}))); if(files.length===0 && !runGit('git rev-parse --is-inside-work-tree',{silent:true})) warn('Git is unavailable; changed-file scope checks are limited to content checks.'); return files; }
+function changedFiles({includeUntracked=true}={}){ const prBaseFiles=changedFilesFromPullRequestBase(); if(prBaseFiles.length>0) return uniqueSorted(prBaseFiles); return uniqueSorted(changedFilesFromLocalFallbacks({includeUntracked})); }
+function trackedFiles(){ return uniqueSorted(splitLines(runGit('git ls-files',{silent:true}))); }
+function scopeGuard(){ const changed=changedFiles(); for(const file of changed){ if(generatedArtifacts.some((a)=>file===a||file.startsWith(`${a}/`))) continue; if(forbiddenChangedFiles.includes(file)) fail(`Forbidden file changed: ${file}`); if(forbiddenChangedPrefixes.some((p)=>file.startsWith(p))) fail(`Forbidden path changed: ${file}`); if(!allowedChangedFiles.has(file)) fail(`Unexpected changed file for Phase 12F scope: ${file}`); } }
+function generatedArtifactGuard(){ const files=uniqueSorted([...changedFiles({includeUntracked:false}),...trackedFiles()]); for(const artifact of generatedArtifacts){ if(files.some((file)=>file===artifact||file.startsWith(`${artifact}/`))) fail(`Generated artifact appears in changed or tracked files: ${artifact}`); } }
+function lineIsSafe(line){ const safeMarkers=['not added','not implemented','not changed','not change','not created','not published','planned','future','non-goal','non-goals','forbidden claim','forbidden claims','does not','do not','no ','without','unchanged','remains','preserve','requirements','should not','must not','only if approved','candidate','strategy','expectations']; const normalized=normalize(line); return safeMarkers.some((m)=>normalized.includes(normalize(m))); }
+function forbiddenOverclaimGuard(){ const phrases=['Vitest added','unit tests added','coverage added','test script added','package dependencies changed','package version changed','algorithms changed','FSRS implemented','IndexedDB implemented','release package created','release tag created','GitHub Release published']; for(const file of publicClaimFiles){ const lines=read(file).split(/\r?\n/); let inForbiddenSection=false; for(const line of lines){ const normalizedLine=normalize(line); if(normalizedLine.includes('forbidden')) inForbiddenSection=true; else if(/^##\s+/.test(line)&&inForbiddenSection) inForbiddenSection=false; if(inForbiddenSection) continue; for(const phrase of phrases){ if(normalizedLine.includes(normalize(phrase))&&!lineIsSafe(line)) fail(`Unsupported positive overclaim in ${file}: ${line.trim()}`); } } } }
+function validate(){
+  for(const file of requiredFiles) read(file);
+  requireIncludes('docs/unit-test-foundation-plan.md',['Phase 12F','Unit Test Foundation Plan','completed/merged through Phase 12E','Vitest','unit tests','candidate test targets','spaced repetition','mastery','weighted selection','parser','import validation','backup validation','storage quota helper','Dashboard Today Card','CI expectations','non-goals','allowed claims','forbidden claims','Phase 12G','Vitest Unit Test Foundation']);
+  requireAny('docs/unit-test-foundation-plan.md','Vitest not added by Phase 12F',['Phase 12F does not add Vitest','Vitest is not added by Phase 12F']);
+  requireAny('docs/unit-test-foundation-plan.md','unit tests not added by Phase 12F',['Phase 12F does not add unit tests','unit tests are not added by Phase 12F']);
+  requireAny('docs/unit-test-foundation-plan.md','test scripts not added by Phase 12F',['does not add test scripts','test scripts are not added by Phase 12F']);
+  requireAny('docs/unit-test-foundation-plan.md','coverage tooling not added by Phase 12F',['does not add coverage tooling','coverage tooling is not added by Phase 12F']);
+  requireAny('docs/unit-test-foundation-plan.md','package dependencies not changed by Phase 12F',['No package/dependency changes were made by Phase 12F','package dependencies are not changed by Phase 12F','does not add dependencies']);
+  requireAny('docs/unit-test-foundation-plan.md','package.json not changed by Phase 12F',['does not change package.json','package.json is not changed by Phase 12F']);
+  requireAny('docs/unit-test-foundation-plan.md','package-lock.json not changed by Phase 12F',['does not change package-lock.json','package-lock.json is not changed by Phase 12F']);
+  requireAny('docs/unit-test-foundation-plan.md','runtime app behavior not changed by Phase 12F',['does not change runtime app behavior','runtime app behavior is not changed by Phase 12F']);
+  requireAny('docs/unit-test-foundation-plan.md','algorithms not changed by Phase 12F',['does not change algorithms','algorithms are not changed by Phase 12F']);
+  requireIncludes('README.md',['docs/unit-test-foundation-plan.md','Unit Test Foundation Plan']);
+  requireAny('README.md','Vitest/tests not added or planned for future',['does not add Vitest, does not add unit tests','Vitest/tests are not added']);
+  requireAny('README.md','package/dependencies unchanged',['does not change package/dependencies','package/dependencies are unchanged']);
+  requireIncludes('RELEASE_QA_V2.md',['Phase 12F','Unit Test Foundation Plan','no runtime app behavior changes','no `src/` changes','no tests added','no Vitest added','no package version/dependency changes','no algorithm changes']);
+  requireIncludes('docs/phase12-roadmap-risk-register.md',['Phase 12F','Unit Test Foundation','Phase 12G','Vitest Unit Test Foundation']);
+  requireIncludes('docs/public-release-notes.md',['unit test foundation planning']);
+  requireAny('docs/deployment-readiness.md','unit test foundation planning or no deployment requirement change',['Unit Test Foundation planning does not change deployment requirements','unit test foundation planning']);
+  requireIncludes('docs/deployment-readiness.md',['local-first','no backend','cloud','account sync']);
+  requireIncludes('.github/workflows/e2e-smoke.yml',['node scripts/validate-unit-test-foundation-plan.js']);
+  scopeGuard(); generatedArtifactGuard(); forbiddenOverclaimGuard();
+  console.log('Phase 12F Unit Test Foundation Plan validation passed.');
+}
+validate();

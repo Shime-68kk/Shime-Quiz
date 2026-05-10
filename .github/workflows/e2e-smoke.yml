@@ -276,3 +276,4 @@ jobs:
       - name: Validate Phase 12D Dashboard Today Card UX plan
         run: node scripts/validate-dashboard-today-card-ux-plan.js
           node scripts/validate-dashboard-today-card-runtime.js
+          node scripts/validate-unit-test-foundation-plan.js
