@@ -1563,3 +1563,51 @@ Validator:
 CI coverage:
 - `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-cross-device-transfer-ux-decision.js` after the Phase 10T manual evidence execution checklist validator and preserves previous validators and Playwright E2E smoke steps.
 
+
+## Phase 11B — Cross-device Transfer UX Copy + Backup Flow Polish
+
+Status: RUNTIME UI COPY / DOCUMENTATION / STATIC VALIDATOR / CI ONLY.
+
+Phase 11B polishes the existing backup/restore surface with user-friendly cross-device transfer language while preserving the current local-first backup/export/import mechanics. It follows the Phase 11A staged roadmap and does not implement a new transfer transport.
+
+Coverage:
+- The backup panel now frames the flow as transfer data between devices and this device only.
+- Export/download action copy is friendlier: Save backup file.
+- Restore/import action copy is friendlier: Restore from backup and Move my quizzes to this device.
+- Helper text explains that Shime stores data on this device and that moving quizzes to another device currently means saving a backup file on one device and restoring it on the other.
+- Privacy copy warns that backup files may include quiz content, answers, progress, and study history.
+- No-sync copy states that the flow does not create automatic cloud sync.
+- Existing preview/confirmation behavior is preserved and clarified. Future import preview, merge/replace/keep-both, checksum, compression, or encryption hardening remains Phase 11C scope unless separately approved.
+
+Scope control:
+- Runtime app copy changed only in the existing backup/restore UI.
+- No backup/restore behavior change.
+- No storage schema change.
+- No backup file format change.
+- No package version or dependency changes.
+- No QR transfer implementation.
+- No transfer code implementation.
+- No WebRTC/session transfer implementation.
+- No Web Share/PWA Share Target implementation.
+- No backend/cloud/account sync.
+- No automatic sync.
+- No encryption implementation or encrypted-backup claim.
+- No release package created or published.
+- No release tag created.
+- No GitHub Release published.
+
+Claims guardrails:
+- Safe to claim transfer UX copy was polished.
+- Safe to claim friendlier backup/restore wording exists.
+- Do not claim QR transfer implemented.
+- Do not claim Web Share implemented.
+- Do not claim WebRTC/session transfer implemented.
+- Do not claim cloud/account sync implemented.
+- Do not claim automatic sync implemented.
+- Do not claim encryption implemented.
+
+Validator:
+- `scripts/validate-cross-device-transfer-ux-copy.js`
+
+CI coverage:
+- `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-cross-device-transfer-ux-copy.js` after the Phase 11A cross-device transfer UX decision validator and preserves previous validators and Playwright E2E smoke steps.

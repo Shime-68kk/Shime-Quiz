@@ -173,3 +173,7 @@ Manual evidence execution guidance is documented in [`docs/manual-evidence-execu
 
 Deployment readiness now references the planning-only cross-device transfer UX decision at [`docs/cross-device-transfer-ux-decision.md`](cross-device-transfer-ux-decision.md). Deployment claims remain unchanged: current portability remains manual backup/export/import; no QR transfer, Web Share, WebRTC/session transfer, backend/cloud/account sync, automatic sync, encryption, runtime behavior change, package/dependency change, release package, release tag, or GitHub Release was added.
 
+
+## Phase 11B transfer UX copy note
+
+Phase 11B improves the user-facing wording of the existing backup/restore UI for manual device transfer. Deployment claims remain unchanged: current portability still uses manual backup/export/import, no QR transfer, Web Share, WebRTC/session transfer, backend/cloud/account sync, automatic sync, encryption, storage schema change, backup file format change, package/dependency change, release package, release tag, or GitHub Release was added.

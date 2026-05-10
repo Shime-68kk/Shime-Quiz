@@ -245,3 +245,6 @@ jobs:
 
       - name: Validate cross-device transfer UX decision
         run: node scripts/validate-cross-device-transfer-ux-decision.js
+
+      - name: Validate cross-device transfer UX copy polish
+        run: node scripts/validate-cross-device-transfer-ux-copy.js

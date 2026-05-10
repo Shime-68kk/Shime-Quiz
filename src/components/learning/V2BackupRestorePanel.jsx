@@ -67,7 +67,7 @@ function RestorePreview({ preview, fileName, onApply, onCancel, isRestoring }) {
   const backupMode = preview.validation?.backupMode || V2_BACKUP_MODES.FULL;
 
   return (
-    <Card title="Xem trước file sao lưu" eyebrow="Xem trước khôi phục" variant="elevated" className="backupPreview">
+    <Card title="Review backup file" eyebrow="Chọn file sao lưu" variant="elevated" className="backupPreview">
       <div className="backupPreview__header">
         <div>
           <p className="muted">File đã chọn</p>
@@ -104,15 +104,15 @@ function RestorePreview({ preview, fileName, onApply, onCancel, isRestoring }) {
       ) : null}
 
       <p className="muted">
-        Khôi phục chỉ ghi đè các khóa dữ liệu v2 được nhận diện. Dữ liệu trình duyệt khác và cache PWA không bị thay đổi.
+        Restore from backup only writes recognized Shime v2 data keys. Other browser data and PWA cache are not changed.
       </p>
 
       <div className="backupActions">
         <Button type="button" onClick={onApply} disabled={!preview.ok || !restoreSupported} loading={isRestoring}>
-          Khôi phục dữ liệu
+          Move my quizzes to this device
         </Button>
         <Button type="button" variant="ghost" onClick={onCancel}>
-          Hủy
+          Cancel
         </Button>
       </div>
     </Card>
@@ -161,10 +161,10 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
       const downloadResult = downloadV2Backup(result.payload, filename);
       setStatus({
         tone: downloadResult.ok ? 'success' : 'danger',
-        title: downloadResult.ok ? 'Đã tạo file sao lưu' : 'Không thể tải file sao lưu',
+        title: downloadResult.ok ? 'Đã tạo file sao lưu' : 'Could not save backup file',
         description: downloadResult.ok
-          ? `Đã tải file ${backupModeLabels[backupMode] || 'sao lưu'}: ${filename}.`
-          : downloadResult.message || 'Trình duyệt không cho phép tạo file tải xuống lúc này.'
+          ? `Save this ${backupModeLabels[backupMode] || 'backup file'} and restore it on the other device: ${filename}.`
+          : downloadResult.message || 'The browser did not allow Shime to create a download right now.'
       });
     } finally {
       setIsExporting(false);
@@ -184,10 +184,10 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
       setPreview(parsed);
       setStatus({
         tone: parsed.ok ? 'success' : 'danger',
-        title: parsed.ok ? 'Đã đọc file sao lưu' : 'File sao lưu không hợp lệ',
+        title: parsed.ok ? 'Backup file ready to restore' : 'Backup file is not valid',
         description: parsed.ok
-          ? 'Hãy kiểm tra danh sách dữ liệu trước khi khôi phục.'
-          : 'File bị lỗi hoặc không đúng định dạng sao lưu v2.'
+          ? 'Review the data list before moving these quizzes to this device.'
+          : 'The file is damaged or is not a Shime v2 backup file.'
       });
     } catch (error) {
       setPreview(null);
@@ -203,7 +203,7 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
 
   function applyRestore() {
     if (!preview?.ok || !preview.payload) return;
-    const confirmed = window.confirm('Dữ liệu v2 trong file sao lưu sẽ được khôi phục và có thể ghi đè dữ liệu hiện tại. Bạn có chắc chắn?');
+    const confirmed = window.confirm('Restore from backup? This can overwrite current Shime data on this device. Make sure this is the backup file you want to receive.');
     if (!confirmed) return;
 
     setIsRestoring(true);
@@ -228,8 +228,8 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
 
       setStatus({
         tone: 'success',
-        title: 'Khôi phục thành công',
-        description: 'Dữ liệu v2 đã được khôi phục. Dashboard và thư viện sẽ tự cập nhật.'
+        title: 'Restore complete',
+        description: 'The backup has been restored on this device. Dashboard and Library will update automatically.'
       });
       resetRestorePreview();
     } finally {
@@ -238,13 +238,16 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
   }
 
   return (
-    <Card title="Sao lưu dữ liệu" eyebrow="Sao lưu v2" variant="elevated" className="backupRestoreCard">
+    <Card title="Sao lưu dữ liệu" eyebrow="Sao lưu v2 · This device only" variant="elevated" className="backupRestoreCard">
       <p className="muted">
-        Sao lưu gồm thư viện, lịch sử học, lịch ôn tập, phản hồi gợi ý, mục tiêu học tập và tiến trình kế hoạch. Bản nháp Phòng học không được sao lưu để tránh khôi phục phiên học đã cũ.
+        Transfer data between devices. Receive data from a backup file on this device. Shime stores data on this device. To move quizzes to another device, save a backup file here, then restore it on the other device. Current transfer uses the existing backup file flow; it does not create automatic cloud sync. Transfer data between devices with a backup file. Save backup file on this device, then restore it on the other device. Use the backup action to save a backup file before restoring it on another device.
+      </p>
+      <p className="muted">
+        This backup can include the library, study history, review schedule, recommendation feedback, study goal, and plan progress. Study Room drafts are not included so old study sessions are not restored accidentally.
       </p>
 
       <div className="backupPlaintextNotice" role="note">
-        <strong>Lưu ý bảo mật:</strong> Ứng dụng chạy cục bộ trên trình duyệt. Dữ liệu học và đáp án có thể tồn tại trong bộ nhớ trình duyệt hoặc file sao lưu. Không dùng chế độ này như một hệ thống chống gian lận tuyệt đối. File sao lưu đầy đủ là JSON văn bản thuần và có thể chứa đáp án đúng. Hãy lưu trữ cẩn thận.
+        <strong>Privacy note:</strong> Backup files may include quiz content, answers, progress, and study history. Keep them private and only send them through places you trust. This is a manual transfer file, not cloud or account sync.
       </div>
 
       {lastBackupSize ? (
@@ -283,7 +286,7 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
           Sao lưu dữ liệu
         </Button>
         <Button type="button" variant="secondary" onClick={openRestoreFilePicker} loading={isReading}>
-          Chọn file sao lưu
+          Restore from backup
         </Button>
       </div>
 
@@ -293,7 +296,7 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
         accept="application/json,.json"
         className="srOnly"
         onChange={handleRestoreFile}
-        aria-label="Chọn file sao lưu"
+        aria-label="Chọn file sao lưu from a backup file"
       />
 
       {status ? <Toast tone={status.tone} title={status.title} description={status.description} /> : null}

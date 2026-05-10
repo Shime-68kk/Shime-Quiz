@@ -254,3 +254,8 @@ Other valid next choices:
 
 - Stop and keep the release candidate unpublished.
 - Run user-approved final release execution.
+
+
+## Phase 11B follow-up: transfer UX copy polish
+
+Phase 11B implements the first recommended runtime polish from this plan by updating existing backup/restore UI copy to friendlier transfer language. It keeps current manual backup/export/import mechanics and does not add QR transfer, Web Share, WebRTC/session transfer, backend/cloud/account sync, automatic sync, encryption, storage schema changes, backup file format changes, package/dependency changes, release tags, GitHub Releases, or release packages.

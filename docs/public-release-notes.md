@@ -205,3 +205,7 @@ Manual evidence execution guidance is documented in [`docs/manual-evidence-execu
 
 The cross-device transfer UX decision plan is documented in [`docs/cross-device-transfer-ux-decision.md`](cross-device-transfer-ux-decision.md). It is not a shipped runtime feature: current portability remains manual backup/export/import; no QR transfer, Web Share, WebRTC/session transfer, backend/cloud/account sync, automatic sync, encryption, runtime behavior change, package/dependency change, release package, release tag, or GitHub Release was added.
 
+
+## Phase 11B transfer UX copy polish note
+
+Phase 11B adds friendlier transfer/backup UI copy for the existing local-first backup flow. It helps users understand that moving quizzes between devices currently means saving a backup file and restoring it on the other device. This is not QR transfer, Web Share, WebRTC/session transfer, backend/cloud/account sync, automatic sync, encryption, a storage schema change, a backup file format change, a package/dependency change, a release package, a release tag, or a published GitHub Release.
