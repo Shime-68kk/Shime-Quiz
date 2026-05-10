@@ -123,3 +123,7 @@ Do not claim:
 ## Recommended next step
 
 Recommended next step: user-approved final release execution, or stop planning and keep the release candidate unpublished.
+
+## Phase 10R follow-up
+
+See [Release Candidate Freeze / Final Decision Memo](release-candidate-freeze-final-decision.md). The freeze memo confirms the planning track is complete, no release action was executed, and final release/package/tag/GitHub Release actions remain gated by explicit user approval.

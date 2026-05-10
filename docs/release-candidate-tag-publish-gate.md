@@ -153,3 +153,7 @@ The final release execution checklist is documented in [`docs/final-release-exec
 ## Final main release authorization reference
 
 See [`docs/final-main-release-authorization.md`](final-main-release-authorization.md) for the final main release authorization packet. Release actions remain gated by explicit user approval.
+
+## Phase 10R follow-up
+
+See [Release Candidate Freeze / Final Decision Memo](release-candidate-freeze-final-decision.md). Release actions remain gated by explicit user approval.

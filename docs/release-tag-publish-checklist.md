@@ -215,3 +215,7 @@ The final release execution checklist is documented in [`docs/final-release-exec
 ## Final main release authorization reference
 
 See [`docs/final-main-release-authorization.md`](final-main-release-authorization.md) for the final authorization packet before tag, package, or GitHub Release execution.
+
+## Phase 10R follow-up
+
+See [Release Candidate Freeze / Final Decision Memo](release-candidate-freeze-final-decision.md). Tag/publish actions remain unexecuted and require explicit user approval.

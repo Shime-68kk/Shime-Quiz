@@ -160,3 +160,7 @@ The final release execution checklist is documented in [`docs/final-release-exec
 ## Final main release authorization reference
 
 See [`docs/final-main-release-authorization.md`](final-main-release-authorization.md) for the final main release authorization packet. It keeps evidence gaps and publication state explicit before any release execution.
+
+## Phase 10R follow-up
+
+See [Release Candidate Freeze / Final Decision Memo](release-candidate-freeze-final-decision.md). The final decision memo closes the planning track without creating a tag, package, or GitHub Release.

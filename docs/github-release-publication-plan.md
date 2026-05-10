@@ -156,3 +156,7 @@ The final release execution checklist is documented in [`docs/final-release-exec
 ## Final main release authorization reference
 
 See [`docs/final-main-release-authorization.md`](final-main-release-authorization.md) for the final main release authorization packet. GitHub Release publication remains a separate explicit user-approved action.
+
+## Phase 10R follow-up
+
+See [Release Candidate Freeze / Final Decision Memo](release-candidate-freeze-final-decision.md). GitHub Release publication remains unexecuted and requires explicit user approval.

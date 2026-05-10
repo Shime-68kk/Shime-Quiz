@@ -183,3 +183,5 @@ The release package assembly plan is documented in [`docs/release-package-assemb
 ## Phase 10P final release execution checklist
 
 The final release execution checklist is documented in [`docs/final-release-execution-checklist.md`](docs/final-release-execution-checklist.md). It consolidates the future user-approved release flow, including validation, tag creation, package assembly, GitHub Release publication, release asset upload, and evidence recording. This phase does not execute the release: no release package has been created, published, or uploaded; no release tag has been created; no GitHub Release has been published; package version/dependencies remain unchanged; and all release actions remain gated by explicit user approval.
+
+- [Release candidate freeze / final decision memo](docs/release-candidate-freeze-final-decision.md) — final freeze memo; no tag, GitHub Release, or package publication has been executed.

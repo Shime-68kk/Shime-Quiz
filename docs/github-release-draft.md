@@ -243,3 +243,7 @@ The final release execution checklist is documented in [`docs/final-release-exec
 ## Final main release authorization reference
 
 See [`docs/final-main-release-authorization.md`](final-main-release-authorization.md) before using this draft for any user-approved GitHub Release publication.
+
+## Phase 10R follow-up
+
+See [Release Candidate Freeze / Final Decision Memo](release-candidate-freeze-final-decision.md). The GitHub Release draft remains unpublished until explicit user approval.

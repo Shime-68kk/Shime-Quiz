@@ -233,3 +233,6 @@ jobs:
 
       - name: Validate final main release authorization
         run: node scripts/validate-final-main-release-authorization.js
+
+      - name: Validate release candidate freeze final decision
+        run: node scripts/validate-release-candidate-freeze-final-decision.js
