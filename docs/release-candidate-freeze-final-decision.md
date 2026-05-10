@@ -113,3 +113,7 @@ Do not claim:
 - User-approved final release execution.
 - Optional manual evidence run.
 - Or stop planning and keep the release candidate unpublished.
+
+## Phase 10S follow-on evidence results log
+
+[`docs/manual-evidence-results-log.md`](manual-evidence-results-log.md) now provides an optional future evidence results template. Phase 10S does not execute manual evidence, does not capture screenshots, does not claim evidence PASS, does not create a release tag, does not publish a GitHub Release, does not create or publish a release package, does not change package version/dependencies, and does not change runtime app behavior.

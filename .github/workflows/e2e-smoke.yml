@@ -236,3 +236,6 @@ jobs:
 
       - name: Validate release candidate freeze final decision
         run: node scripts/validate-release-candidate-freeze-final-decision.js
+
+      - name: Validate manual evidence results log
+        run: node scripts/validate-manual-evidence-results-log.js

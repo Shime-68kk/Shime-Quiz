@@ -159,3 +159,7 @@ See [`docs/final-main-release-authorization.md`](final-main-release-authorizatio
 ## Phase 10R release freeze note
 
 See [Release Candidate Freeze / Final Decision Memo](release-candidate-freeze-final-decision.md). Deployment/release execution remains unpublished and requires explicit user approval; known evidence gaps remain documented.
+
+## Phase 10S evidence log reference
+
+Future deployment or release evidence can be recorded in [`docs/manual-evidence-results-log.md`](manual-evidence-results-log.md) only after actual runs. Phase 10S adds a template only and does not execute manual evidence, create a tag, publish a GitHub Release, create/publish a release package, capture screenshots, claim Lighthouse/Core Web Vitals passed, change package version/dependencies, change runtime behavior, or certify production/security/accessibility/performance readiness.

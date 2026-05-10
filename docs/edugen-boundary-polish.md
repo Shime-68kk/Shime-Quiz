@@ -141,3 +141,7 @@ The final public release readiness re-audit is documented in [`docs/final-public
 
 ## Phase 10L manual evidence reference
 Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-run-pack.md) includes the optional configured EduGen document import evidence checklist. Configured document import is not claimed as passed without a real service run.
+
+## Phase 10S evidence log reference
+
+Record future configured EduGen/File Processor import results in [`docs/manual-evidence-results-log.md`](manual-evidence-results-log.md) only after an actual configured service run. Phase 10S adds the template only and does not claim configured EduGen import passed, does not bundle EduGen, does not add frontend-only PDF/DOCX/PPTX/ZIP conversion, and does not change runtime behavior or dependencies.

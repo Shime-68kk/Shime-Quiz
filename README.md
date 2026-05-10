@@ -123,8 +123,13 @@ Actual screenshot image files are not included yet; the screenshot checklist exi
 - Performance / bundle-size audit: [`docs/performance-bundle-audit.md`](docs/performance-bundle-audit.md)
 - Mobile UX smoke checklist: [`docs/mobile-ux-smoke.md`](docs/mobile-ux-smoke.md)
 - EduGen/File Processor boundary polish: [`docs/edugen-boundary-polish.md`](docs/edugen-boundary-polish.md)
+- Manual evidence results log/template: [`docs/manual-evidence-results-log.md`](docs/manual-evidence-results-log.md)
 
 The release candidate tag/publish gate documents that explicit user approval is required before tagging or publishing. The release tag decision, GitHub Release draft, and publish checklist are documentation only. They do not create a tag, publish a GitHub Release, or certify production/security/accessibility readiness.
+
+## Phase 10S manual evidence results log
+
+The optional manual evidence results log/template is documented in [`docs/manual-evidence-results-log.md`](docs/manual-evidence-results-log.md). Phase 10S adds a structured place to record future evidence results only. No manual evidence was executed by Phase 10S, no screenshot files were added, no mobile UX pass was claimed, no configured EduGen import pass was claimed, no cross-device restore pass was claimed, no Lighthouse/Core Web Vitals pass was claimed, no release tag was created, no GitHub Release was published, and no release package was created or published. Package version/dependencies remain unchanged, no runtime app behavior changed, and no production/security/accessibility/performance certification is claimed.
 
 ## Validation
 

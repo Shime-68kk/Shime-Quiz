@@ -191,3 +191,7 @@ See [`docs/final-main-release-authorization.md`](final-main-release-authorizatio
 ## Phase 10R release freeze note
 
 See [Release Candidate Freeze / Final Decision Memo](release-candidate-freeze-final-decision.md). The release candidate freeze memo exists; no release tag, GitHub Release, release package, production/security/accessibility/performance certification, or unsupported AI/EduGen/OCR/backend/cloud/account-sync claim is made.
+
+## Phase 10S manual evidence results log note
+
+[`docs/manual-evidence-results-log.md`](manual-evidence-results-log.md) exists as an optional future evidence result template. Phase 10S does not execute manual evidence, capture screenshots, claim mobile/EduGen/cross-device/Lighthouse PASS, create a release tag, publish a GitHub Release, create or publish a release package, change package version/dependencies, change runtime behavior, or add certification claims.

@@ -1456,3 +1456,32 @@ New validator: `scripts/validate-final-main-release-authorization.js`. CI covera
 - No production/security/accessibility/performance certification claimed.
 - New validator: `scripts/validate-release-candidate-freeze-final-decision.js`.
 - CI coverage added for `validate-release-candidate-freeze-final-decision`.
+
+
+## Phase 10S — Optional Manual Evidence Run Log / Evidence Results Template
+
+Status: DOCUMENTATION / STATIC VALIDATOR / CI ONLY.
+
+Phase 10S adds [`docs/manual-evidence-results-log.md`](docs/manual-evidence-results-log.md), an optional manual evidence results log/template for future user-approved evidence recording.
+
+Coverage:
+- Default evidence statuses remain NOT RUN unless separately executed.
+- Result categories are documented: PASS, PARTIAL PASS, FAIL, NOT RUN, and ENVIRONMENT-BLOCKED.
+- Evidence fields are documented for date/time, commit SHA, branch, environment, browser/device/viewport, command or manual path used, result, evidence artifact path or URL, notes, blocker/follow-up, and claim allowed after this evidence.
+- Evidence areas include screenshot capture, mobile/responsive smoke, configured EduGen/File Processor import, cross-device backup/restore, E2E smoke/onboarding, Lighthouse/Core Web Vitals, release package/tag/GitHub Release evidence if later executed, and final release evidence notes if later executed.
+- Claims guardrails state that no PASS claim is allowed from template existence alone.
+- Phase 10S does not execute manual evidence, capture screenshots, claim mobile UX passed, claim configured EduGen import passed, claim cross-device restore passed, claim Lighthouse/Core Web Vitals passed, create a release tag, publish a GitHub Release, or create/publish a release package.
+
+Scope control:
+- No runtime app behavior changes.
+- No package version or dependency changes.
+- No E2E spec/test logic changes.
+- No release action executed.
+- No production/security/accessibility/performance certification claim.
+- No unsupported backend/cloud sync, OCR, built-in AI generation, EduGen bundled, or frontend-only document conversion claims.
+
+Validator:
+- `scripts/validate-manual-evidence-results-log.js`
+
+CI coverage:
+- `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-manual-evidence-results-log.js` and preserves previous validators and Playwright E2E smoke steps.

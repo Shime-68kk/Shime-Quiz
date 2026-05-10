@@ -131,3 +131,7 @@ The final public release readiness re-audit is documented in [`docs/final-public
 
 ## Phase 10L manual evidence reference
 Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-run-pack.md) includes the optional cross-device backup/restore evidence checklist. Cross-device restore is not claimed as passed without a source/destination or clean-profile run.
+
+## Phase 10S evidence log reference
+
+Record future cross-device backup/restore results in [`docs/manual-evidence-results-log.md`](manual-evidence-results-log.md) only after an actual source/destination or clean-profile run. Phase 10S adds the template only and does not claim cross-device restore passed, does not add account/cloud sync, and does not change runtime behavior or dependencies.

@@ -155,3 +155,7 @@ See [`docs/final-main-release-authorization.md`](final-main-release-authorizatio
 ## Phase 10R follow-up
 
 See [Release Candidate Freeze / Final Decision Memo](release-candidate-freeze-final-decision.md). The freeze memo keeps release execution unpublished and documents final decision options.
+
+## Phase 10S evidence log reference
+
+Use [`docs/manual-evidence-results-log.md`](manual-evidence-results-log.md) for future optional evidence result recording if manual evidence or release evidence is actually executed. Template existence alone does not allow PASS claims. Phase 10S does not execute release actions, create a tag, publish a GitHub Release, create/publish a package, capture screenshots, claim mobile/EduGen/cross-device/Lighthouse PASS, change package version/dependencies, or change runtime app behavior.

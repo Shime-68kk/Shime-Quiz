@@ -117,3 +117,7 @@ The final public release readiness re-audit is documented in [`docs/final-public
 
 ## Phase 10L manual evidence reference
 Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-run-pack.md) includes optional Lighthouse/Core Web Vitals measurement guidance. No Lighthouse/Core Web Vitals pass or performance certification is claimed unless measured.
+
+## Phase 10S evidence log reference
+
+Record future Lighthouse/Core Web Vitals results in [`docs/manual-evidence-results-log.md`](manual-evidence-results-log.md) only after measurement. Phase 10S adds the template only and does not claim Lighthouse/Core Web Vitals passed, does not claim performance certification, and does not change runtime behavior or dependencies.
