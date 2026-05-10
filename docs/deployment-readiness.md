@@ -236,3 +236,8 @@ Phase 12E adds a Dashboard Today Card runtime surface and does not change deploy
 ## Phase 12F unit test planning deployment note
 
 Phase 12F Unit Test Foundation planning does not change deployment requirements. Shime remains a local-first browser app with no backend/cloud/account sync requirement. EduGen/File Processor remains separate; document import using PDF/DOCX/PPTX/ZIP conversion still requires a browser-reachable `VITE_FILE_PROCESSOR_URL`, and frontend-only hosting does not provide document conversion by itself. Manual backup/export/import remains the portability model.
+
+
+## Phase 12G unit test tooling deployment note
+
+Phase 12G unit test tooling does not change deployment requirements. The app remains a local-first browser app with no backend/cloud/account sync requirement. EduGen/File Processor remains separate, document conversion still requires a browser-reachable `VITE_FILE_PROCESSOR_URL` when using PDF/DOCX/PPTX/ZIP conversion, frontend-only hosting does not provide document conversion by itself, and manual backup/export/import remains the portability model.

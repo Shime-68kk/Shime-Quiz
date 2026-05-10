@@ -280,3 +280,10 @@ Phase 12E adds a small [Dashboard Today Card runtime](docs/dashboard-today-card-
 ### Phase 12F Unit Test Foundation planning
 
 The [Unit Test Foundation Plan](docs/unit-test-foundation-plan.md) documents candidate future unit test targets and a future Vitest adoption strategy. Phase 12F does not add Vitest, does not add unit tests, and does not change package/dependencies.
+
+
+### Phase 12G Vitest Unit Test Foundation
+
+Phase 12G adds a minimal [Vitest Unit Test Foundation](docs/vitest-unit-test-foundation.md). Unit tests can be run with `npm run test:unit`.
+
+The initial unit tests are limited to selected pure/near-pure helpers and do not replace Playwright E2E smoke/onboarding checks. Phase 12G does not claim runtime app behavior changes or scoring/SRT/mastery/recommendation algorithm changes.

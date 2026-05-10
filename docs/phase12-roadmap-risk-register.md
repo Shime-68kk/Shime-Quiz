@@ -198,3 +198,10 @@ Phase 12E marks Dashboard Today Card Runtime as the current runtime Dashboard si
 Phase 12F adds Unit Test Foundation planning. It documents candidate pure-function test targets, a future Vitest adoption strategy, and future CI expectations.
 
 Vitest and unit tests remain future Phase 12G work. No package/dependency changes happened in Phase 12F. Recommended next phase: Phase 12G — Vitest Unit Test Foundation.
+
+
+## Phase 12G follow-up — Vitest Unit Test Foundation
+
+Phase 12G is the Vitest Unit Test Foundation phase. It adds minimal Vitest tooling, `npm run test:unit`, and initial pure-helper unit tests.
+
+Later phases remain unimplemented unless completed separately. Recommended next phase: Phase 12H — Study Flow Micro-feedback Plan.

@@ -128,3 +128,10 @@ Forbidden claims:
 Recommended next phase: Phase 12G — Vitest Unit Test Foundation.
 
 Phase 12G should be the first phase allowed to modify package.json/package-lock.json, add Vitest, and add minimal pure-function unit tests if approved.
+
+
+## Phase 12G follow-up — Vitest Unit Test Foundation
+
+Phase 12G implements the planned minimal Vitest foundation. It adds Vitest as a dev dependency, adds `npm run test:unit`, and adds initial tests for selected pure/near-pure helpers.
+
+Phase 12G does not intentionally change runtime app behavior or scoring/SRT/mastery/recommendation algorithm behavior. Unit tests remain limited and do not replace E2E smoke/onboarding checks.
