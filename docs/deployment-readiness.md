@@ -199,3 +199,10 @@ Phase 11E validation phrases: backup files may include quiz content, answers, pr
 Phase 11F hardens the optional Web Share runtime fallback path and documents it in [`docs/web-share-runtime-qa-fallback-hardening.md`](web-share-runtime-qa-fallback-hardening.md). The feature remains browser/platform-dependent and requires no backend service, no account service, no cloud sync service, no new dependency, and no release infrastructure change.
 
 Normal backup file download remains fallback, restore from backup remains available, backup files may include private quiz/study data, and the app does not upload backup files to a server. No QR transfer, WebRTC/session transfer, backend/cloud/account sync, automatic sync, encryption, backup format change, storage schema change, or import/restore behavior change is added.
+
+
+## Phase 11H transfer track closure deployment note
+
+Phase 11H adds [`docs/cross-device-transfer-track-closure.md`](cross-device-transfer-track-closure.md), a release-readiness re-audit for the Phase 11 cross-device transfer track. The deployed app remains local-first/browser-local. Web Share support depends on browser/platform capability, normal backup file download remains fallback, and restore from backup remains available.
+
+No new backend service, account service, cloud sync service, automatic sync service, QR/session transfer service, encryption service, dependency, package version change, release package, release tag, or GitHub Release is introduced by Phase 11H.

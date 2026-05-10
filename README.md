@@ -240,3 +240,10 @@ Phase 11F documents and hardens Web Share fallback behavior in [`docs/web-share-
 Unsupported browser, `navigator.canShare` false/unsupported, user cancel, and share failure paths use non-destructive guidance. Backup files may include quiz content, answers, progress, and study history, so users should share them only through destinations they trust. This does not upload backup files to a server and does not create cloud sync or automatic sync.
 
 No QR transfer was implemented, no WebRTC/session transfer was implemented, no backend/cloud/account sync was added, no encryption implementation was added, no backup format changed, no storage schema changed, no import/restore behavior changed, package version/dependencies are unchanged, and release package/tag/GitHub Release remain uncreated/unpublished.
+
+
+## Phase 11H cross-device transfer track closure
+
+The Phase 11 cross-device transfer track closure and release-readiness re-audit is documented in [`docs/cross-device-transfer-track-closure.md`](docs/cross-device-transfer-track-closure.md). Phase 11H summarizes Phase 11A–11F continuity, allowed and forbidden claims, remaining limitations, and next-phase options.
+
+Current transfer remains local-first/manual backup/export/import. Web Share runtime prototype exists where supported. Normal backup file download remains fallback, and restore from backup remains available. No QR transfer was implemented, no transfer-code flow was implemented, no WebRTC/session transfer was implemented, no backend/cloud/account sync was added, no automatic sync was added, no encryption implementation was added, no backup format/storage schema/import behavior changed, package version/dependencies are unchanged, and release package/tag/GitHub Release remain uncreated/unpublished.
