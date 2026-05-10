@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Badge from '../Badge.jsx';
 import Button from '../Button.jsx';
 import Card from '../Card.jsx';
@@ -12,6 +12,7 @@ import {
   parseV2BackupJson,
   restoreV2BackupPayload
 } from '../../state/v2BackupRestore.js';
+import { getStorageQuotaWarningState } from '../../utils/storageQuotaEstimate.js';
 
 const sectionLabels = {
   library: 'Thư viện',
@@ -171,7 +172,21 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
   const [isRestoring, setIsRestoring] = useState(false);
   const [lastBackupSize, setLastBackupSize] = useState(null);
   const [backupMode, setBackupMode] = useState(V2_BACKUP_MODES.FULL);
+  const [storageQuotaWarning, setStorageQuotaWarning] = useState(null);
   const webShareAvailable = hasWebShareApi();
+
+  useEffect(() => {
+    let mounted = true;
+
+    getStorageQuotaWarningState().then((result) => {
+      if (!mounted) return;
+      setStorageQuotaWarning(result.shouldWarn ? result : null);
+    });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   function openRestoreFilePicker() {
     fileInputRef.current?.click();
@@ -347,6 +362,16 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
       <div className="backupPlaintextNotice" role="note">
         <strong>Privacy note:</strong> Backup files may include quiz content, answers, progress, and study history. Keep them private and only send them through places you trust. This is a manual transfer file, not cloud or account sync.
       </div>
+
+      {storageQuotaWarning ? (
+        <div className="storageQuotaWarning" role="status" aria-live="polite">
+          <strong>Bộ nhớ trình duyệt đang gần đầy.</strong>
+          <span>
+            Shime ước tính bộ nhớ trình duyệt đã dùng khoảng {storageQuotaWarning.percent}% dung lượng được báo cáo.
+            Hãy tạo file sao lưu để bảo vệ dữ liệu học của bạn. Shime vẫn lưu dữ liệu trên thiết bị này; cảnh báo này không đồng bộ dữ liệu lên cloud.
+          </span>
+        </div>
+      ) : null}
 
       <p className="muted" id="web-share-fallback-note">
         {webShareAvailable

@@ -218,3 +218,7 @@ EduGen/File Processor remains separate. Document import that requires PDF/DOCX/P
 Phase 12B documents storage capacity risk and future IndexedDB migration planning. This does not change the deployment model: Shime Quiz remains a local-first browser app with no backend/cloud/account sync, and manual backup/export/import remains the portability model.
 
 EduGen/File Processor remains separate. Document import that depends on PDF/DOCX/PPTX/ZIP conversion still requires a browser-reachable `VITE_FILE_PROCESSOR_URL`; frontend-only hosting does not provide document conversion by itself.
+
+## Phase 12C storage quota warning deployment note
+
+Phase 12C adds an advisory storage quota warning that depends on browser storage estimate API availability. It does not require a backend, cloud service, account system, or automatic sync. Shime Quiz remains a local-first browser app, and manual backup/export/import remains the portability model.

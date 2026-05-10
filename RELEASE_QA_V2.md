@@ -1831,3 +1831,21 @@ Scope controls for Phase 12B:
 - No release package/tag/GitHub Release created.
 - New validator: `scripts/validate-storage-capacity-indexeddb-migration-plan.js`.
 - CI registration added for the new validator.
+
+## Phase 12C — Storage Quota Warning Runtime
+
+Phase 12C adds `docs/storage-quota-warning-runtime.md` and a narrow runtime warning that uses the browser storage estimate API where available. The warning is advisory and non-blocking, and it encourages manual backup when estimated browser-local storage usage is high.
+
+Scope controls for Phase 12C:
+
+- No IndexedDB implementation.
+- No localStorage migration.
+- No storage schema change.
+- No backup format change.
+- No import/restore behavior change.
+- No cloud/account/automatic sync.
+- No encryption.
+- No package version/dependency changes.
+- New validator: `scripts/validate-storage-quota-warning-runtime.js`.
+- CI registration added for the new validator.
+- Build/static validation required; E2E may be environment-blocked if Playwright Chromium is unavailable locally.

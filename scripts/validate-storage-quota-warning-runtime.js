@@ -1,0 +1,273 @@
+import fs from 'node:fs';
+import { execSync } from 'node:child_process';
+
+const requiredFiles = [
+  'docs/storage-quota-warning-runtime.md',
+  'README.md',
+  'RELEASE_QA_V2.md',
+  'docs/storage-capacity-indexeddb-migration-plan.md',
+  'docs/phase12-roadmap-risk-register.md',
+  'docs/public-release-notes.md',
+  'docs/deployment-readiness.md',
+  '.github/workflows/e2e-smoke.yml',
+  'src/utils/storageQuotaEstimate.js',
+  'src/components/learning/V2BackupRestorePanel.jsx',
+  'src/styles/global.css',
+];
+
+const allowedChangedFiles = new Set([
+  '.github/workflows/e2e-smoke.yml',
+  'README.md',
+  'RELEASE_QA_V2.md',
+  'docs/storage-capacity-indexeddb-migration-plan.md',
+  'docs/phase12-roadmap-risk-register.md',
+  'docs/public-release-notes.md',
+  'docs/deployment-readiness.md',
+  'docs/storage-quota-warning-runtime.md',
+  'scripts/validate-storage-quota-warning-runtime.js',
+  'src/utils/storageQuotaEstimate.js',
+  'src/components/learning/V2BackupRestorePanel.jsx',
+  'src/styles/global.css',
+]);
+
+const forbiddenChangedFiles = [
+  'package.json',
+  'package-lock.json',
+  'vite.config',
+  'vite.config.js',
+  'vite.config.mjs',
+  'playwright.config',
+  'playwright.config.js',
+];
+const forbiddenChangedPrefixes = ['e2e/'];
+const generatedArtifacts = ['node_modules', 'dist', 'test-results', 'playwright-report', 'coverage', 'FETCH_HEAD'];
+const publicClaimFiles = [
+  'README.md',
+  'RELEASE_QA_V2.md',
+  'docs/storage-quota-warning-runtime.md',
+  'docs/storage-capacity-indexeddb-migration-plan.md',
+  'docs/phase12-roadmap-risk-register.md',
+  'docs/public-release-notes.md',
+  'docs/deployment-readiness.md',
+];
+
+function fail(message) {
+  console.error(`Phase 12C validation failed: ${message}`);
+  process.exit(1);
+}
+
+function warn(message) {
+  console.warn(`Phase 12C validation warning: ${message}`);
+}
+
+function read(file) {
+  if (!fs.existsSync(file)) fail(`Missing required file: ${file}`);
+  return fs.readFileSync(file, 'utf8');
+}
+
+function normalize(text) {
+  return String(text).toLowerCase().replace(/[`*_()[\]\/]+/g, ' ').replace(/[\u2010-\u2015]/g, '-').replace(/\s+/g, ' ').trim();
+}
+
+function requireIncludes(file, terms) {
+  const text = normalize(read(file));
+  for (const term of terms) {
+    if (!text.includes(normalize(term))) fail(`${file} must mention: ${term}`);
+  }
+}
+
+function requireAny(file, label, patterns) {
+  const text = normalize(read(file));
+  if (!patterns.some((pattern) => text.includes(normalize(pattern)))) {
+    fail(`${file} must mention ${label}; accepted wording: ${patterns.join(' | ')}`);
+  }
+}
+
+function runGit(command, options = {}) {
+  try {
+    return execSync(command, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], ...options }).trim();
+  } catch {
+    if (!options.silent) warn(`Git command failed; changed-file scope checking may be limited: ${command}`);
+    return '';
+  }
+}
+
+function splitLines(output) {
+  return output ? output.split(/\r?\n/).map((line) => line.trim()).filter(Boolean) : [];
+}
+
+function uniqueSorted(files) {
+  return [...new Set(files)].sort((a, b) => a.localeCompare(b));
+}
+
+function changedFilesFromPullRequestBase() {
+  const baseRef = process.env.GITHUB_BASE_REF;
+  if (!baseRef) return [];
+  runGit(`git fetch --no-tags --depth=1 origin ${baseRef}`, { silent: true });
+  const mergeBase = runGit(`git merge-base HEAD origin/${baseRef}`, { silent: true });
+  if (!mergeBase) {
+    warn(`Could not compute merge base against origin/${baseRef}; falling back to local changed-file detection.`);
+    return [];
+  }
+  return splitLines(runGit(`git diff --name-only ${mergeBase} HEAD`, { silent: true }));
+}
+
+function changedFilesFromLocalFallbacks({ includeUntracked = true } = {}) {
+  const files = [
+    ...splitLines(runGit('git diff --name-only HEAD', { silent: true })),
+    ...splitLines(runGit('git diff --cached --name-only', { silent: true })),
+  ];
+  if (includeUntracked) files.push(...splitLines(runGit('git ls-files --others --exclude-standard', { silent: true })));
+  if (files.length === 0 && !runGit('git rev-parse --is-inside-work-tree', { silent: true })) {
+    warn('Git is unavailable; changed-file scope checks are limited to content checks.');
+  }
+  return files;
+}
+
+function changedFiles({ includeUntracked = true } = {}) {
+  const prBaseFiles = changedFilesFromPullRequestBase();
+  if (prBaseFiles.length > 0) return uniqueSorted(prBaseFiles);
+  return uniqueSorted(changedFilesFromLocalFallbacks({ includeUntracked }));
+}
+
+function trackedFiles() {
+  return uniqueSorted(splitLines(runGit('git ls-files', { silent: true })));
+}
+
+function scopeGuard() {
+  const changed = changedFiles();
+  for (const file of changed) {
+    if (generatedArtifacts.some((artifact) => file === artifact || file.startsWith(`${artifact}/`))) continue;
+    if (forbiddenChangedFiles.includes(file)) fail(`Forbidden file changed: ${file}`);
+    if (forbiddenChangedPrefixes.some((prefix) => file.startsWith(prefix))) fail(`Forbidden path changed: ${file}`);
+    if (file.startsWith('src/') && !allowedChangedFiles.has(file)) {
+      fail(`Broad or unrelated runtime source changed outside the storage quota warning implementation: ${file}`);
+    }
+    if (!allowedChangedFiles.has(file)) {
+      fail(`Unexpected changed file for Phase 12C scope: ${file}`);
+    }
+  }
+}
+
+function generatedArtifactGuard() {
+  const files = uniqueSorted([...changedFiles({ includeUntracked: false }), ...trackedFiles()]);
+  for (const artifact of generatedArtifacts) {
+    if (files.some((file) => file === artifact || file.startsWith(`${artifact}/`))) {
+      fail(`Generated artifact appears in changed or tracked files: ${artifact}`);
+    }
+  }
+}
+
+function lineIsSafe(line) {
+  const safeMarkers = [
+    'not implemented', 'not migrate', 'not migrated', 'not changed', 'not change', 'not added',
+    'not created', 'not published', 'planned', 'future', 'non-goal', 'non-goals', 'forbidden claim',
+    'forbidden claims', 'does not', 'do not', 'no ', 'without', 'unchanged', 'remains', 'only',
+  ];
+  const normalized = normalize(line);
+  return safeMarkers.some((marker) => normalized.includes(normalize(marker)));
+}
+
+function forbiddenOverclaimGuard() {
+  const phraseGroups = [
+    ['indexeddb implemented'],
+    ['migrated to indexeddb', 'localstorage migrated'],
+    ['storage schema changed'],
+    ['backup format changed'],
+    ['restore behavior changed'],
+    ['import behavior changed'],
+    ['cloud sync implemented'],
+    ['account sync implemented'],
+    ['automatic sync implemented'],
+    ['encryption implemented'],
+    ['guaranteed data loss prevention', 'data-loss prevention guaranteed'],
+    ['release package created'],
+    ['release tag created'],
+    ['github release published'],
+    ['production certified'],
+    ['security certified'],
+    ['accessibility certified'],
+    ['performance certified'],
+  ];
+  for (const file of publicClaimFiles) {
+    const lines = read(file).split(/\r?\n/);
+    let inForbiddenSection = false;
+    for (const line of lines) {
+      const normalizedLine = normalize(line);
+      if (normalizedLine.includes('forbidden claims')) inForbiddenSection = true;
+      else if (/^##\s+/.test(line) && inForbiddenSection) inForbiddenSection = false;
+      if (inForbiddenSection) continue;
+      for (const group of phraseGroups) {
+        if (group.some((phrase) => normalizedLine.includes(normalize(phrase))) && !lineIsSafe(line)) {
+          fail(`Unsupported positive overclaim in ${file}: ${line.trim()}`);
+        }
+      }
+    }
+  }
+}
+
+function validate() {
+  for (const file of requiredFiles) read(file);
+
+  requireIncludes('docs/storage-quota-warning-runtime.md', [
+    'Phase 12C',
+    'Storage Quota Warning Runtime',
+    'completed/merged through Phase 12B',
+    'navigator.storage.estimate',
+    'storage estimate',
+    'non-blocking warning',
+    'manual backup',
+    'local-first',
+    'browser-local',
+    'no backend/cloud/account sync',
+    'no IndexedDB implementation',
+    'no localStorage migration',
+    'no storage schema change',
+    'no backup format change',
+    'no import/restore behavior change',
+    'no encryption',
+    'no data-loss guarantee',
+    'Phase 12D',
+    'Dashboard Today Card UX Plan',
+  ]);
+
+  const runtimeText = normalize(`${read('src/utils/storageQuotaEstimate.js')}\n${read('src/components/learning/V2BackupRestorePanel.jsx')}`);
+  for (const term of ['navigator.storage', 'estimate', 'usage', 'quota']) {
+    if (!runtimeText.includes(normalize(term))) fail(`Runtime source must include storage estimate term: ${term}`);
+  }
+  if (!/(threshold|percent|ratio)/.test(runtimeText)) fail('Runtime source must include threshold logic or percent/ratio calculation.');
+  if (!/(typeof navigator|unavailable|invalid|catch|ok: false|shouldwarn: false)/.test(runtimeText)) {
+    fail('Runtime source must gracefully handle unavailable API or invalid values.');
+  }
+  if (!runtimeText.includes(normalize('sao lưu')) && !runtimeText.includes('backup')) fail('Runtime warning must include backup-oriented copy or suggestion.');
+  if (runtimeText.includes('fetch(') || runtimeText.includes('xmlhttprequest')) {
+    fail('Runtime warning implementation must not add upload behavior.');
+  }
+
+  requireIncludes('README.md', ['storage quota warning', 'manual backup']);
+  requireAny('README.md', 'IndexedDB not implemented or still planned only', ['IndexedDB is still not implemented', 'IndexedDB is not implemented', 'planned only']);
+
+  requireIncludes('RELEASE_QA_V2.md', [
+    'Phase 12C',
+    'storage quota warning runtime',
+    'No IndexedDB implementation',
+    'No storage schema change',
+    'No backup format change',
+    'No package version/dependency changes',
+  ]);
+
+  requireIncludes('docs/storage-capacity-indexeddb-migration-plan.md', ['Phase 12C', 'advisory storage quota warning runtime']);
+  requireIncludes('docs/phase12-roadmap-risk-register.md', ['Phase 12C', 'Storage Quota Warning Runtime']);
+  requireIncludes('docs/public-release-notes.md', ['storage quota warning']);
+  requireAny('docs/deployment-readiness.md', 'browser storage estimate API or storage quota warning', ['browser storage estimate API', 'storage quota warning']);
+
+  requireIncludes('.github/workflows/e2e-smoke.yml', ['node scripts/validate-storage-quota-warning-runtime.js']);
+
+  scopeGuard();
+  generatedArtifactGuard();
+  forbiddenOverclaimGuard();
+
+  console.log('Phase 12C storage quota warning runtime validation passed.');
+}
+
+validate();

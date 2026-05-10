@@ -176,3 +176,9 @@ Recommended next phase: **Phase 12B — Storage Capacity / IndexedDB Migration P
 Phase 12B adds a dedicated storage capacity / IndexedDB migration plan in `docs/storage-capacity-indexeddb-migration-plan.md`. IndexedDB remains planned/evaluated only. No storage migration, storage schema change, or backup format change happened in Phase 12B.
 
 Recommended next phase after Phase 12B: Phase 12C — Storage Quota Warning Runtime. Phase 12C should remain small and focused on warning/runtime visibility rather than schema migration.
+
+## Phase 12C update — Storage Quota Warning Runtime
+
+Phase 12C is the next runtime step after Phase 12B. It adds a small advisory storage quota warning using browser storage estimate data where available. It does not implement IndexedDB, does not migrate localStorage, and does not change storage schema or backup format.
+
+The following roadmap item remains next: Phase 12D — Dashboard Today Card UX Plan. Phase 12D and Phase 12E are not implemented by Phase 12C.
