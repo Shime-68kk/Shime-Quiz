@@ -257,3 +257,6 @@ jobs:
 
       - name: Validate Web Share runtime prototype
         run: node scripts/validate-web-share-runtime-prototype.js
+
+      - name: Validate Web Share runtime fallback hardening
+        run: node scripts/validate-web-share-runtime-fallback-hardening.js
