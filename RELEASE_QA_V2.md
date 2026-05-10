@@ -1699,3 +1699,37 @@ Forbidden claims:
 Phase 11E validation phrases: backup files may include quiz content, answers, progress, and study history; normal backup file download remains the fallback; no QR transfer; no WebRTC/session transfer; no backend/cloud/account sync; no cloud/automatic sync; no automatic sync; no encryption implementation.
 
 Phase 11E exact guardrail: no QR/WebRTC.
+
+## Phase 11F — Web Share Runtime QA / Fallback Hardening
+
+Phase 11F hardens the Phase 11E Web Share runtime prototype in the existing backup/restore panel and adds [`docs/web-share-runtime-qa-fallback-hardening.md`](docs/web-share-runtime-qa-fallback-hardening.md).
+
+Scope:
+- Preserves the primary normal backup file download through `Sao lưu dữ liệu`.
+- Preserves restore from backup through `Chọn file sao lưu` and the existing restore parser behavior.
+- Adds clearer unsupported browser fallback guidance for `navigator.share` and `navigator.canShare` capability gaps.
+- Handles user cancel behavior and share failure behavior as non-destructive outcomes.
+- Documents privacy boundaries: backup files may contain private quiz/study data, including quiz content, answers, progress, and study history.
+- Re-states no server upload / no cloud sync and no automatic sync.
+
+Guardrails:
+- No QR transfer implemented.
+- No WebRTC/session transfer implemented.
+- No backend/cloud/account sync implemented.
+- No automatic sync implemented.
+- No encryption implementation.
+- No backup format change.
+- No storage schema change.
+- No import/restore behavior change.
+- No package/dependency change.
+- No release package/tag/GitHub Release created or published.
+
+Validation and CI:
+- Adds `scripts/validate-web-share-runtime-fallback-hardening.js`.
+- `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-web-share-runtime-fallback-hardening.js` after the Phase 11E Web Share runtime prototype validator and preserves previous validators and Playwright E2E smoke/onboarding steps.
+
+Claims control:
+- Web Share fallback hardening exists.
+- Normal backup file download remains fallback.
+- Unsupported/cancel/failure paths are non-destructive.
+- Do not claim QR transfer implementation, WebRTC/session transfer implementation, cloud/account sync implementation, automatic sync implementation, encryption implementation, backup format/storage schema/import behavior changes, or completed release publication/tag/package actions.

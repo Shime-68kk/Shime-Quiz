@@ -225,3 +225,12 @@ Phase 11E adds a small Web Share runtime prototype for sharing backup files thro
 
 
 Phase 11E validation phrases: backup files may include quiz content, answers, progress, and study history; normal backup file download remains the fallback; no QR transfer; no WebRTC/session transfer; no backend/cloud/account sync; no cloud/automatic sync; no automatic sync; no encryption implementation.
+
+## Phase 11F release-note guardrail
+
+Phase 11F hardens Web Share runtime fallback behavior for backup sharing where supported. Release notes may say that unsupported browser, user cancel, and share failure paths use non-destructive guidance and that normal backup file download remains fallback while restore from backup remains available.
+
+Do not claim QR transfer, WebRTC/session transfer, cloud/account sync, automatic sync, encryption, backup format changes, storage schema changes, import/restore behavior changes, release tag creation, GitHub Release publication, or release package publication.
+
+
+Phase 11F validation phrase: Web Share fallback guidance keeps normal backup file download available.

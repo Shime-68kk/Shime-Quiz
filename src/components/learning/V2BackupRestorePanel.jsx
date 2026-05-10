@@ -55,14 +55,32 @@ function hasWebShareApi() {
 
 function canShareBackupFile(file) {
   if (!file || !hasWebShareApi()) return false;
-  if (typeof navigator.canShare === 'function') {
-    try {
-      return navigator.canShare({ files: [file] });
-    } catch {
-      return false;
-    }
+  if (typeof navigator.canShare !== 'function') return false;
+  try {
+    return navigator.canShare({ files: [file] });
+  } catch {
+    return false;
   }
-  return false;
+}
+
+function getWebShareFallbackMessage(file) {
+  if (!hasWebShareApi()) {
+    return 'Trình duyệt này chưa hỗ trợ Web Share. Hãy dùng nút Sao lưu dữ liệu để tải file sao lưu như bình thường.';
+  }
+  if (typeof navigator.canShare !== 'function') {
+    return 'Trình duyệt này chưa xác nhận được khả năng chia sẻ file. Hãy dùng Sao lưu dữ liệu để tải file sao lưu rồi chia sẻ bằng nơi bạn tin tưởng.';
+  }
+  if (!file) {
+    return 'Chưa tạo được file sao lưu để chia sẻ. Hãy thử lại hoặc dùng Sao lưu dữ liệu để tải file xuống.';
+  }
+  try {
+    if (!navigator.canShare({ files: [file] })) {
+      return 'Thiết bị hoặc trình duyệt chưa hỗ trợ chia sẻ loại file sao lưu này. Hãy dùng Sao lưu dữ liệu để tải file xuống rồi gửi file theo cách bạn tin tưởng.';
+    }
+  } catch {
+    return 'Trình duyệt không hoàn tất kiểm tra chia sẻ file. Hãy dùng Sao lưu dữ liệu để tải file sao lưu xuống.';
+  }
+  return '';
 }
 
 function IssueList({ title, issues, tone = 'warning' }) {
@@ -217,11 +235,12 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
       setLastBackupSize(sizeEstimate);
       const file = createWebShareBackupFile(result.payload, filename);
 
-      if (!canShareBackupFile(file)) {
+      const fallbackMessage = getWebShareFallbackMessage(file);
+      if (fallbackMessage || !canShareBackupFile(file)) {
         setStatus({
-          tone: 'warning',
-          title: 'Trình duyệt chưa hỗ trợ chia sẻ file sao lưu',
-          description: 'Bạn vẫn có thể dùng nút Sao lưu dữ liệu để tải file xuống rồi gửi file đó bằng cách bạn tin tưởng.'
+          tone: 'info',
+          title: 'Hãy dùng Sao lưu dữ liệu để tải file sao lưu',
+          description: fallbackMessage || 'Thiết bị hoặc trình duyệt chưa hỗ trợ chia sẻ file sao lưu. File tải xuống bình thường vẫn là đường dự phòng.'
         });
         return;
       }
@@ -239,11 +258,11 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
       });
     } catch (error) {
       setStatus({
-        tone: 'warning',
-        title: 'Chia sẻ file sao lưu chưa hoàn tất',
+        tone: error?.name === 'AbortError' ? 'info' : 'warning',
+        title: error?.name === 'AbortError' ? 'Bạn đã hủy chia sẻ file sao lưu' : 'Chia sẻ file sao lưu chưa hoàn tất',
         description: error?.name === 'AbortError'
-          ? 'Bạn đã hủy bảng chia sẻ. Dữ liệu sao lưu không bị thay đổi; hãy dùng Sao lưu dữ liệu nếu muốn tải file xuống.'
-          : error?.message || 'Trình duyệt không hoàn tất chia sẻ. Hãy dùng Sao lưu dữ liệu để tải file xuống.'
+          ? 'Không có dữ liệu nào bị thay đổi. Bạn vẫn có thể dùng Sao lưu dữ liệu để tải file sao lưu xuống khi cần.'
+          : error?.message || 'Trình duyệt không hoàn tất chia sẻ. Hãy dùng Sao lưu dữ liệu để tải file xuống; dữ liệu sao lưu không bị thay đổi.'
       });
     } finally {
       setIsSharing(false);
@@ -329,10 +348,13 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
         <strong>Privacy note:</strong> Backup files may include quiz content, answers, progress, and study history. Keep them private and only send them through places you trust. This is a manual transfer file, not cloud or account sync.
       </div>
 
-      <p className="muted">
+      <p className="muted" id="web-share-fallback-note">
         {webShareAvailable
-          ? 'Nếu trình duyệt và thiết bị hỗ trợ, bạn có thể dùng Chia sẻ file sao lưu để mở bảng chia sẻ native/browser. Sao lưu dữ liệu vẫn là lựa chọn tải file xuống dự phòng.'
-          : 'Trình duyệt này chưa hỗ trợ chia sẻ file sao lưu trực tiếp. Bạn vẫn có thể dùng Sao lưu dữ liệu để tải file xuống rồi gửi bằng cách bạn tin tưởng.'}
+          ? 'Nếu thiết bị hoặc trình duyệt hỗ trợ chia sẻ file, Chia sẻ file sao lưu sẽ mở bảng chia sẻ native/browser. Nếu navigator.canShare không hỗ trợ file này hoặc quá trình chia sẻ bị hủy/thất bại, hãy dùng nút Sao lưu dữ liệu để tải file sao lưu.'
+          : 'Trình duyệt này chưa hỗ trợ navigator.share cho chia sẻ file sao lưu trực tiếp. Bạn vẫn có thể dùng Sao lưu dữ liệu để tải file xuống rồi gửi bằng nơi bạn tin tưởng.'}
+      </p>
+      <p className="muted">
+        Việc chia sẻ này không tải dữ liệu lên máy chủ Shime và không tạo đồng bộ đám mây tự động. File sao lưu có thể chứa nội dung quiz, câu trả lời, tiến độ và lịch sử học; chỉ chia sẻ tới nơi bạn tin tưởng.
       </p>
 
       <p className="muted">
@@ -375,7 +397,13 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
           Sao lưu dữ liệu
         </Button>
         {webShareAvailable ? (
-          <Button type="button" variant="secondary" onClick={shareBackup} loading={isSharing}>
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={shareBackup}
+            loading={isSharing}
+            aria-describedby="web-share-fallback-note"
+          >
             Chia sẻ file sao lưu
           </Button>
         ) : null}

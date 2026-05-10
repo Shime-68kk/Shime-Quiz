@@ -232,3 +232,11 @@ The prototype uses the same backup file content as the normal backup download fl
 
 
 Phase 11E validation phrases: backup files may include quiz content, answers, progress, and study history; normal backup file download remains the fallback; no QR transfer; no WebRTC/session transfer; no backend/cloud/account sync; no cloud/automatic sync; no automatic sync; no encryption implementation.
+
+## Phase 11F Web Share runtime QA / fallback hardening
+
+Phase 11F documents and hardens Web Share fallback behavior in [`docs/web-share-runtime-qa-fallback-hardening.md`](docs/web-share-runtime-qa-fallback-hardening.md). Where supported, the optional Web Share action remains a convenience path for the same backup file. Normal backup file download remains the fallback, and restore from backup remains available.
+
+Unsupported browser, `navigator.canShare` false/unsupported, user cancel, and share failure paths use non-destructive guidance. Backup files may include quiz content, answers, progress, and study history, so users should share them only through destinations they trust. This does not upload backup files to a server and does not create cloud sync or automatic sync.
+
+No QR transfer was implemented, no WebRTC/session transfer was implemented, no backend/cloud/account sync was added, no encryption implementation was added, no backup format changed, no storage schema changed, no import/restore behavior changed, package version/dependencies are unchanged, and release package/tag/GitHub Release remain uncreated/unpublished.
