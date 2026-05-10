@@ -161,3 +161,7 @@ The final release execution checklist is documented in [`docs/final-release-exec
 ## Final main release authorization reference
 
 See [`docs/final-main-release-authorization.md`](final-main-release-authorization.md) for the final main release authorization packet and release package approval gates.
+
+## Phase 10R follow-up
+
+See [Release Candidate Freeze / Final Decision Memo](release-candidate-freeze-final-decision.md). Package cleanliness remains a release gate; no package was created or uploaded in Phase 10R.

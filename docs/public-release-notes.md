@@ -187,3 +187,7 @@ Phase 10P adds the final release execution checklist: [`docs/final-release-execu
 ## Final main release authorization reference
 
 See [`docs/final-main-release-authorization.md`](final-main-release-authorization.md) for the final main verification / release authorization packet. No release tag, GitHub Release, or release package publication is claimed here.
+
+## Phase 10R release freeze note
+
+See [Release Candidate Freeze / Final Decision Memo](release-candidate-freeze-final-decision.md). The release candidate freeze memo exists; no release tag, GitHub Release, release package, production/security/accessibility/performance certification, or unsupported AI/EduGen/OCR/backend/cloud/account-sync claim is made.

@@ -175,3 +175,7 @@ The final release execution checklist is documented in [`docs/final-release-exec
 ## Final main release authorization reference
 
 See [`docs/final-main-release-authorization.md`](final-main-release-authorization.md) for the final main release authorization packet. Manual evidence remains optional unless the user runs it and records results.
+
+## Phase 10R follow-up
+
+See [Release Candidate Freeze / Final Decision Memo](release-candidate-freeze-final-decision.md). Optional manual evidence may still be run before release, but no evidence pass is claimed by the freeze memo.
