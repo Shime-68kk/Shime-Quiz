@@ -132,3 +132,7 @@ See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) 
 ## Phase 10P final release execution checklist
 
 The final release execution checklist is documented in [`docs/final-release-execution-checklist.md`](final-release-execution-checklist.md). It keeps tag creation as a separate user-approved action and confirms no tag has been created by Phase 10P.
+
+## Final main release authorization reference
+
+See [`docs/final-main-release-authorization.md`](final-main-release-authorization.md) for the final main release authorization packet. Tag creation remains a separate explicit user-approved action.

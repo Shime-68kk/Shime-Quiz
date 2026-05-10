@@ -171,3 +171,7 @@ See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) 
 ## Phase 10P final release execution checklist
 
 The final release execution checklist is documented in [`docs/final-release-execution-checklist.md`](final-release-execution-checklist.md). It references the manual evidence pack as optional evidence before release and does not claim evidence was run.
+
+## Final main release authorization reference
+
+See [`docs/final-main-release-authorization.md`](final-main-release-authorization.md) for the final main release authorization packet. Manual evidence remains optional unless the user runs it and records results.

@@ -117,6 +117,7 @@ Actual screenshot image files are not included yet; the screenshot checklist exi
 - GitHub Release publication plan: [`docs/github-release-publication-plan.md`](docs/github-release-publication-plan.md)
 - Release package assembly plan: [`docs/release-package-assembly-plan.md`](docs/release-package-assembly-plan.md)
 - Final release execution checklist: [`docs/final-release-execution-checklist.md`](docs/final-release-execution-checklist.md)
+- Final main verification / release authorization packet: [`docs/final-main-release-authorization.md`](docs/final-main-release-authorization.md)
 - Full QA/release checklist: [`RELEASE_QA_V2.md`](RELEASE_QA_V2.md)
 - README rewrite/split guide: [`docs/readme-public-facing-guide.md`](docs/readme-public-facing-guide.md)
 - Performance / bundle-size audit: [`docs/performance-bundle-audit.md`](docs/performance-bundle-audit.md)

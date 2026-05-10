@@ -152,3 +152,7 @@ See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) 
 ## Phase 10P final release execution checklist
 
 The final release execution checklist is documented in [`docs/final-release-execution-checklist.md`](final-release-execution-checklist.md). It keeps GitHub Release publication as a separate user-approved action and confirms no release has been published by Phase 10P.
+
+## Final main release authorization reference
+
+See [`docs/final-main-release-authorization.md`](final-main-release-authorization.md) for the final main release authorization packet. GitHub Release publication remains a separate explicit user-approved action.

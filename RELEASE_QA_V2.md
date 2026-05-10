@@ -1423,3 +1423,18 @@ Validator:
 
 CI coverage:
 - `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-final-release-execution-checklist.js` and preserves previous validators.
+
+
+## Phase 10Q — Final Main Verification / Release Authorization Packet
+
+Phase 10Q adds [`docs/final-main-release-authorization.md`](docs/final-main-release-authorization.md), a final main verification / release authorization packet for a future user-approved release decision.
+
+Scope: documentation/static-validator/CI registration only. No runtime app behavior changed, no package version/dependency changes, no final release execution occurred, no release package was created or published, no release tag was created, and no GitHub Release was published.
+
+The authorization packet documents latest main verification, build/static-validator expectations, the known non-blocking Vite/Rolldown chunk-size warning, known evidence gaps, release actions still pending, and explicit approval gates for tag creation, package assembly, GitHub Release publication, asset upload, and package version changes.
+
+Allowed claims: final main verification / release authorization packet exists; release authorization checklist exists; release actions remain gated by explicit user approval.
+
+Forbidden claims: final release executed; release package created/published/uploaded; GitHub Release published; release tag created or pushed; package version changed; production/security/accessibility/performance certification; built-in AI generation; external AI/API integration; API key/BYOK support; OCR; EduGen bundled into Shime; frontend-only document conversion; backend/cloud/account sync; automatic cross-device sync; encrypted backups unless implemented; screenshots captured unless actual files exist; mobile UX passed unless actual evidence exists; configured EduGen import passed unless actual configured run exists; cross-device restore passed unless actual run exists; Lighthouse/Core Web Vitals pass unless measured.
+
+New validator: `scripts/validate-final-main-release-authorization.js`. CI coverage: `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-final-main-release-authorization.js`.

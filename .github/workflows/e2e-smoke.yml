@@ -230,3 +230,6 @@ jobs:
 
       - name: Validate final release execution checklist
         run: node scripts/validate-final-release-execution-checklist.js
+
+      - name: Validate final main release authorization
+        run: node scripts/validate-final-main-release-authorization.js

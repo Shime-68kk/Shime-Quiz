@@ -147,3 +147,7 @@ Do not claim any of the following unless separately and actually performed/imple
 
 - User-approved final release execution.
 - Or stop planning and keep the release candidate unpublished.
+
+## Phase 10Q reference
+
+See [`docs/final-main-release-authorization.md`](final-main-release-authorization.md) for the final main verification / release authorization packet. Phase 10Q keeps release execution gated by explicit user approval and does not create a package, tag, GitHub Release, or upload assets.
