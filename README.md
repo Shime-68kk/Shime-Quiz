@@ -125,6 +125,7 @@ Actual screenshot image files are not included yet; the screenshot checklist exi
 - EduGen/File Processor boundary polish: [`docs/edugen-boundary-polish.md`](docs/edugen-boundary-polish.md)
 - Manual evidence results log/template: [`docs/manual-evidence-results-log.md`](docs/manual-evidence-results-log.md)
 - Manual evidence execution checklist / evidence capture guide: [`docs/manual-evidence-execution-checklist.md`](docs/manual-evidence-execution-checklist.md)
+- Cross-device transfer UX decision plan: [`docs/cross-device-transfer-ux-decision.md`](docs/cross-device-transfer-ux-decision.md)
 
 The release candidate tag/publish gate documents that explicit user approval is required before tagging or publishing. The release tag decision, GitHub Release draft, and publish checklist are documentation only. They do not create a tag, publish a GitHub Release, or certify production/security/accessibility readiness.
 
@@ -135,6 +136,13 @@ The optional manual evidence results log/template is documented in [`docs/manual
 ## Phase 10T manual evidence execution checklist
 
 The optional manual evidence execution checklist / evidence capture guide is documented in [`docs/manual-evidence-execution-checklist.md`](docs/manual-evidence-execution-checklist.md). Phase 10T adds step-by-step guidance for future user-approved evidence capture and for filling [`docs/manual-evidence-results-log.md`](docs/manual-evidence-results-log.md). No manual evidence was executed by Phase 10T, no screenshot files were added, no mobile UX pass was claimed, no configured EduGen import pass was claimed, no cross-device restore pass was claimed, no E2E pass was claimed, no Lighthouse/Core Web Vitals pass was claimed, no release tag was created, no GitHub Release was published, and no release package was created or published. Package version/dependencies remain unchanged, no runtime app behavior changed, and no production/security/accessibility/performance certification is claimed.
+
+
+## Phase 11A cross-device transfer UX decision
+
+The cross-device transfer UX decision / convenience plan is documented in [`docs/cross-device-transfer-ux-decision.md`](docs/cross-device-transfer-ux-decision.md). Phase 11A evaluates friendlier transfer options and recommends a staged roadmap for future UX polish while keeping the current app local-first/browser-local.
+
+Current portability remains manual backup/export/import. No QR transfer was implemented, no Web Share implementation was added, no WebRTC/session transfer was implemented, no backend/cloud/account sync was added, no automatic cross-device sync was added, no encryption claim was added, no backup/restore/import/storage runtime behavior changed, no package version/dependencies changed, no release tag was created, no GitHub Release was published, and no release package was created or published.
 
 ## Validation
 
