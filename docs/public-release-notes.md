@@ -247,3 +247,9 @@ Do not claim automatic sync implemented, cloud sync implemented, QR transfer imp
 Phase 12A adds the Phase 12 roadmap/risk register/scope lock documentation in [`phase12-roadmap-risk-register.md`](phase12-roadmap-risk-register.md). It scopes Phase 12 as a Stability + UX + Performance + Data Safety track and documents future/planned areas such as storage capacity, IndexedDB evaluation, Dashboard Today Card planning, Study flow micro-feedback planning, unit test foundation planning, route-level code splitting planning, and future FSRS evaluation.
 
 This note does not imply those Phase 12 runtime features are implemented. QR transfer, transfer-code flow, WebRTC/session transfer, cloud/account sync, automatic sync, encryption, release package creation, release tag creation, and GitHub Release publication remain unimplemented unless a later phase explicitly implements and validates them.
+
+## Phase 12B storage planning documentation
+
+Phase 12B adds neutral planning documentation for storage capacity risk and a future IndexedDB migration path. This is planning documentation only: storage migration is not implemented, storage quota warning UI is not implemented, and the storage capacity issue is not claimed as solved.
+
+This Phase 12B note is storage capacity / IndexedDB migration planning only.

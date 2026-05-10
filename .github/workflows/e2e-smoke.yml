@@ -266,3 +266,6 @@ jobs:
 
       - name: Validate Phase 12 roadmap risk register
         run: node scripts/validate-phase12-roadmap-risk-register.js
+
+      - name: Validate Phase 12B storage capacity IndexedDB migration plan
+        run: node scripts/validate-storage-capacity-indexeddb-migration-plan.js
