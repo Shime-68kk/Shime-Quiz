@@ -216,3 +216,9 @@ Current transfer still uses manual backup/export/import. No QR transfer was impl
 The backup transfer safety hardening plan is documented in [`docs/backup-transfer-safety-hardening.md`](docs/backup-transfer-safety-hardening.md). Phase 11C documents future backup metadata, checksum/error-detection, import preview, merge/replace/keep-both, duplicate/conflict handling, privacy, compatibility, and safe-failure requirements for future transfer work.
 
 Current transfer still uses manual backup/export/import. No backup format changed, no storage schema changed, no import/restore behavior changed, no checksum/compression/encryption was implemented, no QR transfer was implemented, no Web Share implementation was added, no WebRTC/session transfer was implemented, no backend/cloud/account sync was added, no automatic sync was added, no package version/dependencies changed, no release tag was created, no GitHub Release was published, and no release package was created or published.
+
+## Phase 11D Web Share / mobile sharing prototype plan
+
+The Web Share / mobile sharing prototype plan is documented in [`docs/web-share-mobile-sharing-prototype-plan.md`](docs/web-share-mobile-sharing-prototype-plan.md). Phase 11D evaluates a future mobile-friendly share-sheet flow for backup files while preserving the current local-first/manual backup/export/import model.
+
+No Web Share runtime was implemented, no QR transfer was implemented, no WebRTC/session transfer was implemented, no backend/cloud/account sync was added, no automatic sync was added, no encryption implementation was added, no runtime app behavior changed, no backup format/storage schema/import behavior changed, no package version/dependencies changed, no release tag was created, no GitHub Release was published, and no release package was created or published.

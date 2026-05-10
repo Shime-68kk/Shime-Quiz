@@ -182,3 +182,6 @@ Phase 11B improves the user-facing wording of the existing backup/restore UI for
 
 Deployment readiness now references the backup transfer safety hardening plan at [`docs/backup-transfer-safety-hardening.md`](backup-transfer-safety-hardening.md). Deployment claims remain unchanged: current portability still uses manual backup/export/import, no backup format changed, no storage schema changed, no import/restore behavior changed, no checksum/compression/encryption was implemented, no QR transfer, Web Share, WebRTC/session transfer, backend/cloud/account sync, automatic sync, package/dependency change, release package, release tag, or GitHub Release was added.
 
+## Phase 11D Web Share / mobile sharing prototype plan
+
+Phase 11D documents a future Web Share / mobile sharing prototype plan in [`docs/web-share-mobile-sharing-prototype-plan.md`](web-share-mobile-sharing-prototype-plan.md). The deployed app remains local-first/browser-local, and current transfer remains manual backup/export/import. Phase 11D does not implement Web Share runtime, QR transfer, WebRTC/session transfer, backend/cloud/account sync, automatic sync, encryption, backup format/storage schema/import behavior changes, package/dependency changes, or release publication.

@@ -1638,3 +1638,29 @@ Forbidden claims:
 - Do not claim checksum implemented, compression implemented, encryption implemented, import preview implemented, merge/replace/keep-both implemented, backup format changed, or storage schema changed.
 - Do not claim QR transfer implemented, Web Share implemented, WebRTC/session transfer implemented, cloud/account sync implemented, or automatic sync implemented.
 - Do not claim release tag created, GitHub Release published, or release package created/published.
+
+## Phase 11D — Web Share / Mobile Sharing Prototype Plan
+
+Phase 11D adds [`docs/web-share-mobile-sharing-prototype-plan.md`](docs/web-share-mobile-sharing-prototype-plan.md), a docs/static-validator/CI-only plan for a future mobile share-sheet convenience layer over the existing local backup file flow.
+
+Coverage:
+- Documents why Web Share could improve mobile backup transfer UX while current portability remains manual backup/export/import.
+- Documents candidate future behavior where a user taps Share backup file, the browser/native share sheet opens if supported, and fallback remains normal backup file download.
+- Documents that restore from backup file remains available on the receiving device.
+- Documents browser/platform support considerations, unsupported-browser fallback, user-cancellation handling, and privacy requirements for backup files that may contain quiz content, answers, progress, and study history.
+- Re-states no server upload, no cloud sync claim, no account sync claim, no automatic sync claim, and no encryption implementation claim.
+- Re-states no Web Share runtime implementation, no QR transfer implementation, no WebRTC/session transfer implementation, no backend/cloud/account sync, no backup format/storage schema/import behavior change, no runtime app code change, no package/dependency change, and no release package/tag/GitHub Release creation or publication.
+
+Validator:
+- `scripts/validate-web-share-mobile-sharing-prototype-plan.js`
+
+CI coverage:
+- `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-web-share-mobile-sharing-prototype-plan.js` after the Phase 11A/11B/11C transfer validators and preserves previous validators and Playwright E2E smoke steps.
+
+Allowed claims:
+- Web Share mobile sharing prototype plan exists.
+- Future mobile share-sheet behavior, fallback requirements, and privacy requirements are documented.
+
+Forbidden claims:
+- Do not claim Web Share runtime implemented, QR transfer implemented, WebRTC/session transfer implemented, cloud/account sync implemented, automatic sync implemented, encryption implemented, backup format changed, storage schema changed, or import/restore behavior changed.
+- Do not claim release tag created, GitHub Release published, or release package created/published.

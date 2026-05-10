@@ -148,3 +148,7 @@ Recommended next options:
 - Phase 11D alternative — Backup Safety Runtime Implementation, if the user approves runtime safety changes first.
 - User-approved final release execution.
 - Keep the release candidate unpublished.
+
+## Phase 11D follow-up: Web Share / mobile sharing prototype plan
+
+Phase 11D adds [`docs/web-share-mobile-sharing-prototype-plan.md`](web-share-mobile-sharing-prototype-plan.md), a docs/static-validator/CI-only plan for a future optional Web Share/mobile share-sheet layer over the existing backup file flow. It does not implement Web Share runtime, QR transfer, WebRTC/session transfer, backend/cloud/account sync, automatic sync, encryption, checksum runtime, compression, import preview runtime, merge/replace/keep-both runtime, backup format changes, storage schema changes, or import/restore behavior changes.
