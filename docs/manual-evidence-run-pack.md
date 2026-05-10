@@ -183,3 +183,8 @@ See [Release Candidate Freeze / Final Decision Memo](release-candidate-freeze-fi
 ## Phase 10S results log companion
 
 The optional results companion is [`docs/manual-evidence-results-log.md`](manual-evidence-results-log.md). It provides fields for recording future actual evidence. Phase 10S does not run this pack, does not capture screenshots, does not claim mobile UX, configured EduGen import, cross-device restore, Lighthouse/Core Web Vitals, or E2E PASS, and does not execute release actions.
+
+## Phase 10T manual evidence execution checklist
+
+Manual evidence execution guidance is documented in [`docs/manual-evidence-execution-checklist.md`](manual-evidence-execution-checklist.md). Phase 10T adds a checklist/evidence capture guide only: no manual evidence was executed, no screenshot files were added, no mobile UX pass was claimed, no configured EduGen import pass was claimed, no cross-device restore pass was claimed, no E2E pass was claimed, no Lighthouse/Core Web Vitals pass was claimed, no release tag was created, no GitHub Release was published, no release package was created or published, package version/dependencies remain unchanged, runtime app behavior was not changed, and no production/security/accessibility/performance certification is claimed. Future results should be copied into [`docs/manual-evidence-results-log.md`](manual-evidence-results-log.md) only after actual evidence exists.
+

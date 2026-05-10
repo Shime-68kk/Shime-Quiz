@@ -1485,3 +1485,34 @@ Validator:
 
 CI coverage:
 - `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-manual-evidence-results-log.js` and preserves previous validators and Playwright E2E smoke steps.
+
+## Phase 10T — Manual Evidence Execution Checklist / Evidence Capture Guide
+
+Status: DOCUMENTATION / STATIC VALIDATOR / CI ONLY.
+
+Phase 10T adds [`docs/manual-evidence-execution-checklist.md`](docs/manual-evidence-execution-checklist.md), an optional Manual Evidence Execution Checklist / Evidence Capture Guide for future user-approved evidence runs.
+
+Coverage:
+- Evidence execution policy states that Phase 10T creates a checklist/guide only and does not execute manual evidence or capture screenshots.
+- Preconditions cover latest validated main, clean working tree, `npm ci`, `npm run build`, the full static validator chain, optional Chromium/browser availability, optional configured EduGen/File Processor service, and a clean profile or second device/profile for cross-device restore smoke.
+- Guidance covers screenshot capture, mobile/responsive viewports, configured EduGen/File Processor import smoke, cross-device backup/restore smoke, E2E smoke/onboarding commands, and optional Lighthouse/Core Web Vitals measurement.
+- Evidence recording instructions point future operators to [`docs/manual-evidence-results-log.md`](docs/manual-evidence-results-log.md) and require date/time, commit SHA, branch, environment, browser/device/viewport, command or manual path used, result, evidence artifact path or URL, notes, blockers/follow-ups, and allowed claims.
+- Claims guardrails state that checklist existence does not imply evidence passed. No screenshot, mobile UX, configured EduGen import, cross-device restore, E2E, Lighthouse/Core Web Vitals, release tag, GitHub Release, release package, or certification claim is allowed without actual evidence or release execution.
+- Phase 10T does not create a release tag, publish a GitHub Release, create/publish a release package, or execute release actions.
+
+Scope control:
+- No runtime app behavior changes.
+- No package version or dependency changes.
+- No E2E spec/test logic changes.
+- No manual evidence executed.
+- No screenshot image files added.
+- No release action executed.
+- No production/security/accessibility/performance certification claim.
+- No unsupported backend/cloud sync, OCR, built-in AI generation, EduGen bundled, or frontend-only document conversion claims.
+
+Validator:
+- `scripts/validate-manual-evidence-execution-checklist.js`
+
+CI coverage:
+- `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-manual-evidence-execution-checklist.js` after the manual evidence results log validator and preserves previous validators and Playwright E2E smoke steps.
+
