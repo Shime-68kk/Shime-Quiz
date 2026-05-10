@@ -102,7 +102,6 @@ Do not claim:
 
 Options after this track closure:
 
-- Phase 12 planning/handoff for a new chatbot or next planning context.
 - Optional manual evidence run if public evidence is needed.
 - User-approved final release execution.
 - Keep the release candidate unpublished.
