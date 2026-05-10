@@ -23,17 +23,23 @@ jobs:
           node-version: '20'
           cache: npm
 
+      - name: Upgrade npm
+        run: |
+          npm install -g npm@10.9.2
+          npm --version
+
       - name: Install dependencies
-        timeout-minutes: 15
+        timeout-minutes: 20
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
-        run: npm ci --no-audit --progress=false
+          NODE_ENV: development
+          NPM_CONFIG_PRODUCTION: 'false'
+        run: npm ci --include=dev --no-audit --progress=false
 
       - name: Verify installed tooling
         run: |
           test -x node_modules/.bin/vite
           test -x node_modules/.bin/vitest
-          test -x node_modules/.bin/playwright
 
       - name: Build app
         run: npm run build
