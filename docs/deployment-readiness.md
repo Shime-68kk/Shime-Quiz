@@ -177,3 +177,8 @@ Deployment readiness now references the planning-only cross-device transfer UX d
 ## Phase 11B transfer UX copy note
 
 Phase 11B improves the user-facing wording of the existing backup/restore UI for manual device transfer. Deployment claims remain unchanged: current portability still uses manual backup/export/import, no QR transfer, Web Share, WebRTC/session transfer, backend/cloud/account sync, automatic sync, encryption, storage schema change, backup file format change, package/dependency change, release package, release tag, or GitHub Release was added.
+
+## Phase 11C backup transfer safety hardening note
+
+Deployment readiness now references the backup transfer safety hardening plan at [`docs/backup-transfer-safety-hardening.md`](backup-transfer-safety-hardening.md). Deployment claims remain unchanged: current portability still uses manual backup/export/import, no backup format changed, no storage schema changed, no import/restore behavior changed, no checksum/compression/encryption was implemented, no QR transfer, Web Share, WebRTC/session transfer, backend/cloud/account sync, automatic sync, package/dependency change, release package, release tag, or GitHub Release was added.
+

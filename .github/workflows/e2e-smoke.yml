@@ -248,3 +248,6 @@ jobs:
 
       - name: Validate cross-device transfer UX copy polish
         run: node scripts/validate-cross-device-transfer-ux-copy.js
+
+      - name: Validate backup transfer safety hardening
+        run: node scripts/validate-backup-transfer-safety-hardening.js
