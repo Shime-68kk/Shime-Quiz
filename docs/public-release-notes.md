@@ -257,3 +257,8 @@ This Phase 12B note is storage capacity / IndexedDB migration planning only.
 ## Phase 12C storage quota warning
 
 Phase 12C adds an advisory storage quota warning where supported by the browser. The warning encourages manual backup when estimated local browser storage usage is high. This does not add cloud sync, does not migrate storage, and does not change the backup format.
+
+## Phase 12D Dashboard Today Card UX planning
+
+Phase 12D adds Dashboard Today Card UX planning documentation for a future Dashboard simplification strategy. Today Card runtime is not implemented by Phase 12D, and Dashboard redesign is not implemented by Phase 12D.
+

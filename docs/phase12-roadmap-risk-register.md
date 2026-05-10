@@ -182,3 +182,8 @@ Recommended next phase after Phase 12B: Phase 12C — Storage Quota Warning Runt
 Phase 12C is the next runtime step after Phase 12B. It adds a small advisory storage quota warning using browser storage estimate data where available. It does not implement IndexedDB, does not migrate localStorage, and does not change storage schema or backup format.
 
 The following roadmap item remains next: Phase 12D — Dashboard Today Card UX Plan. Phase 12D and Phase 12E are not implemented by Phase 12C.
+
+## Phase 12D follow-up — Dashboard Today Card UX Plan
+
+Phase 12D adds Dashboard Today Card UX planning. Today Card runtime remains future Phase 12E work. No Dashboard runtime behavior changed in Phase 12D. Phase 12E — Dashboard Today Card Runtime is the recommended next phase.
+
