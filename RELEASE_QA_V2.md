@@ -1849,3 +1849,35 @@ Scope controls for Phase 12C:
 - New validator: `scripts/validate-storage-quota-warning-runtime.js`.
 - CI registration added for the new validator.
 - Build/static validation required; E2E may be environment-blocked if Playwright Chromium is unavailable locally.
+
+## Phase 12D — Dashboard Today Card UX Plan
+
+Phase 12D adds `docs/dashboard-today-card-ux-plan.md`, a Dashboard Today Card UX planning document. Phase 12C is the completed baseline for this work.
+
+The plan documents:
+
+- Today Card concept planned for a future runtime phase.
+- Primary CTA plan documented.
+- Progressive disclosure plan documented.
+- Empty states documented.
+- Accessibility/mobile-first requirements documented.
+- Data/source requirements for Phase 12E documented.
+- Testing/evidence requirements documented.
+- Recommended next phase: Phase 12E — Dashboard Today Card Runtime.
+
+Scope controls for Phase 12D:
+
+- No runtime app behavior changes.
+- No `src/` changes.
+- No `e2e/` changes.
+- No package version/dependency changes.
+- No Dashboard runtime changes.
+- No Study Room changes.
+- No scoring/SRT/mastery/recommendation changes.
+- No storage schema changes.
+- No backup format changes.
+- No IndexedDB/FSRS/cloud/account/encryption implementation.
+- No release package/tag/GitHub Release created.
+- New validator: `scripts/validate-dashboard-today-card-ux-plan.js`.
+- CI registration added for the new validator.
+

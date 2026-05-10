@@ -265,3 +265,10 @@ Phase 12B documents storage capacity risk and evaluates a future IndexedDB migra
 Phase 12C adds a small advisory storage quota warning where browser storage estimate APIs are available. The warning is non-blocking and encourages manual backup when estimated browser-local storage usage is high.
 
 Manual backup/export/import remains the portability model. IndexedDB is still not implemented, localStorage is not migrated, and storage schema and backup format are unchanged by Phase 12C. See [`docs/storage-quota-warning-runtime.md`](docs/storage-quota-warning-runtime.md).
+
+## Phase 12D Dashboard Today Card UX planning
+
+The Dashboard Today Card UX plan is documented in [`docs/dashboard-today-card-ux-plan.md`](docs/dashboard-today-card-ux-plan.md). Phase 12D plans a future Dashboard simplification strategy around the learner question "What should I study today?"
+
+Today Card runtime is planned for a future phase and is not implemented by Phase 12D. Dashboard runtime behavior is unchanged by Phase 12D, and the app remains local-first/browser-local.
+

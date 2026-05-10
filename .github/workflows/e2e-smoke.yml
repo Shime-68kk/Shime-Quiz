@@ -272,3 +272,6 @@ jobs:
 
       - name: Validate Phase 12C storage quota warning runtime
         run: node scripts/validate-storage-quota-warning-runtime.js
+
+      - name: Validate Phase 12D Dashboard Today Card UX plan
+        run: node scripts/validate-dashboard-today-card-ux-plan.js
