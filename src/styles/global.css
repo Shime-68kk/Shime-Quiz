@@ -3149,3 +3149,19 @@ code {
     grid-template-columns: 1fr;
   }
 }
+
+.storageQuotaWarning {
+  border: 1px solid color-mix(in srgb, var(--warning) 48%, var(--border));
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--warning) 12%, var(--surface));
+  color: var(--text);
+  display: grid;
+  gap: var(--space-1);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  padding: var(--space-3);
+}
+
+.storageQuotaWarning strong {
+  display: block;
+}

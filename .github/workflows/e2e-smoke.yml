@@ -269,3 +269,6 @@ jobs:
 
       - name: Validate Phase 12B storage capacity IndexedDB migration plan
         run: node scripts/validate-storage-capacity-indexeddb-migration-plan.js
+
+      - name: Validate Phase 12C storage quota warning runtime
+        run: node scripts/validate-storage-quota-warning-runtime.js

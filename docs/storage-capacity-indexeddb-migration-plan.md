@@ -182,3 +182,7 @@ Forbidden claims:
 Recommended next phase: Phase 12C — Storage Quota Warning Runtime.
 
 Phase 12C should be a small runtime phase using browser storage estimate APIs if available, with graceful fallback, no schema migration, and no backup format change.
+
+## Phase 12C follow-up note — Storage Quota Warning Runtime
+
+Phase 12C adds an advisory storage quota warning runtime using browser storage estimate data where available. This follow-up does not implement IndexedDB, does not migrate localStorage, does not change the storage schema, and does not change the backup format.

@@ -259,3 +259,9 @@ Phase 12A does not implement runtime work. IndexedDB migration, FSRS evaluation,
 The Phase 12B storage capacity and IndexedDB migration planning document is available at [`docs/storage-capacity-indexeddb-migration-plan.md`](docs/storage-capacity-indexeddb-migration-plan.md).
 
 Phase 12B documents storage capacity risk and evaluates a future IndexedDB migration path only. IndexedDB is not implemented by Phase 12B, no storage schema or backup format change is made by Phase 12B, and manual backup/export/import remains the current portability model.
+
+## Phase 12C storage quota warning runtime
+
+Phase 12C adds a small advisory storage quota warning where browser storage estimate APIs are available. The warning is non-blocking and encourages manual backup when estimated browser-local storage usage is high.
+
+Manual backup/export/import remains the portability model. IndexedDB is still not implemented, localStorage is not migrated, and storage schema and backup format are unchanged by Phase 12C. See [`docs/storage-quota-warning-runtime.md`](docs/storage-quota-warning-runtime.md).
