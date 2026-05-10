@@ -209,3 +209,8 @@ The cross-device transfer UX decision plan is documented in [`docs/cross-device-
 ## Phase 11B transfer UX copy polish note
 
 Phase 11B adds friendlier transfer/backup UI copy for the existing local-first backup flow. It helps users understand that moving quizzes between devices currently means saving a backup file and restoring it on the other device. This is not QR transfer, Web Share, WebRTC/session transfer, backend/cloud/account sync, automatic sync, encryption, a storage schema change, a backup file format change, a package/dependency change, a release package, a release tag, or a published GitHub Release.
+
+## Phase 11C backup transfer safety hardening note
+
+Phase 11C adds [`docs/backup-transfer-safety-hardening.md`](backup-transfer-safety-hardening.md) as a planning-only safety foundation for future transfer work. It documents future schema/version marker, checksum/error-detection, import preview, merge/replace/keep-both, duplicate/conflict handling, privacy, compatibility, and safe-failure requirements. It does not change the backup format, storage schema, import/restore behavior, package/dependencies, or release status, and it does not implement checksum, compression, encryption, QR transfer, Web Share, WebRTC/session transfer, backend/cloud/account sync, or automatic sync.
+

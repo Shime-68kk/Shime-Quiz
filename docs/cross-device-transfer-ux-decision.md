@@ -259,3 +259,8 @@ Other valid next choices:
 ## Phase 11B follow-up: transfer UX copy polish
 
 Phase 11B implements the first recommended runtime polish from this plan by updating existing backup/restore UI copy to friendlier transfer language. It keeps current manual backup/export/import mechanics and does not add QR transfer, Web Share, WebRTC/session transfer, backend/cloud/account sync, automatic sync, encryption, storage schema changes, backup file format changes, package/dependency changes, release tags, GitHub Releases, or release packages.
+
+## Phase 11C follow-up: backup transfer safety hardening
+
+Backup transfer safety hardening is documented in [`docs/backup-transfer-safety-hardening.md`](backup-transfer-safety-hardening.md). Phase 11C keeps the current portability model as manual backup/export/import and documents future schema/version marker, checksum/error-detection, import preview, merge/replace/keep-both, duplicate/conflict handling, compatibility, and safe-failure requirements. It does not change backup format/runtime behavior, storage schema, import/restore behavior, package version/dependencies, or release status; it does not implement QR transfer, Web Share, WebRTC/session transfer, backend/cloud/account sync, automatic sync, compression, checksum runtime, or encryption.
+

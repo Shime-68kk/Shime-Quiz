@@ -1611,3 +1611,30 @@ Validator:
 
 CI coverage:
 - `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-cross-device-transfer-ux-copy.js` after the Phase 11A cross-device transfer UX decision validator and preserves previous validators and Playwright E2E smoke steps.
+
+
+## Phase 11C — Backup Format / Transfer Safety Hardening
+
+Phase 11C adds [`docs/backup-transfer-safety-hardening.md`](docs/backup-transfer-safety-hardening.md), a docs/static-validator/CI-only plan for safer future backup and transfer foundations after Phase 11A and Phase 11B.
+
+Coverage:
+- Documents future backup metadata requirements, including schema/version marker, app/version metadata, created-at timestamp, optional source device/browser label, and data category summary.
+- Documents future checksum/error-detection, import preview, compatibility check, unknown/unsupported version handling, and safe failure behavior requirements.
+- Documents merge/replace/keep-both decision options, duplicate/conflict handling, no silent destructive overwrite without confirmation, and privacy/security boundaries for backup files that may include private quiz/study data.
+- Re-states current portability remains manual backup/export/import.
+- Re-states no backup format/runtime behavior changes are implemented by this phase.
+- Re-states no backup file format change, no storage schema change, no import/restore behavior change, no checksum implementation, no compression implementation, no encryption implementation, no import preview implementation, and no merge/replace/keep-both runtime implementation.
+- Re-states no QR transfer implementation, no Web Share implementation, no WebRTC/session transfer implementation, no backend/cloud/account sync, and no automatic cross-device sync.
+- Re-states no package version or dependency changes and no release package/tag/GitHub Release creation or publication.
+- Static validator: `scripts/validate-backup-transfer-safety-hardening.js`.
+- CI coverage: `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-backup-transfer-safety-hardening.js` after the Phase 11A/11B transfer validators.
+
+Allowed claims:
+- Backup transfer safety hardening plan exists.
+- Future checksum/import-preview/merge requirements are documented.
+- Privacy and compatibility requirements for future transfer work are documented.
+
+Forbidden claims:
+- Do not claim checksum implemented, compression implemented, encryption implemented, import preview implemented, merge/replace/keep-both implemented, backup format changed, or storage schema changed.
+- Do not claim QR transfer implemented, Web Share implemented, WebRTC/session transfer implemented, cloud/account sync implemented, or automatic sync implemented.
+- Do not claim release tag created, GitHub Release published, or release package created/published.
