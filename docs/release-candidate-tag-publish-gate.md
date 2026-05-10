@@ -149,3 +149,7 @@ See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) 
 ## Phase 10P final release execution checklist
 
 The final release execution checklist is documented in [`docs/final-release-execution-checklist.md`](final-release-execution-checklist.md). It preserves the release gate rule that tag, package, asset upload, and GitHub Release publication require explicit user approval.
+
+## Final main release authorization reference
+
+See [`docs/final-main-release-authorization.md`](final-main-release-authorization.md) for the final main release authorization packet. Release actions remain gated by explicit user approval.

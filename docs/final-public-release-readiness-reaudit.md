@@ -156,3 +156,7 @@ See [`docs/release-package-assembly-plan.md`](release-package-assembly-plan.md) 
 ## Phase 10P final release execution checklist
 
 The final release execution checklist is documented in [`docs/final-release-execution-checklist.md`](final-release-execution-checklist.md). It turns the final re-audit inventory into an ordered future release execution flow without executing any release action.
+
+## Final main release authorization reference
+
+See [`docs/final-main-release-authorization.md`](final-main-release-authorization.md) for the final main release authorization packet. It keeps evidence gaps and publication state explicit before any release execution.

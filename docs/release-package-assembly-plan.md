@@ -174,3 +174,7 @@ Recommended next step: user-approved release package assembly, user-approved act
 ## Phase 10P final release execution checklist
 
 The final release execution checklist is documented in [`docs/final-release-execution-checklist.md`](final-release-execution-checklist.md). It consolidates package assembly, tag creation, GitHub Release publication, release asset upload, and evidence recording into one future user-approved flow. No release package is created or uploaded by Phase 10P.
+
+## Final main release authorization reference
+
+See [`docs/final-main-release-authorization.md`](final-main-release-authorization.md) for the final main release authorization packet. Package assembly remains a separate explicit user-approved action.
