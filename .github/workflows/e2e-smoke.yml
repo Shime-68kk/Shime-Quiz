@@ -251,3 +251,6 @@ jobs:
 
       - name: Validate backup transfer safety hardening
         run: node scripts/validate-backup-transfer-safety-hardening.js
+
+      - name: Validate Web Share mobile sharing prototype plan
+        run: node scripts/validate-web-share-mobile-sharing-prototype-plan.js

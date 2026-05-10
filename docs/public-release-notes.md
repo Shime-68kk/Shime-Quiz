@@ -214,3 +214,6 @@ Phase 11B adds friendlier transfer/backup UI copy for the existing local-first b
 
 Phase 11C adds [`docs/backup-transfer-safety-hardening.md`](backup-transfer-safety-hardening.md) as a planning-only safety foundation for future transfer work. It documents future schema/version marker, checksum/error-detection, import preview, merge/replace/keep-both, duplicate/conflict handling, privacy, compatibility, and safe-failure requirements. It does not change the backup format, storage schema, import/restore behavior, package/dependencies, or release status, and it does not implement checksum, compression, encryption, QR transfer, Web Share, WebRTC/session transfer, backend/cloud/account sync, or automatic sync.
 
+## Phase 11D planning note
+
+Phase 11D adds a Web Share / mobile sharing prototype plan in [`docs/web-share-mobile-sharing-prototype-plan.md`](web-share-mobile-sharing-prototype-plan.md). It is planning only: current portability remains manual backup/export/import, and no Web Share runtime, QR transfer, WebRTC/session transfer, backend/cloud/account sync, automatic sync, encryption, backup format/storage schema/import behavior change, package/dependency change, release tag, GitHub Release, or release package was added.
