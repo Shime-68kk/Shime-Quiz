@@ -253,3 +253,9 @@ Current transfer remains local-first/manual backup/export/import. Web Share runt
 The Phase 12 roadmap, risk register, and scope lock is documented in [`docs/phase12-roadmap-risk-register.md`](docs/phase12-roadmap-risk-register.md). Phase 12 is planned as a Stability + UX + Performance + Data Safety track after the completed Phase 11H baseline.
 
 Phase 12A does not implement runtime work. IndexedDB migration, FSRS evaluation, QR transfer, cloud/account sync, automatic sync, and encryption remain future/planned only unless later phases explicitly implement and validate them.
+
+## Phase 12B storage capacity / IndexedDB migration planning
+
+The Phase 12B storage capacity and IndexedDB migration planning document is available at [`docs/storage-capacity-indexeddb-migration-plan.md`](docs/storage-capacity-indexeddb-migration-plan.md).
+
+Phase 12B documents storage capacity risk and evaluates a future IndexedDB migration path only. IndexedDB is not implemented by Phase 12B, no storage schema or backup format change is made by Phase 12B, and manual backup/export/import remains the current portability model.

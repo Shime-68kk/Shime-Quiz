@@ -1,0 +1,276 @@
+import fs from 'node:fs';
+import { execSync } from 'node:child_process';
+
+const requiredFiles = [
+  'docs/storage-capacity-indexeddb-migration-plan.md',
+  'docs/phase12-roadmap-risk-register.md',
+  'README.md',
+  'RELEASE_QA_V2.md',
+  'docs/public-release-notes.md',
+  'docs/deployment-readiness.md',
+  '.github/workflows/e2e-smoke.yml',
+];
+
+const forbiddenChangedPrefixes = ['src/', 'e2e/'];
+const forbiddenChangedFiles = [
+  'package.json',
+  'package-lock.json',
+  'vite.config',
+  'vite.config.js',
+  'vite.config.mjs',
+  'playwright.config',
+  'playwright.config.js',
+];
+const generatedArtifacts = ['node_modules', 'dist', 'test-results', 'playwright-report', 'coverage', 'FETCH_HEAD'];
+const publicClaimFiles = [
+  'README.md',
+  'RELEASE_QA_V2.md',
+  'docs/storage-capacity-indexeddb-migration-plan.md',
+  'docs/phase12-roadmap-risk-register.md',
+  'docs/public-release-notes.md',
+  'docs/deployment-readiness.md',
+];
+
+function fail(message) {
+  console.error(`Phase 12B validation failed: ${message}`);
+  process.exit(1);
+}
+
+function read(file) {
+  if (!fs.existsSync(file)) fail(`Missing required file: ${file}`);
+  return fs.readFileSync(file, 'utf8');
+}
+
+function normalize(text) {
+  return text.toLowerCase().replace(/[\u2010-\u2015]/g, '-').replace(/\s+/g, ' ');
+}
+
+function requireIncludes(file, terms) {
+  const text = normalize(read(file));
+  for (const term of terms) {
+    if (!text.includes(normalize(term))) fail(`${file} must mention: ${term}`);
+  }
+}
+
+function requireAny(file, label, patterns) {
+  const text = normalize(read(file));
+  if (!patterns.some((pattern) => text.includes(normalize(pattern)))) {
+    fail(`${file} must mention ${label}; accepted wording: ${patterns.join(' | ')}`);
+  }
+}
+
+function warn(message) {
+  console.warn(`Phase 12B validation warning: ${message}`);
+}
+
+function runGit(command, options = {}) {
+  try {
+    return execSync(command, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], ...options }).trim();
+  } catch (error) {
+    if (!options.silent) warn(`Git command failed; changed-file scope checking may be limited: ${command}`);
+    return '';
+  }
+}
+
+function splitLines(output) {
+  return output ? output.split(/\r?\n/).map((line) => line.trim()).filter(Boolean) : [];
+}
+
+function uniqueSorted(files) {
+  return [...new Set(files)].sort((a, b) => a.localeCompare(b));
+}
+
+function changedFilesFromPullRequestBase() {
+  const baseRef = process.env.GITHUB_BASE_REF;
+  if (!baseRef) return [];
+
+  runGit(`git fetch --no-tags --depth=1 origin ${baseRef}`, { silent: true });
+  const mergeBase = runGit(`git merge-base HEAD origin/${baseRef}`, { silent: true });
+  if (!mergeBase) {
+    warn(`Could not compute merge base against origin/${baseRef}; falling back to local changed-file detection.`);
+    return [];
+  }
+
+  return splitLines(runGit(`git diff --name-only ${mergeBase} HEAD`));
+}
+
+function changedFilesFromLocalFallbacks({ includeUntracked = true } = {}) {
+  const files = [
+    ...splitLines(runGit('git diff --name-only HEAD', { silent: true })),
+    ...splitLines(runGit('git diff --cached --name-only', { silent: true })),
+  ];
+
+  if (includeUntracked) {
+    files.push(...splitLines(runGit('git ls-files --others --exclude-standard', { silent: true })));
+  }
+
+  if (files.length === 0 && !runGit('git rev-parse --is-inside-work-tree', { silent: true })) {
+    warn('Git is unavailable; changed-file scope checks are limited to content/package sanity checks.');
+  }
+
+  return files;
+}
+
+function changedFiles({ includeUntracked = true } = {}) {
+  const prBaseFiles = changedFilesFromPullRequestBase();
+  if (prBaseFiles.length > 0) return uniqueSorted(prBaseFiles);
+  return uniqueSorted(changedFilesFromLocalFallbacks({ includeUntracked }));
+}
+
+function trackedFiles() {
+  const files = splitLines(runGit('git ls-files', { silent: true }));
+  return uniqueSorted(files);
+}
+
+function trackedOrChangedGeneratedArtifacts() {
+  const changedOrTracked = uniqueSorted([...changedFiles({ includeUntracked: false }), ...trackedFiles()]);
+  for (const artifact of generatedArtifacts) {
+    if (changedOrTracked.some((file) => file === artifact || file.startsWith(`${artifact}/`))) {
+      fail(`Generated artifact appears in changed or tracked files: ${artifact}`);
+    }
+  }
+}
+
+function scopeGuard() {
+  const changed = changedFiles();
+  for (const file of changed) {
+    if (forbiddenChangedFiles.includes(file)) fail(`Forbidden file changed: ${file}`);
+    if (forbiddenChangedPrefixes.some((prefix) => file.startsWith(prefix))) fail(`Forbidden path changed: ${file}`);
+  }
+}
+
+function packageGuard() {
+  const changed = changedFiles();
+  if (changed.includes('package.json') || changed.includes('package-lock.json')) {
+    fail('package.json or package-lock.json changed in docs/static-validator phase');
+  }
+  const pkg = JSON.parse(read('package.json'));
+  if (!pkg.version) fail('package.json sanity check failed: missing version');
+  if (typeof pkg.dependencies !== 'object' && pkg.dependencies !== undefined) fail('package.json dependencies sanity check failed');
+  if (typeof pkg.devDependencies !== 'object' && pkg.devDependencies !== undefined) fail('package.json devDependencies sanity check failed');
+}
+
+function lineIsSafe(line) {
+  const safeMarkers = [
+    'not implemented', 'not migrate', 'not migrated', 'not changed', 'not change', 'not added',
+    'not created', 'not published', 'planned', 'evaluated', 'future', 'non-goal', 'non-goals',
+    'forbidden claim', 'forbidden claims', 'does not', 'do not', 'no ', 'only documents',
+    'planning', 'requirements', 'recommended next phase'
+  ];
+  const normalized = normalize(line);
+  return safeMarkers.some((marker) => normalized.includes(marker));
+}
+
+function forbiddenOverclaimGuard() {
+  const phraseGroups = [
+    ['indexeddb implemented'],
+    ['migrated to indexeddb', 'localstorage migrated'],
+    ['storage schema changed'],
+    ['backup format changed'],
+    ['restore behavior changed'],
+    ['storage quota warning implemented'],
+    ['storage capacity solved'],
+    ['backup checksum implemented'],
+    ['partial restore implemented'],
+    ['incremental sync implemented'],
+    ['cloud sync implemented'],
+    ['account sync implemented'],
+    ['automatic sync implemented'],
+    ['encryption implemented', 'encrypted backups implemented'],
+    ['data loss prevention guaranteed'],
+    ['production storage reliability certified'],
+    ['release package created'],
+    ['release tag created'],
+    ['github release published'],
+  ];
+
+  for (const file of publicClaimFiles) {
+    const lines = read(file).split(/\r?\n/);
+    for (const line of lines) {
+      const normalizedLine = normalize(line);
+      for (const group of phraseGroups) {
+        if (group.some((phrase) => normalizedLine.includes(phrase)) && !lineIsSafe(line)) {
+          fail(`Unsupported positive overclaim in ${file}: ${line.trim()}`);
+        }
+      }
+    }
+  }
+}
+
+function validate() {
+  for (const file of requiredFiles) read(file);
+
+  requireIncludes('docs/storage-capacity-indexeddb-migration-plan.md', [
+    'Phase 12B',
+    'Storage Capacity / IndexedDB Migration Plan',
+    'completed/merged through Phase 12A',
+    'local-first',
+    'browser-local',
+    'manual backup/export/import',
+    'storage capacity risk',
+    'localStorage',
+    'IndexedDB',
+    'quota',
+    'failure modes',
+    'backup/restore compatibility',
+    'rollback',
+    'fallback',
+    'testing',
+    'evidence',
+    'non-goals',
+    'allowed claims',
+    'forbidden claims',
+    'Phase 12C',
+    'Storage Quota Warning Runtime',
+  ]);
+
+  requireAny('docs/storage-capacity-indexeddb-migration-plan.md', 'IndexedDB not implemented by Phase 12B', ['IndexedDB is not implemented in Phase 12B', 'does not implement IndexedDB']);
+  requireAny('docs/storage-capacity-indexeddb-migration-plan.md', 'localStorage not migrated by Phase 12B', ['does not migrate localStorage data', 'No user data is migrated in Phase 12B']);
+  requireAny('docs/storage-capacity-indexeddb-migration-plan.md', 'storage schema not changed by Phase 12B', ['does not change storage schema']);
+  requireAny('docs/storage-capacity-indexeddb-migration-plan.md', 'backup format not changed by Phase 12B', ['does not change backup format']);
+  requireAny('docs/storage-capacity-indexeddb-migration-plan.md', 'restore behavior not changed by Phase 12B', ['does not change restore behavior']);
+  requireAny('docs/storage-capacity-indexeddb-migration-plan.md', 'storage quota warning runtime not implemented by Phase 12B', ['does not add storage quota warning UI or runtime', 'Storage Quota Warning Runtime is recommended for Phase 12C']);
+  requireAny('docs/storage-capacity-indexeddb-migration-plan.md', 'backup checksum not implemented by Phase 12B', ['does not implement backup checksum', 'does not add backup checksum']);
+  requireAny('docs/storage-capacity-indexeddb-migration-plan.md', 'partial restore not implemented by Phase 12B', ['does not implement partial restore', 'does not add partial restore']);
+  requireAny('docs/storage-capacity-indexeddb-migration-plan.md', 'cloud/account sync not implemented by Phase 12B', ['There is no backend, cloud, account sync', 'does not add cloud/account sync']);
+  requireAny('docs/storage-capacity-indexeddb-migration-plan.md', 'encryption not implemented by Phase 12B', ['does not add encryption']);
+  requireAny('docs/storage-capacity-indexeddb-migration-plan.md', 'package dependencies not changed by Phase 12B', ['does not add dependencies']);
+  requireAny('docs/storage-capacity-indexeddb-migration-plan.md', 'runtime app behavior not changed by Phase 12B', ['does not change runtime behavior', 'does not change runtime app code']);
+
+  requireIncludes('docs/storage-capacity-indexeddb-migration-plan.md', [
+    'Quota exceeded',
+    'Partial write',
+    'Corrupt or malformed stored payload',
+    'Oversized imported content',
+    'Backup from corrupted state',
+    'Restore into an existing data/profile',
+    'Private/incognito storage clearing',
+    'User clearing site data',
+    'Browser-specific quota differences',
+    'preserve existing localStorage data',
+    'backup before migration',
+    'idempotent',
+    'resumable or safely retryable',
+    'rollback/fallback',
+    'user-visible error states',
+    'test coverage before rollout',
+  ]);
+
+  requireIncludes('README.md', ['docs/storage-capacity-indexeddb-migration-plan.md', 'storage capacity', 'IndexedDB']);
+  requireAny('README.md', 'not implemented or planned/evaluated only', ['planned/evaluated only', 'not implemented by Phase 12B']);
+
+  requireIncludes('RELEASE_QA_V2.md', ['Phase 12B', 'storage capacity', 'IndexedDB migration plan', 'No runtime app behavior changes', 'No storage schema changes', 'No backup format changes', 'No package version/dependency changes']);
+  requireIncludes('docs/phase12-roadmap-risk-register.md', ['Phase 12B', 'storage capacity / IndexedDB migration plan', 'Phase 12C', 'Storage Quota Warning Runtime']);
+  requireIncludes('docs/public-release-notes.md', ['storage capacity', 'IndexedDB migration planning']);
+  requireIncludes('docs/deployment-readiness.md', ['storage planning', 'local-first browser app', 'no backend/cloud/account sync']);
+  requireIncludes('.github/workflows/e2e-smoke.yml', ['node scripts/validate-storage-capacity-indexeddb-migration-plan.js']);
+
+  packageGuard();
+  scopeGuard();
+  trackedOrChangedGeneratedArtifacts();
+  forbiddenOverclaimGuard();
+
+  console.log('Phase 12B storage capacity / IndexedDB migration plan validation passed.');
+}
+
+validate();

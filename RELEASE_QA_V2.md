@@ -1808,3 +1808,26 @@ Guardrails:
 Validation and CI:
 - Adds `scripts/validate-phase12-roadmap-risk-register.js`.
 - `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-phase12-roadmap-risk-register.js` after the Phase 11H closure validator and preserves previous validators and Playwright E2E smoke/onboarding steps.
+
+## Phase 12B — Storage Capacity / IndexedDB Migration Plan
+
+Phase 12B adds `docs/storage-capacity-indexeddb-migration-plan.md`, a dedicated storage capacity and IndexedDB migration planning document. Phase 12A roadmap/scope-lock is the completed baseline for this work.
+
+The current app remains local-first and browser-local. Current portability remains manual backup/export/import. IndexedDB migration is planned/evaluated only and is not implemented by Phase 12B. Storage Quota Warning Runtime is recommended for Phase 12C and is not implemented by Phase 12B.
+
+The Phase 12B plan documents backup/restore compatibility requirements, rollback/fallback requirements, and testing/evidence requirements for any future storage migration.
+
+Scope controls for Phase 12B:
+
+- No runtime app behavior changes.
+- No `src/` changes.
+- No `e2e/` changes.
+- No package version/dependency changes.
+- No storage schema changes.
+- No backup format changes.
+- No import/restore behavior changes.
+- No cloud/account/automatic sync.
+- No encryption.
+- No release package/tag/GitHub Release created.
+- New validator: `scripts/validate-storage-capacity-indexeddb-migration-plan.js`.
+- CI registration added for the new validator.

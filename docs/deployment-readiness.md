@@ -212,3 +212,9 @@ No new backend service, account service, cloud sync service, automatic sync serv
 Phase 12A adds the Phase 12 roadmap/scope lock in [`phase12-roadmap-risk-register.md`](phase12-roadmap-risk-register.md). The deployed app remains a local-first browser app with no backend service, no cloud/account sync service, and no automatic sync service introduced by Phase 12A.
 
 EduGen/File Processor remains separate. Document import that requires PDF/DOCX/PPTX/ZIP conversion still requires a browser-reachable `VITE_FILE_PROCESSOR_URL`; frontend-only hosting does not provide document conversion by itself. Phase 12A does not add IndexedDB runtime migration, storage quota warning UI, FSRS, QR transfer, transfer-code flow, WebRTC/session transfer, encryption, dependency changes, package version changes, release package creation, release tag creation, or GitHub Release publication.
+
+## Phase 12B storage planning note
+
+Phase 12B documents storage capacity risk and future IndexedDB migration planning. This does not change the deployment model: Shime Quiz remains a local-first browser app with no backend/cloud/account sync, and manual backup/export/import remains the portability model.
+
+EduGen/File Processor remains separate. Document import that depends on PDF/DOCX/PPTX/ZIP conversion still requires a browser-reachable `VITE_FILE_PROCESSOR_URL`; frontend-only hosting does not provide document conversion by itself.

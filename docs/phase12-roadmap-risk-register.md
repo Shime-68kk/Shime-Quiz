@@ -170,3 +170,9 @@ Do not claim:
 ## 12. Recommended next phase
 
 Recommended next phase: **Phase 12B — Storage Capacity / IndexedDB Migration Plan**.
+
+## Phase 12B update — Storage Capacity / IndexedDB Migration Plan
+
+Phase 12B adds a dedicated storage capacity / IndexedDB migration plan in `docs/storage-capacity-indexeddb-migration-plan.md`. IndexedDB remains planned/evaluated only. No storage migration, storage schema change, or backup format change happened in Phase 12B.
+
+Recommended next phase after Phase 12B: Phase 12C — Storage Quota Warning Runtime. Phase 12C should remain small and focused on warning/runtime visibility rather than schema migration.
