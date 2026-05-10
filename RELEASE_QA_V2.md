@@ -1881,3 +1881,22 @@ Scope controls for Phase 12D:
 - New validator: `scripts/validate-dashboard-today-card-ux-plan.js`.
 - CI registration added for the new validator.
 
+
+## Phase 12E — Dashboard Today Card Runtime
+
+- Added `docs/dashboard-today-card-runtime.md`.
+- Phase 12D Dashboard Today Card UX plan is the completed baseline.
+- Dashboard Today Card runtime added.
+- Today Card provides a primary Dashboard study action using existing app data and routes.
+- Existing Dashboard metrics remain available.
+- Empty/fallback states are handled.
+- No Study Room behavior changes.
+- No scoring/SRT/mastery/recommendation algorithm changes.
+- No storage schema changes.
+- No backup format changes.
+- No import/restore behavior changes.
+- No package version/dependency changes.
+- No IndexedDB, FSRS, cloud/account sync, automatic sync, or encryption implementation.
+- New validator: `scripts/validate-dashboard-today-card-runtime.js`.
+- CI registration added for the new validator.
+- Build/static validation should pass. E2E is PASS only when browser execution actually passes; otherwise classify browser failures as environment-blocked, not product failure.

@@ -272,3 +272,7 @@ The Dashboard Today Card UX plan is documented in [`docs/dashboard-today-card-ux
 
 Today Card runtime is planned for a future phase and is not implemented by Phase 12D. Dashboard runtime behavior is unchanged by Phase 12D, and the app remains local-first/browser-local.
 
+
+### Phase 12E Dashboard Today Card runtime
+
+Phase 12E adds a small [Dashboard Today Card runtime](docs/dashboard-today-card-runtime.md) so the Dashboard has a clearer first study action. The card uses existing app data and existing routes, keeps existing Dashboard metrics available, and does not change Study Room logic or scoring/SRT/mastery/recommendation algorithms. Shime remains local-first and browser-local.

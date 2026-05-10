@@ -187,3 +187,8 @@ The following roadmap item remains next: Phase 12D — Dashboard Today Card UX P
 
 Phase 12D adds Dashboard Today Card UX planning. Today Card runtime remains future Phase 12E work. No Dashboard runtime behavior changed in Phase 12D. Phase 12E — Dashboard Today Card Runtime is the recommended next phase.
 
+
+
+### Phase 12E follow-up
+
+Phase 12E marks Dashboard Today Card Runtime as the current runtime Dashboard simplification step. It implements the Today Card while preserving existing Dashboard metrics and without changing Study Room logic, scoring/SRT/mastery/recommendation algorithms, storage schema, or backup format. Later Phase 12 work remains unimplemented unless completed separately.

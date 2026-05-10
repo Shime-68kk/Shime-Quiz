@@ -163,3 +163,8 @@ Forbidden claims:
 Recommended next phase: Phase 12E — Dashboard Today Card Runtime.
 
 Phase 12E should be a narrow runtime UX phase that implements the planned Today Card without changing Study Room logic, scoring/SRT/mastery algorithms, storage schema, backup format, or package dependencies.
+
+
+## Phase 12E follow-up
+
+Phase 12E implements the planned Dashboard Today Card runtime as a narrow Dashboard UX improvement. It does not change Study Room behavior, scoring/SRT/mastery/recommendation algorithms, storage schema, or backup format.

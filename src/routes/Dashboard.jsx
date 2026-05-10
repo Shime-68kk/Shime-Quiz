@@ -5,6 +5,7 @@ import PageHeader from '../components/PageHeader.jsx';
 import ProgressBar from '../components/ProgressBar.jsx';
 import HistoryAnalyticsPanel from '../components/analytics/HistoryAnalyticsPanel.jsx';
 import MasteryInsightsPanel from '../components/analytics/MasteryInsightsPanel.jsx';
+import DashboardTodayCard from '../components/learning/DashboardTodayCard.jsx';
 import StudyGoalCard from '../components/learning/StudyGoalCard.jsx';
 import TodayJourneyCard from '../components/learning/TodayJourneyCard.jsx';
 import ReviewSchedulePanel from '../components/study/ReviewSchedulePanel.jsx';
@@ -111,6 +112,8 @@ function DashboardContent() {
           </div>
         </div>
       </Card>
+
+      <DashboardTodayCard />
 
       {isFirstRunEmptyState ? (
         <Card title="Chưa có dữ liệu học tập" eyebrow="Bắt đầu an toàn" className="dashboardFirstRunOnboardingCard">
