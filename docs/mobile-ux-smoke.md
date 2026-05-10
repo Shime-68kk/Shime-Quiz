@@ -120,3 +120,7 @@ The final public release readiness re-audit is documented in [`docs/final-public
 
 ## Phase 10L manual evidence reference
 Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-run-pack.md) includes the optional mobile/responsive evidence checklist. Mobile UX is not claimed as passed unless a real run passes.
+
+## Phase 10S evidence log reference
+
+Record future mobile/responsive smoke results in [`docs/manual-evidence-results-log.md`](manual-evidence-results-log.md) only after an actual run. Phase 10S adds the template only and does not claim mobile UX passed, does not add screenshots, and does not change runtime behavior or package dependencies.

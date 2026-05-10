@@ -127,3 +127,7 @@ Recommended next step: user-approved final release execution, or stop planning a
 ## Phase 10R follow-up
 
 See [Release Candidate Freeze / Final Decision Memo](release-candidate-freeze-final-decision.md). The freeze memo confirms the planning track is complete, no release action was executed, and final release/package/tag/GitHub Release actions remain gated by explicit user approval.
+
+## Phase 10S manual evidence results log note
+
+Future optional evidence results may be recorded in [`docs/manual-evidence-results-log.md`](manual-evidence-results-log.md). The log is a template only: Phase 10S does not execute manual evidence, capture screenshots, claim mobile UX/EduGen/cross-device/Lighthouse PASS, create a tag, publish a GitHub Release, create or publish a release package, change package version/dependencies, or change runtime app behavior.

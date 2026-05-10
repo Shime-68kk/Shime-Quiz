@@ -135,3 +135,7 @@ The final public release readiness re-audit is documented in [`docs/final-public
 
 ## Phase 10L manual evidence reference
 Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](manual-evidence-run-pack.md) includes the optional screenshot evidence checklist. Actual screenshots are not claimed until real image files exist.
+
+## Phase 10S evidence log reference
+
+Record future screenshot capture results in [`docs/manual-evidence-results-log.md`](manual-evidence-results-log.md) only after actual screenshot files exist. Phase 10S adds the template only and does not capture screenshots, add screenshot image files, claim screenshot availability, or change runtime behavior or dependencies.

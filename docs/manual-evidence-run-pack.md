@@ -179,3 +179,7 @@ See [`docs/final-main-release-authorization.md`](final-main-release-authorizatio
 ## Phase 10R follow-up
 
 See [Release Candidate Freeze / Final Decision Memo](release-candidate-freeze-final-decision.md). Optional manual evidence may still be run before release, but no evidence pass is claimed by the freeze memo.
+
+## Phase 10S results log companion
+
+The optional results companion is [`docs/manual-evidence-results-log.md`](manual-evidence-results-log.md). It provides fields for recording future actual evidence. Phase 10S does not run this pack, does not capture screenshots, does not claim mobile UX, configured EduGen import, cross-device restore, Lighthouse/Core Web Vitals, or E2E PASS, and does not execute release actions.
