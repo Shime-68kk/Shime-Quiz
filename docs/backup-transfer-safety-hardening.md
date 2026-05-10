@@ -152,3 +152,11 @@ Recommended next options:
 ## Phase 11D follow-up: Web Share / mobile sharing prototype plan
 
 Phase 11D adds [`docs/web-share-mobile-sharing-prototype-plan.md`](web-share-mobile-sharing-prototype-plan.md), a docs/static-validator/CI-only plan for a future optional Web Share/mobile share-sheet layer over the existing backup file flow. It does not implement Web Share runtime, QR transfer, WebRTC/session transfer, backend/cloud/account sync, automatic sync, encryption, checksum runtime, compression, import preview runtime, merge/replace/keep-both runtime, backup format changes, storage schema changes, or import/restore behavior changes.
+
+
+## Phase 11E Web Share runtime note
+
+Phase 11E adds a small Web Share runtime prototype over the existing backup file flow. It does not change the backup format, storage schema, import/restore behavior, checksum status, compression status, or encryption status. Backup files may still contain private quiz/study data, so users should share them only through destinations they trust.
+
+
+Phase 11E validation phrases: backup files may include quiz content, answers, progress, and study history; normal backup file download remains the fallback; no QR transfer; no WebRTC/session transfer; no backend/cloud/account sync; no cloud/automatic sync; no automatic sync; no encryption implementation.

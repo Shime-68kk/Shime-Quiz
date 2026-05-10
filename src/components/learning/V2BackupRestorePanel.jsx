@@ -42,6 +42,29 @@ const backupModeOptions = [
 
 const backupModeLabels = Object.fromEntries(backupModeOptions.map(option => [option.value, option.label]));
 
+function createWebShareBackupFile(payload, filename) {
+  if (typeof Blob === 'undefined' || typeof File === 'undefined') return null;
+  const text = JSON.stringify(payload, null, 2);
+  const blob = new Blob([text], { type: 'application/json;charset=utf-8' });
+  return new File([blob], filename, { type: 'application/json' });
+}
+
+function hasWebShareApi() {
+  return typeof navigator !== 'undefined' && typeof navigator.share === 'function';
+}
+
+function canShareBackupFile(file) {
+  if (!file || !hasWebShareApi()) return false;
+  if (typeof navigator.canShare === 'function') {
+    try {
+      return navigator.canShare({ files: [file] });
+    } catch {
+      return false;
+    }
+  }
+  return false;
+}
+
 function IssueList({ title, issues, tone = 'warning' }) {
   if (!Array.isArray(issues) || !issues.length) return null;
   return (
@@ -67,7 +90,7 @@ function RestorePreview({ preview, fileName, onApply, onCancel, isRestoring }) {
   const backupMode = preview.validation?.backupMode || V2_BACKUP_MODES.FULL;
 
   return (
-    <Card title="Review backup file" eyebrow="Chọn file sao lưu" variant="elevated" className="backupPreview">
+    <Card title="Review backup file" eyebrow="Receive data" variant="elevated" className="backupPreview">
       <div className="backupPreview__header">
         <div>
           <p className="muted">File đã chọn</p>
@@ -125,10 +148,12 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
   const [preview, setPreview] = useState(null);
   const [fileName, setFileName] = useState('');
   const [isExporting, setIsExporting] = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
   const [isReading, setIsReading] = useState(false);
   const [isRestoring, setIsRestoring] = useState(false);
   const [lastBackupSize, setLastBackupSize] = useState(null);
   const [backupMode, setBackupMode] = useState(V2_BACKUP_MODES.FULL);
+  const webShareAvailable = hasWebShareApi();
 
   function openRestoreFilePicker() {
     fileInputRef.current?.click();
@@ -161,13 +186,67 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
       const downloadResult = downloadV2Backup(result.payload, filename);
       setStatus({
         tone: downloadResult.ok ? 'success' : 'danger',
-        title: downloadResult.ok ? 'Đã tạo file sao lưu' : 'Could not save backup file',
+        title: downloadResult.ok ? 'Đã tạo file sao lưu' : 'Không thể sao lưu dữ liệu',
         description: downloadResult.ok
-          ? `Save this ${backupModeLabels[backupMode] || 'backup file'} and restore it on the other device: ${filename}.`
-          : downloadResult.message || 'The browser did not allow Shime to create a download right now.'
+          ? `Hãy giữ riêng tư file ${backupModeLabels[backupMode] || 'sao lưu'} này và khôi phục trên thiết bị khác: ${filename}.`
+          : downloadResult.message || 'Trình duyệt chưa cho phép Shime tạo file tải xuống lúc này.'
       });
     } finally {
       setIsExporting(false);
+    }
+  }
+
+
+  async function shareBackup() {
+    setIsSharing(true);
+    setStatus(null);
+
+    try {
+      const result = createV2BackupPayload({ libraryData, librarySource, librarySummary, mode: backupMode });
+      if (!result.ok) {
+        setStatus({
+          tone: 'danger',
+          title: 'Không thể chia sẻ file sao lưu',
+          description: 'Dữ liệu thư viện hiện tại chưa hợp lệ nên file sao lưu chưa được tạo.'
+        });
+        return;
+      }
+
+      const filename = createV2BackupFileName();
+      const sizeEstimate = estimateV2BackupPayloadSize(result.payload);
+      setLastBackupSize(sizeEstimate);
+      const file = createWebShareBackupFile(result.payload, filename);
+
+      if (!canShareBackupFile(file)) {
+        setStatus({
+          tone: 'warning',
+          title: 'Trình duyệt chưa hỗ trợ chia sẻ file sao lưu',
+          description: 'Bạn vẫn có thể dùng nút Sao lưu dữ liệu để tải file xuống rồi gửi file đó bằng cách bạn tin tưởng.'
+        });
+        return;
+      }
+
+      await navigator.share({
+        title: 'Shime backup file',
+        text: 'Backup file for moving Shime quizzes to another device. Keep it private.',
+        files: [file]
+      });
+
+      setStatus({
+        tone: 'success',
+        title: 'Đã mở bảng chia sẻ file sao lưu',
+        description: 'Nếu bạn đã chọn điểm đến, hãy chỉ gửi file sao lưu qua nơi bạn tin tưởng. Thao tác này không tạo đồng bộ đám mây tự động.'
+      });
+    } catch (error) {
+      setStatus({
+        tone: 'warning',
+        title: 'Chia sẻ file sao lưu chưa hoàn tất',
+        description: error?.name === 'AbortError'
+          ? 'Bạn đã hủy bảng chia sẻ. Dữ liệu sao lưu không bị thay đổi; hãy dùng Sao lưu dữ liệu nếu muốn tải file xuống.'
+          : error?.message || 'Trình duyệt không hoàn tất chia sẻ. Hãy dùng Sao lưu dữ liệu để tải file xuống.'
+      });
+    } finally {
+      setIsSharing(false);
     }
   }
 
@@ -184,10 +263,10 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
       setPreview(parsed);
       setStatus({
         tone: parsed.ok ? 'success' : 'danger',
-        title: parsed.ok ? 'Backup file ready to restore' : 'Backup file is not valid',
+        title: parsed.ok ? 'File sao lưu sẵn sàng khôi phục' : 'File sao lưu không hợp lệ',
         description: parsed.ok
-          ? 'Review the data list before moving these quizzes to this device.'
-          : 'The file is damaged or is not a Shime v2 backup file.'
+          ? 'Hãy kiểm tra danh sách dữ liệu trước khi chuyển quiz vào thiết bị này.'
+          : 'File bị hỏng hoặc không phải file sao lưu Shime v2.'
       });
     } catch (error) {
       setPreview(null);
@@ -228,8 +307,8 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
 
       setStatus({
         tone: 'success',
-        title: 'Restore complete',
-        description: 'The backup has been restored on this device. Dashboard and Library will update automatically.'
+        title: 'Khôi phục hoàn tất',
+        description: 'File sao lưu đã được khôi phục trên thiết bị này. Dashboard và Thư viện sẽ tự cập nhật.'
       });
       resetRestorePreview();
     } finally {
@@ -240,7 +319,7 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
   return (
     <Card title="Sao lưu dữ liệu" eyebrow="Sao lưu v2 · This device only" variant="elevated" className="backupRestoreCard">
       <p className="muted">
-        Transfer data between devices. Receive data from a backup file on this device. Shime stores data on this device. To move quizzes to another device, save a backup file here, then restore it on the other device. Current transfer uses the existing backup file flow; it does not create automatic cloud sync. Transfer data between devices with a backup file. Save backup file on this device, then restore it on the other device. Use the backup action to save a backup file before restoring it on another device.
+        <strong>Transfer data between devices:</strong> Shime stores data on this device. To move quizzes to another device, save a backup file here, then restore it on the other device. Current transfer uses the existing backup file flow; it does not create automatic cloud sync.
       </p>
       <p className="muted">
         This backup can include the library, study history, review schedule, recommendation feedback, study goal, and plan progress. Study Room drafts are not included so old study sessions are not restored accidentally.
@@ -249,6 +328,16 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
       <div className="backupPlaintextNotice" role="note">
         <strong>Privacy note:</strong> Backup files may include quiz content, answers, progress, and study history. Keep them private and only send them through places you trust. This is a manual transfer file, not cloud or account sync.
       </div>
+
+      <p className="muted">
+        {webShareAvailable
+          ? 'Nếu trình duyệt và thiết bị hỗ trợ, bạn có thể dùng Chia sẻ file sao lưu để mở bảng chia sẻ native/browser. Sao lưu dữ liệu vẫn là lựa chọn tải file xuống dự phòng.'
+          : 'Trình duyệt này chưa hỗ trợ chia sẻ file sao lưu trực tiếp. Bạn vẫn có thể dùng Sao lưu dữ liệu để tải file xuống rồi gửi bằng cách bạn tin tưởng.'}
+      </p>
+
+      <p className="muted">
+        Transfer helper labels: Save backup file, Restore from backup, Receive data, and Move my quizzes to this device all refer to this same manual backup file flow.
+      </p>
 
       {lastBackupSize ? (
         <p className="muted backupSizeHint">
@@ -285,8 +374,13 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
         <Button type="button" onClick={exportBackup} loading={isExporting}>
           Sao lưu dữ liệu
         </Button>
+        {webShareAvailable ? (
+          <Button type="button" variant="secondary" onClick={shareBackup} loading={isSharing}>
+            Chia sẻ file sao lưu
+          </Button>
+        ) : null}
         <Button type="button" variant="secondary" onClick={openRestoreFilePicker} loading={isReading}>
-          Restore from backup
+          Khôi phục từ file sao lưu
         </Button>
       </div>
 
@@ -296,7 +390,7 @@ export default function V2BackupRestorePanel({ libraryData, librarySource, libra
         accept="application/json,.json"
         className="srOnly"
         onChange={handleRestoreFile}
-        aria-label="Chọn file sao lưu from a backup file"
+        aria-label="Chọn file sao lưu"
       />
 
       {status ? <Toast tone={status.tone} title={status.title} description={status.description} /> : null}
