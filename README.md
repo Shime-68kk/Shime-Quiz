@@ -247,3 +247,9 @@ No QR transfer was implemented, no WebRTC/session transfer was implemented, no b
 The Phase 11 cross-device transfer track closure and release-readiness re-audit is documented in [`docs/cross-device-transfer-track-closure.md`](docs/cross-device-transfer-track-closure.md). Phase 11H summarizes Phase 11A–11F continuity, allowed and forbidden claims, remaining limitations, and next-phase options.
 
 Current transfer remains local-first/manual backup/export/import. Web Share runtime prototype exists where supported. Normal backup file download remains fallback, and restore from backup remains available. No QR transfer was implemented, no transfer-code flow was implemented, no WebRTC/session transfer was implemented, no backend/cloud/account sync was added, no automatic sync was added, no encryption implementation was added, no backup format/storage schema/import behavior changed, package version/dependencies are unchanged, and release package/tag/GitHub Release remain uncreated/unpublished.
+
+## Phase 12 roadmap / risk register / scope lock
+
+The Phase 12 roadmap, risk register, and scope lock is documented in [`docs/phase12-roadmap-risk-register.md`](docs/phase12-roadmap-risk-register.md). Phase 12 is planned as a Stability + UX + Performance + Data Safety track after the completed Phase 11H baseline.
+
+Phase 12A does not implement runtime work. IndexedDB migration, FSRS evaluation, QR transfer, cloud/account sync, automatic sync, and encryption remain future/planned only unless later phases explicitly implement and validate them.

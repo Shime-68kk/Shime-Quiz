@@ -206,3 +206,9 @@ Normal backup file download remains fallback, restore from backup remains availa
 Phase 11H adds [`docs/cross-device-transfer-track-closure.md`](cross-device-transfer-track-closure.md), a release-readiness re-audit for the Phase 11 cross-device transfer track. The deployed app remains local-first/browser-local. Web Share support depends on browser/platform capability, normal backup file download remains fallback, and restore from backup remains available.
 
 No new backend service, account service, cloud sync service, automatic sync service, QR/session transfer service, encryption service, dependency, package version change, release package, release tag, or GitHub Release is introduced by Phase 11H.
+
+## Phase 12A roadmap/scope lock deployment note
+
+Phase 12A adds the Phase 12 roadmap/scope lock in [`phase12-roadmap-risk-register.md`](phase12-roadmap-risk-register.md). The deployed app remains a local-first browser app with no backend service, no cloud/account sync service, and no automatic sync service introduced by Phase 12A.
+
+EduGen/File Processor remains separate. Document import that requires PDF/DOCX/PPTX/ZIP conversion still requires a browser-reachable `VITE_FILE_PROCESSOR_URL`; frontend-only hosting does not provide document conversion by itself. Phase 12A does not add IndexedDB runtime migration, storage quota warning UI, FSRS, QR transfer, transfer-code flow, WebRTC/session transfer, encryption, dependency changes, package version changes, release package creation, release tag creation, or GitHub Release publication.

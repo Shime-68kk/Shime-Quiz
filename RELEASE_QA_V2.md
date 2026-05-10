@@ -1769,3 +1769,42 @@ Claims control:
 - Can claim Web Share fallback hardening exists.
 - Can claim normal backup file download remains fallback.
 - Do not claim QR transfer, transfer-code flow, WebRTC/session transfer, cloud/account sync, automatic sync, encryption, backup format/storage schema/import behavior changes, release package creation, release tag creation, GitHub Release publication, production/security/privacy certification, or 99.99% reliability.
+
+## Phase 12A — Roadmap / Risk Register / Scope Lock
+
+Phase 12A adds [`docs/phase12-roadmap-risk-register.md`](docs/phase12-roadmap-risk-register.md), an official Phase 12 roadmap, risk register, and scope lock for the next track after the completed Phase 11H baseline. Phase 12 roadmap / risk register / scope lock added.
+
+Theme:
+- Phase 12 is scoped as a Stability + UX + Performance + Data Safety track.
+- The track prioritizes safe incremental planning before runtime implementation.
+
+Technical track:
+- Storage capacity risk.
+- IndexedDB migration planning.
+- Storage quota warning runtime planning.
+- Unit test foundation planning.
+- Route-level code splitting planning.
+- Future FSRS evaluation only.
+
+UX track:
+- Dashboard Today Card planning.
+- Study flow micro-feedback planning.
+- Later exploration for onboarding aha moment, mobile readability/typography, keyboard navigation, and mastery visualization/heatmap.
+
+Recommended next phase:
+- Phase 12B — Storage Capacity / IndexedDB Migration Plan.
+
+Guardrails:
+- No runtime app behavior changes.
+- No `src/` changes.
+- No package version or dependency changes.
+- No storage schema changes.
+- No backup format changes.
+- No IndexedDB implementation.
+- No FSRS implementation.
+- No QR transfer, cloud/account sync, automatic sync, or encryption implementation.
+- No release package created, no release tag created, and no GitHub Release published.
+
+Validation and CI:
+- Adds `scripts/validate-phase12-roadmap-risk-register.js`.
+- `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-phase12-roadmap-risk-register.js` after the Phase 11H closure validator and preserves previous validators and Playwright E2E smoke/onboarding steps.

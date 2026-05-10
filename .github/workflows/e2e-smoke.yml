@@ -263,3 +263,6 @@ jobs:
 
       - name: Validate cross-device transfer track closure
         run: node scripts/validate-cross-device-transfer-track-closure.js
+
+      - name: Validate Phase 12 roadmap risk register
+        run: node scripts/validate-phase12-roadmap-risk-register.js
