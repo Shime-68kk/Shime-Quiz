@@ -185,3 +185,11 @@ Deployment readiness now references the backup transfer safety hardening plan at
 ## Phase 11D Web Share / mobile sharing prototype plan
 
 Phase 11D documents a future Web Share / mobile sharing prototype plan in [`docs/web-share-mobile-sharing-prototype-plan.md`](web-share-mobile-sharing-prototype-plan.md). The deployed app remains local-first/browser-local, and current transfer remains manual backup/export/import. Phase 11D does not implement Web Share runtime, QR transfer, WebRTC/session transfer, backend/cloud/account sync, automatic sync, encryption, backup format/storage schema/import behavior changes, package/dependency changes, or release publication.
+
+
+## Phase 11E deployment note
+
+Phase 11E adds an optional browser Web Share runtime prototype for backup files where supported. It requires no backend service, adds no dependencies, changes no package version, and does not create cloud/account sync, automatic sync, QR transfer, WebRTC/session transfer, encryption, backup format changes, storage schema changes, or import/restore behavior changes. Normal backup file download remains the fallback.
+
+
+Phase 11E validation phrases: backup files may include quiz content, answers, progress, and study history; normal backup file download remains the fallback; no QR transfer; no WebRTC/session transfer; no backend/cloud/account sync; no cloud/automatic sync; no automatic sync; no encryption implementation.

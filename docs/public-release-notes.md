@@ -217,3 +217,11 @@ Phase 11C adds [`docs/backup-transfer-safety-hardening.md`](backup-transfer-safe
 ## Phase 11D planning note
 
 Phase 11D adds a Web Share / mobile sharing prototype plan in [`docs/web-share-mobile-sharing-prototype-plan.md`](web-share-mobile-sharing-prototype-plan.md). It is planning only: current portability remains manual backup/export/import, and no Web Share runtime, QR transfer, WebRTC/session transfer, backend/cloud/account sync, automatic sync, encryption, backup format/storage schema/import behavior change, package/dependency change, release tag, GitHub Release, or release package was added.
+
+
+## Phase 11E release-note guardrail
+
+Phase 11E adds a small Web Share runtime prototype for sharing backup files through the browser/native share sheet where supported. Release notes may say that normal backup file download remains available as the fallback. Do not claim QR transfer, WebRTC/session transfer, cloud/account sync, automatic sync, encryption, backup format changes, storage schema changes, import/restore behavior changes, release tag creation, GitHub Release publication, or release package publication.
+
+
+Phase 11E validation phrases: backup files may include quiz content, answers, progress, and study history; normal backup file download remains the fallback; no QR transfer; no WebRTC/session transfer; no backend/cloud/account sync; no cloud/automatic sync; no automatic sync; no encryption implementation.

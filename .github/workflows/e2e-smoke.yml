@@ -254,3 +254,6 @@ jobs:
 
       - name: Validate Web Share mobile sharing prototype plan
         run: node scripts/validate-web-share-mobile-sharing-prototype-plan.js
+
+      - name: Validate Web Share runtime prototype
+        run: node scripts/validate-web-share-runtime-prototype.js

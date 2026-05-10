@@ -1664,3 +1664,38 @@ Allowed claims:
 Forbidden claims:
 - Do not claim Web Share runtime implemented, QR transfer implemented, WebRTC/session transfer implemented, cloud/account sync implemented, automatic sync implemented, encryption implemented, backup format changed, storage schema changed, or import/restore behavior changed.
 - Do not claim release tag created, GitHub Release published, or release package created/published.
+
+
+## Phase 11E — Web Share Runtime Prototype
+
+Phase 11E adds a small, optional Web Share runtime prototype to the existing backup/restore panel. Where the browser/platform supports sharing files, the user can choose `Chia sẻ file sao lưu` to open the browser/native share sheet for the same Shime v2 backup file content used by the normal backup download flow.
+
+Coverage:
+- Preserves the existing backup download fallback and the existing E2E-visible controls: heading `Sao lưu dữ liệu`, backup button `Sao lưu dữ liệu`, success text `Đã tạo file sao lưu`, and file input label `Chọn file sao lưu`.
+- Uses Web Share feature detection through `navigator.share` and file-share capability checks through `navigator.canShare` where supported.
+- Documents browser/platform support caveats and fallback to normal backup file download when direct file sharing is unsupported, cancelled, or blocked.
+- Preserves privacy boundaries: backup files may include quiz content, answers, progress, and study history; the user chooses the share destination; Shime does not upload backup data to a server.
+- Keeps the current local-first manual backup/export/import model.
+- No QR transfer implementation, no WebRTC/session transfer implementation, no backend/cloud/account sync, no automatic sync, and no encryption implementation.
+- No backup file format change, no storage schema change, and no import/restore behavior change.
+- No package version or dependency changes.
+- No release package created or published, no release tag created, and no GitHub Release published.
+
+Validator:
+- `scripts/validate-web-share-runtime-prototype.js`
+
+CI coverage:
+- `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-web-share-runtime-prototype.js` after the Phase 11D Web Share mobile sharing prototype plan validator and preserves previous validators and Playwright E2E smoke/onboarding steps.
+
+Allowed claims:
+- Web Share runtime prototype exists where supported.
+- Normal backup file download remains available as the fallback.
+
+Forbidden claims:
+- Do not claim QR transfer implemented, WebRTC/session transfer implemented, cloud/account sync implemented, automatic sync implemented, encryption implemented, backup format changed, storage schema changed, or import/restore behavior changed.
+- Do not claim release tag created, GitHub Release published, or release package created/published.
+
+
+Phase 11E validation phrases: backup files may include quiz content, answers, progress, and study history; normal backup file download remains the fallback; no QR transfer; no WebRTC/session transfer; no backend/cloud/account sync; no cloud/automatic sync; no automatic sync; no encryption implementation.
+
+Phase 11E exact guardrail: no QR/WebRTC.

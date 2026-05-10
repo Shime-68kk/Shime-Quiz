@@ -157,3 +157,11 @@ Backup transfer safety hardening is documented in [`docs/backup-transfer-safety-
 ## Phase 11D Web Share / mobile sharing prototype plan
 
 The Web Share / mobile sharing prototype plan is documented in [`docs/web-share-mobile-sharing-prototype-plan.md`](web-share-mobile-sharing-prototype-plan.md). It describes how a future mobile share-sheet option could help users move a backup file while keeping the normal manual backup/export/import and restore from backup file fallback. No Web Share runtime was implemented, and no QR/WebRTC/cloud/account/automatic sync, encryption, backup format change, storage schema change, or import/restore behavior change was added.
+
+
+## Phase 11E Web Share fallback note
+
+Phase 11E adds an optional Web Share runtime prototype where supported by the browser/platform. Current portability still remains manual backup/export/import: normal backup file download remains available, restore from backup file remains available, and unsupported browsers keep the existing file fallback. This does not implement QR transfer, WebRTC/session transfer, backend/cloud/account sync, automatic sync, encryption, backup format changes, storage schema changes, or import/restore behavior changes.
+
+
+Phase 11E validation phrases: backup files may include quiz content, answers, progress, and study history; normal backup file download remains the fallback; no QR transfer; no WebRTC/session transfer; no backend/cloud/account sync; no cloud/automatic sync; no automatic sync; no encryption implementation.

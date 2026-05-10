@@ -222,3 +222,13 @@ Current transfer still uses manual backup/export/import. No backup format change
 The Web Share / mobile sharing prototype plan is documented in [`docs/web-share-mobile-sharing-prototype-plan.md`](docs/web-share-mobile-sharing-prototype-plan.md). Phase 11D evaluates a future mobile-friendly share-sheet flow for backup files while preserving the current local-first/manual backup/export/import model.
 
 No Web Share runtime was implemented, no QR transfer was implemented, no WebRTC/session transfer was implemented, no backend/cloud/account sync was added, no automatic sync was added, no encryption implementation was added, no runtime app behavior changed, no backup format/storage schema/import behavior changed, no package version/dependencies changed, no release tag was created, no GitHub Release was published, and no release package was created or published.
+
+
+## Phase 11E Web Share runtime prototype
+
+Phase 11E adds a small Web Share runtime prototype in the existing backup/restore panel where browser/platform support is available. The existing manual backup file download remains the fallback, and the E2E-visible Vietnamese controls remain preserved: heading `Sao lưu dữ liệu`, button `Sao lưu dữ liệu`, success text `Đã tạo file sao lưu`, and file input label `Chọn file sao lưu`.
+
+The prototype uses the same backup file content as the normal backup download flow and does not change the backup format, storage schema, or import/restore behavior. Web Share support depends on the browser/platform. The app does not upload backup files to a server, does not create cloud sync or automatic sync, does not implement QR transfer or WebRTC/session transfer, and does not implement encryption. Package version/dependencies are unchanged, and the release package/tag/GitHub Release remain uncreated/unpublished.
+
+
+Phase 11E validation phrases: backup files may include quiz content, answers, progress, and study history; normal backup file download remains the fallback; no QR transfer; no WebRTC/session transfer; no backend/cloud/account sync; no cloud/automatic sync; no automatic sync; no encryption implementation.
