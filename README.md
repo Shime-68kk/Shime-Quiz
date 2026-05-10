@@ -276,3 +276,7 @@ Today Card runtime is planned for a future phase and is not implemented by Phase
 ### Phase 12E Dashboard Today Card runtime
 
 Phase 12E adds a small [Dashboard Today Card runtime](docs/dashboard-today-card-runtime.md) so the Dashboard has a clearer first study action. The card uses existing app data and existing routes, keeps existing Dashboard metrics available, and does not change Study Room logic or scoring/SRT/mastery/recommendation algorithms. Shime remains local-first and browser-local.
+
+### Phase 12F Unit Test Foundation planning
+
+The [Unit Test Foundation Plan](docs/unit-test-foundation-plan.md) documents candidate future unit test targets and a future Vitest adoption strategy. Phase 12F does not add Vitest, does not add unit tests, and does not change package/dependencies.

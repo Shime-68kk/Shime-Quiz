@@ -192,3 +192,9 @@ Phase 12D adds Dashboard Today Card UX planning. Today Card runtime remains futu
 ### Phase 12E follow-up
 
 Phase 12E marks Dashboard Today Card Runtime as the current runtime Dashboard simplification step. It implements the Today Card while preserving existing Dashboard metrics and without changing Study Room logic, scoring/SRT/mastery/recommendation algorithms, storage schema, or backup format. Later Phase 12 work remains unimplemented unless completed separately.
+
+## Phase 12F follow-up — Unit Test Foundation planning
+
+Phase 12F adds Unit Test Foundation planning. It documents candidate pure-function test targets, a future Vitest adoption strategy, and future CI expectations.
+
+Vitest and unit tests remain future Phase 12G work. No package/dependency changes happened in Phase 12F. Recommended next phase: Phase 12G — Vitest Unit Test Foundation.

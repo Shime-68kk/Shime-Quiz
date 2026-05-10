@@ -267,3 +267,7 @@ Phase 12D adds Dashboard Today Card UX planning documentation for a future Dashb
 ### Phase 12E Dashboard Today Card runtime
 
 Phase 12E adds a Dashboard Today Card runtime surface that provides a clearer first study action using existing app data and routes. Existing Dashboard metrics remain available. This does not change Study Room behavior, learning algorithms, cloud/sync behavior, storage schema, or backup format.
+
+## Phase 12F planning note
+
+Unit test foundation planning documentation now exists. It identifies candidate future test targets and a future Vitest strategy, but Phase 12F does not add Vitest, unit tests, package changes, or runtime behavior changes.
