@@ -234,3 +234,10 @@ Do not claim QR transfer, WebRTC/session transfer, cloud/account sync, automatic
 
 
 Phase 11F validation phrase: Web Share fallback guidance keeps normal backup file download available.
+
+
+## Phase 11H release-note guardrail
+
+Phase 11H adds a Phase 11 cross-device transfer track closure and release-readiness re-audit in [`docs/cross-device-transfer-track-closure.md`](cross-device-transfer-track-closure.md). Public notes may say that cross-device transfer UX has been improved, Web Share runtime prototype exists where supported, Web Share fallback hardening exists, normal backup file download remains fallback, and restore from backup remains available.
+
+Do not claim automatic sync implemented, cloud sync implemented, QR transfer implemented, transfer code implemented, WebRTC/session transfer implemented, encryption implemented, guaranteed device-to-device transfer, 99.99% reliability, production/security/privacy certification, backup format/storage schema/import behavior changes, release package creation, release tag creation, or GitHub Release publication.

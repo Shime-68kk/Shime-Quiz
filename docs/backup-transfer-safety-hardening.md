@@ -166,3 +166,10 @@ Phase 11E validation phrases: backup files may include quiz content, answers, pr
 Phase 11F adds [`docs/web-share-runtime-qa-fallback-hardening.md`](web-share-runtime-qa-fallback-hardening.md) and hardens optional Web Share fallback behavior without changing the backup format, storage schema, checksum status, compression status, encryption status, or import/restore behavior. Normal backup file download remains fallback and restore from backup remains available.
 
 Unsupported browser, user cancel, and share failure paths are handled non-destructively. Backup files may include private quiz/study data, including quiz content, answers, progress, and study history. The app does not upload backup files to a server and does not create cloud sync or automatic sync.
+
+
+## Phase 11H closure note
+
+Phase 11H closes the Phase 11 cross-device transfer track in [`docs/cross-device-transfer-track-closure.md`](cross-device-transfer-track-closure.md). The closure keeps the Phase 11C safety requirements as future requirements: backup transfer safety requirements are documented, privacy and compatibility boundaries are documented, and backup files may include private quiz/study data.
+
+Phase 11H does not implement checksum, compression, encryption, import preview, merge/replace/keep-both runtime, backup format changes, storage schema changes, or import/restore behavior changes. Normal backup file download remains fallback, restore from backup remains available, and no QR/WebRTC/cloud/account/automatic sync is added.

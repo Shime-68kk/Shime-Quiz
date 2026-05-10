@@ -1733,3 +1733,39 @@ Claims control:
 - Normal backup file download remains fallback.
 - Unsupported/cancel/failure paths are non-destructive.
 - Do not claim QR transfer implementation, WebRTC/session transfer implementation, cloud/account sync implementation, automatic sync implementation, encryption implementation, backup format/storage schema/import behavior changes, or completed release publication/tag/package actions.
+
+
+## Phase 11H — Cross-device Transfer Track Closure / Release Readiness Re-audit
+
+Phase 11H adds [`docs/cross-device-transfer-track-closure.md`](docs/cross-device-transfer-track-closure.md), a docs/static-validator/CI-only closure and re-audit document for the Phase 11 cross-device transfer track.
+
+Scope:
+- Audits Phase 11A through Phase 11F continuity.
+- Summarizes current user-facing capability: local-first/browser-local backup files, restore from backup files, optional Web Share runtime prototype where supported, normal backup file download fallback, and manual/user-initiated restore.
+- Documents allowed claims and forbidden claims after Phase 11H.
+- Documents remaining limitations, including browser/platform-dependent Web Share support, user-initiated transfer, no automatic sync, no cloud/account sync, no encrypted backup package, no QR/session transfer, and optional manual evidence if not run.
+
+Guardrails:
+- No runtime app code changed.
+- No backup format change.
+- No storage schema change.
+- No import/restore behavior change.
+- No QR transfer implemented.
+- No transfer-code flow implemented.
+- No WebRTC/session transfer implemented.
+- No backend/cloud/account sync implemented.
+- No automatic sync implemented.
+- No encryption implementation.
+- No package version or dependency change.
+- No release package created, no release tag created, and no GitHub Release published.
+
+Validation and CI:
+- Adds `scripts/validate-cross-device-transfer-track-closure.js`.
+- `.github/workflows/e2e-smoke.yml` runs `node scripts/validate-cross-device-transfer-track-closure.js` after the Phase 11F Web Share fallback hardening validator and preserves previous validators and Playwright E2E smoke/onboarding steps.
+
+Claims control:
+- Can claim Phase 11 cross-device transfer track closure exists.
+- Can claim Web Share runtime prototype exists where supported.
+- Can claim Web Share fallback hardening exists.
+- Can claim normal backup file download remains fallback.
+- Do not claim QR transfer, transfer-code flow, WebRTC/session transfer, cloud/account sync, automatic sync, encryption, backup format/storage schema/import behavior changes, release package creation, release tag creation, GitHub Release publication, production/security/privacy certification, or 99.99% reliability.
