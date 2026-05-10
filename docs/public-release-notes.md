@@ -262,3 +262,8 @@ Phase 12C adds an advisory storage quota warning where supported by the browser.
 
 Phase 12D adds Dashboard Today Card UX planning documentation for a future Dashboard simplification strategy. Today Card runtime is not implemented by Phase 12D, and Dashboard redesign is not implemented by Phase 12D.
 
+
+
+### Phase 12E Dashboard Today Card runtime
+
+Phase 12E adds a Dashboard Today Card runtime surface that provides a clearer first study action using existing app data and routes. Existing Dashboard metrics remain available. This does not change Study Room behavior, learning algorithms, cloud/sync behavior, storage schema, or backup format.

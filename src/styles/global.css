@@ -3165,3 +3165,64 @@ code {
 .storageQuotaWarning strong {
   display: block;
 }
+
+/* Phase 12E Dashboard Today Card */
+.dashboardTodayCard {
+  border-color: rgba(49, 92, 77, 0.22);
+  background: linear-gradient(135deg, rgba(255, 250, 240, 0.96), rgba(238, 247, 241, 0.9));
+}
+
+.dashboardTodayCard__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.34fr);
+  gap: clamp(18px, 4vw, 34px);
+  align-items: center;
+}
+
+.dashboardTodayCard__main {
+  display: grid;
+  gap: 12px;
+}
+
+.dashboardTodayCard__main h3 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: clamp(1.45rem, 3vw, 2.35rem);
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+}
+
+.dashboardTodayCard__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  margin: 4px 0 0;
+  list-style: none;
+}
+
+.dashboardTodayCard__meta li {
+  border: 1px solid rgba(49, 92, 77, 0.14);
+  border-radius: var(--radius-pill);
+  padding: 0.38rem 0.72rem;
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+.dashboardTodayCard__action {
+  display: grid;
+  gap: 12px;
+  justify-items: stretch;
+}
+
+.dashboardTodayCard__action .button {
+  width: 100%;
+}
+
+@media (max-width: 860px) {
+  .dashboardTodayCard__layout {
+    grid-template-columns: 1fr;
+  }
+}
