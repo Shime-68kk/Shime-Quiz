@@ -117,3 +117,8 @@ Do not claim:
 ## Phase 10S follow-on evidence results log
 
 [`docs/manual-evidence-results-log.md`](manual-evidence-results-log.md) now provides an optional future evidence results template. Phase 10S does not execute manual evidence, does not capture screenshots, does not claim evidence PASS, does not create a release tag, does not publish a GitHub Release, does not create or publish a release package, does not change package version/dependencies, and does not change runtime app behavior.
+
+## Phase 10T manual evidence execution checklist
+
+Manual evidence execution guidance is documented in [`docs/manual-evidence-execution-checklist.md`](manual-evidence-execution-checklist.md). Phase 10T adds a checklist/evidence capture guide only: no manual evidence was executed, no screenshot files were added, no mobile UX pass was claimed, no configured EduGen import pass was claimed, no cross-device restore pass was claimed, no E2E pass was claimed, no Lighthouse/Core Web Vitals pass was claimed, no release tag was created, no GitHub Release was published, no release package was created or published, package version/dependencies remain unchanged, runtime app behavior was not changed, and no production/security/accessibility/performance certification is claimed. Future results should be copied into [`docs/manual-evidence-results-log.md`](manual-evidence-results-log.md) only after actual evidence exists.
+

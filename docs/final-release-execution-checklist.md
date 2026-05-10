@@ -159,3 +159,8 @@ See [Release Candidate Freeze / Final Decision Memo](release-candidate-freeze-fi
 ## Phase 10S evidence log reference
 
 Use [`docs/manual-evidence-results-log.md`](manual-evidence-results-log.md) for future optional evidence result recording if manual evidence or release evidence is actually executed. Template existence alone does not allow PASS claims. Phase 10S does not execute release actions, create a tag, publish a GitHub Release, create/publish a package, capture screenshots, claim mobile/EduGen/cross-device/Lighthouse PASS, change package version/dependencies, or change runtime app behavior.
+
+## Phase 10T manual evidence execution checklist
+
+Manual evidence execution guidance is documented in [`docs/manual-evidence-execution-checklist.md`](manual-evidence-execution-checklist.md). Phase 10T adds a checklist/evidence capture guide only: no manual evidence was executed, no screenshot files were added, no mobile UX pass was claimed, no configured EduGen import pass was claimed, no cross-device restore pass was claimed, no E2E pass was claimed, no Lighthouse/Core Web Vitals pass was claimed, no release tag was created, no GitHub Release was published, no release package was created or published, package version/dependencies remain unchanged, runtime app behavior was not changed, and no production/security/accessibility/performance certification is claimed. Future results should be copied into [`docs/manual-evidence-results-log.md`](manual-evidence-results-log.md) only after actual evidence exists.
+
