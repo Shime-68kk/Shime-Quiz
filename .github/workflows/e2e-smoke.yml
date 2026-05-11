@@ -28,6 +28,12 @@ jobs:
           npm install -g npm@9.9.4
           npm --version
 
+      - name: Guard public npm registry
+        run: |
+          ! grep -R "applied-caas\|artifactory\|internal.api.openai\|packages.applied" package-lock.json package.json .npmrc 2>/dev/null
+          npm config set registry https://registry.npmjs.org/
+          npm config get registry
+
       - name: Install dependencies
         timeout-minutes: 20
         env:
