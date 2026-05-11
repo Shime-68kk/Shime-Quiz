@@ -32,9 +32,7 @@ jobs:
         timeout-minutes: 20
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
-          NODE_ENV: development
-          NPM_CONFIG_PRODUCTION: 'false'
-        run: npm ci --include=dev --no-audit --progress=false
+        run: npm install --no-audit --progress=false --include=dev
 
       - name: Verify installed tooling
         run: |
