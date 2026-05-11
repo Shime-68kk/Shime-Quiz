@@ -29,7 +29,18 @@ jobs:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
           NODE_ENV: development
           NPM_CONFIG_PRODUCTION: 'false'
-        run: npm ci --include=dev --ignore-scripts --no-audit --no-fund --progress=false
+        run: |
+          (while true; do echo "npm ci still running at $(date -u)"; sleep 60; done) &
+          HEARTBEAT_PID=$!
+          npm ci --include=dev --ignore-scripts --no-audit --no-fund --progress=false
+          STATUS=$?
+          kill "$HEARTBEAT_PID" || true
+          if [ "$STATUS" -ne 0 ]; then
+            echo "npm ci failed with status $STATUS"
+            echo "Recent npm debug logs:"
+            find "$HOME/.npm/_logs" -type f -name "*debug*.log" -print -exec tail -80 {} \; || true
+            exit "$STATUS"
+          fi
 
       - name: Verify installed tooling
         run: |
