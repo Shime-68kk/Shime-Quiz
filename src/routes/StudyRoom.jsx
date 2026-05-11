@@ -22,6 +22,7 @@ import {
   saveStudyDraftForItems
 } from '../state/studyDraftStorage.js';
 import { createStudyAttemptSummary, getIncompleteStudyItemCount } from '../study/studyAttemptSummary.js';
+import { normalizeAnswerText } from '../utils/text.js';
 
 function getStudyMode(selection) {
   if (selection?.mode === 'due-review') return 'due-review';
@@ -83,6 +84,83 @@ function nowIso() {
   return new Date().toISOString();
 }
 
+
+function getChoiceText(choice) {
+  if (typeof choice === 'string') return choice;
+  return choice?.text ?? choice?.label ?? choice?.value ?? '';
+}
+
+function getAcceptableAnswers(item) {
+  const answers = Array.isArray(item?.acceptableAnswers) ? item.acceptableAnswers : [];
+  return [item?.correctAnswer, item?.answer, ...answers]
+    .map(answer => String(answer ?? '').trim())
+    .filter(Boolean)
+    .filter((answer, index, all) => all.findIndex(candidate => normalizeAnswerText(candidate) === normalizeAnswerText(answer)) === index);
+}
+
+function isDisplayOnlyAnswerCorrect(item, itemState = {}) {
+  if (!item || !itemState.checked) return null;
+  if (item.type === 'multiple_choice') {
+    const choices = Array.isArray(item.choices) ? item.choices : [];
+    const selectedChoice = choices.find(choice => String(choice.id) === String(itemState.answer || ''));
+    if (!selectedChoice) return false;
+    const expected = normalizeAnswerText(item.correctAnswer);
+    return Boolean(expected) && (
+      normalizeAnswerText(selectedChoice.id) === expected ||
+      normalizeAnswerText(getChoiceText(selectedChoice)) === expected
+    );
+  }
+  if (item.type === 'short_answer') {
+    const response = normalizeAnswerText(itemState.answer || '');
+    if (!response) return false;
+    return getAcceptableAnswers(item).some(answer => normalizeAnswerText(answer) === response);
+  }
+  return null;
+}
+
+function getCheckedAnswerFeedback(item, itemState = {}) {
+  const isCorrect = isDisplayOnlyAnswerCorrect(item, itemState);
+  if (isCorrect === true) {
+    return {
+      tone: 'success',
+      title: 'Đúng rồi — tiếp tục nhé.',
+      message: 'Bạn có thể chuyển sang item tiếp theo khi sẵn sàng.'
+    };
+  }
+  if (isCorrect === false) {
+    return {
+      tone: 'warning',
+      title: 'Chưa đúng — xem lại đáp án rồi thử câu tiếp theo.',
+      message: 'Feedback này chỉ hỗ trợ luồng học; cách chấm điểm và lịch ôn tập không thay đổi.'
+    };
+  }
+  return {
+    tone: 'info',
+    title: 'Đã ghi nhận thao tác học.',
+    message: 'Tiếp tục giữ nhịp học hiện tại nhé.'
+  };
+}
+
+function getCompletionFeedback(summary, mode) {
+  if (!summary) {
+    return {
+      tone: 'info',
+      title: 'Phiên học đã hoàn tất.',
+      message: 'Kết quả phiên học được xử lý cục bộ trên trình duyệt này.'
+    };
+  }
+  const prefix = mode === 'due-review'
+    ? 'Hoàn thành phiên ôn tập ngắn.'
+    : mode === 'smart-practice'
+      ? 'Hoàn thành phiên luyện tập thông minh.'
+      : 'Hoàn thành phiên học ngắn.';
+  return {
+    tone: 'success',
+    title: prefix,
+    message: `${summary.answeredCount}/${summary.totalItems} mục đã được trả lời. Bạn có thể xem tổng kết, học tiếp hoặc quay lại thư viện.`
+  };
+}
+
 function formatSavedTime(value) {
   if (!value) return '';
   try {
@@ -127,6 +205,8 @@ export default function StudyRoom() {
   const [reviewScheduleMessage, setReviewScheduleMessage] = useState('');
   const [planProgressMessage, setPlanProgressMessage] = useState('');
   const [resultPersistenceNote, setResultPersistenceNote] = useState('');
+  const [microFeedback, setMicroFeedback] = useState({ tone: 'info', title: '', message: '' });
+  const [pendingSessionAction, setPendingSessionAction] = useState('');
   const draftReadyRef = useRef(false);
   const saveTimerRef = useRef(null);
 
@@ -149,6 +229,8 @@ export default function StudyRoom() {
     setReviewScheduleMessage('');
     setPlanProgressMessage('');
     setResultPersistenceNote('');
+    setMicroFeedback({ tone: 'info', title: '', message: '' });
+    setPendingSessionAction('');
 
     if (!items.length) {
       setCurrentIndex(0);
@@ -161,6 +243,8 @@ export default function StudyRoom() {
       setReviewScheduleMessage('');
       setPlanProgressMessage('');
       setResultPersistenceNote('');
+      setMicroFeedback({ tone: 'info', title: '', message: '' });
+      setPendingSessionAction('');
       return;
     }
 
@@ -229,15 +313,36 @@ export default function StudyRoom() {
     };
   }
 
+  function showMicroFeedback(nextFeedback) {
+    setMicroFeedback({
+      tone: nextFeedback?.tone || 'info',
+      title: nextFeedback?.title || '',
+      message: nextFeedback?.message || ''
+    });
+  }
+
+  function clearSessionConfirmation() {
+    setPendingSessionAction('');
+  }
+
   function updateAnswer(value) {
     if (!currentItemId || completedAttempt) return;
+    clearSessionConfirmation();
     setAnswersByItemId(current => ({ ...current, [currentItemId]: value }));
     setCheckedByItemId(current => ({ ...current, [currentItemId]: false }));
+    showMicroFeedback({
+      tone: 'info',
+      title: 'Đã cập nhật câu trả lời.',
+      message: 'Khi sẵn sàng, hãy kiểm tra đáp án để nhận phản hồi.'
+    });
   }
 
   function checkCurrentAnswer() {
     if (!currentItemId || completedAttempt) return;
+    clearSessionConfirmation();
+    const nextItemState = { ...currentItemState, checked: true };
     setCheckedByItemId(current => ({ ...current, [currentItemId]: true }));
+    showMicroFeedback(getCheckedAnswerFeedback(currentItem, nextItemState));
   }
 
   function resetCurrentAnswer() {
@@ -248,25 +353,46 @@ export default function StudyRoom() {
       return next;
     });
     setCheckedByItemId(current => ({ ...current, [currentItemId]: false }));
+    clearSessionConfirmation();
+    showMicroFeedback({
+      tone: 'info',
+      title: 'Đã xóa câu trả lời hiện tại.',
+      message: 'Bạn có thể thử lại mà không ảnh hưởng thư viện hoặc lịch ôn tập.'
+    });
   }
 
   function toggleCurrentFlashcard() {
     if (!currentItemId || completedAttempt) return;
+    clearSessionConfirmation();
+    const willReveal = !flashcardRevealedByItemId[currentItemId];
     setFlashcardRevealedByItemId(current => ({ ...current, [currentItemId]: !current[currentItemId] }));
+    showMicroFeedback({
+      tone: willReveal ? 'success' : 'info',
+      title: willReveal ? 'Đã lật thẻ — đọc chậm lại một nhịp nhé.' : 'Đã úp lại thẻ.',
+      message: 'Thao tác flashcard không thay đổi điểm số hoặc lịch ôn tập cho đến khi bạn hoàn thành phiên.'
+    });
   }
 
   function resetCurrentFlashcard() {
     if (!currentItemId || completedAttempt) return;
+    clearSessionConfirmation();
     setFlashcardRevealedByItemId(current => ({ ...current, [currentItemId]: false }));
+    showMicroFeedback({
+      tone: 'info',
+      title: 'Đã đặt lại flashcard.',
+      message: 'Bạn có thể lật lại thẻ khi muốn ôn lại nội dung.'
+    });
   }
 
   function goToPrevious() {
     if (completedAttempt) return;
+    clearSessionConfirmation();
     setCurrentIndex(index => Math.max(0, index - 1));
   }
 
   function goToNext() {
     if (completedAttempt) return;
+    clearSessionConfirmation();
     setCurrentIndex(index => Math.min(items.length - 1, index + 1));
   }
 
@@ -285,6 +411,12 @@ export default function StudyRoom() {
     setReviewScheduleMessage('');
     setPlanProgressMessage('');
     setResultPersistenceNote('');
+    setPendingSessionAction('');
+    showMicroFeedback({
+      tone: 'info',
+      title: 'Đã làm lại phiên học.',
+      message: 'Tiến trình nháp trong Phòng học đã được đặt lại; thư viện dữ liệu không bị thay đổi.'
+    });
     setStatusMessage(message === 'Đã làm lại phiên học. Thư viện dữ liệu không bị thay đổi.'
       ? isDueReviewMode
         ? 'Đã làm lại phiên ôn tập. Thư viện dữ liệu không bị thay đổi.'
@@ -297,15 +429,17 @@ export default function StudyRoom() {
     });
   }
 
-  function resetSessionDraft() {
-    if (!window.confirm('Làm lại phiên học hiện tại? Thao tác này chỉ xóa tiến trình nháp trong Phòng học, không xóa thư viện đã nạp.')) {
-      return;
-    }
-
-    resetSessionState();
+  function requestRestartSession() {
+    if (!items.length) return;
+    setPendingSessionAction('restart');
+    showMicroFeedback({
+      tone: 'warning',
+      title: 'Xác nhận làm lại phiên học?',
+      message: 'Thao tác này chỉ xóa tiến trình nháp trong Phòng học, không xóa thư viện đã nạp.'
+    });
   }
 
-  function finishSession() {
+  function finishSession({ allowIncomplete = false } = {}) {
     if (!items.length || !currentItem) {
       setStatusMessage(isDueReviewMode
         ? 'Không có câu cần ôn hôm nay.'
@@ -316,7 +450,13 @@ export default function StudyRoom() {
     }
 
     const incompleteCount = getIncompleteStudyItemCount(items, getCurrentAttemptState());
-    if (incompleteCount > 0 && !window.confirm('Bạn còn câu chưa trả lời. Vẫn hoàn thành?')) {
+    if (incompleteCount > 0 && !allowIncomplete) {
+      setPendingSessionAction('finish');
+      showMicroFeedback({
+        tone: 'warning',
+        title: 'Bạn còn câu chưa trả lời.',
+        message: `Còn ${incompleteCount} mục chưa hoàn tất. Bạn có thể xác nhận hoàn thành hoặc tiếp tục học.`
+      });
       return;
     }
 
@@ -354,6 +494,8 @@ export default function StudyRoom() {
       itemSetFingerprint,
       summary
     });
+    setPendingSessionAction('');
+    showMicroFeedback(getCompletionFeedback(summary, studyMode));
     setSaveStatus('idle');
     setLastSavedAt('');
     setHistorySaveMessage(historyResult.ok
@@ -381,12 +523,42 @@ export default function StudyRoom() {
         : 'Đã hoàn thành phiên học. Bản nháp cục bộ đã được xóa.');
   }
 
+  function requestFinishSession() {
+    finishSession();
+  }
+
+  function confirmPendingSessionAction() {
+    if (pendingSessionAction === 'finish') {
+      finishSession({ allowIncomplete: true });
+      return;
+    }
+    if (pendingSessionAction === 'restart') {
+      resetSessionState();
+    }
+  }
+
+  function cancelPendingSessionAction() {
+    const wasFinish = pendingSessionAction === 'finish';
+    setPendingSessionAction('');
+    showMicroFeedback({
+      tone: 'info',
+      title: wasFinish ? 'Tiếp tục phiên học hiện tại.' : 'Đã giữ nguyên phiên học.',
+      message: wasFinish ? 'Bạn có thể hoàn thành sau khi kiểm tra thêm câu.' : 'Tiến trình nháp hiện tại vẫn được giữ lại.'
+    });
+  }
+
   function continueStudy() {
     setCompletedAttempt(null);
     setHistorySaveMessage('');
     setReviewScheduleMessage('');
     setPlanProgressMessage('');
     setResultPersistenceNote('');
+    setPendingSessionAction('');
+    showMicroFeedback({
+      tone: 'info',
+      title: 'Tiếp tục phiên học.',
+      message: 'Bạn có thể quay lại câu hiện tại mà không thay đổi kết quả đã lưu.'
+    });
     setStatusMessage(isDueReviewMode
       ? 'Bạn có thể tiếp tục ôn tập từ câu hiện tại.'
       : isSmartPracticeMode
@@ -399,6 +571,10 @@ export default function StudyRoom() {
 
   function goToLibrary() {
     navigate('/library');
+  }
+
+  function goToDashboard() {
+    navigate('/dashboard');
   }
 
   const draftStatusText = completedAttempt
@@ -428,11 +604,11 @@ export default function StudyRoom() {
           actions={items.length ? (
             <div className="studyHeaderActions">
               {!completedAttempt ? (
-                <Button type="button" variant="secondary" size="sm" onClick={finishSession}>
+                <Button type="button" variant="secondary" size="sm" onClick={requestFinishSession}>
                   Hoàn thành phiên học
                 </Button>
               ) : null}
-              <Button type="button" variant="ghost" size="sm" onClick={resetSessionDraft}>
+              <Button type="button" variant="ghost" size="sm" onClick={requestRestartSession}>
                 Làm lại phiên học
               </Button>
             </div>
@@ -454,6 +630,30 @@ export default function StudyRoom() {
           </div>
         ) : null}
 
+        {items.length && (microFeedback.title || microFeedback.message) ? (
+          <div className={`studyFeedback studyFeedback--${microFeedback.tone || 'info'}`} role="status" aria-live="polite">
+            {microFeedback.title ? <strong>{microFeedback.title}</strong> : null}
+            {microFeedback.message ? <p>{microFeedback.message}</p> : null}
+          </div>
+        ) : null}
+
+        {pendingSessionAction ? (
+          <div className="studyFeedback studyFeedback--warning" role="status" aria-live="polite">
+            <strong>{pendingSessionAction === 'finish' ? 'Xác nhận hoàn thành phiên học?' : 'Xác nhận làm lại phiên học?'}</strong>
+            <p>{pendingSessionAction === 'finish'
+              ? 'Bạn có thể hoàn thành ngay hoặc tiếp tục học thêm. Thao tác này không thay đổi cách chấm điểm.'
+              : 'Làm lại chỉ đặt lại tiến trình nháp trong Phòng học; thư viện dữ liệu không bị xóa.'}</p>
+            <div className="studyActions studyActions--compact">
+              <Button type="button" onClick={confirmPendingSessionAction}>
+                {pendingSessionAction === 'finish' ? 'Xác nhận hoàn thành' : 'Xác nhận làm lại'}
+              </Button>
+              <Button type="button" variant="ghost" onClick={cancelPendingSessionAction}>
+                Tiếp tục phiên học
+              </Button>
+            </div>
+          </div>
+        ) : null}
+
         {items.length === 0 ? (
           <EmptyState
             icon="◇"
@@ -469,9 +669,10 @@ export default function StudyRoom() {
             summary={completedAttempt.summary}
             persistenceNote={resultPersistenceNote}
             historyMessage={[historySaveMessage, reviewScheduleMessage, planProgressMessage].filter(Boolean).join(' ')}
-            onRestart={resetSessionDraft}
+            onRestart={requestRestartSession}
             onContinue={continueStudy}
             onGoToLibrary={goToLibrary}
+            onGoToDashboard={goToDashboard}
           />
         ) : (
           <div className="studySessionStack">

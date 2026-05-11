@@ -21,7 +21,7 @@ function SummaryMetric({ label, value, hint }) {
   );
 }
 
-export default function StudyResultSummary({ summary, persistenceNote = '', historyMessage = '', onRestart, onContinue, onGoToLibrary }) {
+export default function StudyResultSummary({ summary, persistenceNote = '', historyMessage = '', onRestart, onContinue, onGoToLibrary, onGoToDashboard }) {
   if (!summary) return null;
 
   return (
@@ -60,6 +60,7 @@ export default function StudyResultSummary({ summary, persistenceNote = '', hist
           <Button type="button" onClick={onRestart}>Làm lại phiên học</Button>
           <Button type="button" variant="secondary" onClick={onContinue}>Tiếp tục học</Button>
           <Button type="button" variant="ghost" onClick={onGoToLibrary}>Quay về thư viện</Button>
+          <Button type="button" variant="ghost" onClick={onGoToDashboard}>Về tổng quan</Button>
         </div>
       </Card>
 

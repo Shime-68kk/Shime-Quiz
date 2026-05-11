@@ -1985,3 +1985,30 @@ Scope boundaries for Phase 12H:
 - no release package/tag/GitHub Release created
 - new validator: `scripts/validate-study-flow-micro-feedback-plan.js`
 - CI registration for the new validator
+
+
+## Phase 12I — Study Flow Micro-feedback Runtime
+
+Phase 12I implements the planned Study Flow micro-feedback runtime in a narrow Study Room UX scope. It adds visible micro-feedback for answer/session actions and replaces native `window.confirm` prompts for completing or restarting a Study Room session with inline confirmation UI. This recovers session actions in browser environments where native dialogs can appear blocked or non-obvious.
+
+The result summary now offers direct session actions including retry, continue, Library navigation, and Dashboard/overview navigation.
+
+Validation expectations:
+
+- `npm run build`
+- `npm run test:unit`
+- `node scripts/validate-study-flow-micro-feedback-runtime.js`
+- full static validator chain
+- E2E smoke/onboarding where Playwright Chromium is available
+
+Scope boundaries:
+
+- Runtime source changed only in the Study Room/session result UX surface.
+- No answer correctness logic changed.
+- No scoring/SRT/mastery/recommendation algorithms changed.
+- No storage schema changed.
+- No backup format changed.
+- No package version or dependency changes.
+- No FSRS, IndexedDB, cloud/account sync, encryption, release package, release tag, or GitHub Release.
+
+Recommended next phase: Phase 12J — Phase 12 Closure / Release Decision.

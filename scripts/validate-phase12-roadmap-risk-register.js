@@ -193,6 +193,21 @@ requireIncludes('.github/workflows/e2e-smoke.yml', ['node scripts/validate-phase
 
 const changed = changedFiles();
 const allowedChanged = new Set([
+
+  // Phase 12I compatibility: allow only the approved Study Flow micro-feedback
+  // runtime/session-action recovery files while preserving existing guardrails.
+  '.github/workflows/e2e-smoke.yml',
+  'README.md',
+  'RELEASE_QA_V2.md',
+  'docs/deployment-readiness.md',
+  'docs/phase12-roadmap-risk-register.md',
+  'docs/public-release-notes.md',
+  'docs/study-flow-micro-feedback-runtime.md',
+  'scripts/validate-study-flow-micro-feedback-plan.js',
+  'scripts/validate-study-flow-micro-feedback-runtime.js',
+  'src/routes/StudyRoom.jsx',
+  'src/components/study/StudyResultSummary.jsx',
+
   '.github/workflows/e2e-smoke.yml',
   'README.md',
   'RELEASE_QA_V2.md',

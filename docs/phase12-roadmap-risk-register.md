@@ -218,3 +218,18 @@ Remaining shortened Phase 12 path:
 - Phase 12J — Phase 12 Closure / Release Decision
 
 Route-level code splitting remains deferred/future work. Current chunk-size warnings remain non-blocking and do not mean route-level code splitting is implemented.
+
+
+## Phase 12I follow-up — Study Flow Micro-feedback Runtime
+
+Phase 12I implements the Study Flow micro-feedback runtime planned in Phase 12H. The implementation is intentionally narrow: visible Study Room micro-feedback, inline confirmation for completing/restarting sessions, and direct result-summary navigation to Library and Dashboard/overview.
+
+The reported Vercel UX issue where “Hoàn thành phiên học” or “Làm lại phiên học” could appear unresponsive is addressed by removing native `window.confirm` dependence for those actions.
+
+Phase 12I does not change answer correctness, scoring, SRT, mastery, recommendation algorithms, storage schema, backup format, package version, or dependencies.
+
+Remaining Phase 12 path:
+
+- Phase 12J — Phase 12 Closure / Release Decision
+
+Route-level code splitting remains deferred/future work; the existing chunk-size warning remains non-blocking and is not addressed by Phase 12I.
