@@ -287,3 +287,10 @@ Phase 12H adds Study Flow micro-feedback planning documentation for a future Stu
 Phase 12I adds a narrow Study Room UX improvement: visible micro-feedback and inline session-action confirmation for completing or restarting a study session. Result summary actions include direct navigation back to Library and Dashboard/overview.
 
 This does not change scoring, SRT, mastery, recommendation algorithms, storage schema, backup format, package version, or package dependencies.
+
+## Phase 12J closure note
+
+Phase 12J records the Phase 12 closure decision. Phase 12 is closed through Phase 12J after the completed roadmap, storage safety, Dashboard, unit-test, and Study Flow micro-feedback work.
+
+No release package, release tag, or GitHub Release is created by Phase 12J. No runtime behavior changes are introduced by Phase 12J. Final release execution, if desired, remains a separate explicit user-approved process.
+

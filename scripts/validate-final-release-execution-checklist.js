@@ -141,53 +141,16 @@ for (const file of gitTrackedFiles()) {
 
 const allowedChanged = new Set([
 
-  // Phase 12I compatibility: allow only the approved Study Flow micro-feedback
-  // runtime/session-action recovery files while preserving existing guardrails.
+  // Phase 12J compatibility: allow only the approved closure/release-decision
+  // docs/static-validator/CI files while preserving older phase guardrails.
   '.github/workflows/e2e-smoke.yml',
   'README.md',
   'RELEASE_QA_V2.md',
   'docs/deployment-readiness.md',
   'docs/phase12-roadmap-risk-register.md',
   'docs/public-release-notes.md',
-  'docs/study-flow-micro-feedback-runtime.md',
-  'scripts/validate-study-flow-micro-feedback-plan.js',
-  'scripts/validate-study-flow-micro-feedback-runtime.js',
-  'src/routes/StudyRoom.jsx',
-  'src/components/study/StudyResultSummary.jsx',
-
-  '.github/workflows/e2e-smoke.yml',
-  'README.md',
-  'RELEASE_QA_V2.md',
-  'docs/final-release-execution-checklist.md',
-  'docs/release-package-assembly-plan.md',
-  'docs/github-release-publication-plan.md',
-  'docs/release-tag-creation-plan.md',
-  'docs/manual-evidence-run-pack.md',
-  'docs/release-candidate-tag-publish-gate.md',
-  'docs/final-public-release-readiness-reaudit.md',
-  'docs/release-package-cleanliness.md',
-  'docs/github-release-draft.md',
-  'docs/release-tag-publish-checklist.md',
-  'docs/public-release-notes.md',
-  'docs/deployment-readiness.md',
-  'scripts/validate-final-release-execution-checklist.js',
-
-  // Phase 12G compatibility: allow only the approved Vitest unit-test foundation
-  // package/doc/test/validator changes while preserving existing phase guardrails.
-  '.github/workflows/e2e-smoke.yml',
-  'README.md',
-  'RELEASE_QA_V2.md',
-  'docs/deployment-readiness.md',
-  'docs/phase12-roadmap-risk-register.md',
-  'docs/public-release-notes.md',
-  'docs/unit-test-foundation-plan.md',
-  'docs/vitest-unit-test-foundation.md',
-  'package-lock.json',
-  'package.json',
-  'scripts/validate-vitest-unit-test-foundation.js',
-  'tests/unit/scoring.test.js',
-  'tests/unit/storageQuotaEstimate.test.js',
-  'tests/unit/weightedSelection.test.js',
+  'docs/phase12-closure-release-decision.md',
+  'scripts/validate-phase12-closure-release-decision.js',
   'scripts/validate-backup-transfer-safety-hardening.js',
   'scripts/validate-cross-device-export-import.js',
   'scripts/validate-cross-device-transfer-track-closure.js',
@@ -210,7 +173,10 @@ const allowedChanged = new Set([
   'scripts/validate-release-tag-creation-plan.js',
   'scripts/validate-storage-capacity-indexeddb-migration-plan.js',
   'scripts/validate-storage-quota-warning-runtime.js',
+  'scripts/validate-study-flow-micro-feedback-plan.js',
+  'scripts/validate-study-flow-micro-feedback-runtime.js',
   'scripts/validate-unit-test-foundation-plan.js',
+  'scripts/validate-vitest-unit-test-foundation.js',
   'scripts/validate-web-share-mobile-sharing-prototype-plan.js',
   'scripts/validate-web-share-runtime-fallback-hardening.js',
   'scripts/validate-web-share-runtime-prototype.js',

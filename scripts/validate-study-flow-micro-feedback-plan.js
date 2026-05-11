@@ -12,17 +12,17 @@ const requiredFiles = [
 ];
 
 const allowedChangedFiles = new Set([
+
+  // Phase 12J compatibility: allow only the approved closure/release-decision
+  // docs/static-validator/CI files while preserving older phase guardrails.
   '.github/workflows/e2e-smoke.yml',
   'README.md',
   'RELEASE_QA_V2.md',
-  'docs/study-flow-micro-feedback-plan.md',
+  'docs/deployment-readiness.md',
   'docs/phase12-roadmap-risk-register.md',
   'docs/public-release-notes.md',
-  'docs/deployment-readiness.md',
-  'scripts/validate-study-flow-micro-feedback-plan.js',
-  // Phase 12I compatibility: Study Flow runtime follow-up may modify these narrow files while preserving Phase 12H plan claims.
-  'docs/study-flow-micro-feedback-runtime.md',
-  'scripts/validate-study-flow-micro-feedback-runtime.js',
+  'docs/phase12-closure-release-decision.md',
+  'scripts/validate-phase12-closure-release-decision.js',
   'scripts/validate-backup-transfer-safety-hardening.js',
   'scripts/validate-cross-device-export-import.js',
   'scripts/validate-cross-device-transfer-track-closure.js',
@@ -46,13 +46,12 @@ const allowedChangedFiles = new Set([
   'scripts/validate-storage-capacity-indexeddb-migration-plan.js',
   'scripts/validate-storage-quota-warning-runtime.js',
   'scripts/validate-study-flow-micro-feedback-plan.js',
+  'scripts/validate-study-flow-micro-feedback-runtime.js',
   'scripts/validate-unit-test-foundation-plan.js',
   'scripts/validate-vitest-unit-test-foundation.js',
   'scripts/validate-web-share-mobile-sharing-prototype-plan.js',
   'scripts/validate-web-share-runtime-fallback-hardening.js',
   'scripts/validate-web-share-runtime-prototype.js',
-  'src/routes/StudyRoom.jsx',
-  'src/components/study/StudyResultSummary.jsx',
 ]);
 
 const forbiddenChangedFiles = [

@@ -302,3 +302,12 @@ Phase 12I implements a narrow Study Room runtime UX improvement based on the Pha
 This phase adds lightweight visible micro-feedback and replaces native browser confirmation prompts for Study Room session completion/restart with inline confirmation UI. It also keeps direct result-summary navigation to Library and Dashboard so learners are not forced to use the browser Back button after a session.
 
 Phase 12I does not change answer correctness, scoring, SRT, mastery, recommendation algorithms, storage schema, backup format, package version, or package dependencies. The app remains local-first and browser-local.
+
+## Phase 12J Phase 12 Closure / Release Decision
+
+Phase 12J closes the Phase 12 track. The closure note is documented in [`docs/phase12-closure-release-decision.md`](docs/phase12-closure-release-decision.md).
+
+Phase 12 is closed through Phase 12J after the completed Phase 12A–12I work. Phase 12J is docs/static-validator/CI-only and does not change runtime behavior, package/dependency state, Study Room behavior, Dashboard behavior, scoring/SRT/mastery/recommendation algorithms, storage schema, backup format, import/restore behavior, or release artifacts.
+
+No release package, release tag, or GitHub Release is created by Phase 12J. Phase 13 is ready for handoff to a different working setup/chatbot from latest main after Phase 12J merge.
+

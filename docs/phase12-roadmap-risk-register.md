@@ -67,9 +67,7 @@ Boundaries:
 7. Phase 12G — Vitest Unit Test Foundation
 8. Phase 12H — Study Flow Micro-feedback Plan
 9. Phase 12I — Study Flow Micro-feedback Runtime
-10. Phase 12J — Route-level Code Splitting Plan
-11. Phase 12K — Route-level Code Splitting Runtime
-12. Phase 12L — Phase 12 Closure / Next-track Decision
+10. Phase 12J — Phase 12 Closure / Release Decision
 
 ## 7. Priority rationale
 
@@ -80,7 +78,7 @@ Boundaries:
 5. Add unit tests before large algorithmic changes so pure functions and safety-critical paths have regression coverage.
 6. Add study micro-feedback without changing scoring, spaced repetition, mastery, study history, or recommendation logic.
 7. Plan and then implement code splitting so performance work has clear measurement and rollback boundaries.
-8. Close Phase 12 before choosing a bigger next track such as storage migration runtime, FSRS, QR/transfer-code, cloud/account sync, or encryption architecture.
+8. Close Phase 12 in Phase 12J before choosing a bigger next track such as storage migration runtime, FSRS, QR/transfer-code, cloud/account sync, encryption architecture, or route-level code splitting.
 
 ## 8. Risk register
 
@@ -233,3 +231,16 @@ Remaining Phase 12 path:
 - Phase 12J — Phase 12 Closure / Release Decision
 
 Route-level code splitting remains deferred/future work; the existing chunk-size warning remains non-blocking and is not addressed by Phase 12I.
+
+## Phase 12J follow-up — Phase 12 Closure / Release Decision
+
+Phase 12J adds [`docs/phase12-closure-release-decision.md`](phase12-closure-release-decision.md) and closes Phase 12 after the completed Phase 12A–12I work.
+
+Phase 12 is closed through Phase 12J. The next step after Phase 12J is not another Phase 12 feature phase; Phase 13 should be handed off to the next working setup/chatbot from latest main after Phase 12J merge.
+
+Phase 12J does not change runtime app behavior, `src/`, `e2e/`, `tests/`, package/dependency state, Study Room behavior, Dashboard behavior, answer correctness, scoring/SRT/mastery/recommendation algorithms, storage schema, backup format, or import/restore behavior.
+
+No release package, release tag, or GitHub Release is created by Phase 12J. Final release execution remains a separate explicit user-approved process.
+
+Route-level code splitting remains deferred/future work and is not part of Phase 12 after this closure decision.
+
