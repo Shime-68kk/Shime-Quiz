@@ -19,6 +19,49 @@ const allowedChangedFiles = new Set([
   'docs/public-release-notes.md',
   'docs/deployment-readiness.md',
   'scripts/validate-unit-test-foundation-plan.js',
+
+  // Phase 12G compatibility: allow only the approved Vitest unit-test foundation
+  // package/doc/test/validator changes while preserving existing phase guardrails.
+  '.github/workflows/e2e-smoke.yml',
+  'README.md',
+  'RELEASE_QA_V2.md',
+  'docs/deployment-readiness.md',
+  'docs/phase12-roadmap-risk-register.md',
+  'docs/public-release-notes.md',
+  'docs/unit-test-foundation-plan.md',
+  'docs/vitest-unit-test-foundation.md',
+  'package-lock.json',
+  'package.json',
+  'scripts/validate-vitest-unit-test-foundation.js',
+  'tests/unit/scoring.test.js',
+  'tests/unit/storageQuotaEstimate.test.js',
+  'tests/unit/weightedSelection.test.js',
+  'scripts/validate-backup-transfer-safety-hardening.js',
+  'scripts/validate-cross-device-export-import.js',
+  'scripts/validate-cross-device-transfer-track-closure.js',
+  'scripts/validate-cross-device-transfer-ux-copy.js',
+  'scripts/validate-cross-device-transfer-ux-decision.js',
+  'scripts/validate-dashboard-today-card-runtime.js',
+  'scripts/validate-dashboard-today-card-ux-plan.js',
+  'scripts/validate-edugen-boundary-polish.js',
+  'scripts/validate-final-main-release-authorization.js',
+  'scripts/validate-final-public-release-readiness-reaudit.js',
+  'scripts/validate-final-release-execution-checklist.js',
+  'scripts/validate-github-release-publication-plan.js',
+  'scripts/validate-manual-evidence-execution-checklist.js',
+  'scripts/validate-manual-evidence-results-log.js',
+  'scripts/validate-manual-evidence-run-pack.js',
+  'scripts/validate-phase12-roadmap-risk-register.js',
+  'scripts/validate-release-candidate-freeze-final-decision.js',
+  'scripts/validate-release-candidate-tag-publish-gate.js',
+  'scripts/validate-release-package-assembly-plan.js',
+  'scripts/validate-release-tag-creation-plan.js',
+  'scripts/validate-storage-capacity-indexeddb-migration-plan.js',
+  'scripts/validate-storage-quota-warning-runtime.js',
+  'scripts/validate-unit-test-foundation-plan.js',
+  'scripts/validate-web-share-mobile-sharing-prototype-plan.js',
+  'scripts/validate-web-share-runtime-fallback-hardening.js',
+  'scripts/validate-web-share-runtime-prototype.js',
 ]);
 const forbiddenChangedFiles = ['package.json','package-lock.json','vite.config','vite.config.js','vite.config.mjs','playwright.config','playwright.config.js'];
 const forbiddenChangedPrefixes = ['src/','e2e/','tests/','__tests__/'];
@@ -37,10 +80,10 @@ function changedFilesFromPullRequestBase(){ const baseRef=process.env.GITHUB_BAS
 function changedFilesFromLocalFallbacks({includeUntracked=true}={}){ const files=[...splitLines(runGit('git diff --name-only HEAD',{silent:true})),...splitLines(runGit('git diff --cached --name-only',{silent:true}))]; if(includeUntracked) files.push(...splitLines(runGit('git ls-files --others --exclude-standard',{silent:true}))); if(files.length===0 && !runGit('git rev-parse --is-inside-work-tree',{silent:true})) warn('Git is unavailable; changed-file scope checks are limited to content checks.'); return files; }
 function changedFiles({includeUntracked=true}={}){ const prBaseFiles=changedFilesFromPullRequestBase(); if(prBaseFiles.length>0) return uniqueSorted(prBaseFiles); return uniqueSorted(changedFilesFromLocalFallbacks({includeUntracked})); }
 function trackedFiles(){ return uniqueSorted(splitLines(runGit('git ls-files',{silent:true}))); }
-function scopeGuard(){ const changed=changedFiles(); for(const file of changed){ if(generatedArtifacts.some((a)=>file===a||file.startsWith(`${a}/`))) continue; if(forbiddenChangedFiles.includes(file)) fail(`Forbidden file changed: ${file}`); if(forbiddenChangedPrefixes.some((p)=>file.startsWith(p))) fail(`Forbidden path changed: ${file}`); if(!allowedChangedFiles.has(file)) fail(`Unexpected changed file for Phase 12F scope: ${file}`); } }
+function scopeGuard(){ const changed=changedFiles(); for(const file of changed){ if(generatedArtifacts.some((a)=>file===a||file.startsWith(`${a}/`))) continue; if(forbiddenChangedFiles.includes(file) && !allowedChangedFiles.has(file)) fail(`Forbidden file changed: ${file}`); if(forbiddenChangedPrefixes.some((p)=>file.startsWith(p)) && !allowedChangedFiles.has(file)) fail(`Forbidden path changed: ${file}`); if(!allowedChangedFiles.has(file)) fail(`Unexpected changed file for Phase 12F scope: ${file}`); } }
 function generatedArtifactGuard(){ const files=uniqueSorted([...changedFiles({includeUntracked:false}),...trackedFiles()]); for(const artifact of generatedArtifacts){ if(files.some((file)=>file===artifact||file.startsWith(`${artifact}/`))) fail(`Generated artifact appears in changed or tracked files: ${artifact}`); } }
 function lineIsSafe(line){ const safeMarkers=['not added','not implemented','not changed','not change','not created','not published','planned','future','non-goal','non-goals','forbidden claim','forbidden claims','does not','do not','no ','without','unchanged','remains','preserve','requirements','should not','must not','only if approved','candidate','strategy','expectations']; const normalized=normalize(line); return safeMarkers.some((m)=>normalized.includes(normalize(m))); }
-function forbiddenOverclaimGuard(){ const phrases=['Vitest added','unit tests added','coverage added','test script added','package dependencies changed','package version changed','algorithms changed','FSRS implemented','IndexedDB implemented','release package created','release tag created','GitHub Release published']; for(const file of publicClaimFiles){ const lines=read(file).split(/\r?\n/); let inForbiddenSection=false; for(const line of lines){ const normalizedLine=normalize(line); if(normalizedLine.includes('forbidden')) inForbiddenSection=true; else if(/^##\s+/.test(line)&&inForbiddenSection) inForbiddenSection=false; if(inForbiddenSection) continue; for(const phrase of phrases){ if(normalizedLine.includes(normalize(phrase))&&!lineIsSafe(line)) fail(`Unsupported positive overclaim in ${file}: ${line.trim()}`); } } } }
+function forbiddenOverclaimGuard(){ const phrases=['coverage added','test script added','package dependencies changed','package version changed','algorithms changed','FSRS implemented','IndexedDB implemented','release package created','release tag created','GitHub Release published']; for(const file of publicClaimFiles){ const lines=read(file).split(/\r?\n/); let inForbiddenSection=false; for(const line of lines){ const normalizedLine=normalize(line); if(normalizedLine.includes('forbidden')) inForbiddenSection=true; else if(/^##\s+/.test(line)&&inForbiddenSection) inForbiddenSection=false; if(inForbiddenSection) continue; for(const phrase of phrases){ if(normalizedLine.includes(normalize(phrase))&&!lineIsSafe(line)) fail(`Unsupported positive overclaim in ${file}: ${line.trim()}`); } } } }
 function validate(){
   for(const file of requiredFiles) read(file);
   requireIncludes('docs/unit-test-foundation-plan.md',['Phase 12F','Unit Test Foundation Plan','completed/merged through Phase 12E','Vitest','unit tests','candidate test targets','spaced repetition','mastery','weighted selection','parser','import validation','backup validation','storage quota helper','Dashboard Today Card','CI expectations','non-goals','allowed claims','forbidden claims','Phase 12G','Vitest Unit Test Foundation']);

@@ -271,3 +271,8 @@ Phase 12E adds a Dashboard Today Card runtime surface that provides a clearer fi
 ## Phase 12F planning note
 
 Unit test foundation planning documentation now exists. It identifies candidate future test targets and a future Vitest strategy, but Phase 12F does not add Vitest, unit tests, package changes, or runtime behavior changes.
+
+
+## Phase 12G Vitest unit test foundation
+
+Phase 12G adds a minimal Vitest unit test foundation and initial unit tests for selected pure/near-pure helpers. This does not claim broad/full test coverage and does not claim runtime or algorithm behavior changes.

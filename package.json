@@ -10,7 +10,8 @@
     "test:e2e": "playwright test",
     "test:e2e:smoke": "playwright test e2e/smoke.spec.js --project=chromium",
     "validate:import": "node scripts/validate-import-validation.js",
-    "test:e2e:onboarding": "playwright test e2e/onboarding-smoke.spec.js --project=chromium"
+    "test:e2e:onboarding": "playwright test e2e/onboarding-smoke.spec.js --project=chromium",
+    "test:unit": "vitest run tests/unit"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",
@@ -21,6 +22,7 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@playwright/test": "^1.59.1"
+    "@playwright/test": "^1.59.1",
+    "vitest": "^4.1.5"
   }
 }

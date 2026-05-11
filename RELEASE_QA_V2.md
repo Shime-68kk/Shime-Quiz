@@ -219,6 +219,8 @@ The workflow uses an Ubuntu GitHub-hosted runner, sets up Node.js 20 LTS, and ru
 ```bash
 npm ci
 npm run build
+npm run test:unit
+node scripts/validate-vitest-unit-test-foundation.js
 node scripts/validate-smoke-fixture.js
 node scripts/validate-v2-release-hardening.js
 node scripts/validate-exam-readiness.js
@@ -1931,3 +1933,30 @@ Validation:
 
 - new validator: `scripts/validate-unit-test-foundation-plan.js`
 - CI registration added for the new validator
+
+
+## Phase 12G — Vitest Unit Test Foundation
+
+Phase 12G adds the Vitest Unit Test Foundation. Phase 12F Unit Test Foundation planning is the completed baseline for this work.
+
+Added/updated:
+
+- Vitest added as a dev dependency.
+- `npm run test:unit` added.
+- Initial unit tests added under `tests/unit/`.
+- CI runs unit tests.
+- New validator: `scripts/validate-vitest-unit-test-foundation.js`.
+- CI registration for unit tests and the new validator.
+- Build/static/unit validation documented.
+
+Scope boundaries:
+
+- No intended runtime app behavior changes.
+- No Study Room behavior changes.
+- No scoring/SRT/mastery/recommendation changes.
+- No storage schema changes.
+- No backup format changes.
+- No import/restore behavior changes.
+- No FSRS/IndexedDB/cloud/account/encryption implementation.
+- No release package/tag/GitHub Release created.
+- Unit tests are initial/minimal and do not replace E2E smoke/onboarding coverage.

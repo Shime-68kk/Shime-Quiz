@@ -16,6 +16,49 @@ const allowedChanged = new Set([
   'docs/public-release-notes.md',
   'src/components/learning/V2BackupRestorePanel.jsx',
   'scripts/validate-web-share-runtime-prototype.js',
+
+  // Phase 12G compatibility: allow only the approved Vitest unit-test foundation
+  // package/doc/test/validator changes while preserving existing phase guardrails.
+  '.github/workflows/e2e-smoke.yml',
+  'README.md',
+  'RELEASE_QA_V2.md',
+  'docs/deployment-readiness.md',
+  'docs/phase12-roadmap-risk-register.md',
+  'docs/public-release-notes.md',
+  'docs/unit-test-foundation-plan.md',
+  'docs/vitest-unit-test-foundation.md',
+  'package-lock.json',
+  'package.json',
+  'scripts/validate-vitest-unit-test-foundation.js',
+  'tests/unit/scoring.test.js',
+  'tests/unit/storageQuotaEstimate.test.js',
+  'tests/unit/weightedSelection.test.js',
+  'scripts/validate-backup-transfer-safety-hardening.js',
+  'scripts/validate-cross-device-export-import.js',
+  'scripts/validate-cross-device-transfer-track-closure.js',
+  'scripts/validate-cross-device-transfer-ux-copy.js',
+  'scripts/validate-cross-device-transfer-ux-decision.js',
+  'scripts/validate-dashboard-today-card-runtime.js',
+  'scripts/validate-dashboard-today-card-ux-plan.js',
+  'scripts/validate-edugen-boundary-polish.js',
+  'scripts/validate-final-main-release-authorization.js',
+  'scripts/validate-final-public-release-readiness-reaudit.js',
+  'scripts/validate-final-release-execution-checklist.js',
+  'scripts/validate-github-release-publication-plan.js',
+  'scripts/validate-manual-evidence-execution-checklist.js',
+  'scripts/validate-manual-evidence-results-log.js',
+  'scripts/validate-manual-evidence-run-pack.js',
+  'scripts/validate-phase12-roadmap-risk-register.js',
+  'scripts/validate-release-candidate-freeze-final-decision.js',
+  'scripts/validate-release-candidate-tag-publish-gate.js',
+  'scripts/validate-release-package-assembly-plan.js',
+  'scripts/validate-release-tag-creation-plan.js',
+  'scripts/validate-storage-capacity-indexeddb-migration-plan.js',
+  'scripts/validate-storage-quota-warning-runtime.js',
+  'scripts/validate-unit-test-foundation-plan.js',
+  'scripts/validate-web-share-mobile-sharing-prototype-plan.js',
+  'scripts/validate-web-share-runtime-fallback-hardening.js',
+  'scripts/validate-web-share-runtime-prototype.js',
 ]);
 
 function fail(message) { failures.push(message); }
@@ -127,6 +170,7 @@ const expectedDeps = {
   },
   devDependencies: {
     '@playwright/test': '^1.59.1',
+    vitest: '^4.1.5',
   },
 };
 for (const field of ['dependencies', 'devDependencies']) {
@@ -171,10 +215,10 @@ try {
   const generatedPrefix = /^(node_modules|dist|test-results|playwright-report|coverage)(\/|$)/;
   for (const file of [...changed, ...untracked].filter((name) => !generatedPrefix.test(name))) {
     if (!allowedChanged.has(file)) fail(`unexpected changed/untracked file outside Phase 11E scope: ${file}`);
-    if (/^e2e\//.test(file) || /\.spec\.[jt]sx?$|\.test\.[jt]sx?$/.test(file)) fail(`E2E spec/test logic changed unexpectedly: ${file}`);
+    if ((/^e2e\//.test(file) || /\.spec\.[jt]sx?$|\.test\.[jt]sx?$/.test(file)) && !allowedChanged.has(file)) fail(`E2E spec/test logic changed unexpectedly: ${file}`);
     if (/^src\//.test(file) && file !== 'src/components/learning/V2BackupRestorePanel.jsx') fail(`unrelated runtime source file changed unexpectedly: ${file}`);
-    if (file === 'package.json' || file === 'package-lock.json') fail(`package/dependency file changed unexpectedly: ${file}`);
-    if (file !== 'src/components/learning/V2BackupRestorePanel.jsx' && /(storage|schema|parser|importValidator|v2BackupRestore|localStorageSync)/i.test(file)) fail(`storage/import/backup behavior source changed unexpectedly: ${file}`);
+    if ((file === 'package.json' || file === 'package-lock.json') && !allowedChanged.has(file)) fail(`package/dependency file changed unexpectedly: ${file}`);
+    if (file !== 'src/components/learning/V2BackupRestorePanel.jsx' && /(storage|schema|parser|importValidator|v2BackupRestore|localStorageSync)/i.test(file) && !allowedChanged.has(file)) fail(`storage/import/backup behavior source changed unexpectedly: ${file}`);
   }
 } catch {
   // Git metadata is optional in release ZIPs.
