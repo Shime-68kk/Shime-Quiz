@@ -1960,3 +1960,28 @@ Scope boundaries:
 - No FSRS/IndexedDB/cloud/account/encryption implementation.
 - No release package/tag/GitHub Release created.
 - Unit tests are initial/minimal and do not replace E2E smoke/onboarding coverage.
+
+## Phase 12H — Study Flow Micro-feedback Plan
+
+Phase 12H adds [`docs/study-flow-micro-feedback-plan.md`](docs/study-flow-micro-feedback-plan.md), a planning-only document for future Study Flow micro-feedback. Phase 12G is the completed baseline: Vitest unit test foundation exists, `npm run test:unit` exists, initial deterministic unit tests exist, and no runtime/algorithm behavior changes were made by Phase 12G.
+
+Phase 12H documents feedback principles, Vietnamese-friendly copy guidance, accessibility/reduced-motion requirements, algorithm/data boundaries, and testing/evidence requirements for a future Phase 12I runtime implementation.
+
+Recommended next phase: Phase 12I — Study Flow Micro-feedback Runtime.
+
+Scope boundaries for Phase 12H:
+
+- no runtime app behavior changes
+- no `src/` changes
+- no `e2e/` changes
+- no tests added
+- no package version/dependency changes
+- no Study Room behavior changes
+- no answer correctness changes
+- no scoring/SRT/mastery/recommendation changes
+- no storage schema changes
+- no backup format changes
+- no IndexedDB/FSRS/cloud/account/encryption implementation
+- no release package/tag/GitHub Release created
+- new validator: `scripts/validate-study-flow-micro-feedback-plan.js`
+- CI registration for the new validator

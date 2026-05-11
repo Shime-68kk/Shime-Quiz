@@ -276,3 +276,7 @@ Unit test foundation planning documentation now exists. It identifies candidate 
 ## Phase 12G Vitest unit test foundation
 
 Phase 12G adds a minimal Vitest unit test foundation and initial unit tests for selected pure/near-pure helpers. This does not claim broad/full test coverage and does not claim runtime or algorithm behavior changes.
+
+## Phase 12H Study Flow Micro-feedback planning
+
+Phase 12H adds Study Flow micro-feedback planning documentation for a future Study Room UX improvement. Runtime micro-feedback is not implemented by Phase 12H, and learning algorithms are not changed.

@@ -287,3 +287,9 @@ The [Unit Test Foundation Plan](docs/unit-test-foundation-plan.md) documents can
 Phase 12G adds a minimal [Vitest Unit Test Foundation](docs/vitest-unit-test-foundation.md). Unit tests can be run with `npm run test:unit`.
 
 The initial unit tests are limited to selected pure/near-pure helpers and do not replace Playwright E2E smoke/onboarding checks. Phase 12G does not claim runtime app behavior changes or scoring/SRT/mastery/recommendation algorithm changes.
+
+## Phase 12H Study Flow Micro-feedback Plan
+
+The Study Flow Micro-feedback Plan is documented in [`docs/study-flow-micro-feedback-plan.md`](docs/study-flow-micro-feedback-plan.md). Phase 12H plans future Study Room feedback principles, copy guidance, accessibility/reduced-motion requirements, and algorithm boundaries.
+
+Runtime micro-feedback is planned for a future phase and is not implemented by Phase 12H. Study Room behavior is unchanged by Phase 12H, scoring/SRT/mastery/recommendation algorithms are unchanged by Phase 12H, and the app remains local-first/browser-local.

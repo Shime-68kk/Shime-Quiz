@@ -289,6 +289,9 @@ jobs:
       - name: Validate Phase 12G Vitest Unit Test Foundation
         run: node scripts/validate-vitest-unit-test-foundation.js
 
+      - name: Validate Phase 12H Study Flow Micro-feedback plan
+        run: node scripts/validate-study-flow-micro-feedback-plan.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
