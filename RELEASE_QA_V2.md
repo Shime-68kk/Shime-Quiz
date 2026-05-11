@@ -2012,3 +2012,39 @@ Scope boundaries:
 - No FSRS, IndexedDB, cloud/account sync, encryption, release package, release tag, or GitHub Release.
 
 Recommended next phase: Phase 12J — Phase 12 Closure / Release Decision.
+
+## Phase 12J — Phase 12 Closure / Release Decision
+
+Phase 12J adds `docs/phase12-closure-release-decision.md` and closes Phase 12 after the completed Phase 12A–12I work.
+
+Scope control for Phase 12J:
+
+- Docs/static-validator/CI-only: YES
+- Runtime source changed: NO
+- No runtime behavior changed by Phase 12J.
+- `src/` changed: NO
+- `e2e/` changed: NO
+- `tests/` changed: NO
+- `package.json` changed: NO
+- `package-lock.json` changed: NO
+- package version changed: NO
+- dependencies changed: NO
+- Study Room behavior changed: NO
+- Dashboard behavior changed: NO
+- answer correctness changed: NO
+- scoring/SRT/mastery/recommendation changed: NO
+- storage schema changed: NO
+- backup format changed: NO
+- release package created: NO
+- release tag created: NO
+- GitHub Release published: NO
+
+Allowed claims after Phase 12J:
+
+- Phase 12 is closed through Phase 12J.
+- Phase 12A–12I completed work is documented.
+- Phase 13 is ready for handoff to a different working setup/chatbot.
+- Any final release execution remains a separate explicit user-approved release process.
+
+Do not claim Phase 12J created a release package, release tag, GitHub Release, production certification, security certification, accessibility certification, or performance certification.
+
