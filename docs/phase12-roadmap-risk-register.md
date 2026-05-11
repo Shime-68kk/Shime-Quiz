@@ -205,3 +205,16 @@ Vitest and unit tests remain future Phase 12G work. No package/dependency change
 Phase 12G is the Vitest Unit Test Foundation phase. It adds minimal Vitest tooling, `npm run test:unit`, and initial pure-helper unit tests.
 
 Later phases remain unimplemented unless completed separately. Recommended next phase: Phase 12H — Study Flow Micro-feedback Plan.
+
+## Phase 12H follow-up — Study Flow Micro-feedback Plan
+
+Phase 12H adds Study Flow Micro-feedback planning. Runtime micro-feedback remains future Phase 12I work. No Study Room behavior changed in Phase 12H.
+
+Recommended next phase: Phase 12I — Study Flow Micro-feedback Runtime.
+
+Remaining shortened Phase 12 path:
+
+- Phase 12I — Study Flow Micro-feedback Runtime
+- Phase 12J — Phase 12 Closure / Release Decision
+
+Route-level code splitting remains deferred/future work. Current chunk-size warnings remain non-blocking and do not mean route-level code splitting is implemented.
