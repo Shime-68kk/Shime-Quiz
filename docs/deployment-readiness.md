@@ -245,3 +245,10 @@ Phase 12G unit test tooling does not change deployment requirements. The app rem
 ## Phase 12H Study Flow micro-feedback planning deployment note
 
 Phase 12H Study Flow micro-feedback planning does not change deployment requirements. The app remains a local-first browser app with no backend/cloud/account sync requirement. EduGen/File Processor remains separate; document import using PDF/DOCX/PPTX/ZIP conversion still requires a browser-reachable `VITE_FILE_PROCESSOR_URL`, and frontend-only hosting does not provide document conversion by itself. Manual backup/export/import remains the portability model.
+
+
+## Phase 12I Study Flow runtime deployment note
+
+Phase 12I Study Flow micro-feedback runtime does not change deployment requirements. It is a browser-local Study Room UX update and does not add backend services, account/cloud sync, new environment variables, package dependencies, or deployment infrastructure.
+
+The app remains local-first/browser-local. EduGen/File Processor remains separate; document import using PDF/DOCX/PPTX/ZIP conversion still requires a browser-reachable `VITE_FILE_PROCESSOR_URL`, and frontend-only hosting does not provide document conversion by itself. Manual backup/export/import remains the portability model.

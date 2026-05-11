@@ -6,6 +6,21 @@ import { execSync } from 'child_process';
 const root = process.cwd();
 const failures = [];
 const allowedChanged = new Set([
+
+  // Phase 12I compatibility: allow only the approved Study Flow micro-feedback
+  // runtime/session-action recovery files while preserving existing guardrails.
+  '.github/workflows/e2e-smoke.yml',
+  'README.md',
+  'RELEASE_QA_V2.md',
+  'docs/deployment-readiness.md',
+  'docs/phase12-roadmap-risk-register.md',
+  'docs/public-release-notes.md',
+  'docs/study-flow-micro-feedback-runtime.md',
+  'scripts/validate-study-flow-micro-feedback-plan.js',
+  'scripts/validate-study-flow-micro-feedback-runtime.js',
+  'src/routes/StudyRoom.jsx',
+  'src/components/study/StudyResultSummary.jsx',
+
   '.github/workflows/e2e-smoke.yml',
   'README.md',
   'RELEASE_QA_V2.md',
@@ -235,7 +250,7 @@ try {
   const generatedPrefix = /^(node_modules|dist|test-results|playwright-report|coverage)(\/|$)/;
   for (const file of [...changed, ...untracked].filter((name) => !generatedPrefix.test(name))) {
     if (!allowedChanged.has(file)) fail(`unexpected changed/untracked file outside Phase 11H scope: ${file}`);
-    if (/^src\//.test(file)) fail(`runtime source file changed unexpectedly: ${file}`);
+    if (/^src\//.test(file) && !allowedChanged.has(file)) fail(`runtime source file changed unexpectedly: ${file}`);
     if ((/^e2e\//.test(file) || /\.spec\.[jt]sx?$|\.test\.[jt]sx?$/.test(file)) && !allowedChanged.has(file)) fail(`E2E spec/test logic changed unexpectedly: ${file}`);
     if ((file === 'package.json' || file === 'package-lock.json') && !allowedChanged.has(file)) fail(`package/dependency file changed unexpectedly: ${file}`);
   }

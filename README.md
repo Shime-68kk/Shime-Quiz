@@ -293,3 +293,12 @@ The initial unit tests are limited to selected pure/near-pure helpers and do not
 The Study Flow Micro-feedback Plan is documented in [`docs/study-flow-micro-feedback-plan.md`](docs/study-flow-micro-feedback-plan.md). Phase 12H plans future Study Room feedback principles, copy guidance, accessibility/reduced-motion requirements, and algorithm boundaries.
 
 Runtime micro-feedback is planned for a future phase and is not implemented by Phase 12H. Study Room behavior is unchanged by Phase 12H, scoring/SRT/mastery/recommendation algorithms are unchanged by Phase 12H, and the app remains local-first/browser-local.
+
+
+## Phase 12I Study Flow Micro-feedback Runtime
+
+Phase 12I implements a narrow Study Room runtime UX improvement based on the Phase 12H plan. The runtime note is documented in [`docs/study-flow-micro-feedback-runtime.md`](docs/study-flow-micro-feedback-runtime.md).
+
+This phase adds lightweight visible micro-feedback and replaces native browser confirmation prompts for Study Room session completion/restart with inline confirmation UI. It also keeps direct result-summary navigation to Library and Dashboard so learners are not forced to use the browser Back button after a session.
+
+Phase 12I does not change answer correctness, scoring, SRT, mastery, recommendation algorithms, storage schema, backup format, package version, or package dependencies. The app remains local-first and browser-local.

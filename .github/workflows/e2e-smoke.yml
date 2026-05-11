@@ -292,6 +292,9 @@ jobs:
       - name: Validate Phase 12H Study Flow Micro-feedback plan
         run: node scripts/validate-study-flow-micro-feedback-plan.js
 
+      - name: Validate Phase 12I Study Flow Micro-feedback runtime
+        run: node scripts/validate-study-flow-micro-feedback-runtime.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

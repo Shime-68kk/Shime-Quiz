@@ -280,3 +280,10 @@ Phase 12G adds a minimal Vitest unit test foundation and initial unit tests for 
 ## Phase 12H Study Flow Micro-feedback planning
 
 Phase 12H adds Study Flow micro-feedback planning documentation for a future Study Room UX improvement. Runtime micro-feedback is not implemented by Phase 12H, and learning algorithms are not changed.
+
+
+## Phase 12I Study Flow micro-feedback runtime
+
+Phase 12I adds a narrow Study Room UX improvement: visible micro-feedback and inline session-action confirmation for completing or restarting a study session. Result summary actions include direct navigation back to Library and Dashboard/overview.
+
+This does not change scoring, SRT, mastery, recommendation algorithms, storage schema, backup format, package version, or package dependencies.

@@ -21,6 +21,21 @@ const unitTestFiles = [
 ];
 
 const allowedChangedFiles = new Set([
+
+  // Phase 12I compatibility: allow only the approved Study Flow micro-feedback
+  // runtime/session-action recovery files while preserving existing guardrails.
+  '.github/workflows/e2e-smoke.yml',
+  'README.md',
+  'RELEASE_QA_V2.md',
+  'docs/deployment-readiness.md',
+  'docs/phase12-roadmap-risk-register.md',
+  'docs/public-release-notes.md',
+  'docs/study-flow-micro-feedback-runtime.md',
+  'scripts/validate-study-flow-micro-feedback-plan.js',
+  'scripts/validate-study-flow-micro-feedback-runtime.js',
+  'src/routes/StudyRoom.jsx',
+  'src/components/study/StudyResultSummary.jsx',
+
   '.github/workflows/e2e-smoke.yml',
   'README.md',
   'RELEASE_QA_V2.md',
@@ -193,7 +208,7 @@ function scopeGuard() {
     if (generatedArtifacts.some((artifact) => file === artifact || file.startsWith(`${artifact}/`))) continue;
     if (forbiddenChangedFiles.some((name) => file === name || file.startsWith(`${name}.`))) fail(`Forbidden config file changed: ${file}`);
     if (forbiddenChangedPrefixes.some((prefix) => file.startsWith(prefix))) fail(`Forbidden path changed: ${file}`);
-    if (file.startsWith('src/')) fail(`Runtime source file changed unexpectedly: ${file}`);
+    if (file.startsWith('src/') && !allowedChangedFiles.has(file)) fail(`Runtime source file changed unexpectedly: ${file}`);
     if (!allowedChangedFiles.has(file)) fail(`Unexpected changed file for Phase 12G scope: ${file}`);
   }
 }
