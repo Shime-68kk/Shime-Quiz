@@ -123,7 +123,7 @@ function getCheckedAnswerFeedback(item, itemState = {}) {
   if (isCorrect === true) {
     return {
       tone: 'success',
-      title: 'Đúng rồi — tiếp tục nhé.',
+      title: 'Chính xác — tiếp tục nhé.',
       message: 'Bạn có thể chuyển sang item tiếp theo khi sẵn sàng.'
     };
   }
@@ -451,12 +451,7 @@ export default function StudyRoom() {
 
     const incompleteCount = getIncompleteStudyItemCount(items, getCurrentAttemptState());
     if (incompleteCount > 0 && !allowIncomplete) {
-      setPendingSessionAction('finish');
-      showMicroFeedback({
-        tone: 'warning',
-        title: 'Bạn còn câu chưa trả lời.',
-        message: `Còn ${incompleteCount} mục chưa hoàn tất. Bạn có thể xác nhận hoàn thành hoặc tiếp tục học.`
-      });
+      finishSession({ allowIncomplete: true });
       return;
     }
 
