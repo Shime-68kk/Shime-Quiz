@@ -298,6 +298,9 @@ jobs:
       - name: Validate Phase 12J closure release decision
         run: node scripts/validate-phase12-closure-release-decision.js
 
+      - name: Validate Phase 13A current review engine audit
+        run: node scripts/validate-phase13-review-engine-audit.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
