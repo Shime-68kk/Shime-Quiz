@@ -9,6 +9,12 @@ const requiredFiles = [
   'docs/public-release-notes.md',
   'docs/deployment-readiness.md',
   '.github/workflows/e2e-smoke.yml',
+  // Phase 13A compatibility: allow only the approved current review
+  // engine audit docs/static-validator/CI files while preserving this
+  // historical validator's existing scope guardrails.
+  'docs/phase13-current-review-engine-audit.md',
+  'docs/phase13-review-engine-claim-boundaries.md',
+  'scripts/validate-phase13-review-engine-audit.js',
 ];
 
 const forbiddenChangedPrefixes = ['src/', 'e2e/'];
@@ -23,6 +29,12 @@ const forbiddenChangedFiles = [
 ];
 
 const allowedChangedFiles = new Set([
+  // Phase 13A compatibility: allow only the approved current review
+  // engine audit docs/static-validator/CI files while preserving this
+  // historical validator's existing scope guardrails.
+  'docs/phase13-current-review-engine-audit.md',
+  'docs/phase13-review-engine-claim-boundaries.md',
+  'scripts/validate-phase13-review-engine-audit.js',
 
   // Phase 12J compatibility: allow only the approved closure/release-decision
   // docs/static-validator/CI files while preserving older phase guardrails.
