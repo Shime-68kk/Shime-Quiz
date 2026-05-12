@@ -207,8 +207,12 @@ function packageGuard() {
     const afterDeps = pkg.dependencies || {};
     const newDeps = Object.keys(afterDeps).filter(name => !Object.prototype.hasOwnProperty.call(beforeDeps, name));
     const changedExistingDeps = Object.keys(beforeDeps).filter(name => afterDeps[name] !== beforeDeps[name]);
-    if (newDeps.length !== 1 || newDeps[0] !== 'ts-fsrs') {
-      fail(`Only ts-fsrs may be added as a new direct runtime dependency; got ${newDeps.join(', ') || 'none'}`);
+    if (newDeps.length > 0) {
+      if (newDeps.length !== 1 || newDeps[0] !== 'ts-fsrs') {
+        fail(`Only ts-fsrs may be added as a new direct runtime dependency; got ${newDeps.join(', ')}`);
+      }
+    } else if (!afterDeps['ts-fsrs']) {
+      fail('ts-fsrs must be present in package.json dependencies after Phase 14B merge');
     }
     if (changedExistingDeps.length > 0) fail(`Existing dependencies changed unexpectedly: ${changedExistingDeps.join(', ')}`);
     if (JSON.stringify(pkg.devDependencies || {}) !== JSON.stringify(baseline.devDependencies || {})) {
