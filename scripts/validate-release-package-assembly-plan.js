@@ -148,6 +148,16 @@ for (const file of gitTrackedFiles()) {
 }
 
 const allowedChanged = new Set([
+  // Phase 14B compatibility: allow only the approved internal/test-only
+  // FSRS wrapper prototype files and exact ts-fsrs package metadata.
+  'package.json',
+  'package-lock.json',
+  'docs/phase14b-fsrs-wrapper-test-prototype.md',
+  'scripts/validate-phase14b-fsrs-wrapper.js',
+  'src/quiz/fsrsWrapper.js',
+  'tests/unit/fsrsWrapper.test.js',
+  '.github/workflows/e2e-smoke.yml',
+
   // Phase 14A compatibility: allow only the approved scheduler adapter
   // boundary scaffolding files while preserving older phase guardrails.
   'docs/phase14a-scheduler-adapter-boundary.md',
