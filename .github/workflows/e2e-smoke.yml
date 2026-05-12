@@ -316,6 +316,9 @@ jobs:
       - name: Validate Phase 14B FSRS wrapper test prototype
         run: node scripts/validate-phase14b-fsrs-wrapper.js
 
+      - name: Validate Phase 14C FSRS persistence backup harness
+        run: node scripts/validate-phase14c-fsrs-persistence-harness.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

@@ -7,6 +7,7 @@ export const REVIEW_SCHEDULE_SCHEMA_VERSION = 'v2-review-schedule-v1';
 export const REVIEW_SCHEDULE_UPDATED_EVENT = 'shime-v2-review-schedule-updated';
 export const MIN_EASE_FACTOR = 1.3;
 export const MAX_EASE_FACTOR = 2.8;
+export const FSRS_REVIEW_LOG_CAP = 20;
 
 
 function emitReviewScheduleUpdated(detail = {}) {
@@ -31,6 +32,45 @@ function addDaysIso(baseDate, days) {
   return date.toISOString();
 }
 
+function isPlainObject(value) {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+}
+
+function cloneJsonSafe(value, fallback = null) {
+  try {
+    return JSON.parse(JSON.stringify(value));
+  } catch {
+    return fallback;
+  }
+}
+
+function getPreservedFsrsFields(record) {
+  const preserved = {};
+  const schedulerKind = typeof record.schedulerKind === 'string' ? record.schedulerKind.trim() : '';
+  const schedulerVersion = typeof record.schedulerVersion === 'string' ? record.schedulerVersion.trim() : '';
+
+  if (schedulerKind && !['sm2-heuristic', 'current-heuristic'].includes(schedulerKind)) {
+    preserved.schedulerKind = schedulerKind;
+  }
+  if (schedulerVersion) {
+    preserved.schedulerVersion = schedulerVersion;
+  }
+  if (isPlainObject(record.fsrsPayload)) {
+    const payload = cloneJsonSafe(record.fsrsPayload);
+    if (isPlainObject(payload)) preserved.fsrsPayload = payload;
+  }
+  if (Array.isArray(record.fsrsReviewLogs)) {
+    const logs = record.fsrsReviewLogs
+      .filter(isPlainObject)
+      .map(log => cloneJsonSafe(log))
+      .filter(isPlainObject)
+      .slice(-FSRS_REVIEW_LOG_CAP);
+    if (logs.length > 0) preserved.fsrsReviewLogs = logs;
+  }
+
+  return preserved;
+}
+
 
 function normalizeScheduleRecord(record) {
   if (!record || typeof record !== 'object') return null;
@@ -47,7 +87,8 @@ function normalizeScheduleRecord(record) {
     repetitionCount: Math.max(0, Math.floor(Number(record.repetitionCount) || 0)),
     easeFactor: clamp(record.easeFactor, MIN_EASE_FACTOR, MAX_EASE_FACTOR, 2.2),
     correctStreak: Math.max(0, Math.floor(Number(record.correctStreak) || 0)),
-    wrongCount: Math.max(0, Math.floor(Number(record.wrongCount) || 0))
+    wrongCount: Math.max(0, Math.floor(Number(record.wrongCount) || 0)),
+    ...getPreservedFsrsFields(record)
   };
 }
 

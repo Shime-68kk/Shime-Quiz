@@ -31,6 +31,14 @@ const historicalValidatorCompatibilityFiles = new Set([
   'tests/unit/fsrsWrapper.test.js',
   '.github/workflows/e2e-smoke.yml',
 
+  // Phase 14C compatibility: allow only the approved FSRS persistence
+  // backup harness files while preserving older phase guardrails.
+  'docs/phase14c-fsrs-persistence-backup-harness.md',
+  'scripts/validate-phase14c-fsrs-persistence-harness.js',
+  'src/state/reviewScheduleStorage.js',
+  'tests/unit/fsrsPersistenceHarness.test.js',
+  '.github/workflows/e2e-smoke.yml',
+
   'scripts/validate-backup-transfer-safety-hardening.js',
   'scripts/validate-cross-device-export-import.js',
   'scripts/validate-cross-device-transfer-track-closure.js',
