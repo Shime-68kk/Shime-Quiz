@@ -2,35 +2,36 @@
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
+const DOCS_FILE = 'docs/phase14b-fsrs-wrapper-test-prototype.md';
+const WRAPPER_SOURCE = 'src/quiz/fsrsWrapper.js';
+const WRAPPER_TEST = 'tests/unit/fsrsWrapper.test.js';
+const VALIDATOR_SCRIPT = 'scripts/validate-phase14b-fsrs-wrapper.js';
+const WORKFLOW_FILE = '.github/workflows/e2e-smoke.yml';
 const ADAPTER_SOURCE = 'src/quiz/reviewSchedulerAdapter.js';
 const STORAGE_SOURCE = 'src/state/reviewScheduleStorage.js';
-const ADAPTER_TEST = 'tests/unit/reviewSchedulerAdapter.test.js';
-const DOCS_FILE = 'docs/phase14a-scheduler-adapter-boundary.md';
-const VALIDATOR_SCRIPT = 'scripts/validate-phase14a-scheduler-adapter.js';
-const WORKFLOW_FILE = '.github/workflows/e2e-smoke.yml';
 
-const requiredFiles = [ADAPTER_SOURCE, STORAGE_SOURCE, ADAPTER_TEST, DOCS_FILE, VALIDATOR_SCRIPT];
+const bindingPackage = '@open-spaced-repetition/' + 'binding';
+
+const requiredFiles = [
+  DOCS_FILE,
+  WRAPPER_SOURCE,
+  WRAPPER_TEST,
+  VALIDATOR_SCRIPT,
+  WORKFLOW_FILE
+];
 
 const coreAllowedChangedFiles = new Set([
-  ADAPTER_SOURCE,
-  STORAGE_SOURCE,
-  ADAPTER_TEST,
+  'package.json',
+  'package-lock.json',
   DOCS_FILE,
+  WRAPPER_SOURCE,
+  WRAPPER_TEST,
   VALIDATOR_SCRIPT,
   WORKFLOW_FILE
 ]);
 
 const historicalValidatorCompatibilityFiles = new Set([
-  // Phase 14B compatibility: allow only the approved internal/test-only
-  // FSRS wrapper prototype files and exact ts-fsrs package metadata.
-  'package.json',
-  'package-lock.json',
-  'docs/phase14b-fsrs-wrapper-test-prototype.md',
-  'scripts/validate-phase14b-fsrs-wrapper.js',
-  'src/quiz/fsrsWrapper.js',
-  'tests/unit/fsrsWrapper.test.js',
-  '.github/workflows/e2e-smoke.yml',
-
+  'scripts/validate-phase14a-scheduler-adapter.js',
   'scripts/validate-backup-transfer-safety-hardening.js',
   'scripts/validate-cross-device-export-import.js',
   'scripts/validate-cross-device-transfer-track-closure.js',
@@ -67,14 +68,6 @@ const historicalValidatorCompatibilityFiles = new Set([
   'scripts/validate-web-share-runtime-prototype.js'
 ]);
 
-const forbiddenChangedFiles = new Set([
-  'package.json',
-  'package-lock.json',
-  'vite.config.js',
-  'vite.config.mjs',
-  'playwright.config.js'
-]);
-
 const generatedArtifacts = [
   'node_modules',
   'dist',
@@ -87,20 +80,28 @@ const generatedArtifacts = [
   '.git'
 ];
 
-const registryTerms = ['applied-caas', 'artifactory', 'internal.api.openai', 'packages.applied'];
+const internalRegistryTerms = ['applied-caas', 'artifactory', 'internal.api.openai', 'packages.applied'];
 
 function fail(message) {
-  console.error(`Phase 14A scheduler adapter validation failed: ${message}`);
+  console.error(`Phase 14B FSRS wrapper validation failed: ${message}`);
   process.exit(1);
 }
 
 function warn(message) {
-  console.warn(`Phase 14A scheduler adapter validation warning: ${message}`);
+  console.warn(`Phase 14B FSRS wrapper validation warning: ${message}`);
 }
 
 function read(file) {
   if (!fs.existsSync(file)) fail(`Missing required file: ${file}`);
   return fs.readFileSync(file, 'utf8');
+}
+
+function readJson(file) {
+  try {
+    return JSON.parse(read(file));
+  } catch (error) {
+    fail(`${file} must be valid JSON: ${error.message}`);
+  }
 }
 
 function normalize(text) {
@@ -170,35 +171,55 @@ function trackedFiles() {
 }
 
 function requireIncludes(file, terms) {
-  const text = normalize(read(file));
+  const normalizedText = normalize(read(file));
   for (const term of terms) {
-    if (!text.includes(normalize(term))) fail(`${file} must mention: ${term}`);
+    if (!normalizedText.includes(normalize(term))) fail(`${file} must mention: ${term}`);
   }
 }
 
 function workflowGuard() {
   const text = read(WORKFLOW_FILE);
-  if (!text.includes('node scripts/validate-phase14a-scheduler-adapter.js')) {
-    fail(`${WORKFLOW_FILE} must run node scripts/validate-phase14a-scheduler-adapter.js`);
+  if (!text.includes('node scripts/validate-phase14b-fsrs-wrapper.js')) {
+    fail(`${WORKFLOW_FILE} must run node scripts/validate-phase14b-fsrs-wrapper.js`);
   }
   if (/continue-on-error:\s*true/i.test(text)) fail(`${WORKFLOW_FILE} must not add broad continue-on-error`);
 }
 
 function packageGuard() {
-  const pkg = JSON.parse(read('package.json'));
-  const lock = JSON.parse(read('package-lock.json'));
-  const tsFsrsVersion = pkg.dependencies?.['ts-fsrs'];
-  if (tsFsrsVersion && tsFsrsVersion !== '5.3.3') fail('Phase 14B compatibility allows only exact ts-fsrs 5.3.3');
-  if (tsFsrsVersion && /^[~^]/.test(tsFsrsVersion)) fail('Phase 14B compatibility requires exact ts-fsrs pinning');
-  if (tsFsrsVersion && lock.packages?.['']?.dependencies?.['ts-fsrs'] !== tsFsrsVersion) {
-    fail('package-lock root ts-fsrs version must match package.json');
+  const pkg = readJson('package.json');
+  const lock = readJson('package-lock.json');
+  const dependencyVersion = pkg.dependencies?.['ts-fsrs'];
+
+  if (!dependencyVersion) fail('package.json must include direct dependency ts-fsrs');
+  if (/^[~^]/.test(dependencyVersion)) fail('ts-fsrs must be exact pinned with no ^ or ~');
+  if (dependencyVersion !== '5.3.3') fail(`ts-fsrs must be pinned to the installed 5.3.3 version, got ${dependencyVersion}`);
+
+  const rootLockVersion = lock.packages?.['']?.dependencies?.['ts-fsrs'];
+  if (rootLockVersion !== dependencyVersion) fail('package-lock root dependency for ts-fsrs must match package.json');
+  if (lock.packages?.['node_modules/ts-fsrs']?.version !== dependencyVersion) {
+    fail('package-lock must include node_modules/ts-fsrs at the exact package.json version');
   }
-  if (tsFsrsVersion && lock.packages?.['node_modules/ts-fsrs']?.version !== tsFsrsVersion) {
-    fail('package-lock must include exact ts-fsrs package metadata');
+
+  const baselineText = runGit('git show origin/main:package.json', { silent: true });
+  if (baselineText) {
+    const baseline = JSON.parse(baselineText);
+    const beforeDeps = baseline.dependencies || {};
+    const afterDeps = pkg.dependencies || {};
+    const newDeps = Object.keys(afterDeps).filter(name => !Object.prototype.hasOwnProperty.call(beforeDeps, name));
+    const changedExistingDeps = Object.keys(beforeDeps).filter(name => afterDeps[name] !== beforeDeps[name]);
+    if (newDeps.length !== 1 || newDeps[0] !== 'ts-fsrs') {
+      fail(`Only ts-fsrs may be added as a new direct runtime dependency; got ${newDeps.join(', ') || 'none'}`);
+    }
+    if (changedExistingDeps.length > 0) fail(`Existing dependencies changed unexpectedly: ${changedExistingDeps.join(', ')}`);
+    if (JSON.stringify(pkg.devDependencies || {}) !== JSON.stringify(baseline.devDependencies || {})) {
+      fail('devDependencies must remain unchanged in Phase 14B');
+    }
   }
+
   for (const file of ['package.json', 'package-lock.json']) {
-    const text = file === 'package.json' ? JSON.stringify(pkg) : JSON.stringify(lock);
-    for (const term of registryTerms) {
+    const text = read(file);
+    if (text.includes(bindingPackage)) fail(`${file} must not include native binding dependency`);
+    for (const term of internalRegistryTerms) {
       if (text.includes(term)) fail(`${file} contains internal registry term: ${term}`);
     }
   }
@@ -208,14 +229,19 @@ function scopeGuard() {
   const allowedChangedFiles = new Set([...coreAllowedChangedFiles, ...historicalValidatorCompatibilityFiles]);
   for (const file of changedFiles()) {
     if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) continue;
-    if (allowedChangedFiles.has(file)) continue;
-    if (forbiddenChangedFiles.has(file)) fail(`Forbidden file changed: ${file}`);
-    if (file.startsWith('e2e/')) fail(`E2E file changed without Phase 14A approval: ${file}`);
-    if (file.startsWith('src/') && !coreAllowedChangedFiles.has(file)) fail(`Unexpected src/ file changed: ${file}`);
-    if (file.startsWith('tests/') && file !== ADAPTER_TEST) fail(`Unexpected tests/ file changed: ${file}`);
+    if (file === ADAPTER_SOURCE) fail(`${ADAPTER_SOURCE} must remain unchanged in Phase 14B`);
+    if (file === STORAGE_SOURCE) fail(`${STORAGE_SOURCE} must remain unchanged in Phase 14B`);
+    if (file === 'src/routes/StudyRoom.jsx') fail('Study Room UI must not change in Phase 14B');
+    if (file === 'src/routes/Dashboard.jsx') fail('Dashboard UI must not change in Phase 14B');
+    if (file.startsWith('e2e/')) fail(`E2E file changed without Phase 14B approval: ${file}`);
+    if (/^src\/.*(backup|restore|import|export|migration)/i.test(file)) {
+      fail(`Backup/import/export or storage migration source changed unexpectedly: ${file}`);
+    }
+    if (file.startsWith('src/') && file !== WRAPPER_SOURCE) fail(`Unexpected src/ file changed: ${file}`);
+    if (file.startsWith('tests/') && file !== WRAPPER_TEST) fail(`Unexpected tests/ file changed: ${file}`);
     if (file.startsWith('docs/') && file !== DOCS_FILE) fail(`Unexpected docs/ file changed: ${file}`);
-    if (file.startsWith('scripts/') && !allowedChangedFiles.has(file)) fail(`Unexpected scripts/ file changed: ${file}`);
-    if (!allowedChangedFiles.has(file)) fail(`Unexpected changed file for Phase 14A scope: ${file}`);
+    if (file.startsWith('scripts/') && !allowedChangedFiles.has(file)) fail(`Unexpected script changed: ${file}`);
+    if (!allowedChangedFiles.has(file)) fail(`Unexpected changed file for Phase 14B scope: ${file}`);
   }
 }
 
@@ -230,33 +256,32 @@ function generatedArtifactGuard() {
 
 function docsContentGuard() {
   requireIncludes(DOCS_FILE, [
-    'Phase 14A',
-    'adapter boundary',
-    'current scheduler',
-    'SM-2-like',
-    'heuristic',
-    'schedulerKind',
-    'schedulerVersion',
-    'normalized due status',
-    'due summary',
-    'no FSRS runtime',
+    'Phase 14B',
+    'ts-fsrs',
+    'exact-pinned',
+    'internal/test-only',
+    'not user-facing',
+    'no production routing',
     'Study Room',
     'Dashboard',
-    'no migration',
-    'no backup',
-    'no public FSRS claim',
+    'localStorage',
+    'backup/export/import',
+    'no existing-card migration',
+    'binary correct/wrong',
     'easeFactor',
     'FSRS difficulty',
-    'binary correct/wrong',
-    'review logs',
-    'Phase 14B'
+    'Phase 14C',
+    'native open-spaced-repetition binding package is not installed'
   ]);
 
   const unsafeClaims = [
-    'FSRS is implemented',
-    'FSRS runtime is available',
-    'ts-fsrs is installed',
-    'FSRS implemented',
+    'FSRS is user-facing',
+    'FSRS production scheduling is enabled',
+    'FSRS is available to users',
+    'Study Room supports FSRS ratings',
+    'Dashboard reads mixed FSRS',
+    'backup/export/import supports FSRS',
+    'existing records are migrated to FSRS',
     'adaptive learning is implemented',
     'AI is implemented',
     'sync is implemented',
@@ -265,18 +290,17 @@ function docsContentGuard() {
     'OCR is implemented'
   ];
   const safeMarkers = [
-    'not implemented',
-    'not installed',
+    'not',
+    'no ',
     'does not',
     'do not',
     'must not',
-    'no ',
+    'internal/test-only',
+    'test-only',
+    'not claim',
     'future',
-    'planned',
-    'reserved',
     'later',
-    'phase 14b',
-    'public claim boundary'
+    'phase 14c'
   ];
 
   for (const [index, line] of read(DOCS_FILE).split(/\r?\n/).entries()) {
@@ -290,61 +314,71 @@ function docsContentGuard() {
   }
 }
 
-function adapterSourceGuard() {
-  const source = read(ADAPTER_SOURCE);
+function wrapperSourceGuard() {
+  const source = read(WRAPPER_SOURCE);
   const normalizedSource = normalize(source);
-  if (/from\s+['"]ts-fsrs['"]|require\s*\(\s*['"]ts-fsrs['"]\s*\)/i.test(source)) {
-    fail(`${ADAPTER_SOURCE} must not import ts-fsrs`);
+  if (!/from\s+['"]ts-fsrs['"]/i.test(source)) fail(`${WRAPPER_SOURCE} must import ts-fsrs`);
+  for (const forbidden of ['localStorage', 'reviewScheduleStorage', 'reviewSchedulerAdapter', '../state/', '../utils/storage']) {
+    if (source.includes(forbidden)) fail(`${WRAPPER_SOURCE} must not import or use production storage/adapter term: ${forbidden}`);
   }
   for (const term of [
-    'SCHEDULER_KIND_CURRENT',
-    'SCHEDULER_KIND_FSRS_PLANNED',
-    'SCHEDULER_VERSION_CURRENT',
-    'getSchedulerKind',
-    'getSchedulerVersion',
-    'isCurrentSchedulerRecord',
-    'getDueStatus',
-    'getDueSummary',
-    'scheduleCurrentReview',
-    'scheduleReview',
-    'preserveCurrentRecord',
-    'sm2-heuristic',
-    'fsrs-planned',
-    'createReviewScheduleRecordFromResult'
+    'FSRS_TEST_SCHEDULER_KIND',
+    'fsrs-v4-test',
+    'FSRS_TEST_SCHEDULER_VERSION',
+    'createFsrsSeedCardForTest',
+    'scheduleFsrsReviewForTest',
+    'serializeFsrsCard',
+    'serializeFsrsReviewLog',
+    'validateFsrsPayload',
+    'getFsrsDueStatusForTest',
+    'createEmptyCard',
+    'generatorParameters',
+    'Rating',
+    'State',
+    'scheduler.next',
+    'toISOString',
+    'fsrsPayload'
   ]) {
-    if (!normalizedSource.includes(normalize(term))) fail(`${ADAPTER_SOURCE} must include adapter term: ${term}`);
-  }
-  if (!normalizedSource.includes(normalize('FSRS scheduling is not implemented in Phase 14A'))) {
-    fail(`${ADAPTER_SOURCE} must safely reject future FSRS scheduling`);
-  }
-}
-
-function storageSourceGuard() {
-  const source = read(STORAGE_SOURCE);
-  if (!source.includes('export function createReviewScheduleRecordFromResult')) {
-    fail(`${STORAGE_SOURCE} must expose the narrow pure current-scheduler wrapper`);
-  }
-  if (!source.includes('return updateRecordFromResult(previousRecord, itemResult, completedAt);')) {
-    fail(`${STORAGE_SOURCE} wrapper must delegate to existing updateRecordFromResult logic`);
+    if (!normalizedSource.includes(normalize(term))) fail(`${WRAPPER_SOURCE} must include wrapper term: ${term}`);
   }
 }
 
 function unitTestGuard() {
-  const text = read(ADAPTER_TEST);
+  const text = read(WRAPPER_TEST);
   const normalizedText = normalize(text);
   for (const term of [
-    'missing schedulerKind',
-    'defaults missing schedulerVersion',
-    'getDueStatus',
-    'getDueSummary',
-    'dueCount',
+    'Again',
+    'Hard',
+    'Good',
+    'Easy',
+    'does not mutate',
+    'localStorage',
+    'scheduleReview',
     'FSRS scheduling is not implemented in Phase 14A',
-    'preserves existing correct scheduling behavior',
-    'preserves existing wrong scheduling behavior',
-    'without schedulerKind working',
-    'does not destructively mutate input records'
+    'getFsrsDueStatusForTest',
+    'invalid FSRS payloads',
+    'serializeFsrsCard'
   ]) {
-    if (!normalizedText.includes(normalize(term))) fail(`${ADAPTER_TEST} must cover: ${term}`);
+    if (!normalizedText.includes(normalize(term))) fail(`${WRAPPER_TEST} must cover: ${term}`);
+  }
+  if (text.includes('?raw')) fail(`${WRAPPER_TEST} must not use import ?raw`);
+}
+
+function productionRouteGuard() {
+  const adapter = read(ADAPTER_SOURCE);
+  if (!adapter.includes('FSRS scheduling is not implemented in Phase 14A')) {
+    fail(`${ADAPTER_SOURCE} must still reject planned FSRS scheduling`);
+  }
+  if (/from\s+['"]ts-fsrs['"]/i.test(adapter)) fail(`${ADAPTER_SOURCE} must not import ts-fsrs`);
+
+  const storage = read(STORAGE_SOURCE);
+  if (/from\s+['"]ts-fsrs['"]/i.test(storage)) fail(`${STORAGE_SOURCE} must not import ts-fsrs`);
+  if (/fsrs-v4-test|fsrsPayload/i.test(storage)) fail(`${STORAGE_SOURCE} must not persist Phase 14B FSRS test payloads`);
+}
+
+function bindingReferenceGuard() {
+  for (const file of ['package.json', 'package-lock.json', WRAPPER_SOURCE, WRAPPER_TEST]) {
+    if (read(file).includes(bindingPackage)) fail(`${file} must not reference native binding package`);
   }
 }
 
@@ -355,10 +389,11 @@ function validate() {
   scopeGuard();
   generatedArtifactGuard();
   docsContentGuard();
-  adapterSourceGuard();
-  storageSourceGuard();
+  wrapperSourceGuard();
   unitTestGuard();
-  console.log('Phase 14A scheduler adapter boundary validation passed.');
+  productionRouteGuard();
+  bindingReferenceGuard();
+  console.log('Phase 14B FSRS wrapper test prototype validation passed.');
 }
 
 validate();

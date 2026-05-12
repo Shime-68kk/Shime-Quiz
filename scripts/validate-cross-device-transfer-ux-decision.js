@@ -6,6 +6,16 @@ import { execSync } from 'child_process';
 const root = process.cwd();
 const failures = [];
 const allowedChanged = new Set([
+  // Phase 14B compatibility: allow only the approved internal/test-only
+  // FSRS wrapper prototype files and exact ts-fsrs package metadata.
+  'package.json',
+  'package-lock.json',
+  'docs/phase14b-fsrs-wrapper-test-prototype.md',
+  'scripts/validate-phase14b-fsrs-wrapper.js',
+  'src/quiz/fsrsWrapper.js',
+  'tests/unit/fsrsWrapper.test.js',
+  '.github/workflows/e2e-smoke.yml',
+
   // Phase 14A compatibility: allow only the approved scheduler adapter
   // boundary scaffolding files while preserving older phase guardrails.
   'docs/phase14a-scheduler-adapter-boundary.md',
@@ -204,6 +214,7 @@ const expectedDeps = {
     react: 'latest',
     'react-dom': 'latest',
     'react-router-dom': 'latest',
+    'ts-fsrs': '5.3.3',
     vite: 'latest',
     zod: '^3.25.76',
   },

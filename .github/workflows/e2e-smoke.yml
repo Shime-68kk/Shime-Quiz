@@ -313,6 +313,9 @@ jobs:
       - name: Validate Phase 14A scheduler adapter boundary
         run: node scripts/validate-phase14a-scheduler-adapter.js
 
+      - name: Validate Phase 14B FSRS wrapper test prototype
+        run: node scripts/validate-phase14b-fsrs-wrapper.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
