@@ -3,10 +3,10 @@ import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
 const requiredFiles = [
-  'docs/phase13-fsrs-migration-architecture.md',
-  'docs/phase13-fsrs-data-model-plan.md',
-  'docs/phase13-fsrs-risk-register.md',
-  'scripts/validate-phase13-fsrs-plan.js',
+  'docs/phase13-local-adaptive-learning-roadmap.md',
+  'docs/phase13-intelligence-layer-boundaries.md',
+  'docs/phase13-phase14-plus-roadmap.md',
+  'scripts/validate-phase13-local-adaptive-roadmap.js',
 ];
 
 const coreAllowedChangedFiles = new Set([
@@ -16,28 +16,17 @@ const coreAllowedChangedFiles = new Set([
 
 const historicalValidatorCompatibilityFiles = new Set([
   'scripts/validate-backup-transfer-safety-hardening.js',
-  'scripts/validate-cross-device-export-import.js',
   'scripts/validate-cross-device-transfer-track-closure.js',
   'scripts/validate-cross-device-transfer-ux-copy.js',
   'scripts/validate-cross-device-transfer-ux-decision.js',
   'scripts/validate-dashboard-today-card-runtime.js',
   'scripts/validate-dashboard-today-card-ux-plan.js',
-  'scripts/validate-edugen-boundary-polish.js',
-  'scripts/validate-final-main-release-authorization.js',
-  'scripts/validate-final-public-release-readiness-reaudit.js',
-  'scripts/validate-final-release-execution-checklist.js',
-  'scripts/validate-github-release-publication-plan.js',
   'scripts/validate-manual-evidence-execution-checklist.js',
   'scripts/validate-manual-evidence-results-log.js',
-  'scripts/validate-manual-evidence-run-pack.js',
   'scripts/validate-phase12-closure-release-decision.js',
   'scripts/validate-phase12-roadmap-risk-register.js',
+  'scripts/validate-phase13-fsrs-plan.js',
   'scripts/validate-phase13-review-engine-audit.js',
-  'scripts/validate-release-candidate-freeze-final-decision.js',
-  'scripts/validate-release-candidate-tag-publish-gate.js',
-  'scripts/validate-release-package-assembly-plan.js',
-  'scripts/validate-release-tag-creation-plan.js',
-  'scripts/validate-storage-capacity-indexeddb-migration-plan.js',
   'scripts/validate-storage-quota-warning-runtime.js',
   'scripts/validate-study-flow-micro-feedback-plan.js',
   'scripts/validate-study-flow-micro-feedback-runtime.js',
@@ -71,12 +60,12 @@ const generatedArtifacts = [
 const registryTerms = ['applied-caas', 'artifactory', 'internal.api.openai', 'packages.applied'];
 
 function fail(message) {
-  console.error(`Phase 13B FSRS migration plan validation failed: ${message}`);
+  console.error(`Phase 13C local adaptive roadmap validation failed: ${message}`);
   process.exit(1);
 }
 
 function warn(message) {
-  console.warn(`Phase 13B FSRS migration plan validation warning: ${message}`);
+  console.warn(`Phase 13C local adaptive roadmap validation warning: ${message}`);
 }
 
 function read(file) {
@@ -121,8 +110,8 @@ function changedFilesFromPullRequestBase() {
 }
 
 function changedFilesFromBranchBase() {
-  const baseRef = runGit('git rev-parse --verify origin/main', { silent: true });
-  if (!baseRef) return [];
+  const originMain = runGit('git rev-parse --verify origin/main', { silent: true });
+  if (!originMain) return [];
   const mergeBase = runGit('git merge-base HEAD origin/main', { silent: true });
   if (!mergeBase) return [];
   return splitLines(runGit(`git diff --name-only ${mergeBase} HEAD`, { silent: true }));
@@ -164,75 +153,72 @@ function requireAny(file, label, terms) {
   }
 }
 
-function architectureDocGuard() {
-  requireIncludes('docs/phase13-fsrs-migration-architecture.md', [
-    'FSRS Migration Architecture',
+function roadmapContentGuard() {
+  requireIncludes('docs/phase13-local-adaptive-learning-roadmap.md', [
+    'local-first',
+    'browser-local',
     'current scheduler',
     'SM-2-like',
     'heuristic',
-    'not FSRS',
-    'dual scheduler',
+    'weighted practice',
+    'FSRS',
+    'future',
+    'planned',
+    'Glicko',
+    'IRT',
+    'local AI',
+    'Transformers.js',
+    'optional sync',
+    'PowerSync',
+    'ElectricSQL',
+    'backup/export/import',
+    'Phase 14',
+    'Phase 15',
+    'not implemented',
+    'no runtime behavior',
+  ]);
+}
+
+function boundaryContentGuard() {
+  requireIncludes('docs/phase13-intelligence-layer-boundaries.md', [
+    'FSRS is not implemented',
+    'ts-fsrs is not installed',
+    'Glicko-2 is not implemented',
+    'IRT is not implemented',
+    'Transformers.js is not implemented',
+    'PowerSync is not implemented',
+    'ElectricSQL is not implemented',
+    'cloud sync is not implemented',
+    'automatic sync is not implemented',
+    'IndexedDB runtime migration is not implemented',
+    'encryption is not implemented',
+    'built-in AI is not implemented',
+    'external AI/API is not implemented',
+    'OCR is not implemented',
+    'forbidden public claims',
+  ]);
+}
+
+function phase14RoadmapGuard() {
+  requireIncludes('docs/phase13-phase14-plus-roadmap.md', [
+    'FSRS adapter',
     'opt-in',
+    'new-card',
     'rollback',
-    'backup/export/import compatibility',
-    'local-first',
-    'no runtime implementation',
-    'no ts-fsrs dependency',
-  ]);
-  requireAny('docs/phase13-fsrs-migration-architecture.md', 'scheduler versioning', [
-    'schedulerVersion',
-    'scheduler version',
-    'schedulerKind',
-  ]);
-}
-
-function dataModelDocGuard() {
-  requireIncludes('docs/phase13-fsrs-data-model-plan.md', [
-    'difficulty',
-    'stability',
-    'retrievability',
-    'Again',
-    'Hard',
-    'Good',
-    'Easy',
-    'Review log',
-    'New',
-    'Learning',
-    'Review',
-    'Relearning',
-    'due',
-    'last review',
-    'easeFactor',
-    'intervalDays',
-    'repetitionCount',
-    'wrongCount',
-    'dueAt',
-    'lastReviewedAt',
-    'mapping',
-    'cannot be safely reconstructed',
-    'localStorage',
-    'IndexedDB',
-  ]);
-  requireAny('docs/phase13-fsrs-data-model-plan.md', 'IndexedDB future/planned only', [
-    'IndexedDB as a future/planned consideration only',
-    'IndexedDB is a future storage consideration only',
-    'No IndexedDB runtime migration is implemented in Phase 13B',
-  ]);
-}
-
-function riskRegisterGuard() {
-  requireIncludes('docs/phase13-fsrs-risk-register.md', [
-    'data corruption',
     'backup',
-    'rollback',
-    'overclaim',
-    'dependency',
-    'local-first',
-    'storage',
     'Study Room',
     'Dashboard',
     'weighted practice',
-    'Phase 14',
+    'public FSRS claims',
+    'do not start runtime until',
+    'Phase 14A',
+    'Phase 14B',
+    'Phase 14C',
+    'schemaVersion: v2-review-schedule-v1',
+  ]);
+  requireAny('docs/phase13-phase14-plus-roadmap.md', 'scheduler versioning', [
+    'schedulerVersion',
+    'schedulerKind',
   ]);
 }
 
@@ -245,10 +231,11 @@ function lineIsSafe(line) {
     'future',
     'planned',
     'proposal',
-    'migration plan',
-    'architecture plan',
+    'roadmap',
+    'research',
+    'architecture',
     'requires phase 14',
-    'research reference only',
+    'requires later phase',
     'forbidden',
     'unsafe',
     'unless',
@@ -257,7 +244,7 @@ function lineIsSafe(line) {
     'must not',
     'no ',
     'later',
-    'before runtime implementation',
+    'before claiming',
   ];
   const normalizedLine = normalize(line);
   return safeMarkers.some(marker => normalizedLine.includes(normalize(marker)));
@@ -265,32 +252,51 @@ function lineIsSafe(line) {
 
 function claimGuard() {
   const claimFiles = [
-    'docs/phase13-fsrs-migration-architecture.md',
-    'docs/phase13-fsrs-data-model-plan.md',
-    'docs/phase13-fsrs-risk-register.md',
+    'docs/phase13-local-adaptive-learning-roadmap.md',
+    'docs/phase13-intelligence-layer-boundaries.md',
+    'docs/phase13-phase14-plus-roadmap.md',
   ];
   const unsafeClaims = [
     'FSRS implemented',
     'FSRS is implemented',
     'ts-fsrs installed',
     'Glicko-2 implemented',
+    'Glicko-2 is implemented',
     'IRT implemented',
+    'IRT is implemented',
     'Transformers.js implemented',
+    'Transformers.js is implemented',
     'semantic search implemented',
+    'semantic search is implemented',
     'PowerSync implemented',
+    'PowerSync is implemented',
+    'ElectricSQL implemented',
+    'ElectricSQL is implemented',
     'automatic sync implemented',
+    'automatic sync is implemented',
     'cloud sync implemented',
+    'cloud sync is implemented',
     'IndexedDB migration implemented',
+    'IndexedDB runtime migration is implemented',
     'built-in AI implemented',
+    'built-in AI is implemented',
+    'external AI/API implemented',
+    'external AI/API is implemented',
     'OCR implemented',
+    'OCR is implemented',
   ];
 
   for (const file of claimFiles) {
     const lines = read(file).split(/\r?\n/);
+    let inForbiddenClaimsSection = false;
     for (const [index, line] of lines.entries()) {
       const normalizedLine = normalize(line);
+      if (/^##\s+/.test(line)) inForbiddenClaimsSection = false;
+      if (normalizedLine.includes('forbidden claims') || normalizedLine.includes('forbidden public claims')) {
+        inForbiddenClaimsSection = true;
+      }
       for (const claim of unsafeClaims) {
-        if (normalizedLine.includes(normalize(claim)) && !lineIsSafe(line)) {
+        if (normalizedLine.includes(normalize(claim)) && !inForbiddenClaimsSection && !lineIsSafe(line)) {
           fail(`Unsupported implementation claim in ${file}:${index + 1}: ${line.trim()}`);
         }
       }
@@ -300,15 +306,7 @@ function claimGuard() {
 
 function scopeGuard() {
   const changed = changedFiles();
-  const allowedChangedFiles = new Set([
-  // Phase 13C compatibility: allow only the approved local adaptive
-  // learning roadmap docs/static-validator files while preserving older
-  // phase guardrails.
-  'docs/phase13-local-adaptive-learning-roadmap.md',
-  'docs/phase13-intelligence-layer-boundaries.md',
-  'docs/phase13-phase14-plus-roadmap.md',
-  'scripts/validate-phase13-local-adaptive-roadmap.js',
-...coreAllowedChangedFiles, ...historicalValidatorCompatibilityFiles]);
+  const allowedChangedFiles = new Set([...coreAllowedChangedFiles, ...historicalValidatorCompatibilityFiles]);
   for (const file of changed) {
     if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) {
       continue;
@@ -317,9 +315,9 @@ function scopeGuard() {
     if (forbiddenChangedPrefixes.some(prefix => file.startsWith(prefix))) fail(`Forbidden runtime/test path changed: ${file}`);
     if (allowedChangedFiles.has(file)) continue;
     if (file.startsWith('scripts/validate-')) {
-      fail(`Unexpected validator changed without exact Phase 13B compatibility allowlist: ${file}`);
+      fail(`Unexpected validator changed without exact Phase 13C compatibility allowlist: ${file}`);
     }
-    fail(`Unexpected changed file for Phase 13B scope: ${file}`);
+    fail(`Unexpected changed file for Phase 13C scope: ${file}`);
   }
 }
 
@@ -342,20 +340,9 @@ function packageRegistryGuard() {
 }
 
 function workflowGuard() {
-  const workflow = '.github/workflows/e2e-smoke.yml';
-  const changed = changedFiles();
-  if (!changed.includes(workflow)) return;
-  const text = read(workflow);
-  for (const term of [
-    'node scripts/validate-phase13-fsrs-plan.js',
-    'npm run build',
-    'npm run test:unit',
-    'npm run test:e2e:smoke',
-    'npm run test:e2e:onboarding',
-    'actions/upload-artifact',
-    'applied-caas\\|artifactory\\|internal.api.openai\\|packages.applied',
-  ]) {
-    if (!text.includes(term)) fail(`Workflow changed but is missing required check/guard: ${term}`);
+  const text = read('.github/workflows/e2e-smoke.yml');
+  if (!text.includes('node scripts/validate-phase13-local-adaptive-roadmap.js')) {
+    fail('Workflow must run Phase 13C local adaptive roadmap validator.');
   }
   if (/continue-on-error:\s*true/i.test(text)) {
     fail('Workflow must not add broad continue-on-error: true.');
@@ -364,15 +351,15 @@ function workflowGuard() {
 
 function validate() {
   for (const file of requiredFiles) read(file);
-  architectureDocGuard();
-  dataModelDocGuard();
-  riskRegisterGuard();
+  roadmapContentGuard();
+  boundaryContentGuard();
+  phase14RoadmapGuard();
   claimGuard();
   scopeGuard();
   generatedArtifactGuard();
   packageRegistryGuard();
   workflowGuard();
-  console.log('Phase 13B FSRS migration architecture plan validation passed.');
+  console.log('Phase 13C local adaptive learning roadmap validation passed.');
 }
 
 validate();

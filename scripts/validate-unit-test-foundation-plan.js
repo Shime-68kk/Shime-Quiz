@@ -17,6 +17,14 @@ const requiredFiles = [
   'scripts/validate-phase13-review-engine-audit.js',
 ];
 const allowedChangedFiles = new Set([
+  // Phase 13C compatibility: allow only the approved local adaptive
+  // learning roadmap docs/static-validator files while preserving older
+  // phase guardrails.
+  'docs/phase13-local-adaptive-learning-roadmap.md',
+  'docs/phase13-intelligence-layer-boundaries.md',
+  'docs/phase13-phase14-plus-roadmap.md',
+  'scripts/validate-phase13-local-adaptive-roadmap.js',
+
   // Phase 13B compatibility: allow only the approved FSRS migration
   // architecture docs/static-validator/CI files while preserving older
   // phase guardrails.
