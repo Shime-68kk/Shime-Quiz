@@ -17,6 +17,15 @@ const requiredFiles = [
   'scripts/validate-phase13-review-engine-audit.js',
 ];
 const allowedChangedFiles = new Set([
+  // Phase 13D compatibility: allow only the approved FSRS entry
+  // decision docs/static-validator/CI files while preserving older
+  // phase guardrails.
+  'docs/phase13-closure-fsrs-entry-decision.md',
+  'docs/phase14-fsrs-implementation-scope.md',
+  'docs/phase14-risk-and-validation-plan.md',
+  'scripts/validate-phase13-closure.js',
+  '.github/workflows/e2e-smoke.yml',
+
   // Phase 13C compatibility: allow only the approved local adaptive
   // learning roadmap docs/static-validator files while preserving older
   // phase guardrails.

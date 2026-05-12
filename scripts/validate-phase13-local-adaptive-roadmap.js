@@ -15,18 +15,39 @@ const coreAllowedChangedFiles = new Set([
 ]);
 
 const historicalValidatorCompatibilityFiles = new Set([
+  // Phase 13D compatibility: allow only the approved FSRS entry
+  // decision docs/static-validator/CI files while preserving older
+  // phase guardrails.
+  'docs/phase13-closure-fsrs-entry-decision.md',
+  'docs/phase14-fsrs-implementation-scope.md',
+  'docs/phase14-risk-and-validation-plan.md',
+  'scripts/validate-phase13-closure.js',
+  '.github/workflows/e2e-smoke.yml',
+
   'scripts/validate-backup-transfer-safety-hardening.js',
+  'scripts/validate-cross-device-export-import.js',
   'scripts/validate-cross-device-transfer-track-closure.js',
   'scripts/validate-cross-device-transfer-ux-copy.js',
   'scripts/validate-cross-device-transfer-ux-decision.js',
   'scripts/validate-dashboard-today-card-runtime.js',
   'scripts/validate-dashboard-today-card-ux-plan.js',
+  'scripts/validate-edugen-boundary-polish.js',
+  'scripts/validate-final-main-release-authorization.js',
+  'scripts/validate-final-public-release-readiness-reaudit.js',
+  'scripts/validate-final-release-execution-checklist.js',
+  'scripts/validate-github-release-publication-plan.js',
   'scripts/validate-manual-evidence-execution-checklist.js',
   'scripts/validate-manual-evidence-results-log.js',
+  'scripts/validate-manual-evidence-run-pack.js',
   'scripts/validate-phase12-closure-release-decision.js',
   'scripts/validate-phase12-roadmap-risk-register.js',
   'scripts/validate-phase13-fsrs-plan.js',
   'scripts/validate-phase13-review-engine-audit.js',
+  'scripts/validate-release-candidate-freeze-final-decision.js',
+  'scripts/validate-release-candidate-tag-publish-gate.js',
+  'scripts/validate-release-package-assembly-plan.js',
+  'scripts/validate-release-tag-creation-plan.js',
+  'scripts/validate-storage-capacity-indexeddb-migration-plan.js',
   'scripts/validate-storage-quota-warning-runtime.js',
   'scripts/validate-study-flow-micro-feedback-plan.js',
   'scripts/validate-study-flow-micro-feedback-runtime.js',

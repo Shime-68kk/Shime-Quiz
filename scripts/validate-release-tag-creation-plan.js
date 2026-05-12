@@ -143,6 +143,15 @@ for (const file of gitTrackedFiles()) {
 }
 
 const allowedChanged = new Set([
+  // Phase 13D compatibility: allow only the approved FSRS entry
+  // decision docs/static-validator/CI files while preserving older
+  // phase guardrails.
+  'docs/phase13-closure-fsrs-entry-decision.md',
+  'docs/phase14-fsrs-implementation-scope.md',
+  'docs/phase14-risk-and-validation-plan.md',
+  'scripts/validate-phase13-closure.js',
+  '.github/workflows/e2e-smoke.yml',
+
   // Phase 13B compatibility: allow only the approved FSRS migration
   // architecture docs/static-validator/CI files while preserving older
   // phase guardrails.
@@ -150,6 +159,7 @@ const allowedChanged = new Set([
   'docs/phase13-fsrs-data-model-plan.md',
   'docs/phase13-fsrs-risk-register.md',
   'scripts/validate-phase13-fsrs-plan.js',
+  'scripts/validate-phase13-local-adaptive-roadmap.js',
 
 
   // Phase 12J compatibility: allow only the approved closure/release-decision

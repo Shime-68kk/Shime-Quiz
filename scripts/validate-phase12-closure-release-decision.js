@@ -3,6 +3,15 @@ import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 const requiredFiles = ['docs/phase12-closure-release-decision.md','docs/phase12-roadmap-risk-register.md','docs/study-flow-micro-feedback-runtime.md','README.md','RELEASE_QA_V2.md','docs/public-release-notes.md','docs/deployment-readiness.md','.github/workflows/e2e-smoke.yml','scripts/validate-phase12-closure-release-decision.js'];
 const allowedChangedFiles = new Set([
+  // Phase 13D compatibility: allow only the approved FSRS entry
+  // decision docs/static-validator/CI files while preserving older
+  // phase guardrails.
+  'docs/phase13-closure-fsrs-entry-decision.md',
+  'docs/phase14-fsrs-implementation-scope.md',
+  'docs/phase14-risk-and-validation-plan.md',
+  'scripts/validate-phase13-closure.js',
+  '.github/workflows/e2e-smoke.yml',
+
   // Phase 13C compatibility: allow only the approved local adaptive
   // learning roadmap docs/static-validator files while preserving older
   // phase guardrails.
