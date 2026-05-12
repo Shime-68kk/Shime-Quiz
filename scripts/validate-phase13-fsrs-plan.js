@@ -1,0 +1,370 @@
+#!/usr/bin/env node
+import fs from 'node:fs';
+import { execSync } from 'node:child_process';
+
+const requiredFiles = [
+  'docs/phase13-fsrs-migration-architecture.md',
+  'docs/phase13-fsrs-data-model-plan.md',
+  'docs/phase13-fsrs-risk-register.md',
+  'scripts/validate-phase13-fsrs-plan.js',
+];
+
+const coreAllowedChangedFiles = new Set([
+  ...requiredFiles,
+  '.github/workflows/e2e-smoke.yml',
+]);
+
+const historicalValidatorCompatibilityFiles = new Set([
+  'scripts/validate-backup-transfer-safety-hardening.js',
+  'scripts/validate-cross-device-export-import.js',
+  'scripts/validate-cross-device-transfer-track-closure.js',
+  'scripts/validate-cross-device-transfer-ux-copy.js',
+  'scripts/validate-cross-device-transfer-ux-decision.js',
+  'scripts/validate-dashboard-today-card-runtime.js',
+  'scripts/validate-dashboard-today-card-ux-plan.js',
+  'scripts/validate-edugen-boundary-polish.js',
+  'scripts/validate-final-main-release-authorization.js',
+  'scripts/validate-final-public-release-readiness-reaudit.js',
+  'scripts/validate-final-release-execution-checklist.js',
+  'scripts/validate-github-release-publication-plan.js',
+  'scripts/validate-manual-evidence-execution-checklist.js',
+  'scripts/validate-manual-evidence-results-log.js',
+  'scripts/validate-manual-evidence-run-pack.js',
+  'scripts/validate-phase12-closure-release-decision.js',
+  'scripts/validate-phase12-roadmap-risk-register.js',
+  'scripts/validate-phase13-review-engine-audit.js',
+  'scripts/validate-release-candidate-freeze-final-decision.js',
+  'scripts/validate-release-candidate-tag-publish-gate.js',
+  'scripts/validate-release-package-assembly-plan.js',
+  'scripts/validate-release-tag-creation-plan.js',
+  'scripts/validate-storage-capacity-indexeddb-migration-plan.js',
+  'scripts/validate-storage-quota-warning-runtime.js',
+  'scripts/validate-study-flow-micro-feedback-plan.js',
+  'scripts/validate-study-flow-micro-feedback-runtime.js',
+  'scripts/validate-unit-test-foundation-plan.js',
+  'scripts/validate-vitest-unit-test-foundation.js',
+  'scripts/validate-web-share-mobile-sharing-prototype-plan.js',
+  'scripts/validate-web-share-runtime-fallback-hardening.js',
+  'scripts/validate-web-share-runtime-prototype.js',
+]);
+
+const forbiddenChangedFiles = new Set([
+  'package.json',
+  'package-lock.json',
+  'vite.config.js',
+  'vite.config.mjs',
+  'playwright.config.js',
+]);
+
+const forbiddenChangedPrefixes = ['src/', 'e2e/', 'tests/'];
+const generatedArtifacts = [
+  'node_modules',
+  'dist',
+  'test-results',
+  'playwright-report',
+  'coverage',
+  'FETCH_HEAD',
+  '.env',
+  '.env.local',
+  '.git',
+];
+const registryTerms = ['applied-caas', 'artifactory', 'internal.api.openai', 'packages.applied'];
+
+function fail(message) {
+  console.error(`Phase 13B FSRS migration plan validation failed: ${message}`);
+  process.exit(1);
+}
+
+function warn(message) {
+  console.warn(`Phase 13B FSRS migration plan validation warning: ${message}`);
+}
+
+function read(file) {
+  if (!fs.existsSync(file)) fail(`Missing required file: ${file}`);
+  return fs.readFileSync(file, 'utf8');
+}
+
+function normalize(text) {
+  return String(text)
+    .toLowerCase()
+    .replace(/[`*_()[\]{}:;,.!?"']/g, ' ')
+    .replace(/[\/\\]+/g, ' ')
+    .replace(/[\u2010-\u2015]/g, '-')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function runGit(command, options = {}) {
+  try {
+    return execSync(command, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], ...options }).trim();
+  } catch {
+    if (!options.silent) warn(`Git command failed; changed-file scope checking may be limited: ${command}`);
+    return '';
+  }
+}
+
+function splitLines(output) {
+  return output ? output.split(/\r?\n/).map(line => line.trim()).filter(Boolean) : [];
+}
+
+function uniqueSorted(files) {
+  return [...new Set(files)].sort((a, b) => a.localeCompare(b));
+}
+
+function changedFilesFromPullRequestBase() {
+  const baseRef = process.env.GITHUB_BASE_REF;
+  if (!baseRef) return [];
+  runGit(`git fetch --no-tags --depth=1 origin ${baseRef}`, { silent: true });
+  const mergeBase = runGit(`git merge-base HEAD origin/${baseRef}`, { silent: true });
+  if (!mergeBase) return [];
+  return splitLines(runGit(`git diff --name-only ${mergeBase} HEAD`, { silent: true }));
+}
+
+function changedFilesFromBranchBase() {
+  const baseRef = runGit('git rev-parse --verify origin/main', { silent: true });
+  if (!baseRef) return [];
+  const mergeBase = runGit('git merge-base HEAD origin/main', { silent: true });
+  if (!mergeBase) return [];
+  return splitLines(runGit(`git diff --name-only ${mergeBase} HEAD`, { silent: true }));
+}
+
+function changedFilesFromLocalFallbacks({ includeUntracked = true } = {}) {
+  const files = [
+    ...splitLines(runGit('git diff --name-only HEAD', { silent: true })),
+    ...splitLines(runGit('git diff --cached --name-only', { silent: true })),
+  ];
+  if (includeUntracked) files.push(...splitLines(runGit('git ls-files --others --exclude-standard', { silent: true })));
+  return files;
+}
+
+function changedFiles({ includeUntracked = true } = {}) {
+  const prBaseFiles = changedFilesFromPullRequestBase();
+  if (prBaseFiles.length > 0) return uniqueSorted(prBaseFiles);
+  return uniqueSorted([
+    ...changedFilesFromBranchBase(),
+    ...changedFilesFromLocalFallbacks({ includeUntracked }),
+  ]);
+}
+
+function trackedFiles() {
+  return uniqueSorted(splitLines(runGit('git ls-files', { silent: true })));
+}
+
+function requireIncludes(file, terms) {
+  const text = normalize(read(file));
+  for (const term of terms) {
+    if (!text.includes(normalize(term))) fail(`${file} must mention: ${term}`);
+  }
+}
+
+function requireAny(file, label, terms) {
+  const text = normalize(read(file));
+  if (!terms.some(term => text.includes(normalize(term)))) {
+    fail(`${file} must mention ${label}; accepted wording: ${terms.join(' | ')}`);
+  }
+}
+
+function architectureDocGuard() {
+  requireIncludes('docs/phase13-fsrs-migration-architecture.md', [
+    'FSRS Migration Architecture',
+    'current scheduler',
+    'SM-2-like',
+    'heuristic',
+    'not FSRS',
+    'dual scheduler',
+    'opt-in',
+    'rollback',
+    'backup/export/import compatibility',
+    'local-first',
+    'no runtime implementation',
+    'no ts-fsrs dependency',
+  ]);
+  requireAny('docs/phase13-fsrs-migration-architecture.md', 'scheduler versioning', [
+    'schedulerVersion',
+    'scheduler version',
+    'schedulerKind',
+  ]);
+}
+
+function dataModelDocGuard() {
+  requireIncludes('docs/phase13-fsrs-data-model-plan.md', [
+    'difficulty',
+    'stability',
+    'retrievability',
+    'Again',
+    'Hard',
+    'Good',
+    'Easy',
+    'Review log',
+    'New',
+    'Learning',
+    'Review',
+    'Relearning',
+    'due',
+    'last review',
+    'easeFactor',
+    'intervalDays',
+    'repetitionCount',
+    'wrongCount',
+    'dueAt',
+    'lastReviewedAt',
+    'mapping',
+    'cannot be safely reconstructed',
+    'localStorage',
+    'IndexedDB',
+  ]);
+  requireAny('docs/phase13-fsrs-data-model-plan.md', 'IndexedDB future/planned only', [
+    'IndexedDB as a future/planned consideration only',
+    'IndexedDB is a future storage consideration only',
+    'No IndexedDB runtime migration is implemented in Phase 13B',
+  ]);
+}
+
+function riskRegisterGuard() {
+  requireIncludes('docs/phase13-fsrs-risk-register.md', [
+    'data corruption',
+    'backup',
+    'rollback',
+    'overclaim',
+    'dependency',
+    'local-first',
+    'storage',
+    'Study Room',
+    'Dashboard',
+    'weighted practice',
+    'Phase 14',
+  ]);
+}
+
+function lineIsSafe(line) {
+  const safeMarkers = [
+    'not implemented',
+    'not installed',
+    'not added',
+    'not publicly claim',
+    'future',
+    'planned',
+    'proposal',
+    'migration plan',
+    'architecture plan',
+    'requires phase 14',
+    'research reference only',
+    'forbidden',
+    'unsafe',
+    'unless',
+    'does not',
+    'do not',
+    'must not',
+    'no ',
+    'later',
+    'before runtime implementation',
+  ];
+  const normalizedLine = normalize(line);
+  return safeMarkers.some(marker => normalizedLine.includes(normalize(marker)));
+}
+
+function claimGuard() {
+  const claimFiles = [
+    'docs/phase13-fsrs-migration-architecture.md',
+    'docs/phase13-fsrs-data-model-plan.md',
+    'docs/phase13-fsrs-risk-register.md',
+  ];
+  const unsafeClaims = [
+    'FSRS implemented',
+    'FSRS is implemented',
+    'ts-fsrs installed',
+    'Glicko-2 implemented',
+    'IRT implemented',
+    'Transformers.js implemented',
+    'semantic search implemented',
+    'PowerSync implemented',
+    'automatic sync implemented',
+    'cloud sync implemented',
+    'IndexedDB migration implemented',
+    'built-in AI implemented',
+    'OCR implemented',
+  ];
+
+  for (const file of claimFiles) {
+    const lines = read(file).split(/\r?\n/);
+    for (const [index, line] of lines.entries()) {
+      const normalizedLine = normalize(line);
+      for (const claim of unsafeClaims) {
+        if (normalizedLine.includes(normalize(claim)) && !lineIsSafe(line)) {
+          fail(`Unsupported implementation claim in ${file}:${index + 1}: ${line.trim()}`);
+        }
+      }
+    }
+  }
+}
+
+function scopeGuard() {
+  const changed = changedFiles();
+  const allowedChangedFiles = new Set([...coreAllowedChangedFiles, ...historicalValidatorCompatibilityFiles]);
+  for (const file of changed) {
+    if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) {
+      continue;
+    }
+    if (forbiddenChangedFiles.has(file)) fail(`Forbidden file changed: ${file}`);
+    if (forbiddenChangedPrefixes.some(prefix => file.startsWith(prefix))) fail(`Forbidden runtime/test path changed: ${file}`);
+    if (allowedChangedFiles.has(file)) continue;
+    if (file.startsWith('scripts/validate-')) {
+      fail(`Unexpected validator changed without exact Phase 13B compatibility allowlist: ${file}`);
+    }
+    fail(`Unexpected changed file for Phase 13B scope: ${file}`);
+  }
+}
+
+function generatedArtifactGuard() {
+  const files = uniqueSorted([...changedFiles({ includeUntracked: false }), ...trackedFiles()]);
+  for (const artifact of generatedArtifacts) {
+    if (files.some(file => file === artifact || file.startsWith(`${artifact}/`))) {
+      fail(`Generated artifact appears in changed or tracked files: ${artifact}`);
+    }
+  }
+}
+
+function packageRegistryGuard() {
+  for (const file of ['package.json', 'package-lock.json']) {
+    const text = read(file);
+    for (const term of registryTerms) {
+      if (text.includes(term)) fail(`${file} contains internal registry term: ${term}`);
+    }
+  }
+}
+
+function workflowGuard() {
+  const workflow = '.github/workflows/e2e-smoke.yml';
+  const changed = changedFiles();
+  if (!changed.includes(workflow)) return;
+  const text = read(workflow);
+  for (const term of [
+    'node scripts/validate-phase13-fsrs-plan.js',
+    'npm run build',
+    'npm run test:unit',
+    'npm run test:e2e:smoke',
+    'npm run test:e2e:onboarding',
+    'actions/upload-artifact',
+    'applied-caas\\|artifactory\\|internal.api.openai\\|packages.applied',
+  ]) {
+    if (!text.includes(term)) fail(`Workflow changed but is missing required check/guard: ${term}`);
+  }
+  if (/continue-on-error:\s*true/i.test(text)) {
+    fail('Workflow must not add broad continue-on-error: true.');
+  }
+}
+
+function validate() {
+  for (const file of requiredFiles) read(file);
+  architectureDocGuard();
+  dataModelDocGuard();
+  riskRegisterGuard();
+  claimGuard();
+  scopeGuard();
+  generatedArtifactGuard();
+  packageRegistryGuard();
+  workflowGuard();
+  console.log('Phase 13B FSRS migration architecture plan validation passed.');
+}
+
+validate();

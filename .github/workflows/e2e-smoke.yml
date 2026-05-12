@@ -301,6 +301,9 @@ jobs:
       - name: Validate Phase 13A current review engine audit
         run: node scripts/validate-phase13-review-engine-audit.js
 
+      - name: Validate Phase 13B FSRS migration architecture
+        run: node scripts/validate-phase13-fsrs-plan.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
@@ -325,4 +328,3 @@ jobs:
           name: playwright-test-results
           path: test-results/
           if-no-files-found: ignore
-

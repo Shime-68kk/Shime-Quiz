@@ -9,6 +9,14 @@ const requiredFiles = [
 ];
 
 const allowedChangedFiles = new Set([
+  // Phase 13B compatibility: allow only the approved FSRS migration
+  // architecture docs/static-validator/CI files while preserving Phase 13A
+  // guardrails.
+  'docs/phase13-fsrs-migration-architecture.md',
+  'docs/phase13-fsrs-data-model-plan.md',
+  'docs/phase13-fsrs-risk-register.md',
+  'scripts/validate-phase13-fsrs-plan.js',
+
   'docs/phase13-current-review-engine-audit.md',
   'docs/phase13-review-engine-claim-boundaries.md',
   'scripts/validate-phase13-review-engine-audit.js',
