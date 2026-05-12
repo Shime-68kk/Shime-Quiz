@@ -147,6 +147,15 @@ for (const file of gitTrackedFiles()) {
 }
 
 const allowedChanged = new Set([
+  // Phase 14A compatibility: allow only the approved scheduler adapter
+  // boundary scaffolding files while preserving older phase guardrails.
+  'docs/phase14a-scheduler-adapter-boundary.md',
+  'scripts/validate-phase14a-scheduler-adapter.js',
+  'src/quiz/reviewSchedulerAdapter.js',
+  'src/state/reviewScheduleStorage.js',
+  'tests/unit/reviewSchedulerAdapter.test.js',
+  '.github/workflows/e2e-smoke.yml',
+
   // Phase 13D compatibility: allow only the approved FSRS entry
   // decision docs/static-validator/CI files while preserving older
   // phase guardrails.

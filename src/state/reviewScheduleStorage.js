@@ -202,6 +202,10 @@ function updateRecordFromResult(previousRecord, itemResult, completedAt) {
   });
 }
 
+export function createReviewScheduleRecordFromResult(previousRecord, itemResult, completedAt = nowIso()) {
+  return updateRecordFromResult(previousRecord, itemResult, completedAt);
+}
+
 export function readReviewSchedule() {
   return readEnvelope();
 }

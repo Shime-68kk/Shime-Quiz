@@ -3,6 +3,15 @@ import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 const requiredFiles = ['docs/phase12-closure-release-decision.md','docs/phase12-roadmap-risk-register.md','docs/study-flow-micro-feedback-runtime.md','README.md','RELEASE_QA_V2.md','docs/public-release-notes.md','docs/deployment-readiness.md','.github/workflows/e2e-smoke.yml','scripts/validate-phase12-closure-release-decision.js'];
 const allowedChangedFiles = new Set([
+  // Phase 14A compatibility: allow only the approved scheduler adapter
+  // boundary scaffolding files while preserving older phase guardrails.
+  'docs/phase14a-scheduler-adapter-boundary.md',
+  'scripts/validate-phase14a-scheduler-adapter.js',
+  'src/quiz/reviewSchedulerAdapter.js',
+  'src/state/reviewScheduleStorage.js',
+  'tests/unit/reviewSchedulerAdapter.test.js',
+  '.github/workflows/e2e-smoke.yml',
+
   // Phase 13D compatibility: allow only the approved FSRS entry
   // decision docs/static-validator/CI files while preserving older
   // phase guardrails.

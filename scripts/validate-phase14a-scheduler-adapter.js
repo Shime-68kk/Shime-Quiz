@@ -1,0 +1,343 @@
+#!/usr/bin/env node
+import fs from 'node:fs';
+import { execSync } from 'node:child_process';
+
+const ADAPTER_SOURCE = 'src/quiz/reviewSchedulerAdapter.js';
+const STORAGE_SOURCE = 'src/state/reviewScheduleStorage.js';
+const ADAPTER_TEST = 'tests/unit/reviewSchedulerAdapter.test.js';
+const DOCS_FILE = 'docs/phase14a-scheduler-adapter-boundary.md';
+const VALIDATOR_SCRIPT = 'scripts/validate-phase14a-scheduler-adapter.js';
+const WORKFLOW_FILE = '.github/workflows/e2e-smoke.yml';
+
+const requiredFiles = [ADAPTER_SOURCE, STORAGE_SOURCE, ADAPTER_TEST, DOCS_FILE, VALIDATOR_SCRIPT];
+
+const coreAllowedChangedFiles = new Set([
+  ADAPTER_SOURCE,
+  STORAGE_SOURCE,
+  ADAPTER_TEST,
+  DOCS_FILE,
+  VALIDATOR_SCRIPT,
+  WORKFLOW_FILE
+]);
+
+const historicalValidatorCompatibilityFiles = new Set([
+  'scripts/validate-backup-transfer-safety-hardening.js',
+  'scripts/validate-cross-device-export-import.js',
+  'scripts/validate-cross-device-transfer-track-closure.js',
+  'scripts/validate-cross-device-transfer-ux-copy.js',
+  'scripts/validate-cross-device-transfer-ux-decision.js',
+  'scripts/validate-dashboard-today-card-runtime.js',
+  'scripts/validate-dashboard-today-card-ux-plan.js',
+  'scripts/validate-edugen-boundary-polish.js',
+  'scripts/validate-final-main-release-authorization.js',
+  'scripts/validate-final-public-release-readiness-reaudit.js',
+  'scripts/validate-final-release-execution-checklist.js',
+  'scripts/validate-github-release-publication-plan.js',
+  'scripts/validate-manual-evidence-execution-checklist.js',
+  'scripts/validate-manual-evidence-results-log.js',
+  'scripts/validate-manual-evidence-run-pack.js',
+  'scripts/validate-phase12-closure-release-decision.js',
+  'scripts/validate-phase12-roadmap-risk-register.js',
+  'scripts/validate-phase13-closure.js',
+  'scripts/validate-phase13-fsrs-plan.js',
+  'scripts/validate-phase13-local-adaptive-roadmap.js',
+  'scripts/validate-phase13-review-engine-audit.js',
+  'scripts/validate-release-candidate-freeze-final-decision.js',
+  'scripts/validate-release-candidate-tag-publish-gate.js',
+  'scripts/validate-release-package-assembly-plan.js',
+  'scripts/validate-release-tag-creation-plan.js',
+  'scripts/validate-storage-capacity-indexeddb-migration-plan.js',
+  'scripts/validate-storage-quota-warning-runtime.js',
+  'scripts/validate-study-flow-micro-feedback-plan.js',
+  'scripts/validate-study-flow-micro-feedback-runtime.js',
+  'scripts/validate-unit-test-foundation-plan.js',
+  'scripts/validate-vitest-unit-test-foundation.js',
+  'scripts/validate-web-share-mobile-sharing-prototype-plan.js',
+  'scripts/validate-web-share-runtime-fallback-hardening.js',
+  'scripts/validate-web-share-runtime-prototype.js'
+]);
+
+const forbiddenChangedFiles = new Set([
+  'package.json',
+  'package-lock.json',
+  'vite.config.js',
+  'vite.config.mjs',
+  'playwright.config.js'
+]);
+
+const generatedArtifacts = [
+  'node_modules',
+  'dist',
+  'test-results',
+  'playwright-report',
+  'coverage',
+  'FETCH_HEAD',
+  '.env',
+  '.env.local',
+  '.git'
+];
+
+const registryTerms = ['applied-caas', 'artifactory', 'internal.api.openai', 'packages.applied'];
+
+function fail(message) {
+  console.error(`Phase 14A scheduler adapter validation failed: ${message}`);
+  process.exit(1);
+}
+
+function warn(message) {
+  console.warn(`Phase 14A scheduler adapter validation warning: ${message}`);
+}
+
+function read(file) {
+  if (!fs.existsSync(file)) fail(`Missing required file: ${file}`);
+  return fs.readFileSync(file, 'utf8');
+}
+
+function normalize(text) {
+  return String(text)
+    .toLowerCase()
+    .replace(/[`*_()[\]{}:;,.!?"']/g, ' ')
+    .replace(/[\/\\]+/g, ' ')
+    .replace(/[\u2010-\u2015]/g, '-')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function runGit(command, options = {}) {
+  try {
+    return execSync(command, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], ...options }).trim();
+  } catch {
+    if (!options.silent) warn(`Git command failed; changed-file scope checking may be limited: ${command}`);
+    return '';
+  }
+}
+
+function splitLines(output) {
+  return output ? output.split(/\r?\n/).map(line => line.trim()).filter(Boolean) : [];
+}
+
+function uniqueSorted(files) {
+  return [...new Set(files)].sort((a, b) => a.localeCompare(b));
+}
+
+function changedFilesFromPullRequestBase() {
+  const baseRef = process.env.GITHUB_BASE_REF;
+  if (!baseRef) return [];
+  runGit(`git fetch --no-tags --depth=1 origin ${baseRef}`, { silent: true });
+  const mergeBase = runGit(`git merge-base HEAD origin/${baseRef}`, { silent: true });
+  if (!mergeBase) return [];
+  return splitLines(runGit(`git diff --name-only ${mergeBase} HEAD`, { silent: true }));
+}
+
+function changedFilesFromBranchBase() {
+  const originMain = runGit('git rev-parse --verify origin/main', { silent: true });
+  if (!originMain) return [];
+  const mergeBase = runGit('git merge-base HEAD origin/main', { silent: true });
+  if (!mergeBase) return [];
+  return splitLines(runGit(`git diff --name-only ${mergeBase} HEAD`, { silent: true }));
+}
+
+function changedFilesFromLocalFallbacks({ includeUntracked = true } = {}) {
+  const files = [
+    ...splitLines(runGit('git diff --name-only HEAD', { silent: true })),
+    ...splitLines(runGit('git diff --cached --name-only', { silent: true }))
+  ];
+  if (includeUntracked) files.push(...splitLines(runGit('git ls-files --others --exclude-standard', { silent: true })));
+  return files;
+}
+
+function changedFiles({ includeUntracked = true } = {}) {
+  const prBaseFiles = changedFilesFromPullRequestBase();
+  if (prBaseFiles.length > 0) return uniqueSorted(prBaseFiles);
+  return uniqueSorted([
+    ...changedFilesFromBranchBase(),
+    ...changedFilesFromLocalFallbacks({ includeUntracked })
+  ]);
+}
+
+function trackedFiles() {
+  return uniqueSorted(splitLines(runGit('git ls-files', { silent: true })));
+}
+
+function requireIncludes(file, terms) {
+  const text = normalize(read(file));
+  for (const term of terms) {
+    if (!text.includes(normalize(term))) fail(`${file} must mention: ${term}`);
+  }
+}
+
+function workflowGuard() {
+  const text = read(WORKFLOW_FILE);
+  if (!text.includes('node scripts/validate-phase14a-scheduler-adapter.js')) {
+    fail(`${WORKFLOW_FILE} must run node scripts/validate-phase14a-scheduler-adapter.js`);
+  }
+  if (/continue-on-error:\s*true/i.test(text)) fail(`${WORKFLOW_FILE} must not add broad continue-on-error`);
+}
+
+function packageGuard() {
+  for (const file of ['package.json', 'package-lock.json']) {
+    const text = read(file);
+    if (/ts-fsrs/i.test(text)) fail(`${file} must not contain ts-fsrs`);
+    for (const term of registryTerms) {
+      if (text.includes(term)) fail(`${file} contains internal registry term: ${term}`);
+    }
+  }
+}
+
+function scopeGuard() {
+  const allowedChangedFiles = new Set([...coreAllowedChangedFiles, ...historicalValidatorCompatibilityFiles]);
+  for (const file of changedFiles()) {
+    if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) continue;
+    if (forbiddenChangedFiles.has(file)) fail(`Forbidden file changed: ${file}`);
+    if (file.startsWith('e2e/')) fail(`E2E file changed without Phase 14A approval: ${file}`);
+    if (file.startsWith('src/') && !coreAllowedChangedFiles.has(file)) fail(`Unexpected src/ file changed: ${file}`);
+    if (file.startsWith('tests/') && file !== ADAPTER_TEST) fail(`Unexpected tests/ file changed: ${file}`);
+    if (file.startsWith('docs/') && file !== DOCS_FILE) fail(`Unexpected docs/ file changed: ${file}`);
+    if (file.startsWith('scripts/') && !allowedChangedFiles.has(file)) fail(`Unexpected scripts/ file changed: ${file}`);
+    if (!allowedChangedFiles.has(file)) fail(`Unexpected changed file for Phase 14A scope: ${file}`);
+  }
+}
+
+function generatedArtifactGuard() {
+  const files = uniqueSorted([...changedFiles({ includeUntracked: false }), ...trackedFiles()]);
+  for (const artifact of generatedArtifacts) {
+    if (files.some(file => file === artifact || file.startsWith(`${artifact}/`))) {
+      fail(`Generated artifact appears in changed or tracked files: ${artifact}`);
+    }
+  }
+}
+
+function docsContentGuard() {
+  requireIncludes(DOCS_FILE, [
+    'Phase 14A',
+    'adapter boundary',
+    'current scheduler',
+    'SM-2-like',
+    'heuristic',
+    'schedulerKind',
+    'schedulerVersion',
+    'normalized due status',
+    'due summary',
+    'no FSRS runtime',
+    'Study Room',
+    'Dashboard',
+    'no migration',
+    'no backup',
+    'no public FSRS claim',
+    'easeFactor',
+    'FSRS difficulty',
+    'binary correct/wrong',
+    'review logs',
+    'Phase 14B'
+  ]);
+
+  const unsafeClaims = [
+    'FSRS is implemented',
+    'FSRS runtime is available',
+    'ts-fsrs is installed',
+    'FSRS implemented',
+    'adaptive learning is implemented',
+    'AI is implemented',
+    'sync is implemented',
+    'IndexedDB migration is implemented',
+    'encryption is implemented',
+    'OCR is implemented'
+  ];
+  const safeMarkers = [
+    'not implemented',
+    'not installed',
+    'does not',
+    'do not',
+    'must not',
+    'no ',
+    'future',
+    'planned',
+    'reserved',
+    'later',
+    'phase 14b',
+    'public claim boundary'
+  ];
+
+  for (const [index, line] of read(DOCS_FILE).split(/\r?\n/).entries()) {
+    const normalizedLine = normalize(line);
+    const safe = safeMarkers.some(marker => normalizedLine.includes(normalize(marker)));
+    for (const claim of unsafeClaims) {
+      if (normalizedLine.includes(normalize(claim)) && !safe) {
+        fail(`Unsafe implementation claim in ${DOCS_FILE}:${index + 1}: ${line.trim()}`);
+      }
+    }
+  }
+}
+
+function adapterSourceGuard() {
+  const source = read(ADAPTER_SOURCE);
+  const normalizedSource = normalize(source);
+  if (/from\s+['"]ts-fsrs['"]|require\s*\(\s*['"]ts-fsrs['"]\s*\)/i.test(source)) {
+    fail(`${ADAPTER_SOURCE} must not import ts-fsrs`);
+  }
+  for (const term of [
+    'SCHEDULER_KIND_CURRENT',
+    'SCHEDULER_KIND_FSRS_PLANNED',
+    'SCHEDULER_VERSION_CURRENT',
+    'getSchedulerKind',
+    'getSchedulerVersion',
+    'isCurrentSchedulerRecord',
+    'getDueStatus',
+    'getDueSummary',
+    'scheduleCurrentReview',
+    'scheduleReview',
+    'preserveCurrentRecord',
+    'sm2-heuristic',
+    'fsrs-planned',
+    'createReviewScheduleRecordFromResult'
+  ]) {
+    if (!normalizedSource.includes(normalize(term))) fail(`${ADAPTER_SOURCE} must include adapter term: ${term}`);
+  }
+  if (!normalizedSource.includes(normalize('FSRS scheduling is not implemented in Phase 14A'))) {
+    fail(`${ADAPTER_SOURCE} must safely reject future FSRS scheduling`);
+  }
+}
+
+function storageSourceGuard() {
+  const source = read(STORAGE_SOURCE);
+  if (!source.includes('export function createReviewScheduleRecordFromResult')) {
+    fail(`${STORAGE_SOURCE} must expose the narrow pure current-scheduler wrapper`);
+  }
+  if (!source.includes('return updateRecordFromResult(previousRecord, itemResult, completedAt);')) {
+    fail(`${STORAGE_SOURCE} wrapper must delegate to existing updateRecordFromResult logic`);
+  }
+}
+
+function unitTestGuard() {
+  const text = read(ADAPTER_TEST);
+  const normalizedText = normalize(text);
+  for (const term of [
+    'missing schedulerKind',
+    'defaults missing schedulerVersion',
+    'getDueStatus',
+    'getDueSummary',
+    'dueCount',
+    'FSRS scheduling is not implemented in Phase 14A',
+    'preserves existing correct scheduling behavior',
+    'preserves existing wrong scheduling behavior',
+    'without schedulerKind working',
+    'does not destructively mutate input records'
+  ]) {
+    if (!normalizedText.includes(normalize(term))) fail(`${ADAPTER_TEST} must cover: ${term}`);
+  }
+}
+
+function validate() {
+  for (const file of requiredFiles) read(file);
+  workflowGuard();
+  packageGuard();
+  scopeGuard();
+  generatedArtifactGuard();
+  docsContentGuard();
+  adapterSourceGuard();
+  storageSourceGuard();
+  unitTestGuard();
+  console.log('Phase 14A scheduler adapter boundary validation passed.');
+}
+
+validate();
