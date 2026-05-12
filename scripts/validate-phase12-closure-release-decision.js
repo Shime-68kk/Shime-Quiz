@@ -3,6 +3,14 @@ import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 const requiredFiles = ['docs/phase12-closure-release-decision.md','docs/phase12-roadmap-risk-register.md','docs/study-flow-micro-feedback-runtime.md','README.md','RELEASE_QA_V2.md','docs/public-release-notes.md','docs/deployment-readiness.md','.github/workflows/e2e-smoke.yml','scripts/validate-phase12-closure-release-decision.js'];
 const allowedChangedFiles = new Set([
+  // Phase 13C compatibility: allow only the approved local adaptive
+  // learning roadmap docs/static-validator files while preserving older
+  // phase guardrails.
+  'docs/phase13-local-adaptive-learning-roadmap.md',
+  'docs/phase13-intelligence-layer-boundaries.md',
+  'docs/phase13-phase14-plus-roadmap.md',
+  'scripts/validate-phase13-local-adaptive-roadmap.js',
+
   // Phase 13B compatibility: allow only the approved FSRS migration
   // architecture docs/static-validator/CI files while preserving older
   // phase guardrails.
