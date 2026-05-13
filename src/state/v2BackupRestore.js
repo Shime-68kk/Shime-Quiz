@@ -4,6 +4,7 @@ import { LIBRARY_SCHEMA_VERSION, LIBRARY_STORAGE_KEY, setLearningData } from '..
 import { APP_VERSION } from '../version.js';
 import { getLocalStorage } from '../utils/storage.js';
 import { publishLearningStorageChanged } from './localStorageSync.js';
+import { getSettings, normalizeSettings, importSettings } from './settingsStorage.js';
 import {
   RECOMMENDATION_FEEDBACK_SCHEMA_VERSION,
   RECOMMENDATION_FEEDBACK_STORAGE_KEY,
@@ -337,7 +338,8 @@ export function createV2BackupPayload({ libraryData, librarySource, librarySumma
       dataTypes,
       // Study drafts are intentionally excluded so stale in-progress sessions are not restored across library/history changes.
       includesStudyDraft: false,
-      data: orderedData
+      data: orderedData,
+      settings: getSettings()
     },
     validation
   };
@@ -468,6 +470,12 @@ export function validateV2BackupPayload(payload) {
     warnings.push(issue('unknown_sections_ignored', `Bỏ qua ${unknownDataKeys.length} phần dữ liệu không nhận diện được.`, 'data'));
   }
 
+  // Optional settings envelope (Phase 14G). Missing payload.settings is not an error.
+  let validatedSettings = null;
+  if (payload.settings != null && typeof payload.settings === 'object' && !Array.isArray(payload.settings)) {
+    validatedSettings = normalizeSettings(payload.settings);
+  }
+
   return {
     ok: errors.length === 0,
     errors,
@@ -478,7 +486,8 @@ export function validateV2BackupPayload(payload) {
     includesAnswers: modeInfo.includesAnswers,
     redacted: modeInfo.redacted,
     restoreSupported: modeInfo.restoreSupported,
-    restoreBlockMessage: modeInfo.restoreBlockMessage
+    restoreBlockMessage: modeInfo.restoreBlockMessage,
+    settings: validatedSettings
   };
 }
 
@@ -632,6 +641,12 @@ export function restoreV2BackupPayload(payload) {
   }
 
   emitRestoreEvents(writes);
+
+  // Restore settings if present. Non-fatal: settings failure must not undo the main restore.
+  if (validation.settings) {
+    try { importSettings(validation.settings); } catch { /* non-fatal */ }
+  }
+
   return { ok: true, validation, writtenSections };
 }
 

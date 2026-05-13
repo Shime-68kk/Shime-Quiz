@@ -331,6 +331,9 @@ jobs:
       - name: Validate Phase 14F-HF1 baseline validation recovery
         run: node scripts/validate-phase14f-hf1-baseline-validation-recovery.js
 
+      - name: Validate Phase 14G FSRS settings storage schema
+        run: node scripts/validate-phase14g-settings-storage.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

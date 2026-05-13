@@ -173,6 +173,14 @@ const allowedChangedFiles = new Set([
   'scripts/validate-web-share-mobile-sharing-prototype-plan.js',
   'scripts/validate-web-share-runtime-fallback-hardening.js',
   'scripts/validate-web-share-runtime-prototype.js',
+  // Phase 14G compatibility — exact files only
+  'docs/phase14g-fsrs-settings-storage-schema.md',
+  'scripts/validate-phase14g-settings-storage.js',
+  'src/state/settingsStorage.js',
+  'src/state/localStorageSync.js',
+  'src/state/v2BackupRestore.js',
+  'tests/unit/settingsStorage.test.js',
+  'tests/unit/backupSettingsPersistence.test.js',
 ]);
 
 const forbiddenChangedFiles = [
