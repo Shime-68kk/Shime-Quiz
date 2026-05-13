@@ -2,6 +2,7 @@ import {
   REVIEW_SCHEDULE_SCHEMA_VERSION,
   createReviewScheduleRecordFromResult
 } from '../state/reviewScheduleStorage.js';
+import { scheduleFsrsReviewForTest } from './fsrsWrapper.js';
 
 export const SCHEDULER_KIND_CURRENT = 'sm2-heuristic';
 export const SCHEDULER_KIND_FSRS_PLANNED = 'fsrs-planned';
@@ -18,6 +19,11 @@ const FSRS_KIND_ALIASES = new Set([
   SCHEDULER_KIND_FSRS_PLANNED,
   SCHEDULER_VERSION_FSRS_PLANNED,
   'fsrs-v4'
+]);
+
+const FSRS_TEST_KIND_ALIASES = new Set([
+  'fsrs-v4-test',
+  'ts-fsrs-5.3.3-test'
 ]);
 
 const VALID_CURRENT_OUTCOMES = new Set(['correct', 'wrong', 'unanswered']);
@@ -76,7 +82,12 @@ export function getSchedulerKind(record) {
   const explicitKind = normalizeKindValue(record?.schedulerKind);
   const explicitVersion = normalizeKindValue(record?.schedulerVersion);
 
-  if (FSRS_KIND_ALIASES.has(explicitKind) || FSRS_KIND_ALIASES.has(explicitVersion)) {
+  if (
+    FSRS_KIND_ALIASES.has(explicitKind) ||
+    FSRS_KIND_ALIASES.has(explicitVersion) ||
+    FSRS_TEST_KIND_ALIASES.has(explicitKind) ||
+    FSRS_TEST_KIND_ALIASES.has(explicitVersion)
+  ) {
     return SCHEDULER_KIND_FSRS_PLANNED;
   }
 
@@ -168,8 +179,25 @@ export function scheduleCurrentReview(record, outcome, context = {}) {
   return createReviewScheduleRecordFromResult(preserveCurrentRecord(record), itemResult, completedAt);
 }
 
+function mapOutcomeToFsrsRating(outcome) {
+  const normalizedOutcome = normalizeOutcome(outcome);
+  if (normalizedOutcome === 'correct') return 'Good';
+  if (normalizedOutcome === 'wrong' || normalizedOutcome === 'unanswered') return 'Again';
+  throw new TypeError('FSRS test routing requires outcome correct, wrong, or unanswered.');
+}
+
+function scheduleGatedFsrsReview(record, outcome, context = {}) {
+  const rating = mapOutcomeToFsrsRating(outcome);
+  const now = context.now ? toSafeDate(context.now) : new Date();
+  return scheduleFsrsReviewForTest(preserveCurrentRecord(record), rating, now);
+}
+
 export function scheduleReview(record, outcome, context = {}) {
   if (getSchedulerKind(record) === SCHEDULER_KIND_FSRS_PLANNED) {
+    if (context.enableFsrsTestRoute === true) {
+      return scheduleGatedFsrsReview(record, outcome, context);
+    }
+
     throw new Error(
       `FSRS scheduling is not implemented in Phase 14A; schedulerKind ${SCHEDULER_KIND_FSRS_PLANNED} cannot be scheduled until a later approved runtime phase.`
     );

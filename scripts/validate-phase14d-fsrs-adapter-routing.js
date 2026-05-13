@@ -2,13 +2,13 @@
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
-const DOCS_FILE = 'docs/phase14c-fsrs-persistence-backup-harness.md';
-const TEST_FILE = 'tests/unit/fsrsPersistenceHarness.test.js';
-const VALIDATOR_SCRIPT = 'scripts/validate-phase14c-fsrs-persistence-harness.js';
-const WORKFLOW_FILE = '.github/workflows/e2e-smoke.yml';
-const STORAGE_SOURCE = 'src/state/reviewScheduleStorage.js';
+const DOCS_FILE = 'docs/phase14d-developer-gated-fsrs-adapter-routing.md';
 const ADAPTER_SOURCE = 'src/quiz/reviewSchedulerAdapter.js';
+const TEST_FILE = 'tests/unit/reviewSchedulerAdapter.phase14d.test.js';
+const VALIDATOR_SCRIPT = 'scripts/validate-phase14d-fsrs-adapter-routing.js';
+const WORKFLOW_FILE = '.github/workflows/e2e-smoke.yml';
 const WRAPPER_SOURCE = 'src/quiz/fsrsWrapper.js';
+const STORAGE_SOURCE = 'src/state/reviewScheduleStorage.js';
 const STUDY_ROOM = 'src/routes/StudyRoom.jsx';
 const DASHBOARD = 'src/routes/Dashboard.jsx';
 
@@ -16,30 +16,28 @@ const bindingPackage = '@open-spaced-repetition/' + 'binding';
 
 const requiredFiles = [
   DOCS_FILE,
+  ADAPTER_SOURCE,
   TEST_FILE,
   VALIDATOR_SCRIPT,
   WORKFLOW_FILE,
-  STORAGE_SOURCE,
-  ADAPTER_SOURCE,
   WRAPPER_SOURCE,
+  STORAGE_SOURCE,
   STUDY_ROOM,
   DASHBOARD
 ];
 
-const phase14cAllowedChangedFiles = new Set([
+const phase14dAllowedChangedFiles = new Set([
   DOCS_FILE,
+  ADAPTER_SOURCE,
   TEST_FILE,
   VALIDATOR_SCRIPT,
   WORKFLOW_FILE,
-  STORAGE_SOURCE,
-  'docs/phase14d-developer-gated-fsrs-adapter-routing.md',
-  'src/quiz/reviewSchedulerAdapter.js',
-  'tests/unit/reviewSchedulerAdapter.phase14d.test.js',
-  'scripts/validate-phase14d-fsrs-adapter-routing.js',
+  'tests/unit/fsrsPersistenceHarness.test.js',
   'scripts/validate-phase14b-fsrs-wrapper.js',
+  'scripts/validate-phase14c-fsrs-persistence-harness.js',
 
   // Historical validator compatibility: exact files updated only to
-  // allow the Phase 14C docs/test/storage/CI scope.
+  // allow the Phase 14D docs/test/adapter/CI scope.
   'scripts/validate-backup-transfer-safety-hardening.js',
   'scripts/validate-cross-device-export-import.js',
   'scripts/validate-cross-device-transfer-track-closure.js',
@@ -62,7 +60,6 @@ const phase14cAllowedChangedFiles = new Set([
   'scripts/validate-phase13-local-adaptive-roadmap.js',
   'scripts/validate-phase13-review-engine-audit.js',
   'scripts/validate-phase14a-scheduler-adapter.js',
-  'scripts/validate-phase14b-fsrs-wrapper.js',
   'scripts/validate-release-candidate-freeze-final-decision.js',
   'scripts/validate-release-candidate-tag-publish-gate.js',
   'scripts/validate-release-package-assembly-plan.js',
@@ -90,6 +87,24 @@ const generatedArtifacts = [
   '.git'
 ];
 
+const forbiddenChangedFiles = new Set([
+  'package.json',
+  'package-lock.json',
+  'vite.config.js',
+  'playwright.config.js',
+  WRAPPER_SOURCE,
+  STORAGE_SOURCE,
+  STUDY_ROOM,
+  DASHBOARD,
+  'src/quiz/dataBackup.js',
+  'src/state/v2BackupRestore.js',
+  'src/data/libraryExport.js',
+  'src/quiz/weightedSelection.js',
+  'src/quiz/mastery.js',
+  'src/analytics/masteryModel.js',
+  'src/learning/weightedPracticeSelector.js'
+]);
+
 const internalRegistryTerms = [
   'applied-caas',
   'artifactory',
@@ -97,31 +112,13 @@ const internalRegistryTerms = [
   'packages.applied'
 ];
 
-const forbiddenRuntimeFiles = new Set([
-  'package.json',
-  'package-lock.json',
-  'vite.config.js',
-  'playwright.config.js',
-  ADAPTER_SOURCE,
-  WRAPPER_SOURCE,
-  STUDY_ROOM,
-  DASHBOARD,
-  'src/quiz/weightedSelection.js',
-  'src/quiz/mastery.js',
-  'src/analytics/masteryModel.js',
-  'src/learning/weightedPracticeSelector.js',
-  'src/quiz/dataBackup.js',
-  'src/state/v2BackupRestore.js',
-  'src/data/libraryExport.js'
-]);
-
 function fail(message) {
-  console.error(`Phase 14C FSRS persistence harness validation failed: ${message}`);
+  console.error(`Phase 14D FSRS adapter routing validation failed: ${message}`);
   process.exit(1);
 }
 
 function warn(message) {
-  console.warn(`Phase 14C FSRS persistence harness validation warning: ${message}`);
+  console.warn(`Phase 14D FSRS adapter routing validation warning: ${message}`);
 }
 
 function read(file) {
@@ -215,8 +212,7 @@ function packageGuard() {
   readJson('package-lock.json');
   const dependencyVersion = pkg.dependencies?.['ts-fsrs'];
 
-  if (!dependencyVersion) fail('package.json must retain the Phase 14B ts-fsrs dependency');
-  if (dependencyVersion !== '5.3.3') fail(`ts-fsrs must remain exact-pinned at 5.3.3, got ${dependencyVersion}`);
+  if (dependencyVersion !== '5.3.3') fail(`ts-fsrs must remain exact-pinned at 5.3.3, got ${dependencyVersion || 'none'}`);
   if (/^[~^]/.test(dependencyVersion) || /[*<>| ]/.test(dependencyVersion) || /latest|workspace|file:|git:/i.test(dependencyVersion)) {
     fail(`ts-fsrs must be an exact semver pin, got ${dependencyVersion}`);
   }
@@ -234,7 +230,8 @@ function workflowGuard() {
   const text = read(WORKFLOW_FILE);
   for (const validator of [
     'node scripts/validate-phase14b-fsrs-wrapper.js',
-    'node scripts/validate-phase14c-fsrs-persistence-harness.js'
+    'node scripts/validate-phase14c-fsrs-persistence-harness.js',
+    'node scripts/validate-phase14d-fsrs-adapter-routing.js'
   ]) {
     if (!text.includes(validator)) fail(`${WORKFLOW_FILE} must run ${validator}`);
   }
@@ -244,14 +241,14 @@ function workflowGuard() {
 function scopeGuard() {
   for (const file of changedFiles()) {
     if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) continue;
-    if (phase14cAllowedChangedFiles.has(file)) continue;
-    if (forbiddenRuntimeFiles.has(file)) fail(`Forbidden Phase 14C file changed: ${file}`);
-    if (file.startsWith('e2e/')) fail(`E2E file changed without Phase 14C approval: ${file}`);
-    if (file.startsWith('src/')) fail(`Unexpected runtime source changed in Phase 14C: ${file}`);
-    if (file.startsWith('tests/') && file !== TEST_FILE) fail(`Unexpected test file changed in Phase 14C: ${file}`);
-    if (file.startsWith('docs/') && file !== DOCS_FILE) fail(`Unexpected docs file changed in Phase 14C: ${file}`);
-    if (file.startsWith('scripts/validate-')) fail(`Unexpected validator changed without exact Phase 14C allowlist: ${file}`);
-    fail(`Unexpected changed file for Phase 14C scope: ${file}`);
+    if (phase14dAllowedChangedFiles.has(file)) continue;
+    if (forbiddenChangedFiles.has(file)) fail(`Forbidden Phase 14D file changed: ${file}`);
+    if (file.startsWith('e2e/')) fail(`E2E file changed without Phase 14D approval: ${file}`);
+    if (file.startsWith('src/') && file !== ADAPTER_SOURCE) fail(`Unexpected runtime source changed in Phase 14D: ${file}`);
+    if (file.startsWith('tests/') && file !== TEST_FILE) fail(`Unexpected test file changed in Phase 14D: ${file}`);
+    if (file.startsWith('docs/') && file !== DOCS_FILE) fail(`Unexpected docs file changed in Phase 14D: ${file}`);
+    if (file.startsWith('scripts/validate-')) fail(`Unexpected validator changed without exact Phase 14D allowlist: ${file}`);
+    fail(`Unexpected changed file for Phase 14D scope: ${file}`);
   }
 }
 
@@ -264,119 +261,60 @@ function generatedArtifactGuard() {
   }
 }
 
-function docsGuard() {
-  requireIncludes(DOCS_FILE, [
-    'Phase 14C',
-    'not user-facing FSRS',
-    'no Study Room UI',
-    'no Dashboard UI',
-    'no production FSRS route',
-    'no existing record migration',
-    'no new dependency',
-    'no package changes',
-    'no scoring',
-    'mastery',
-    'weighted practice',
-    'recommendation',
-    'no backup format rewrite',
-    'review logs are capped at',
-    '20',
-    'FSRS-shaped fields are preservation-only',
-    'existing SM-2 records remain unchanged',
-    'developer-flag routing is deferred to Phase 14D',
-    'Phase 14D prerequisites',
-    'fsrsPayload',
-    'fsrsReviewLogs',
-    'schedulerKind',
-    'schedulerVersion'
-  ]);
+function adapterGuard() {
+  const source = read(ADAPTER_SOURCE);
+  const normalizedSource = normalize(source);
+
+  for (const term of [
+    'scheduleFsrsReviewForTest',
+    './fsrsWrapper.js',
+    'FSRS_TEST_KIND_ALIASES',
+    'fsrs-v4-test',
+    'ts-fsrs-5.3.3-test',
+    'mapOutcomeToFsrsRating',
+    'scheduleGatedFsrsReview',
+    'context.enableFsrsTestRoute === true',
+    'Good',
+    'Again',
+    'correct',
+    'wrong',
+    'unanswered',
+    'FSRS scheduling is not implemented in Phase 14A',
+    'scheduleCurrentReview',
+    'preserveCurrentRecord'
+  ]) {
+    if (!normalizedSource.includes(normalize(term))) fail(`${ADAPTER_SOURCE} must include adapter routing term: ${term}`);
+  }
+  if (/localStorage/i.test(source)) fail(`${ADAPTER_SOURCE} must not use localStorage for the gate`);
+  if (/process\.env/i.test(source)) fail(`${ADAPTER_SOURCE} must not use process.env for the gate`);
+  if (/SHIME_DEV_/i.test(source)) fail(`${ADAPTER_SOURCE} must not use SHIME_DEV flags`);
+  if (!/import\s+\{\s*scheduleFsrsReviewForTest\s*\}\s+from\s+['"]\.\/fsrsWrapper\.js['"]/.test(source)) {
+    fail(`${ADAPTER_SOURCE} must narrowly import scheduleFsrsReviewForTest from ./fsrsWrapper.js`);
+  }
 }
 
-function unsafeClaimGuard() {
-  const unsafeClaims = [
-    'FSRS is user-facing',
-    'FSRS production scheduling is enabled',
-    'FSRS is available to users',
-    'Study Room supports FSRS ratings',
-    'Dashboard supports FSRS due counts',
-    'Dashboard supports mixed FSRS due counts',
-    'existing records are migrated to FSRS',
-    'backup/import fully supports user-facing FSRS',
-    'automatic migration is implemented',
-    'production FSRS route is implemented',
-    'adaptive learning is implemented',
-    'AI is implemented',
-    'sync is implemented',
-    'IndexedDB migration is implemented',
-    'encryption is implemented',
-    'OCR is implemented'
-  ];
-  const explicitSafeMarkers = [
-    'must not',
-    'does not',
-    'not user-facing',
-    'deferred',
-    'future',
-    'phase 14d',
-    'not changed',
-    'not added',
-    'not be claimed',
-    'no production',
-    'no user-facing',
-    'no automatic',
-    'preservation-only',
-    'claim is limited',
-    'is not'
-  ].map(normalize);
-
-  for (const file of [DOCS_FILE]) {
-    for (const [index, line] of read(file).split(/\r?\n/).entries()) {
-      const normalizedLine = normalize(line);
-      const safe = explicitSafeMarkers.some(marker => normalizedLine.includes(marker));
-      for (const claim of unsafeClaims) {
-        if (normalizedLine.includes(normalize(claim)) && !safe) {
-          fail(`Unsafe implementation claim in ${file}:${index + 1}: ${line.trim()}`);
-        }
-      }
+function srcGateIsolationGuard() {
+  for (const file of trackedFiles().filter(path => path.startsWith('src/'))) {
+    const text = read(file);
+    if (file !== ADAPTER_SOURCE && /enableFsrsTestRoute/i.test(text)) {
+      fail(`enableFsrsTestRoute must not appear outside adapter source in src/: ${file}`);
     }
   }
 }
 
-function storageGuard() {
-  const source = read(STORAGE_SOURCE);
-  const normalizedSource = normalize(source);
-  for (const term of [
-    'FSRS_REVIEW_LOG_CAP',
-    '20',
-    'getPreservedFsrsFields',
-    'fsrsPayload',
-    'fsrsReviewLogs',
-    'schedulerKind',
-    'schedulerVersion',
-    'slice(-FSRS_REVIEW_LOG_CAP)'
-  ]) {
-    if (!normalizedSource.includes(normalize(term))) fail(`${STORAGE_SOURCE} must include storage preservation term: ${term}`);
-  }
-  if (/from\s+['"]ts-fsrs['"]/i.test(source)) fail(`${STORAGE_SOURCE} must not import ts-fsrs`);
-  if (/SHIME_DEV_FSRS_ENABLED/i.test(source)) fail(`${STORAGE_SOURCE} must not add developer FSRS routing flags`);
-  if (/migrate.*fsrs|fsrs.*migration/i.test(source)) fail(`${STORAGE_SOURCE} must not add production FSRS migration helpers`);
-}
-
-function productionRouteGuard() {
-  const adapter = read(ADAPTER_SOURCE);
+function productionIsolationGuard() {
   const wrapper = read(WRAPPER_SOURCE);
+  const storage = read(STORAGE_SOURCE);
   const uiCombined = `${read(STUDY_ROOM)}\n${read(DASHBOARD)}`;
 
-  if (!adapter.includes('FSRS scheduling is not implemented in Phase 14A')) {
-    fail(`${ADAPTER_SOURCE} must still reject planned FSRS scheduling`);
+  if (/enableFsrsTestRoute|scheduleFsrsReviewForTest|fsrsWrapper/i.test(storage)) {
+    fail(`${STORAGE_SOURCE} must not reference Phase 14D FSRS routing`);
   }
-  if (/fsrsWrapper|scheduleFsrsReviewForTest/i.test(adapter) && !adapter.includes('context.enableFsrsTestRoute === true')) {
-    fail(`${ADAPTER_SOURCE} may only route to the FSRS wrapper through the strict Phase 14D developer/test gate`);
+  if (/reviewScheduleStorage|enableFsrsTestRoute/i.test(wrapper)) {
+    fail(`${WRAPPER_SOURCE} must remain disconnected from production storage and adapter gate`);
   }
-  if (/from\s+['"]ts-fsrs['"]/i.test(adapter)) fail(`${ADAPTER_SOURCE} must not import ts-fsrs`);
-  if (/localStorage|reviewScheduleStorage/i.test(wrapper)) fail(`${WRAPPER_SOURCE} must remain disconnected from production storage`);
-  if (/fsrsWrapper|FSRS_TEST_SCHEDULER_KIND|fsrsPersistenceHarness/i.test(uiCombined)) {
-    fail('Study Room and Dashboard must not import or reference FSRS wrapper/harness');
+  if (/enableFsrsTestRoute|fsrsWrapper|scheduleFsrsReviewForTest/i.test(uiCombined)) {
+    fail('Study Room and Dashboard must not reference the Phase 14D FSRS gate or wrapper');
   }
   if (/Again\s*\/\s*Hard\s*\/\s*Good\s*\/\s*Easy/i.test(uiCombined)) {
     fail('Study Room and Dashboard must not add four-rating FSRS UI copy');
@@ -387,32 +325,110 @@ function testGuard() {
   const text = read(TEST_FILE);
   const normalizedText = normalize(text);
   for (const term of [
-    'FSRS_REVIEW_LOG_CAP',
-    'toBe(20)',
+    'gate disabled',
+    'gate enabled',
+    'enableFsrsTestRoute',
+    'false',
+    '1',
+    'true',
+    'Good',
+    'Again',
+    'correct',
+    'wrong',
+    'unanswered',
     'SM-2',
-    'does not add FSRS fields',
-    'fsrsPayload',
-    'fsrsReviewLogs',
-    'latest 20',
-    'invalid entries',
-    'unknown schedulerKind',
-    'does not rewrite localStorage',
-    'createV2BackupPayload',
-    'validateV2BackupPayload',
-    'restoreV2BackupPayload',
+    'scheduleCurrentReview',
+    'localStorage',
+    'process.env',
     'Study Room',
     'Dashboard',
-    'scheduleReview',
+    'scheduleFsrsReviewForTest',
     'FSRS scheduling is not implemented in Phase 14A'
   ]) {
     if (!normalizedText.includes(normalize(term))) fail(`${TEST_FILE} must cover: ${term}`);
   }
   if (/expect\(true\)\.toBe\(true\)/.test(text)) fail(`${TEST_FILE} must not contain placeholder assertions`);
   if (text.includes('?raw')) fail(`${TEST_FILE} must use fs.readFileSync instead of import ?raw`);
+  if (/\bvi\b/.test(text)) fail(`${TEST_FILE} must not import or use vi`);
+  if (/localStorage\.(getItem|setItem).*enableFsrsTestRoute/i.test(text)) {
+    fail(`${TEST_FILE} must not control the gate through localStorage`);
+  }
+}
+
+function docsGuard() {
+  requireIncludes(DOCS_FILE, [
+    'Phase 14D',
+    'developer/test-only',
+    'not user-facing FSRS',
+    'context.enableFsrsTestRoute === true',
+    'no localStorage',
+    'environment variable',
+    'build flag',
+    'no UI toggle',
+    'no Study Room',
+    'no Dashboard',
+    'no package',
+    'no new dependency',
+    'no backup/import/export',
+    'no automatic migration',
+    'current SM-2',
+    'default behavior',
+    'fsrsWrapper',
+    'scheduleFsrsReviewForTest',
+    'correct',
+    'Good',
+    'wrong',
+    'Again',
+    'unanswered',
+    'test-only',
+    'not a production rating model',
+    'Phase 14E'
+  ]);
+}
+
+function unsafeClaimGuard() {
+  const unsafeClaims = [
+    'FSRS is user-facing',
+    'FSRS production scheduling is enabled',
+    'FSRS is available to users',
+    'Study Room supports FSRS ratings',
+    'Dashboard supports FSRS due counts',
+    'existing records are migrated to FSRS',
+    'adaptive learning is implemented',
+    'AI is implemented',
+    'sync is implemented',
+    'IndexedDB migration is implemented',
+    'encryption is implemented',
+    'OCR is implemented'
+  ];
+  const safeMarkers = [
+    'must not',
+    'does not',
+    'not user-facing',
+    'no production',
+    'no user-facing',
+    'not enabled',
+    'not added',
+    'not changed',
+    'is not',
+    'until',
+    'before any user-facing',
+    'must define'
+  ].map(normalize);
+
+  for (const [index, line] of read(DOCS_FILE).split(/\r?\n/).entries()) {
+    const normalizedLine = normalize(line);
+    const safe = safeMarkers.some(marker => normalizedLine.includes(marker));
+    for (const claim of unsafeClaims) {
+      if (normalizedLine.includes(normalize(claim)) && !safe) {
+        fail(`Unsafe claim in ${DOCS_FILE}:${index + 1}: ${line.trim()}`);
+      }
+    }
+  }
 }
 
 function bindingReferenceGuard() {
-  for (const file of ['package.json', 'package-lock.json', STORAGE_SOURCE, TEST_FILE, VALIDATOR_SCRIPT, DOCS_FILE]) {
+  for (const file of ['package.json', 'package-lock.json']) {
     if (read(file).includes(bindingPackage)) fail(`${file} must not reference native binding package`);
   }
 }
@@ -423,13 +439,14 @@ function validate() {
   workflowGuard();
   scopeGuard();
   generatedArtifactGuard();
+  adapterGuard();
+  srcGateIsolationGuard();
+  productionIsolationGuard();
+  testGuard();
   docsGuard();
   unsafeClaimGuard();
-  storageGuard();
-  productionRouteGuard();
-  testGuard();
   bindingReferenceGuard();
-  console.log('Phase 14C FSRS persistence and backup compatibility harness validation passed.');
+  console.log('Phase 14D developer-gated FSRS adapter routing validation passed.');
 }
 
 validate();
