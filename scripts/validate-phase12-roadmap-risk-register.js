@@ -362,6 +362,13 @@ const allowedChanged = new Set([
   'src/state/v2BackupRestore.js',
   'tests/unit/settingsStorage.test.js',
   'tests/unit/backupSettingsPersistence.test.js',
+  // Phase 14H compatibility — exact files only
+  'docs/phase14h-fsrs-experimental-toggle-ui.md',
+  'scripts/validate-phase14h-fsrs-toggle-ui.js',
+  'src/routes/Settings.jsx',
+  'src/routes/routeConfig.js',
+  'src/components/settings/FsrsExperimentalSettingsPanel.jsx',
+  'tests/unit/fsrsExperimentalSettingsPanel.test.jsx',
 ]);
 
 const forbiddenChanged = [

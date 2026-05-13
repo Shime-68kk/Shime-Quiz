@@ -1,5 +1,6 @@
 import Dashboard from './Dashboard.jsx';
 import Library from './Library.jsx';
+import Settings from './Settings.jsx';
 import StudyRoom from './StudyRoom.jsx';
 
 // Phase 1B migration boundary:
@@ -32,6 +33,15 @@ export const routes = [
     showInNav: true,
     focusMode: true,
     element: StudyRoom
+  },
+  {
+    path: '/settings',
+    label: 'Cài đặt',
+    shortLabel: 'Cài đặt',
+    icon: '⚙',
+    showInNav: true,
+    focusMode: false,
+    element: Settings
   }
 ];
 
