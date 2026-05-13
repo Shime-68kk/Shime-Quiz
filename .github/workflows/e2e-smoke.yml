@@ -322,6 +322,9 @@ jobs:
       - name: Validate Phase 14D developer-gated FSRS adapter routing
         run: node scripts/validate-phase14d-fsrs-adapter-routing.js
 
+      - name: Validate Phase 14E FSRS user-facing entry decision
+        run: node scripts/validate-phase14e-fsrs-user-facing-entry.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

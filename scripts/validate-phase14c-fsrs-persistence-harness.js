@@ -32,6 +32,8 @@ const phase14cAllowedChangedFiles = new Set([
   VALIDATOR_SCRIPT,
   WORKFLOW_FILE,
   STORAGE_SOURCE,
+  'docs/phase14e-fsrs-user-facing-entry-decision.md',
+  'scripts/validate-phase14e-fsrs-user-facing-entry.js',
   'docs/phase14d-developer-gated-fsrs-adapter-routing.md',
   'src/quiz/reviewSchedulerAdapter.js',
   'tests/unit/reviewSchedulerAdapter.phase14d.test.js',

@@ -31,6 +31,8 @@ const coreAllowedChangedFiles = new Set([
 ]);
 
 const historicalValidatorCompatibilityFiles = new Set([
+  'docs/phase14e-fsrs-user-facing-entry-decision.md',
+  'scripts/validate-phase14e-fsrs-user-facing-entry.js',
   'docs/phase14d-developer-gated-fsrs-adapter-routing.md',
   'src/quiz/reviewSchedulerAdapter.js',
   'tests/unit/reviewSchedulerAdapter.phase14d.test.js',
