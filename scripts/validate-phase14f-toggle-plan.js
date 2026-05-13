@@ -114,6 +114,14 @@ const phase14fAllowedChangedFiles = new Set([
   'scripts/validate-web-share-mobile-sharing-prototype-plan.js',
   'scripts/validate-web-share-runtime-fallback-hardening.js',
   'scripts/validate-web-share-runtime-prototype.js',
+  // Phase 14G compatibility — exact files only
+  'docs/phase14g-fsrs-settings-storage-schema.md',
+  'scripts/validate-phase14g-settings-storage.js',
+  'src/state/settingsStorage.js',
+  'src/state/localStorageSync.js',
+  'src/state/v2BackupRestore.js',
+  'tests/unit/settingsStorage.test.js',
+  'tests/unit/backupSettingsPersistence.test.js',
 ]);
 
 const generatedArtifacts = [
@@ -439,7 +447,11 @@ function runtimeIsolationGuard() {
 
   const runtimeCombined = runtimeFiles.map(file => read(file)).join('\n');
   if (/phase14f|phase-14f/i.test(runtimeCombined)) fail('Runtime files must not contain Phase 14F markers');
-  if (/shimeV2SettingsV1|fsrsExperimentalEnabled|fsrsEnrollmentMode/i.test(runtimeCombined)) {
+  // Phase 14G adds shimeV2SettingsV1 to localStorageSync.js and v2BackupRestore.js (Phase 14G scope).
+  // Check settings leakage only in files Phase 14G must not touch.
+  const settingsIsolationFiles = runtimeFiles.filter(f => f !== LOCAL_STORAGE_SYNC && f !== BACKUP_SOURCE);
+  const settingsIsolationCombined = settingsIsolationFiles.map(file => read(file)).join('\n');
+  if (/shimeV2SettingsV1|fsrsExperimentalEnabled|fsrsEnrollmentMode/i.test(settingsIsolationCombined)) {
     fail('Phase 14F must not add settings storage keys or FSRS toggle runtime reads/writes');
   }
   if (/Again\s*\/\s*Hard\s*\/\s*Good\s*\/\s*Easy/i.test(`${read(STUDY_ROOM)}\n${read(DASHBOARD)}`)) {

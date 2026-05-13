@@ -7,7 +7,8 @@ export const LEARNING_STORAGE_KEY_SECTIONS = {
   shimeV2StudyPlanProgressV1: 'studyPlanProgress',
   shimeV2RecommendationFeedbackV1: 'recommendationFeedback',
   shimeV2StudyGoalV1: 'studyGoal',
-  shimeV2LibraryDataV1: 'library'
+  shimeV2LibraryDataV1: 'library',
+  shimeV2SettingsV1: 'settings'
 };
 
 const learningStorageSourceId = `tab-${Math.random().toString(36).slice(2)}-${Date.now().toString(36)}`;

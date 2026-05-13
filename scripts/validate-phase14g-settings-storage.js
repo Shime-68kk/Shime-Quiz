@@ -1,0 +1,542 @@
+#!/usr/bin/env node
+/**
+ * scripts/validate-phase14g-settings-storage.js
+ *
+ * Phase 14G static validator — FSRS Settings Storage Schema and Backup Integration.
+ * Modeled after validate-phase14f-toggle-plan.js.
+ */
+
+import fs from 'node:fs';
+import { execSync } from 'node:child_process';
+
+const DOCS_FILE = 'docs/phase14g-fsrs-settings-storage-schema.md';
+const VALIDATOR_SCRIPT = 'scripts/validate-phase14g-settings-storage.js';
+const WORKFLOW_FILE = '.github/workflows/e2e-smoke.yml';
+
+const SETTINGS_STORAGE_SOURCE = 'src/state/settingsStorage.js';
+const LOCAL_STORAGE_SYNC = 'src/state/localStorageSync.js';
+const BACKUP_SOURCE = 'src/state/v2BackupRestore.js';
+
+const SETTINGS_STORAGE_TEST = 'tests/unit/settingsStorage.test.js';
+const BACKUP_PERSISTENCE_TEST = 'tests/unit/backupSettingsPersistence.test.js';
+
+const STUDY_ROOM = 'src/routes/StudyRoom.jsx';
+const DASHBOARD = 'src/routes/Dashboard.jsx';
+const ADAPTER_SOURCE = 'src/quiz/reviewSchedulerAdapter.js';
+const WRAPPER_SOURCE = 'src/quiz/fsrsWrapper.js';
+const STORAGE_SOURCE = 'src/state/reviewScheduleStorage.js';
+const LEGACY_BACKUP = 'src/quiz/dataBackup.js';
+
+const PHASE14F_DOCS = 'docs/phase14f-fsrs-experimental-toggle-plan.md';
+const PHASE14F_VALIDATOR = 'scripts/validate-phase14f-toggle-plan.js';
+const PHASE14F_HF1_DOCS = 'docs/phase14f-hf1-baseline-validation-recovery.md';
+const PHASE14F_HF1_VALIDATOR = 'scripts/validate-phase14f-hf1-baseline-validation-recovery.js';
+
+const bindingPackage = '@open-spaced-repetition/' + 'binding';
+
+const internalRegistryTerms = [
+  'applied-caas',
+  'artifactory',
+  'internal.api.openai',
+  'packages.applied'
+];
+
+const phase14gAllowedChangedFiles = new Set([
+  DOCS_FILE,
+  VALIDATOR_SCRIPT,
+  WORKFLOW_FILE,
+  SETTINGS_STORAGE_SOURCE,
+  LOCAL_STORAGE_SYNC,
+  BACKUP_SOURCE,
+  SETTINGS_STORAGE_TEST,
+  BACKUP_PERSISTENCE_TEST,
+  // Historical validator compatibility — exact files only
+  PHASE14F_VALIDATOR,
+  PHASE14F_HF1_VALIDATOR,
+  'scripts/validate-phase14b-fsrs-wrapper.js',
+  'scripts/validate-phase14c-fsrs-persistence-harness.js',
+  'scripts/validate-phase14d-fsrs-adapter-routing.js',
+  'scripts/validate-phase14e-fsrs-user-facing-entry.js',
+  'scripts/validate-backup-transfer-safety-hardening.js',
+  'scripts/validate-cross-device-transfer-track-closure.js',
+  'scripts/validate-cross-device-transfer-ux-copy.js',
+  'scripts/validate-cross-device-transfer-ux-decision.js',
+  'scripts/validate-dashboard-today-card-runtime.js',
+  'scripts/validate-dashboard-today-card-ux-plan.js',
+  'scripts/validate-manual-evidence-execution-checklist.js',
+  'scripts/validate-manual-evidence-results-log.js',
+  'scripts/validate-phase12-closure-release-decision.js',
+  'scripts/validate-phase12-roadmap-risk-register.js',
+  'scripts/validate-storage-capacity-indexeddb-migration-plan.js',
+  'scripts/validate-storage-quota-warning-runtime.js',
+  'scripts/validate-study-flow-micro-feedback-plan.js',
+  'scripts/validate-study-flow-micro-feedback-runtime.js',
+  'scripts/validate-unit-test-foundation-plan.js',
+  'scripts/validate-vitest-unit-test-foundation.js',
+  'scripts/validate-web-share-mobile-sharing-prototype-plan.js',
+  'scripts/validate-web-share-runtime-fallback-hardening.js',
+  'scripts/validate-web-share-runtime-prototype.js',
+  'scripts/validate-cross-device-export-import.js',
+  'scripts/validate-edugen-boundary-polish.js',
+  'scripts/validate-final-main-release-authorization.js',
+  'scripts/validate-final-public-release-readiness-reaudit.js',
+  'scripts/validate-final-release-execution-checklist.js',
+  'scripts/validate-github-release-publication-plan.js',
+  'scripts/validate-manual-evidence-run-pack.js',
+  'scripts/validate-phase13-closure.js',
+  'scripts/validate-phase13-fsrs-plan.js',
+  'scripts/validate-phase13-local-adaptive-roadmap.js',
+  'scripts/validate-phase13-review-engine-audit.js',
+  'scripts/validate-phase14a-scheduler-adapter.js',
+  'scripts/validate-release-candidate-freeze-final-decision.js',
+  'scripts/validate-release-candidate-tag-publish-gate.js',
+  'scripts/validate-release-package-assembly-plan.js',
+  'scripts/validate-release-tag-creation-plan.js',
+]);
+
+const generatedArtifacts = [
+  'node_modules',
+  'dist',
+  'test-results',
+  'playwright-report',
+  'coverage',
+  'FETCH_HEAD',
+  '.env',
+  '.env.local',
+  '.git'
+];
+
+function fail(message) {
+  console.error(`Phase 14G settings storage validation failed: ${message}`);
+  process.exit(1);
+}
+
+function warn(message) {
+  console.warn(`Phase 14G settings storage validation warning: ${message}`);
+}
+
+function read(file) {
+  if (!fs.existsSync(file)) fail(`Missing required file: ${file}`);
+  return fs.readFileSync(file, 'utf8');
+}
+
+function readJson(file) {
+  try {
+    return JSON.parse(read(file));
+  } catch (error) {
+    fail(`${file} must be valid JSON: ${error.message}`);
+  }
+}
+
+function normalize(text) {
+  return String(text)
+    .toLowerCase()
+    .replace(/[`*_()[\]{}:;,.!?"']/g, ' ')
+    .replace(/[\/\\]+/g, ' ')
+    .replace(/[‐-―]/g, '-')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function runGit(command, options = {}) {
+  try {
+    return execSync(command, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], ...options }).trim();
+  } catch {
+    if (!options.silent) warn(`Git command failed; changed-file scope checking may be limited: ${command}`);
+    return '';
+  }
+}
+
+function splitLines(output) {
+  return output ? output.split(/\r?\n/).map(line => line.trim()).filter(Boolean) : [];
+}
+
+function uniqueSorted(files) {
+  return [...new Set(files)].sort((a, b) => a.localeCompare(b));
+}
+
+function changedFilesFromPullRequestBase() {
+  const baseRef = process.env.GITHUB_BASE_REF;
+  if (!baseRef) return [];
+  runGit(`git fetch --no-tags --depth=1 origin ${baseRef}`, { silent: true });
+  const mergeBase = runGit(`git merge-base HEAD origin/${baseRef}`, { silent: true });
+  if (!mergeBase) return [];
+  return splitLines(runGit(`git diff --name-only ${mergeBase} HEAD`, { silent: true }));
+}
+
+function changedFilesFromBranchBase() {
+  const originMain = runGit('git rev-parse --verify origin/main', { silent: true });
+  if (!originMain) return [];
+  const mergeBase = runGit('git merge-base HEAD origin/main', { silent: true });
+  if (!mergeBase) return [];
+  return splitLines(runGit(`git diff --name-only ${mergeBase} HEAD`, { silent: true }));
+}
+
+function changedFilesFromLocalFallbacks({ includeUntracked = true } = {}) {
+  const files = [
+    ...splitLines(runGit('git diff --name-only HEAD', { silent: true })),
+    ...splitLines(runGit('git diff --cached --name-only', { silent: true }))
+  ];
+  if (includeUntracked) files.push(...splitLines(runGit('git ls-files --others --exclude-standard', { silent: true })));
+  return files;
+}
+
+function changedFiles({ includeUntracked = true } = {}) {
+  const prBaseFiles = changedFilesFromPullRequestBase();
+  if (prBaseFiles.length > 0) return uniqueSorted(prBaseFiles);
+  return uniqueSorted([
+    ...changedFilesFromBranchBase(),
+    ...changedFilesFromLocalFallbacks({ includeUntracked })
+  ]);
+}
+
+function trackedFiles() {
+  return uniqueSorted(splitLines(runGit('git ls-files', { silent: true })));
+}
+
+function requireIncludes(file, terms) {
+  const text = normalize(read(file));
+  for (const term of terms) {
+    if (!text.includes(normalize(term))) fail(`${file} must mention: ${term}`);
+  }
+}
+
+function requiredFilesGuard() {
+  read(DOCS_FILE);
+  read(VALIDATOR_SCRIPT);
+  read(WORKFLOW_FILE);
+  read(SETTINGS_STORAGE_SOURCE);
+  read(LOCAL_STORAGE_SYNC);
+  read(BACKUP_SOURCE);
+  read(SETTINGS_STORAGE_TEST);
+  read(BACKUP_PERSISTENCE_TEST);
+}
+
+function phase14fRegressionGuard() {
+  read(PHASE14F_DOCS);
+  read(PHASE14F_VALIDATOR);
+  read(PHASE14F_HF1_DOCS);
+  read(PHASE14F_HF1_VALIDATOR);
+}
+
+function packageGuard() {
+  const pkg = readJson('package.json');
+  readJson('package-lock.json');
+  const dependencyVersion = pkg.dependencies?.['ts-fsrs'];
+  if (dependencyVersion !== '5.3.3') {
+    fail(`ts-fsrs must remain exact-pinned at 5.3.3, got ${dependencyVersion || 'none'}`);
+  }
+  for (const file of ['package.json', 'package-lock.json']) {
+    const text = read(file);
+    if (text.includes(bindingPackage)) fail(`${file} must not contain native binding dependency`);
+    for (const term of internalRegistryTerms) {
+      if (text.includes(term)) fail(`${file} contains internal registry term: ${term}`);
+    }
+  }
+}
+
+function workflowGuard() {
+  const text = read(WORKFLOW_FILE);
+  for (const validator of [
+    'node scripts/validate-phase14b-fsrs-wrapper.js',
+    'node scripts/validate-phase14c-fsrs-persistence-harness.js',
+    'node scripts/validate-phase14d-fsrs-adapter-routing.js',
+    'node scripts/validate-phase14e-fsrs-user-facing-entry.js',
+    'node scripts/validate-phase14f-toggle-plan.js',
+    'node scripts/validate-phase14f-hf1-baseline-validation-recovery.js',
+    'node scripts/validate-phase14g-settings-storage.js'
+  ]) {
+    if (!text.includes(validator)) fail(`${WORKFLOW_FILE} must run ${validator}`);
+  }
+  if (/continue-on-error:\s*true/i.test(text)) {
+    fail(`${WORKFLOW_FILE} must not add broad continue-on-error`);
+  }
+}
+
+function scopeGuard() {
+  for (const file of changedFiles()) {
+    if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) continue;
+    if (phase14gAllowedChangedFiles.has(file)) continue;
+    if (file === STUDY_ROOM) fail(`StudyRoom.jsx must not change in Phase 14G`);
+    if (file === DASHBOARD) fail(`Dashboard.jsx must not change in Phase 14G`);
+    if (file === ADAPTER_SOURCE) fail(`reviewSchedulerAdapter.js must not change in Phase 14G`);
+    if (file === WRAPPER_SOURCE) fail(`fsrsWrapper.js must not change in Phase 14G`);
+    if (file === STORAGE_SOURCE) fail(`reviewScheduleStorage.js must not change in Phase 14G`);
+    if (file === LEGACY_BACKUP) fail(`legacy dataBackup.js must not change in Phase 14G`);
+    if (file === 'package.json') fail(`package.json must not change in Phase 14G`);
+    if (file === 'package-lock.json') fail(`package-lock.json must not change in Phase 14G`);
+    if (file.startsWith('e2e/')) fail(`E2E file changed in Phase 14G: ${file}`);
+    if (file.startsWith('src/routes/')) fail(`UI route file changed in Phase 14G: ${file}`);
+    if (file.startsWith('src/')) fail(`Unexpected source file changed in Phase 14G: ${file}`);
+    if (file.startsWith('tests/')) fail(`Unexpected test file changed in Phase 14G: ${file}`);
+    fail(`Unexpected changed file for Phase 14G scope: ${file}`);
+  }
+}
+
+function generatedArtifactGuard() {
+  const files = uniqueSorted([...changedFiles({ includeUntracked: false }), ...trackedFiles()]);
+  for (const artifact of generatedArtifacts) {
+    if (files.some(file => file === artifact || file.startsWith(`${artifact}/`))) {
+      fail(`Generated artifact appears in changed or tracked files: ${artifact}`);
+    }
+  }
+}
+
+function settingsStorageGuard() {
+  const source = read(SETTINGS_STORAGE_SOURCE);
+
+  // Required exports
+  for (const name of [
+    'SETTINGS_STORAGE_KEY',
+    'SETTINGS_SCHEMA_VERSION',
+    'SETTINGS_UPDATED_EVENT',
+    'FSRS_ENROLLMENT_MODE_NEW_CARDS_ONLY',
+    'getDefaultSettings',
+    'normalizeSettings',
+    'getSettings',
+    'updateSettings',
+    'importSettings',
+    'clearSettings'
+  ]) {
+    if (!source.includes(`export`) || !source.includes(name)) {
+      fail(`${SETTINGS_STORAGE_SOURCE} must export: ${name}`);
+    }
+  }
+
+  // Required constants/values
+  if (!source.includes("'shimeV2SettingsV1'") && !source.includes('"shimeV2SettingsV1"')) {
+    fail(`${SETTINGS_STORAGE_SOURCE} must define storage key 'shimeV2SettingsV1'`);
+  }
+  if (!source.includes("'shime-v2-settings-v1'") && !source.includes('"shime-v2-settings-v1"')) {
+    fail(`${SETTINGS_STORAGE_SOURCE} must define schema version 'shime-v2-settings-v1'`);
+  }
+  if (!source.includes("'new-cards-only'") && !source.includes('"new-cards-only"')) {
+    fail(`${SETTINGS_STORAGE_SOURCE} must define enrollment mode 'new-cards-only'`);
+  }
+
+  // Forbidden fields in settings
+  for (const forbidden of ['schedulerKind', 'fsrsPayload', 'fsrsReviewLogs', 'fsrsWeights']) {
+    if (source.includes(forbidden)) {
+      fail(`${SETTINGS_STORAGE_SOURCE} must not contain: ${forbidden}`);
+    }
+  }
+
+  // No UI/adapter/ts-fsrs imports
+  if (/import.*from.*['"]react/i.test(source)) {
+    fail(`${SETTINGS_STORAGE_SOURCE} must not import React`);
+  }
+  if (/import.*from.*['"]ts-fsrs/i.test(source)) {
+    fail(`${SETTINGS_STORAGE_SOURCE} must not import ts-fsrs`);
+  }
+  if (/import.*from.*reviewSchedulerAdapter/i.test(source)) {
+    fail(`${SETTINGS_STORAGE_SOURCE} must not import reviewSchedulerAdapter`);
+  }
+}
+
+function lazyReadGuard() {
+  const source = read(SETTINGS_STORAGE_SOURCE);
+
+  // Extract getSettings function body (heuristic: from 'function getSettings' to next exported function)
+  const getSettingsMatch = source.match(/export function getSettings\(\)[^{]*\{([\s\S]*?)(?=\nexport function|\nexport const|\nmodule\.exports|$)/);
+  if (!getSettingsMatch) {
+    fail(`${SETTINGS_STORAGE_SOURCE} must define exported getSettings() function`);
+  }
+
+  const getSettingsBody = getSettingsMatch[1] || '';
+  if (/\.setItem\s*\(/.test(getSettingsBody)) {
+    fail(`getSettings() must never call setItem — lazy read violated`);
+  }
+  if (/\.removeItem\s*\(/.test(getSettingsBody)) {
+    fail(`getSettings() must never call removeItem — lazy read violated`);
+  }
+}
+
+function backupIntegrationGuard() {
+  const source = read(BACKUP_SOURCE);
+
+  if (!source.includes('getSettings')) {
+    fail(`${BACKUP_SOURCE} must use getSettings from settingsStorage`);
+  }
+  if (!source.includes('importSettings')) {
+    fail(`${BACKUP_SOURCE} must use importSettings from settingsStorage`);
+  }
+  if (!source.includes('normalizeSettings')) {
+    fail(`${BACKUP_SOURCE} must use normalizeSettings from settingsStorage`);
+  }
+  if (!source.includes('payload.settings') && !source.includes("settings: getSettings")) {
+    fail(`${BACKUP_SOURCE} must include settings in backup payload`);
+  }
+
+  // Settings must not be placed under data
+  if (/data\.settings|data\[.settings.\]/.test(source)) {
+    fail(`${BACKUP_SOURCE} must not place settings under payload.data`);
+  }
+
+  // Legacy dataBackup.js unchanged
+  const legacySource = read(LEGACY_BACKUP);
+  if (legacySource.includes('settingsStorage') || legacySource.includes('shimeV2SettingsV1')) {
+    fail(`${LEGACY_BACKUP} must not reference settingsStorage or shimeV2SettingsV1`);
+  }
+}
+
+function localStorageSyncGuard() {
+  const source = read(LOCAL_STORAGE_SYNC);
+  if (!source.includes('shimeV2SettingsV1')) {
+    fail(`${LOCAL_STORAGE_SYNC} must register shimeV2SettingsV1 in LEARNING_STORAGE_KEY_SECTIONS`);
+  }
+  if (!source.includes("settings")) {
+    fail(`${LOCAL_STORAGE_SYNC} must map shimeV2SettingsV1 to 'settings' section`);
+  }
+}
+
+function uiIsolationGuard() {
+  for (const file of [STUDY_ROOM, DASHBOARD, ADAPTER_SOURCE]) {
+    const source = read(file);
+    if (source.includes('shimeV2SettingsV1')) {
+      fail(`${file} must not reference shimeV2SettingsV1`);
+    }
+    if (source.includes('fsrsExperimentalEnabled')) {
+      fail(`${file} must not reference fsrsExperimentalEnabled`);
+    }
+    if (source.includes('settingsStorage')) {
+      fail(`${file} must not import or reference settingsStorage`);
+    }
+  }
+
+  // Study Room and Dashboard must not add four-rating FSRS UI copy
+  const uiCombined = `${read(STUDY_ROOM)}\n${read(DASHBOARD)}`;
+  if (/Again\s*\/\s*Hard\s*\/\s*Good\s*\/\s*Easy/i.test(uiCombined)) {
+    fail('Study Room and Dashboard must not add four-rating FSRS UI copy');
+  }
+}
+
+function testsGuard() {
+  const settingsTestSource = read(SETTINGS_STORAGE_TEST);
+
+  // Must test getSettings lazy read
+  if (!settingsTestSource.includes('getSettings')) {
+    fail(`${SETTINGS_STORAGE_TEST} must test getSettings`);
+  }
+  if (!settingsTestSource.includes('updateSettings')) {
+    fail(`${SETTINGS_STORAGE_TEST} must test updateSettings`);
+  }
+  if (!settingsTestSource.includes('setItem')) {
+    fail(`${SETTINGS_STORAGE_TEST} must assert on setItem calls (lazy read test)`);
+  }
+  if (!settingsTestSource.includes('removeItem')) {
+    fail(`${SETTINGS_STORAGE_TEST} must assert on removeItem calls (lazy read test)`);
+  }
+
+  const backupTestSource = read(BACKUP_PERSISTENCE_TEST);
+  if (!backupTestSource.includes('importSettings')) {
+    fail(`${BACKUP_PERSISTENCE_TEST} must test importSettings`);
+  }
+  if (!backupTestSource.includes('settings')) {
+    fail(`${BACKUP_PERSISTENCE_TEST} must test settings in backup payload`);
+  }
+  if (!backupTestSource.includes('createV2BackupPayload') && !backupTestSource.includes('validateV2BackupPayload')) {
+    fail(`${BACKUP_PERSISTENCE_TEST} must test createV2BackupPayload or validateV2BackupPayload`);
+  }
+}
+
+function docsGuard() {
+  requireIncludes(DOCS_FILE, [
+    'Phase 14G',
+    'lazy settings storage scaffold',
+    'getSettings',
+    'does not write',
+    'missing key',
+    'default OFF',
+    'shimeV2SettingsV1',
+    'shime-v2-settings-v1',
+    'no UI changes',
+    'no new-card enrollment runtime',
+    'no adapter production routing',
+    'no Study Room',
+    'no Dashboard',
+    'no package',
+    'no dependency',
+    'schedulerKind',
+    'fsrsWeights',
+    'deferred',
+    'v2 backup path',
+    'legacy',
+    'dataBackup.js',
+    'unchanged',
+    'not implemented',
+    'not user-facing',
+    'not enabled',
+    'Future Phase Split',
+    'Phase 14H'
+  ]);
+}
+
+function unsafeClaimGuard() {
+  const unsafeClaims = [
+    'FSRS toggle is visible',
+    'FSRS experimental toggle is enabled',
+    'FSRS is user-facing',
+    'FSRS production scheduling is enabled',
+    'new-card enrollment is active',
+    'enrollment runtime is implemented',
+    'Study Room supports Again Hard Good Easy',
+    'Study Room supports FSRS ratings',
+    'Study Room supports Two-Step Evaluation',
+    'Dashboard supports mixed scheduler due counts',
+    'Dashboard supports FSRS due counts',
+    'existing SM-2 records are migrated',
+    'existing records are migrated'
+  ];
+
+  const safeMarkers = [
+    'must not',
+    'does not',
+    'not implemented',
+    'not created',
+    'not changed',
+    'not enabled',
+    'not user-facing',
+    'not production',
+    'no user-facing',
+    'no production',
+    'never',
+    'prohibited',
+    'forbidden',
+    'future',
+    'planned',
+    'later',
+    'deferred',
+    'because it is not',
+    'must not claim'
+  ].map(normalize);
+
+  for (const [index, line] of read(DOCS_FILE).split(/\r?\n/).entries()) {
+    const normalizedLine = normalize(line);
+    const safe = safeMarkers.some(marker => normalizedLine.includes(marker));
+    for (const claim of unsafeClaims) {
+      if (normalizedLine.includes(normalize(claim)) && !safe) {
+        fail(`Unsafe claim in ${DOCS_FILE}:${index + 1}: ${line.trim()}`);
+      }
+    }
+  }
+}
+
+function validate() {
+  requiredFilesGuard();
+  phase14fRegressionGuard();
+  packageGuard();
+  workflowGuard();
+  scopeGuard();
+  generatedArtifactGuard();
+  settingsStorageGuard();
+  lazyReadGuard();
+  backupIntegrationGuard();
+  localStorageSyncGuard();
+  uiIsolationGuard();
+  testsGuard();
+  docsGuard();
+  unsafeClaimGuard();
+  console.log('Phase 14G FSRS settings storage schema validation passed.');
+}
+
+validate();
