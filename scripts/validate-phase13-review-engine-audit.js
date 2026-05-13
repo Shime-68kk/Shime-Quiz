@@ -29,6 +29,8 @@ const allowedChangedFiles = new Set([
 
   // Phase 14D compatibility: allow only the approved developer-gated
   // FSRS adapter routing files while preserving older phase guardrails.
+  'docs/phase14e-fsrs-user-facing-entry-decision.md',
+  'scripts/validate-phase14e-fsrs-user-facing-entry.js',
   'docs/phase14d-developer-gated-fsrs-adapter-routing.md',
   'scripts/validate-phase14d-fsrs-adapter-routing.js',
   'src/quiz/reviewSchedulerAdapter.js',

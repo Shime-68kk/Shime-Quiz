@@ -32,6 +32,8 @@ const phase14dAllowedChangedFiles = new Set([
   TEST_FILE,
   VALIDATOR_SCRIPT,
   WORKFLOW_FILE,
+  'docs/phase14e-fsrs-user-facing-entry-decision.md',
+  'scripts/validate-phase14e-fsrs-user-facing-entry.js',
   'tests/unit/fsrsPersistenceHarness.test.js',
   'scripts/validate-phase14b-fsrs-wrapper.js',
   'scripts/validate-phase14c-fsrs-persistence-harness.js',
