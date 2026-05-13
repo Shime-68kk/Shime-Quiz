@@ -325,6 +325,9 @@ jobs:
       - name: Validate Phase 14E FSRS user-facing entry decision
         run: node scripts/validate-phase14e-fsrs-user-facing-entry.js
 
+      - name: Validate Phase 14F FSRS experimental toggle plan
+        run: node scripts/validate-phase14f-toggle-plan.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

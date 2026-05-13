@@ -2,29 +2,34 @@
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
-const DOCS_FILE = 'docs/phase14e-fsrs-user-facing-entry-decision.md';
-const VALIDATOR_SCRIPT = 'scripts/validate-phase14e-fsrs-user-facing-entry.js';
+const DOCS_FILE = 'docs/phase14f-fsrs-experimental-toggle-plan.md';
+const VALIDATOR_SCRIPT = 'scripts/validate-phase14f-toggle-plan.js';
 const WORKFLOW_FILE = '.github/workflows/e2e-smoke.yml';
+const PHASE14E_DOCS = 'docs/phase14e-fsrs-user-facing-entry-decision.md';
+const PHASE14E_VALIDATOR = 'scripts/validate-phase14e-fsrs-user-facing-entry.js';
 
 const STUDY_ROOM = 'src/routes/StudyRoom.jsx';
 const DASHBOARD = 'src/routes/Dashboard.jsx';
 const ADAPTER_SOURCE = 'src/quiz/reviewSchedulerAdapter.js';
 const WRAPPER_SOURCE = 'src/quiz/fsrsWrapper.js';
 const STORAGE_SOURCE = 'src/state/reviewScheduleStorage.js';
+const LOCAL_STORAGE_SYNC = 'src/state/localStorageSync.js';
+const BACKUP_SOURCE = 'src/state/v2BackupRestore.js';
+const STORAGE_UTILS = 'src/utils/storage.js';
 const MASTERY_MODEL = 'src/analytics/masteryModel.js';
 const MASTERY_SOURCE = 'src/quiz/mastery.js';
+const WEIGHTED_PRACTICE = 'src/learning/weightedPracticeSelector.js';
+const WEIGHTED_SELECTION = 'src/quiz/weightedSelection.js';
 
 const bindingPackage = '@open-spaced-repetition/' + 'binding';
 
-const phase14eAllowedChangedFiles = new Set([
+const phase14fAllowedChangedFiles = new Set([
   DOCS_FILE,
   VALIDATOR_SCRIPT,
   WORKFLOW_FILE,
 
   // Historical validator compatibility: exact validator files only. These
-  // files may be updated to allow the Phase 14E docs/static-validator/CI scope.
-  'docs/phase14f-fsrs-experimental-toggle-plan.md',
-  'scripts/validate-phase14f-toggle-plan.js',
+  // files may be updated to allow the Phase 14F docs/static-validator/CI scope.
   'scripts/validate-backup-transfer-safety-hardening.js',
   'scripts/validate-cross-device-export-import.js',
   'scripts/validate-cross-device-transfer-track-closure.js',
@@ -50,6 +55,7 @@ const phase14eAllowedChangedFiles = new Set([
   'scripts/validate-phase14b-fsrs-wrapper.js',
   'scripts/validate-phase14c-fsrs-persistence-harness.js',
   'scripts/validate-phase14d-fsrs-adapter-routing.js',
+  'scripts/validate-phase14e-fsrs-user-facing-entry.js',
   'scripts/validate-release-candidate-freeze-final-decision.js',
   'scripts/validate-release-candidate-tag-publish-gate.js',
   'scripts/validate-release-package-assembly-plan.js',
@@ -94,23 +100,25 @@ const forbiddenRuntimeFiles = new Set([
   ADAPTER_SOURCE,
   WRAPPER_SOURCE,
   STORAGE_SOURCE,
+  LOCAL_STORAGE_SYNC,
+  BACKUP_SOURCE,
+  STORAGE_UTILS,
   MASTERY_MODEL,
   MASTERY_SOURCE,
+  WEIGHTED_PRACTICE,
+  WEIGHTED_SELECTION,
   'src/quiz/spacedRepetition.js',
-  'src/quiz/weightedSelection.js',
-  'src/learning/weightedPracticeSelector.js',
   'src/quiz/dataBackup.js',
-  'src/state/v2BackupRestore.js',
   'src/data/libraryExport.js'
 ]);
 
 function fail(message) {
-  console.error(`Phase 14E FSRS user-facing entry validation failed: ${message}`);
+  console.error(`Phase 14F toggle plan validation failed: ${message}`);
   process.exit(1);
 }
 
 function warn(message) {
-  console.warn(`Phase 14E FSRS user-facing entry validation warning: ${message}`);
+  console.warn(`Phase 14F toggle plan validation warning: ${message}`);
 }
 
 function read(file) {
@@ -205,7 +213,8 @@ function workflowGuard() {
     'node scripts/validate-phase14b-fsrs-wrapper.js',
     'node scripts/validate-phase14c-fsrs-persistence-harness.js',
     'node scripts/validate-phase14d-fsrs-adapter-routing.js',
-    'node scripts/validate-phase14e-fsrs-user-facing-entry.js'
+    'node scripts/validate-phase14e-fsrs-user-facing-entry.js',
+    'node scripts/validate-phase14f-toggle-plan.js'
   ]) {
     if (!text.includes(validator)) fail(`${WORKFLOW_FILE} must run ${validator}`);
   }
@@ -230,14 +239,14 @@ function packageGuard() {
 function scopeGuard() {
   for (const file of changedFiles()) {
     if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) continue;
-    if (phase14eAllowedChangedFiles.has(file)) continue;
-    if (forbiddenRuntimeFiles.has(file)) fail(`Forbidden Phase 14E file changed: ${file}`);
-    if (file.startsWith('src/')) fail(`Runtime source changed in Phase 14E: ${file}`);
-    if (file.startsWith('tests/')) fail(`Test file changed in Phase 14E: ${file}`);
-    if (file.startsWith('e2e/')) fail(`E2E file changed in Phase 14E: ${file}`);
-    if (file.startsWith('docs/')) fail(`Unexpected docs file changed in Phase 14E: ${file}`);
-    if (file.startsWith('scripts/validate-')) fail(`Unexpected validator changed without exact Phase 14E allowlist: ${file}`);
-    fail(`Unexpected changed file for Phase 14E scope: ${file}`);
+    if (phase14fAllowedChangedFiles.has(file)) continue;
+    if (forbiddenRuntimeFiles.has(file)) fail(`Forbidden Phase 14F file changed: ${file}`);
+    if (file.startsWith('src/')) fail(`Runtime source changed in Phase 14F: ${file}`);
+    if (file.startsWith('tests/')) fail(`Test file changed in Phase 14F: ${file}`);
+    if (file.startsWith('e2e/')) fail(`E2E file changed in Phase 14F: ${file}`);
+    if (file.startsWith('docs/')) fail(`Unexpected docs file changed in Phase 14F: ${file}`);
+    if (file.startsWith('scripts/validate-')) fail(`Unexpected validator changed without exact Phase 14F allowlist: ${file}`);
+    fail(`Unexpected changed file for Phase 14F scope: ${file}`);
   }
 }
 
@@ -250,60 +259,79 @@ function generatedArtifactGuard() {
   }
 }
 
+function phase14eRegressionGuard() {
+  read(PHASE14E_DOCS);
+  read(PHASE14E_VALIDATOR);
+}
+
 function docsGuard() {
   requireIncludes(DOCS_FILE, [
-    'Phase 14E',
+    'Phase 14F',
     'docs/static-validator/CI only',
     'does not change runtime behavior',
-    'Two-Step Evaluation',
-    'objective correctness',
-    'subjective memory rating',
-    'scoring',
-    'mastery',
-    'progress',
-    'FSRS only',
-    'must not auto-map correct -> Good',
-    'Phase 14D',
-    'test-only wiring',
-    'wrong or unanswered',
-    'auto-lock',
-    'Again',
-    'Hard, Good, and Easy only',
-    'Again is not offered',
+    'does not create a settings storage key',
+    'does not add a visible FSRS toggle',
+    'does not add new-card enrollment runtime',
+    'global',
     'experimental',
-    'defaults OFF',
-    'new-card-only',
-    'Existing SM-2-like heuristic records must never be automatically migrated',
-    'Missing schedulerKind',
-    'current SM-2-like heuristic scheduler',
-    'backup/import/export',
-    'Phase 14C',
+    'default OFF',
+    'global toggle is chosen over per-quiz or per-card toggles',
+    'shimeV2SettingsV1',
+    'fsrsExperimentalEnabled',
+    'false',
+    'fsrsEnrollmentMode',
+    'new-cards-only',
+    'New-Card Definition',
+    'no existing review schedule record',
+    'lastReviewedAt',
+    'null',
+    'undefined',
+    'first completed review',
+    'not at import',
+    'not at item creation',
+    'not at study session start',
+    'Existing SM-2-like heuristic cards must never be automatically migrated',
+    'missing schedulerKind',
+    'Disabling FSRS must not delete fsrsPayload',
+    'Disabling FSRS must not delete fsrsReviewLogs',
+    'must not convert existing FSRS cards back to SM-2 automatically',
+    'backup/import/export support',
+    'deferred',
     'Future Phase Split',
-    'Phase 14F',
     'Phase 14G',
     'Phase 14H',
     'Phase 14I',
-    'FSRS is user-facing, because that is not implemented',
-    'Production FSRS scheduling is enabled, because that is not implemented',
-    'Study Room supports Again/Hard/Good/Easy rating UI, because that is not implemented',
-    'Dashboard supports mixed scheduler due counts, because that is not implemented'
+    'Phase 14J',
+    'Phase 14K',
+    'No runtime new-card enrollment before valid Study Room Two-Step FSRS rating UI exists',
+    'The FSRS toggle exists or is visible to users, because it is not implemented',
+    'Settings storage shimeV2SettingsV1 exists, because it is not created',
+    'New-card enrollment is active, because the runtime is not implemented',
+    'Study Room supports Two-Step Evaluation UI, because it is not implemented',
+    'Dashboard supports mixed scheduler due counts, because it is not implemented'
   ]);
 }
 
 function unsafeClaimGuard() {
   const unsafeClaims = [
+    'FSRS toggle is visible',
+    'FSRS experimental toggle is enabled',
     'FSRS is user-facing',
     'FSRS production scheduling is enabled',
     'Production FSRS scheduling is enabled',
-    'FSRS is available to users',
+    'settings storage is implemented',
+    'shimeV2SettingsV1 is created',
+    'new-card enrollment is active',
+    'enrollment runtime is implemented',
     'Study Room supports Again Hard Good Easy',
     'Study Room supports FSRS ratings',
+    'Study Room supports Two-Step Evaluation',
     'Dashboard supports mixed scheduler due counts',
     'Dashboard supports FSRS due counts',
     'existing SM-2 records are migrated',
     'existing records are migrated',
-    'correct Good is production',
-    'wrong Again is production',
+    'backup import export supports FSRS settings',
+    'v2BackupRestore supports FSRS settings',
     'adaptive learning is implemented',
     'AI is implemented',
     'sync is implemented',
@@ -316,6 +344,8 @@ function unsafeClaimGuard() {
     'must not',
     'does not',
     'not implemented',
+    'not created',
+    'not changed',
     'not enabled',
     'not user-facing',
     'not production',
@@ -327,10 +357,10 @@ function unsafeClaimGuard() {
     'future',
     'planned',
     'later',
-    'test only',
-    'developer test only',
-    'because that is not implemented',
-    'must not be claimed'
+    'deferred',
+    'because it is not implemented',
+    'because it is not created',
+    'must not claim'
   ].map(normalize);
 
   for (const [index, line] of read(DOCS_FILE).split(/\r?\n/).entries()) {
@@ -351,22 +381,32 @@ function runtimeIsolationGuard() {
     ADAPTER_SOURCE,
     WRAPPER_SOURCE,
     STORAGE_SOURCE,
+    LOCAL_STORAGE_SYNC,
+    BACKUP_SOURCE,
+    STORAGE_UTILS,
     MASTERY_MODEL,
-    MASTERY_SOURCE
+    MASTERY_SOURCE,
+    WEIGHTED_PRACTICE,
+    WEIGHTED_SELECTION
   ];
 
   for (const file of runtimeFiles) read(file);
 
-  const uiCombined = `${read(STUDY_ROOM)}\n${read(DASHBOARD)}`;
-  if (/phase14e|phase-14e/i.test(uiCombined)) fail('Study Room and Dashboard must not contain Phase 14E markers');
-  if (/Again\s*\/\s*Hard\s*\/\s*Good\s*\/\s*Easy/i.test(uiCombined)) fail('Study Room and Dashboard must not add four-rating FSRS UI copy');
-  if (/validate-phase14e|Two-Step Evaluation|auto-lock/i.test(uiCombined)) fail('Study Room and Dashboard must not include Phase 14E decision copy');
+  const runtimeCombined = runtimeFiles.map(file => read(file)).join('\n');
+  if (/phase14f|phase-14f/i.test(runtimeCombined)) fail('Runtime files must not contain Phase 14F markers');
+  if (/shimeV2SettingsV1|fsrsExperimentalEnabled|fsrsEnrollmentMode/i.test(runtimeCombined)) {
+    fail('Phase 14F must not add settings storage keys or FSRS toggle runtime reads/writes');
+  }
+  if (/Again\s*\/\s*Hard\s*\/\s*Good\s*\/\s*Easy/i.test(`${read(STUDY_ROOM)}\n${read(DASHBOARD)}`)) {
+    fail('Study Room and Dashboard must not add four-rating FSRS UI copy');
+  }
 }
 
 function validate() {
   read(DOCS_FILE);
   read(VALIDATOR_SCRIPT);
   read(WORKFLOW_FILE);
+  phase14eRegressionGuard();
   packageGuard();
   workflowGuard();
   scopeGuard();
@@ -374,7 +414,7 @@ function validate() {
   docsGuard();
   unsafeClaimGuard();
   runtimeIsolationGuard();
-  console.log('Phase 14E FSRS user-facing entry decision validation passed.');
+  console.log('Phase 14F FSRS experimental toggle plan validation passed.');
 }
 
 validate();

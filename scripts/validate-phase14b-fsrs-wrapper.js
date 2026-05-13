@@ -31,6 +31,8 @@ const coreAllowedChangedFiles = new Set([
 ]);
 
 const historicalValidatorCompatibilityFiles = new Set([
+  'docs/phase14f-fsrs-experimental-toggle-plan.md',
+  'scripts/validate-phase14f-toggle-plan.js',
   'docs/phase14e-fsrs-user-facing-entry-decision.md',
   'scripts/validate-phase14e-fsrs-user-facing-entry.js',
   'docs/phase14d-developer-gated-fsrs-adapter-routing.md',
