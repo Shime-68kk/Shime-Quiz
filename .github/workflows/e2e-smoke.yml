@@ -337,6 +337,9 @@ jobs:
       - name: Validate Phase 14H FSRS experimental toggle UI
         run: node scripts/validate-phase14h-fsrs-toggle-ui.js
 
+      - name: Validate Phase 14I FSRS two-step fixture
+        run: node scripts/validate-phase14i-fsrs-two-step-fixture.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
