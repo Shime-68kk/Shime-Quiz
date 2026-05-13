@@ -334,6 +334,9 @@ jobs:
       - name: Validate Phase 14G FSRS settings storage schema
         run: node scripts/validate-phase14g-settings-storage.js
 
+      - name: Validate Phase 14H FSRS experimental toggle UI
+        run: node scripts/validate-phase14h-fsrs-toggle-ui.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

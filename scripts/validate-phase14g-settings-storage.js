@@ -92,6 +92,13 @@ const phase14gAllowedChangedFiles = new Set([
   'scripts/validate-release-candidate-tag-publish-gate.js',
   'scripts/validate-release-package-assembly-plan.js',
   'scripts/validate-release-tag-creation-plan.js',
+  // Phase 14H — FSRS Experimental Toggle UI (exact files only)
+  'src/routes/Settings.jsx',
+  'src/routes/routeConfig.js',
+  'src/components/settings/FsrsExperimentalSettingsPanel.jsx',
+  'tests/unit/fsrsExperimentalSettingsPanel.test.jsx',
+  'docs/phase14h-fsrs-experimental-toggle-ui.md',
+  'scripts/validate-phase14h-fsrs-toggle-ui.js',
 ]);
 
 const generatedArtifacts = [
