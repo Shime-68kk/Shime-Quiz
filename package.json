@@ -14,12 +14,12 @@
     "test:unit": "vitest run tests/unit"
   },
   "dependencies": {
-    "@vitejs/plugin-react": "latest",
+    "@vitejs/plugin-react": "5.0.4",
     "react": "latest",
     "react-dom": "latest",
     "react-router-dom": "latest",
     "ts-fsrs": "5.3.3",
-    "vite": "latest",
+    "vite": "7.3.3",
     "zod": "^3.25.76"
   },
   "devDependencies": {
