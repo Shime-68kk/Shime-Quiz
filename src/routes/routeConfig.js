@@ -1,4 +1,5 @@
 import Dashboard from './Dashboard.jsx';
+import FsrsUiFixture from './FsrsUiFixture.jsx';
 import Library from './Library.jsx';
 import Settings from './Settings.jsx';
 import StudyRoom from './StudyRoom.jsx';
@@ -42,6 +43,15 @@ export const routes = [
     showInNav: true,
     focusMode: false,
     element: Settings
+  },
+  {
+    path: '/dev/fsrs-ui-fixture',
+    label: 'FSRS UI Fixture',
+    shortLabel: 'FSRS Fixture',
+    icon: '⚗',
+    showInNav: false,
+    focusMode: false,
+    element: FsrsUiFixture
   }
 ];
 

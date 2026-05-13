@@ -99,6 +99,12 @@ const phase14gAllowedChangedFiles = new Set([
   'tests/unit/fsrsExperimentalSettingsPanel.test.jsx',
   'docs/phase14h-fsrs-experimental-toggle-ui.md',
   'scripts/validate-phase14h-fsrs-toggle-ui.js',
+  // Phase 14I compatibility — exact files only
+  'docs/phase14i-fsrs-two-step-rating-ui-fixture.md',
+  'scripts/validate-phase14i-fsrs-two-step-fixture.js',
+  'src/components/study/FsrsTwoStepScaffold.jsx',
+  'src/routes/FsrsUiFixture.jsx',
+  'tests/unit/fsrsTwoStepScaffold.test.jsx',
 ]);
 
 const generatedArtifacts = [

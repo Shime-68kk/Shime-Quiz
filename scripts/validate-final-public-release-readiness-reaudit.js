@@ -338,6 +338,12 @@ const allowedChanged = new Set([
   'src/routes/routeConfig.js',
   'src/components/settings/FsrsExperimentalSettingsPanel.jsx',
   'tests/unit/fsrsExperimentalSettingsPanel.test.jsx',
+  // Phase 14I compatibility — exact files only
+  'docs/phase14i-fsrs-two-step-rating-ui-fixture.md',
+  'scripts/validate-phase14i-fsrs-two-step-fixture.js',
+  'src/components/study/FsrsTwoStepScaffold.jsx',
+  'src/routes/FsrsUiFixture.jsx',
+  'tests/unit/fsrsTwoStepScaffold.test.jsx',
 ]);
 for (const file of changedFiles()) {
   if (!allowedChanged.has(file)) failures.push(`Unexpected changed file for Phase 10J: ${file}`);
