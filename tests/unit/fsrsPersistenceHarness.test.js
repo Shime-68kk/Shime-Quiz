@@ -299,6 +299,7 @@ describe('Phase 14C FSRS persistence harness', () => {
     const adapterSource = readProjectFile('src/quiz/reviewSchedulerAdapter.js');
 
     expect(storageSource).not.toMatch(/SHIME_DEV_FSRS_ENABLED|migrate.*fsrs|fsrs.*migration/i);
-    expect(adapterSource).not.toMatch(/SHIME_DEV_FSRS_ENABLED|scheduleFsrsReviewForTest|fsrsWrapper/);
+    expect(adapterSource).not.toMatch(/SHIME_DEV_FSRS_ENABLED|localStorage|process\.env/i);
+    expect(adapterSource).toContain('context.enableFsrsTestRoute === true');
   });
 });

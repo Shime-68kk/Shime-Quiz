@@ -33,6 +33,14 @@ const allowedChangedFiles = new Set([
   'tests/unit/fsrsPersistenceHarness.test.js',
   '.github/workflows/e2e-smoke.yml',
 
+  // Phase 14D compatibility: allow only the approved developer-gated
+  // FSRS adapter routing files while preserving older phase guardrails.
+  'docs/phase14d-developer-gated-fsrs-adapter-routing.md',
+  'scripts/validate-phase14d-fsrs-adapter-routing.js',
+  'src/quiz/reviewSchedulerAdapter.js',
+  'tests/unit/reviewSchedulerAdapter.phase14d.test.js',
+  '.github/workflows/e2e-smoke.yml',
+
   // Phase 14A compatibility: allow only the approved scheduler adapter
   // boundary scaffolding files while preserving older phase guardrails.
   'docs/phase14a-scheduler-adapter-boundary.md',

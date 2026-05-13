@@ -39,6 +39,14 @@ const historicalValidatorCompatibilityFiles = new Set([
   'tests/unit/fsrsPersistenceHarness.test.js',
   '.github/workflows/e2e-smoke.yml',
 
+  // Phase 14D compatibility: allow only the approved developer-gated
+  // FSRS adapter routing files while preserving older phase guardrails.
+  'docs/phase14d-developer-gated-fsrs-adapter-routing.md',
+  'scripts/validate-phase14d-fsrs-adapter-routing.js',
+  'src/quiz/reviewSchedulerAdapter.js',
+  'tests/unit/reviewSchedulerAdapter.phase14d.test.js',
+  '.github/workflows/e2e-smoke.yml',
+
   'scripts/validate-backup-transfer-safety-hardening.js',
   'scripts/validate-cross-device-export-import.js',
   'scripts/validate-cross-device-transfer-track-closure.js',
