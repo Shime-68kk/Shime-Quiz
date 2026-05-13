@@ -37,6 +37,19 @@ globalThis.window = {
 
 globalThis.localStorage = globalThis.window.localStorage;
 
+// Ensure CustomEvent is globally available for modules that call `new CustomEvent(...)`
+// directly. Node.js 18.x requires --experimental-global-customevent; add a minimal polyfill.
+if (typeof CustomEvent === 'undefined') {
+  globalThis.CustomEvent = class CustomEvent {
+    constructor(type, init = {}) {
+      this.type = type;
+      this.detail = init.detail ?? null;
+      this.bubbles = init.bubbles ?? false;
+      this.cancelable = init.cancelable ?? false;
+    }
+  };
+}
+
 function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
