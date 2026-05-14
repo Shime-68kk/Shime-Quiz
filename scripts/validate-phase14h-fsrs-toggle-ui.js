@@ -103,6 +103,9 @@ const phase14hAllowedChangedFiles = new Set([
   'docs/phase14j-fsrs-enrollment-readiness-harness.md',
   'scripts/validate-phase14j-fsrs-enrollment-readiness.js',
   'tests/unit/fsrsEnrollmentReadinessHarness.test.js',
+  // Phase 14K exact files (forward compatibility)
+  'docs/phase14k-fsrs-readiness-audit.md',
+  'scripts/validate-phase14k-fsrs-readiness-audit.js',
 ]);
 
 const generatedArtifacts = [
