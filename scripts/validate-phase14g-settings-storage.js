@@ -118,6 +118,10 @@ const phase14gAllowedChangedFiles = new Set([
   'scripts/validate-phase14l-production-enrollment-wiring.js',
   'tests/unit/fsrsProductionEnrollmentWiring.test.js',
   'src/state/reviewScheduleStorage.js',
+  // Phase 14M exact files (forward compatibility)
+  'docs/phase14m-fsrs-metadata-backup-import-export-hardening.md',
+  'scripts/validate-phase14m-fsrs-metadata-backup-import-export-hardening.js',
+  'tests/unit/fsrsMetadataBackupImportExportHardening.test.js',
 ]);
 
 const generatedArtifacts = [

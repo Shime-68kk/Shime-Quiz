@@ -125,6 +125,10 @@ const phase14kAllowedChangedFiles = new Set([
   'tests/unit/fsrsProductionEnrollmentWiring.test.js',
   STORAGE_SOURCE,
   // ADAPTER_SOURCE already in allowlist; WORKFLOW_FILE already in allowlist
+  // Phase 14M exact files (forward compatibility)
+  'docs/phase14m-fsrs-metadata-backup-import-export-hardening.md',
+  'scripts/validate-phase14m-fsrs-metadata-backup-import-export-hardening.js',
+  'tests/unit/fsrsMetadataBackupImportExportHardening.test.js',
 ]);
 
 const generatedArtifacts = [
