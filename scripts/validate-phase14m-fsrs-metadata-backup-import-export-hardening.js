@@ -132,6 +132,15 @@ const phase14mAllowedChangedFiles = new Set([
   'scripts/validate-release-candidate-tag-publish-gate.js',
   'scripts/validate-release-package-assembly-plan.js',
   'scripts/validate-release-tag-creation-plan.js',
+  // Phase 14N exact files (forward compatibility)
+  'docs/phase14n-production-studyroom-two-step-memory-rating-bridge.md',
+  'scripts/validate-phase14n-production-studyroom-two-step-bridge.js',
+  'tests/unit/fsrsProductionStudyRoomTwoStepBridge.test.jsx',
+  'src/routes/StudyRoom.jsx',
+  'src/quiz/reviewSchedulerAdapter.js',
+  'src/state/reviewScheduleStorage.js',
+  'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
+  // WORKFLOW_FILE, PHASE14K_VALIDATOR, PHASE14L_VALIDATOR already in allowlist
 ]);
 
 const generatedArtifacts = [
@@ -426,6 +435,7 @@ function forbiddenScopeGuard() {
   ];
   const changed = new Set(changedFiles());
   for (const file of forbidden) {
+    if (phase14mAllowedChangedFiles.has(file)) continue;
     if (changed.has(file)) fail(`Forbidden file changed in Phase 14M: ${file}`);
   }
   for (const file of changedFiles()) {

@@ -338,6 +338,42 @@ export function updateReviewScheduleFromHistoryRecord(historyRecord) {
   };
 }
 
+// Phase 14N: returns true if fsrsExperimentalEnabled is on.
+// Bridges toggle state to StudyRoom without exposing settingsStorage directly.
+export function getBridgeToggleEnabled() {
+  return getSettings().fsrsExperimentalEnabled === true;
+}
+
+// Phase 14N: write-only inert log append for fsrs-planned records only.
+// Does NOT touch dueAt, intervalDays, easeFactor, repetitionCount, correctStreak,
+// wrongCount, schedulerKind, or schedulerVersion. No-op if record absent or not fsrs-planned.
+export function appendFsrsReviewLog(itemId, logEntry) {
+  const safeItemId = String(itemId || '').trim();
+  if (!safeItemId) return { ok: false, error: 'invalid_item_id' };
+  if (!logEntry || typeof logEntry !== 'object' || Array.isArray(logEntry)) {
+    return { ok: false, error: 'invalid_log_entry' };
+  }
+
+  const current = readEnvelope();
+  const records = current.records || [];
+  const recordIndex = records.findIndex(r => r.itemId === safeItemId);
+  if (recordIndex === -1) return { ok: false, error: 'record_not_found' };
+
+  const record = records[recordIndex];
+  if (record.schedulerKind !== 'fsrs-planned') return { ok: false, error: 'not_fsrs_planned' };
+
+  const existingLogs = Array.isArray(record.fsrsReviewLogs) ? record.fsrsReviewLogs : [];
+  const newLog = cloneJsonSafe(logEntry);
+  if (!newLog || typeof newLog !== 'object') return { ok: false, error: 'log_clone_failed' };
+
+  const updatedLogs = [...existingLogs, newLog].slice(-FSRS_REVIEW_LOG_CAP);
+  const updatedRecord = { ...record, fsrsReviewLogs: updatedLogs };
+  const updatedRecords = [...records];
+  updatedRecords[recordIndex] = updatedRecord;
+
+  return writeRecords(updatedRecords, { mergeWithLatest: true });
+}
+
 export function getReviewScheduleSummary(records = [], nowValue = new Date()) {
   const nowDate = nowValue instanceof Date ? nowValue : new Date(nowValue || Date.now());
   const nowTime = Number.isNaN(nowDate.getTime()) ? Date.now() : nowDate.getTime();

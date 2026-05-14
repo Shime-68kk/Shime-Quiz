@@ -8,8 +8,9 @@ import PageHeader from '../components/PageHeader.jsx';
 import ProgressBar from '../components/ProgressBar.jsx';
 import StudyItemRenderer from '../components/study/StudyItemRenderer.jsx';
 import StudyResultSummary from '../components/study/StudyResultSummary.jsx';
+import FsrsProductionMemoryRatingBridge from '../components/study/FsrsProductionMemoryRatingBridge.jsx';
 import { createStudyHistoryRecord, saveStudyHistoryRecord } from '../state/studyHistoryStorage.js';
-import { readReviewSchedule, updateReviewScheduleFromHistoryRecord } from '../state/reviewScheduleStorage.js';
+import { readReviewSchedule, updateReviewScheduleFromHistoryRecord, appendFsrsReviewLog, getBridgeToggleEnabled } from '../state/reviewScheduleStorage.js';
 import { selectDueReviewItems } from '../study/dueReviewSelector.js';
 import { selectWeightedPracticeItems } from '../learning/weightedPracticeSelector.js';
 import { readStudyHistory } from '../state/studyHistoryStorage.js';
@@ -23,6 +24,7 @@ import {
 } from '../state/studyDraftStorage.js';
 import { createStudyAttemptSummary, getIncompleteStudyItemCount } from '../study/studyAttemptSummary.js';
 import { normalizeAnswerText } from '../utils/text.js';
+import { shouldShowFsrsTwoStepBridge } from '../quiz/reviewSchedulerAdapter.js';
 
 function getStudyMode(selection) {
   if (selection?.mode === 'due-review') return 'due-review';
@@ -207,6 +209,8 @@ export default function StudyRoom() {
   const [resultPersistenceNote, setResultPersistenceNote] = useState('');
   const [microFeedback, setMicroFeedback] = useState({ tone: 'info', title: '', message: '' });
   const [pendingSessionAction, setPendingSessionAction] = useState('');
+  // Phase 14N: per-item bridge state — {phase:'auto-again'|'rated'|'skipped', rating} or undefined.
+  const [bridgeStateByItemId, setBridgeStateByItemId] = useState({});
   const draftReadyRef = useRef(false);
   const saveTimerRef = useRef(null);
 
@@ -220,6 +224,44 @@ export default function StudyRoom() {
     revealed: Boolean(flashcardRevealedByItemId[currentItemId])
   } : {};
 
+  // Phase 14N: bridge gate — re-evaluated per item, never session-cached.
+  const isPostResult = Boolean(currentItemState.checked || currentItemState.revealed);
+  const objectiveCorrect = isDisplayOnlyAnswerCorrect(currentItem, currentItemState);
+  const currentBridgeState = currentItemId ? bridgeStateByItemId[currentItemId] : undefined;
+
+  const bridgeScheduleRecord = useMemo(() => {
+    if (!currentItemId || !isPostResult) return null;
+    const schedule = readReviewSchedule();
+    return (schedule.records || []).find(r => r.itemId === currentItemId) ?? null;
+  }, [currentItemId, isPostResult]);
+
+  const bridgeToggleEnabled = useMemo(() => {
+    if (!isPostResult) return false;
+    return getBridgeToggleEnabled();
+  }, [isPostResult]);
+
+  const showBridge = Boolean(
+    !completedAttempt &&
+    isPostResult &&
+    shouldShowFsrsTwoStepBridge(bridgeScheduleRecord, bridgeToggleEnabled)
+  );
+
+  // Auto-append Again log for wrong/unanswered eligible items.
+  useEffect(() => {
+    if (!showBridge || !currentItemId || objectiveCorrect !== false || currentBridgeState) return;
+    appendFsrsReviewLog(currentItemId, {
+      rating: 'Again',
+      source: 'phase14n-studyroom-bridge',
+      activeScheduling: false,
+      reviewedAt: new Date().toISOString(),
+      objectiveCorrect: false
+    });
+    setBridgeStateByItemId(prev => ({
+      ...prev,
+      [currentItemId]: { phase: 'auto-again', rating: 'Again' }
+    }));
+  }, [showBridge, currentItemId, objectiveCorrect, currentBridgeState]);
+
   useEffect(() => {
     draftReadyRef.current = false;
     setSaveStatus('idle');
@@ -231,6 +273,7 @@ export default function StudyRoom() {
     setResultPersistenceNote('');
     setMicroFeedback({ tone: 'info', title: '', message: '' });
     setPendingSessionAction('');
+    setBridgeStateByItemId({});
 
     if (!items.length) {
       setCurrentIndex(0);
@@ -245,6 +288,7 @@ export default function StudyRoom() {
       setResultPersistenceNote('');
       setMicroFeedback({ tone: 'info', title: '', message: '' });
       setPendingSessionAction('');
+      setBridgeStateByItemId({});
       return;
     }
 
@@ -412,6 +456,7 @@ export default function StudyRoom() {
     setPlanProgressMessage('');
     setResultPersistenceNote('');
     setPendingSessionAction('');
+    setBridgeStateByItemId({});
     showMicroFeedback({
       tone: 'info',
       title: 'Đã làm lại phiên học.',
@@ -540,6 +585,30 @@ export default function StudyRoom() {
       title: wasFinish ? 'Tiếp tục phiên học hiện tại.' : 'Đã giữ nguyên phiên học.',
       message: wasFinish ? 'Bạn có thể hoàn thành sau khi kiểm tra thêm câu.' : 'Tiến trình nháp hiện tại vẫn được giữ lại.'
     });
+  }
+
+  // Phase 14N: bridge handlers — scheduling and scoring are unaffected.
+  function handleBridgeRating(rating) {
+    if (!currentItemId || !showBridge || completedAttempt) return;
+    appendFsrsReviewLog(currentItemId, {
+      rating,
+      source: 'phase14n-studyroom-bridge',
+      activeScheduling: false,
+      reviewedAt: new Date().toISOString(),
+      objectiveCorrect: true
+    });
+    setBridgeStateByItemId(prev => ({
+      ...prev,
+      [currentItemId]: { phase: 'rated', rating }
+    }));
+  }
+
+  function handleBridgeSkip() {
+    if (!currentItemId || !showBridge || completedAttempt) return;
+    setBridgeStateByItemId(prev => ({
+      ...prev,
+      [currentItemId]: { phase: 'skipped', rating: null }
+    }));
   }
 
   function continueStudy() {
@@ -688,6 +757,15 @@ export default function StudyRoom() {
                 onResetReveal: resetCurrentFlashcard
               }}
             />
+
+            {showBridge ? (
+              <FsrsProductionMemoryRatingBridge
+                objectiveCorrect={objectiveCorrect}
+                bridgeState={currentBridgeState}
+                onSelectRating={handleBridgeRating}
+                onSkip={handleBridgeSkip}
+              />
+            ) : null}
 
             <nav className="studyStepper" aria-label="Điều hướng mục học tập">
               <Button type="button" variant="secondary" onClick={goToPrevious} disabled={currentIndex === 0}>

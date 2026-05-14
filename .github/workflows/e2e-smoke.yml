@@ -352,6 +352,9 @@ jobs:
       - name: Validate Phase 14M FSRS metadata backup import export hardening
         run: node scripts/validate-phase14m-fsrs-metadata-backup-import-export-hardening.js
 
+      - name: Validate Phase 14N production study room two-step bridge
+        run: node scripts/validate-phase14n-production-studyroom-two-step-bridge.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
