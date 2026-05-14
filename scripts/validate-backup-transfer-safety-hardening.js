@@ -212,6 +212,9 @@ const allowedChanged = new Set([
   // Phase 14P exact files (forward compatibility)
   'docs/phase14p-fsrs-foundation-closure-phase15-handoff.md',
   'scripts/validate-phase14p-fsrs-foundation-closure-phase15-handoff.js',
+  // Phase 15A exact files (forward compatibility)
+  'docs/phase15a-fsrs-active-scheduling-architecture.md',
+  'scripts/validate-phase15a-fsrs-active-scheduling-architecture.js',
 ]);
 
 function fail(message) { failures.push(message); }
