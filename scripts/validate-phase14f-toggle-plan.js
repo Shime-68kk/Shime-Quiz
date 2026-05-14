@@ -143,6 +143,11 @@ const phase14fAllowedChangedFiles = new Set([
   // Phase 14K exact files (forward compatibility)
   'docs/phase14k-fsrs-readiness-audit.md',
   'scripts/validate-phase14k-fsrs-readiness-audit.js',
+  // Phase 14L exact files (forward compatibility)
+  'docs/phase14l-production-enrollment-wiring-dormant-no-ui.md',
+  'scripts/validate-phase14l-production-enrollment-wiring.js',
+  'tests/unit/fsrsProductionEnrollmentWiring.test.js',
+  'src/state/reviewScheduleStorage.js',
 ]);
 
 const generatedArtifacts = [
@@ -469,8 +474,11 @@ function runtimeIsolationGuard() {
   const runtimeCombined = runtimeFiles.map(file => read(file)).join('\n');
   if (/phase14f|phase-14f/i.test(runtimeCombined)) fail('Runtime files must not contain Phase 14F markers');
   // Phase 14G adds shimeV2SettingsV1 to localStorageSync.js and v2BackupRestore.js (Phase 14G scope).
-  // Check settings leakage only in files Phase 14G must not touch.
-  const settingsIsolationFiles = runtimeFiles.filter(f => f !== LOCAL_STORAGE_SYNC && f !== BACKUP_SOURCE);
+  // Phase 14L wires getSettings()/fsrsExperimentalEnabled into reviewScheduleStorage.js (Phase 14L scope).
+  // Check settings leakage only in files neither Phase 14G nor Phase 14L must touch.
+  const settingsIsolationFiles = runtimeFiles.filter(
+    f => f !== LOCAL_STORAGE_SYNC && f !== BACKUP_SOURCE && f !== STORAGE_SOURCE
+  );
   const settingsIsolationCombined = settingsIsolationFiles.map(file => read(file)).join('\n');
   if (/shimeV2SettingsV1|fsrsExperimentalEnabled|fsrsEnrollmentMode/i.test(settingsIsolationCombined)) {
     fail('Phase 14F must not add settings storage keys or FSRS toggle runtime reads/writes');

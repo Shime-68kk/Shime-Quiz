@@ -116,6 +116,12 @@ const phase14jAllowedChangedFiles = new Set([
   // Phase 14K exact files (forward compatibility)
   'docs/phase14k-fsrs-readiness-audit.md',
   'scripts/validate-phase14k-fsrs-readiness-audit.js',
+  // Phase 14L exact files (forward compatibility)
+  'docs/phase14l-production-enrollment-wiring-dormant-no-ui.md',
+  'scripts/validate-phase14l-production-enrollment-wiring.js',
+  'tests/unit/fsrsProductionEnrollmentWiring.test.js',
+  STORAGE_SOURCE,
+  // ADAPTER_SOURCE already in allowlist; WORKFLOW_FILE already in allowlist
 ]);
 
 const generatedArtifacts = [
