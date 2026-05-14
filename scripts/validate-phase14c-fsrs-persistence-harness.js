@@ -174,6 +174,23 @@ const phase14cAllowedChangedFiles = new Set([
   // Phase 15A exact files (forward compatibility)
   'docs/phase15a-fsrs-active-scheduling-architecture.md',
   'scripts/validate-phase15a-fsrs-active-scheduling-architecture.js',
+  // Phase 15B exact files (forward compatibility)
+  '.github/workflows/e2e-smoke.yml',
+  'docs/phase15b-active-fsrs-scheduling-double-gated.md',
+  'scripts/validate-phase15b-active-fsrs-scheduling-double-gated.js',
+  'src/quiz/fsrsWrapper.js',
+  'src/quiz/reviewSchedulerAdapter.js',
+  'src/state/reviewScheduleStorage.js',
+  'src/state/settingsStorage.js',
+  'tests/unit/fsrsActiveSchedulingDoubleGated.test.js',
+  'tests/unit/fsrsEnrollmentReadinessHarness.test.js',
+  'tests/unit/fsrsExperimentalSettingsPanel.test.jsx',
+  'tests/unit/fsrsPersistenceHarness.test.js',
+  'tests/unit/fsrsProductionEnrollmentWiring.test.js',
+  'tests/unit/fsrsWrapper.test.js',
+  'tests/unit/reviewSchedulerAdapter.phase14d.test.js',
+  'tests/unit/reviewSchedulerAdapter.test.js',
+  'tests/unit/settingsStorage.test.js',
   'scripts/validate-phase14n-production-studyroom-two-step-bridge.js',
   'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
   'src/routes/StudyRoom.jsx',
@@ -469,7 +486,8 @@ function productionRouteGuard() {
   const wrapper = read(WRAPPER_SOURCE);
   const uiCombined = `${read(STUDY_ROOM)}\n${read(DASHBOARD)}`;
 
-  if (!adapter.includes('FSRS scheduling is not implemented in Phase 14A')) {
+  if (!adapter.includes('FSRS scheduling is not implemented in Phase 14A') &&
+      !adapter.includes('fsrsActiveSchedulingEnabled')) {
     fail(`${ADAPTER_SOURCE} must still reject planned FSRS scheduling`);
   }
   if (/fsrsWrapper|scheduleFsrsReviewForTest/i.test(adapter) && !adapter.includes('context.enableFsrsTestRoute === true')) {
@@ -488,6 +506,7 @@ function productionRouteGuard() {
 function testGuard() {
   const text = read(TEST_FILE);
   const normalizedText = normalize(text);
+  const phase15bApplied = read(ADAPTER_SOURCE).includes('fsrsActiveSchedulingEnabled');
   for (const term of [
     'FSRS_REVIEW_LOG_CAP',
     'toBe(20)',
@@ -507,6 +526,7 @@ function testGuard() {
     'scheduleReview',
     'FSRS scheduling is not implemented in Phase 14A'
   ]) {
+    if (term === 'FSRS scheduling is not implemented in Phase 14A' && phase15bApplied) continue;
     if (!normalizedText.includes(normalize(term))) fail(`${TEST_FILE} must cover: ${term}`);
   }
   if (/expect\(true\)\.toBe\(true\)/.test(text)) fail(`${TEST_FILE} must not contain placeholder assertions`);

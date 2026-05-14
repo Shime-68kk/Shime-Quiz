@@ -367,7 +367,7 @@ describe('Test 13: Phase 14J helpers remain intact in adapter', () => {
     expect(source).toContain('export function scheduleDormantFsrsReview');
     expect(source).toContain('FSRS_DORMANT_SCHEDULER_VERSION');
     expect(source).toContain('context.enableFsrsTestRoute === true');
-    expect(source).toContain('FSRS scheduling is not implemented in Phase 14A');
+    expect(source).toContain('scheduleActiveFsrsOrFallback');
   });
 });
 

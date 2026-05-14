@@ -171,6 +171,23 @@ const phase14dAllowedChangedFiles = new Set([
   // Phase 15A exact files (forward compatibility)
   'docs/phase15a-fsrs-active-scheduling-architecture.md',
   'scripts/validate-phase15a-fsrs-active-scheduling-architecture.js',
+  // Phase 15B exact files (forward compatibility)
+  '.github/workflows/e2e-smoke.yml',
+  'docs/phase15b-active-fsrs-scheduling-double-gated.md',
+  'scripts/validate-phase15b-active-fsrs-scheduling-double-gated.js',
+  'src/quiz/fsrsWrapper.js',
+  'src/quiz/reviewSchedulerAdapter.js',
+  'src/state/reviewScheduleStorage.js',
+  'src/state/settingsStorage.js',
+  'tests/unit/fsrsActiveSchedulingDoubleGated.test.js',
+  'tests/unit/fsrsEnrollmentReadinessHarness.test.js',
+  'tests/unit/fsrsExperimentalSettingsPanel.test.jsx',
+  'tests/unit/fsrsPersistenceHarness.test.js',
+  'tests/unit/fsrsProductionEnrollmentWiring.test.js',
+  'tests/unit/fsrsWrapper.test.js',
+  'tests/unit/reviewSchedulerAdapter.phase14d.test.js',
+  'tests/unit/reviewSchedulerAdapter.test.js',
+  'tests/unit/settingsStorage.test.js',
   'scripts/validate-phase14n-production-studyroom-two-step-bridge.js',
   'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
   'src/routes/StudyRoom.jsx',
@@ -385,12 +402,18 @@ function adapterGuard() {
     'scheduleCurrentReview',
     'preserveCurrentRecord'
   ]) {
+    if (term === 'FSRS scheduling is not implemented in Phase 14A' && source.includes('fsrsActiveSchedulingEnabled')) continue;
     if (!normalizedSource.includes(normalize(term))) fail(`${ADAPTER_SOURCE} must include adapter routing term: ${term}`);
   }
   if (/localStorage/i.test(source)) fail(`${ADAPTER_SOURCE} must not use localStorage for the gate`);
   if (/process\.env/i.test(source)) fail(`${ADAPTER_SOURCE} must not use process.env for the gate`);
   if (/SHIME_DEV_/i.test(source)) fail(`${ADAPTER_SOURCE} must not use SHIME_DEV flags`);
-  if (!/import\s+\{\s*scheduleFsrsReviewForTest\s*\}\s+from\s+['"]\.\/fsrsWrapper\.js['"]/.test(source)) {
+  const narrowFsrsImport = /import\s+\{\s*scheduleFsrsReviewForTest\s*\}\s+from\s+['"]\.\/fsrsWrapper\.js['"]/.test(source);
+  // Phase 15B widens the fsrsWrapper import; scheduleFsrsReviewForTest must still be imported.
+  const broadFsrsImport = source.includes('fsrsActiveSchedulingEnabled') &&
+                          /from\s+['"]\.\/fsrsWrapper\.js['"]/.test(source) &&
+                          source.includes('scheduleFsrsReviewForTest');
+  if (!narrowFsrsImport && !broadFsrsImport) {
     fail(`${ADAPTER_SOURCE} must narrowly import scheduleFsrsReviewForTest from ./fsrsWrapper.js`);
   }
 }
@@ -426,6 +449,7 @@ function productionIsolationGuard() {
 function testGuard() {
   const text = read(TEST_FILE);
   const normalizedText = normalize(text);
+  const phase15bApplied = read(ADAPTER_SOURCE).includes('fsrsActiveSchedulingEnabled');
   for (const term of [
     'gate disabled',
     'gate enabled',
@@ -447,6 +471,7 @@ function testGuard() {
     'scheduleFsrsReviewForTest',
     'FSRS scheduling is not implemented in Phase 14A'
   ]) {
+    if (term === 'FSRS scheduling is not implemented in Phase 14A' && phase15bApplied) continue;
     if (!normalizedText.includes(normalize(term))) fail(`${TEST_FILE} must cover: ${term}`);
   }
   if (/expect\(true\)\.toBe\(true\)/.test(text)) fail(`${TEST_FILE} must not contain placeholder assertions`);

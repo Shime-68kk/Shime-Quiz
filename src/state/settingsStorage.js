@@ -39,6 +39,7 @@ export function getDefaultSettings() {
     schemaVersion: SETTINGS_SCHEMA_VERSION,
     updatedAt: '',
     fsrsExperimentalEnabled: false,
+    fsrsActiveSchedulingEnabled: false,
     fsrsEnrollmentMode: FSRS_ENROLLMENT_MODE_NEW_CARDS_ONLY,
     fsrsEnabledAt: null,
     fsrsDesiredRetention: FSRS_DESIRED_RETENTION_DEFAULT,
@@ -68,6 +69,12 @@ export function normalizeSettings(raw) {
     typeof raw.fsrsExperimentalEnabled === 'boolean'
       ? raw.fsrsExperimentalEnabled
       : defaults.fsrsExperimentalEnabled;
+
+  // Internal-only: not user-visible. Both flags required for active FSRS scheduling (Phase 15B).
+  const fsrsActiveSchedulingEnabled =
+    typeof raw.fsrsActiveSchedulingEnabled === 'boolean'
+      ? raw.fsrsActiveSchedulingEnabled
+      : false;
 
   // fsrsEnrollmentMode is locked to 'new-cards-only' in Phase 14G.
   const fsrsEnrollmentMode = FSRS_ENROLLMENT_MODE_NEW_CARDS_ONLY;
@@ -107,6 +114,7 @@ export function normalizeSettings(raw) {
     schemaVersion: SETTINGS_SCHEMA_VERSION,
     updatedAt,
     fsrsExperimentalEnabled,
+    fsrsActiveSchedulingEnabled,
     fsrsEnrollmentMode,
     fsrsEnabledAt,
     fsrsDesiredRetention,
