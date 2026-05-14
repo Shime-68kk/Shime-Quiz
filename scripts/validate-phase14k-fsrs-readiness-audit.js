@@ -139,6 +139,9 @@ const phase14kAllowedChangedFiles = new Set([
   // Phase 14O exact files (forward compatibility)
   'docs/phase14o-fsrs-active-scheduling-decision-gate.md',
   'scripts/validate-phase14o-fsrs-active-scheduling-decision-gate.js',
+  // Phase 14P exact files (forward compatibility)
+  'docs/phase14p-fsrs-foundation-closure-phase15-handoff.md',
+  'scripts/validate-phase14p-fsrs-foundation-closure-phase15-handoff.js',
 ]);
 
 const generatedArtifacts = [

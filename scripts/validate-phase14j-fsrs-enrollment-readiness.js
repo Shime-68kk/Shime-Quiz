@@ -131,6 +131,9 @@ const phase14jAllowedChangedFiles = new Set([
   // Phase 14O exact files (forward compatibility)
   'docs/phase14o-fsrs-active-scheduling-decision-gate.md',
   'scripts/validate-phase14o-fsrs-active-scheduling-decision-gate.js',
+  // Phase 14P exact files (forward compatibility)
+  'docs/phase14p-fsrs-foundation-closure-phase15-handoff.md',
+  'scripts/validate-phase14p-fsrs-foundation-closure-phase15-handoff.js',
   'scripts/validate-phase14n-production-studyroom-two-step-bridge.js',
   'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
   'src/routes/StudyRoom.jsx',
