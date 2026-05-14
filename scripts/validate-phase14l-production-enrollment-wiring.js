@@ -128,6 +128,10 @@ const phase14lAllowedChangedFiles = new Set([
   'scripts/validate-release-candidate-tag-publish-gate.js',
   'scripts/validate-release-package-assembly-plan.js',
   'scripts/validate-release-tag-creation-plan.js',
+  // Phase 14M exact files (forward compatibility)
+  'docs/phase14m-fsrs-metadata-backup-import-export-hardening.md',
+  'scripts/validate-phase14m-fsrs-metadata-backup-import-export-hardening.js',
+  'tests/unit/fsrsMetadataBackupImportExportHardening.test.js',
 ]);
 
 const generatedArtifacts = [
