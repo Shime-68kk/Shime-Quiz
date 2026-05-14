@@ -340,6 +340,9 @@ jobs:
       - name: Validate Phase 14I FSRS two-step fixture
         run: node scripts/validate-phase14i-fsrs-two-step-fixture.js
 
+      - name: Validate Phase 14J FSRS enrollment readiness harness
+        run: node scripts/validate-phase14j-fsrs-enrollment-readiness.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
