@@ -129,6 +129,13 @@ const phase14kAllowedChangedFiles = new Set([
   'docs/phase14m-fsrs-metadata-backup-import-export-hardening.md',
   'scripts/validate-phase14m-fsrs-metadata-backup-import-export-hardening.js',
   'tests/unit/fsrsMetadataBackupImportExportHardening.test.js',
+  // Phase 14N exact files (forward compatibility)
+  'docs/phase14n-production-studyroom-two-step-memory-rating-bridge.md',
+  'scripts/validate-phase14n-production-studyroom-two-step-bridge.js',
+  'tests/unit/fsrsProductionStudyRoomTwoStepBridge.test.jsx',
+  'src/routes/StudyRoom.jsx',
+  'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
+  // ADAPTER_SOURCE, STORAGE_SOURCE, WORKFLOW_FILE already in allowlist
 ]);
 
 const generatedArtifacts = [

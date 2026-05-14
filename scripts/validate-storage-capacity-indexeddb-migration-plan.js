@@ -166,6 +166,16 @@ const allowedChangedFiles = new Set([
   'scripts/validate-phase14l-production-enrollment-wiring.js',
   'tests/unit/fsrsProductionEnrollmentWiring.test.js',
   'src/state/reviewScheduleStorage.js',
+  // Phase 14M exact files (forward compatibility)
+  'docs/phase14m-fsrs-metadata-backup-import-export-hardening.md',
+  'scripts/validate-phase14m-fsrs-metadata-backup-import-export-hardening.js',
+  'tests/unit/fsrsMetadataBackupImportExportHardening.test.js',
+  // Phase 14N exact files (forward compatibility)
+  'docs/phase14n-production-studyroom-two-step-memory-rating-bridge.md',
+  'scripts/validate-phase14n-production-studyroom-two-step-bridge.js',
+  'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
+  'src/routes/StudyRoom.jsx',
+  'tests/unit/fsrsProductionStudyRoomTwoStepBridge.test.jsx',
 ]);
 const generatedArtifacts = ['node_modules', 'dist', 'test-results', 'playwright-report', 'coverage', 'FETCH_HEAD'];
 const publicClaimFiles = [

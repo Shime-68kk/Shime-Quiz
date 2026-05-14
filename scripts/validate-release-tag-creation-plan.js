@@ -325,6 +325,14 @@ const allowedChanged = new Set([
   'scripts/validate-phase14l-production-enrollment-wiring.js',
   'tests/unit/fsrsProductionEnrollmentWiring.test.js',
   'src/state/reviewScheduleStorage.js',
+  // Phase 14M exact files (forward compatibility)
+  'scripts/validate-phase14m-fsrs-metadata-backup-import-export-hardening.js',
+  // Phase 14N exact files (forward compatibility)
+  'docs/phase14n-production-studyroom-two-step-memory-rating-bridge.md',
+  'scripts/validate-phase14n-production-studyroom-two-step-bridge.js',
+  'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
+  'src/routes/StudyRoom.jsx',
+  'tests/unit/fsrsProductionStudyRoomTwoStepBridge.test.jsx',
 ]);
 for (const file of changedFiles()) {
   if (!allowedChanged.has(file)) failures.push(`Unexpected changed file for Phase 10M: ${file}`);

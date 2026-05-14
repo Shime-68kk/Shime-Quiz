@@ -256,3 +256,16 @@ export function scheduleDormantFsrsReview(record, outcome, context = {}) {
     fsrsReviewLogs
   };
 }
+
+// Phase 14N: pure predicate — no storage, no scheduling side-effects.
+// Returns true only when ALL conditions are met:
+// 1. toggleEnabled is true, 2. record.schedulerKind === 'fsrs-planned', 3. record.fsrsPayload present.
+// Must be re-evaluated per item at gate time — never cache for a session.
+// toggleEnabled must be a boolean — caller resolves toggle state before invoking.
+export function shouldShowFsrsTwoStepBridge(record, toggleEnabled) {
+  if (toggleEnabled !== true) return false;
+  if (!record || typeof record !== 'object' || Array.isArray(record)) return false;
+  if (getSchedulerKind(record) !== SCHEDULER_KIND_FSRS_PLANNED) return false;
+  if (!record.fsrsPayload || typeof record.fsrsPayload !== 'object' || Array.isArray(record.fsrsPayload)) return false;
+  return true;
+}
