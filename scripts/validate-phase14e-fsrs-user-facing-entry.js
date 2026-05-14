@@ -129,6 +129,11 @@ const phase14eAllowedChangedFiles = new Set([
   'src/components/study/FsrsTwoStepScaffold.jsx',
   'src/routes/FsrsUiFixture.jsx',
   'tests/unit/fsrsTwoStepScaffold.test.jsx',
+  // Phase 14J compatibility — exact files only
+  'src/quiz/reviewSchedulerAdapter.js',
+  'docs/phase14j-fsrs-enrollment-readiness-harness.md',
+  'scripts/validate-phase14j-fsrs-enrollment-readiness.js',
+  'tests/unit/fsrsEnrollmentReadinessHarness.test.js',
 ]);
 
 const generatedArtifacts = [

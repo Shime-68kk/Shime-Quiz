@@ -1,10 +1,12 @@
 import {
   REVIEW_SCHEDULE_SCHEMA_VERSION,
+  FSRS_REVIEW_LOG_CAP,
   createReviewScheduleRecordFromResult
 } from '../state/reviewScheduleStorage.js';
 import { scheduleFsrsReviewForTest } from './fsrsWrapper.js';
 
 export const SCHEDULER_KIND_CURRENT = 'sm2-heuristic';
+export const FSRS_DORMANT_SCHEDULER_VERSION = 'phase14j-dormant-readiness';
 export const SCHEDULER_KIND_FSRS_PLANNED = 'fsrs-planned';
 export const SCHEDULER_VERSION_CURRENT = REVIEW_SCHEDULE_SCHEMA_VERSION;
 export const SCHEDULER_VERSION_FSRS_PLANNED = 'fsrs-planned-v1';
@@ -208,4 +210,48 @@ export function scheduleReview(record, outcome, context = {}) {
 
 export function preserveCurrentRecord(record) {
   return cloneJsonRecord(record);
+}
+
+export function isFsrsNewCardEnrollmentEligible({ itemId, toggleEnabled, priorRecord, studyHistoryRecords }) {
+  if (!toggleEnabled) return false;
+  const safeItemId = String(itemId || '').trim();
+  if (!safeItemId) return false;
+  if (priorRecord != null) return false;
+  const history = Array.isArray(studyHistoryRecords) ? studyHistoryRecords : [];
+  const hasHistory = history.some(
+    session =>
+      Array.isArray(session?.itemResults) &&
+      session.itemResults.some(r => String(r?.itemId || '').trim() === safeItemId)
+  );
+  if (hasHistory) return false;
+  return true;
+}
+
+export function scheduleDormantFsrsReview(record, outcome, context = {}) {
+  const itemId = String(record?.itemId || '').trim();
+  if (!itemId) return null;
+
+  const sm2Result = scheduleCurrentReview(record, outcome, context);
+  if (!sm2Result) return null;
+
+  const existingPayload = record?.fsrsPayload;
+  const fsrsPayload =
+    existingPayload && typeof existingPayload === 'object' && !Array.isArray(existingPayload)
+      ? JSON.parse(JSON.stringify(existingPayload))
+      : { state: 'New', difficulty: 5.0, stability: 1.0, retrievability: 1.0, reps: 0, phase: FSRS_DORMANT_SCHEDULER_VERSION };
+
+  const now = context.now ? toSafeDate(context.now) : new Date();
+  const rating = mapOutcomeToFsrsRating(outcome);
+  const newLogEntry = { rating, reviewedAt: now.toISOString(), state: 'Dormant', note: 'phase14j-inert-readiness-log' };
+
+  const existingLogs = Array.isArray(record?.fsrsReviewLogs) ? record.fsrsReviewLogs : [];
+  const fsrsReviewLogs = [...existingLogs, newLogEntry].slice(-FSRS_REVIEW_LOG_CAP);
+
+  return {
+    ...sm2Result,
+    schedulerKind: SCHEDULER_KIND_FSRS_PLANNED,
+    schedulerVersion: FSRS_DORMANT_SCHEDULER_VERSION,
+    fsrsPayload,
+    fsrsReviewLogs
+  };
 }
