@@ -361,6 +361,9 @@ jobs:
       - name: Validate Phase 14P FSRS foundation closure Phase 15 handoff
         run: node scripts/validate-phase14p-fsrs-foundation-closure-phase15-handoff.js
 
+      - name: Validate Phase 15A active FSRS scheduling architecture
+        run: node scripts/validate-phase15a-fsrs-active-scheduling-architecture.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
