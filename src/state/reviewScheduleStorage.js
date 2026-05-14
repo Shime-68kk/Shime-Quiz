@@ -2,6 +2,9 @@ import { getLocalStorage } from '../utils/storage.js';
 import { clamp } from '../utils/number.js';
 import { normalizeDate } from '../utils/date.js';
 import { publishLearningStorageChanged } from './localStorageSync.js';
+import { getSettings } from './settingsStorage.js';
+import { readStudyHistory } from './studyHistoryStorage.js';
+import { isFsrsNewCardEnrollmentEligible, scheduleDormantFsrsReview } from '../quiz/reviewSchedulerAdapter.js';
 export const REVIEW_SCHEDULE_STORAGE_KEY = 'shimeV2ReviewScheduleV1';
 export const REVIEW_SCHEDULE_SCHEMA_VERSION = 'v2-review-schedule-v1';
 export const REVIEW_SCHEDULE_UPDATED_EVENT = 'shime-v2-review-schedule-updated';
@@ -275,6 +278,13 @@ export function updateReviewScheduleFromHistoryRecord(historyRecord) {
   let skippedCount = 0;
   const completedAt = normalizeDate(historyRecord.completedAt, nowIso());
 
+  // Phase 14L: re-read toggle at processing time; never use a session-start cache.
+  const fsrsToggleEnabled = getSettings().fsrsExperimentalEnabled === true;
+  // Exclude the current session from prior-history: it may already be saved to storage.
+  const priorHistoryRecords = fsrsToggleEnabled
+    ? (readStudyHistory().records || []).filter(r => r.id !== historyRecord.id)
+    : [];
+
   historyRecord.itemResults.forEach(itemResult => {
     const itemId = String(itemResult?.itemId || '').trim();
     if (!itemId) {
@@ -282,7 +292,34 @@ export function updateReviewScheduleFromHistoryRecord(historyRecord) {
       return;
     }
 
-    const nextRecord = updateRecordFromResult(byItemId.get(itemId), itemResult, completedAt);
+    const priorRecord = byItemId.get(itemId) ?? null;
+    let nextRecord = null;
+
+    // Phase 14L: attempt dormant enrollment for strict new-card first completed reviews.
+    const resultStatus = String(itemResult?.status || '').trim();
+    if (
+      fsrsToggleEnabled &&
+      ['correct', 'wrong', 'unanswered'].includes(resultStatus) &&
+      isFsrsNewCardEnrollmentEligible({
+        itemId,
+        toggleEnabled: fsrsToggleEnabled,
+        priorRecord,
+        studyHistoryRecords: priorHistoryRecords
+      })
+    ) {
+      const baseRecord = {
+        itemId,
+        subjectId: itemResult.subjectId ? String(itemResult.subjectId) : '',
+        topicId: itemResult.topicId ? String(itemResult.topicId) : ''
+      };
+      nextRecord = scheduleDormantFsrsReview(baseRecord, resultStatus, { completedAt });
+    }
+
+    // SM-2 fallback for all ineligible or unenrolled items (intervals remain SM-2-like).
+    if (!nextRecord) {
+      nextRecord = updateRecordFromResult(priorRecord, itemResult, completedAt);
+    }
+
     if (!nextRecord) {
       skippedCount += 1;
       return;

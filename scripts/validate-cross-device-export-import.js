@@ -336,6 +336,11 @@ const allowedChanged = new Set([
   // Phase 14K exact files (forward compatibility)
   'docs/phase14k-fsrs-readiness-audit.md',
   'scripts/validate-phase14k-fsrs-readiness-audit.js',
+  // Phase 14L exact files (forward compatibility)
+  'docs/phase14l-production-enrollment-wiring-dormant-no-ui.md',
+  'scripts/validate-phase14l-production-enrollment-wiring.js',
+  'tests/unit/fsrsProductionEnrollmentWiring.test.js',
+  'src/state/reviewScheduleStorage.js',
 ]);
 for (const file of changedFiles()) {
   if (!allowedChanged.has(file)) failures.push(`Unexpected changed file for Phase 10I: ${file}`);

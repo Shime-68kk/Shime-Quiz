@@ -1,5 +1,4 @@
 import {
-  REVIEW_SCHEDULE_SCHEMA_VERSION,
   FSRS_REVIEW_LOG_CAP,
   createReviewScheduleRecordFromResult
 } from '../state/reviewScheduleStorage.js';
@@ -8,7 +7,9 @@ import { scheduleFsrsReviewForTest } from './fsrsWrapper.js';
 export const SCHEDULER_KIND_CURRENT = 'sm2-heuristic';
 export const FSRS_DORMANT_SCHEDULER_VERSION = 'phase14j-dormant-readiness';
 export const SCHEDULER_KIND_FSRS_PLANNED = 'fsrs-planned';
-export const SCHEDULER_VERSION_CURRENT = REVIEW_SCHEDULE_SCHEMA_VERSION;
+// Literal value of REVIEW_SCHEDULE_SCHEMA_VERSION; kept as a constant to avoid
+// a circular ES-module init dependency (storage imports adapter in Phase 14L).
+export const SCHEDULER_VERSION_CURRENT = 'v2-review-schedule-v1';
 export const SCHEDULER_VERSION_FSRS_PLANNED = 'fsrs-planned-v1';
 
 const CURRENT_KIND_ALIASES = new Set([

@@ -346,6 +346,9 @@ jobs:
       - name: Validate Phase 14K FSRS readiness audit
         run: node scripts/validate-phase14k-fsrs-readiness-audit.js
 
+      - name: Validate Phase 14L production enrollment wiring
+        run: node scripts/validate-phase14l-production-enrollment-wiring.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

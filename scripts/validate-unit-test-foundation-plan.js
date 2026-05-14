@@ -201,6 +201,11 @@ const allowedChangedFiles = new Set([
   // Phase 14K exact files (forward compatibility)
   'docs/phase14k-fsrs-readiness-audit.md',
   'scripts/validate-phase14k-fsrs-readiness-audit.js',
+  // Phase 14L exact files (forward compatibility)
+  'docs/phase14l-production-enrollment-wiring-dormant-no-ui.md',
+  'scripts/validate-phase14l-production-enrollment-wiring.js',
+  'tests/unit/fsrsProductionEnrollmentWiring.test.js',
+  'src/state/reviewScheduleStorage.js',
 ]);
 const forbiddenChangedFiles = ['package.json','package-lock.json','vite.config','vite.config.js','vite.config.mjs','playwright.config','playwright.config.js'];
 const forbiddenChangedPrefixes = ['src/','e2e/','tests/','__tests__/'];
