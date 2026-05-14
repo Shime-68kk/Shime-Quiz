@@ -149,6 +149,9 @@ const phase14nAllowedChangedFiles = new Set([
   'scripts/validate-release-candidate-tag-publish-gate.js',
   'scripts/validate-release-package-assembly-plan.js',
   'scripts/validate-release-tag-creation-plan.js',
+  // Phase 14O exact files (forward compatibility)
+  'docs/phase14o-fsrs-active-scheduling-decision-gate.md',
+  'scripts/validate-phase14o-fsrs-active-scheduling-decision-gate.js',
 ]);
 
 const generatedArtifacts = [
