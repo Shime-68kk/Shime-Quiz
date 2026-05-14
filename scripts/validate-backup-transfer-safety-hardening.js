@@ -206,6 +206,9 @@ const allowedChanged = new Set([
   'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
   'src/routes/StudyRoom.jsx',
   'tests/unit/fsrsProductionStudyRoomTwoStepBridge.test.jsx',
+  // Phase 14O exact files (forward compatibility)
+  'docs/phase14o-fsrs-active-scheduling-decision-gate.md',
+  'scripts/validate-phase14o-fsrs-active-scheduling-decision-gate.js',
 ]);
 
 function fail(message) { failures.push(message); }

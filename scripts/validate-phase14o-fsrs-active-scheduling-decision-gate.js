@@ -1,43 +1,53 @@
 #!/usr/bin/env node
 /**
- * scripts/validate-phase14m-fsrs-metadata-backup-import-export-hardening.js
+ * scripts/validate-phase14o-fsrs-active-scheduling-decision-gate.js
  *
- * Phase 14M static validator — FSRS Metadata Backup / Import / Export Hardening.
- * Modeled after validate-phase14l-production-enrollment-wiring.js.
+ * Phase 14O static validator — FSRS Active Scheduling Rollout Decision Gate.
+ * Docs/static-validator/CI-only. No active FSRS scheduling. No src/ changes.
  */
 
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
-const DOCS_FILE = 'docs/phase14m-fsrs-metadata-backup-import-export-hardening.md';
-const VALIDATOR_SCRIPT = 'scripts/validate-phase14m-fsrs-metadata-backup-import-export-hardening.js';
+const DOCS_FILE = 'docs/phase14o-fsrs-active-scheduling-decision-gate.md';
+const VALIDATOR_SCRIPT = 'scripts/validate-phase14o-fsrs-active-scheduling-decision-gate.js';
 const WORKFLOW_FILE = '.github/workflows/e2e-smoke.yml';
-const TEST_FILE = 'tests/unit/fsrsMetadataBackupImportExportHardening.test.js';
 
+// Phase 14N files (for regression + allowlist cascade)
+const PHASE14N_DOCS = 'docs/phase14n-production-studyroom-two-step-memory-rating-bridge.md';
+const PHASE14N_VALIDATOR = 'scripts/validate-phase14n-production-studyroom-two-step-bridge.js';
+const PHASE14N_TEST = 'tests/unit/fsrsProductionStudyRoomTwoStepBridge.test.jsx';
+const PHASE14N_BRIDGE_COMPONENT = 'src/components/study/FsrsProductionMemoryRatingBridge.jsx';
+
+const STUDY_ROOM = 'src/routes/StudyRoom.jsx';
+const DASHBOARD = 'src/routes/Dashboard.jsx';
 const ADAPTER_SOURCE = 'src/quiz/reviewSchedulerAdapter.js';
-const WRAPPER_SOURCE = 'src/quiz/fsrsWrapper.js';
 const STORAGE_SOURCE = 'src/state/reviewScheduleStorage.js';
+const WRAPPER_SOURCE = 'src/quiz/fsrsWrapper.js';
 const SETTINGS_STORAGE_SOURCE = 'src/state/settingsStorage.js';
 const LEGACY_BACKUP = 'src/quiz/dataBackup.js';
 const V2_BACKUP_RESTORE = 'src/state/v2BackupRestore.js';
-const STUDY_ROOM = 'src/routes/StudyRoom.jsx';
-const DASHBOARD = 'src/routes/Dashboard.jsx';
 
-// Phase 14L regression
+// Phase 14M
+const PHASE14M_DOCS = 'docs/phase14m-fsrs-metadata-backup-import-export-hardening.md';
+const PHASE14M_VALIDATOR = 'scripts/validate-phase14m-fsrs-metadata-backup-import-export-hardening.js';
+const PHASE14M_TEST = 'tests/unit/fsrsMetadataBackupImportExportHardening.test.js';
+
+// Phase 14L
 const PHASE14L_DOCS = 'docs/phase14l-production-enrollment-wiring-dormant-no-ui.md';
 const PHASE14L_VALIDATOR = 'scripts/validate-phase14l-production-enrollment-wiring.js';
 const ENROLLMENT_WIRING_TEST = 'tests/unit/fsrsProductionEnrollmentWiring.test.js';
 
-// Phase 14K regression
+// Phase 14K
 const PHASE14K_DOCS = 'docs/phase14k-fsrs-readiness-audit.md';
 const PHASE14K_VALIDATOR = 'scripts/validate-phase14k-fsrs-readiness-audit.js';
 
-// Phase 14J regression
+// Phase 14J
 const PHASE14J_DOCS = 'docs/phase14j-fsrs-enrollment-readiness-harness.md';
 const PHASE14J_VALIDATOR = 'scripts/validate-phase14j-fsrs-enrollment-readiness.js';
 const HARNESS_TEST = 'tests/unit/fsrsEnrollmentReadinessHarness.test.js';
 
-// Phase 14I regression
+// Phase 14I
 const PHASE14I_DOCS = 'docs/phase14i-fsrs-two-step-rating-ui-fixture.md';
 const PHASE14I_VALIDATOR = 'scripts/validate-phase14i-fsrs-two-step-fixture.js';
 const FIXTURE_COMPONENT = 'src/components/study/FsrsTwoStepScaffold.jsx';
@@ -45,7 +55,7 @@ const FIXTURE_ROUTE_PAGE = 'src/routes/FsrsUiFixture.jsx';
 const FIXTURE_TEST = 'tests/unit/fsrsTwoStepScaffold.test.jsx';
 const ROUTE_CONFIG = 'src/routes/routeConfig.js';
 
-// Phase 14H regression
+// Phase 14H
 const PHASE14H_DOCS = 'docs/phase14h-fsrs-experimental-toggle-ui.md';
 const PHASE14H_VALIDATOR = 'scripts/validate-phase14h-fsrs-toggle-ui.js';
 const SETTINGS_ROUTE = 'src/routes/Settings.jsx';
@@ -61,29 +71,46 @@ const internalRegistryTerms = [
   'packages.applied'
 ];
 
-const phase14mAllowedChangedFiles = new Set([
-  // Phase 14M new files
+// Phase 14O allowed changed files = Phase 14N allowlist + Phase 14O new files.
+// Phase 14N files are included because Phase 14N may not yet be in origin/main
+// when Phase 14O is being validated, so they appear in the diff.
+const phase14oAllowedChangedFiles = new Set([
+  // Phase 14O new files
   DOCS_FILE,
   VALIDATOR_SCRIPT,
-  TEST_FILE,
   WORKFLOW_FILE,
-  // Phase 14K/14L validators updated for Phase 14M allowlist cascade
+  // Phase 14N files (inherited — in diff from origin/main if Phase 14N not yet merged)
+  PHASE14N_DOCS,
+  PHASE14N_VALIDATOR,
+  PHASE14N_TEST,
+  PHASE14N_BRIDGE_COMPONENT,
+  STUDY_ROOM,
+  ADAPTER_SOURCE,
+  STORAGE_SOURCE,
+  // Phase 14N updated historical validators
   PHASE14K_VALIDATOR,
   PHASE14L_VALIDATOR,
-  // Phase 14K exact files (historical)
+  PHASE14M_VALIDATOR,
+  // Phase 14M exact files
+  PHASE14M_DOCS,
+  PHASE14M_TEST,
+  // Phase 14L exact files
+  PHASE14L_DOCS,
+  ENROLLMENT_WIRING_TEST,
+  // Phase 14K exact files
   PHASE14K_DOCS,
-  // Phase 14J exact files (historical)
+  // Phase 14J exact files
   PHASE14J_DOCS,
   PHASE14J_VALIDATOR,
   HARNESS_TEST,
-  // Phase 14I exact files (historical)
+  // Phase 14I exact files
   PHASE14I_DOCS,
   PHASE14I_VALIDATOR,
   FIXTURE_COMPONENT,
   FIXTURE_ROUTE_PAGE,
   FIXTURE_TEST,
   ROUTE_CONFIG,
-  // Phase 14H exact files (historical)
+  // Phase 14H exact files
   PHASE14H_DOCS,
   PHASE14H_VALIDATOR,
   SETTINGS_ROUTE,
@@ -132,18 +159,6 @@ const phase14mAllowedChangedFiles = new Set([
   'scripts/validate-release-candidate-tag-publish-gate.js',
   'scripts/validate-release-package-assembly-plan.js',
   'scripts/validate-release-tag-creation-plan.js',
-  // Phase 14N exact files (forward compatibility)
-  'docs/phase14n-production-studyroom-two-step-memory-rating-bridge.md',
-  'scripts/validate-phase14n-production-studyroom-two-step-bridge.js',
-  'tests/unit/fsrsProductionStudyRoomTwoStepBridge.test.jsx',
-  'src/routes/StudyRoom.jsx',
-  'src/quiz/reviewSchedulerAdapter.js',
-  'src/state/reviewScheduleStorage.js',
-  'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
-  // WORKFLOW_FILE, PHASE14K_VALIDATOR, PHASE14L_VALIDATOR already in allowlist
-  // Phase 14O exact files (forward compatibility)
-  'docs/phase14o-fsrs-active-scheduling-decision-gate.md',
-  'scripts/validate-phase14o-fsrs-active-scheduling-decision-gate.js',
 ]);
 
 const generatedArtifacts = [
@@ -159,12 +174,12 @@ const generatedArtifacts = [
 ];
 
 function fail(message) {
-  console.error(`Phase 14M FSRS metadata backup/import/export hardening validation failed: ${message}`);
+  console.error(`Phase 14O decision gate validation failed: ${message}`);
   process.exit(1);
 }
 
 function warn(message) {
-  console.warn(`Phase 14M FSRS metadata backup/import/export hardening validation warning: ${message}`);
+  console.warn(`Phase 14O decision gate validation warning: ${message}`);
 }
 
 function read(file) {
@@ -257,21 +272,25 @@ function requiredFilesGuard() {
   read(DOCS_FILE);
   read(VALIDATOR_SCRIPT);
   read(WORKFLOW_FILE);
-  read(TEST_FILE);
-  read(STORAGE_SOURCE);
-  read(V2_BACKUP_RESTORE);
+  // Phase 14N regression — these files must still exist
+  read(PHASE14N_DOCS);
+  read(PHASE14N_VALIDATOR);
+  read(PHASE14N_TEST);
+  read(PHASE14N_BRIDGE_COMPONENT);
+  read(STUDY_ROOM);
   read(ADAPTER_SOURCE);
+  read(STORAGE_SOURCE);
   read(WRAPPER_SOURCE);
   read(SETTINGS_STORAGE_SOURCE);
-  read(STUDY_ROOM);
   read(DASHBOARD);
   read(ENROLLMENT_WIRING_TEST);
-  // Phase 14K/14L regression
-  read(PHASE14K_DOCS);
-  read(PHASE14K_VALIDATOR);
+  read(PHASE14M_DOCS);
+  read(PHASE14M_VALIDATOR);
+  read(PHASE14M_TEST);
   read(PHASE14L_DOCS);
   read(PHASE14L_VALIDATOR);
-  // Phase 14J regression
+  read(PHASE14K_DOCS);
+  read(PHASE14K_VALIDATOR);
   read(PHASE14J_DOCS);
   read(PHASE14J_VALIDATOR);
   read(HARNESS_TEST);
@@ -295,6 +314,7 @@ function packageGuard() {
 
 function workflowGuard() {
   const text = read(WORKFLOW_FILE);
+  // All validators through Phase 14N must be registered
   for (const validator of [
     'node scripts/validate-phase14b-fsrs-wrapper.js',
     'node scripts/validate-phase14c-fsrs-persistence-harness.js',
@@ -308,9 +328,19 @@ function workflowGuard() {
     'node scripts/validate-phase14j-fsrs-enrollment-readiness.js',
     'node scripts/validate-phase14k-fsrs-readiness-audit.js',
     'node scripts/validate-phase14l-production-enrollment-wiring.js',
-    'node scripts/validate-phase14m-fsrs-metadata-backup-import-export-hardening.js'
+    'node scripts/validate-phase14m-fsrs-metadata-backup-import-export-hardening.js',
+    'node scripts/validate-phase14n-production-studyroom-two-step-bridge.js',
+    'node scripts/validate-phase14o-fsrs-active-scheduling-decision-gate.js'
   ]) {
     if (!text.includes(validator)) fail(`${WORKFLOW_FILE} must run ${validator}`);
+  }
+  // Phase 14O must be registered after Phase 14N
+  const phase14nPos = text.indexOf('node scripts/validate-phase14n-production-studyroom-two-step-bridge.js');
+  const phase14oPos = text.indexOf('node scripts/validate-phase14o-fsrs-active-scheduling-decision-gate.js');
+  if (phase14nPos === -1) fail(`${WORKFLOW_FILE} must register Phase 14N validator`);
+  if (phase14oPos === -1) fail(`${WORKFLOW_FILE} must register Phase 14O validator`);
+  if (phase14oPos <= phase14nPos) {
+    fail(`${WORKFLOW_FILE} must register Phase 14O validator after Phase 14N validator`);
   }
   if (/continue-on-error:\s*true/i.test(text)) {
     fail(`${WORKFLOW_FILE} must not add broad continue-on-error`);
@@ -320,14 +350,16 @@ function workflowGuard() {
 function scopeGuard() {
   for (const file of changedFiles()) {
     if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) continue;
-    if (phase14mAllowedChangedFiles.has(file)) continue;
-    if (file === 'package.json') fail(`package.json must not change in Phase 14M`);
-    if (file === 'package-lock.json') fail(`package-lock.json must not change in Phase 14M`);
-    if (file.startsWith('e2e/')) fail(`E2E file changed in Phase 14M: ${file}`);
-    if (file === STUDY_ROOM) fail(`StudyRoom.jsx must not change in Phase 14M`);
-    if (file === DASHBOARD) fail(`Dashboard.jsx must not change in Phase 14M`);
-    if (file === WRAPPER_SOURCE) fail(`fsrsWrapper.js must not change in Phase 14M`);
-    fail(`Unexpected changed file for Phase 14M scope: ${file}`);
+    if (phase14oAllowedChangedFiles.has(file)) continue;
+    if (file === 'package.json') fail(`package.json must not change in Phase 14O`);
+    if (file === 'package-lock.json') fail(`package-lock.json must not change in Phase 14O`);
+    if (file.startsWith('e2e/')) fail(`E2E file changed in Phase 14O: ${file}`);
+    if (file === DASHBOARD) fail(`Dashboard.jsx must not change in Phase 14O`);
+    if (file === WRAPPER_SOURCE) fail(`fsrsWrapper.js must not change in Phase 14O`);
+    if (file === SETTINGS_STORAGE_SOURCE) fail(`settingsStorage.js must not change in Phase 14O`);
+    if (file === LEGACY_BACKUP) fail(`dataBackup.js must not change in Phase 14O`);
+    if (file === V2_BACKUP_RESTORE) fail(`v2BackupRestore.js must not change in Phase 14O`);
+    fail(`Unexpected changed file for Phase 14O scope: ${file}`);
   }
 }
 
@@ -340,166 +372,191 @@ function generatedArtifactGuard() {
   }
 }
 
-function backupRestoreSourceGuard() {
-  const backupSource = read(V2_BACKUP_RESTORE);
-
-  // Must not import enrollment helpers
-  if (backupSource.includes('isFsrsNewCardEnrollmentEligible')) {
-    fail(`${V2_BACKUP_RESTORE} must not call isFsrsNewCardEnrollmentEligible — restore must not enroll cards`);
-  }
-  if (backupSource.includes('scheduleDormantFsrsReview')) {
-    fail(`${V2_BACKUP_RESTORE} must not call scheduleDormantFsrsReview — restore must not enroll cards`);
-  }
-  // No active FSRS scheduling
-  if (/\.next\s*\(/.test(backupSource)) {
-    fail(`${V2_BACKUP_RESTORE} must not call .next() — active FSRS scheduling is disabled in Phase 14M`);
-  }
-  // No onMount/boot-time enrollment
-  if (/onMount.*enroll/i.test(backupSource)) {
-    fail(`${V2_BACKUP_RESTORE} must not contain onMount enrollment`);
-  }
-  if (/app.*boot.*enroll/i.test(backupSource)) {
-    fail(`${V2_BACKUP_RESTORE} must not contain app-boot enrollment`);
-  }
-  if (/session.*start.*enroll/i.test(backupSource)) {
-    fail(`${V2_BACKUP_RESTORE} must not contain session-start enrollment`);
-  }
-  // No Two-Step UI reference
-  if (/FsrsTwoStepScaffold/.test(backupSource)) {
-    fail(`${V2_BACKUP_RESTORE} must not reference FsrsTwoStepScaffold`);
-  }
-}
-
-function storageSourceGuard() {
-  const storageSource = read(STORAGE_SOURCE);
-
-  // Must preserve FSRS fields
-  if (!storageSource.includes('getPreservedFsrsFields')) {
-    fail(`${STORAGE_SOURCE} must define getPreservedFsrsFields (Phase 14J/14M preservation requirement)`);
-  }
-  if (!storageSource.includes('schedulerKind')) {
-    fail(`${STORAGE_SOURCE} must handle schedulerKind in normalization`);
-  }
-  if (!storageSource.includes('schedulerVersion')) {
-    fail(`${STORAGE_SOURCE} must handle schedulerVersion in normalization`);
-  }
-  if (!storageSource.includes('fsrsPayload')) {
-    fail(`${STORAGE_SOURCE} must handle fsrsPayload in normalization`);
-  }
-  if (!storageSource.includes('fsrsReviewLogs')) {
-    fail(`${STORAGE_SOURCE} must handle fsrsReviewLogs in normalization`);
-  }
-  if (!storageSource.includes('FSRS_REVIEW_LOG_CAP')) {
-    fail(`${STORAGE_SOURCE} must define/use FSRS_REVIEW_LOG_CAP`);
-  }
-  // No production ts-fsrs.next()
-  if (/\.next\s*\(/.test(storageSource)) {
-    fail(`${STORAGE_SOURCE} must not call .next() — active FSRS scheduling is disabled in Phase 14M`);
-  }
-}
-
-function adapterGuard() {
-  const adapterSource = read(ADAPTER_SOURCE);
-
-  if (!adapterSource.includes('export function isFsrsNewCardEnrollmentEligible')) {
-    fail(`${ADAPTER_SOURCE} must export isFsrsNewCardEnrollmentEligible (Phase 14J)`);
-  }
-  if (!adapterSource.includes('export function scheduleDormantFsrsReview')) {
-    fail(`${ADAPTER_SOURCE} must export scheduleDormantFsrsReview (Phase 14J)`);
-  }
-  if (/\.next\s*\(/.test(adapterSource)) {
-    fail(`${ADAPTER_SOURCE} must not call .next() — production FSRS scheduling is disabled in Phase 14M`);
-  }
-  if (/FsrsTwoStepScaffold/.test(adapterSource)) {
-    fail(`${ADAPTER_SOURCE} must not reference FsrsTwoStepScaffold`);
-  }
-}
-
-function studyRoomGuard() {
-  const source = read(STUDY_ROOM);
-  if (/Again\s*\/\s*Hard\s*\/\s*Good\s*\/\s*Easy/i.test(source)) {
-    fail(`${STUDY_ROOM} must not contain four-rating FSRS rating UI`);
-  }
-  if (/FsrsTwoStepScaffold/.test(source)) {
-    fail(`${STUDY_ROOM} must not reference FsrsTwoStepScaffold`);
-  }
-  if (/scheduleDormantFsrsReview/.test(source)) {
-    fail(`${STUDY_ROOM} must not reference scheduleDormantFsrsReview`);
-  }
-}
-
 function forbiddenScopeGuard() {
   const forbidden = [
-    STUDY_ROOM,
     DASHBOARD,
     WRAPPER_SOURCE,
+    SETTINGS_STORAGE_SOURCE,
+    LEGACY_BACKUP,
+    V2_BACKUP_RESTORE,
     'package.json',
     'package-lock.json'
   ];
   const changed = new Set(changedFiles());
   for (const file of forbidden) {
-    if (phase14mAllowedChangedFiles.has(file)) continue;
-    if (changed.has(file)) fail(`Forbidden file changed in Phase 14M: ${file}`);
+    if (changed.has(file)) fail(`Forbidden file changed in Phase 14O: ${file}`);
   }
   for (const file of changedFiles()) {
-    if (file.startsWith('e2e/')) fail(`E2E file changed in Phase 14M: ${file}`);
+    if (file.startsWith('e2e/')) fail(`E2E file changed in Phase 14O: ${file}`);
   }
 }
 
-function testCoverageGuard() {
-  requireIncludes(TEST_FILE, [
-    'schedulerKind',
-    'schedulerVersion',
-    'fsrsPayload',
-    'fsrsReviewLogs',
-    'legacy',
-    'toggle',
-    'malformed',
-    'restore',
-    'backup',
-    'SM-2',
-    'enrollment',
-    'ts-fsrs',
-    'StudyRoom',
-    'round-trip'
-  ]);
+function phase14nRegressionGuard() {
+  // Study Room must preserve Phase 14N references and must not call .next()
+  const studyRoomSource = read(STUDY_ROOM);
+  if (!studyRoomSource.includes('shouldShowFsrsTwoStepBridge')) {
+    fail(`${STUDY_ROOM} must preserve shouldShowFsrsTwoStepBridge (Phase 14N regression)`);
+  }
+  if (!studyRoomSource.includes('appendFsrsReviewLog')) {
+    fail(`${STUDY_ROOM} must preserve appendFsrsReviewLog (Phase 14N regression)`);
+  }
+  if (!studyRoomSource.includes('FsrsProductionMemoryRatingBridge')) {
+    fail(`${STUDY_ROOM} must preserve FsrsProductionMemoryRatingBridge import (Phase 14N regression)`);
+  }
+  if (/\.next\s*\(/.test(studyRoomSource)) {
+    fail(`${STUDY_ROOM} must not call .next() — active FSRS scheduling is disabled (Phase 14O gate)`);
+  }
 
-  const testSource = read(TEST_FILE);
-  // Must test the cap at 20
-  if (!testSource.includes('FSRS_REVIEW_LOG_CAP')) {
-    fail(`${TEST_FILE} must reference FSRS_REVIEW_LOG_CAP`);
+  // Adapter must preserve Phase 14N/14J exports and must not call .next() in bridge fn
+  const adapterSource = read(ADAPTER_SOURCE);
+  if (!adapterSource.includes('export function shouldShowFsrsTwoStepBridge')) {
+    fail(`${ADAPTER_SOURCE} must preserve shouldShowFsrsTwoStepBridge export (Phase 14N regression)`);
   }
-  // Must test legacy compatibility
-  if (!testSource.includes('SM2_LEGACY_RECORD') && !testSource.toLowerCase().includes('sm-2')) {
-    fail(`${TEST_FILE} must test legacy SM-2 records`);
+  if (!adapterSource.includes('export function isFsrsNewCardEnrollmentEligible')) {
+    fail(`${ADAPTER_SOURCE} must preserve isFsrsNewCardEnrollmentEligible export (Phase 14J regression)`);
   }
-  // Must test invalid metadata
-  if (!testSource.toLowerCase().includes('malform')) {
-    fail(`${TEST_FILE} must test malformed FSRS metadata handling`);
+  if (!adapterSource.includes('export function scheduleDormantFsrsReview')) {
+    fail(`${ADAPTER_SOURCE} must preserve scheduleDormantFsrsReview export (Phase 14J regression)`);
+  }
+  if (/\.next\s*\(/.test(adapterSource)) {
+    fail(`${ADAPTER_SOURCE} must not call .next() — active FSRS scheduling is disabled (Phase 14O gate)`);
+  }
+
+  // Storage must preserve Phase 14N helper and must not call .next()
+  const storageSource = read(STORAGE_SOURCE);
+  if (!storageSource.includes('export function appendFsrsReviewLog')) {
+    fail(`${STORAGE_SOURCE} must preserve appendFsrsReviewLog export (Phase 14N regression)`);
+  }
+  if (!storageSource.includes('FSRS_REVIEW_LOG_CAP')) {
+    fail(`${STORAGE_SOURCE} must preserve FSRS_REVIEW_LOG_CAP (Phase 14N regression)`);
+  }
+  if (/\.next\s*\(/.test(storageSource)) {
+    fail(`${STORAGE_SOURCE} must not call .next() — active FSRS scheduling is disabled (Phase 14O gate)`);
+  }
+
+  // Bridge component must not call .next()
+  const bridgeSource = read(PHASE14N_BRIDGE_COMPONENT);
+  if (/\.next\s*\(/.test(bridgeSource)) {
+    fail(`${PHASE14N_BRIDGE_COMPONENT} must not call .next() (Phase 14O gate)`);
+  }
+
+  // fsrsWrapper must not call .next() in production paths
+  const wrapperSource = read(WRAPPER_SOURCE);
+  if (/\.next\s*\(/.test(wrapperSource)) {
+    // fsrsWrapper is the ts-fsrs integration layer — .next() calls inside it are
+    // expected as the wrapper definition, but production callers must not invoke it
+    // via adapter/storage/StudyRoom. We warn but do not fail for the wrapper itself.
+    warn(`${WRAPPER_SOURCE} contains .next() — confirm it is not called from production paths`);
+  }
+}
+
+function noNewSrcFilesGuard() {
+  // Phase 14O must not introduce any new src/ files beyond Phase 14N's state.
+  // We check that no src/ files appear in changedFiles() except those in the Phase 14N allowlist.
+  const phase14nSrcAllowed = new Set([
+    STUDY_ROOM,
+    ADAPTER_SOURCE,
+    STORAGE_SOURCE,
+    PHASE14N_BRIDGE_COMPONENT,
+    // Phase 14I
+    FIXTURE_COMPONENT,
+    FIXTURE_ROUTE_PAGE,
+    ROUTE_CONFIG,
+    // Phase 14H
+    SETTINGS_ROUTE,
+    FSRS_PANEL,
+  ]);
+  for (const file of changedFiles()) {
+    if (!file.startsWith('src/')) continue;
+    if (generatedArtifacts.some(a => file === a || file.startsWith(`${a}/`))) continue;
+    if (phase14nSrcAllowed.has(file)) continue;
+    fail(`Unexpected src/ file changed in Phase 14O scope: ${file}`);
   }
 }
 
 function docsGuard() {
   requireIncludes(DOCS_FILE, [
-    'Phase 14M',
-    'backup',
-    'restore',
-    'schedulerKind',
-    'schedulerVersion',
-    'fsrsPayload',
-    'fsrsReviewLogs',
-    'legacy',
-    'active FSRS scheduling remains disabled',
+    'Phase 14O',
+    'docs/static-validator/CI-only',
+    'active FSRS scheduling',
     'ts-fsrs.next',
-    'StudyRoom.jsx',
-    'Dashboard.jsx',
-    'toggle OFF',
-    'invalid',
-    'malformed',
-    'enrollment',
+    'SM-2',
+    'fsrs-planned',
+    'fsrsReviewLogs',
+    'Dashboard',
+    'migration',
+    'backup',
     'Phase 14N',
-    'FSRS_REVIEW_LOG_CAP'
+    'Phase 14P',
+    'rollback',
+    'toggle',
+    'dormant',
+    'inert',
+    'Dashboard mixed scheduler due-count',
+    'import-time',
+    'app-boot',
+    'session-start',
+    'user-facing',
+    'Gate 1',
+    'Gate 2',
+    'Gate 3',
+    'Gate 4',
+    'Gate 5',
+    'Gate 6',
+    'Gate 7',
+    'Gate 8',
+    'Gate 9',
+    'Gate 10',
   ]);
+
+}
+
+function activationClaimsGuard() {
+  // Scan docs for any false activation claims
+  const docsText = normalize(read(DOCS_FILE));
+  const forbiddenClaims = [
+    'fsrs scheduling is active',
+    'fsrs is now the active scheduler',
+    'active scheduling is live',
+    'ts-fsrs next is now called',
+    'production fsrs scheduling is active',
+  ];
+  for (const claim of forbiddenClaims) {
+    if (docsText.includes(claim)) {
+      fail(`${DOCS_FILE} contains forbidden activation claim: "${claim}"`);
+    }
+  }
+}
+
+function futureGatesGuard() {
+  const text = read(DOCS_FILE);
+  // All 10 required future gates must be present
+  for (let i = 1; i <= 10; i++) {
+    if (!text.includes(`Gate ${i}`)) {
+      fail(`${DOCS_FILE} must document required future Gate ${i}`);
+    }
+  }
+  // Must mention rating mapping (Gate 2 requirement)
+  const normalized = normalize(text);
+  if (!normalized.includes('rating')) {
+    fail(`${DOCS_FILE} must mention rating mapping for future scheduling gate`);
+  }
+  // Must mention backward compatibility (Gate 3)
+  if (!normalized.includes('backward compat') && !normalized.includes('backward-compat') && !normalized.includes('backward compatibility')) {
+    fail(`${DOCS_FILE} must mention backward compatibility for existing fsrsReviewLogs`);
+  }
+  // Must mention rollback (Gate 1 / Gate 7)
+  if (!normalized.includes('rollback')) {
+    fail(`${DOCS_FILE} must mention rollback plan in future gates`);
+  }
+  // Must mention toggle OFF rollback (Gate 7)
+  if (!text.includes('Toggle OFF') && !text.includes('toggle OFF') && !text.includes('toggle is turned OFF')) {
+    fail(`${DOCS_FILE} must mention toggle OFF rollback behavior`);
+  }
+  // Must recommend future phase split (Phase 14P or Phase 15A)
+  if (!text.includes('Phase 14P') && !text.includes('Phase 15A')) {
+    fail(`${DOCS_FILE} must recommend Phase 14P or Phase 15A for active scheduling`);
+  }
 }
 
 function validate() {
@@ -508,14 +565,13 @@ function validate() {
   workflowGuard();
   scopeGuard();
   generatedArtifactGuard();
-  backupRestoreSourceGuard();
-  storageSourceGuard();
-  adapterGuard();
-  studyRoomGuard();
   forbiddenScopeGuard();
-  testCoverageGuard();
+  noNewSrcFilesGuard();
+  phase14nRegressionGuard();
   docsGuard();
-  console.log('Phase 14M FSRS metadata backup/import/export hardening validation passed.');
+  activationClaimsGuard();
+  futureGatesGuard();
+  console.log('Phase 14O FSRS active scheduling decision gate validation passed.');
 }
 
 validate();

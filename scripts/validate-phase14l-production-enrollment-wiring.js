@@ -139,6 +139,9 @@ const phase14lAllowedChangedFiles = new Set([
   'src/routes/StudyRoom.jsx',
   'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
   // ADAPTER_SOURCE, STORAGE_SOURCE, WORKFLOW_FILE already in allowlist
+  // Phase 14O exact files (forward compatibility)
+  'docs/phase14o-fsrs-active-scheduling-decision-gate.md',
+  'scripts/validate-phase14o-fsrs-active-scheduling-decision-gate.js',
 ]);
 
 const generatedArtifacts = [

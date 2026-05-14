@@ -180,6 +180,9 @@ const historicalValidatorCompatibilityFiles = new Set([
   'tests/unit/fsrsMetadataBackupImportExportHardening.test.js',
   // Phase 14N exact files (forward compatibility)
   'docs/phase14n-production-studyroom-two-step-memory-rating-bridge.md',
+  // Phase 14O exact files (forward compatibility)
+  'docs/phase14o-fsrs-active-scheduling-decision-gate.md',
+  'scripts/validate-phase14o-fsrs-active-scheduling-decision-gate.js',
   'scripts/validate-phase14n-production-studyroom-two-step-bridge.js',
   'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
   'src/routes/StudyRoom.jsx',

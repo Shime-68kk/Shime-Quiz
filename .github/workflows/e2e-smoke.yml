@@ -355,6 +355,9 @@ jobs:
       - name: Validate Phase 14N production study room two-step bridge
         run: node scripts/validate-phase14n-production-studyroom-two-step-bridge.js
 
+      - name: Validate Phase 14O FSRS active scheduling decision gate
+        run: node scripts/validate-phase14o-fsrs-active-scheduling-decision-gate.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
