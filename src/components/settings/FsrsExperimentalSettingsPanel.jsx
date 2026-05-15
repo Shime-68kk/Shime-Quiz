@@ -41,12 +41,14 @@ export default function FsrsExperimentalSettingsPanel() {
           <p className="settingsPanel__helperSecondary">
             Enable FSRS Memory Model (Experimental)
           </p>
-          <p className="settingsPanel__badge settingsPanel__badge--warning">
-            Chỉ là giai đoạn chuẩn bị.
-          </p>
-          <p className="settingsPanel__helperSecondary">
-            Preparation Phase Only.
-          </p>
+          <div className="settingsPanel__warningBlock">
+            <p className="settingsPanel__badge settingsPanel__badge--warning">
+              Chỉ là giai đoạn chuẩn bị.
+            </p>
+            <p className="settingsPanel__helperSecondary">
+              Preparation Phase Only.
+            </p>
+          </div>
           <p className="settingsPanel__helper">
             Bật tuỳ chọn này chuẩn bị thiết bị của bạn cho cách xếp lịch ôn tập mới dựa trên mức độ ghi nhớ.
             Tuỳ chọn này chỉ áp dụng cho các thẻ mới trong giai đoạn sau.

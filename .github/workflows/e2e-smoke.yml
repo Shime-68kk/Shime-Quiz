@@ -397,6 +397,9 @@ jobs:
       - name: Validate Phase 16D Shime study identity product principles
         run: node scripts/validate-phase16d-shime-study-identity-product-principles.js
 
+      - name: Validate Phase 16E visual polish quick wins
+        run: node scripts/validate-phase16e-visual-polish-quick-wins.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

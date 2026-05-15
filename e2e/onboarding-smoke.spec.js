@@ -58,7 +58,7 @@ test('Dashboard first-run onboarding points to safe Library start options', asyn
   await expect(onboarding).toContainText(/quiz mẫu|Dùng quiz mẫu/i);
   await expect(onboarding).toContainText(/JSON\/CSV/);
   await expect(onboarding).toContainText(/text\/Markdown/);
-  await expect(onboarding).toContainText(/copy\/paste|thủ công/i);
+  await expect(onboarding).toContainText(/copy\/paste|thủ công|dán/i);
   await expect(onboarding).toContainText(/Shime không gọi AI\/API/);
   await expect(onboarding).toContainText(/EduGen chạy riêng|được cấu hình/i);
 
@@ -85,7 +85,7 @@ test('Library onboarding surfaces import choices without hiding existing control
   await expect(pageBody).toContainText(/Dùng quiz mẫu/);
   await expect(pageBody).toContainText(/JSON\/CSV|Nạp JSON\/CSV/);
   await expect(pageBody).toContainText(/text\/Markdown|văn bản\/Markdown/i);
-  await expect(pageBody).toContainText(/copy\/paste|thủ công/i);
+  await expect(pageBody).toContainText(/copy\/paste|thủ công|dán/i);
   await expect(pageBody).toContainText(/EduGen.*riêng|EduGen File Processor|được cấu hình/i);
   await expect(page.getByRole('button', { name: 'Nạp JSON/CSV' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Dùng quiz mẫu' })).toBeVisible();
