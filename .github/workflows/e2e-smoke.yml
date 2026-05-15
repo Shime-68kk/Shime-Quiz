@@ -403,6 +403,9 @@ jobs:
       - name: Validate Phase 16F EduGen draft workshop connector foundation
         run: node scripts/validate-phase16f-edugen-draft-workshop-connector-foundation.js
 
+      - name: Validate Phase 16G EduGen draft review import flow
+        run: node scripts/validate-phase16g-edugen-draft-review-import-flow.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

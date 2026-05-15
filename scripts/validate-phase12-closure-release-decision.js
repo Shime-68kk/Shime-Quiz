@@ -301,6 +301,14 @@ const allowedChangedFiles = new Set([
   'src/routes/Settings.jsx',
   'src/state/settingsStorage.js',
 
+  // Phase 16G exact files (forward compatibility)
+  'docs/phase16g-edugen-draft-review-import-flow.md',
+  'tests/unit/edugenDraftReviewImportFlow.test.jsx',
+  'scripts/validate-phase16g-edugen-draft-review-import-flow.js',
+  'src/edugen/edugenDraftParser.js',
+  'src/components/edugen/EduGenDraftReviewPanel.jsx',
+  'src/routes/Settings.jsx',
+  '.github/workflows/e2e-smoke.yml',
 ]);
 const forbiddenFiles = ['package.json','package-lock.json','vite.config.js','vite.config.mjs','playwright.config.js'];
 const forbiddenPrefixes = ['src/','e2e/','tests/','__tests__/'];
