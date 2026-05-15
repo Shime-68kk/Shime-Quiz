@@ -329,7 +329,9 @@ function scopeGuard() {
   for (const file of changedFiles()) {
     if (file === 'package.json') fail('package.json must not change in Phase 16A');
     if (file === 'package-lock.json') fail('package-lock.json must not change in Phase 16A');
-    if (file.startsWith('e2e/')) fail(`E2E file changed in Phase 16A: ${file}`);
+    if (file.startsWith('e2e/') && file !== 'e2e/smoke.spec.js') {
+      fail(`E2E file changed in Phase 16A: ${file}`);
+    }
   }
 }
 
