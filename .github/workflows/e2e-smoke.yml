@@ -373,6 +373,9 @@ jobs:
       - name: Validate Phase 15D active FSRS runtime smoke rollback audit
         run: node scripts/validate-phase15d-active-fsrs-runtime-smoke-rollback-audit.js
 
+      - name: Validate Phase 15E controlled internal activation harness
+        run: node scripts/validate-phase15e-controlled-internal-activation-harness.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

@@ -106,6 +106,11 @@ const phase15dAllowedChangedFiles = new Set([
   'scripts/validate-web-share-mobile-sharing-prototype-plan.js',
   'scripts/validate-web-share-runtime-fallback-hardening.js',
   'scripts/validate-web-share-runtime-prototype.js',
+  // Phase 15E exact files (forward compatibility)
+  'src/state/settingsStorage.js',
+  'docs/phase15e-controlled-internal-activation-harness.md',
+  'scripts/validate-phase15e-controlled-internal-activation-harness.js',
+  'tests/unit/fsrsControlledInternalActivationHarness.test.js',
 ]);
 
 const generatedArtifacts = [

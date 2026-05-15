@@ -278,3 +278,35 @@ export function clearSettings() {
     return { ok: false, error: 'storage_remove_failed', storageError: error };
   }
 }
+
+// ── Phase 15E: Controlled Internal Activation Harness ─────────────────────────
+//
+// These helpers are for INTERNAL/TEST/DEV use only.
+// They MUST NOT be called by production UI, public settings panels,
+// import/restore/app-boot/session-start flows, or any user-facing feature.
+// Normal users cannot reach these functions from any UI path.
+// Both FSRS gates (fsrsExperimentalEnabled + fsrsActiveSchedulingEnabled)
+// must be explicitly set true by the caller for active scheduling to run.
+//
+// setFsrsActiveSchedulingForInternalTest(enabled):
+//   Explicitly sets fsrsActiveSchedulingEnabled via updateSettings().
+//   Normalizes boolean: only strict true → true; all else → false.
+//   Preserves all other settings fields. Returns updateSettings() result.
+//
+// enableFsrsActiveSchedulingForInternalTest():
+//   Convenience: sets fsrsActiveSchedulingEnabled to true.
+//
+// disableFsrsActiveSchedulingForInternalTest():
+//   Convenience: sets fsrsActiveSchedulingEnabled to false.
+
+export function setFsrsActiveSchedulingForInternalTest(enabled) {
+  return updateSettings({ fsrsActiveSchedulingEnabled: enabled === true });
+}
+
+export function enableFsrsActiveSchedulingForInternalTest() {
+  return setFsrsActiveSchedulingForInternalTest(true);
+}
+
+export function disableFsrsActiveSchedulingForInternalTest() {
+  return setFsrsActiveSchedulingForInternalTest(false);
+}
