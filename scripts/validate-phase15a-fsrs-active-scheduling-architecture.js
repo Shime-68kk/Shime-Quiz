@@ -160,6 +160,9 @@ const phase15aAllowedChangedFiles = new Set([
   'docs/phase16c-storage-large-import-edugen-risk-audit.md',
   'tests/unit/storageLargeImportEdugenRiskAudit.test.js',
   'scripts/validate-phase16c-storage-large-import-edugen-risk-audit.js',
+  // Phase 16D allowlist entries (Shime Study Identity / Product Principles)
+  'docs/phase16d-shime-study-identity-product-principles.md',
+  'scripts/validate-phase16d-shime-study-identity-product-principles.js',
 ]);
 
 const generatedArtifacts = [

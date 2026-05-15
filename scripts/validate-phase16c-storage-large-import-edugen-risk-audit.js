@@ -119,6 +119,10 @@ const phase16cAllowedChangedFiles = new Set([
   'scripts/validate-web-share-runtime-prototype.js',
   PHASE16A_VALIDATOR,
   PHASE16B_VALIDATOR,
+
+  // Phase 16D allowlist entries (Shime Study Identity / Product Principles)
+  'docs/phase16d-shime-study-identity-product-principles.md',
+  'scripts/validate-phase16d-shime-study-identity-product-principles.js',
 ]);
 
 const bindingPackage = '@open-spaced-repetition/' + 'binding';

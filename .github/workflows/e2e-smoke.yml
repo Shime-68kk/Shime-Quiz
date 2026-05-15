@@ -394,6 +394,9 @@ jobs:
       - name: Validate Phase 16C storage large import EduGen risk audit
         run: node scripts/validate-phase16c-storage-large-import-edugen-risk-audit.js
 
+      - name: Validate Phase 16D Shime study identity product principles
+        run: node scripts/validate-phase16d-shime-study-identity-product-principles.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
