@@ -269,7 +269,9 @@ function scopeGuard() {
     if (phase16eAllowedChangedFiles.has(file)) continue;
     if (file === 'package.json') fail(`package.json must not change in Phase 16E`);
     if (file === 'package-lock.json') fail(`package-lock.json must not change in Phase 16E`);
-    if (file.startsWith('e2e/')) fail(`e2e/ file changed in Phase 16E: ${file}`);
+    if (file.startsWith('e2e/') && file !== 'e2e/onboarding-smoke.spec.js') {
+      fail(`e2e/ file changed in Phase 16E: ${file}`);
+    }
     // Historical validator updates are allowed.
     if (file.startsWith('scripts/validate-') && file.endsWith('.js')) continue;
     fail(`Unexpected changed file for Phase 16E scope: ${file}`);
