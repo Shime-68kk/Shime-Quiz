@@ -388,6 +388,9 @@ jobs:
       - name: Validate Phase 16A Vietnamese-first UX copy alignment
         run: node scripts/validate-phase16a-vietnamese-first-ux-copy-alignment.js
 
+      - name: Validate Phase 16B hybrid local-first optional sync direction
+        run: node scripts/validate-phase16b-hybrid-local-first-optional-sync-direction.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
