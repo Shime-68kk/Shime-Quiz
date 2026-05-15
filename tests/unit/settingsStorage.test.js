@@ -412,12 +412,13 @@ describe('settingsStorage — source scan (UI/adapter isolation)', () => {
     expect(source).not.toMatch(/settingsStorage/);
   });
 
-  it('reviewSchedulerAdapter.js does not reference shimeV2SettingsV1 or fsrsExperimentalEnabled', () => {
+  it('reviewSchedulerAdapter.js references fsrsExperimentalEnabled and fsrsActiveSchedulingEnabled for the double gate (Phase 15B)', () => {
     const source = fs.readFileSync(
       resolve(PROJECT_ROOT, 'src/quiz/reviewSchedulerAdapter.js'), 'utf8'
     );
     expect(source).not.toMatch(/shimeV2SettingsV1/);
-    expect(source).not.toMatch(/fsrsExperimentalEnabled/);
-    expect(source).not.toMatch(/settingsStorage/);
+    expect(source).toContain('fsrsExperimentalEnabled');
+    expect(source).toContain('fsrsActiveSchedulingEnabled');
+    expect(source).toContain('settingsStorage');
   });
 });

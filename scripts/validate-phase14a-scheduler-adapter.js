@@ -179,6 +179,23 @@ const historicalValidatorCompatibilityFiles = new Set([
   // Phase 15A exact files (forward compatibility)
   'docs/phase15a-fsrs-active-scheduling-architecture.md',
   'scripts/validate-phase15a-fsrs-active-scheduling-architecture.js',
+  // Phase 15B exact files (forward compatibility)
+  '.github/workflows/e2e-smoke.yml',
+  'docs/phase15b-active-fsrs-scheduling-double-gated.md',
+  'scripts/validate-phase15b-active-fsrs-scheduling-double-gated.js',
+  'src/quiz/fsrsWrapper.js',
+  'src/quiz/reviewSchedulerAdapter.js',
+  'src/state/reviewScheduleStorage.js',
+  'src/state/settingsStorage.js',
+  'tests/unit/fsrsActiveSchedulingDoubleGated.test.js',
+  'tests/unit/fsrsEnrollmentReadinessHarness.test.js',
+  'tests/unit/fsrsExperimentalSettingsPanel.test.jsx',
+  'tests/unit/fsrsPersistenceHarness.test.js',
+  'tests/unit/fsrsProductionEnrollmentWiring.test.js',
+  'tests/unit/fsrsWrapper.test.js',
+  'tests/unit/reviewSchedulerAdapter.phase14d.test.js',
+  'tests/unit/reviewSchedulerAdapter.test.js',
+  'tests/unit/settingsStorage.test.js',
   'scripts/validate-phase14n-production-studyroom-two-step-bridge.js',
   'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
   'src/routes/StudyRoom.jsx',
@@ -432,7 +449,8 @@ function adapterSourceGuard() {
   ]) {
     if (!normalizedSource.includes(normalize(term))) fail(`${ADAPTER_SOURCE} must include adapter term: ${term}`);
   }
-  if (!normalizedSource.includes(normalize('FSRS scheduling is not implemented in Phase 14A'))) {
+  if (!normalizedSource.includes(normalize('FSRS scheduling is not implemented in Phase 14A')) &&
+      !source.includes('fsrsActiveSchedulingEnabled')) {
     fail(`${ADAPTER_SOURCE} must safely reject future FSRS scheduling`);
   }
 }
@@ -450,6 +468,7 @@ function storageSourceGuard() {
 function unitTestGuard() {
   const text = read(ADAPTER_TEST);
   const normalizedText = normalize(text);
+  const phase15bApplied = read(ADAPTER_SOURCE).includes('fsrsActiveSchedulingEnabled');
   for (const term of [
     'missing schedulerKind',
     'defaults missing schedulerVersion',
@@ -462,6 +481,7 @@ function unitTestGuard() {
     'without schedulerKind working',
     'does not destructively mutate input records'
   ]) {
+    if (term === 'FSRS scheduling is not implemented in Phase 14A' && phase15bApplied) continue;
     if (!normalizedText.includes(normalize(term))) fail(`${ADAPTER_TEST} must cover: ${term}`);
   }
 }

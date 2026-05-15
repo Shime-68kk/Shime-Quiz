@@ -4,7 +4,13 @@ import { normalizeDate } from '../utils/date.js';
 import { publishLearningStorageChanged } from './localStorageSync.js';
 import { getSettings } from './settingsStorage.js';
 import { readStudyHistory } from './studyHistoryStorage.js';
-import { isFsrsNewCardEnrollmentEligible, scheduleDormantFsrsReview } from '../quiz/reviewSchedulerAdapter.js';
+import {
+  isFsrsNewCardEnrollmentEligible,
+  scheduleDormantFsrsReview,
+  scheduleReview,
+  getSchedulerKind,
+  SCHEDULER_KIND_FSRS_PLANNED
+} from '../quiz/reviewSchedulerAdapter.js';
 export const REVIEW_SCHEDULE_STORAGE_KEY = 'shimeV2ReviewScheduleV1';
 export const REVIEW_SCHEDULE_SCHEMA_VERSION = 'v2-review-schedule-v1';
 export const REVIEW_SCHEDULE_UPDATED_EVENT = 'shime-v2-review-schedule-updated';
@@ -250,6 +256,31 @@ export function createReviewScheduleRecordFromResult(previousRecord, itemResult,
   return updateRecordFromResult(previousRecord, itemResult, completedAt);
 }
 
+// Returns FSRS rating string from most-recent log at or after sessionStartedAt, or null.
+export function resolveMemoryRatingFromLogs(record, sessionStartedAt) {
+  if (!Array.isArray(record?.fsrsReviewLogs) || !sessionStartedAt) return null;
+  const sessionTime = new Date(sessionStartedAt).getTime();
+  if (!Number.isFinite(sessionTime)) return null;
+
+  let latestLog = null;
+  let latestTime = -Infinity;
+
+  for (const log of record.fsrsReviewLogs) {
+    if (!log || typeof log !== 'object') continue;
+    const t = new Date(log.reviewedAt || '').getTime();
+    if (!Number.isFinite(t)) continue;
+    if (t >= sessionTime && t > latestTime) {
+      latestLog = log;
+      latestTime = t;
+    }
+  }
+
+  if (!latestLog) return null;
+  const r = latestLog.rating;
+  if (r === 'Hard' || r === 'Good' || r === 'Easy' || r === 'Again') return r;
+  return null;
+}
+
 export function readReviewSchedule() {
   return readEnvelope();
 }
@@ -315,6 +346,17 @@ export function updateReviewScheduleFromHistoryRecord(historyRecord) {
       nextRecord = scheduleDormantFsrsReview(baseRecord, resultStatus, { completedAt });
     }
 
+    // Phase 15B: for enrolled FSRS-family records, run through double-gated scheduleReview.
+    if (!nextRecord && priorRecord && getSchedulerKind(priorRecord) === SCHEDULER_KIND_FSRS_PLANNED) {
+      const memoryRating = resolveMemoryRatingFromLogs(priorRecord, historyRecord.sessionStartedAt);
+      const context = {
+        completedAt,
+        itemResult,
+        ...(memoryRating ? { memoryRating } : { continueWithoutRating: true })
+      };
+      nextRecord = scheduleReview(priorRecord, resultStatus, context);
+    }
+
     // SM-2 fallback for all ineligible or unenrolled items (intervals remain SM-2-like).
     if (!nextRecord) {
       nextRecord = updateRecordFromResult(priorRecord, itemResult, completedAt);
@@ -360,7 +402,7 @@ export function appendFsrsReviewLog(itemId, logEntry) {
   if (recordIndex === -1) return { ok: false, error: 'record_not_found' };
 
   const record = records[recordIndex];
-  if (record.schedulerKind !== 'fsrs-planned') return { ok: false, error: 'not_fsrs_planned' };
+  if (getSchedulerKind(record) !== SCHEDULER_KIND_FSRS_PLANNED) return { ok: false, error: 'not_fsrs_planned' };
 
   const existingLogs = Array.isArray(record.fsrsReviewLogs) ? record.fsrsReviewLogs : [];
   const newLog = cloneJsonSafe(logEntry);

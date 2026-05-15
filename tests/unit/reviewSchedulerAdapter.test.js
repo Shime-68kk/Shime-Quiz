@@ -169,12 +169,13 @@ describe('review scheduler adapter current scheduler preservation', () => {
   });
 });
 
-describe('review scheduler adapter future FSRS rejection', () => {
-  it('throws a safe error instead of silently running reserved future FSRS scheduling', () => {
+describe('Phase 15B double gate for FSRS records', () => {
+  it('returns SM-2 fallback (not throw) for fsrs-planned records when double gate is off', () => {
     const record = baseRecord({ schedulerKind: SCHEDULER_KIND_FSRS_PLANNED });
 
-    expect(() => scheduleReview(record, 'correct', { now: NOW })).toThrow(/FSRS scheduling is not implemented in Phase 14A/);
-    expect(() => scheduleReview(record, 'correct', { now: NOW })).toThrow(new RegExp(SCHEDULER_KIND_FSRS_PLANNED));
+    let result;
+    expect(() => { result = scheduleReview(record, 'correct', { now: NOW }); }).not.toThrow();
+    expect(result).not.toBeNull();
   });
 });
 

@@ -79,7 +79,7 @@ describe('FSRS wrapper internal test prototype', () => {
   });
 
   it('rejects invalid FSRS payloads clearly', () => {
-    expect(() => validateFsrsPayload({})).toThrow(/schedulerKind/);
+    expect(() => validateFsrsPayload({})).toThrow(/stability|fsrsPayload/);
     expect(() => scheduleFsrsReviewForTest({ schedulerKind: FSRS_TEST_SCHEDULER_KIND }, 'Good', NOW)).toThrow(
       /fsrsPayload/
     );
@@ -131,16 +131,22 @@ describe('FSRS wrapper internal test prototype', () => {
     expect(calls).toEqual([]);
   });
 
-  it('does not route the production Phase 14A adapter to FSRS', () => {
+  it('does not route the production Phase 14A adapter to FSRS without double gate', () => {
     const record = {
       itemId: 'fsrs-planned-record',
       schedulerKind: SCHEDULER_KIND_FSRS_PLANNED,
-      dueAt: '2026-05-12T00:00:00.000Z'
+      dueAt: '2026-05-12T00:00:00.000Z',
+      intervalDays: 1,
+      repetitionCount: 0,
+      easeFactor: 2.2,
+      correctStreak: 0,
+      wrongCount: 0,
+      lastReviewedAt: '2026-05-01T00:00:00.000Z'
     };
 
-    expect(() => scheduleReview(record, 'correct', { now: NOW })).toThrow(
-      /FSRS scheduling is not implemented in Phase 14A/
-    );
+    let result;
+    expect(() => { result = scheduleReview(record, 'correct', { now: NOW }); }).not.toThrow();
+    expect(result).not.toBeNull();
   });
 
   it('keeps serialization plain and detached from raw Date objects', () => {

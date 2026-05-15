@@ -388,8 +388,9 @@ describe('reviewSchedulerAdapter — no production FSRS route added', () => {
   const adapterPath = resolve(PROJECT_ROOT, 'src/quiz/reviewSchedulerAdapter.js');
   const source = fs.readFileSync(adapterPath, 'utf8');
 
-  it('does not reference fsrsExperimentalEnabled (UI setting not wired to adapter)', () => {
-    expect(source).not.toContain('fsrsExperimentalEnabled');
+  it('reads fsrsExperimentalEnabled and fsrsActiveSchedulingEnabled for the double gate (Phase 15B)', () => {
+    expect(source).toContain('fsrsExperimentalEnabled');
+    expect(source).toContain('fsrsActiveSchedulingEnabled');
   });
 });
 

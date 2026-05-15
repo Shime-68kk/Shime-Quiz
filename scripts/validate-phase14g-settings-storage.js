@@ -133,6 +133,23 @@ const phase14gAllowedChangedFiles = new Set([
   // Phase 15A exact files (forward compatibility)
   'docs/phase15a-fsrs-active-scheduling-architecture.md',
   'scripts/validate-phase15a-fsrs-active-scheduling-architecture.js',
+  // Phase 15B exact files (forward compatibility)
+  '.github/workflows/e2e-smoke.yml',
+  'docs/phase15b-active-fsrs-scheduling-double-gated.md',
+  'scripts/validate-phase15b-active-fsrs-scheduling-double-gated.js',
+  'src/quiz/fsrsWrapper.js',
+  'src/quiz/reviewSchedulerAdapter.js',
+  'src/state/reviewScheduleStorage.js',
+  'src/state/settingsStorage.js',
+  'tests/unit/fsrsActiveSchedulingDoubleGated.test.js',
+  'tests/unit/fsrsEnrollmentReadinessHarness.test.js',
+  'tests/unit/fsrsExperimentalSettingsPanel.test.jsx',
+  'tests/unit/fsrsPersistenceHarness.test.js',
+  'tests/unit/fsrsProductionEnrollmentWiring.test.js',
+  'tests/unit/fsrsWrapper.test.js',
+  'tests/unit/reviewSchedulerAdapter.phase14d.test.js',
+  'tests/unit/reviewSchedulerAdapter.test.js',
+  'tests/unit/settingsStorage.test.js',
   'scripts/validate-phase14n-production-studyroom-two-step-bridge.js',
   'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
   'src/routes/StudyRoom.jsx',
@@ -437,13 +454,15 @@ function localStorageSyncGuard() {
 function uiIsolationGuard() {
   for (const file of [STUDY_ROOM, DASHBOARD, ADAPTER_SOURCE]) {
     const source = read(file);
+    // Phase 15B adds fsrsExperimentalEnabled + settingsStorage to adapter via double-gate (approved).
+    const phase15bAdapter = file === ADAPTER_SOURCE && source.includes('fsrsActiveSchedulingEnabled');
     if (source.includes('shimeV2SettingsV1')) {
       fail(`${file} must not reference shimeV2SettingsV1`);
     }
-    if (source.includes('fsrsExperimentalEnabled')) {
+    if (source.includes('fsrsExperimentalEnabled') && !phase15bAdapter) {
       fail(`${file} must not reference fsrsExperimentalEnabled`);
     }
-    if (source.includes('settingsStorage')) {
+    if (source.includes('settingsStorage') && !phase15bAdapter) {
       fail(`${file} must not import or reference settingsStorage`);
     }
   }

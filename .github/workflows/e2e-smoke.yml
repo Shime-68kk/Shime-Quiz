@@ -364,6 +364,9 @@ jobs:
       - name: Validate Phase 15A active FSRS scheduling architecture
         run: node scripts/validate-phase15a-fsrs-active-scheduling-architecture.js
 
+      - name: Validate Phase 15B active FSRS scheduling double-gated
+        run: node scripts/validate-phase15b-active-fsrs-scheduling-double-gated.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

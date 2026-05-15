@@ -9,6 +9,9 @@ import {
 export const FSRS_TEST_SCHEDULER_KIND = 'fsrs-v4-test';
 export const FSRS_TEST_SCHEDULER_VERSION = 'ts-fsrs-5.3.3-test';
 
+export const FSRS_ACTIVE_SCHEDULER_KIND = 'fsrs-active';
+export const FSRS_ACTIVE_SCHEDULER_VERSION = 'phase15b-active-scheduling';
+
 const RATING_NAMES = {
   [Rating.Again]: 'Again',
   [Rating.Hard]: 'Hard',
@@ -242,9 +245,59 @@ export function serializeFsrsReviewLog(log) {
   };
 }
 
+// Lenient conversion from raw fsrsPayload object (no schedulerKind required).
+// stability is required; other numeric fields zero-default; 'New' state default; due defaults to now.
+export function toRawFsrsCardFromPayload(payload) {
+  if (!payload || typeof payload !== 'object') {
+    throw new TypeError('fsrsPayload must be an object with a stability field.');
+  }
+  if (payload.stability == null) {
+    throw new TypeError('fsrsPayload.stability is required.');
+  }
+  const stability = Number(payload.stability);
+  if (!Number.isFinite(stability)) {
+    throw new TypeError('fsrsPayload.stability must be a finite number.');
+  }
+  const difficulty = payload.difficulty != null ? Number(payload.difficulty) : 0;
+  const due = payload.due ? toDate(payload.due, 'fsrsPayload.due') : new Date();
+  const state = payload.state != null ? normalizeState(payload.state) : State.New;
+
+  const rawCard = {
+    due,
+    stability,
+    difficulty,
+    elapsed_days: toNonNegativeInteger(payload.elapsedDays ?? 0, 'fsrsPayload.elapsedDays'),
+    scheduled_days: toNonNegativeInteger(payload.scheduledDays ?? 0, 'fsrsPayload.scheduledDays'),
+    reps: toNonNegativeInteger(payload.reps ?? 0, 'fsrsPayload.reps'),
+    lapses: toNonNegativeInteger(payload.lapses ?? 0, 'fsrsPayload.lapses'),
+    learning_steps: toNonNegativeInteger(payload.learningSteps ?? 0, 'fsrsPayload.learningSteps'),
+    state
+  };
+
+  if (payload.lastReview) {
+    rawCard.last_review = toDate(payload.lastReview, 'fsrsPayload.lastReview');
+  }
+
+  return rawCard;
+}
+
 export function validateFsrsPayload(payload) {
-  toRawFsrsCard(payload);
+  toRawFsrsCardFromPayload(payload);
   return true;
+}
+
+export function scheduleFsrsReview(fsrsPayload, rating, now = new Date()) {
+  const reviewDate = toDate(now, 'review date');
+  const rawCard = toRawFsrsCardFromPayload(fsrsPayload);
+  const ratingValue = normalizeRating(rating);
+  const result = scheduler.next(rawCard, reviewDate, ratingValue);
+
+  const card = serializeFsrsCard(result.card, reviewDate);
+  const reviewLog = serializeFsrsReviewLog(result.log);
+  const dueAt = card.dueAt;
+  const intervalDays = card.scheduledDays ?? 0;
+
+  return { card, reviewLog, dueAt, intervalDays };
 }
 
 export function createFsrsSeedCardForTest(now = new Date()) {

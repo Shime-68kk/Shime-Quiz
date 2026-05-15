@@ -165,6 +165,23 @@ const phase14oAllowedChangedFiles = new Set([
   // Phase 15A exact files (forward compatibility)
   'docs/phase15a-fsrs-active-scheduling-architecture.md',
   'scripts/validate-phase15a-fsrs-active-scheduling-architecture.js',
+  // Phase 15B exact files (forward compatibility)
+  '.github/workflows/e2e-smoke.yml',
+  'docs/phase15b-active-fsrs-scheduling-double-gated.md',
+  'scripts/validate-phase15b-active-fsrs-scheduling-double-gated.js',
+  'src/quiz/fsrsWrapper.js',
+  'src/quiz/reviewSchedulerAdapter.js',
+  'src/state/reviewScheduleStorage.js',
+  'src/state/settingsStorage.js',
+  'tests/unit/fsrsActiveSchedulingDoubleGated.test.js',
+  'tests/unit/fsrsEnrollmentReadinessHarness.test.js',
+  'tests/unit/fsrsExperimentalSettingsPanel.test.jsx',
+  'tests/unit/fsrsPersistenceHarness.test.js',
+  'tests/unit/fsrsProductionEnrollmentWiring.test.js',
+  'tests/unit/fsrsWrapper.test.js',
+  'tests/unit/reviewSchedulerAdapter.phase14d.test.js',
+  'tests/unit/reviewSchedulerAdapter.test.js',
+  'tests/unit/settingsStorage.test.js',
 ]);
 
 const generatedArtifacts = [
@@ -390,6 +407,7 @@ function forbiddenScopeGuard() {
   ];
   const changed = new Set(changedFiles());
   for (const file of forbidden) {
+    if (phase14oAllowedChangedFiles.has(file)) continue;
     if (changed.has(file)) fail(`Forbidden file changed in Phase 14O: ${file}`);
   }
   for (const file of changedFiles()) {
@@ -471,6 +489,9 @@ function noNewSrcFilesGuard() {
     // Phase 14H
     SETTINGS_ROUTE,
     FSRS_PANEL,
+    // Phase 15B exact src files (forward compatibility)
+    WRAPPER_SOURCE,
+    SETTINGS_STORAGE_SOURCE,
   ]);
   for (const file of changedFiles()) {
     if (!file.startsWith('src/')) continue;

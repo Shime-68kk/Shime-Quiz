@@ -163,6 +163,23 @@ const phase14fAllowedChangedFiles = new Set([
   // Phase 15A exact files (forward compatibility)
   'docs/phase15a-fsrs-active-scheduling-architecture.md',
   'scripts/validate-phase15a-fsrs-active-scheduling-architecture.js',
+  // Phase 15B exact files (forward compatibility)
+  '.github/workflows/e2e-smoke.yml',
+  'docs/phase15b-active-fsrs-scheduling-double-gated.md',
+  'scripts/validate-phase15b-active-fsrs-scheduling-double-gated.js',
+  'src/quiz/fsrsWrapper.js',
+  'src/quiz/reviewSchedulerAdapter.js',
+  'src/state/reviewScheduleStorage.js',
+  'src/state/settingsStorage.js',
+  'tests/unit/fsrsActiveSchedulingDoubleGated.test.js',
+  'tests/unit/fsrsEnrollmentReadinessHarness.test.js',
+  'tests/unit/fsrsExperimentalSettingsPanel.test.jsx',
+  'tests/unit/fsrsPersistenceHarness.test.js',
+  'tests/unit/fsrsProductionEnrollmentWiring.test.js',
+  'tests/unit/fsrsWrapper.test.js',
+  'tests/unit/reviewSchedulerAdapter.phase14d.test.js',
+  'tests/unit/reviewSchedulerAdapter.test.js',
+  'tests/unit/settingsStorage.test.js',
   'scripts/validate-phase14n-production-studyroom-two-step-bridge.js',
   'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
   'src/routes/StudyRoom.jsx',
@@ -495,8 +512,11 @@ function runtimeIsolationGuard() {
   // Phase 14G adds shimeV2SettingsV1 to localStorageSync.js and v2BackupRestore.js (Phase 14G scope).
   // Phase 14L wires getSettings()/fsrsExperimentalEnabled into reviewScheduleStorage.js (Phase 14L scope).
   // Check settings leakage only in files neither Phase 14G nor Phase 14L must touch.
+  // Phase 15B adds fsrsExperimentalEnabled + fsrsActiveSchedulingEnabled double-gate to adapter (approved).
+  const phase15bApplied = read(ADAPTER_SOURCE).includes('fsrsActiveSchedulingEnabled');
   const settingsIsolationFiles = runtimeFiles.filter(
-    f => f !== LOCAL_STORAGE_SYNC && f !== BACKUP_SOURCE && f !== STORAGE_SOURCE
+    f => f !== LOCAL_STORAGE_SYNC && f !== BACKUP_SOURCE && f !== STORAGE_SOURCE &&
+         !(phase15bApplied && f === ADAPTER_SOURCE)
   );
   const settingsIsolationCombined = settingsIsolationFiles.map(file => read(file)).join('\n');
   if (/shimeV2SettingsV1|fsrsExperimentalEnabled|fsrsEnrollmentMode/i.test(settingsIsolationCombined)) {

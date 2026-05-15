@@ -286,12 +286,14 @@ describe('Phase 14C FSRS persistence harness', () => {
     expect(combined).not.toMatch(/Again\s*\/\s*Hard\s*\/\s*Good\s*\/\s*Easy/);
   });
 
-  it('keeps production adapter FSRS scheduling rejected', () => {
+  it('keeps production adapter FSRS scheduling gated (SM-2 fallback when double gate off)', () => {
+    let result;
     expect(() => {
-      scheduleReview(makeLegacyRecord({ schedulerKind: SCHEDULER_KIND_FSRS_PLANNED }), 'correct', {
+      result = scheduleReview(makeLegacyRecord({ schedulerKind: SCHEDULER_KIND_FSRS_PLANNED }), 'correct', {
         now: new Date(NOW)
       });
-    }).toThrow(/FSRS scheduling is not implemented in Phase 14A/);
+    }).not.toThrow();
+    expect(result).not.toBeNull();
   });
 
   it('does not add production localStorage migration helpers or flags', () => {

@@ -2,7 +2,16 @@ import {
   FSRS_REVIEW_LOG_CAP,
   createReviewScheduleRecordFromResult
 } from '../state/reviewScheduleStorage.js';
-import { scheduleFsrsReviewForTest } from './fsrsWrapper.js';
+import {
+  scheduleFsrsReviewForTest,
+  scheduleFsrsReview,
+  validateFsrsPayload,
+  FSRS_ACTIVE_SCHEDULER_KIND,
+  FSRS_ACTIVE_SCHEDULER_VERSION
+} from './fsrsWrapper.js';
+import { getSettings } from '../state/settingsStorage.js';
+
+export { FSRS_ACTIVE_SCHEDULER_KIND, FSRS_ACTIVE_SCHEDULER_VERSION };
 
 export const SCHEDULER_KIND_CURRENT = 'sm2-heuristic';
 export const FSRS_DORMANT_SCHEDULER_VERSION = 'phase14j-dormant-readiness';
@@ -21,7 +30,8 @@ const CURRENT_KIND_ALIASES = new Set([
 const FSRS_KIND_ALIASES = new Set([
   SCHEDULER_KIND_FSRS_PLANNED,
   SCHEDULER_VERSION_FSRS_PLANNED,
-  'fsrs-v4'
+  'fsrs-v4',
+  'fsrs-active'
 ]);
 
 const FSRS_TEST_KIND_ALIASES = new Set([
@@ -195,15 +205,91 @@ function scheduleGatedFsrsReview(record, outcome, context = {}) {
   return scheduleFsrsReviewForTest(preserveCurrentRecord(record), rating, now);
 }
 
-export function scheduleReview(record, outcome, context = {}) {
-  if (getSchedulerKind(record) === SCHEDULER_KIND_FSRS_PLANNED) {
-    if (context.enableFsrsTestRoute === true) {
-      return scheduleGatedFsrsReview(record, outcome, context);
-    }
+// SM-2 fallback preserving FSRS metadata: no demotion, delegates scheduling to SM-2 only.
+export function scheduleCurrentReviewPreservingFsrs(record, outcome, context = {}) {
+  const itemResult = createItemResult(record, outcome, context);
+  if (!itemResult) return null;
 
-    throw new Error(
-      `FSRS scheduling is not implemented in Phase 14A; schedulerKind ${SCHEDULER_KIND_FSRS_PLANNED} cannot be scheduled until a later approved runtime phase.`
-    );
+  const completedAt = toSafeDate(context.completedAt || context.now || new Date()).toISOString();
+  const sm2Result = createReviewScheduleRecordFromResult(preserveCurrentRecord(record), itemResult, completedAt);
+  if (!sm2Result) return null;
+
+  return {
+    ...sm2Result,
+    schedulerKind: record.schedulerKind ?? SCHEDULER_KIND_FSRS_PLANNED,
+    schedulerVersion: record.schedulerVersion ?? '',
+    ...(record.fsrsPayload ? { fsrsPayload: JSON.parse(JSON.stringify(record.fsrsPayload)) } : {}),
+    ...(Array.isArray(record.fsrsReviewLogs) ? { fsrsReviewLogs: [...record.fsrsReviewLogs] } : {})
+  };
+}
+
+// Maps normalized outcome + context to FSRS rating or SM-2 fallback flag.
+export function resolveActiveSchedulingRating(normalizedOutcome, context = {}) {
+  if (context.continueWithoutRating === true) return { rating: null, useSm2Fallback: true };
+  if (context.memoryRating) {
+    const r = context.memoryRating;
+    if (r === 'Hard' || r === 'Good' || r === 'Easy') return { rating: r, useSm2Fallback: false };
+  }
+  if (normalizedOutcome === 'wrong' || normalizedOutcome === 'unanswered') return { rating: 'Again', useSm2Fallback: false };
+  if (normalizedOutcome === 'correct') return { rating: 'Good', useSm2Fallback: false };
+  return { rating: 'Good', useSm2Fallback: false };
+}
+
+// Validates payload, resolves rating, calls scheduleFsrsReview; try/catch → SM-2 fallback.
+export function scheduleActiveFsrsOrFallback(record, outcome, context = {}) {
+  const itemResult = createItemResult(record, outcome, context);
+  if (!itemResult) return null;
+
+  const normalizedOutcome = normalizeOutcome(outcome);
+  const { rating, useSm2Fallback } = resolveActiveSchedulingRating(normalizedOutcome, context);
+
+  if (useSm2Fallback) {
+    return scheduleCurrentReviewPreservingFsrs(record, outcome, context);
+  }
+
+  try {
+    validateFsrsPayload(record.fsrsPayload);
+  } catch {
+    return scheduleCurrentReviewPreservingFsrs(record, outcome, context);
+  }
+
+  try {
+    const now = context.now ? toSafeDate(context.now) : new Date();
+    const fsrsResult = scheduleFsrsReview(record.fsrsPayload, rating, now);
+
+    const completedAt = toSafeDate(context.completedAt || context.now || new Date()).toISOString();
+    const sm2Base = createReviewScheduleRecordFromResult(preserveCurrentRecord(record), itemResult, completedAt);
+    if (!sm2Base) return null;
+
+    const existingLogs = Array.isArray(record.fsrsReviewLogs) ? record.fsrsReviewLogs : [];
+    const newLog = { ...fsrsResult.reviewLog, reviewedAt: now.toISOString() };
+    const fsrsReviewLogs = [...existingLogs, newLog].slice(-FSRS_REVIEW_LOG_CAP);
+
+    return {
+      ...sm2Base,
+      dueAt: fsrsResult.dueAt,
+      intervalDays: fsrsResult.intervalDays,
+      schedulerKind: FSRS_ACTIVE_SCHEDULER_KIND,
+      schedulerVersion: FSRS_ACTIVE_SCHEDULER_VERSION,
+      fsrsPayload: fsrsResult.card.fsrsPayload,
+      fsrsReviewLogs
+    };
+  } catch {
+    return scheduleCurrentReviewPreservingFsrs(record, outcome, context);
+  }
+}
+
+export function scheduleReview(record, outcome, context = {}) {
+  if (getSchedulerKind(record) === SCHEDULER_KIND_FSRS_PLANNED && context.enableFsrsTestRoute === true) {
+    return scheduleGatedFsrsReview(record, outcome, context);
+  }
+
+  if (getSchedulerKind(record) === SCHEDULER_KIND_FSRS_PLANNED) {
+    const settings = getSettings();
+    const doubleGateOn =
+      settings.fsrsExperimentalEnabled === true && settings.fsrsActiveSchedulingEnabled === true;
+    if (doubleGateOn) return scheduleActiveFsrsOrFallback(record, outcome, context);
+    return scheduleCurrentReviewPreservingFsrs(record, outcome, context);
   }
 
   return scheduleCurrentReview(record, outcome, context);

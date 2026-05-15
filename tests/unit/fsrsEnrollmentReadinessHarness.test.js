@@ -345,10 +345,12 @@ describe('Phase 14J invariants', () => {
     expect(storageSource).not.toMatch(/\.next\s*\(/);
   });
 
-  it('scheduleReview still throws for fsrs-planned records without test route', () => {
+  it('scheduleReview handles fsrs-planned records via double gate (SM-2 fallback when gate off)', () => {
+    let result;
     expect(() => {
-      scheduleReview(makeExistingRecord({ schedulerKind: 'fsrs-planned' }), 'correct', { now: NOW });
-    }).toThrow(/FSRS scheduling is not implemented in Phase 14A/);
+      result = scheduleReview(makeExistingRecord({ schedulerKind: 'fsrs-planned' }), 'correct', { now: NOW });
+    }).not.toThrow();
+    expect(result).not.toBeNull();
   });
 
   it('StudyRoom and Dashboard unchanged — no FSRS rating UI', () => {
@@ -360,12 +362,14 @@ describe('Phase 14J invariants', () => {
     expect(studyRoom).not.toMatch(/isFsrsNewCardEnrollmentEligible/);
   });
 
-  it('active FSRS scheduling remains disabled in adapter', () => {
+  it('active FSRS scheduling via scheduleActiveFsrsOrFallback — no .next() in adapter directly', () => {
     const adapterSource = readProjectFile('src/quiz/reviewSchedulerAdapter.js');
     // scheduleDormantFsrsReview must not call ts-fsrs.next()
     expect(adapterSource).not.toMatch(/scheduleFsrsReviewForTest\s*\(\s*[^)]*\)\s*;?\s*\/\/.*dormant/i);
-    // scheduleReview still throws the Phase 14A error for fsrs-planned
-    expect(adapterSource).toContain('FSRS scheduling is not implemented in Phase 14A');
+    // scheduleReview uses double gate; adapter delegates .next() only via scheduleFsrsReview from fsrsWrapper
+    expect(adapterSource).toContain('scheduleActiveFsrsOrFallback');
+    expect(adapterSource).toContain('fsrsExperimentalEnabled');
+    expect(adapterSource).toContain('fsrsActiveSchedulingEnabled');
   });
 
   it('FSRS_REVIEW_LOG_CAP is exported and equals 20', () => {

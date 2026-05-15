@@ -49,17 +49,19 @@ function readProjectFile(relativePath) {
 }
 
 describe('Phase 14D developer gate disabled', () => {
-  it('keeps FSRS test records behind the Phase 14A firewall when the gate is absent', () => {
-    expect(() => scheduleReview(fsrsTestRecord(), 'correct', { now: NOW })).toThrow(
-      /FSRS scheduling is not implemented in Phase 14A/
-    );
+  it('returns SM-2 fallback for FSRS records when the test gate is absent (Phase 15B)', () => {
+    let result;
+    expect(() => { result = scheduleReview(fsrsTestRecord(), 'correct', { now: NOW }); }).not.toThrow();
+    expect(result).not.toBeNull();
   });
 
-  it('requires enableFsrsTestRoute to be the strict boolean true value', () => {
+  it('requires enableFsrsTestRoute to be the strict boolean true value to reach test route', () => {
     for (const value of [false, 1, 'true']) {
+      let result;
       expect(() => {
-        scheduleReview(fsrsTestRecord(), 'correct', { now: NOW, enableFsrsTestRoute: value });
-      }).toThrow(/FSRS scheduling is not implemented in Phase 14A/);
+        result = scheduleReview(fsrsTestRecord(), 'correct', { now: NOW, enableFsrsTestRoute: value });
+      }).not.toThrow();
+      expect(result).not.toBeNull();
     }
   });
 });
