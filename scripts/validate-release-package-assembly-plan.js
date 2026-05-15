@@ -387,6 +387,27 @@ const allowedChanged = new Set([
   // Phase 15H exact files (forward compatibility)
   'docs/phase15h-fsrs-foundation-closure-phase16-readiness.md',
   'scripts/validate-phase15h-fsrs-foundation-closure-phase16-readiness.js',
+
+  // Phase 16A allowlist entries (Vietnamese-first UX copy alignment)
+  'docs/phase16a-vietnamese-first-ux-copy-alignment.md',
+  'scripts/validate-phase16a-vietnamese-first-ux-copy-alignment.js',
+  'tests/unit/vietnameseFirstUxCopyAlignment.test.js',
+  'tests/unit/fsrsStudyRoomCopyUxAlignment.test.jsx',
+  'src/routes/Home.jsx',
+  'src/routes/Dashboard.jsx',
+  'src/routes/StudyRoom.jsx',
+  'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
+  'src/components/settings/FsrsExperimentalSettingsPanel.jsx',
+  'scripts/validate-phase14o-fsrs-active-scheduling-decision-gate.js',
+  'scripts/validate-phase14p-fsrs-foundation-closure-phase15-handoff.js',
+  'scripts/validate-phase15a-fsrs-active-scheduling-architecture.js',
+  'scripts/validate-phase15b-active-fsrs-scheduling-double-gated.js',
+  'scripts/validate-phase15c-dashboard-mixed-scheduler-due-count.js',
+  'scripts/validate-phase15d-active-fsrs-runtime-smoke-rollback-audit.js',
+  'scripts/validate-phase15e-controlled-internal-activation-harness.js',
+  'scripts/validate-phase15f-studyroom-copy-ux-alignment.js',
+  'scripts/validate-phase15g-release-claim-guardrail-reaudit.js',
+  'scripts/validate-phase15h-fsrs-foundation-closure-phase16-readiness.js',
 ]);
 for (const file of changedFiles()) {
   if (!allowedChanged.has(file)) failures.push(`Unexpected changed file for Phase 10O: ${file}`);

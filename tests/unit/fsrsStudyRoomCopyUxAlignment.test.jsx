@@ -204,14 +204,16 @@ describe('Phase 15F — Continue without rating copy', () => {
   it('Continue without rating button label remains visible in default mode', () => {
     const tree = renderBridge({ isActiveSchedulingCopyEnabled: false, isActiveSchedulingCopyContextEligible: false });
     const buttons = findAll(tree, el => el?.type === 'button');
-    const skipButton = buttons.find(b => collectText(b) === 'Continue without rating');
+    // Phase 16A: button now renders Vietnamese-first label alongside the English
+    // helper text, so we match on substring inclusion instead of strict equality.
+    const skipButton = buttons.find(b => collectText(b).includes('Continue without rating'));
     expect(skipButton).toBeDefined();
   });
 
   it('Continue without rating button label remains visible in active mode', () => {
     const tree = renderBridge({ isActiveSchedulingCopyEnabled: true });
     const buttons = findAll(tree, el => el?.type === 'button');
-    const skipButton = buttons.find(b => collectText(b) === 'Continue without rating');
+    const skipButton = buttons.find(b => collectText(b).includes('Continue without rating'));
     expect(skipButton).toBeDefined();
   });
 
