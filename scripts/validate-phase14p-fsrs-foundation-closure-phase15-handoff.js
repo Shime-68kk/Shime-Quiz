@@ -188,6 +188,10 @@ const phase14pAllowedChangedFiles = new Set([
   'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
   'src/components/settings/FsrsExperimentalSettingsPanel.jsx',
   'tests/unit/fsrsStudyRoomCopyUxAlignment.test.jsx',
+
+  // Phase 16B allowlist entries (Hybrid Local-First Architecture / Optional Sync Direction)
+  'docs/phase16b-hybrid-local-first-optional-sync-direction.md',
+  'scripts/validate-phase16b-hybrid-local-first-optional-sync-direction.js',
 ]);
 
 const generatedArtifacts = [

@@ -276,6 +276,10 @@ const allowedChanged = new Set([
   'scripts/validate-phase15f-studyroom-copy-ux-alignment.js',
   'scripts/validate-phase15g-release-claim-guardrail-reaudit.js',
   'scripts/validate-phase15h-fsrs-foundation-closure-phase16-readiness.js',
+
+  // Phase 16B allowlist entries (Hybrid Local-First Architecture / Optional Sync Direction)
+  'docs/phase16b-hybrid-local-first-optional-sync-direction.md',
+  'scripts/validate-phase16b-hybrid-local-first-optional-sync-direction.js',
 ]);
 
 function fail(message) { failures.push(message); }
