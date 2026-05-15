@@ -379,6 +379,9 @@ jobs:
       - name: Validate Phase 15F Study Room copy UX alignment
         run: node scripts/validate-phase15f-studyroom-copy-ux-alignment.js
 
+      - name: Validate Phase 15G release claim guardrail reaudit
+        run: node scripts/validate-phase15g-release-claim-guardrail-reaudit.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
