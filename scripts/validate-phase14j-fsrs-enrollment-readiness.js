@@ -174,6 +174,9 @@ const phase14jAllowedChangedFiles = new Set([
   // Phase 15F exact files (forward compatibility)
   'docs/phase15f-studyroom-copy-ux-alignment.md',
   'scripts/validate-phase15f-studyroom-copy-ux-alignment.js',
+  // Phase 15G exact files (forward compatibility)
+  'docs/phase15g-release-claim-guardrail-reaudit.md',
+  'scripts/validate-phase15g-release-claim-guardrail-reaudit.js',
   'tests/unit/fsrsStudyRoomCopyUxAlignment.test.jsx',
 ]);
 

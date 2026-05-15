@@ -114,6 +114,9 @@ const phase15fAllowedChangedFiles = new Set([
   'scripts/validate-web-share-mobile-sharing-prototype-plan.js',
   'scripts/validate-web-share-runtime-fallback-hardening.js',
   'scripts/validate-web-share-runtime-prototype.js',
+  // Phase 15G exact files (forward compatibility)
+  'docs/phase15g-release-claim-guardrail-reaudit.md',
+  'scripts/validate-phase15g-release-claim-guardrail-reaudit.js',
 ]);
 
 const generatedArtifacts = [
