@@ -1,28 +1,34 @@
 #!/usr/bin/env node
 /**
- * scripts/validate-phase15c-dashboard-mixed-scheduler-due-count.js
+ * scripts/validate-phase15d-active-fsrs-runtime-smoke-rollback-audit.js
  *
- * Phase 15C static validator — Dashboard Mixed Scheduler Due Count / Display.
- * No scheduling changes. No ts-fsrs.next() call sites. No forbidden file changes.
+ * Phase 15D static validator — Active FSRS Runtime Smoke / Rollback Audit.
+ * No new scheduling features. No new ts-fsrs.next() call sites.
+ * No forbidden file changes. Audit/hardening after Phase 15B/15C only.
  */
 
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
-const DOCS_FILE     = 'docs/phase15c-dashboard-mixed-scheduler-due-count.md';
-const VALIDATOR_SCRIPT = 'scripts/validate-phase15c-dashboard-mixed-scheduler-due-count.js';
-const WORKFLOW_FILE = '.github/workflows/e2e-smoke.yml';
-const TEST_FILE     = 'tests/unit/dashboardMixedSchedulerDueCount.test.jsx';
+const DOCS_FILE      = 'docs/phase15d-active-fsrs-runtime-smoke-rollback-audit.md';
+const VALIDATOR_SCRIPT = 'scripts/validate-phase15d-active-fsrs-runtime-smoke-rollback-audit.js';
+const WORKFLOW_FILE  = '.github/workflows/e2e-smoke.yml';
+const TEST_FILE      = 'tests/unit/fsrsActiveRuntimeRollbackAudit.test.js';
 
-const DASHBOARD        = 'src/routes/Dashboard.jsx';
 const ADAPTER_SOURCE   = 'src/quiz/reviewSchedulerAdapter.js';
 const STORAGE_SOURCE   = 'src/state/reviewScheduleStorage.js';
 const WRAPPER_SOURCE   = 'src/quiz/fsrsWrapper.js';
 const SETTINGS_SOURCE  = 'src/state/settingsStorage.js';
 const STUDY_ROOM       = 'src/routes/StudyRoom.jsx';
+const DASHBOARD        = 'src/routes/Dashboard.jsx';
 const BRIDGE_COMPONENT = 'src/components/study/FsrsProductionMemoryRatingBridge.jsx';
 const LEGACY_BACKUP    = 'src/quiz/dataBackup.js';
 const V2_BACKUP        = 'src/state/v2BackupRestore.js';
+
+// Phase 15C regression files
+const PHASE15C_DOCS      = 'docs/phase15c-dashboard-mixed-scheduler-due-count.md';
+const PHASE15C_VALIDATOR = 'scripts/validate-phase15c-dashboard-mixed-scheduler-due-count.js';
+const PHASE15C_TEST      = 'tests/unit/dashboardMixedSchedulerDueCount.test.jsx';
 
 // Phase 15B regression files
 const PHASE15B_DOCS      = 'docs/phase15b-active-fsrs-scheduling-double-gated.md';
@@ -38,33 +44,16 @@ const internalRegistryTerms = [
   'packages.applied'
 ];
 
-// Phase 15C allowed changed files — exact list.
-// Also includes Phase 15B files because Phase 15B may not yet be merged to origin/main
-// at the time Phase 15C is validated locally.
-const phase15cAllowedChangedFiles = new Set([
+// Phase 15D allowed changed files — exact list.
+// Historical validator files are included because they were updated with Phase 15D allowlist entries.
+const phase15dAllowedChangedFiles = new Set([
   WORKFLOW_FILE,
   DOCS_FILE,
   VALIDATOR_SCRIPT,
   TEST_FILE,
-  DASHBOARD,
-  ADAPTER_SOURCE,
-  // Phase 15B files (included for local validation before Phase 15B merges to origin/main)
-  PHASE15B_DOCS,
-  PHASE15B_TEST,
-  STORAGE_SOURCE,
-  WRAPPER_SOURCE,
-  SETTINGS_SOURCE,
-  'tests/unit/fsrsEnrollmentReadinessHarness.test.js',
-  'tests/unit/fsrsExperimentalSettingsPanel.test.jsx',
-  'tests/unit/fsrsPersistenceHarness.test.js',
-  'tests/unit/fsrsProductionEnrollmentWiring.test.js',
-  'tests/unit/fsrsWrapper.test.js',
-  'tests/unit/reviewSchedulerAdapter.phase14d.test.js',
-  'tests/unit/reviewSchedulerAdapter.test.js',
-  'tests/unit/settingsStorage.test.js',
-  // Phase 15B validator updated to add Phase 15C forward-compat allowlist and fix forbiddenScopeGuard
+  // Historical validators updated with Phase 15D forward-compat allowlist entries
   PHASE15B_VALIDATOR,
-  // Historical validators updated with exact Phase 15C allowlist entries only
+  PHASE15C_VALIDATOR,
   'scripts/validate-backup-transfer-safety-hardening.js',
   'scripts/validate-cross-device-export-import.js',
   'scripts/validate-cross-device-transfer-track-closure.js',
@@ -117,11 +106,6 @@ const phase15cAllowedChangedFiles = new Set([
   'scripts/validate-web-share-mobile-sharing-prototype-plan.js',
   'scripts/validate-web-share-runtime-fallback-hardening.js',
   'scripts/validate-web-share-runtime-prototype.js',
-  // Phase 15D exact files (forward compatibility)
-  'docs/phase15d-active-fsrs-runtime-smoke-rollback-audit.md',
-  'scripts/validate-phase15d-active-fsrs-runtime-smoke-rollback-audit.js',
-  'tests/unit/fsrsActiveRuntimeRollbackAudit.test.js',
-  'scripts/validate-phase15b-active-fsrs-scheduling-double-gated.js',
 ]);
 
 const generatedArtifacts = [
@@ -137,12 +121,12 @@ const generatedArtifacts = [
 ];
 
 function fail(message) {
-  console.error(`Phase 15C validation failed: ${message}`);
+  console.error(`Phase 15D validation failed: ${message}`);
   process.exit(1);
 }
 
 function warn(message) {
-  console.warn(`Phase 15C validation warning: ${message}`);
+  console.warn(`Phase 15D validation warning: ${message}`);
 }
 
 function read(file) {
@@ -238,15 +222,19 @@ function requiredFilesGuard() {
   read(VALIDATOR_SCRIPT);
   read(WORKFLOW_FILE);
   read(TEST_FILE);
-  read(DASHBOARD);
   read(ADAPTER_SOURCE);
   read(STORAGE_SOURCE);
   read(WRAPPER_SOURCE);
   read(SETTINGS_SOURCE);
   read(STUDY_ROOM);
+  read(DASHBOARD);
   read(BRIDGE_COMPONENT);
   read(LEGACY_BACKUP);
   read(V2_BACKUP);
+  // Phase 15C regression
+  read(PHASE15C_DOCS);
+  read(PHASE15C_VALIDATOR);
+  read(PHASE15C_TEST);
   // Phase 15B regression
   read(PHASE15B_DOCS);
   read(PHASE15B_VALIDATOR);
@@ -269,6 +257,10 @@ function packageGuard() {
       if (text.includes(term)) fail(`${file} contains internal registry term: ${term}`);
     }
   }
+  // package.json and package-lock.json must not have changed in Phase 15D
+  const changed = new Set(changedFiles());
+  if (changed.has('package.json')) fail('package.json must not change in Phase 15D');
+  if (changed.has('package-lock.json')) fail('package-lock.json must not change in Phase 15D');
 }
 
 // ── Workflow guard ────────────────────────────────────────────────────────────
@@ -283,17 +275,19 @@ function workflowGuard() {
     'node scripts/validate-phase15a-fsrs-active-scheduling-architecture.js',
     'node scripts/validate-phase15b-active-fsrs-scheduling-double-gated.js',
     'node scripts/validate-phase15c-dashboard-mixed-scheduler-due-count.js',
+    'node scripts/validate-phase15d-active-fsrs-runtime-smoke-rollback-audit.js',
   ];
   for (const validator of requiredValidators) {
     if (!text.includes(validator)) fail(`${WORKFLOW_FILE} must run ${validator}`);
   }
 
-  const phase15bPos = text.indexOf('node scripts/validate-phase15b-active-fsrs-scheduling-double-gated.js');
+  // Phase 15D must be registered after Phase 15C
   const phase15cPos = text.indexOf('node scripts/validate-phase15c-dashboard-mixed-scheduler-due-count.js');
-  if (phase15bPos === -1) fail(`${WORKFLOW_FILE} must register Phase 15B validator`);
+  const phase15dPos = text.indexOf('node scripts/validate-phase15d-active-fsrs-runtime-smoke-rollback-audit.js');
   if (phase15cPos === -1) fail(`${WORKFLOW_FILE} must register Phase 15C validator`);
-  if (phase15cPos <= phase15bPos) {
-    fail(`${WORKFLOW_FILE} must register Phase 15C validator after Phase 15B validator`);
+  if (phase15dPos === -1) fail(`${WORKFLOW_FILE} must register Phase 15D validator`);
+  if (phase15dPos <= phase15cPos) {
+    fail(`${WORKFLOW_FILE} must register Phase 15D validator after Phase 15C validator`);
   }
 
   if (/continue-on-error:\s*true/i.test(text)) {
@@ -306,11 +300,11 @@ function workflowGuard() {
 function scopeGuard() {
   for (const file of changedFiles()) {
     if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) continue;
-    if (phase15cAllowedChangedFiles.has(file)) continue;
-    if (file === 'package.json') fail(`package.json must not change in Phase 15C`);
-    if (file === 'package-lock.json') fail(`package-lock.json must not change in Phase 15C`);
-    if (file.startsWith('e2e/')) fail(`E2E file changed in Phase 15C: ${file}`);
-    fail(`Unexpected changed file for Phase 15C scope: ${file}`);
+    if (phase15dAllowedChangedFiles.has(file)) continue;
+    if (file === 'package.json') fail(`package.json must not change in Phase 15D`);
+    if (file === 'package-lock.json') fail(`package-lock.json must not change in Phase 15D`);
+    if (file.startsWith('e2e/')) fail(`E2E file changed in Phase 15D: ${file}`);
+    fail(`Unexpected changed file for Phase 15D scope: ${file}`);
   }
 }
 
@@ -331,20 +325,18 @@ function forbiddenScopeGuard() {
   const changed = new Set(changedFiles());
   const forbidden = [
     STUDY_ROOM,
+    DASHBOARD,
     BRIDGE_COMPONENT,
     LEGACY_BACKUP,
     V2_BACKUP,
-    WRAPPER_SOURCE,
-    SETTINGS_SOURCE,
     'package.json',
     'package-lock.json'
   ];
   for (const file of forbidden) {
-    if (phase15cAllowedChangedFiles.has(file)) continue;
-    if (changed.has(file)) fail(`Forbidden file changed in Phase 15C: ${file}`);
+    if (changed.has(file)) fail(`Forbidden file changed in Phase 15D: ${file}`);
   }
   for (const file of changedFiles()) {
-    if (file.startsWith('e2e/')) fail(`E2E file changed in Phase 15C: ${file}`);
+    if (file.startsWith('e2e/')) fail(`E2E file changed in Phase 15D: ${file}`);
   }
 }
 
@@ -352,70 +344,69 @@ function forbiddenScopeGuard() {
 
 function sourceContractsGuard() {
   const adapterSource = read(ADAPTER_SOURCE);
-  const dashboardSource = read(DASHBOARD);
   const storageSource = read(STORAGE_SOURCE);
   const wrapperSource = read(WRAPPER_SOURCE);
+  const settingsSource = read(SETTINGS_SOURCE);
 
-  // Adapter must export computeMixedSchedulerDueSummary
-  if (!adapterSource.includes('export function computeMixedSchedulerDueSummary')) {
-    fail(`${ADAPTER_SOURCE} must export computeMixedSchedulerDueSummary (Phase 15C)`);
-  }
-  // Adapter must preserve Phase 15B double-gate
+  // Phase 15B double-gate contract preserved
   if (!adapterSource.includes('fsrsExperimentalEnabled')) {
-    fail(`${ADAPTER_SOURCE} must preserve fsrsExperimentalEnabled double-gate reference`);
+    fail(`${ADAPTER_SOURCE} must reference fsrsExperimentalEnabled for double gate (Phase 15B regression)`);
   }
   if (!adapterSource.includes('fsrsActiveSchedulingEnabled')) {
-    fail(`${ADAPTER_SOURCE} must preserve fsrsActiveSchedulingEnabled double-gate reference`);
+    fail(`${ADAPTER_SOURCE} must reference fsrsActiveSchedulingEnabled for double gate (Phase 15B regression)`);
   }
   if (!adapterSource.includes('export function scheduleActiveFsrsOrFallback')) {
     fail(`${ADAPTER_SOURCE} must preserve scheduleActiveFsrsOrFallback (Phase 15B regression)`);
   }
+  if (!adapterSource.includes('export function scheduleCurrentReviewPreservingFsrs')) {
+    fail(`${ADAPTER_SOURCE} must preserve scheduleCurrentReviewPreservingFsrs (Phase 15B regression)`);
+  }
+  if (!adapterSource.includes('export function resolveActiveSchedulingRating')) {
+    fail(`${ADAPTER_SOURCE} must preserve resolveActiveSchedulingRating (Phase 15B regression)`);
+  }
+  if (!adapterSource.includes("'fsrs-active'")) {
+    fail(`${ADAPTER_SOURCE} must preserve 'fsrs-active' in FSRS_KIND_ALIASES (Phase 15B regression)`);
+  }
+  // Phase 15C computeMixedSchedulerDueSummary preserved
+  if (!adapterSource.includes('export function computeMixedSchedulerDueSummary')) {
+    fail(`${ADAPTER_SOURCE} must preserve computeMixedSchedulerDueSummary (Phase 15C regression)`);
+  }
   // Adapter must NOT call .next() directly
   if (/\.next\s*\(/.test(adapterSource)) {
-    fail(`${ADAPTER_SOURCE} must not call .next() directly`);
+    fail(`${ADAPTER_SOURCE} must not call .next() directly — only via scheduleFsrsReview in fsrsWrapper`);
   }
 
-  // Dashboard must import computeMixedSchedulerDueSummary
-  if (!dashboardSource.includes('computeMixedSchedulerDueSummary')) {
-    fail(`${DASHBOARD} must import and use computeMixedSchedulerDueSummary (Phase 15C)`);
+  // Storage contracts
+  if (!storageSource.includes('export function resolveMemoryRatingFromLogs')) {
+    fail(`${STORAGE_SOURCE} must export resolveMemoryRatingFromLogs (Phase 15B regression)`);
   }
-  // Dashboard must NOT reference fsrsActiveSchedulingEnabled
-  if (dashboardSource.includes('fsrsActiveSchedulingEnabled')) {
-    fail(`${DASHBOARD} must not reference fsrsActiveSchedulingEnabled`);
+  if (!storageSource.includes('export function appendFsrsReviewLog')) {
+    fail(`${STORAGE_SOURCE} must preserve appendFsrsReviewLog (Phase 14N regression)`);
   }
-  // Dashboard must NOT call .next()
-  if (/\.next\s*\(/.test(dashboardSource)) {
-    fail(`${DASHBOARD} must not call .next()`);
-  }
-  // Dashboard copy must use experimental language, not overclaim
-  const dashLower = dashboardSource.toLowerCase();
-  if (dashLower.includes('fsrs is now active for everyone')) {
-    fail(`${DASHBOARD} contains forbidden overclaim: "fsrs is now active for everyone"`);
-  }
-  if (dashLower.includes('ai scheduling is enabled')) {
-    fail(`${DASHBOARD} contains forbidden overclaim: "ai scheduling is enabled"`);
-  }
-  if (dashLower.includes('cloud sync enabled')) {
-    fail(`${DASHBOARD} contains forbidden overclaim: "cloud sync enabled"`);
-  }
-  if (dashLower.includes('guaranteed better')) {
-    fail(`${DASHBOARD} contains forbidden overclaim: "guaranteed better"`);
-  }
-
-  // Storage must NOT call .next()
   if (/\.next\s*\(/.test(storageSource)) {
-    fail(`${STORAGE_SOURCE} must not call .next()`);
+    fail(`${STORAGE_SOURCE} must not call .next() directly`);
   }
 
-  // fsrsWrapper must preserve scheduleFsrsReview as the only production .next() site
+  // Wrapper contracts
   if (!wrapperSource.includes('export function scheduleFsrsReview')) {
-    fail(`${WRAPPER_SOURCE} must preserve scheduleFsrsReview`);
+    fail(`${WRAPPER_SOURCE} must export scheduleFsrsReview — the only production ts-fsrs.next() call site`);
+  }
+  if (!wrapperSource.includes('export function toRawFsrsCardFromPayload')) {
+    fail(`${WRAPPER_SOURCE} must export toRawFsrsCardFromPayload`);
+  }
+  if (!wrapperSource.includes('export const FSRS_ACTIVE_SCHEDULER_KIND')) {
+    fail(`${WRAPPER_SOURCE} must export FSRS_ACTIVE_SCHEDULER_KIND`);
   }
 
-  // StudyRoom must NOT call .next(), must preserve Phase 14N exports
+  // Settings: fsrsActiveSchedulingEnabled must default false
+  if (!settingsSource.includes('fsrsActiveSchedulingEnabled: false')) {
+    fail(`${SETTINGS_SOURCE} must include fsrsActiveSchedulingEnabled: false in defaults`);
+  }
+
+  // StudyRoom: unchanged, preserves Phase 14N invariants
   const studyRoomSource = read(STUDY_ROOM);
   if (/\.next\s*\(/.test(studyRoomSource)) {
-    fail(`${STUDY_ROOM} must not call .next()`);
+    fail(`${STUDY_ROOM} must not call .next() (Phase 15D: no StudyRoom changes)`);
   }
   if (!studyRoomSource.includes('shouldShowFsrsTwoStepBridge')) {
     fail(`${STUDY_ROOM} must preserve shouldShowFsrsTwoStepBridge (Phase 14N regression)`);
@@ -423,16 +414,49 @@ function sourceContractsGuard() {
   if (!studyRoomSource.includes('appendFsrsReviewLog')) {
     fail(`${STUDY_ROOM} must preserve appendFsrsReviewLog (Phase 14N regression)`);
   }
+
+  // Dashboard: unchanged from Phase 15C
+  const dashboardSource = read(DASHBOARD);
+  if (/\.next\s*\(/.test(dashboardSource)) {
+    fail(`${DASHBOARD} must not call .next() (Phase 15D: no Dashboard changes)`);
+  }
+  if (!dashboardSource.includes('computeMixedSchedulerDueSummary')) {
+    fail(`${DASHBOARD} must preserve computeMixedSchedulerDueSummary (Phase 15C regression)`);
+  }
+  if (dashboardSource.includes('fsrsActiveSchedulingEnabled')) {
+    fail(`${DASHBOARD} must not expose fsrsActiveSchedulingEnabled (internal flag policy)`);
+  }
+
+  // Bridge: unchanged
+  const bridgeSource = read(BRIDGE_COMPONENT);
+  if (/\.next\s*\(/.test(bridgeSource)) {
+    fail(`${BRIDGE_COMPONENT} must not call .next() (Phase 15D: no bridge changes)`);
+  }
 }
 
-// ── Hybrid sync guard ─────────────────────────────────────────────────────────
+// ── No settings UI exposure guard ────────────────────────────────────────────
 
-function hybridSyncGuard() {
-  const dashSource = read(DASHBOARD);
+function noSettingsUiExposureGuard() {
+  // No source file in Phase 15D may expose fsrsActiveSchedulingEnabled via UI
+  const dashboardSource = read(DASHBOARD);
+  if (dashboardSource.includes('fsrsActiveSchedulingEnabled')) {
+    fail(`${DASHBOARD} must not expose fsrsActiveSchedulingEnabled in Phase 15D`);
+  }
+  // StudyRoom must not expose internal flag either
+  const studyRoomSource = read(STUDY_ROOM);
+  if (studyRoomSource.includes('fsrsActiveSchedulingEnabled')) {
+    fail(`${STUDY_ROOM} must not expose fsrsActiveSchedulingEnabled in Phase 15D`);
+  }
+}
+
+// ── No hybrid sync guard ──────────────────────────────────────────────────────
+
+function noHybridSyncGuard() {
   const adapterSource = read(ADAPTER_SOURCE);
-  for (const source of [dashSource, adapterSource]) {
+  const storageSource = read(STORAGE_SOURCE);
+  for (const [file, source] of [[ADAPTER_SOURCE, adapterSource], [STORAGE_SOURCE, storageSource]]) {
     if (source.includes('local-first') || source.includes('IndexedDB') || source.includes('cloud-sync')) {
-      fail('Phase 15C must not implement hybrid local-first/sync');
+      fail(`Phase 15D must not implement hybrid local-first/sync in ${file}`);
     }
   }
 }
@@ -441,22 +465,34 @@ function hybridSyncGuard() {
 
 function testsGuard() {
   const testSource = read(TEST_FILE);
+
+  // No skipped or placeholder tests
+  if (testSource.includes('.skip(') || testSource.includes('.todo(')) {
+    fail(`${TEST_FILE} must not contain skipped or placeholder tests`);
+  }
+
+  // Required coverage terms
   const required = [
-    'SM-2',
-    'fsrs-planned',
-    'fsrs-active',
-    'computeMixedSchedulerDueSummary',
-    'double-count',
+    'default false',
+    'experimental ON',
+    'active OFF',
+    'experimental OFF',
+    'active ON',
+    'SM-2 fallback',
     'malformed',
-    'unknown'
+    'missing fsrsPayload',
+    'scheduleFsrsReview',
+    'continueWithoutRating',
+    'no usable rating log',
+    'fsrs-active fallback',
+    'StudyRoom',
+    'Dashboard',
+    'package'
   ];
   for (const term of required) {
     if (!testSource.toLowerCase().includes(term.toLowerCase())) {
       fail(`${TEST_FILE} must cover: ${term}`);
     }
-  }
-  if (testSource.includes('.skip(') || testSource.includes('.todo(')) {
-    fail(`${TEST_FILE} must not contain skipped or placeholder tests`);
   }
 }
 
@@ -464,24 +500,34 @@ function testsGuard() {
 
 function docsGuard() {
   requireIncludes(DOCS_FILE, [
-    'Phase 15C',
-    'Dashboard',
-    'mixed scheduler',
-    'does not change scheduling logic',
-    'does not call',
+    'Phase 15D',
+    'audit',
+    'hardening',
+    'does not add new scheduling',
+    'does not add new ui',
+    'does not add new',
     'ts-fsrs.next',
-    'does not modify',
     'StudyRoom',
-    'fsrs-planned',
-    'fsrs-active',
-    'SM-2',
-    'experimental',
-    'double-gated',
+    'Dashboard',
     'default OFF',
     'fsrsActiveSchedulingEnabled',
-    'backup',
+    'rollback',
+    'fallback',
+    'SM-2',
+    'fsrs-active',
+    'fsrs-planned',
+    'fsrsPayload',
+    'fsrsReviewLogs',
+    'manual smoke',
+    'Phase 15E',
+    'Phase 16',
     'hybrid local-first',
-    'deferred'
+    'deferred',
+    'double-gated',
+    'scheduleCurrentReviewPreservingFsrs',
+    'scheduleFsrsReview',
+    'no demotion',
+    'metadata preserved',
   ]);
 }
 
@@ -496,6 +542,8 @@ function activationClaimsGuard() {
     'cloud sync hybrid local-first is implemented',
     'dashboard fully supports every future scheduler',
     'guaranteed better scheduling',
+    'end-to-end encrypted sync is implemented',
+    'multi-device sync is available',
   ];
   for (const claim of forbiddenClaims) {
     if (docsText.includes(claim)) {
@@ -518,6 +566,22 @@ function internalRegistryGuard() {
   }
 }
 
+// ── Phase 15C regression guard ────────────────────────────────────────────────
+
+function phase15cRegressionGuard() {
+  read(PHASE15C_DOCS);
+  read(PHASE15C_VALIDATOR);
+  read(PHASE15C_TEST);
+
+  const adapterSource = read(ADAPTER_SOURCE);
+  if (!adapterSource.includes('export function computeMixedSchedulerDueSummary')) {
+    fail(`${ADAPTER_SOURCE} must preserve computeMixedSchedulerDueSummary (Phase 15C regression)`);
+  }
+  if (!adapterSource.includes('export function scheduleActiveFsrsOrFallback')) {
+    fail(`${ADAPTER_SOURCE} must preserve scheduleActiveFsrsOrFallback (Phase 15C regression)`);
+  }
+}
+
 // ── Phase 15B regression guard ────────────────────────────────────────────────
 
 function phase15bRegressionGuard() {
@@ -535,6 +599,12 @@ function phase15bRegressionGuard() {
   if (!adapterSource.includes('export function resolveActiveSchedulingRating')) {
     fail(`${ADAPTER_SOURCE} must preserve resolveActiveSchedulingRating (Phase 15B regression)`);
   }
+
+  // Phase 14N bridge preserved
+  const bridgeSource = read(BRIDGE_COMPONENT);
+  if (/\.next\s*\(/.test(bridgeSource)) {
+    fail(`${BRIDGE_COMPONENT} must not call .next() (Phase 14N regression)`);
+  }
 }
 
 // ── Main ──────────────────────────────────────────────────────────────────────
@@ -547,13 +617,15 @@ function validate() {
   generatedArtifactGuard();
   forbiddenScopeGuard();
   sourceContractsGuard();
-  hybridSyncGuard();
+  noSettingsUiExposureGuard();
+  noHybridSyncGuard();
   testsGuard();
   docsGuard();
   activationClaimsGuard();
   internalRegistryGuard();
+  phase15cRegressionGuard();
   phase15bRegressionGuard();
-  console.log('Phase 15C dashboard mixed scheduler due-count validation passed.');
+  console.log('Phase 15D active FSRS runtime smoke/rollback audit validation passed.');
 }
 
 validate();

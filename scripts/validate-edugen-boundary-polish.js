@@ -374,6 +374,10 @@ const allowedChanged = new Set([
   'scripts/validate-phase15c-dashboard-mixed-scheduler-due-count.js',
   'src/routes/Dashboard.jsx',
   'tests/unit/dashboardMixedSchedulerDueCount.test.jsx',
+  // Phase 15D exact files (forward compatibility)
+  'docs/phase15d-active-fsrs-runtime-smoke-rollback-audit.md',
+  'scripts/validate-phase15d-active-fsrs-runtime-smoke-rollback-audit.js',
+  'tests/unit/fsrsActiveRuntimeRollbackAudit.test.js',
 ]);
 for (const file of currentDiff) {
   if (!allowedChanged.has(file)) failures.push(`Unexpected changed file for Phase 10H: ${file}`);

@@ -370,6 +370,9 @@ jobs:
       - name: Validate Phase 15C dashboard mixed scheduler due count
         run: node scripts/validate-phase15c-dashboard-mixed-scheduler-due-count.js
 
+      - name: Validate Phase 15D active FSRS runtime smoke rollback audit
+        run: node scripts/validate-phase15d-active-fsrs-runtime-smoke-rollback-audit.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
