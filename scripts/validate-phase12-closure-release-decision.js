@@ -236,6 +236,10 @@ const allowedChangedFiles = new Set([
   'docs/phase15d-active-fsrs-runtime-smoke-rollback-audit.md',
   'scripts/validate-phase15d-active-fsrs-runtime-smoke-rollback-audit.js',
   'tests/unit/fsrsActiveRuntimeRollbackAudit.test.js',
+  // Phase 15E exact files (forward compatibility)
+  'docs/phase15e-controlled-internal-activation-harness.md',
+  'scripts/validate-phase15e-controlled-internal-activation-harness.js',
+  'tests/unit/fsrsControlledInternalActivationHarness.test.js',
 ]);
 const forbiddenFiles = ['package.json','package-lock.json','vite.config.js','vite.config.mjs','playwright.config.js'];
 const forbiddenPrefixes = ['src/','e2e/','tests/','__tests__/'];

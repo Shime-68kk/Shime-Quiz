@@ -240,6 +240,10 @@ const allowedChanged = new Set([
   'docs/phase15d-active-fsrs-runtime-smoke-rollback-audit.md',
   'scripts/validate-phase15d-active-fsrs-runtime-smoke-rollback-audit.js',
   'tests/unit/fsrsActiveRuntimeRollbackAudit.test.js',
+  // Phase 15E exact files (forward compatibility)
+  'docs/phase15e-controlled-internal-activation-harness.md',
+  'scripts/validate-phase15e-controlled-internal-activation-harness.js',
+  'tests/unit/fsrsControlledInternalActivationHarness.test.js',
 ]);
 
 function fail(message) {
