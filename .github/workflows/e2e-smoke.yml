@@ -382,6 +382,9 @@ jobs:
       - name: Validate Phase 15G release claim guardrail reaudit
         run: node scripts/validate-phase15g-release-claim-guardrail-reaudit.js
 
+      - name: Validate Phase 15H FSRS foundation closure Phase 16 readiness
+        run: node scripts/validate-phase15h-fsrs-foundation-closure-phase16-readiness.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

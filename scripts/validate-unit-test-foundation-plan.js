@@ -262,6 +262,9 @@ const allowedChangedFiles = new Set([
   'docs/phase15g-release-claim-guardrail-reaudit.md',
   'scripts/validate-phase15g-release-claim-guardrail-reaudit.js',
   'tests/unit/fsrsStudyRoomCopyUxAlignment.test.jsx',
+  // Phase 15H exact files (forward compatibility)
+  'docs/phase15h-fsrs-foundation-closure-phase16-readiness.md',
+  'scripts/validate-phase15h-fsrs-foundation-closure-phase16-readiness.js',
 ]);
 const forbiddenChangedFiles = ['package.json','package-lock.json','vite.config','vite.config.js','vite.config.mjs','playwright.config','playwright.config.js'];
 const forbiddenChangedPrefixes = ['src/','e2e/','tests/','__tests__/'];

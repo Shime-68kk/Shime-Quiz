@@ -117,6 +117,9 @@ const phase15fAllowedChangedFiles = new Set([
   // Phase 15G exact files (forward compatibility)
   'docs/phase15g-release-claim-guardrail-reaudit.md',
   'scripts/validate-phase15g-release-claim-guardrail-reaudit.js',
+  // Phase 15H exact files (forward compatibility)
+  'docs/phase15h-fsrs-foundation-closure-phase16-readiness.md',
+  'scripts/validate-phase15h-fsrs-foundation-closure-phase16-readiness.js',
 ]);
 
 const generatedArtifacts = [

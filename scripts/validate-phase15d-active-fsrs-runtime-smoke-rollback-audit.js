@@ -120,6 +120,9 @@ const phase15dAllowedChangedFiles = new Set([
   'tests/unit/fsrsStudyRoomCopyUxAlignment.test.jsx',
   'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
   'src/routes/StudyRoom.jsx',
+  // Phase 15H exact files (forward compatibility)
+  'docs/phase15h-fsrs-foundation-closure-phase16-readiness.md',
+  'scripts/validate-phase15h-fsrs-foundation-closure-phase16-readiness.js',
 ]);
 
 const generatedArtifacts = [
