@@ -391,6 +391,9 @@ jobs:
       - name: Validate Phase 16B hybrid local-first optional sync direction
         run: node scripts/validate-phase16b-hybrid-local-first-optional-sync-direction.js
 
+      - name: Validate Phase 16C storage large import EduGen risk audit
+        run: node scripts/validate-phase16c-storage-large-import-edugen-risk-audit.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

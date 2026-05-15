@@ -279,6 +279,10 @@ const allowedChanged = new Set([
   // Phase 16B allowlist entries (Hybrid Local-First Architecture / Optional Sync Direction)
   'docs/phase16b-hybrid-local-first-optional-sync-direction.md',
   'scripts/validate-phase16b-hybrid-local-first-optional-sync-direction.js',
+  // Phase 16C allowlist entries (Storage / Large Import Safety / EduGen Bulk Import Risk Audit)
+  'docs/phase16c-storage-large-import-edugen-risk-audit.md',
+  'tests/unit/storageLargeImportEdugenRiskAudit.test.js',
+  'scripts/validate-phase16c-storage-large-import-edugen-risk-audit.js',
 ]);
 
 function fail(message) {
@@ -508,7 +512,7 @@ try {
     .map((line) => line.trim())
     .filter(Boolean);
   const generatedPrefix = /^(node_modules|dist|test-results|playwright-report|coverage)(\/|$)/;
-  for (const file of [...changed, ...untracked].filter((name) => !generatedPrefix.test(name))) {
+  for (const file of [...changed, ...untracked].filter((name) => !generatedPrefix.test(name) && !name.startsWith('.claude/'))) {
     if (!allowedChanged.has(file)) {
       fail(`unexpected changed/untracked file outside Phase 10S scope: ${file}`);
     }

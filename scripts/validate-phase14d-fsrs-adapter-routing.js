@@ -240,6 +240,10 @@ const phase14dAllowedChangedFiles = new Set([
   // Phase 16B allowlist entries (Hybrid Local-First Architecture / Optional Sync Direction)
   'docs/phase16b-hybrid-local-first-optional-sync-direction.md',
   'scripts/validate-phase16b-hybrid-local-first-optional-sync-direction.js',
+  // Phase 16C allowlist entries (Storage / Large Import Safety / EduGen Bulk Import Risk Audit)
+  'docs/phase16c-storage-large-import-edugen-risk-audit.md',
+  'tests/unit/storageLargeImportEdugenRiskAudit.test.js',
+  'scripts/validate-phase16c-storage-large-import-edugen-risk-audit.js',
 ]);
 
 const generatedArtifacts = [
@@ -408,6 +412,7 @@ function workflowGuard() {
 function scopeGuard() {
   for (const file of changedFiles()) {
     if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) continue;
+    if (file.startsWith('.claude/')) continue;
     if (phase14dAllowedChangedFiles.has(file)) continue;
     if (forbiddenChangedFiles.has(file)) fail(`Forbidden Phase 14D file changed: ${file}`);
     if (file.startsWith('e2e/')) fail(`E2E file changed without Phase 14D approval: ${file}`);

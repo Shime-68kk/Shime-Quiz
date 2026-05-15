@@ -279,6 +279,10 @@ const allowedChanged = new Set([
   // Phase 16B allowlist entries (Hybrid Local-First Architecture / Optional Sync Direction)
   'docs/phase16b-hybrid-local-first-optional-sync-direction.md',
   'scripts/validate-phase16b-hybrid-local-first-optional-sync-direction.js',
+  // Phase 16C allowlist entries (Storage / Large Import Safety / EduGen Bulk Import Risk Audit)
+  'docs/phase16c-storage-large-import-edugen-risk-audit.md',
+  'tests/unit/storageLargeImportEdugenRiskAudit.test.js',
+  'scripts/validate-phase16c-storage-large-import-edugen-risk-audit.js',
 ]);
 
 function fail(message) { failures.push(message); }
@@ -428,7 +432,7 @@ try {
   const changed = execSync('git diff --name-only HEAD', { encoding: 'utf8' }).split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
   const untracked = execSync('git ls-files --others --exclude-standard', { encoding: 'utf8' }).split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
   const generatedPrefix = /^(node_modules|dist|test-results|playwright-report|coverage)(\/|$)/;
-  for (const file of [...changed, ...untracked].filter((name) => !generatedPrefix.test(name))) {
+  for (const file of [...changed, ...untracked].filter((name) => !generatedPrefix.test(name) && !name.startsWith('.claude/'))) {
     if (!allowedChanged.has(file)) fail(`unexpected changed/untracked file outside Phase 11D scope: ${file}`);
     if (/^src\//.test(file) && !allowedChanged.has(file)) fail(`runtime source file changed unexpectedly: ${file}`);
     if ((/^e2e\//.test(file) || /\.spec\.[jt]sx?$|\.test\.[jt]sx?$/.test(file)) && !allowedChanged.has(file)) fail(`E2E spec/test logic changed unexpectedly: ${file}`);

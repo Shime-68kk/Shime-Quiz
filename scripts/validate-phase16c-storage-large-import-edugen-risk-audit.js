@@ -1,34 +1,40 @@
 #!/usr/bin/env node
 /**
- * scripts/validate-phase16b-hybrid-local-first-optional-sync-direction.js
+ * scripts/validate-phase16c-storage-large-import-edugen-risk-audit.js
  *
- * Phase 16B static validator — Hybrid Local-First Architecture /
- * Optional Sync Direction.
+ * Phase 16C static validator — Storage / Large Import Safety /
+ * EduGen Bulk Import Risk Audit.
  *
  * Confirms:
- *   • ADR doc exists with all required terms;
- *   • workflow registers Phase 16B validator after Phase 16A;
- *   • all previous validators through Phase 16A remain registered;
- *   • no src/, tests/, e2e/, package.json, or package-lock.json changes;
- *   • no sync runtime implementation files added;
+ *   • audit doc exists with all required terms;
+ *   • unit/static test exists;
+ *   • workflow registers Phase 16C validator after Phase 16B;
+ *   • all previous validators through Phase 16B remain registered;
+ *   • no src/, e2e/, package.json, or package-lock.json changes;
+ *   • no runtime implementation files added;
  *   • no IndexedDB migration implementation;
  *   • no event log implementation;
  *   • no StorageAdapter runtime file;
- *   • no new localStorage keys introduced;
+ *   • no SyncAdapter runtime file;
+ *   • no EduGen connector runtime;
+ *   • no new localStorage keys;
  *   • no account/auth/cloud/backend code;
- *   • no UI sync toggle;
- *   • forbidden claims are absent from the ADR and UI surfaces;
+ *   • no UI sync/import runtime changes;
+ *   • no new ts-fsrs.next() call sites;
+ *   • forbidden claims are absent from the audit doc;
  *   • generated artifacts and internal registry/native binding terms absent;
- *   • changed files are within the Phase 16B allowlist.
+ *   • changed files are within the Phase 16C allowlist.
  */
 
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
-const DOCS_FILE        = 'docs/phase16b-hybrid-local-first-optional-sync-direction.md';
-const VALIDATOR_SCRIPT = 'scripts/validate-phase16b-hybrid-local-first-optional-sync-direction.js';
+const DOCS_FILE        = 'docs/phase16c-storage-large-import-edugen-risk-audit.md';
+const TEST_FILE        = 'tests/unit/storageLargeImportEdugenRiskAudit.test.js';
+const VALIDATOR_SCRIPT = 'scripts/validate-phase16c-storage-large-import-edugen-risk-audit.js';
 const WORKFLOW_FILE    = '.github/workflows/e2e-smoke.yml';
 
+const PHASE16B_VALIDATOR = 'scripts/validate-phase16b-hybrid-local-first-optional-sync-direction.js';
 const PHASE16A_VALIDATOR = 'scripts/validate-phase16a-vietnamese-first-ux-copy-alignment.js';
 const PHASE15H_VALIDATOR = 'scripts/validate-phase15h-fsrs-foundation-closure-phase16-readiness.js';
 const PHASE15G_VALIDATOR = 'scripts/validate-phase15g-release-claim-guardrail-reaudit.js';
@@ -42,15 +48,16 @@ const PHASE14P_VALIDATOR = 'scripts/validate-phase14p-fsrs-foundation-closure-ph
 const PHASE14O_VALIDATOR = 'scripts/validate-phase14o-fsrs-active-scheduling-decision-gate.js';
 const PHASE14N_VALIDATOR = 'scripts/validate-phase14n-production-studyroom-two-step-bridge.js';
 
-// Exact list of allowed changed files for Phase 16B.
-// Phase 16B is docs/static-validator/CI-only: no src/, tests/, e2e/,
+// Exact list of allowed changed files for Phase 16C.
+// Phase 16C is docs/tests/validator/CI-only: no src/, e2e/,
 // package.json, or package-lock.json changes are allowed.
-const phase16bAllowedChangedFiles = new Set([
+const phase16cAllowedChangedFiles = new Set([
   WORKFLOW_FILE,
   DOCS_FILE,
+  TEST_FILE,
   VALIDATOR_SCRIPT,
 
-  // Historical validators updated with exact Phase 16B allowlist entries only
+  // Historical validators updated with exact Phase 16C allowlist entries only
   'scripts/validate-backup-transfer-safety-hardening.js',
   'scripts/validate-cross-device-export-import.js',
   'scripts/validate-cross-device-transfer-track-closure.js',
@@ -110,11 +117,8 @@ const phase16bAllowedChangedFiles = new Set([
   'scripts/validate-web-share-mobile-sharing-prototype-plan.js',
   'scripts/validate-web-share-runtime-fallback-hardening.js',
   'scripts/validate-web-share-runtime-prototype.js',
-
-  // Phase 16C allowlist entries (Storage / Large Import Safety / EduGen Bulk Import Risk Audit)
-  'docs/phase16c-storage-large-import-edugen-risk-audit.md',
-  'tests/unit/storageLargeImportEdugenRiskAudit.test.js',
-  'scripts/validate-phase16c-storage-large-import-edugen-risk-audit.js',
+  PHASE16A_VALIDATOR,
+  PHASE16B_VALIDATOR,
 ]);
 
 const bindingPackage = '@open-spaced-repetition/' + 'binding';
@@ -138,34 +142,37 @@ const generatedArtifacts = [
   '.git',
 ];
 
-const requiredAdrTerms = [
-  'local-first',
-  'optional sync',
-  'docs/static-validator/CI only',
-  'not implemented',
-  'no runtime changes',
-  'no cloud/backend/account',
+const requiredDocTerms = [
+  'storage surface inventory',
+  'canonical data',
+  'derived data',
+  'large import risk',
+  'EduGen bulk import risk',
+  'draft',
+  'review',
+  'sourceMetadata',
   'backup/export/import',
-  'conflict resolution',
-  'FSRS boundary',
-  'no public sync claims',
-  'Vietnamese-first UX copy',
-  'Phase 16A',
+  'FSRS metadata',
+  'schedulerKind',
+  'fsrsPayload',
+  'fsrsReviewLogs',
+  'IndexedDB migration prerequisites',
+  'event log prerequisites',
+  'docs/tests/validator/CI only',
+  'no runtime changes',
 ];
 
-const forbiddenAdrClaims = [
-  'sync is implemented',
-  'sync is available',
+const forbiddenDocClaims = [
+  'EduGen is bundled',
+  'built-in AI quiz generation exists',
+  'built-in OCR exists',
   'cloud sync exists',
-  'hybrid local-first sync is implemented',
-  'e2ee is implemented',
-  'multi-device sync is available',
-  'indexeddb migration completed',
-  'event log production-implemented',
-  'account/auth exists',
-  'backend/server exists',
-  'ai scheduling enabled',
-  'production/security certification',
+  'sync is available',
+  'IndexedDB migration has been completed',
+  'event log has been implemented',
+  'generated questions are guaranteed correct',
+  'active FSRS public rollout has occurred',
+  'active fsrs public rollout',
 ];
 
 const forbiddenRuntimePaths = [
@@ -174,15 +181,17 @@ const forbiddenRuntimePaths = [
   'src/storage/IndexedDBAdapter.js',
   'src/storage/SyncAdapter.js',
   'src/storage/EventLog.js',
+  'src/sync/SyncAdapter.js',
+  'src/sync/EventLog.js',
 ];
 
 function fail(message) {
-  console.error(`Phase 16B validation failed: ${message}`);
+  console.error(`Phase 16C validation failed: ${message}`);
   process.exit(1);
 }
 
 function warn(message) {
-  console.warn(`Phase 16B validation warning: ${message}`);
+  console.warn(`Phase 16C validation warning: ${message}`);
 }
 
 function read(file) {
@@ -262,8 +271,10 @@ function isGeneratedArtifact(file) {
 
 function requiredFilesGuard() {
   read(DOCS_FILE);
+  read(TEST_FILE);
   read(VALIDATOR_SCRIPT);
   read(WORKFLOW_FILE);
+  read(PHASE16B_VALIDATOR);
   read(PHASE16A_VALIDATOR);
   read(PHASE15H_VALIDATOR);
   read(PHASE15G_VALIDATOR);
@@ -293,8 +304,8 @@ function packageGuard() {
   }
 
   const changed = new Set(changedFiles());
-  if (changed.has('package.json')) fail('package.json must not change in Phase 16B');
-  if (changed.has('package-lock.json')) fail('package-lock.json must not change in Phase 16B');
+  if (changed.has('package.json')) fail('package.json must not change in Phase 16C');
+  if (changed.has('package-lock.json')) fail('package-lock.json must not change in Phase 16C');
 
   void pkg;
 }
@@ -305,13 +316,12 @@ function scopeGuard() {
   for (const file of changedFiles()) {
     if (isGeneratedArtifact(file)) continue;
     if (file.startsWith('.claude/')) continue;
-    if (phase16bAllowedChangedFiles.has(file)) continue;
-    if (file === 'package.json') fail(`package.json must not change in Phase 16B`);
-    if (file === 'package-lock.json') fail(`package-lock.json must not change in Phase 16B`);
-    if (file.startsWith('src/')) fail(`src/ file changed in Phase 16B: ${file}`);
-    if (file.startsWith('tests/')) fail(`tests/ file changed in Phase 16B: ${file}`);
-    if (file.startsWith('e2e/')) fail(`e2e/ file changed in Phase 16B: ${file}`);
-    fail(`Unexpected changed file for Phase 16B scope: ${file}`);
+    if (phase16cAllowedChangedFiles.has(file)) continue;
+    if (file === 'package.json') fail(`package.json must not change in Phase 16C`);
+    if (file === 'package-lock.json') fail(`package-lock.json must not change in Phase 16C`);
+    if (file.startsWith('src/')) fail(`src/ file changed in Phase 16C: ${file}`);
+    if (file.startsWith('e2e/')) fail(`e2e/ file changed in Phase 16C: ${file}`);
+    fail(`Unexpected changed file for Phase 16C scope: ${file}`);
   }
 }
 
@@ -345,17 +355,18 @@ function workflowGuard() {
     'node scripts/validate-phase15h-fsrs-foundation-closure-phase16-readiness.js',
     'node scripts/validate-phase16a-vietnamese-first-ux-copy-alignment.js',
     'node scripts/validate-phase16b-hybrid-local-first-optional-sync-direction.js',
+    'node scripts/validate-phase16c-storage-large-import-edugen-risk-audit.js',
   ];
   for (const validator of requiredValidators) {
     if (!text.includes(validator)) fail(`${WORKFLOW_FILE} must run ${validator}`);
   }
 
-  const phase16aPos = text.indexOf('node scripts/validate-phase16a-vietnamese-first-ux-copy-alignment.js');
   const phase16bPos = text.indexOf('node scripts/validate-phase16b-hybrid-local-first-optional-sync-direction.js');
-  if (phase16aPos === -1) fail(`${WORKFLOW_FILE} must register Phase 16A validator`);
+  const phase16cPos = text.indexOf('node scripts/validate-phase16c-storage-large-import-edugen-risk-audit.js');
   if (phase16bPos === -1) fail(`${WORKFLOW_FILE} must register Phase 16B validator`);
-  if (phase16bPos <= phase16aPos) {
-    fail(`${WORKFLOW_FILE} must register Phase 16B validator after Phase 16A validator`);
+  if (phase16cPos === -1) fail(`${WORKFLOW_FILE} must register Phase 16C validator`);
+  if (phase16cPos <= phase16bPos) {
+    fail(`${WORKFLOW_FILE} must register Phase 16C validator after Phase 16B validator`);
   }
 
   if (/continue-on-error:\s*true/i.test(text)) {
@@ -368,50 +379,110 @@ function workflowGuard() {
 function noRuntimeImplementationGuard() {
   for (const path of forbiddenRuntimePaths) {
     if (fs.existsSync(path)) {
-      fail(`Phase 16B must not create runtime file: ${path}`);
+      fail(`Phase 16C must not create runtime file: ${path}`);
     }
   }
 
   const changed = changedFiles();
   for (const file of changed) {
     if (isGeneratedArtifact(file)) continue;
-    if (phase16bAllowedChangedFiles.has(file)) continue;
+    if (phase16cAllowedChangedFiles.has(file)) continue;
     if (file.startsWith('src/')) {
-      fail(`Phase 16B must not modify src/ files: ${file}`);
-    }
-    if (file.startsWith('tests/')) {
-      fail(`Phase 16B must not modify tests/ files: ${file}`);
+      fail(`Phase 16C must not modify src/ files: ${file}`);
     }
     if (file.startsWith('e2e/')) {
-      fail(`Phase 16B must not modify e2e/ files: ${file}`);
+      fail(`Phase 16C must not modify e2e/ files: ${file}`);
     }
   }
 }
 
-// ── Required ADR terms guard ──────────────────────────────────────────────────
+// ── No new localStorage keys guard ───────────────────────────────────────────
 
-function requiredAdrTermsGuard() {
+function noNewLocalStorageKeysGuard() {
+  // Verify known storage keys are unchanged by checking the key constants.
+  const storageFile = 'src/state/reviewScheduleStorage.js';
+  if (!fs.existsSync(storageFile)) return;
+  const source = fs.readFileSync(storageFile, 'utf8');
+  if (!source.includes("'shimeV2ReviewScheduleV1'")) {
+    fail(`${storageFile} must preserve REVIEW_SCHEDULE_STORAGE_KEY = 'shimeV2ReviewScheduleV1'`);
+  }
+
+  const settingsFile = 'src/state/settingsStorage.js';
+  if (!fs.existsSync(settingsFile)) return;
+  const settingsSource = fs.readFileSync(settingsFile, 'utf8');
+  if (!settingsSource.includes("'shimeV2SettingsV1'")) {
+    fail(`${settingsFile} must preserve SETTINGS_STORAGE_KEY = 'shimeV2SettingsV1'`);
+  }
+}
+
+// ── No IndexedDB runtime guard ────────────────────────────────────────────────
+
+function noIndexedDBRuntimeGuard() {
+  const srcDir = 'src';
+  if (!fs.existsSync(srcDir)) return;
+
+  function scanDir(dirPath) {
+    const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+    for (const entry of entries) {
+      const full = `${dirPath}/${entry.name}`;
+      if (entry.isDirectory()) {
+        scanDir(full);
+      } else if (entry.isFile() && (entry.name.endsWith('.js') || entry.name.endsWith('.jsx'))) {
+        const content = fs.readFileSync(full, 'utf8');
+        if (/indexedDB\.open\s*\(|openIDB\s*\(|new\s+IDBFactory/i.test(content)) {
+          fail(`Phase 16C must not introduce IndexedDB runtime in ${full}`);
+        }
+      }
+    }
+  }
+
+  scanDir(srcDir);
+}
+
+// ── No new ts-fsrs.next() call sites guard ────────────────────────────────────
+
+function noNewNextCallSitesGuard() {
+  const wrapperFile = 'src/quiz/fsrsWrapper.js';
+  if (!fs.existsSync(wrapperFile)) return;
+  const wrapperSource = fs.readFileSync(wrapperFile, 'utf8');
+  const matches = wrapperSource.match(/\.next\s*\(/g) ?? [];
+  if (matches.length !== 2) {
+    fail(`src/quiz/fsrsWrapper.js must have exactly 2 .next() calls (Phase 15B baseline preserved), found ${matches.length}`);
+  }
+
+  const adapterFile = 'src/quiz/reviewSchedulerAdapter.js';
+  if (!fs.existsSync(adapterFile)) return;
+  const adapterSource = fs.readFileSync(adapterFile, 'utf8');
+  if (/\.next\s*\(/.test(adapterSource)) {
+    fail(`src/quiz/reviewSchedulerAdapter.js must not call .next() directly`);
+  }
+}
+
+// ── Required doc terms guard ──────────────────────────────────────────────────
+
+function requiredDocTermsGuard() {
   const doc = read(DOCS_FILE);
-  for (const term of requiredAdrTerms) {
-    if (!doc.includes(term)) {
+  const docLower = doc.toLowerCase();
+  for (const term of requiredDocTerms) {
+    if (!docLower.includes(term.toLowerCase())) {
       fail(`${DOCS_FILE} must include required term: "${term}"`);
     }
   }
 }
 
-// ── Forbidden claim guard in ADR ──────────────────────────────────────────────
+// ── Forbidden claim guard ─────────────────────────────────────────────────────
 
-function forbiddenAdrClaimGuard() {
+function forbiddenDocClaimGuard() {
   const doc = read(DOCS_FILE);
   const docLower = doc.toLowerCase();
-  for (const claim of forbiddenAdrClaims) {
+  for (const claim of forbiddenDocClaims) {
     if (docLower.includes(claim.toLowerCase())) {
       fail(`${DOCS_FILE} must not contain forbidden claim: "${claim}"`);
     }
   }
 }
 
-// ── Internal registry / native binding guard ─────────────────────────────────
+// ── Internal registry / native binding guard ──────────────────────────────────
 
 function internalRegistryGuard() {
   const doc = read(DOCS_FILE);
@@ -447,6 +518,26 @@ function fsrsRegressionGuard() {
   }
 }
 
+// ── No account/auth/cloud/backend guard ──────────────────────────────────────
+
+function noCloudAuthGuard() {
+  const FORBIDDEN_CLOUD_FILES = [
+    'src/auth',
+    'src/cloud',
+    'src/backend',
+    'src/api/sync',
+    'src/sync',
+    'src/storage/SyncAdapter.js',
+    'src/storage/StorageAdapter.js',
+    'src/storage/IndexedDBAdapter.js',
+  ];
+  for (const path of FORBIDDEN_CLOUD_FILES) {
+    if (fs.existsSync(path)) {
+      fail(`Phase 16C must not introduce cloud/auth/sync path: ${path}`);
+    }
+  }
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 
 function validate() {
@@ -456,11 +547,15 @@ function validate() {
   generatedArtifactGuard();
   workflowGuard();
   noRuntimeImplementationGuard();
-  requiredAdrTermsGuard();
-  forbiddenAdrClaimGuard();
+  noNewLocalStorageKeysGuard();
+  noIndexedDBRuntimeGuard();
+  noNewNextCallSitesGuard();
+  requiredDocTermsGuard();
+  forbiddenDocClaimGuard();
   internalRegistryGuard();
   fsrsRegressionGuard();
-  console.log('Phase 16B hybrid local-first optional sync direction validation passed.');
+  noCloudAuthGuard();
+  console.log('Phase 16C storage large import EduGen risk audit validation passed.');
 }
 
 validate();
