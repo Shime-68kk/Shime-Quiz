@@ -206,7 +206,7 @@ function MixedSchedulerDueNote({ scheduleRecords }) {
       aria-live="polite"
       data-testid="mixed-scheduler-due-note"
     >
-      {`Bao gồm ${summary.fsrsFamilyDueCount} thẻ dùng lịch học bộ nhớ thử nghiệm trong tổng số câu đến hạn. Some cards may use experimental memory scheduling.`}
+      {`Bao gồm ${summary.fsrsFamilyDueCount} thẻ dùng lịch học bộ nhớ thử nghiệm trong tổng số câu đến hạn.`}
     </p>
   );
 }

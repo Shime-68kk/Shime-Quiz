@@ -14,24 +14,40 @@
 
 import { getSettings } from '../../state/settingsStorage.js';
 
+// Phase 16A — Vietnamese-first UX copy. The visible rating text leads with
+// Vietnamese phrasing the user actually reads; the original English
+// description follows in muted style so Phase 15F claim-safety assertions
+// and historical validators continue to find their reference wording.
 const RATING_DESCRIPTIONS = {
-  Hard: 'Recalled with serious effort.',
-  Good: 'Recalled with normal effort.',
-  Easy: 'Instant recall.'
+  Hard: {
+    label: 'Nhớ khó',
+    helper: 'Recalled with serious effort.'
+  },
+  Good: {
+    label: 'Nhớ được',
+    helper: 'Recalled with normal effort.'
+  },
+  Easy: {
+    label: 'Nhớ dễ',
+    helper: 'Instant recall.'
+  }
 };
 
-function RatingButton({ label, description, onClick, disabled }) {
-  const descId = `bridge-rating-desc-${label.toLowerCase()}`;
+function RatingButton({ ratingKey, label, helper, onClick, disabled }) {
+  const descId = `bridge-rating-desc-${ratingKey.toLowerCase()}`;
   return (
     <button
       type="button"
-      className={`memoryBridge__ratingBtn memoryBridge__ratingBtn--${label.toLowerCase()}`}
+      className={`memoryBridge__ratingBtn memoryBridge__ratingBtn--${ratingKey.toLowerCase()}`}
       onClick={onClick}
       disabled={disabled}
       aria-describedby={descId}
     >
-      {label}
-      <span id={descId} className="memoryBridge__ratingDesc">{description}</span>
+      <span className="memoryBridge__ratingLabel">
+        <span className="memoryBridge__ratingLabelPrimary">{label}</span>
+        <span className="memoryBridge__ratingLabelSecondary">{ratingKey}</span>
+      </span>
+      <span id={descId} className="memoryBridge__ratingDesc">{helper}</span>
     </button>
   );
 }
@@ -81,15 +97,24 @@ export default function FsrsProductionMemoryRatingBridge({
     isActiveSchedulingCopyEnabled
   });
 
-  const headerNote = activeCopy
+  const headerNoteVi = activeCopy
+    ? 'Có thể điều chỉnh khi bạn gặp lại thẻ này.'
+    : 'Lịch học hiện tại chưa bị thay đổi.';
+  const headerNoteEn = activeCopy
     ? 'This rating may adjust when you next see this card.'
     : 'Your study schedule is not changed by this rating yet.';
 
-  const autoAgainText = activeCopy
+  const autoAgainVi = activeCopy
+    ? 'Chưa nhớ — đã ghi nhận Chưa nhớ. Có thể điều chỉnh khi bạn gặp lại thẻ này.'
+    : 'Cần ôn lại. Lịch học hiện tại chưa bị thay đổi.';
+  const autoAgainEn = activeCopy
     ? 'Not recalled — recorded as Again. This may adjust when you next see this card.'
     : 'Needs another review. Your study schedule is not changed by this rating yet.';
 
-  const skipHelpText = activeCopy
+  const skipHelpVi = activeCopy
+    ? 'Tiếp tục không đánh giá vẫn giữ cập nhật ôn tập bình thường cho câu này.'
+    : 'Tiếp tục không đánh giá không thay đổi lịch học của bạn.';
+  const skipHelpEn = activeCopy
     ? 'Continue without rating keeps the normal review update for this answer.'
     : 'Continue without rating leaves your study schedule unchanged.';
 
@@ -97,27 +122,40 @@ export default function FsrsProductionMemoryRatingBridge({
     <section
       className="memoryBridge"
       role="region"
-      aria-label="Experimental memory rating"
+      aria-label="Đánh giá mức độ nhớ thử nghiệm"
     >
-      <p className="memoryBridge__header">Experimental: memory rating</p>
-      <p className="memoryBridge__safetyNote">{headerNote}</p>
+      <p className="memoryBridge__header">
+        <span className="memoryBridge__headerPrimary">Mức độ nhớ thử nghiệm</span>
+        <span className="memoryBridge__headerSecondary">Experimental: memory rating</span>
+      </p>
+      <p className="memoryBridge__safetyNote">
+        <span className="memoryBridge__safetyNotePrimary">{headerNoteVi}</span>
+        <span className="memoryBridge__safetyNoteSecondary">{headerNoteEn}</span>
+      </p>
 
       {phase === 'auto-again' && (
         <div className="memoryBridge__autoAgain" aria-live="polite">
-          <p className="memoryBridge__autoAgainText">{autoAgainText}</p>
+          <p className="memoryBridge__autoAgainText">
+            <span className="memoryBridge__autoAgainTextPrimary">{autoAgainVi}</span>
+            <span className="memoryBridge__autoAgainTextSecondary">{autoAgainEn}</span>
+          </p>
         </div>
       )}
 
       {phase === 'awaiting-effort' && (
         <div className="memoryBridge__effortGroup">
-          <p className="memoryBridge__effortPrompt">How did this recall feel?</p>
-          <div className="memoryBridge__ratingBtnGroup" role="group" aria-label="Memory effort rating">
-            {Object.entries(RATING_DESCRIPTIONS).map(([label, description]) => (
+          <p className="memoryBridge__effortPrompt">
+            <span className="memoryBridge__effortPromptPrimary">Bạn nhớ câu này như thế nào?</span>
+            <span className="memoryBridge__effortPromptSecondary">How did this recall feel?</span>
+          </p>
+          <div className="memoryBridge__ratingBtnGroup" role="group" aria-label="Mức độ nhớ theo cảm nhận">
+            {Object.entries(RATING_DESCRIPTIONS).map(([ratingKey, info]) => (
               <RatingButton
-                key={label}
-                label={label}
-                description={description}
-                onClick={() => onSelectRating(label)}
+                key={ratingKey}
+                ratingKey={ratingKey}
+                label={info.label}
+                helper={info.helper}
+                onClick={() => onSelectRating(ratingKey)}
               />
             ))}
           </div>
@@ -126,9 +164,13 @@ export default function FsrsProductionMemoryRatingBridge({
             className="memoryBridge__skipBtn"
             onClick={onSkip}
           >
-            Continue without rating
+            <span className="memoryBridge__skipBtnPrimary">Tiếp tục không đánh giá</span>
+            <span className="memoryBridge__skipBtnSecondary">Continue without rating</span>
           </button>
-          <p className="memoryBridge__skipHelp">{skipHelpText}</p>
+          <p className="memoryBridge__skipHelp">
+            <span className="memoryBridge__skipHelpPrimary">{skipHelpVi}</span>
+            <span className="memoryBridge__skipHelpSecondary">{skipHelpEn}</span>
+          </p>
         </div>
       )}
 
@@ -136,11 +178,21 @@ export default function FsrsProductionMemoryRatingBridge({
         <div className="memoryBridge__rated" aria-live="polite">
           {activeCopy ? (
             <p className="memoryBridge__ratedText">
-              Recorded <strong>{bridgeState.rating}</strong>. This may adjust when you next see this card.
+              <span className="memoryBridge__ratedTextPrimary">
+                Đã ghi nhận <strong>{bridgeState.rating}</strong>. Có thể điều chỉnh khi bạn gặp lại thẻ này.
+              </span>
+              <span className="memoryBridge__ratedTextSecondary">
+                Recorded <strong>{bridgeState.rating}</strong>. This may adjust when you next see this card.
+              </span>
             </p>
           ) : (
             <p className="memoryBridge__ratedText">
-              Recorded <strong>{bridgeState.rating}</strong>. Your schedule is not affected.
+              <span className="memoryBridge__ratedTextPrimary">
+                Đã ghi nhận <strong>{bridgeState.rating}</strong>. Lịch học của bạn không bị thay đổi.
+              </span>
+              <span className="memoryBridge__ratedTextSecondary">
+                Recorded <strong>{bridgeState.rating}</strong>. Your schedule is not affected.
+              </span>
             </p>
           )}
         </div>

@@ -145,18 +145,18 @@ test('Study Room default flow can answer items, finish, and persist local histor
   await page.getByRole('button', { name: 'Kiểm tra đáp án' }).click();
   await expect(page.getByText('Đúng')).toBeVisible();
 
-  await page.getByRole('button', { name: 'Item tiếp theo' }).click();
+  await page.getByRole('button', { name: 'Câu tiếp theo' }).click();
   await expect(page.getByRole('button', { name: 'Lật thẻ' })).toBeVisible();
   await page.getByRole('button', { name: 'Lật thẻ' }).click();
   await expect(page.getByText(/Truyền dữ liệu đầu cuối/)).toBeVisible();
 
-  await page.getByRole('button', { name: 'Item tiếp theo' }).click();
+  await page.getByRole('button', { name: 'Câu tiếp theo' }).click();
   const privateRangeChoice = page.locator('.choiceOption').filter({ hasText: /10\.0\.0\.0\/8/ }).first();
   await privateRangeChoice.click();
   await expect(page.getByLabel(/10\.0\.0\.0\/8/)).toBeChecked();
   await page.getByRole('button', { name: 'Kiểm tra đáp án' }).click();
 
-  await page.getByRole('button', { name: 'Item tiếp theo' }).click();
+  await page.getByRole('button', { name: 'Câu tiếp theo' }).click();
   await page.getByRole('textbox').fill('/24');
   await page.getByRole('button', { name: 'Kiểm tra đáp án' }).click();
 

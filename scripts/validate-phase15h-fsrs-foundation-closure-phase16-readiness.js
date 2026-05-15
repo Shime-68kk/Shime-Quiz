@@ -90,6 +90,17 @@ const phase15hAllowedChangedFiles = new Set([
   'scripts/validate-web-share-mobile-sharing-prototype-plan.js',
   'scripts/validate-web-share-runtime-fallback-hardening.js',
   'scripts/validate-web-share-runtime-prototype.js',
+
+  // Phase 16A exact files (forward compatibility — Vietnamese-first UX copy alignment)
+  'docs/phase16a-vietnamese-first-ux-copy-alignment.md',
+  'scripts/validate-phase16a-vietnamese-first-ux-copy-alignment.js',
+  'tests/unit/vietnameseFirstUxCopyAlignment.test.js',
+  'src/routes/Home.jsx',
+  'src/routes/Dashboard.jsx',
+  'src/routes/StudyRoom.jsx',
+  'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
+  'src/components/settings/FsrsExperimentalSettingsPanel.jsx',
+  'tests/unit/fsrsStudyRoomCopyUxAlignment.test.jsx',
 ]);
 
 const bindingPackage = '@open-spaced-repetition/' + 'binding';
@@ -317,6 +328,7 @@ function generatedArtifactGuard() {
 function forbiddenScopeGuard() {
   const changed = new Set(changedFiles());
   for (const file of changed) {
+    if (phase15hAllowedChangedFiles.has(file)) continue;
     if (file.startsWith('src/')) fail(`src/ file changed in Phase 15H: ${file}`);
     if (file.startsWith('tests/')) fail(`tests/ file changed in Phase 15H: ${file}`);
     if (file.startsWith('e2e/')) fail(`e2e/ file changed in Phase 15H: ${file}`);
@@ -335,6 +347,7 @@ function noNewNextCallSitesGuard() {
   }
   const changedSet = new Set(changedFiles());
   for (const file of changedSet) {
+    if (phase15hAllowedChangedFiles.has(file)) continue;
     if (file.startsWith('src/')) {
       fail(`Phase 15H must not add new ts-fsrs.next() call sites (src/ changed): ${file}`);
     }

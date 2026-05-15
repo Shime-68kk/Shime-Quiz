@@ -688,7 +688,7 @@ export default function StudyRoom() {
 
         <div className="studySourceBar" aria-label="Nguồn mục đang học">
           <Badge tone={isDueReviewMode ? 'warning' : isSmartPracticeMode ? 'success' : selection?.subjectTitle ? 'success' : 'info'}>
-            {isDueReviewMode ? 'Chế độ ôn tập' : isSmartPracticeMode ? 'Luyện tập thông minh' : selection?.subjectTitle ? 'Lựa chọn từ Library' : 'Toàn bộ thư viện'}
+            {isDueReviewMode ? 'Chế độ ôn tập' : isSmartPracticeMode ? 'Luyện tập thông minh' : selection?.subjectTitle ? 'Lựa chọn từ Thư viện' : 'Toàn bộ thư viện'}
           </Badge>
           <strong>{selectionLabel}</strong>
           <span>{isDueReviewMode ? `${items.length} câu đến hạn` : isSmartPracticeMode ? `${items.length} câu được chọn` : `${items.length} item`}</span>
@@ -777,13 +777,13 @@ export default function StudyRoom() {
 
             <nav className="studyStepper" aria-label="Điều hướng mục học tập">
               <Button type="button" variant="secondary" onClick={goToPrevious} disabled={currentIndex === 0}>
-                Item trước
+                Câu trước
               </Button>
               <span aria-live="polite">
                 {currentIndex + 1} / {items.length}
               </span>
               <Button type="button" onClick={goToNext} disabled={currentIndex >= items.length - 1}>
-                Item tiếp theo
+                Câu tiếp theo
               </Button>
             </nav>
           </div>

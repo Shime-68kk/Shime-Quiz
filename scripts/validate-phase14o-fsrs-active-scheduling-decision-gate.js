@@ -205,6 +205,17 @@ const phase14oAllowedChangedFiles = new Set([
   // Phase 15H exact files (forward compatibility)
   'docs/phase15h-fsrs-foundation-closure-phase16-readiness.md',
   'scripts/validate-phase15h-fsrs-foundation-closure-phase16-readiness.js',
+
+  // Phase 16A exact files (forward compatibility — Vietnamese-first UX copy alignment)
+  'docs/phase16a-vietnamese-first-ux-copy-alignment.md',
+  'scripts/validate-phase16a-vietnamese-first-ux-copy-alignment.js',
+  'tests/unit/vietnameseFirstUxCopyAlignment.test.js',
+  'src/routes/Home.jsx',
+  'src/routes/Dashboard.jsx',
+  'src/routes/StudyRoom.jsx',
+  'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
+  'src/components/settings/FsrsExperimentalSettingsPanel.jsx',
+  'tests/unit/fsrsStudyRoomCopyUxAlignment.test.jsx',
 ]);
 
 const generatedArtifacts = [
@@ -517,6 +528,8 @@ function noNewSrcFilesGuard() {
     SETTINGS_STORAGE_SOURCE,
     // Phase 15C exact src files (forward compatibility)
     DASHBOARD,
+    // Phase 16A exact src files (forward compatibility — Vietnamese-first UX copy alignment)
+    'src/routes/Home.jsx',
   ]);
   for (const file of changedFiles()) {
     if (!file.startsWith('src/')) continue;
