@@ -182,6 +182,11 @@ const phase14oAllowedChangedFiles = new Set([
   'tests/unit/reviewSchedulerAdapter.phase14d.test.js',
   'tests/unit/reviewSchedulerAdapter.test.js',
   'tests/unit/settingsStorage.test.js',
+  // Phase 15C exact files (forward compatibility)
+  'docs/phase15c-dashboard-mixed-scheduler-due-count.md',
+  'scripts/validate-phase15c-dashboard-mixed-scheduler-due-count.js',
+  'src/routes/Dashboard.jsx',
+  'tests/unit/dashboardMixedSchedulerDueCount.test.jsx',
 ]);
 
 const generatedArtifacts = [
@@ -492,6 +497,8 @@ function noNewSrcFilesGuard() {
     // Phase 15B exact src files (forward compatibility)
     WRAPPER_SOURCE,
     SETTINGS_STORAGE_SOURCE,
+    // Phase 15C exact src files (forward compatibility)
+    DASHBOARD,
   ]);
   for (const file of changedFiles()) {
     if (!file.startsWith('src/')) continue;

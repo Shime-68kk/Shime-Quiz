@@ -232,6 +232,11 @@ const allowedChanged = new Set([
   'tests/unit/reviewSchedulerAdapter.phase14d.test.js',
   'tests/unit/reviewSchedulerAdapter.test.js',
   'tests/unit/settingsStorage.test.js',
+  // Phase 15C exact files (forward compatibility)
+  'docs/phase15c-dashboard-mixed-scheduler-due-count.md',
+  'scripts/validate-phase15c-dashboard-mixed-scheduler-due-count.js',
+  'src/routes/Dashboard.jsx',
+  'tests/unit/dashboardMixedSchedulerDueCount.test.jsx',
 ]);
 
 function fail(message) { failures.push(message); }

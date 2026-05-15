@@ -193,6 +193,11 @@ const historicalValidatorCompatibilityFiles = new Set([
   'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
   'src/routes/StudyRoom.jsx',
   'tests/unit/fsrsProductionStudyRoomTwoStepBridge.test.jsx',
+  // Phase 15C exact files (forward compatibility)
+  'docs/phase15c-dashboard-mixed-scheduler-due-count.md',
+  'scripts/validate-phase15c-dashboard-mixed-scheduler-due-count.js',
+  'src/routes/Dashboard.jsx',
+  'tests/unit/dashboardMixedSchedulerDueCount.test.jsx',
 ]);
 
 const generatedArtifacts = [
