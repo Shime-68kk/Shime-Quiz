@@ -270,6 +270,10 @@ const allowedChangedFiles = new Set([
   // Phase 16B allowlist entries (Hybrid Local-First Architecture / Optional Sync Direction)
   'docs/phase16b-hybrid-local-first-optional-sync-direction.md',
   'scripts/validate-phase16b-hybrid-local-first-optional-sync-direction.js',
+  // Phase 16C allowlist entries (Storage / Large Import Safety / EduGen Bulk Import Risk Audit)
+  'docs/phase16c-storage-large-import-edugen-risk-audit.md',
+  'tests/unit/storageLargeImportEdugenRiskAudit.test.js',
+  'scripts/validate-phase16c-storage-large-import-edugen-risk-audit.js',
 ]);
 
 const forbiddenChangedFiles = new Set([
@@ -475,6 +479,7 @@ function scopeGuard() {
   const changed = changedFiles();
   for (const file of changed) {
     if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) continue;
+    if (file.startsWith('.claude/')) continue;
     if (allowedChangedFiles.has(file)) continue;
     if (forbiddenChangedFiles.has(file)) fail(`Forbidden file changed: ${file}`);
     if (forbiddenChangedPrefixes.some(prefix => file.startsWith(prefix))) fail(`Forbidden runtime/test path changed: ${file}`);

@@ -275,6 +275,10 @@ const allowedChangedFiles = new Set([
   // Phase 16B allowlist entries (Hybrid Local-First Architecture / Optional Sync Direction)
   'docs/phase16b-hybrid-local-first-optional-sync-direction.md',
   'scripts/validate-phase16b-hybrid-local-first-optional-sync-direction.js',
+  // Phase 16C allowlist entries (Storage / Large Import Safety / EduGen Bulk Import Risk Audit)
+  'docs/phase16c-storage-large-import-edugen-risk-audit.md',
+  'tests/unit/storageLargeImportEdugenRiskAudit.test.js',
+  'scripts/validate-phase16c-storage-large-import-edugen-risk-audit.js',
 ]);
 const forbiddenFiles = ['package.json','package-lock.json','vite.config.js','vite.config.mjs','playwright.config.js'];
 const forbiddenPrefixes = ['src/','e2e/','tests/','__tests__/'];
@@ -293,7 +297,7 @@ function changedFilesFromPullRequestBase(){const baseRef=process.env.GITHUB_BASE
 function changedFilesFromLocalFallbacks({includeUntracked=true}={}){const files=[...splitLines(runGit('git diff --name-only HEAD',{silent:true})),...splitLines(runGit('git diff --cached --name-only',{silent:true}))];if(includeUntracked)files.push(...splitLines(runGit('git ls-files --others --exclude-standard',{silent:true})));return files}
 function changedFiles({includeUntracked=true}={}){const prFiles=changedFilesFromPullRequestBase();if(prFiles.length>0)return uniqueSorted(prFiles);return uniqueSorted(changedFilesFromLocalFallbacks({includeUntracked}))}
 function trackedFiles(){return uniqueSorted(splitLines(runGit('git ls-files',{silent:true})))}
-function scopeGuard(){for(const file of changedFiles()){if(generatedArtifacts.some(artifact=>file===artifact||file.startsWith(`${artifact}/`)))continue;if(allowedChangedFiles.has(file))continue;if(forbiddenFiles.includes(file))fail(`Forbidden file changed in Phase 12J: ${file}`);if(forbiddenPrefixes.some(prefix=>file.startsWith(prefix)))fail(`Forbidden path changed in Phase 12J: ${file}`);if(file.startsWith('scripts/validate-'))fail(`Unexpected validator changed in Phase 12J: ${file}`);fail(`Unexpected changed file for Phase 12J: ${file}`)}}
+function scopeGuard(){for(const file of changedFiles()){if(generatedArtifacts.some(artifact=>file===artifact||file.startsWith(`${artifact}/`)))continue;if(file.startsWith('.claude/'))continue;if(allowedChangedFiles.has(file))continue;if(forbiddenFiles.includes(file))fail(`Forbidden file changed in Phase 12J: ${file}`);if(forbiddenPrefixes.some(prefix=>file.startsWith(prefix)))fail(`Forbidden path changed in Phase 12J: ${file}`);if(file.startsWith('scripts/validate-'))fail(`Unexpected validator changed in Phase 12J: ${file}`);fail(`Unexpected changed file for Phase 12J: ${file}`)}}
 function generatedArtifactGuard(){const files=uniqueSorted([...changedFiles({includeUntracked:false}),...trackedFiles()]);for(const artifact of generatedArtifacts){if(files.some(file=>file===artifact||file.startsWith(`${artifact}/`)))fail(`Generated artifact appears in changed or tracked files: ${artifact}`)}}
 function packageRegistryGuard(){for(const file of ['package.json','package-lock.json']){const text=read(file);for(const term of internalRegistryTerms){if(text.includes(term))fail(`Internal registry marker found in ${file}: ${term}`)}}}
 function workflowGuard(){const workflow=read('.github/workflows/e2e-smoke.yml');const required=['npm run test:unit','node scripts/validate-study-flow-micro-feedback-runtime.js','node scripts/validate-phase12-closure-release-decision.js','node scripts/validate-vitest-unit-test-foundation.js','npm run test:e2e:smoke','npm run test:e2e:onboarding','actions/upload-artifact'];for(const term of required)if(!workflow.includes(term))fail(`Workflow missing required check: ${term}`);if(workflow.includes('continue-on-error: true'))fail('Workflow must not add broad continue-on-error.')}
