@@ -240,6 +240,10 @@ const allowedChangedFiles = new Set([
   'docs/phase15e-controlled-internal-activation-harness.md',
   'scripts/validate-phase15e-controlled-internal-activation-harness.js',
   'tests/unit/fsrsControlledInternalActivationHarness.test.js',
+  // Phase 15F exact files (forward compatibility)
+  'docs/phase15f-studyroom-copy-ux-alignment.md',
+  'scripts/validate-phase15f-studyroom-copy-ux-alignment.js',
+  'tests/unit/fsrsStudyRoomCopyUxAlignment.test.jsx',
 ]);
 const forbiddenFiles = ['package.json','package-lock.json','vite.config.js','vite.config.mjs','playwright.config.js'];
 const forbiddenPrefixes = ['src/','e2e/','tests/','__tests__/'];

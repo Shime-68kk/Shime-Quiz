@@ -208,6 +208,10 @@ const phase14cAllowedChangedFiles = new Set([
   'docs/phase15e-controlled-internal-activation-harness.md',
   'scripts/validate-phase15e-controlled-internal-activation-harness.js',
   'tests/unit/fsrsControlledInternalActivationHarness.test.js',
+  // Phase 15F exact files (forward compatibility)
+  'docs/phase15f-studyroom-copy-ux-alignment.md',
+  'scripts/validate-phase15f-studyroom-copy-ux-alignment.js',
+  'tests/unit/fsrsStudyRoomCopyUxAlignment.test.jsx',
 ]);
 
 const generatedArtifacts = [

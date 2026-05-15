@@ -246,6 +246,13 @@ export default function StudyRoom() {
     shouldShowFsrsTwoStepBridge(bridgeScheduleRecord, bridgeToggleEnabled)
   );
 
+  // Phase 15F: copy-mode reflects whether this bridge context may affect
+  // active scheduling. StudyRoom only signals the gating context here
+  // (the bridge is shown AND the experimental toggle is on); the bridge
+  // itself reads the active-scheduling flag from runtime settings and
+  // applies the appropriate copy variant.
+  const isActiveSchedulingCopyContextEligible = Boolean(showBridge && bridgeToggleEnabled);
+
   // Auto-append Again log for wrong/unanswered eligible items.
   useEffect(() => {
     if (!showBridge || !currentItemId || objectiveCorrect !== false || currentBridgeState) return;
@@ -764,6 +771,7 @@ export default function StudyRoom() {
                 bridgeState={currentBridgeState}
                 onSelectRating={handleBridgeRating}
                 onSkip={handleBridgeSkip}
+                isActiveSchedulingCopyContextEligible={isActiveSchedulingCopyContextEligible}
               />
             ) : null}
 

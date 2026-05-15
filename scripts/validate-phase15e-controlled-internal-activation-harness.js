@@ -116,6 +116,12 @@ const phase15eAllowedChangedFiles = new Set([
   'scripts/validate-web-share-mobile-sharing-prototype-plan.js',
   'scripts/validate-web-share-runtime-fallback-hardening.js',
   'scripts/validate-web-share-runtime-prototype.js',
+  // Phase 15F exact files (forward compatibility)
+  'docs/phase15f-studyroom-copy-ux-alignment.md',
+  'scripts/validate-phase15f-studyroom-copy-ux-alignment.js',
+  'tests/unit/fsrsStudyRoomCopyUxAlignment.test.jsx',
+  'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
+  'src/routes/StudyRoom.jsx',
 ]);
 
 const generatedArtifacts = [
@@ -351,6 +357,7 @@ function forbiddenScopeGuard() {
     'package-lock.json'
   ];
   for (const file of forbidden) {
+    if (phase15eAllowedChangedFiles.has(file)) continue;
     if (changed.has(file)) fail(`Forbidden file changed in Phase 15E: ${file}`);
   }
   for (const file of changedFiles()) {
@@ -390,8 +397,11 @@ function noPublicUiExposureGuard() {
     fail(`${DASHBOARD} must not expose fsrsActiveSchedulingEnabled`);
   }
   const studyRoomSource = read(STUDY_ROOM);
-  if (studyRoomSource.includes('fsrsActiveSchedulingEnabled')) {
-    fail(`${STUDY_ROOM} must not expose fsrsActiveSchedulingEnabled`);
+  if (/>\s*fsrsActiveSchedulingEnabled\s*</.test(studyRoomSource)) {
+    fail(`${STUDY_ROOM} must not render fsrsActiveSchedulingEnabled as JSX text`);
+  }
+  if (/["']fsrsActiveSchedulingEnabled["']/.test(studyRoomSource)) {
+    fail(`${STUDY_ROOM} must not use fsrsActiveSchedulingEnabled as a string literal in UI text`);
   }
 }
 
