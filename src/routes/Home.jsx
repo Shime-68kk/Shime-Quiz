@@ -57,9 +57,9 @@ export default function Home() {
       </div>
 
       <div className="cardGrid cardGrid--two">
-        <Card title="Giới hạn tài liệu EduGen" eyebrow="PDF/DOCX/PPTX/ZIP">
+        <Card title="Xưởng bản nháp EduGen" eyebrow="Tuỳ chọn · PDF/DOCX/PPTX/ZIP">
           <p className="muted">
-            Nhập PDF/DOCX/PPTX/ZIP cần một dịch vụ EduGen/File Processor riêng, đã cấu hình và trình duyệt truy cập được. EduGen không được bundle trong Shime; chỉ hosting frontend thì không tự có chuyển đổi tài liệu.
+            EduGen là một dịch vụ Xưởng bản nháp (Draft Workshop) tuỳ chọn dành cho việc tạo bản nháp câu hỏi từ tài liệu PDF/DOCX/PPTX/ZIP. EduGen không được bundle trong Shime và chạy như một dịch vụ riêng do bạn cấu hình; chỉ hosting frontend thì không tự có chuyển đổi tài liệu. Shime không tự xử lý PDF/DOCX nếu không có dịch vụ EduGen đang chạy. Kết quả chỉ là bản nháp, bạn cần xem lại trước khi học.
           </p>
           <Badge tone="warning">Cần dịch vụ riêng đã cấu hình</Badge>
         </Card>

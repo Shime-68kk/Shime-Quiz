@@ -292,6 +292,15 @@ const allowedChangedFiles = new Set([
   'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
   'src/components/settings/FsrsExperimentalSettingsPanel.jsx',
   'src/styles/global.css',
+// Phase 16F allowlist entries (EduGen Draft Workshop Connector Foundation)
+  'docs/phase16f-edugen-draft-workshop-connector-foundation.md',
+  'tests/unit/edugenDraftWorkshopConnector.test.js',
+  'scripts/validate-phase16f-edugen-draft-workshop-connector-foundation.js',
+  'src/edugen/edugenConnector.js',
+  'src/components/settings/EduGenDraftWorkshopPanel.jsx',
+  'src/routes/Settings.jsx',
+  'src/state/settingsStorage.js',
+
 ]);
 const forbiddenFiles = ['package.json','package-lock.json','vite.config.js','vite.config.mjs','playwright.config.js'];
 const forbiddenPrefixes = ['src/','e2e/','tests/','__tests__/'];
