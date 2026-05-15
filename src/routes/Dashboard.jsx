@@ -13,6 +13,7 @@ import SmartPracticePanel from '../components/study/SmartPracticePanel.jsx';
 import StudyHistoryPanel from '../components/study/StudyHistoryPanel.jsx';
 import { useNavigate } from 'react-router-dom';
 import { DashboardLearningDataProvider, useDashboardLearningData } from '../dashboard/DashboardLearningDataContext.jsx';
+import { computeMixedSchedulerDueSummary } from '../quiz/reviewSchedulerAdapter.js';
 
 const itemTypeLabels = {
   multiple_choice: 'Trắc nghiệm',
@@ -147,6 +148,8 @@ function DashboardContent() {
 
       <ReviewSchedulePanel />
 
+      <MixedSchedulerDueNote scheduleRecords={scheduleRecords} />
+
       <SmartPracticePanel />
 
       <StudyHistoryPanel compact />
@@ -188,5 +191,22 @@ function DashboardContent() {
         </Card>
       </div>
     </div>
+  );
+}
+
+// Phase 15C: narrow inline note shown only when experimental memory-scheduled cards are due.
+// Copy uses "thử nghiệm" (experimental) — no overclaim language.
+function MixedSchedulerDueNote({ scheduleRecords }) {
+  const summary = computeMixedSchedulerDueSummary(scheduleRecords || []);
+  if (summary.fsrsFamilyDueCount === 0) return null;
+  return (
+    <p
+      className="muted dashboardMixedSchedulerNote"
+      role="status"
+      aria-live="polite"
+      data-testid="mixed-scheduler-due-note"
+    >
+      {`Bao gồm ${summary.fsrsFamilyDueCount} thẻ dùng lịch học bộ nhớ thử nghiệm trong tổng số câu đến hạn. Some cards may use experimental memory scheduling.`}
+    </p>
   );
 }

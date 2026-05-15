@@ -355,3 +355,40 @@ export function shouldShowFsrsTwoStepBridge(record, toggleEnabled) {
   if (!record.fsrsPayload || typeof record.fsrsPayload !== 'object' || Array.isArray(record.fsrsPayload)) return false;
   return true;
 }
+
+// Phase 15C: pure helper — no imports, no storage, no scheduling side-effects.
+// Counts due records across all scheduler families (SM-2, fsrs-planned, fsrs-active).
+// Deduplicates by itemId to prevent double-counting. Unknown scheduler kinds are
+// normalised to current (SM-2) by getSchedulerKind — they are counted, not skipped.
+// Returns: { dueCount, fsrsFamilyDueCount, hasFsrsFamily }
+//   dueCount          — total due records across all families
+//   fsrsFamilyDueCount — due records from FSRS-family only (fsrs-planned + fsrs-active)
+//   hasFsrsFamily     — true if ANY FSRS-family records exist (due or future)
+export function computeMixedSchedulerDueSummary(records, now = new Date()) {
+  const safeRecords = Array.isArray(records) ? records : [];
+  const rawNowTime = now instanceof Date ? now.getTime() : Number(now);
+  const nowTime = Number.isFinite(rawNowTime) ? rawNowTime : Date.now();
+
+  let dueCount = 0;
+  let fsrsFamilyDueCount = 0;
+  let hasFsrsFamily = false;
+  const seen = new Set();
+
+  for (const record of safeRecords) {
+    if (!record || typeof record !== 'object') continue;
+    const itemId = String(record.itemId || '').trim();
+    if (!itemId || seen.has(itemId)) continue;
+    seen.add(itemId);
+
+    const kind = getSchedulerKind(record);
+    if (kind === SCHEDULER_KIND_FSRS_PLANNED) hasFsrsFamily = true;
+
+    const dueAtTime = toDueTime(record.dueAt);
+    if (dueAtTime === null || dueAtTime > nowTime) continue;
+
+    dueCount += 1;
+    if (kind === SCHEDULER_KIND_FSRS_PLANNED) fsrsFamilyDueCount += 1;
+  }
+
+  return { dueCount, fsrsFamilyDueCount, hasFsrsFamily };
+}
