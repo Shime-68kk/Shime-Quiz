@@ -274,6 +274,14 @@ const historicalValidatorCompatibilityFiles = new Set([
   // Phase 15H exact files (forward compatibility)
   'docs/phase15h-fsrs-foundation-closure-phase16-readiness.md',
   'scripts/validate-phase15h-fsrs-foundation-closure-phase16-readiness.js',
+  // Phase 16G exact files (forward compatibility)
+  'docs/phase16g-edugen-draft-review-import-flow.md',
+  'tests/unit/edugenDraftReviewImportFlow.test.jsx',
+  'scripts/validate-phase16g-edugen-draft-review-import-flow.js',
+  'src/edugen/edugenDraftParser.js',
+  'src/components/edugen/EduGenDraftReviewPanel.jsx',
+  'src/routes/Settings.jsx',
+  '.github/workflows/e2e-smoke.yml',
 ]);
 
 const forbiddenChangedFiles = new Set([

@@ -246,6 +246,14 @@ const phase14oAllowedChangedFiles = new Set([
   'src/routes/Settings.jsx',
   'src/state/settingsStorage.js',
 
+  // Phase 16G exact files (forward compatibility)
+  'docs/phase16g-edugen-draft-review-import-flow.md',
+  'tests/unit/edugenDraftReviewImportFlow.test.jsx',
+  'scripts/validate-phase16g-edugen-draft-review-import-flow.js',
+  'src/edugen/edugenDraftParser.js',
+  'src/components/edugen/EduGenDraftReviewPanel.jsx',
+  'src/routes/Settings.jsx',
+  '.github/workflows/e2e-smoke.yml',
 ]);
 
 const generatedArtifacts = [
@@ -566,6 +574,9 @@ function noNewSrcFilesGuard() {
     // Phase 16F exact src files (forward compatibility — EduGen Draft Workshop Connector Foundation)
     'src/edugen/edugenConnector.js',
     'src/components/settings/EduGenDraftWorkshopPanel.jsx',
+    // Phase 16G exact src files (forward compatibility — EduGen Draft Review Import Flow)
+    'src/edugen/edugenDraftParser.js',
+    'src/components/edugen/EduGenDraftReviewPanel.jsx',
   ]);
   for (const file of changedFiles()) {
     if (!file.startsWith('src/')) continue;

@@ -136,6 +136,12 @@ const phase16bAllowedChangedFiles = new Set([
   'src/components/settings/EduGenDraftWorkshopPanel.jsx',
   'src/routes/Settings.jsx',
   'src/state/settingsStorage.js',
+  // Phase 16G allowlist entries (EduGen Draft Review Import Flow)
+  'docs/phase16g-edugen-draft-review-import-flow.md',
+  'tests/unit/edugenDraftReviewImportFlow.test.jsx',
+  'scripts/validate-phase16g-edugen-draft-review-import-flow.js',
+  'src/edugen/edugenDraftParser.js',
+  'src/components/edugen/EduGenDraftReviewPanel.jsx',
 
 ]);
 

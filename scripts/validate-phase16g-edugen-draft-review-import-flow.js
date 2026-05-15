@@ -1,47 +1,41 @@
 #!/usr/bin/env node
 /**
- * scripts/validate-phase16f-edugen-draft-workshop-connector-foundation.js
+ * scripts/validate-phase16g-edugen-draft-review-import-flow.js
  *
- * Phase 16F static validator — EduGen Draft Workshop Connector Foundation.
+ * Phase 16G static validator — EduGen Draft Review Import Flow (Scope B).
  *
  * Confirms:
- *   • doc, test, connector, panel, validator exist;
- *   • workflow registers Phase 16F validator after Phase 16E;
- *   • all previous validators through Phase 16E remain registered;
+ *   • doc, test, parser, review panel, validator exist;
+ *   • workflow registers Phase 16G validator after Phase 16F;
+ *   • all previous validators through Phase 16F remain registered;
  *   • no package.json / package-lock.json changes;
- *   • no e2e/ changes;
- *   • no scheduler/storage/backup files changed:
- *       src/quiz/reviewSchedulerAdapter.js,
- *       src/quiz/fsrsWrapper.js,
- *       src/state/reviewScheduleStorage.js,
- *       src/quiz/dataBackup.js,
- *       src/state/v2BackupRestore.js;
- *   • no new IndexedDB / StorageAdapter / SyncAdapter / event-log impl;
- *   • no dependency changes;
- *   • Vietnamese-first / Draft Workshop / no-built-in-AI / no-OCR copy is
- *     present in the doc;
- *   • forbidden claim phrases are absent in doc, panel, Home, and connector;
+ *   • no scheduler/storage critical files changed:
+ *       src/quiz/reviewSchedulerAdapter.js
+ *       src/quiz/fsrsWrapper.js
+ *       src/state/reviewScheduleStorage.js
+ *   • no cloud/auth/sync/AI-process runtime path introduced;
+ *   • no API key / BYOK term in new runtime files;
  *   • no `ai-process` runtime call site;
  *   • no new `ts-fsrs.next()` call sites;
- *   • no API key / BYOK / sync / account / auth implementation;
+ *   • no FormData / fetch / XHR / document upload in new runtime files;
+ *   • Vietnamese-first / Draft Workshop / review-required copy is present;
+ *   • forbidden claim phrases absent in doc, parser, panel;
  *   • generated artifacts absent from tracked files;
- *   • changed files are within the Phase 16F allowlist.
+ *   • changed files are within the Phase 16G allowlist.
  */
 
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
-const DOCS_FILE        = 'docs/phase16f-edugen-draft-workshop-connector-foundation.md';
-const TEST_FILE        = 'tests/unit/edugenDraftWorkshopConnector.test.js';
-const VALIDATOR_SCRIPT = 'scripts/validate-phase16f-edugen-draft-workshop-connector-foundation.js';
+const DOCS_FILE        = 'docs/phase16g-edugen-draft-review-import-flow.md';
+const TEST_FILE        = 'tests/unit/edugenDraftReviewImportFlow.test.jsx';
+const VALIDATOR_SCRIPT = 'scripts/validate-phase16g-edugen-draft-review-import-flow.js';
 const WORKFLOW_FILE    = '.github/workflows/e2e-smoke.yml';
-const CONNECTOR_FILE   = 'src/edugen/edugenConnector.js';
-const PANEL_FILE       = 'src/components/settings/EduGenDraftWorkshopPanel.jsx';
+const PARSER_FILE      = 'src/edugen/edugenDraftParser.js';
+const REVIEW_PANEL     = 'src/components/edugen/EduGenDraftReviewPanel.jsx';
 const SETTINGS_ROUTE   = 'src/routes/Settings.jsx';
-const SETTINGS_STORAGE = 'src/state/settingsStorage.js';
-const HOME_ROUTE       = 'src/routes/Home.jsx';
-const GLOBAL_CSS       = 'src/styles/global.css';
 
+const PHASE16F_VALIDATOR = 'scripts/validate-phase16f-edugen-draft-workshop-connector-foundation.js';
 const PHASE16E_VALIDATOR = 'scripts/validate-phase16e-visual-polish-quick-wins.js';
 const PHASE16D_VALIDATOR = 'scripts/validate-phase16d-shime-study-identity-product-principles.js';
 const PHASE16C_VALIDATOR = 'scripts/validate-phase16c-storage-large-import-edugen-risk-audit.js';
@@ -49,39 +43,25 @@ const PHASE16B_VALIDATOR = 'scripts/validate-phase16b-hybrid-local-first-optiona
 const PHASE16A_VALIDATOR = 'scripts/validate-phase16a-vietnamese-first-ux-copy-alignment.js';
 const PHASE15H_VALIDATOR = 'scripts/validate-phase15h-fsrs-foundation-closure-phase16-readiness.js';
 
-// Exact set of allowed changed files for Phase 16F.
-// Phase 16F is a connector foundation runtime phase: it touches a small,
-// bounded set of UI/runtime files plus docs, tests, validator, and CI.
-// Historical validators may be updated with exact Phase 16F allowlist
-// entries; that's checked separately by the scopeGuard's validator-script
-// passthrough rule (any scripts/validate-*.js change is permitted).
-const phase16fAllowedChangedFiles = new Set([
+// Exact set of allowed changed files for Phase 16G.
+// Phase 16G is a bounded runtime phase: new parser + new review panel UI,
+// wired into Settings.jsx. Docs, test, validator, and CI are included.
+// Historical validators may be updated (scopeGuard passthrough rule).
+const phase16gAllowedChangedFiles = new Set([
   WORKFLOW_FILE,
   DOCS_FILE,
   TEST_FILE,
   VALIDATOR_SCRIPT,
-  CONNECTOR_FILE,
-  PANEL_FILE,
+  PARSER_FILE,
+  REVIEW_PANEL,
   SETTINGS_ROUTE,
-  SETTINGS_STORAGE,
-  HOME_ROUTE,
-  GLOBAL_CSS,
-  // Phase 16G exact files (forward compatibility)
-  'docs/phase16g-edugen-draft-review-import-flow.md',
-  'tests/unit/edugenDraftReviewImportFlow.test.jsx',
-  'scripts/validate-phase16g-edugen-draft-review-import-flow.js',
-  'src/edugen/edugenDraftParser.js',
-  'src/components/edugen/EduGenDraftReviewPanel.jsx',
 ]);
 
-// Hard-forbidden scheduler/storage/backup files. Phase 16F must not touch
-// these even if a future implementation needs to wire up source metadata.
+// Hard-forbidden scheduler/storage files. Phase 16G must not touch these.
 const forbiddenRuntimeFiles = [
   'src/quiz/reviewSchedulerAdapter.js',
   'src/quiz/fsrsWrapper.js',
   'src/state/reviewScheduleStorage.js',
-  'src/quiz/dataBackup.js',
-  'src/state/v2BackupRestore.js',
 ];
 
 const bindingPackage = '@open-spaced-repetition/' + 'binding';
@@ -108,22 +88,25 @@ const generatedArtifacts = [
 const requiredDocTerms = [
   'Draft Workshop',
   'Xưởng bản nháp',
-  'optional companion',
-  'not bundled',
+  'Bản nháp cần xem lại',
+  'Xem lại trước khi lưu',
   'review required',
+  'preview before save',
+  'no automatic import-to-study',
+  'no automatic FSRS activation',
   'no built-in AI',
   'no OCR',
   'no cloud sync',
   'local-first',
-  'no automatic FSRS activation',
-  'service URL',
-  'health check',
+  'optional companion',
+  'not bundled',
+  'large import',
+  'source attribution',
 ];
 
-// Phrases below are positive assertions that must never appear in Shime
-// surfaces (doc/panel/home/connector). Docs may legitimately discuss the
-// underlying categories in negative form (e.g. "no built-in OCR"); only
-// the positive claim form is forbidden.
+// Forbidden positive-claim phrases. Documents may discuss these categories
+// in negative form ("no built-in OCR"); only positive assertions are
+// forbidden across new Phase 16G surfaces.
 const forbiddenClaimPhrases = [
   'edugen is bundled with shime',
   'edugen is shipped with shime',
@@ -135,6 +118,7 @@ const forbiddenClaimPhrases = [
   'built-in ai quiz generation exists',
   'shime has built-in ocr',
   'built-in ocr exists',
+  'ocr is supported',
   'cloud sync is available',
   'cloud sync exists',
   'sync has shipped',
@@ -150,12 +134,12 @@ const forbiddenClaimPhrases = [
 ];
 
 function fail(message) {
-  console.error(`Phase 16F validation failed: ${message}`);
+  console.error(`Phase 16G validation failed: ${message}`);
   process.exit(1);
 }
 
 function warn(message) {
-  console.warn(`Phase 16F validation warning: ${message}`);
+  console.warn(`Phase 16G validation warning: ${message}`);
 }
 
 function read(file) {
@@ -236,12 +220,10 @@ function requiredFilesGuard() {
   read(TEST_FILE);
   read(VALIDATOR_SCRIPT);
   read(WORKFLOW_FILE);
-  read(CONNECTOR_FILE);
-  read(PANEL_FILE);
+  read(PARSER_FILE);
+  read(REVIEW_PANEL);
   read(SETTINGS_ROUTE);
-  read(SETTINGS_STORAGE);
-  read(HOME_ROUTE);
-  read(GLOBAL_CSS);
+  read(PHASE16F_VALIDATOR);
   read(PHASE16E_VALIDATOR);
   read(PHASE16D_VALIDATOR);
   read(PHASE16C_VALIDATOR);
@@ -265,8 +247,8 @@ function packageGuard() {
   }
 
   const changed = new Set(changedFiles());
-  if (changed.has('package.json')) fail('package.json must not change in Phase 16F');
-  if (changed.has('package-lock.json')) fail('package-lock.json must not change in Phase 16F');
+  if (changed.has('package.json')) fail('package.json must not change in Phase 16G');
+  if (changed.has('package-lock.json')) fail('package-lock.json must not change in Phase 16G');
 
   void pkg;
 }
@@ -277,15 +259,15 @@ function scopeGuard() {
   for (const file of changedFiles()) {
     if (isGeneratedArtifact(file)) continue;
     if (file.startsWith('.claude/')) continue;
-    if (phase16fAllowedChangedFiles.has(file)) continue;
-    if (file === 'package.json') fail(`package.json must not change in Phase 16F`);
-    if (file === 'package-lock.json') fail(`package-lock.json must not change in Phase 16F`);
+    if (phase16gAllowedChangedFiles.has(file)) continue;
+    if (file === 'package.json') fail(`package.json must not change in Phase 16G`);
+    if (file === 'package-lock.json') fail(`package-lock.json must not change in Phase 16G`);
     if (file.startsWith('e2e/')) {
-      fail(`e2e/ file changed in Phase 16F: ${file}`);
+      fail(`e2e/ file changed in Phase 16G: ${file}`);
     }
-    // Historical validator updates are allowed (exact Phase 16F allowlist entries).
+    // Historical validator updates are allowed (exact Phase 16G allowlist entries).
     if (file.startsWith('scripts/validate-') && file.endsWith('.js')) continue;
-    fail(`Unexpected changed file for Phase 16F scope: ${file}`);
+    fail(`Unexpected changed file for Phase 16G scope: ${file}`);
   }
 }
 
@@ -295,7 +277,7 @@ function forbiddenRuntimeFilesGuard() {
   const changed = new Set(changedFiles());
   for (const file of forbiddenRuntimeFiles) {
     if (changed.has(file)) {
-      fail(`Phase 16F must not change scheduler/storage/backup file: ${file}`);
+      fail(`Phase 16G must not change scheduler/storage file: ${file}`);
     }
   }
 }
@@ -324,17 +306,18 @@ function workflowGuard() {
     'node scripts/validate-phase16d-shime-study-identity-product-principles.js',
     'node scripts/validate-phase16e-visual-polish-quick-wins.js',
     'node scripts/validate-phase16f-edugen-draft-workshop-connector-foundation.js',
+    'node scripts/validate-phase16g-edugen-draft-review-import-flow.js',
   ];
   for (const validator of requiredValidators) {
     if (!text.includes(validator)) fail(`${WORKFLOW_FILE} must run ${validator}`);
   }
 
-  const phase16ePos = text.indexOf('node scripts/validate-phase16e-visual-polish-quick-wins.js');
   const phase16fPos = text.indexOf('node scripts/validate-phase16f-edugen-draft-workshop-connector-foundation.js');
-  if (phase16ePos === -1) fail(`${WORKFLOW_FILE} must register Phase 16E validator`);
+  const phase16gPos = text.indexOf('node scripts/validate-phase16g-edugen-draft-review-import-flow.js');
   if (phase16fPos === -1) fail(`${WORKFLOW_FILE} must register Phase 16F validator`);
-  if (phase16fPos <= phase16ePos) {
-    fail(`${WORKFLOW_FILE} must register Phase 16F validator after Phase 16E validator`);
+  if (phase16gPos === -1) fail(`${WORKFLOW_FILE} must register Phase 16G validator`);
+  if (phase16gPos <= phase16fPos) {
+    fail(`${WORKFLOW_FILE} must register Phase 16G validator after Phase 16F validator`);
   }
 
   if (/continue-on-error:\s*true/i.test(text)) {
@@ -357,13 +340,7 @@ function requiredDocTermsGuard() {
 // ── Forbidden claim guard ─────────────────────────────────────────────────────
 
 function forbiddenClaimGuard() {
-  const targets = [
-    DOCS_FILE,
-    PANEL_FILE,
-    HOME_ROUTE,
-    CONNECTOR_FILE,
-    SETTINGS_ROUTE,
-  ];
+  const targets = [DOCS_FILE, PARSER_FILE, REVIEW_PANEL, SETTINGS_ROUTE];
   for (const target of targets) {
     const text = read(target);
     const lower = text.toLowerCase();
@@ -375,39 +352,45 @@ function forbiddenClaimGuard() {
   }
 }
 
-// ── Vietnamese-first / Draft Workshop copy guard ──────────────────────────────
+// ── Vietnamese-first / required copy guard ────────────────────────────────────
 
 function vietnameseFirstCopyGuard() {
-  const panel = read(PANEL_FILE);
+  const panel = read(REVIEW_PANEL);
   const requiredPanelStrings = [
     'Xưởng bản nháp EduGen',
-    'URL dịch vụ EduGen',
-    'Tùy chọn',
-    'Shime không tự xử lý PDF/DOCX nếu không có dịch vụ EduGen đang chạy.',
-    'Kết quả chỉ là bản nháp, bạn cần xem lại trước khi học.',
-    'Kiểm tra kết nối',
+    'Bản nháp cần xem lại trước khi lưu',
+    'Xem lại trước khi lưu',
+    'Kết quả có thể sai hoặc thiếu ý',
+    'Shime không tự gọi AI/OCR',
+    'EduGen chạy riêng và tùy chọn',
+    'Không có thẻ nào được lưu cho đến khi bạn xác nhận',
+    'Xác nhận lưu bản nháp',
   ];
   for (const phrase of requiredPanelStrings) {
     if (!panel.includes(phrase)) {
-      fail(`${PANEL_FILE} must include claim-safe Vietnamese-first phrase: "${phrase}"`);
+      fail(`${REVIEW_PANEL} must include claim-safe Vietnamese-first phrase: "${phrase}"`);
     }
   }
 
-  const home = read(HOME_ROUTE);
-  if (!home.includes('Xưởng bản nháp')) fail(`${HOME_ROUTE} must include "Xưởng bản nháp" framing`);
-  if (!home.includes('không được bundle')) fail(`${HOME_ROUTE} must keep "không được bundle" disclaimer`);
+  const parser = read(PARSER_FILE);
+  if (!parser.includes('parseEdugenDraftJson')) {
+    fail(`${PARSER_FILE} must export parseEdugenDraftJson`);
+  }
+  if (!parser.includes('reviewRequired')) {
+    fail(`${PARSER_FILE} must mark items with reviewRequired metadata`);
+  }
+  if (!parser.includes('MAX_DRAFT_ITEMS')) {
+    fail(`${PARSER_FILE} must export MAX_DRAFT_ITEMS large-import guard`);
+  }
+  if (!parser.includes('MAX_FIELD_LENGTH')) {
+    fail(`${PARSER_FILE} must export MAX_FIELD_LENGTH field-length guard`);
+  }
 }
 
-// ── No ai-process / AI endpoint call sites ───────────────────────────────────
+// ── No ai-process / AI endpoint / document upload in new runtime ─────────────
 
 function noAiProcessGuard() {
-  const filesToCheck = [
-    CONNECTOR_FILE,
-    PANEL_FILE,
-    SETTINGS_ROUTE,
-    HOME_ROUTE,
-    SETTINGS_STORAGE,
-  ];
+  const filesToCheck = [PARSER_FILE, REVIEW_PANEL, SETTINGS_ROUTE];
   for (const file of filesToCheck) {
     const text = read(file);
     if (text.includes('ai-process')) fail(`${file} must not include 'ai-process' call site`);
@@ -417,7 +400,23 @@ function noAiProcessGuard() {
   }
 }
 
-// ── No new ts-fsrs.next() call sites or auth/sync paths ──────────────────────
+function noDocumentUploadGuard() {
+  // The new parser/panel must not perform document upload or HTTP I/O.
+  // The Phase 16F connector remains the only network surface, and it is
+  // health-check only. Phase 16G adds NO network calls.
+  const filesToCheck = [PARSER_FILE, REVIEW_PANEL];
+  for (const file of filesToCheck) {
+    const text = read(file);
+    if (text.includes('FormData')) fail(`${file} must not use FormData (no document upload)`);
+    if (/\bfetch\s*\(/.test(text)) fail(`${file} must not call fetch() in Phase 16G`);
+    if (text.includes('XMLHttpRequest')) fail(`${file} must not use XMLHttpRequest`);
+    if (/<input[^>]*type=["']file["']/i.test(text)) {
+      fail(`${file} must not introduce a file upload <input>`);
+    }
+  }
+}
+
+// ── FSRS / sync regression guards ────────────────────────────────────────────
 
 function fsrsAndSyncRegressionGuard() {
   const wrapperFile = 'src/quiz/fsrsWrapper.js';
@@ -439,6 +438,13 @@ function fsrsAndSyncRegressionGuard() {
       fail(`${adapterFile} must preserve fsrsActiveSchedulingEnabled (Phase 15B regression)`);
     }
   }
+
+  // Phase 16G must not introduce ts-fsrs.next() in new runtime files.
+  for (const file of [PARSER_FILE, REVIEW_PANEL]) {
+    const text = read(file);
+    if (/ts-fsrs/.test(text)) fail(`${file} must not import ts-fsrs`);
+    if (/\.next\s*\(/.test(text)) fail(`${file} must not introduce a ts-fsrs .next() call site`);
+  }
 }
 
 function noCloudAuthGuard() {
@@ -455,12 +461,12 @@ function noCloudAuthGuard() {
   ];
   for (const path of forbiddenPaths) {
     if (fs.existsSync(path)) {
-      fail(`Phase 16F must not introduce cloud/auth/sync/AI-process path: ${path}`);
+      fail(`Phase 16G must not introduce cloud/auth/sync/AI-process path: ${path}`);
     }
   }
 
-  // Forbid API key / BYOK runtime terms in Phase 16F files.
-  for (const file of [PANEL_FILE, CONNECTOR_FILE, SETTINGS_STORAGE]) {
+  // Forbid API key / BYOK runtime terms in Phase 16G files.
+  for (const file of [PARSER_FILE, REVIEW_PANEL]) {
     const text = read(file);
     for (const term of ['apiKey', 'API_KEY', 'BYOK', 'bring your own key']) {
       if (text.includes(term)) {
@@ -470,49 +476,44 @@ function noCloudAuthGuard() {
   }
 }
 
-// ── settingsStorage edugenServiceUrl integrity ────────────────────────────────
+// ── Settings.jsx mount guard ─────────────────────────────────────────────────
 
-function settingsStorageIntegrityGuard() {
-  const source = read(SETTINGS_STORAGE);
-  if (!source.includes("'shimeV2SettingsV1'")) {
-    fail(`${SETTINGS_STORAGE} must preserve SETTINGS_STORAGE_KEY = 'shimeV2SettingsV1'`);
+function settingsMountGuard() {
+  const source = read(SETTINGS_ROUTE);
+  if (!source.includes('EduGenDraftReviewPanel')) {
+    fail(`${SETTINGS_ROUTE} must mount the new EduGenDraftReviewPanel`);
   }
-  if (!source.includes('edugenServiceUrl')) {
-    fail(`${SETTINGS_STORAGE} must declare edugenServiceUrl field`);
+  if (!/<EduGenDraftReviewPanel\b/.test(source)) {
+    fail(`${SETTINGS_ROUTE} must render <EduGenDraftReviewPanel /> JSX`);
   }
-  // The new field must default to empty string, not a hard-coded host.
-  if (!source.includes("EDUGEN_SERVICE_URL_DEFAULT = ''")) {
-    fail(`${SETTINGS_STORAGE} must define EDUGEN_SERVICE_URL_DEFAULT as empty string`);
+  if (!source.includes('EduGenDraftWorkshopPanel')) {
+    fail(`${SETTINGS_ROUTE} must keep Phase 16F EduGenDraftWorkshopPanel mount`);
   }
-  // Lazy read invariant: getSettings must remain lazy. The structural marker
-  // is the "LAZY READ" comment plus the no-setItem-on-missing-key branch.
-  if (!source.includes('LAZY READ')) {
-    fail(`${SETTINGS_STORAGE} must preserve LAZY READ invariant comment`);
+  if (!source.includes('FsrsExperimentalSettingsPanel')) {
+    fail(`${SETTINGS_ROUTE} must keep FsrsExperimentalSettingsPanel mount`);
   }
 }
 
-// ── Connector source guard ────────────────────────────────────────────────────
+// ── Parser source guard ──────────────────────────────────────────────────────
 
-function connectorSourceGuard() {
-  const text = read(CONNECTOR_FILE);
+function parserSourceGuard() {
+  const text = read(PARSER_FILE);
   const required = [
-    'normalizeEdugenServiceUrl',
-    'buildEdugenHealthUrl',
-    'checkEdugenHealth',
-    'EDUGEN_HEALTH_STATUS',
-    '/health',
+    'parseEdugenDraftJson',
+    'EDUGEN_DRAFT_ERROR_CODES',
+    'EDUGEN_DRAFT_PROCESSOR',
+    'EDUGEN_DRAFT_SOURCE_TYPE',
+    'reviewRequired',
+    'describeEdugenDraftError',
   ];
   for (const symbol of required) {
-    if (!text.includes(symbol)) fail(`${CONNECTOR_FILE} must export/define ${symbol}`);
+    if (!text.includes(symbol)) fail(`${PARSER_FILE} must export/define ${symbol}`);
   }
-  if (!text.includes('NEVER uploads documents')) {
-    fail(`${CONNECTOR_FILE} must include the "NEVER uploads documents" runtime contract comment`);
+  if (!text.includes('NO storage write') && !text.includes('No storage write')) {
+    fail(`${PARSER_FILE} must document that it performs no storage write`);
   }
-  if (!text.includes('NEVER calls an AI endpoint')) {
-    fail(`${CONNECTOR_FILE} must include the "NEVER calls an AI endpoint" runtime contract comment`);
-  }
-  if (/\.next\s*\(/.test(text)) {
-    fail(`${CONNECTOR_FILE} must not introduce a ts-fsrs .next() call site`);
+  if (!text.includes('NEVER auto-imported') && !text.includes('never auto-imported')) {
+    fail(`${PARSER_FILE} must document review-required draft contract`);
   }
 }
 
@@ -543,12 +544,13 @@ function validate() {
   forbiddenClaimGuard();
   vietnameseFirstCopyGuard();
   noAiProcessGuard();
+  noDocumentUploadGuard();
   fsrsAndSyncRegressionGuard();
   noCloudAuthGuard();
-  settingsStorageIntegrityGuard();
-  connectorSourceGuard();
+  settingsMountGuard();
+  parserSourceGuard();
   internalRegistryGuard();
-  console.log('Phase 16F EduGen Draft Workshop Connector Foundation validation passed.');
+  console.log('Phase 16G EduGen Draft Review Import Flow validation passed.');
 }
 
 validate();
