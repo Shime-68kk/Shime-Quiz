@@ -61,14 +61,29 @@ const phase16eAllowedChangedFiles = new Set([
   'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
   'src/components/settings/FsrsExperimentalSettingsPanel.jsx',
   'src/styles/global.css',
+  // Phase 16F allowlist entries (EduGen Draft Workshop Connector Foundation)
+  'docs/phase16f-edugen-draft-workshop-connector-foundation.md',
+  'tests/unit/edugenDraftWorkshopConnector.test.js',
+  'scripts/validate-phase16f-edugen-draft-workshop-connector-foundation.js',
+  'src/edugen/edugenConnector.js',
+  'src/components/settings/EduGenDraftWorkshopPanel.jsx',
+  'src/routes/Settings.jsx',
+  'src/state/settingsStorage.js',
 ]);
 
-// Hard-forbidden scheduler/storage/backup/import files.
+// Hard-forbidden scheduler/storage files for Phase 16E.
+//
+// Note: Phase 16F (EduGen Draft Workshop Connector Foundation) is
+// explicitly permitted to modify src/state/settingsStorage.js to add the
+// optional `edugenServiceUrl` field, so settingsStorage.js is no longer
+// listed here. Other scheduler/storage/backup files remain forbidden:
+// reviewSchedulerAdapter.js, fsrsWrapper.js, reviewScheduleStorage.js,
+// dataBackup.js, and v2BackupRestore.js are still untouched in both
+// Phase 16E and Phase 16F.
 const forbiddenRuntimeFiles = [
   'src/quiz/reviewSchedulerAdapter.js',
   'src/quiz/fsrsWrapper.js',
   'src/state/reviewScheduleStorage.js',
-  'src/state/settingsStorage.js',
   'src/quiz/dataBackup.js',
   'src/state/v2BackupRestore.js',
 ];

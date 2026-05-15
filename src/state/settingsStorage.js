@@ -29,6 +29,29 @@ const FSRS_MAXIMUM_INTERVAL_MIN = 1;
 const FSRS_MAXIMUM_INTERVAL_MAX = 36500;
 const FSRS_MAXIMUM_INTERVAL_DEFAULT = 36500;
 
+// Phase 16F — optional EduGen Draft Workshop companion service URL.
+// Stored as plain string; '' means "not configured". Reading does not write.
+// Normalization rejects non-http(s) schemes and trims trailing slashes.
+// This is NOT a cloud account, API key, or auth. It is only a pointer to a
+// user-configured local/companion service the user runs themselves.
+const EDUGEN_SERVICE_URL_DEFAULT = '';
+
+function normalizeEdugenServiceUrlField(value) {
+  if (typeof value !== 'string') return EDUGEN_SERVICE_URL_DEFAULT;
+  const trimmed = value.trim();
+  if (!trimmed) return EDUGEN_SERVICE_URL_DEFAULT;
+  try {
+    const parsed = new URL(trimmed);
+    if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+      return EDUGEN_SERVICE_URL_DEFAULT;
+    }
+    if (!parsed.host) return EDUGEN_SERVICE_URL_DEFAULT;
+    return parsed.toString().replace(/\/+$/u, '');
+  } catch {
+    return EDUGEN_SERVICE_URL_DEFAULT;
+  }
+}
+
 /**
  * The canonical default settings object.
  * Returned in memory when the storage key is absent or invalid.
@@ -43,7 +66,8 @@ export function getDefaultSettings() {
     fsrsEnrollmentMode: FSRS_ENROLLMENT_MODE_NEW_CARDS_ONLY,
     fsrsEnabledAt: null,
     fsrsDesiredRetention: FSRS_DESIRED_RETENTION_DEFAULT,
-    fsrsMaximumInterval: FSRS_MAXIMUM_INTERVAL_DEFAULT
+    fsrsMaximumInterval: FSRS_MAXIMUM_INTERVAL_DEFAULT,
+    edugenServiceUrl: EDUGEN_SERVICE_URL_DEFAULT
   };
 }
 
@@ -110,6 +134,8 @@ export function normalizeSettings(raw) {
     }
   }
 
+  const edugenServiceUrl = normalizeEdugenServiceUrlField(raw.edugenServiceUrl);
+
   return {
     schemaVersion: SETTINGS_SCHEMA_VERSION,
     updatedAt,
@@ -118,7 +144,8 @@ export function normalizeSettings(raw) {
     fsrsEnrollmentMode,
     fsrsEnabledAt,
     fsrsDesiredRetention,
-    fsrsMaximumInterval
+    fsrsMaximumInterval,
+    edugenServiceUrl
   };
 }
 
