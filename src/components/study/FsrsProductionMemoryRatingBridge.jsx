@@ -125,8 +125,8 @@ export default function FsrsProductionMemoryRatingBridge({
       aria-label="Đánh giá mức độ nhớ thử nghiệm"
     >
       <p className="memoryBridge__header">
-        <span className="memoryBridge__headerPrimary">Mức độ nhớ thử nghiệm</span>
-        <span className="memoryBridge__headerSecondary">Experimental: memory rating</span>
+        <span className="memoryBridge__headerPrimary">Mức độ nhớ</span>
+        <span className="memoryBridge__headerSecondary">Memory rating (experimental)</span>
       </p>
       <p className="memoryBridge__safetyNote">
         <span className="memoryBridge__safetyNotePrimary">{headerNoteVi}</span>

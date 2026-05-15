@@ -287,6 +287,16 @@ const allowedChanged = new Set([
   // Phase 16D allowlist entries (Shime Study Identity / Product Principles)
   'docs/phase16d-shime-study-identity-product-principles.md',
   'scripts/validate-phase16d-shime-study-identity-product-principles.js',
+  // Phase 16E allowlist entries (Visual Polish Quick Wins)
+  'docs/phase16e-visual-polish-quick-wins.md',
+  'tests/unit/visualPolishQuickWins.test.jsx',
+  'scripts/validate-phase16e-visual-polish-quick-wins.js',
+  'src/routes/Home.jsx',
+  'src/routes/Dashboard.jsx',
+  'src/routes/StudyRoom.jsx',
+  'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
+  'src/components/settings/FsrsExperimentalSettingsPanel.jsx',
+  'src/styles/global.css',
 ]);
 
 function fail(message) { failures.push(message); }

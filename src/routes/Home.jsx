@@ -15,6 +15,7 @@ export default function Home() {
         <div className="publicLandingHero__content">
           <p className="eyebrow">ShimeChamhoc v2</p>
           <h1 id="public-landing-title">Học quiz cục bộ, rõ ràng, không cần tài khoản.</h1>
+          <p className="publicLandingIdentityLine">Phòng học yên tĩnh — dữ liệu của bạn, ở đây, an toàn.</p>
           <p className="lead">
             ShimeChamhoc là ứng dụng học quiz local-first: bạn nhập nội dung học, xem trước bản nháp,
             kiểm tra chất lượng, lưu vào trình duyệt và học trong Phòng học với tiến độ hiển thị trên Tổng quan.

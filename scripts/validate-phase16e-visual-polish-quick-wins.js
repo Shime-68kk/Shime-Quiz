@@ -1,31 +1,36 @@
 #!/usr/bin/env node
 /**
- * scripts/validate-phase16d-shime-study-identity-product-principles.js
+ * scripts/validate-phase16e-visual-polish-quick-wins.js
  *
- * Phase 16D static validator — Shime Study Identity / Product Principles.
+ * Phase 16E static validator — Visual Polish Quick Wins.
  *
  * Confirms:
- *   • identity doc exists with all required terms;
- *   • workflow registers Phase 16D validator after Phase 16C;
- *   • all previous validators through Phase 16C remain registered;
- *   • no src/, tests/, e2e/, package.json, or package-lock.json changes;
- *   • no runtime implementation files added;
- *   • no visual polish / mascot asset / CSS changes;
- *   • no EduGen connector runtime;
- *   • no sync/cloud/account/auth code;
- *   • no new ts-fsrs.next() call sites;
- *   • forbidden claims are absent from the identity doc;
- *   • generated artifacts and internal registry/native binding terms absent;
- *   • changed files are within the Phase 16D allowlist.
+ *   • doc exists with all required terms;
+ *   • test file exists;
+ *   • workflow registers Phase 16E validator after Phase 16D;
+ *   • all previous validators through Phase 16D remain registered;
+ *   • no package.json or package-lock.json changes;
+ *   • no e2e/ changes;
+ *   • no scheduler/storage/backup/import files changed;
+ *   • no new localStorage keys;
+ *   • no indexedDB, StorageAdapter, SyncAdapter, EduGen connector runtime;
+ *   • Vietnamese labels remain in changed UI;
+ *   • memory rating labels remain safe;
+ *   • raw internal FSRS terms absent from visible JSX text;
+ *   • forbidden overclaim phrases absent;
+ *   • generated artifact and internal registry terms absent;
+ *   • changed files are within the Phase 16E allowlist.
  */
 
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
-const DOCS_FILE        = 'docs/phase16d-shime-study-identity-product-principles.md';
-const VALIDATOR_SCRIPT = 'scripts/validate-phase16d-shime-study-identity-product-principles.js';
+const DOCS_FILE        = 'docs/phase16e-visual-polish-quick-wins.md';
+const TEST_FILE        = 'tests/unit/visualPolishQuickWins.test.jsx';
+const VALIDATOR_SCRIPT = 'scripts/validate-phase16e-visual-polish-quick-wins.js';
 const WORKFLOW_FILE    = '.github/workflows/e2e-smoke.yml';
 
+const PHASE16D_VALIDATOR = 'scripts/validate-phase16d-shime-study-identity-product-principles.js';
 const PHASE16C_VALIDATOR = 'scripts/validate-phase16c-storage-large-import-edugen-risk-audit.js';
 const PHASE16B_VALIDATOR = 'scripts/validate-phase16b-hybrid-local-first-optional-sync-direction.js';
 const PHASE16A_VALIDATOR = 'scripts/validate-phase16a-vietnamese-first-ux-copy-alignment.js';
@@ -41,82 +46,15 @@ const PHASE14P_VALIDATOR = 'scripts/validate-phase14p-fsrs-foundation-closure-ph
 const PHASE14O_VALIDATOR = 'scripts/validate-phase14o-fsrs-active-scheduling-decision-gate.js';
 const PHASE14N_VALIDATOR = 'scripts/validate-phase14n-production-studyroom-two-step-bridge.js';
 
-// Exact list of allowed changed files for Phase 16D.
-// Phase 16D is docs/static-validator/CI-only: no src/, tests/, e2e/,
-// package.json, or package-lock.json changes are allowed.
-const phase16dAllowedChangedFiles = new Set([
+// Exact set of allowed changed files for Phase 16E.
+// Phase 16E is a UI polish phase: allows changes only to the specified
+// UI files, doc, test, validator, workflow, and CSS.
+// Historical validators may be updated with exact Phase 16E allowlist entries.
+const phase16eAllowedChangedFiles = new Set([
   WORKFLOW_FILE,
   DOCS_FILE,
+  TEST_FILE,
   VALIDATOR_SCRIPT,
-
-  // Historical validators updated with exact Phase 16D allowlist entries only
-  'scripts/validate-backup-transfer-safety-hardening.js',
-  'scripts/validate-cross-device-export-import.js',
-  'scripts/validate-cross-device-transfer-track-closure.js',
-  'scripts/validate-cross-device-transfer-ux-copy.js',
-  'scripts/validate-cross-device-transfer-ux-decision.js',
-  'scripts/validate-dashboard-today-card-runtime.js',
-  'scripts/validate-dashboard-today-card-ux-plan.js',
-  'scripts/validate-edugen-boundary-polish.js',
-  'scripts/validate-final-main-release-authorization.js',
-  'scripts/validate-final-public-release-readiness-reaudit.js',
-  'scripts/validate-final-release-execution-checklist.js',
-  'scripts/validate-github-release-publication-plan.js',
-  'scripts/validate-manual-evidence-execution-checklist.js',
-  'scripts/validate-manual-evidence-results-log.js',
-  'scripts/validate-manual-evidence-run-pack.js',
-  'scripts/validate-phase12-closure-release-decision.js',
-  'scripts/validate-phase12-roadmap-risk-register.js',
-  'scripts/validate-phase13-closure.js',
-  'scripts/validate-phase13-fsrs-plan.js',
-  'scripts/validate-phase13-local-adaptive-roadmap.js',
-  'scripts/validate-phase13-review-engine-audit.js',
-  'scripts/validate-phase14a-scheduler-adapter.js',
-  'scripts/validate-phase14b-fsrs-wrapper.js',
-  'scripts/validate-phase14c-fsrs-persistence-harness.js',
-  'scripts/validate-phase14d-fsrs-adapter-routing.js',
-  'scripts/validate-phase14e-fsrs-user-facing-entry.js',
-  'scripts/validate-phase14f-hf1-baseline-validation-recovery.js',
-  'scripts/validate-phase14f-toggle-plan.js',
-  'scripts/validate-phase14g-settings-storage.js',
-  'scripts/validate-phase14h-fsrs-toggle-ui.js',
-  'scripts/validate-phase14i-fsrs-two-step-fixture.js',
-  'scripts/validate-phase14j-fsrs-enrollment-readiness.js',
-  'scripts/validate-phase14k-fsrs-readiness-audit.js',
-  'scripts/validate-phase14l-production-enrollment-wiring.js',
-  'scripts/validate-phase14m-fsrs-metadata-backup-import-export-hardening.js',
-  PHASE14N_VALIDATOR,
-  PHASE14O_VALIDATOR,
-  PHASE14P_VALIDATOR,
-  PHASE15A_VALIDATOR,
-  PHASE15B_VALIDATOR,
-  PHASE15C_VALIDATOR,
-  PHASE15D_VALIDATOR,
-  PHASE15E_VALIDATOR,
-  PHASE15F_VALIDATOR,
-  PHASE15G_VALIDATOR,
-  PHASE15H_VALIDATOR,
-  'scripts/validate-release-candidate-freeze-final-decision.js',
-  'scripts/validate-release-candidate-tag-publish-gate.js',
-  'scripts/validate-release-package-assembly-plan.js',
-  'scripts/validate-release-tag-creation-plan.js',
-  'scripts/validate-storage-capacity-indexeddb-migration-plan.js',
-  'scripts/validate-storage-quota-warning-runtime.js',
-  'scripts/validate-study-flow-micro-feedback-plan.js',
-  'scripts/validate-study-flow-micro-feedback-runtime.js',
-  'scripts/validate-unit-test-foundation-plan.js',
-  'scripts/validate-vitest-unit-test-foundation.js',
-  'scripts/validate-web-share-mobile-sharing-prototype-plan.js',
-  'scripts/validate-web-share-runtime-fallback-hardening.js',
-  'scripts/validate-web-share-runtime-prototype.js',
-  PHASE16A_VALIDATOR,
-  PHASE16B_VALIDATOR,
-  PHASE16C_VALIDATOR,
-
-  // Phase 16E allowlist entries
-  'docs/phase16e-visual-polish-quick-wins.md',
-  'tests/unit/visualPolishQuickWins.test.jsx',
-  'scripts/validate-phase16e-visual-polish-quick-wins.js',
   'src/routes/Home.jsx',
   'src/routes/Dashboard.jsx',
   'src/routes/StudyRoom.jsx',
@@ -124,6 +62,16 @@ const phase16dAllowedChangedFiles = new Set([
   'src/components/settings/FsrsExperimentalSettingsPanel.jsx',
   'src/styles/global.css',
 ]);
+
+// Hard-forbidden scheduler/storage/backup/import files.
+const forbiddenRuntimeFiles = [
+  'src/quiz/reviewSchedulerAdapter.js',
+  'src/quiz/fsrsWrapper.js',
+  'src/state/reviewScheduleStorage.js',
+  'src/state/settingsStorage.js',
+  'src/quiz/dataBackup.js',
+  'src/state/v2BackupRestore.js',
+];
 
 const bindingPackage = '@open-spaced-repetition/' + 'binding';
 
@@ -147,48 +95,53 @@ const generatedArtifacts = [
 ];
 
 const requiredDocTerms = [
-  'calm',
-  'learner-owned',
-  'local-first',
-  'explainable memory',
-  'draft before trust',
-  'source-aware learning',
+  'visual polish quick wins',
+  'calm by default',
   'beautiful but quiet',
-  'honest copy',
-  'mistakes are signals',
   'motion is breath, not bounce',
-  'Study Room',
-  'Today\'s Path',
-  'Memory Garden',
-  'Draft Workshop',
-  'Source Library',
-  'no runtime changes',
-  'docs/static-validator/CI only',
+  'mistakes are signals',
+  'Vietnamese-first',
+  'no scheduling changes',
+  'no storage changes',
+  'no dependencies',
+  'no EduGen runtime',
 ];
 
-const forbiddenDocClaims = [
-  'visual polish is implemented',
-  'mascot runtime exists',
-  'EduGen is bundled',
-  'built-in AI quiz generation exists',
-  'built-in OCR exists',
+// Raw internal FSRS identifiers that must not appear as JSX text between tags.
+const forbiddenJsxTextPatterns = [
+  />\s*fsrsActiveSchedulingEnabled\s*</,
+  />\s*schedulerKind\s*</,
+  />\s*fsrsPayload\s*</,
+  />\s*ts-fsrs\s*</,
+];
+
+// CSS patterns that must NOT appear in added CSS (runtime-forbidden).
+const forbiddenCssTerms = [
+  'indexedDB',
+  'StorageAdapter',
+  'SyncAdapter',
+];
+
+// Forbidden overclaim phrases (case-insensitive substring).
+const forbiddenClaimPhrases = [
+  'visual polish implements adaptive scheduling',
+  'active fsrs is public',
+  'edugen is built in',
+  'built-in ai',
+  'built-in ocr',
   'cloud sync exists',
   'sync is available',
-  'E2EE is implemented',
-  'active FSRS is public',
-  'active fsrs public rollout',
-  'AI scheduling enabled',
-  'AI scheduling is enabled',
+  'e2ee is implemented',
   'guaranteed mastery',
 ];
 
 function fail(message) {
-  console.error(`Phase 16D validation failed: ${message}`);
+  console.error(`Phase 16E validation failed: ${message}`);
   process.exit(1);
 }
 
 function warn(message) {
-  console.warn(`Phase 16D validation warning: ${message}`);
+  console.warn(`Phase 16E validation warning: ${message}`);
 }
 
 function read(file) {
@@ -231,8 +184,6 @@ function changedFilesFromPullRequestBase() {
 }
 
 function changedFilesFromBranchBase() {
-  const originMain = runGit('git rev-parse --verify origin/main', { silent: true });
-  if (!originMain) return [];
   const mergeBase = runGit('git merge-base HEAD origin/main', { silent: true });
   if (!mergeBase) return [];
   return splitLines(runGit(`git diff --name-only ${mergeBase} HEAD`, { silent: true }));
@@ -268,8 +219,10 @@ function isGeneratedArtifact(file) {
 
 function requiredFilesGuard() {
   read(DOCS_FILE);
+  read(TEST_FILE);
   read(VALIDATOR_SCRIPT);
   read(WORKFLOW_FILE);
+  read(PHASE16D_VALIDATOR);
   read(PHASE16C_VALIDATOR);
   read(PHASE16B_VALIDATOR);
   read(PHASE16A_VALIDATOR);
@@ -301,8 +254,8 @@ function packageGuard() {
   }
 
   const changed = new Set(changedFiles());
-  if (changed.has('package.json')) fail('package.json must not change in Phase 16D');
-  if (changed.has('package-lock.json')) fail('package-lock.json must not change in Phase 16D');
+  if (changed.has('package.json')) fail('package.json must not change in Phase 16E');
+  if (changed.has('package-lock.json')) fail('package-lock.json must not change in Phase 16E');
 
   void pkg;
 }
@@ -313,13 +266,24 @@ function scopeGuard() {
   for (const file of changedFiles()) {
     if (isGeneratedArtifact(file)) continue;
     if (file.startsWith('.claude/')) continue;
-    if (phase16dAllowedChangedFiles.has(file)) continue;
-    if (file === 'package.json') fail(`package.json must not change in Phase 16D`);
-    if (file === 'package-lock.json') fail(`package-lock.json must not change in Phase 16D`);
-    if (file.startsWith('src/')) fail(`src/ file changed in Phase 16D: ${file}`);
-    if (file.startsWith('tests/')) fail(`tests/ file changed in Phase 16D: ${file}`);
-    if (file.startsWith('e2e/')) fail(`e2e/ file changed in Phase 16D: ${file}`);
-    fail(`Unexpected changed file for Phase 16D scope: ${file}`);
+    if (phase16eAllowedChangedFiles.has(file)) continue;
+    if (file === 'package.json') fail(`package.json must not change in Phase 16E`);
+    if (file === 'package-lock.json') fail(`package-lock.json must not change in Phase 16E`);
+    if (file.startsWith('e2e/')) fail(`e2e/ file changed in Phase 16E: ${file}`);
+    // Historical validator updates are allowed.
+    if (file.startsWith('scripts/validate-') && file.endsWith('.js')) continue;
+    fail(`Unexpected changed file for Phase 16E scope: ${file}`);
+  }
+}
+
+// ── Forbidden runtime files guard ─────────────────────────────────────────────
+
+function forbiddenRuntimeFilesGuard() {
+  const changed = new Set(changedFiles());
+  for (const file of forbiddenRuntimeFiles) {
+    if (changed.has(file)) {
+      fail(`Phase 16E must not change scheduler/storage/backup/import file: ${file}`);
+    }
   }
 }
 
@@ -355,17 +319,18 @@ function workflowGuard() {
     'node scripts/validate-phase16b-hybrid-local-first-optional-sync-direction.js',
     'node scripts/validate-phase16c-storage-large-import-edugen-risk-audit.js',
     'node scripts/validate-phase16d-shime-study-identity-product-principles.js',
+    'node scripts/validate-phase16e-visual-polish-quick-wins.js',
   ];
   for (const validator of requiredValidators) {
     if (!text.includes(validator)) fail(`${WORKFLOW_FILE} must run ${validator}`);
   }
 
-  const phase16cPos = text.indexOf('node scripts/validate-phase16c-storage-large-import-edugen-risk-audit.js');
   const phase16dPos = text.indexOf('node scripts/validate-phase16d-shime-study-identity-product-principles.js');
-  if (phase16cPos === -1) fail(`${WORKFLOW_FILE} must register Phase 16C validator`);
+  const phase16ePos = text.indexOf('node scripts/validate-phase16e-visual-polish-quick-wins.js');
   if (phase16dPos === -1) fail(`${WORKFLOW_FILE} must register Phase 16D validator`);
-  if (phase16dPos <= phase16cPos) {
-    fail(`${WORKFLOW_FILE} must register Phase 16D validator after Phase 16C validator`);
+  if (phase16ePos === -1) fail(`${WORKFLOW_FILE} must register Phase 16E validator`);
+  if (phase16ePos <= phase16dPos) {
+    fail(`${WORKFLOW_FILE} must register Phase 16E validator after Phase 16D validator`);
   }
 
   if (/continue-on-error:\s*true/i.test(text)) {
@@ -373,35 +338,67 @@ function workflowGuard() {
   }
 }
 
-// ── No runtime implementation guard ──────────────────────────────────────────
+// ── Required doc terms guard ──────────────────────────────────────────────────
 
-function noRuntimeImplementationGuard() {
-  const changed = changedFiles();
-  for (const file of changed) {
-    if (isGeneratedArtifact(file)) continue;
-    if (phase16dAllowedChangedFiles.has(file)) continue;
-    if (file.startsWith('src/')) {
-      fail(`Phase 16D must not modify src/ files: ${file}`);
-    }
-    if (file.startsWith('tests/')) {
-      fail(`Phase 16D must not modify tests/ files: ${file}`);
-    }
-    if (file.startsWith('e2e/')) {
-      fail(`Phase 16D must not modify e2e/ files: ${file}`);
+function requiredDocTermsGuard() {
+  const doc = read(DOCS_FILE);
+  const docLower = doc.toLowerCase();
+  for (const term of requiredDocTerms) {
+    if (!docLower.includes(term.toLowerCase())) {
+      fail(`${DOCS_FILE} must include required term: "${term}"`);
     }
   }
+}
 
-  const forbiddenNewFiles = [
-    'src/identity',
-    'src/mascot',
-    'src/assets/mascot',
-    'src/styles/mascot',
-    'src/components/mascot',
-    'src/components/identity',
+// ── Forbidden claim guard ─────────────────────────────────────────────────────
+
+function forbiddenClaimGuard() {
+  const doc = read(DOCS_FILE);
+  const docLower = doc.toLowerCase();
+  for (const claim of forbiddenClaimPhrases) {
+    if (docLower.includes(claim.toLowerCase())) {
+      fail(`${DOCS_FILE} must not contain forbidden claim: "${claim}"`);
+    }
+  }
+}
+
+// ── UI Vietnamese labels guard ────────────────────────────────────────────────
+
+function uiVietnameseLabelsGuard() {
+  const homeSource = read('src/routes/Home.jsx');
+  if (!homeSource.includes('Tổng quan')) fail('src/routes/Home.jsx must contain "Tổng quan"');
+  if (!homeSource.includes('Phòng học')) fail('src/routes/Home.jsx must contain "Phòng học"');
+  if (!homeSource.includes('Thư viện')) fail('src/routes/Home.jsx must contain "Thư viện"');
+
+  const dashSource = read('src/routes/Dashboard.jsx');
+  if (!dashSource.includes('Lộ trình hôm nay')) fail('src/routes/Dashboard.jsx must contain "Lộ trình hôm nay"');
+  if (!dashSource.includes('Tổng quan')) fail('src/routes/Dashboard.jsx must contain "Tổng quan"');
+
+  const bridgeSource = read('src/components/study/FsrsProductionMemoryRatingBridge.jsx');
+  if (!bridgeSource.includes('Mức độ nhớ')) fail('FsrsProductionMemoryRatingBridge.jsx must contain "Mức độ nhớ"');
+  if (!bridgeSource.includes('Nhớ khó')) fail('FsrsProductionMemoryRatingBridge.jsx must contain "Nhớ khó"');
+  if (!bridgeSource.includes('Nhớ được')) fail('FsrsProductionMemoryRatingBridge.jsx must contain "Nhớ được"');
+  if (!bridgeSource.includes('Nhớ dễ')) fail('FsrsProductionMemoryRatingBridge.jsx must contain "Nhớ dễ"');
+  if (!bridgeSource.includes('Chưa nhớ')) fail('FsrsProductionMemoryRatingBridge.jsx must contain "Chưa nhớ"');
+}
+
+// ── No raw internal FSRS text in JSX guard ────────────────────────────────────
+
+function noForbiddenJsxTextGuard() {
+  const filesToCheck = [
+    'src/routes/Home.jsx',
+    'src/routes/Dashboard.jsx',
+    'src/routes/StudyRoom.jsx',
+    'src/components/study/FsrsProductionMemoryRatingBridge.jsx',
+    'src/components/settings/FsrsExperimentalSettingsPanel.jsx',
   ];
-  for (const path of forbiddenNewFiles) {
-    if (fs.existsSync(path)) {
-      fail(`Phase 16D must not create runtime path: ${path}`);
+  for (const file of filesToCheck) {
+    if (!fs.existsSync(file)) continue;
+    const source = fs.readFileSync(file, 'utf8');
+    for (const pattern of forbiddenJsxTextPatterns) {
+      if (pattern.test(source)) {
+        fail(`${file} must not contain forbidden internal FSRS identifier as JSX text: ${pattern}`);
+      }
     }
   }
 }
@@ -424,59 +421,35 @@ function noNewLocalStorageKeysGuard() {
   }
 }
 
-// ── No new ts-fsrs.next() call sites guard ────────────────────────────────────
+// ── No forbidden runtime terms in CSS guard ───────────────────────────────────
 
-function noNewNextCallSitesGuard() {
-  const wrapperFile = 'src/quiz/fsrsWrapper.js';
-  if (!fs.existsSync(wrapperFile)) return;
-  const wrapperSource = fs.readFileSync(wrapperFile, 'utf8');
-  const matches = wrapperSource.match(/\.next\s*\(/g) ?? [];
-  if (matches.length !== 2) {
-    fail(`src/quiz/fsrsWrapper.js must have exactly 2 .next() calls (Phase 15B baseline preserved), found ${matches.length}`);
-  }
-
-  const adapterFile = 'src/quiz/reviewSchedulerAdapter.js';
-  if (!fs.existsSync(adapterFile)) return;
-  const adapterSource = fs.readFileSync(adapterFile, 'utf8');
-  if (/\.next\s*\(/.test(adapterSource)) {
-    fail(`src/quiz/reviewSchedulerAdapter.js must not call .next() directly`);
-  }
-}
-
-// ── Required doc terms guard ──────────────────────────────────────────────────
-
-function requiredDocTermsGuard() {
-  const doc = read(DOCS_FILE);
-  const docLower = doc.toLowerCase();
-  for (const term of requiredDocTerms) {
-    if (!docLower.includes(term.toLowerCase())) {
-      fail(`${DOCS_FILE} must include required term: "${term}"`);
+function noCssForbiddenTermsGuard() {
+  const cssFile = 'src/styles/global.css';
+  if (!fs.existsSync(cssFile)) return;
+  const css = fs.readFileSync(cssFile, 'utf8');
+  for (const term of forbiddenCssTerms) {
+    if (css.includes(term)) {
+      fail(`${cssFile} must not contain forbidden runtime term: ${term}`);
     }
   }
 }
 
-// ── Forbidden claim guard ─────────────────────────────────────────────────────
+// ── No cloud/auth/sync/EduGen runtime guard ───────────────────────────────────
 
-function forbiddenDocClaimGuard() {
-  const doc = read(DOCS_FILE);
-  const docLower = doc.toLowerCase();
-  for (const claim of forbiddenDocClaims) {
-    if (docLower.includes(claim.toLowerCase())) {
-      fail(`${DOCS_FILE} must not contain forbidden claim: "${claim}"`);
-    }
-  }
-}
-
-// ── Internal registry / native binding guard ──────────────────────────────────
-
-function internalRegistryGuard() {
-  const doc = read(DOCS_FILE);
-  if (doc.includes(bindingPackage)) {
-    fail(`${DOCS_FILE} must not reference native binding package`);
-  }
-  for (const term of internalRegistryTerms) {
-    if (doc.includes(term)) {
-      fail(`${DOCS_FILE} references internal registry term: ${term}`);
+function noCloudAuthGuard() {
+  const forbiddenPaths = [
+    'src/auth',
+    'src/cloud',
+    'src/backend',
+    'src/api/sync',
+    'src/sync',
+    'src/storage/SyncAdapter.js',
+    'src/storage/StorageAdapter.js',
+    'src/storage/IndexedDBAdapter.js',
+  ];
+  for (const path of forbiddenPaths) {
+    if (fs.existsSync(path)) {
+      fail(`Phase 16E must not introduce cloud/auth/sync path: ${path}`);
     }
   }
 }
@@ -503,22 +476,29 @@ function fsrsRegressionGuard() {
   }
 }
 
-// ── No account/auth/cloud/backend guard ──────────────────────────────────────
+// ── Internal registry / native binding guard ──────────────────────────────────
 
-function noCloudAuthGuard() {
-  const FORBIDDEN_CLOUD_FILES = [
-    'src/auth',
-    'src/cloud',
-    'src/backend',
-    'src/api/sync',
-    'src/sync',
-    'src/storage/SyncAdapter.js',
-    'src/storage/StorageAdapter.js',
-    'src/storage/IndexedDBAdapter.js',
-  ];
-  for (const path of FORBIDDEN_CLOUD_FILES) {
-    if (fs.existsSync(path)) {
-      fail(`Phase 16D must not introduce cloud/auth/sync path: ${path}`);
+function internalRegistryGuard() {
+  const doc = read(DOCS_FILE);
+  if (doc.includes(bindingPackage)) {
+    fail(`${DOCS_FILE} must not reference native binding package`);
+  }
+  for (const term of internalRegistryTerms) {
+    if (doc.includes(term)) {
+      fail(`${DOCS_FILE} references internal registry term: ${term}`);
+    }
+  }
+}
+
+// ── Reduced motion guard (if CSS has transitions) ─────────────────────────────
+
+function reducedMotionGuard() {
+  const cssFile = 'src/styles/global.css';
+  if (!fs.existsSync(cssFile)) return;
+  const css = fs.readFileSync(cssFile, 'utf8');
+  if (css.includes('transition:') || css.includes('animation:')) {
+    if (!css.includes('prefers-reduced-motion')) {
+      fail(`${cssFile} adds transitions/animations but is missing a prefers-reduced-motion block`);
     }
   }
 }
@@ -529,17 +509,20 @@ function validate() {
   requiredFilesGuard();
   packageGuard();
   scopeGuard();
+  forbiddenRuntimeFilesGuard();
   generatedArtifactGuard();
   workflowGuard();
-  noRuntimeImplementationGuard();
-  noNewLocalStorageKeysGuard();
-  noNewNextCallSitesGuard();
   requiredDocTermsGuard();
-  forbiddenDocClaimGuard();
-  internalRegistryGuard();
-  fsrsRegressionGuard();
+  forbiddenClaimGuard();
+  uiVietnameseLabelsGuard();
+  noForbiddenJsxTextGuard();
+  noNewLocalStorageKeysGuard();
+  noCssForbiddenTermsGuard();
   noCloudAuthGuard();
-  console.log('Phase 16D shime study identity product principles validation passed.');
+  fsrsRegressionGuard();
+  internalRegistryGuard();
+  reducedMotionGuard();
+  console.log('Phase 16E visual polish quick wins validation passed.');
 }
 
 validate();

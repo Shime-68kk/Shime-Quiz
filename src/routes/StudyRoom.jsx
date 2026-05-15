@@ -662,7 +662,7 @@ export default function StudyRoom() {
 
   return (
     <section className="studyRoom">
-      <Card className="studyRoom__card" eyebrow="Chế độ tập trung" variant="elevated">
+      <Card className="studyRoom__card" eyebrow="Phòng học tập trung" variant="elevated">
         <PageHeader
           compact
           eyebrow={isDueReviewMode ? 'Chế độ ôn tập' : isSmartPracticeMode ? 'Luyện tập thông minh' : 'Phòng học'}

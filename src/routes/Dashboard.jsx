@@ -96,7 +96,7 @@ function DashboardContent() {
       <PageHeader
         eyebrow="Bảng điều khiển"
         title="Chào mừng quay lại"
-        subtitle="Tổng quan dữ liệu học v2 từ bộ chuyển đổi cục bộ. Logic học thích ứng sẽ được nối vào dịch vụ riêng ở giai đoạn sau."
+        subtitle="Lộ trình hôm nay và tổng quan dữ liệu học v2. Dữ liệu xử lý cục bộ trên thiết bị này."
         actions={<Button type="button" size="lg" onClick={() => navigate('/study-room')}>Học tiếp</Button>}
       />
 
@@ -120,13 +120,13 @@ function DashboardContent() {
         <Card title="Chưa có dữ liệu học tập" eyebrow="Bắt đầu an toàn" className="dashboardFirstRunOnboardingCard">
           <div className="textImportCard__intro">
             <p className="muted">
-              Hãy bắt đầu ở Thư viện: dùng quiz mẫu, import JSON/CSV, hoặc dán nội dung text/Markdown. Phần này chỉ dẫn bạn đến luồng Thư viện hiện có, không tự nạp và không tự lưu dữ liệu.
+              Mở Thư viện để dùng quiz mẫu, import JSON/CSV, hoặc dán nội dung text/Markdown. Shime không tự nạp và không tự lưu — bạn xem trước và xác nhận trước khi lưu.
             </p>
             <p className="muted">
-              Quiz mẫu chỉ mở phần xem trước/kiểm tra chất lượng. Bạn vẫn cần xác nhận trước khi lưu vào thư viện cục bộ.
+              Dữ liệu học nằm trên thiết bị này, không cần tài khoản, không gửi đi đâu. Xuất bản sao lưu bất cứ lúc nào từ Thư viện.
             </p>
             <p className="muted">
-              AI trong Shime là quy trình thủ công copy/paste: Shime không gọi AI/API và không có API key/BYOK. Import tài liệu PDF/DOCX/PPTX/ZIP cần EduGen chạy riêng và được cấu hình.
+              Shime không gọi AI/API và không có API key/BYOK. Import tài liệu PDF/DOCX/PPTX/ZIP cần EduGen chạy riêng và được cấu hình.
             </p>
           </div>
           <div className="textImportActions">
