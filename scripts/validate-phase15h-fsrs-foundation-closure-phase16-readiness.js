@@ -1,21 +1,22 @@
 #!/usr/bin/env node
 /**
- * scripts/validate-phase15g-release-claim-guardrail-reaudit.js
+ * scripts/validate-phase15h-fsrs-foundation-closure-phase16-readiness.js
  *
- * Phase 15G static validator — Release / Claim Guardrail Re-Audit.
+ * Phase 15H static validator — FSRS Foundation Closure / Phase 16 Readiness Handoff.
  * Confirms that no forbidden runtime/test/package/e2e files changed,
  * no broad active-FSRS / AI / cloud / sync / security overclaims exist,
- * all prior validators through Phase 15F remain registered, and the
- * Phase 15G docs carry all required safe-claim terms.
+ * all prior validators through Phase 15G remain registered, and the
+ * Phase 15H docs carry all required safe-claim and closure terms.
  */
 
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
-const DOCS_FILE        = 'docs/phase15g-release-claim-guardrail-reaudit.md';
-const VALIDATOR_SCRIPT = 'scripts/validate-phase15g-release-claim-guardrail-reaudit.js';
+const DOCS_FILE        = 'docs/phase15h-fsrs-foundation-closure-phase16-readiness.md';
+const VALIDATOR_SCRIPT = 'scripts/validate-phase15h-fsrs-foundation-closure-phase16-readiness.js';
 const WORKFLOW_FILE    = '.github/workflows/e2e-smoke.yml';
 
+const PHASE15G_VALIDATOR = 'scripts/validate-phase15g-release-claim-guardrail-reaudit.js';
 const PHASE15F_VALIDATOR = 'scripts/validate-phase15f-studyroom-copy-ux-alignment.js';
 const PHASE15E_VALIDATOR = 'scripts/validate-phase15e-controlled-internal-activation-harness.js';
 const PHASE15D_VALIDATOR = 'scripts/validate-phase15d-active-fsrs-runtime-smoke-rollback-audit.js';
@@ -23,14 +24,14 @@ const PHASE15C_VALIDATOR = 'scripts/validate-phase15c-dashboard-mixed-scheduler-
 const PHASE15B_VALIDATOR = 'scripts/validate-phase15b-active-fsrs-scheduling-double-gated.js';
 const PHASE14N_VALIDATOR = 'scripts/validate-phase14n-production-studyroom-two-step-bridge.js';
 
-// Exact list of allowed changed files for Phase 15G.
-// Phase 15G is docs/static-validator/CI-only: no src/, tests/, e2e/,
+// Exact list of allowed changed files for Phase 15H.
+// Phase 15H is docs/static-validator/CI-only: no src/, tests/, e2e/,
 // package.json, or package-lock.json changes are allowed.
-const phase15gAllowedChangedFiles = new Set([
+const phase15hAllowedChangedFiles = new Set([
   WORKFLOW_FILE,
   DOCS_FILE,
   VALIDATOR_SCRIPT,
-  // Historical validators updated with exact Phase 15G allowlist entries only
+  // Historical validators updated with exact Phase 15H allowlist entries only
   'scripts/validate-backup-transfer-safety-hardening.js',
   'scripts/validate-cross-device-export-import.js',
   'scripts/validate-cross-device-transfer-track-closure.js',
@@ -75,9 +76,7 @@ const phase15gAllowedChangedFiles = new Set([
   PHASE15D_VALIDATOR,
   PHASE15E_VALIDATOR,
   PHASE15F_VALIDATOR,
-  // Phase 15H allowlist entries
-  'docs/phase15h-fsrs-foundation-closure-phase16-readiness.md',
-  'scripts/validate-phase15h-fsrs-foundation-closure-phase16-readiness.js',
+  PHASE15G_VALIDATOR,
   'scripts/validate-release-candidate-freeze-final-decision.js',
   'scripts/validate-release-candidate-tag-publish-gate.js',
   'scripts/validate-release-package-assembly-plan.js',
@@ -115,12 +114,12 @@ const generatedArtifacts = [
 ];
 
 function fail(message) {
-  console.error(`Phase 15G validation failed: ${message}`);
+  console.error(`Phase 15H validation failed: ${message}`);
   process.exit(1);
 }
 
 function warn(message) {
-  console.warn(`Phase 15G validation warning: ${message}`);
+  console.warn(`Phase 15H validation warning: ${message}`);
 }
 
 function read(file) {
@@ -215,17 +214,20 @@ function requiredFilesGuard() {
   read(DOCS_FILE);
   read(VALIDATOR_SCRIPT);
   read(WORKFLOW_FILE);
+  read(PHASE15G_VALIDATOR);
   read(PHASE15F_VALIDATOR);
   read(PHASE15E_VALIDATOR);
   read(PHASE15D_VALIDATOR);
   read(PHASE15C_VALIDATOR);
   read(PHASE15B_VALIDATOR);
   read(PHASE14N_VALIDATOR);
+  read('docs/phase15g-release-claim-guardrail-reaudit.md');
   read('docs/phase15f-studyroom-copy-ux-alignment.md');
   read('docs/phase15e-controlled-internal-activation-harness.md');
   read('docs/phase15d-active-fsrs-runtime-smoke-rollback-audit.md');
   read('docs/phase15c-dashboard-mixed-scheduler-due-count.md');
   read('docs/phase15b-active-fsrs-scheduling-double-gated.md');
+  read('docs/phase15a-fsrs-active-scheduling-architecture.md');
 }
 
 // ── Package guard ─────────────────────────────────────────────────────────────
@@ -245,8 +247,8 @@ function packageGuard() {
     }
   }
   const changed = new Set(changedFiles());
-  if (changed.has('package.json')) fail('package.json must not change in Phase 15G');
-  if (changed.has('package-lock.json')) fail('package-lock.json must not change in Phase 15G');
+  if (changed.has('package.json')) fail('package.json must not change in Phase 15H');
+  if (changed.has('package-lock.json')) fail('package-lock.json must not change in Phase 15H');
 }
 
 // ── Workflow guard ────────────────────────────────────────────────────────────
@@ -265,17 +267,18 @@ function workflowGuard() {
     'node scripts/validate-phase15e-controlled-internal-activation-harness.js',
     'node scripts/validate-phase15f-studyroom-copy-ux-alignment.js',
     'node scripts/validate-phase15g-release-claim-guardrail-reaudit.js',
+    'node scripts/validate-phase15h-fsrs-foundation-closure-phase16-readiness.js',
   ];
   for (const validator of requiredValidators) {
     if (!text.includes(validator)) fail(`${WORKFLOW_FILE} must run ${validator}`);
   }
 
-  const phase15fPos = text.indexOf('node scripts/validate-phase15f-studyroom-copy-ux-alignment.js');
   const phase15gPos = text.indexOf('node scripts/validate-phase15g-release-claim-guardrail-reaudit.js');
-  if (phase15fPos === -1) fail(`${WORKFLOW_FILE} must register Phase 15F validator`);
+  const phase15hPos = text.indexOf('node scripts/validate-phase15h-fsrs-foundation-closure-phase16-readiness.js');
   if (phase15gPos === -1) fail(`${WORKFLOW_FILE} must register Phase 15G validator`);
-  if (phase15gPos <= phase15fPos) {
-    fail(`${WORKFLOW_FILE} must register Phase 15G validator after Phase 15F validator`);
+  if (phase15hPos === -1) fail(`${WORKFLOW_FILE} must register Phase 15H validator`);
+  if (phase15hPos <= phase15gPos) {
+    fail(`${WORKFLOW_FILE} must register Phase 15H validator after Phase 15G validator`);
   }
 
   if (/continue-on-error:\s*true/i.test(text)) {
@@ -288,13 +291,13 @@ function workflowGuard() {
 function scopeGuard() {
   for (const file of changedFiles()) {
     if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) continue;
-    if (phase15gAllowedChangedFiles.has(file)) continue;
-    if (file === 'package.json') fail(`package.json must not change in Phase 15G`);
-    if (file === 'package-lock.json') fail(`package-lock.json must not change in Phase 15G`);
-    if (file.startsWith('src/')) fail(`src/ file changed in Phase 15G: ${file}`);
-    if (file.startsWith('tests/')) fail(`tests/ file changed in Phase 15G: ${file}`);
-    if (file.startsWith('e2e/')) fail(`e2e/ file changed in Phase 15G: ${file}`);
-    fail(`Unexpected changed file for Phase 15G scope: ${file}`);
+    if (phase15hAllowedChangedFiles.has(file)) continue;
+    if (file === 'package.json') fail(`package.json must not change in Phase 15H`);
+    if (file === 'package-lock.json') fail(`package-lock.json must not change in Phase 15H`);
+    if (file.startsWith('src/')) fail(`src/ file changed in Phase 15H: ${file}`);
+    if (file.startsWith('tests/')) fail(`tests/ file changed in Phase 15H: ${file}`);
+    if (file.startsWith('e2e/')) fail(`e2e/ file changed in Phase 15H: ${file}`);
+    fail(`Unexpected changed file for Phase 15H scope: ${file}`);
   }
 }
 
@@ -314,12 +317,12 @@ function generatedArtifactGuard() {
 function forbiddenScopeGuard() {
   const changed = new Set(changedFiles());
   for (const file of changed) {
-    if (file.startsWith('src/')) fail(`src/ file changed in Phase 15G: ${file}`);
-    if (file.startsWith('tests/')) fail(`tests/ file changed in Phase 15G: ${file}`);
-    if (file.startsWith('e2e/')) fail(`e2e/ file changed in Phase 15G: ${file}`);
+    if (file.startsWith('src/')) fail(`src/ file changed in Phase 15H: ${file}`);
+    if (file.startsWith('tests/')) fail(`tests/ file changed in Phase 15H: ${file}`);
+    if (file.startsWith('e2e/')) fail(`e2e/ file changed in Phase 15H: ${file}`);
   }
-  if (changed.has('package.json')) fail('package.json must not change in Phase 15G');
-  if (changed.has('package-lock.json')) fail('package-lock.json must not change in Phase 15G');
+  if (changed.has('package.json')) fail('package.json must not change in Phase 15H');
+  if (changed.has('package-lock.json')) fail('package-lock.json must not change in Phase 15H');
 }
 
 // ── No new ts-fsrs.next() call sites guard ────────────────────────────────────
@@ -333,17 +336,12 @@ function noNewNextCallSitesGuard() {
   const changedSet = new Set(changedFiles());
   for (const file of changedSet) {
     if (file.startsWith('src/')) {
-      fail(`Phase 15G must not add new ts-fsrs.next() call sites (src/ changed): ${file}`);
+      fail(`Phase 15H must not add new ts-fsrs.next() call sites (src/ changed): ${file}`);
     }
   }
 }
 
 // ── Forbidden claim guard (README, release notes) ─────────────────────────────
-// Checks public-facing docs for positive active-FSRS / AI / cloud overclaims.
-// Uses specific positive-assertion patterns that would not appear in the
-// legitimate negation sections ("does not include", "no X") already present
-// in README and release notes.
-// Note: DOCS_FILE is the Phase 15G audit document, not a public-facing doc.
 
 function forbiddenClaimGuard() {
   const targets = [
@@ -352,9 +350,6 @@ function forbiddenClaimGuard() {
     'docs/deployment-readiness.md',
   ];
 
-  // These are positive-claim patterns that should never appear in public docs.
-  // They are distinct from the negation phrases already used in README/notes
-  // (e.g. "does not provide built-in AI generation" is fine; these are not).
   const forbiddenPositiveClaims = [
     'fsrs scheduling is live for everyone',
     'fsrs is broadly available as a user-facing feature',
@@ -399,27 +394,42 @@ function noInternalFlagExposureGuard() {
   }
 }
 
-// ── Required safe terms in Phase 15G docs ─────────────────────────────────────
+// ── Required terms in Phase 15H docs ─────────────────────────────────────────
 
 function docsGuard() {
   requireIncludes(DOCS_FILE, [
-    'Phase 15G',
-    'docs/static-validator/CI',
+    'Phase 15H',
+    'docs/static-validator/CI only',
     'no runtime files changed',
     'experimental',
     'double-gated',
     'default OFF',
     'internal/test activation',
     'no public rollout',
+    'Phase 15A',
     'Phase 15B',
     'Phase 15C',
     'Phase 15D',
     'Phase 15E',
     'Phase 15F',
-    'Phase 16',
+    'Phase 15G',
+    'Phase 16A',
     'hybrid local-first',
     'not implemented',
     'no new ts-fsrs.next',
+    'deferred',
+    'docs/static-validator/CI only',
+    'no runtime implementation',
+    'no sync',
+    'no cloud',
+    'no E2EE',
+    'no AI scheduling claim',
+    'no security certification claim',
+    'no guarantee of better learning outcomes',
+    'Phase 15 Closure',
+    'Phase 16A Readiness',
+    'Hybrid Local-First Architecture',
+    'Optional Sync Direction',
   ]);
 }
 
@@ -447,12 +457,14 @@ function priorPhaseRegressionGuard() {
   read('docs/phase15d-active-fsrs-runtime-smoke-rollback-audit.md');
   read('docs/phase15e-controlled-internal-activation-harness.md');
   read('docs/phase15f-studyroom-copy-ux-alignment.md');
+  read('docs/phase15g-release-claim-guardrail-reaudit.md');
   read(PHASE14N_VALIDATOR);
   read(PHASE15B_VALIDATOR);
   read(PHASE15C_VALIDATOR);
   read(PHASE15D_VALIDATOR);
   read(PHASE15E_VALIDATOR);
   read(PHASE15F_VALIDATOR);
+  read(PHASE15G_VALIDATOR);
 
   const adapterSource = read('src/quiz/reviewSchedulerAdapter.js');
   if (!adapterSource.includes('export function scheduleActiveFsrsOrFallback')) {
@@ -500,7 +512,7 @@ function validate() {
   docsGuard();
   internalRegistryGuard();
   priorPhaseRegressionGuard();
-  console.log('Phase 15G release/claim guardrail re-audit validation passed.');
+  console.log('Phase 15H FSRS foundation closure / Phase 16 readiness validation passed.');
 }
 
 validate();
