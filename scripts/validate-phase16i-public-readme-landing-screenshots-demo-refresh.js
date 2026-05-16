@@ -51,7 +51,11 @@ const phase16iAllowedChangedFiles = new Set([
   VALIDATOR_SCRIPT,
   README_FILE,
   PUBLIC_NOTES,
-  DEPLOY_READY
+  DEPLOY_READY,
+  // Phase 16J — Mobile UX / PWA Quick Wins (forward compatibility)
+  'docs/phase16j-mobile-ux-pwa-quick-wins.md',
+  'src/styles/global.css',
+  'public/sw.js'
 ]);
 
 // Hard-forbidden scheduler/storage/EduGen runtime files. Phase 16I must not touch these.

@@ -3148,6 +3148,10 @@ code {
   .publicLandingColumns {
     grid-template-columns: 1fr;
   }
+
+  .publicLandingHero__actions .button {
+    width: 100%;
+  }
 }
 
 .storageQuotaWarning {

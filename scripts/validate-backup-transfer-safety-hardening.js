@@ -415,6 +415,10 @@ const allowedChanged = new Set([
   'scripts/validate-web-share-mobile-sharing-prototype-plan.js',
   'scripts/validate-web-share-runtime-fallback-hardening.js',
   'scripts/validate-web-share-runtime-prototype.js',
+  // Phase 16J — Mobile UX / PWA Quick Wins (forward compatibility)
+  'docs/phase16j-mobile-ux-pwa-quick-wins.md',
+  'scripts/validate-phase16j-mobile-ux-pwa-quick-wins.js',
+  'public/sw.js',
 ]);
 
 function fail(message) { failures.push(message); }
