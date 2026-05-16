@@ -94,7 +94,7 @@ const manualAiResult = parseTextQuizDraft(sampleManualAi);
 if (!manualAiResult.validation?.canImport) fail('manual AI output sample must parse and pass existing text import validation');
 if (manualAiResult.validation.normalizedData.items.length < 3) fail('manual AI output sample must have sufficient parse signal');
 
-const guardedContext = /(unsupported|not supported|do not claim|do not say|do not present|do not publish|does not|does not include|does not provide|does not call|no\s+|not a|without claiming|without implying|without requiring|is not bundled|not bundled|separate|separately|requires|manual|only|avoid|not OCR|not AI generation|current release candidate does not include|does Shime include)/i;
+const guardedContext = /(unsupported|not supported|do not claim|do not say|do not present|do not publish|does not|does not include|does not provide|does not call|no\s+|not a|without claiming|without implying|without requiring|is not bundled|not bundled|separate|separately|requires|manual|only|avoid|not OCR|not AI generation|current release candidate does not include|does Shime include)|không/i;
 const misleadingClaims = [
   { label: 'built-in AI generation', pattern: /built-in AI (?:quiz )?generation/i },
   { label: 'external AI/API integration', pattern: /external AI\/API integration|calls external AI APIs|external AI API calls/i },

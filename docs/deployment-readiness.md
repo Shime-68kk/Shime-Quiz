@@ -261,3 +261,15 @@ Phase 12J does not add a backend, cloud/account sync, automatic sync, encryption
 
 EduGen/File Processor remains separate from the frontend app. Document conversion for PDF/DOCX/PPTX/ZIP still requires a browser-reachable `VITE_FILE_PROCESSOR_URL`; frontend-only hosting does not provide document conversion by itself. Manual backup/export/import remains the portability model.
 
+## Phase 16I public copy / deployment note
+
+Phase 16I is market-readiness / public-facing copy / docs polish only and does not change deployment requirements.
+
+The app remains a local-first/browser-local frontend with no backend, cloud, or account sync requirement. Manual backup/export/import remains the portability model.
+
+EduGen/File Processor remains separate from the frontend app. Document conversion for PDF/DOCX/PPTX/ZIP still requires a browser-reachable `VITE_FILE_PROCESSOR_URL`; frontend-only hosting does not provide document conversion by itself.
+
+Phase 16I does not add runtime features, EduGen runtime changes, scheduler/FSRS behavior changes, storage/schema changes, package/dependency changes, release packages, release tags, or GitHub Release publication. No binary screenshot/video assets were added.
+
+For demo and screenshot guidance, see [`docs/demo-quickstart.md`](demo-quickstart.md) and [`docs/screenshot-capture-guide.md`](screenshot-capture-guide.md).
+

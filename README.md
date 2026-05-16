@@ -1,31 +1,146 @@
-# ShimeChamhoc v2 / Shime Quiz
+# Shime Quiz / ShimeChamhoc v2
 
-ShimeChamhoc v2 is a **React + Vite local-first quiz study app**. It helps you import quiz content, review it in the Library, study in Study Room, and track browser-local learning progress on the Dashboard.
+> Shime là một phòng học yên tĩnh và riêng tư, nơi bạn tạo, xem lại và ôn tập thẻ học theo cách thuộc về mình.
 
-- No account is required.
-- Data stays in your browser storage unless you export or share a backup.
-- Current package version: `2.0.0-beta-ai.1`.
-- Release status: release-candidate/beta preparation docs exist, but no release tag or GitHub Release has been published.
+---
 
-## Quick start
+## Shime là gì?
+
+Shime là một **local-first quiz study app** — ứng dụng học quiz local-first cho người dùng tiếng Việt. Bạn nhập nội dung học, xem trước bản nháp, kiểm tra chất lượng, lưu vào trình duyệt và ôn tập trong Phòng học — tất cả không cần tài khoản, không cần kết nối internet.
+
+Dữ liệu học nằm trong trình duyệt của bạn. Sao lưu/xuất/khôi phục vẫn là cách chính để bạn giữ quyền sở hữu dữ liệu.
+
+---
+
+## Dành cho ai?
+
+- Học sinh, sinh viên muốn tự tạo và ôn tập thẻ ghi nhớ
+- Giáo viên muốn chuẩn bị bộ câu hỏi riêng từ tài liệu của mình
+- Phụ huynh muốn giúp con ôn tập một cách có kế hoạch
+- Người dùng muốn học riêng tư mà không cần gửi dữ liệu lên server
+
+---
+
+## Thử trong 5 phút
+
+1. Mở ứng dụng — không cần đăng ký, không cần tài khoản.
+2. Vào **Thư viện** và nhấn **Dùng quiz mẫu** để tải một bộ quiz mẫu.
+3. Xem trước bản nháp, xem lại chất lượng, rồi nhấn **Xác nhận lưu** để lưu vào thư viện.
+4. Vào **Phòng học** để bắt đầu ôn tập.
+5. Xem tiến độ của bạn tại **Tổng quan**.
+
+Demo mẫu không tự lưu, không gọi AI/API và không cần EduGen. Bạn vẫn xem trước và xác nhận trước khi bất kỳ thứ gì được lưu.
+
+---
+
+## Tính năng chính
+
+- **Thư viện** — nhập, lưu và quản lý nội dung quiz
+- **Phòng học** — ôn tập trắc nghiệm, câu ngắn và flashcard
+- **Tổng quan (Dashboard)** — theo dõi tiến độ học cục bộ và gợi ý học tập
+- **Sao lưu / Khôi phục** — tự quản lý dữ liệu, chuyển giữa thiết bị
+- **Nhập nhiều định dạng** — JSON, CSV, text/Markdown, file .txt/.md
+- **Xem trước và kiểm tra chất lượng** — mọi bản nháp đều qua bước kiểm tra trước khi lưu
+- **Xưởng bản nháp EduGen** — tùy chọn xem lại bản nháp từ tài liệu PDF/DOCX (cần dịch vụ riêng)
+
+---
+
+## Xưởng bản nháp EduGen là gì?
+
+EduGen là Xưởng bản nháp tùy chọn chạy riêng. Shime có thể giúp bạn xem lại bản nháp trước khi lưu vào thư viện, nhưng không tự gọi AI/OCR và không đảm bảo nội dung tạo ra luôn đúng.
+
+**Điều quan trọng cần biết:**
+
+- EduGen không được tích hợp sẵn trong Shime — đây là dịch vụ bạn tự cấu hình và chạy riêng.
+- Chỉ hosting frontend không có khả năng chuyển đổi PDF/DOCX/PPTX/ZIP mà không có dịch vụ EduGen.
+- Kết quả từ EduGen chỉ là bản nháp — bạn cần xem lại trước khi lưu vào thư viện.
+- Shime không có built-in AI generation, không gọi external AI/API và không có API key/BYOK.
+
+Nếu không có dịch vụ EduGen, bạn vẫn có thể dùng JSON/CSV import, text/Markdown paste và file .txt/.md — tất cả hoạt động hoàn toàn local.
+
+---
+
+## Quyền riêng tư và local-first
+
+- **Không cần tài khoản** — không đăng ký, không đăng nhập.
+- **Dữ liệu ở đâu?** — Dữ liệu học nằm trong bộ nhớ cục bộ của trình duyệt (localStorage).
+- **Không có cloud sync** — Shime không thêm backend, không tự đồng bộ hóa cross-device.
+- **Sao lưu và khôi phục** — Bạn tự xuất/nhập file sao lưu để di chuyển dữ liệu giữa thiết bị.
+- **Cảnh báo** — Bộ nhớ trình duyệt không phải vault bảo mật server-side. Không dùng ứng dụng này như hệ thống chống gian lận hay bảo mật production.
+
+Sao lưu/xuất/khôi phục vẫn là cách chính để bạn giữ quyền sở hữu dữ liệu.
+
+---
+
+## Trạng thái ghi nhớ thích ứng / FSRS
+
+Tính năng ghi nhớ thích ứng đang ở trạng thái thử nghiệm và được kiểm soát cẩn thận. Shime không bật rộng rãi lịch FSRS cho mọi người dùng.
+
+- FSRS (Free Spaced Repetition Scheduler) là tính năng thực nghiệm, chỉ bật nội bộ có kiểm soát.
+- Phần lớn người dùng hiện tại sẽ dùng bộ lập lịch SRT mặc định.
+- Không có FSRS public rollout nào đang diễn ra.
+
+---
+
+## Quick start — Cách chạy local
 
 ```bash
 npm ci
 npm run dev
 ```
 
-Open the local app shown by Vite. For a production build preview:
+Mở địa chỉ local do Vite hiển thị. Để build production:
 
 ```bash
 npm run build
 npm run preview
 ```
 
-## Try it quickly
+Để chạy unit tests:
 
-Open the app and go to **Thư viện / Library**. Use **Dùng quiz mẫu** to load a bundled local demo sample into the existing preview, validation, advisory quality review, and confirm save flow.
+```bash
+npm run test:unit
+```
 
-The demo quickstart does not auto-load, does not auto-save, does not call AI/API, and does not require EduGen. You still review the preview and explicitly confirm save before anything is saved locally.
+---
+
+## Cách chụp ảnh demo
+
+Xem hướng dẫn chi tiết tại [`docs/screenshot-capture-guide.md`](docs/screenshot-capture-guide.md) và quickstart tại [`docs/demo-quickstart.md`](docs/demo-quickstart.md).
+
+Tóm tắt nhanh cho ảnh demo:
+1. Chạy app local (`npm run dev`).
+2. Dùng dữ liệu mẫu/demo — không dùng dữ liệu học thật.
+3. Chụp ở viewport 1280×800 (desktop) hoặc 390×844 (mobile).
+4. Không chụp khi có thông tin cá nhân trên màn hình.
+5. Các màn hình nên chụp: Home, Dashboard, Thư viện, Phòng học, Settings EduGen Draft Workshop.
+
+Ảnh demo thực chưa được tạo; hướng dẫn này tồn tại để hỗ trợ việc chụp ảnh trong tương lai. README không nhận là đã có ảnh demo cho đến khi file ảnh thật được thêm vào.
+
+---
+
+## Giới hạn hiện tại
+
+Shime hiện **không** bao gồm:
+
+- Không có built-in AI generation hay OCR
+- Không có external AI/API integration từ Shime
+- Không có API key/BYOK support
+- Không có backend, auth hay cloud sync
+- Không có cross-device sync tự động
+- Không có EduGen tích hợp sẵn trong Shime frontend
+- Không có chuyển đổi PDF/DOCX/PPTX/ZIP khi chỉ dùng frontend-only
+- Không có production/security/accessibility certification
+- Không có release tag hay GitHub Release (chưa publish)
+- Ảnh demo thực chưa có; hướng dẫn chụp ảnh tồn tại để chụp trong tương lai
+
+---
+
+## Vietnamese-first design
+
+Shime được thiết kế với tiếng Việt là ngôn ngữ ưu tiên. Tất cả copy chính trong UI đều bằng tiếng Việt. Tài liệu kỹ thuật bằng tiếng Anh nằm ở phía sau cho developer.
+
+---
 
 ## Supported import paths
 
@@ -39,9 +154,7 @@ Shime supports these local-first import surfaces:
 
 EduGen/File Processor is not bundled into Shime. Frontend-only hosting alone does not provide PDF/DOCX/PPTX/ZIP document conversion. See [`docs/edugen-boundary-polish.md`](docs/edugen-boundary-polish.md) for deployment copy and evidence rules.
 
-## Current RC capabilities
-
-See the concise sections below for the current release-candidate capabilities and boundaries.
+---
 
 ## Learning features
 
@@ -58,6 +171,8 @@ The Library empty-state onboarding appears when the Library has no saved quiz it
 
 Recommendations and quality review are advisory local heuristics, not guarantees of correctness, mastery, or exam results.
 
+---
+
 ## Local-first privacy model
 
 Shime is designed as a static, local-first browser app:
@@ -72,6 +187,8 @@ Shime is designed as a static, local-first browser app:
 
 Local/browser storage is not a secure server-side vault. Do not use this app as an anti-cheat or production security system.
 
+---
+
 ## Manual AI workflow boundary
 
 Shime includes manual AI workflow support only:
@@ -82,14 +199,63 @@ Shime includes manual AI workflow support only:
 
 Shime does not provide built-in AI generation, external AI/API calls, API key/BYOK support, or OCR.
 
+---
+
+## Validation
+
+Common local checks:
+
+```bash
+npm ci
+npm run build
+```
+
+The repository includes a static validator chain in `.github/workflows/e2e-smoke.yml`. Local browser E2E checks are available when Playwright Chromium is installed:
+
+```bash
+npm run test:e2e:smoke
+npm run test:e2e:onboarding
+```
+
+If Chromium/browser setup is missing, report that as environment-blocked rather than as a product failure. Do not claim E2E, CI, or direct-route smoke passed without actual passing command/run evidence.
+
+---
+
+## Unsupported / not claimed
+
+Shime does not claim or include:
+
+- no backend/auth/cloud sync
+- no automatic cross-device/account sync
+- no built-in AI generation
+- no external AI/API integration
+- no API key/BYOK support
+- no OCR
+- no EduGen bundled into Shime
+- no frontend-only PDF/DOCX/PPTX/ZIP conversion
+- no production certification
+- no security certification
+- no accessibility/WCAG certification
+- no SEO ranking improvement or all-crawlers-render success
+- no performance optimization, Lighthouse, Core Web Vitals, or mobile performance certification claim
+- no mobile UX pass claim unless an actual responsive/mobile run provides evidence
+- no release tag creation or GitHub Release publication
+- no actual screenshot capture or README screenshots until real screenshot files exist
+
+---
+
 ## Public polish docs
 
 - Public landing/root route polish: [`docs/public-landing-page.md`](docs/public-landing-page.md)
 - SEO/Open Graph/social preview metadata: [`docs/social-preview-metadata.md`](docs/social-preview-metadata.md)
 - Direct-route / SPA fallback audit: [`docs/direct-route-spa-fallback.md`](docs/direct-route-spa-fallback.md)
 - Screenshot asset checklist: [`docs/screenshot-asset-pack.md`](docs/screenshot-asset-pack.md)
+- Demo quickstart: [`docs/demo-quickstart.md`](docs/demo-quickstart.md)
+- Screenshot capture guide: [`docs/screenshot-capture-guide.md`](docs/screenshot-capture-guide.md)
 
 Actual screenshot image files are not included yet; the screenshot checklist exists for future capture. README does not claim screenshots are available until real reviewed image files are added.
+
+---
 
 ## Release and readiness docs
 
@@ -127,8 +293,14 @@ Actual screenshot image files are not included yet; the screenshot checklist exi
 - Manual evidence execution checklist / evidence capture guide: [`docs/manual-evidence-execution-checklist.md`](docs/manual-evidence-execution-checklist.md)
 - Cross-device transfer UX decision plan: [`docs/cross-device-transfer-ux-decision.md`](docs/cross-device-transfer-ux-decision.md)
 - Backup transfer safety hardening plan: [`docs/backup-transfer-safety-hardening.md`](docs/backup-transfer-safety-hardening.md)
+- Manual evidence run pack: [`docs/manual-evidence-run-pack.md`](docs/manual-evidence-run-pack.md)
+- Release candidate freeze / final decision: [`docs/release-candidate-freeze-final-decision.md`](docs/release-candidate-freeze-final-decision.md)
+
+Current RC capabilities and release readiness are documented in the files above.
 
 The release candidate tag/publish gate documents that explicit user approval is required before tagging or publishing. The release tag decision, GitHub Release draft, and publish checklist are documentation only. They do not create a tag, publish a GitHub Release, or certify production/security/accessibility readiness.
+
+---
 
 ## Phase 10S manual evidence results log
 
@@ -145,69 +317,9 @@ The cross-device transfer UX decision / convenience plan is documented in [`docs
 
 Current portability remains manual backup/export/import. No QR transfer was implemented, no Web Share implementation was added, no WebRTC/session transfer was implemented, no backend/cloud/account sync was added, no automatic cross-device sync was added, no encryption claim was added, no backup/restore/import/storage runtime behavior changed, no package version/dependencies changed, no release tag was created, no GitHub Release was published, and no release package was created or published.
 
-## Validation
-
-Common local checks:
-
-```bash
-npm ci
-npm run build
-```
-
-The repository includes a static validator chain in `.github/workflows/e2e-smoke.yml`. Local browser E2E checks are available when Playwright Chromium is installed:
-
-```bash
-npm run test:e2e:smoke
-npm run test:e2e:onboarding
-```
-
-If Chromium/browser setup is missing, report that as environment-blocked rather than as a product failure. Do not claim E2E, CI, or direct-route smoke passed without actual passing command/run evidence.
-
-## Unsupported / not claimed
-
-Shime does not claim or include:
-
-- no backend/auth/cloud sync
-- no automatic cross-device/account sync
-- no built-in AI generation
-- no external AI/API integration
-- no API key/BYOK support
-- no OCR
-- no EduGen bundled into Shime
-- no frontend-only PDF/DOCX/PPTX/ZIP conversion
-- no production certification
-- no security certification
-- no accessibility/WCAG certification
-- no SEO ranking improvement or all-crawlers-render success
-- no performance optimization, Lighthouse, Core Web Vitals, or mobile performance certification claim
-- no mobile UX pass claim unless an actual responsive/mobile run provides evidence
-- no release tag creation or GitHub Release publication
-- no actual screenshot capture or README screenshots until real screenshot files exist
-
-## Manual evidence pack
-Optional pre-release evidence collection is documented in [`docs/manual-evidence-run-pack.md`](docs/manual-evidence-run-pack.md). Step-by-step execution guidance is documented in [`docs/manual-evidence-execution-checklist.md`](docs/manual-evidence-execution-checklist.md). It covers screenshots, mobile/responsive smoke, configured EduGen document import smoke, cross-device backup/restore smoke, E2E when Chromium is available, and optional Lighthouse/Core Web Vitals measurement. This README does not claim those evidence runs passed unless they are actually performed.
-
-## Phase 10M release tag creation plan
-
-The release tag creation plan is documented in [`docs/release-tag-creation-plan.md`](docs/release-tag-creation-plan.md). It provides a user-approved tag command plan and checklist only. No release tag has been created, no GitHub Release has been published, no release package has been published, and package version/dependencies remain unchanged.
-
-## Phase 10N GitHub Release publication plan
-
-The GitHub Release publication plan is documented in [`docs/github-release-publication-plan.md`](docs/github-release-publication-plan.md). It is a publication checklist and release-note plan only. No release tag has been created, no GitHub Release has been published, no release package has been published, and package version/dependencies remain unchanged. GitHub Release publication remains gated by explicit user approval.
-
-## Phase 10O release package assembly plan
-
-The release package assembly plan is documented in [`docs/release-package-assembly-plan.md`](docs/release-package-assembly-plan.md). It documents future source/deploy/evidence package options, package contents and exclusions, package verification steps, and release-asset guidance. No release package has been created, published, or uploaded; no release tag has been created; no GitHub Release has been published; package version/dependencies remain unchanged; and package assembly/upload remains gated by explicit user approval.
-
-## Phase 10P final release execution checklist
-
-The final release execution checklist is documented in [`docs/final-release-execution-checklist.md`](docs/final-release-execution-checklist.md). It consolidates the future user-approved release flow, including validation, tag creation, package assembly, GitHub Release publication, release asset upload, and evidence recording. This phase does not execute the release: no release package has been created, published, or uploaded; no release tag has been created; no GitHub Release has been published; package version/dependencies remain unchanged; and all release actions remain gated by explicit user approval.
-
-- [Release candidate freeze / final decision memo](docs/release-candidate-freeze-final-decision.md) — final freeze memo; no tag, GitHub Release, or package publication has been executed.
-
 ## Phase 11B cross-device transfer UX copy polish
 
-Phase 11B adds friendlier in-app transfer/backup wording around the existing local backup flow. The backup panel now presents the flow as “Transfer data between devices,” with “Save backup file,” “Restore from backup,” and “Move my quizzes to this device” language so non-technical users understand the manual desktop-to-phone path.
+Phase 11B adds friendlier in-app transfer/backup wording around the existing local backup flow. The backup panel now presents the flow as "Transfer data between devices," with "Save backup file," "Restore from backup," and "Move my quizzes to this device" language so non-technical users understand the manual desktop-to-phone path.
 
 Current transfer still uses manual backup/export/import. No QR transfer was implemented, no Web Share implementation was added, no WebRTC/session transfer was implemented, no backend/cloud/account sync was added, no automatic sync was added, no encryption implementation was added, no storage schema changed, no backup file format changed, no package version/dependencies changed, no release tag was created, no GitHub Release was published, and no release package was created or published.
 
@@ -311,3 +423,18 @@ Phase 12 is closed through Phase 12J after the completed Phase 12A–12I work. P
 
 No release package, release tag, or GitHub Release is created by Phase 12J. Phase 13 is ready for handoff to a different working setup/chatbot from latest main after Phase 12J merge.
 
+## Phase 16I — Public README / Landing / Screenshots Polish + Demo Quickstart Refresh
+
+Phase 16I is market-readiness / public-facing copy / docs polish only. No runtime feature expansion, no EduGen runtime change, no scheduler/FSRS change, no storage/schema change, no package/dependency change.
+
+Changes in Phase 16I:
+- README rewritten with Vietnamese-first user sections (Shime là gì, Dành cho ai, Thử trong 5 phút, Tính năng chính, Xưởng bản nháp EduGen là gì, Quyền riêng tư và local-first, Trạng thái ghi nhớ thích ứng/FSRS, Cách chạy local, Cách chụp ảnh demo, Giới hạn hiện tại).
+- Developer technical sections moved below user-facing sections.
+- New: [`docs/demo-quickstart.md`](docs/demo-quickstart.md) — Vietnamese-first demo quickstart guide.
+- New: [`docs/screenshot-capture-guide.md`](docs/screenshot-capture-guide.md) — screenshot/demo asset capture instructions.
+- Updated: [`docs/public-release-notes.md`](docs/public-release-notes.md) — Phase 16I note.
+- Updated: [`docs/deployment-readiness.md`](docs/deployment-readiness.md) — Phase 16I note.
+- New: [`docs/phase16i-public-readme-landing-screenshots-demo-refresh.md`](docs/phase16i-public-readme-landing-screenshots-demo-refresh.md) — phase doc.
+- New: [`scripts/validate-phase16i-public-readme-landing-screenshots-demo-refresh.js`](scripts/validate-phase16i-public-readme-landing-screenshots-demo-refresh.js) — static validator.
+
+See [`docs/phase16i-public-readme-landing-screenshots-demo-refresh.md`](docs/phase16i-public-readme-landing-screenshots-demo-refresh.md) for the full phase doc and claim guardrails.

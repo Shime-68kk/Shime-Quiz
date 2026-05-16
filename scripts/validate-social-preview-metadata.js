@@ -55,7 +55,7 @@ function gitTrackedFiles() {
 }
 
 function guarded(context) {
-  return /no |not |does not|do not|must not|without|unless|unsupported|forbidden|avoid|separate|separately|requires|manual|only|caveat|future|later|not bundled|not included|not claim|has not been|should not|cannot|before|placeholder|actual|evidence|configured|tested|unavailable|boundary|claim|imply|safe claims|unsafe claims|do not say|stop condition|local-first|this phase does not|does not guarantee/i.test(context);
+  return /no |not |does not|do not|must not|without|unless|unsupported|forbidden|avoid|separate|separately|requires|manual|only|caveat|future|later|not bundled|not included|not claim|has not been|should not|cannot|before|placeholder|actual|evidence|configured|tested|unavailable|boundary|claim|imply|safe claims|unsafe claims|do not say|stop condition|local-first|không|this phase does not|does not guarantee/i.test(context);
 }
 
 const doc = read('docs/social-preview-metadata.md');

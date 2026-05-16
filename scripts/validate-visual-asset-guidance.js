@@ -94,7 +94,7 @@ if (!imageAssetsExist) {
   }
 }
 
-const guardedContext = /(unsupported|not supported|do not claim|do not say|do not say:|do not imply|do not publish|should not|avoid|does not|does not include|does not provide|does not call|no\s+|not a|without claiming|without implying|without requiring|is not bundled|not bundled|separate|separately|requires|manual|only|guardrail|caveat|current release candidate does not include|does shime include)/i;
+const guardedContext = /(unsupported|not supported|do not claim|do not say|do not say:|do not imply|do not publish|should not|avoid|does not|does not include|does not provide|does not call|no\s+|not a|without claiming|without implying|without requiring|is not bundled|not bundled|separate|separately|requires|manual|only|guardrail|caveat|current release candidate does not include|does shime include)|không/i;
 const misleadingClaims = [
   { label: 'built-in AI generation', pattern: /built-in AI (?:quiz )?generation/i },
   { label: 'external AI/API integration', pattern: /external AI\/API integration|calls external AI APIs|external AI API calls/i },
