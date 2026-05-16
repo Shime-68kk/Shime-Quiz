@@ -71,7 +71,11 @@ const phase16hAllowedChangedFiles = new Set([
   'docs/demo-quickstart.md',
   'docs/screenshot-capture-guide.md',
   'docs/public-release-notes.md',
-  'docs/deployment-readiness.md'
+  'docs/deployment-readiness.md',
+  // Phase 16J — Mobile UX / PWA Quick Wins (forward compatibility)
+  'docs/phase16j-mobile-ux-pwa-quick-wins.md',
+  'src/styles/global.css',
+  'public/sw.js'
 ]);
 
 // Hard-forbidden scheduler/storage files. Phase 16H must not touch these.

@@ -310,6 +310,10 @@ const phase14iAllowedChangedFiles = new Set([
   'scripts/validate-phase16g-edugen-draft-review-import-flow.js',
   'scripts/validate-phase16h-edugen-draft-quality-review-source-aware-library.js',
   'scripts/validate-phase16i-public-readme-landing-screenshots-demo-refresh.js',
+  // Phase 16J — Mobile UX / PWA Quick Wins (forward compatibility)
+  'docs/phase16j-mobile-ux-pwa-quick-wins.md',
+  'scripts/validate-phase16j-mobile-ux-pwa-quick-wins.js',
+  'public/sw.js',
   'scripts/validate-public-release-docs.js',
   'scripts/validate-readme-public-facing.js',
   'scripts/validate-release-candidate-freeze-final-decision.js',

@@ -1,64 +1,60 @@
 #!/usr/bin/env node
 /**
- * scripts/validate-phase16i-public-readme-landing-screenshots-demo-refresh.js
+ * scripts/validate-phase16j-mobile-ux-pwa-quick-wins.js
  *
- * Phase 16I static validator — Public README / Landing / Screenshots Polish
- * + Demo Quickstart Refresh.
+ * Phase 16J static validator — Mobile UX / PWA Quick Wins.
  *
  * Confirms:
- *   • Phase 16I doc exists;
- *   • README was updated with Vietnamese-first user sections;
- *   • demo-quickstart.md and screenshot-capture-guide.md exist;
- *   • workflow registers Phase 16I validator after Phase 16H;
- *   • all previous validators through Phase 16H remain registered;
+ *   • Phase 16J doc exists with required terms;
+ *   • workflow registers Phase 16J validator after Phase 16I;
+ *   • all previous validators through Phase 16I remain registered;
  *   • no package.json / package-lock.json changes;
- *   • no e2e changes;
- *   • no protected scheduler/storage/EduGen runtime files changed;
- *   • required public terms present in README/doc;
- *   • forbidden claim phrases absent from README/doc;
- *   • generated artifacts absent from tracked files;
- *   • changed files are within the Phase 16I allowlist.
+ *   • no e2e/ changes unless justified;
+ *   • no protected scheduler/storage/FSRS/EduGen runtime files changed;
+ *   • no dependencies added;
+ *   • no sync/cloud/account/auth implementation;
+ *   • no IndexedDB/Event Log/StorageAdapter/SyncAdapter runtime implementation;
+ *   • no new production ts-fsrs.next() call sites;
+ *   • PWA files are valid/coherent if changed;
+ *   • required mobile/PWA terms exist in Phase 16J doc;
+ *   • changed files are within the Phase 16J allowlist.
  */
 
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
-const DOCS_FILE        = 'docs/phase16i-public-readme-landing-screenshots-demo-refresh.md';
-const DEMO_QUICKSTART  = 'docs/demo-quickstart.md';
-const SCREENSHOT_GUIDE = 'docs/screenshot-capture-guide.md';
-const VALIDATOR_SCRIPT = 'scripts/validate-phase16i-public-readme-landing-screenshots-demo-refresh.js';
+const DOCS_FILE        = 'docs/phase16j-mobile-ux-pwa-quick-wins.md';
+const VALIDATOR_SCRIPT = 'scripts/validate-phase16j-mobile-ux-pwa-quick-wins.js';
 const WORKFLOW_FILE    = '.github/workflows/e2e-smoke.yml';
-const README_FILE      = 'README.md';
-const PUBLIC_NOTES     = 'docs/public-release-notes.md';
-const DEPLOY_READY     = 'docs/deployment-readiness.md';
 
+const PHASE16I_VALIDATOR = 'scripts/validate-phase16i-public-readme-landing-screenshots-demo-refresh.js';
 const PHASE16H_VALIDATOR = 'scripts/validate-phase16h-edugen-draft-quality-review-source-aware-library.js';
 const PHASE16G_VALIDATOR = 'scripts/validate-phase16g-edugen-draft-review-import-flow.js';
 const PHASE16F_VALIDATOR = 'scripts/validate-phase16f-edugen-draft-workshop-connector-foundation.js';
 const PHASE16E_VALIDATOR = 'scripts/validate-phase16e-visual-polish-quick-wins.js';
-const PHASE16D_VALIDATOR = 'scripts/validate-phase16d-shime-study-identity-product-principles.js';
-const PHASE16C_VALIDATOR = 'scripts/validate-phase16c-storage-large-import-edugen-risk-audit.js';
-const PHASE16B_VALIDATOR = 'scripts/validate-phase16b-hybrid-local-first-optional-sync-direction.js';
-const PHASE16A_VALIDATOR = 'scripts/validate-phase16a-vietnamese-first-ux-copy-alignment.js';
 const PHASE15H_VALIDATOR = 'scripts/validate-phase15h-fsrs-foundation-closure-phase16-readiness.js';
 
-// Exact set of allowed changed files for Phase 16I.
-const phase16iAllowedChangedFiles = new Set([
+// Exact set of allowed changed files for Phase 16J.
+// Phase 16J is a mobile UX / PWA quick wins phase: allows changes only to
+// CSS, service worker, landing/route UI files, PWA manifest, index.html,
+// doc, validator, and CI registration.
+const phase16jAllowedChangedFiles = new Set([
   WORKFLOW_FILE,
   DOCS_FILE,
-  DEMO_QUICKSTART,
-  SCREENSHOT_GUIDE,
   VALIDATOR_SCRIPT,
-  README_FILE,
-  PUBLIC_NOTES,
-  DEPLOY_READY,
-  // Phase 16J — Mobile UX / PWA Quick Wins (forward compatibility)
-  'docs/phase16j-mobile-ux-pwa-quick-wins.md',
   'src/styles/global.css',
-  'public/sw.js'
+  'public/sw.js',
+  'public/manifest.webmanifest',
+  'index.html',
+  'src/routes/Home.jsx',
+  'src/routes/Dashboard.jsx',
+  'src/routes/StudyRoom.jsx',
+  'src/routes/Library.jsx',
+  'src/routes/Settings.jsx',
+  'src/App.jsx'
 ]);
 
-// Hard-forbidden scheduler/storage/EduGen runtime files. Phase 16I must not touch these.
+// Hard-forbidden scheduler/storage/EduGen runtime files. Phase 16J must not touch these.
 const forbiddenRuntimeFiles = [
   'src/quiz/reviewSchedulerAdapter.js',
   'src/quiz/fsrsWrapper.js',
@@ -93,81 +89,60 @@ const generatedArtifacts = [
   '.git'
 ];
 
-// Required public terms that must be present in README or phase doc.
-const requiredPublicTermsInReadme = [
-  'Shime là gì',
-  'Thử trong 5 phút',
-  'Xưởng bản nháp EduGen',
-  'local-first',
-  'sao lưu',
-  'khôi phục',
-  'không tự gọi AI/OCR',
-  'không đảm bảo nội dung',
-  'Vietnamese-first'
+// Required terms that must appear in the Phase 16J doc.
+const requiredDocTerms = [
+  'mobile',
+  'narrow',
+  'PWA',
+  'viewport',
+  'tap target',
+  'manifest',
+  'service worker',
+  'Vietnamese',
+  'overflow',
+  'responsive',
+  'No runtime logic expansion',
+  'No EduGen',
+  'No scheduler',
+  'không đảm bảo nội dung'
 ];
 
-// Required public terms that must appear somewhere in README or phase doc
-// (checked across both files together).
-const requiredPublicTermsAnyFile = [
-  'ảnh demo',
-  'screenshot'
-];
-
-// Forbidden positive-claim phrases in README and phase doc.
-// All phrases use full positive-assertion forms so that negative-form mentions
-// in claim guardrail sections ("does not claim: built-in AI quiz generation")
-// are not incorrectly rejected.
+// Forbidden claim phrases in Phase 16J doc.
 const forbiddenClaimPhrases = [
   'shime has built-in ai',
-  'shime provides built-in ai',
-  'shime includes built-in ai',
-  'shime ships built-in ai',
   'built-in ai generation is available',
-  'built-in ai quiz generation is supported',
   'shime has built-in ocr',
   'built-in ocr is available',
   'ocr is built in',
-  'ocr is supported by shime',
   'edugen is bundled with shime',
-  'edugen is shipped with shime',
-  'edugen comes bundled',
-  'shime includes edugen',
-  'shime ships with edugen',
   'cloud sync is available',
   'cloud sync is enabled',
-  'sync is available in shime',
-  'automatic sync is available',
   'e2ee is available',
   'end-to-end encryption is available',
-  'e2ee is enabled',
   'fsrs is enabled for all users',
   'fsrs is live for all users',
-  'fsrs public rollout is active',
-  'questions are guaranteed correct',
-  'answers are guaranteed correct',
-  'mastery is guaranteed',
-  'has production certification',
-  'is production certified',
-  'has security certification',
-  'is security certified',
   'frontend alone processes pdf',
   'frontend-only processes pdf',
-  'frontend hosting can convert pdf',
   'byok is supported',
   'api key is supported'
 ];
 
 function fail(message) {
-  console.error(`Phase 16I validation failed: ${message}`);
+  console.error(`Phase 16J validation failed: ${message}`);
   process.exit(1);
 }
 
 function warn(message) {
-  console.warn(`Phase 16I validation warning: ${message}`);
+  console.warn(`Phase 16J validation warning: ${message}`);
 }
 
 function read(file) {
   if (!fs.existsSync(file)) fail(`Missing required file: ${file}`);
+  return fs.readFileSync(file, 'utf8');
+}
+
+function readOptional(file) {
+  if (!fs.existsSync(file)) return null;
   return fs.readFileSync(file, 'utf8');
 }
 
@@ -241,21 +216,13 @@ function isGeneratedArtifact(file) {
 
 function requiredFilesGuard() {
   read(DOCS_FILE);
-  read(DEMO_QUICKSTART);
-  read(SCREENSHOT_GUIDE);
   read(VALIDATOR_SCRIPT);
   read(WORKFLOW_FILE);
-  read(README_FILE);
-  read(PUBLIC_NOTES);
-  read(DEPLOY_READY);
+  read(PHASE16I_VALIDATOR);
   read(PHASE16H_VALIDATOR);
   read(PHASE16G_VALIDATOR);
   read(PHASE16F_VALIDATOR);
   read(PHASE16E_VALIDATOR);
-  read(PHASE16D_VALIDATOR);
-  read(PHASE16C_VALIDATOR);
-  read(PHASE16B_VALIDATOR);
-  read(PHASE16A_VALIDATOR);
   read(PHASE15H_VALIDATOR);
 }
 
@@ -274,8 +241,8 @@ function packageGuard() {
   }
 
   const changed = new Set(changedFiles());
-  if (changed.has('package.json')) fail('package.json must not change in Phase 16I');
-  if (changed.has('package-lock.json')) fail('package-lock.json must not change in Phase 16I');
+  if (changed.has('package.json')) fail('package.json must not change in Phase 16J');
+  if (changed.has('package-lock.json')) fail('package-lock.json must not change in Phase 16J');
 
   void pkg;
 }
@@ -286,15 +253,15 @@ function scopeGuard() {
   for (const file of changedFiles()) {
     if (isGeneratedArtifact(file)) continue;
     if (file.startsWith('.claude/')) continue;
-    if (phase16iAllowedChangedFiles.has(file)) continue;
-    if (file === 'package.json') fail(`package.json must not change in Phase 16I`);
-    if (file === 'package-lock.json') fail(`package-lock.json must not change in Phase 16I`);
+    if (phase16jAllowedChangedFiles.has(file)) continue;
+    if (file === 'package.json') fail(`package.json must not change in Phase 16J`);
+    if (file === 'package-lock.json') fail(`package-lock.json must not change in Phase 16J`);
     if (file.startsWith('e2e/')) {
-      fail(`e2e/ file changed in Phase 16I: ${file}`);
+      fail(`e2e/ file changed in Phase 16J: ${file}. Only allowed if an intentional UI copy/locator update.`);
     }
-    // Historical validator updates are allowed (exact Phase 16I allowlist entries).
+    // Historical validator updates and any new phase validator scripts are allowed.
     if (file.startsWith('scripts/validate-') && file.endsWith('.js')) continue;
-    fail(`Unexpected changed file for Phase 16I scope: ${file}`);
+    fail(`Unexpected changed file for Phase 16J scope: ${file}`);
   }
 }
 
@@ -304,7 +271,7 @@ function forbiddenRuntimeFilesGuard() {
   const changed = new Set(changedFiles());
   for (const file of forbiddenRuntimeFiles) {
     if (changed.has(file)) {
-      fail(`Phase 16I must not change scheduler/storage/EduGen runtime file: ${file}`);
+      fail(`Phase 16J must not change scheduler/storage/EduGen runtime file: ${file}`);
     }
   }
 }
@@ -335,18 +302,19 @@ function workflowGuard() {
     'node scripts/validate-phase16f-edugen-draft-workshop-connector-foundation.js',
     'node scripts/validate-phase16g-edugen-draft-review-import-flow.js',
     'node scripts/validate-phase16h-edugen-draft-quality-review-source-aware-library.js',
-    'node scripts/validate-phase16i-public-readme-landing-screenshots-demo-refresh.js'
+    'node scripts/validate-phase16i-public-readme-landing-screenshots-demo-refresh.js',
+    'node scripts/validate-phase16j-mobile-ux-pwa-quick-wins.js'
   ];
   for (const validator of requiredValidators) {
     if (!text.includes(validator)) fail(`${WORKFLOW_FILE} must run ${validator}`);
   }
 
-  const phase16hPos = text.indexOf('node scripts/validate-phase16h-edugen-draft-quality-review-source-aware-library.js');
   const phase16iPos = text.indexOf('node scripts/validate-phase16i-public-readme-landing-screenshots-demo-refresh.js');
-  if (phase16hPos === -1) fail(`${WORKFLOW_FILE} must register Phase 16H validator`);
+  const phase16jPos = text.indexOf('node scripts/validate-phase16j-mobile-ux-pwa-quick-wins.js');
   if (phase16iPos === -1) fail(`${WORKFLOW_FILE} must register Phase 16I validator`);
-  if (phase16iPos <= phase16hPos) {
-    fail(`${WORKFLOW_FILE} must register Phase 16I validator after Phase 16H validator`);
+  if (phase16jPos === -1) fail(`${WORKFLOW_FILE} must register Phase 16J validator`);
+  if (phase16jPos <= phase16iPos) {
+    fail(`${WORKFLOW_FILE} must register Phase 16J validator after Phase 16I validator`);
   }
 
   if (/continue-on-error:\s*true/i.test(text)) {
@@ -354,24 +322,15 @@ function workflowGuard() {
   }
 }
 
-// ── Required public terms in README ──────────────────────────────────────────
+// ── Phase 16J doc guard ───────────────────────────────────────────────────────
 
-function requiredPublicTermsGuard() {
-  const readme = read(README_FILE);
-  const readmeLower = readme.toLowerCase();
+function phase16jDocGuard() {
+  const doc = read(DOCS_FILE);
+  const docLower = doc.toLowerCase();
 
-  for (const term of requiredPublicTermsInReadme) {
-    if (!readmeLower.includes(term.toLowerCase())) {
-      fail(`${README_FILE} must include required public term: "${term}"`);
-    }
-  }
-
-  // Terms that may appear in README or docs file
-  const readmeDoc = readme + read(DOCS_FILE) + read(DEMO_QUICKSTART) + read(SCREENSHOT_GUIDE);
-  const readmeDocLower = readmeDoc.toLowerCase();
-  for (const term of requiredPublicTermsAnyFile) {
-    if (!readmeDocLower.includes(term.toLowerCase())) {
-      fail(`README/docs must include required public term: "${term}"`);
+  for (const term of requiredDocTerms) {
+    if (!docLower.includes(term.toLowerCase())) {
+      fail(`${DOCS_FILE} must include required term: "${term}"`);
     }
   }
 }
@@ -379,111 +338,67 @@ function requiredPublicTermsGuard() {
 // ── Forbidden claim guard ─────────────────────────────────────────────────────
 
 function forbiddenClaimGuard() {
-  const targets = [README_FILE, DOCS_FILE, DEMO_QUICKSTART, SCREENSHOT_GUIDE, PUBLIC_NOTES, DEPLOY_READY];
-  for (const target of targets) {
-    const text = read(target);
-    const lower = text.toLowerCase();
-    for (const claim of forbiddenClaimPhrases) {
-      if (lower.includes(claim)) {
-        fail(`${target} must not contain forbidden claim: "${claim}"`);
-      }
-    }
-  }
-}
-
-// ── README structure guard ────────────────────────────────────────────────────
-
-function readmeStructureGuard() {
-  const readme = read(README_FILE);
-
-  const requiredSections = [
-    'Shime là gì',
-    'Dành cho ai',
-    'Thử trong 5 phút',
-    'Tính năng chính',
-    'Xưởng bản nháp EduGen',
-    'Quyền riêng tư và local-first',
-    'Trạng thái ghi nhớ thích ứng',
-    'Cách chạy local',
-    'Cách chụp ảnh demo',
-    'Giới hạn hiện tại'
-  ];
-
-  for (const section of requiredSections) {
-    if (!readme.includes(section)) {
-      fail(`${README_FILE} must include section: "${section}"`);
-    }
-  }
-
-  // Developer content must come after user-facing intro.
-  const shimeLaGiPos = readme.indexOf('Shime là gì');
-  const quickStartPos = readme.indexOf('## Quick start');
-  if (shimeLaGiPos !== -1 && quickStartPos !== -1 && shimeLaGiPos > quickStartPos) {
-    fail(`${README_FILE}: "Shime là gì" section must appear before developer "Quick start" section`);
-  }
-}
-
-// ── Demo quickstart guard ─────────────────────────────────────────────────────
-
-function demoQuickstartGuard() {
-  const doc = read(DEMO_QUICKSTART);
-  const docLower = doc.toLowerCase();
-  const requiredTerms = [
-    'Dùng quiz mẫu',
-    'Thư viện',
-    'Phòng học',
-    'sao lưu',
-    'khôi phục',
-    'không tự gọi AI',
-    'không đảm bảo nội dung'
-  ];
-  for (const term of requiredTerms) {
-    if (!docLower.includes(term.toLowerCase())) {
-      fail(`${DEMO_QUICKSTART} must include required term: "${term}"`);
-    }
-  }
-}
-
-// ── Screenshot guide guard ────────────────────────────────────────────────────
-
-function screenshotGuideGuard() {
-  const doc = read(SCREENSHOT_GUIDE);
-  const requiredTerms = [
-    '1280',
-    '390',
-    'Thư viện',
-    'Dashboard',
-    'Phòng học',
-    'EduGen',
-    'demo'
-  ];
-  for (const term of requiredTerms) {
-    if (!doc.includes(term)) {
-      fail(`${SCREENSHOT_GUIDE} must include required term: "${term}"`);
-    }
-  }
-  // Must not claim screenshots exist
-  if (doc.toLowerCase().includes('ảnh đã được tạo') || doc.toLowerCase().includes('screenshots are included')) {
-    fail(`${SCREENSHOT_GUIDE} must not claim screenshot binary assets are included`);
-  }
-}
-
-// ── Phase 16I doc guard ───────────────────────────────────────────────────────
-
-function phase16iDocGuard() {
   const doc = read(DOCS_FILE);
-  const requiredTerms = [
-    'Phase 16I',
-    'No runtime feature expansion',
-    'No EduGen runtime change',
-    'No scheduler/FSRS',
-    'Claim guardrails',
-    'không tự gọi AI/OCR',
-    'không đảm bảo nội dung'
+  const lower = doc.toLowerCase();
+  for (const claim of forbiddenClaimPhrases) {
+    if (lower.includes(claim)) {
+      fail(`${DOCS_FILE} must not contain forbidden claim: "${claim}"`);
+    }
+  }
+}
+
+// ── PWA coherence guard ───────────────────────────────────────────────────────
+
+function pwaCoherenceGuard() {
+  const manifestPath = 'public/manifest.webmanifest';
+  if (!fs.existsSync(manifestPath)) fail(`${manifestPath} must exist`);
+
+  let manifest;
+  try {
+    manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+  } catch (error) {
+    fail(`${manifestPath} must be valid JSON: ${error.message}`);
+  }
+
+  if (!manifest.name) fail(`${manifestPath} must have a "name" field`);
+  if (!manifest.short_name) fail(`${manifestPath} must have a "short_name" field`);
+  if (!manifest.icons || !Array.isArray(manifest.icons) || manifest.icons.length === 0) {
+    fail(`${manifestPath} must have at least one icon`);
+  }
+
+  for (const icon of manifest.icons) {
+    const iconPath = `public/${icon.src.replace(/^\.\//, '')}`;
+    if (!fs.existsSync(iconPath)) {
+      fail(`${manifestPath} references icon that does not exist: ${icon.src} (checked ${iconPath})`);
+    }
+  }
+
+  if (!manifest.theme_color) warn(`${manifestPath} is missing theme_color`);
+  if (!manifest.background_color) warn(`${manifestPath} is missing background_color`);
+
+  const text = fs.readFileSync(manifestPath, 'utf8').toLowerCase();
+  for (const term of internalRegistryTerms) {
+    if (text.includes(term)) fail(`${manifestPath} contains internal registry term: ${term}`);
+  }
+}
+
+// ── No cloud/auth/sync paths guard ────────────────────────────────────────────
+
+function noCloudAuthGuard() {
+  const forbiddenPaths = [
+    'src/auth',
+    'src/cloud',
+    'src/backend',
+    'src/api/sync',
+    'src/sync',
+    'src/storage/SyncAdapter.js',
+    'src/storage/StorageAdapter.js',
+    'src/storage/IndexedDBAdapter.js',
+    'src/edugen/aiProcessClient.js'
   ];
-  for (const term of requiredTerms) {
-    if (!doc.includes(term)) {
-      fail(`${DOCS_FILE} must include required term: "${term}"`);
+  for (const path of forbiddenPaths) {
+    if (fs.existsSync(path)) {
+      fail(`Phase 16J must not introduce cloud/auth/sync/AI-process path: ${path}`);
     }
   }
 }
@@ -512,28 +427,7 @@ function fsrsRegressionGuard() {
   }
 }
 
-// ── No cloud/auth/sync paths guard ────────────────────────────────────────────
-
-function noCloudAuthGuard() {
-  const forbiddenPaths = [
-    'src/auth',
-    'src/cloud',
-    'src/backend',
-    'src/api/sync',
-    'src/sync',
-    'src/storage/SyncAdapter.js',
-    'src/storage/StorageAdapter.js',
-    'src/storage/IndexedDBAdapter.js',
-    'src/edugen/aiProcessClient.js'
-  ];
-  for (const path of forbiddenPaths) {
-    if (fs.existsSync(path)) {
-      fail(`Phase 16I must not introduce cloud/auth/sync/AI-process path: ${path}`);
-    }
-  }
-}
-
-// ── Internal registry / native binding guard ──────────────────────────────────
+// ── Internal registry guard ───────────────────────────────────────────────────
 
 function internalRegistryGuard() {
   const doc = read(DOCS_FILE);
@@ -547,6 +441,22 @@ function internalRegistryGuard() {
   }
 }
 
+// ── SW coherence guard ────────────────────────────────────────────────────────
+
+function swCoherenceGuard() {
+  const swPath = 'public/sw.js';
+  const swText = readOptional(swPath);
+  if (!swText) return;
+
+  if (swText.toLowerCase().includes('ai.1') || swText.toLowerCase().includes('beta-ai')) {
+    fail(`${swPath} CACHE_VERSION must not contain 'ai' build suffix — update to match current project stage`);
+  }
+
+  for (const term of internalRegistryTerms) {
+    if (swText.includes(term)) fail(`${swPath} contains internal registry term: ${term}`);
+  }
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 
 function validate() {
@@ -556,16 +466,14 @@ function validate() {
   forbiddenRuntimeFilesGuard();
   generatedArtifactGuard();
   workflowGuard();
-  requiredPublicTermsGuard();
+  phase16jDocGuard();
   forbiddenClaimGuard();
-  readmeStructureGuard();
-  demoQuickstartGuard();
-  screenshotGuideGuard();
-  phase16iDocGuard();
-  fsrsRegressionGuard();
+  pwaCoherenceGuard();
   noCloudAuthGuard();
+  fsrsRegressionGuard();
   internalRegistryGuard();
-  console.log('Phase 16I Public README / Landing / Screenshots Polish + Demo Quickstart Refresh validation passed.');
+  swCoherenceGuard();
+  console.log('Phase 16J Mobile UX / PWA Quick Wins validation passed.');
 }
 
 validate();

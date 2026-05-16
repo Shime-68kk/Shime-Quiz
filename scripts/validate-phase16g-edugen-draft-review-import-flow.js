@@ -155,6 +155,10 @@ const phase16gAllowedChangedFiles = new Set([
   'scripts/validate-web-share-mobile-sharing-prototype-plan.js',
   'scripts/validate-web-share-runtime-fallback-hardening.js',
   'scripts/validate-web-share-runtime-prototype.js',
+  // Phase 16J — Mobile UX / PWA Quick Wins (forward compatibility)
+  'docs/phase16j-mobile-ux-pwa-quick-wins.md',
+  'src/styles/global.css',
+  'public/sw.js',
 ]);
 
 // Hard-forbidden scheduler/storage files. Phase 16G must not touch these.
