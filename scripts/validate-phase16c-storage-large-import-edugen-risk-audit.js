@@ -268,6 +268,16 @@ const phase16cAllowedChangedFiles = new Set([
   'src/state/v2BackupRestore.js',
   'src/utils/storageQuotaEstimate.js',
   'tests/unit/phase17aBackupRollbackHarness.test.js',
+  // Phase 17B — StorageAdapter Scaffold (forward compatibility)
+  'docs/phase17b-storage-adapter-localstorage-scaffold.md',
+  'scripts/validate-phase17b-storage-adapter-localstorage-scaffold.js',
+  'src/storage/StorageAdapter.js',
+  'src/storage/LocalStorageAdapter.js',
+  'src/storage/storageAdapterRegistry.js',
+  'src/state/recommendationFeedbackStorage.js',
+  'tests/unit/storageAdapterScaffold.test.js',
+  'tests/unit/recommendationFeedbackStorageAdapter.test.js',
+  'tests/unit/storageLargeImportEdugenRiskAudit.test.js',
 ]);
 
 const bindingPackage = '@open-spaced-repetition/' + 'binding';
@@ -325,8 +335,8 @@ const forbiddenDocClaims = [
 ];
 
 const forbiddenRuntimePaths = [
-  'src/storage/StorageAdapter.js',
-  'src/storage/LocalStorageAdapter.js',
+  // Phase 17B forward-compat: 'src/storage/StorageAdapter.js' is now a Phase 17B scaffold file
+  // Phase 17B forward-compat: 'src/storage/LocalStorageAdapter.js' is now a Phase 17B scaffold file
   'src/storage/IndexedDBAdapter.js',
   'src/storage/SyncAdapter.js',
   'src/storage/EventLog.js',
@@ -677,7 +687,7 @@ function noCloudAuthGuard() {
     'src/api/sync',
     'src/sync',
     'src/storage/SyncAdapter.js',
-    'src/storage/StorageAdapter.js',
+    // Phase 17B forward-compat: 'src/storage/StorageAdapter.js', — now a Phase 17B scaffold file
     'src/storage/IndexedDBAdapter.js',
   ];
   for (const path of FORBIDDEN_CLOUD_FILES) {

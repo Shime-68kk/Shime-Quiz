@@ -424,6 +424,9 @@ jobs:
       - name: Validate Phase 17A backup rollback harness before migration
         run: node scripts/validate-phase17a-backup-rollback-harness-before-migration.js
 
+      - name: Validate Phase 17B StorageAdapter scaffold behind LocalStorage no-op driver
+        run: node scripts/validate-phase17b-storage-adapter-localstorage-scaffold.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

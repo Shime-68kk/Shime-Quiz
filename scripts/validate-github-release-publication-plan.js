@@ -563,6 +563,16 @@ const allowedChanged = new Set([
   'src/state/v2BackupRestore.js',
   'src/utils/storageQuotaEstimate.js',
   'tests/unit/phase17aBackupRollbackHarness.test.js',
+  // Phase 17B — StorageAdapter Scaffold (forward compatibility)
+  'docs/phase17b-storage-adapter-localstorage-scaffold.md',
+  'scripts/validate-phase17b-storage-adapter-localstorage-scaffold.js',
+  'src/storage/StorageAdapter.js',
+  'src/storage/LocalStorageAdapter.js',
+  'src/storage/storageAdapterRegistry.js',
+  'src/state/recommendationFeedbackStorage.js',
+  'tests/unit/storageAdapterScaffold.test.js',
+  'tests/unit/recommendationFeedbackStorageAdapter.test.js',
+  'tests/unit/storageLargeImportEdugenRiskAudit.test.js',
 ]);
 for (const file of changedFiles()) {
   if (!allowedChanged.has(file)) failures.push(`Unexpected changed file for Phase 10N: ${file}`);

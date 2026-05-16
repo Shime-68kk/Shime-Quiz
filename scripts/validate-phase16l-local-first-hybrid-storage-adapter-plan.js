@@ -50,6 +50,17 @@ const phase16lAllowedChangedFiles = new Set([
   'src/state/v2BackupRestore.js',
   'src/utils/storageQuotaEstimate.js',
   'tests/unit/phase17aBackupRollbackHarness.test.js',
+  // Phase 17B forward-compat entries (StorageAdapter scaffold)
+  'docs/phase17b-storage-adapter-localstorage-scaffold.md',
+  'scripts/validate-phase17b-storage-adapter-localstorage-scaffold.js',
+  'scripts/validate-backup-transfer-safety-hardening.js',
+  'src/storage/StorageAdapter.js',
+  'src/storage/LocalStorageAdapter.js',
+  'src/storage/storageAdapterRegistry.js',
+  'src/state/recommendationFeedbackStorage.js',
+  'tests/unit/storageAdapterScaffold.test.js',
+  'tests/unit/recommendationFeedbackStorageAdapter.test.js',
+  'tests/unit/storageLargeImportEdugenRiskAudit.test.js',
 ]);
 
 const forbiddenRuntimePaths = [
@@ -330,14 +341,26 @@ function scopeGuard() {
 
 // ── Forbidden runtime paths guard ────────────────────────────────────────────
 
+// Phase 17B forward-compat: src/storage/ and StorageAdapter/LocalStorageAdapter are
+// legitimately created by Phase 17B scaffold. Only truly forbidden paths are checked.
 function forbiddenRuntimePathsGuard() {
+  const phase17bScaffoldFiles = new Set([
+    'src/storage/StorageAdapter.js',
+    'src/storage/LocalStorageAdapter.js',
+    'src/storage/storageAdapterRegistry.js',
+  ]);
   for (const path of forbiddenRuntimePaths) {
+    if (phase17bScaffoldFiles.has(path)) continue;
     if (fs.existsSync(path)) {
       fail(`Phase 16L must not introduce storage/sync/cloud/auth path: ${path}`);
     }
   }
+  // src/storage/ may now exist (Phase 17B scaffold) — only fail on forbidden files inside it
   if (fs.existsSync('src/storage')) {
-    fail('Phase 16L must not introduce src/storage/ directory');
+    const forbidden = ['src/storage/IndexedDBAdapter.js', 'src/storage/SyncAdapter.js', 'src/storage/EventLog.js'];
+    for (const f of forbidden) {
+      if (fs.existsSync(f)) fail(`Phase 16L constraint violated: ${f} must not exist`);
+    }
   }
 }
 
