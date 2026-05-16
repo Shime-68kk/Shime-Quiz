@@ -27,11 +27,22 @@ const phase17aAllowedChangedFiles = new Set([
   // Historical validator forward-compat edits
   PHASE16L_VALIDATOR,
   'scripts/validate-storage-quota-warning-runtime.js',
-]);
-
-const forbiddenRuntimePaths = [
+  // Phase 17B forward-compat entries (StorageAdapter scaffold)
+  'docs/phase17b-storage-adapter-localstorage-scaffold.md',
+  'scripts/validate-phase17b-storage-adapter-localstorage-scaffold.js',
+  'scripts/validate-backup-transfer-safety-hardening.js',
   'src/storage/StorageAdapter.js',
   'src/storage/LocalStorageAdapter.js',
+  'src/storage/storageAdapterRegistry.js',
+  'src/state/recommendationFeedbackStorage.js',
+  'tests/unit/storageAdapterScaffold.test.js',
+  'tests/unit/recommendationFeedbackStorageAdapter.test.js',
+  'tests/unit/storageLargeImportEdugenRiskAudit.test.js',
+]);
+
+// Phase 17B forward-compat: StorageAdapter/LocalStorageAdapter/registry are now
+// created by Phase 17B and are legitimate scaffold files, not forbidden paths.
+const forbiddenRuntimePaths = [
   'src/storage/IndexedDBAdapter.js',
   'src/storage/SyncAdapter.js',
   'src/storage/EventLog.js',
@@ -248,11 +259,12 @@ function scopeGuard() {
 
 // ── Forbidden runtime paths guard ────────────────────────────────────────────
 
+// Phase 17B forward-compat: src/storage/ may exist (created by Phase 17B scaffold).
+// Only truly forbidden runtime paths (IndexedDB, Sync, EventLog, auth, cloud) are checked.
 function forbiddenRuntimePathsGuard() {
   for (const path of forbiddenRuntimePaths) {
     if (fs.existsSync(path)) fail(`Phase 17A must not introduce storage/sync/cloud/auth path: ${path}`);
   }
-  if (fs.existsSync('src/storage')) fail('Phase 17A must not introduce src/storage/ directory');
 }
 
 // ── Forbidden file guard ──────────────────────────────────────────────────────
@@ -378,9 +390,17 @@ function forbiddenClaimGuard() {
 // ── Phase 16L constraint guard ────────────────────────────────────────────────
 
 function phase16lConstraintGuard() {
-  // Verify key Phase 16L ADR constraints still hold
-  if (fs.existsSync('src/storage')) fail('Phase 16L constraint violated: src/storage/ must not exist');
-  if (fs.existsSync('src/storage/StorageAdapter.js')) fail('Phase 16L constraint violated: StorageAdapter.js must not exist');
+  // Phase 17B forward-compat: src/storage/ and StorageAdapter.js are now legitimately
+  // created by Phase 17B scaffold — the Phase 16L constraint applies to Phase 17A only.
+  // Only forbidden IndexedDB/Sync/EventLog files must not exist.
+  const forbiddenStoragePaths = [
+    'src/storage/IndexedDBAdapter.js',
+    'src/storage/SyncAdapter.js',
+    'src/storage/EventLog.js',
+  ];
+  for (const p of forbiddenStoragePaths) {
+    if (fs.existsSync(p)) fail(`Phase 16L constraint violated: ${p} must not exist`);
+  }
 
   const doc = read(DOCS_FILE).toLowerCase();
   if (!doc.includes('no storageadapter') && !doc.includes('no src/storage')) {

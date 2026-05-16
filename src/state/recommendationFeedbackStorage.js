@@ -1,6 +1,6 @@
 import { normalizeDate, getLocalDateKey } from '../utils/date.js';
 import { hashString } from '../utils/hash.js';
-import { getLocalStorage } from '../utils/storage.js';
+import { getStorageAdapter } from '../storage/storageAdapterRegistry.js';
 import { publishLearningStorageChanged } from './localStorageSync.js';
 
 export const RECOMMENDATION_FEEDBACK_STORAGE_KEY = 'shimeV2RecommendationFeedbackV1';
@@ -66,22 +66,22 @@ function normalizeEnvelope(payload) {
 }
 
 function readEnvelope() {
-  const storage = getLocalStorage();
-  if (!storage) return { ok: false, records: [], error: 'storage_unavailable' };
+  const adapter = getStorageAdapter();
+  if (!adapter.hasStorageSupport()) return { ok: false, records: [], error: 'storage_unavailable' };
 
   try {
-    const text = storage.getItem(RECOMMENDATION_FEEDBACK_STORAGE_KEY);
+    const text = adapter.readRaw(RECOMMENDATION_FEEDBACK_STORAGE_KEY);
     if (!text) return { ok: true, records: [] };
     const payload = JSON.parse(text);
     if (payload?.schemaVersion !== RECOMMENDATION_FEEDBACK_SCHEMA_VERSION || !Array.isArray(payload.records)) {
-      storage.removeItem(RECOMMENDATION_FEEDBACK_STORAGE_KEY);
+      adapter.removeRaw(RECOMMENDATION_FEEDBACK_STORAGE_KEY);
       emitFeedbackUpdated({ reason: 'feedback_invalid_cleared' });
       return { ok: false, records: [], error: 'invalid_feedback_payload', discarded: true };
     }
     return { ok: true, ...normalizeEnvelope(payload) };
   } catch (error) {
     try {
-      storage.removeItem(RECOMMENDATION_FEEDBACK_STORAGE_KEY);
+      adapter.removeRaw(RECOMMENDATION_FEEDBACK_STORAGE_KEY);
     } catch {
       // Ignore cleanup failure; callers still receive a safe empty state.
     }
@@ -105,8 +105,8 @@ function mergeFeedbackRecords(primaryRecords = [], existingRecords = []) {
 }
 
 function writeRecords(records = [], options = {}) {
-  const storage = getLocalStorage();
-  if (!storage) return { ok: false, error: 'storage_unavailable', records: [] };
+  const adapter = getStorageAdapter();
+  if (!adapter.hasStorageSupport()) return { ok: false, error: 'storage_unavailable', records: [] };
 
   const sourceRecords = options.mergeWithLatest
     ? mergeFeedbackRecords(records, readEnvelope().records || [])
@@ -118,13 +118,12 @@ function writeRecords(records = [], options = {}) {
     records: sourceRecords
   });
 
-  try {
-    storage.setItem(RECOMMENDATION_FEEDBACK_STORAGE_KEY, JSON.stringify(payload));
-    emitFeedbackUpdated({ reason: 'feedback_saved', count: payload.records.length });
-    return { ok: true, records: payload.records, updatedAt: payload.updatedAt };
-  } catch (error) {
-    return { ok: false, error: 'storage_write_failed', storageError: error, records: payload.records };
+  const result = adapter.writeRaw(RECOMMENDATION_FEEDBACK_STORAGE_KEY, JSON.stringify(payload));
+  if (!result.ok) {
+    return { ok: false, error: result.error || 'storage_write_failed', storageError: result.storageError, records: payload.records };
   }
+  emitFeedbackUpdated({ reason: 'feedback_saved', count: payload.records.length });
+  return { ok: true, records: payload.records, updatedAt: payload.updatedAt };
 }
 
 export function readRecommendationFeedback() {
@@ -154,16 +153,15 @@ export function saveRecommendationFeedback({ recommendationType, feedback, reaso
 }
 
 export function clearRecommendationFeedback() {
-  const storage = getLocalStorage();
-  if (!storage) return { ok: false, error: 'storage_unavailable' };
+  const adapter = getStorageAdapter();
+  if (!adapter.hasStorageSupport()) return { ok: false, error: 'storage_unavailable' };
 
-  try {
-    storage.removeItem(RECOMMENDATION_FEEDBACK_STORAGE_KEY);
-    emitFeedbackUpdated({ reason: 'feedback_cleared' });
-    return { ok: true, records: [] };
-  } catch (error) {
-    return { ok: false, error: 'storage_remove_failed', storageError: error };
+  const result = adapter.removeRaw(RECOMMENDATION_FEEDBACK_STORAGE_KEY);
+  if (!result.ok) {
+    return { ok: false, error: result.error || 'storage_remove_failed', storageError: result.storageError };
   }
+  emitFeedbackUpdated({ reason: 'feedback_cleared' });
+  return { ok: true, records: [] };
 }
 
 export function summarizeRecommendationFeedback(records = [], dateKey = getTodayDateKey()) {

@@ -288,9 +288,9 @@ describe('Phase 16C — no new IndexedDB runtime in src/', () => {
 // ── 7. No new StorageAdapter or SyncAdapter runtime file ──────────────────
 
 describe('Phase 16C — no forbidden runtime files exist', () => {
+  // Phase 17B forward-compat: StorageAdapter.js, LocalStorageAdapter.js, and
+  // storageAdapterRegistry.js are legitimately created by Phase 17B scaffold.
   const FORBIDDEN_RUNTIME_FILES = [
-    'src/storage/StorageAdapter.js',
-    'src/storage/LocalStorageAdapter.js',
     'src/storage/IndexedDBAdapter.js',
     'src/storage/SyncAdapter.js',
     'src/storage/EventLog.js',
