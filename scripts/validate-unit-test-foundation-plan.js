@@ -435,6 +435,9 @@ const allowedChangedFiles = new Set([
   'scripts/validate-web-share-mobile-sharing-prototype-plan.js',
   'scripts/validate-web-share-runtime-fallback-hardening.js',
   'scripts/validate-web-share-runtime-prototype.js',
+  // Phase 16L — Local-First Hybrid / StorageAdapter Plan (forward compatibility)
+  'docs/phase16l-local-first-hybrid-storage-adapter-plan.md',
+  'scripts/validate-phase16l-local-first-hybrid-storage-adapter-plan.js',
 ]);
 const forbiddenChangedFiles = ['package.json','package-lock.json','vite.config','vite.config.js','vite.config.mjs','playwright.config','playwright.config.js'];
 const forbiddenChangedPrefixes = ['src/','e2e/','tests/','__tests__/'];

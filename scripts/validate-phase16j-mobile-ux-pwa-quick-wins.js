@@ -57,7 +57,10 @@ const phase16jAllowedChangedFiles = new Set([
   'src/routes/StudyRoom.jsx',
   'src/routes/Library.jsx',
   'src/routes/Settings.jsx',
-  'src/App.jsx'
+  'src/App.jsx',
+  // Phase 16L — Local-First Hybrid / StorageAdapter Plan (forward compatibility)
+  'docs/phase16l-local-first-hybrid-storage-adapter-plan.md',
+  'scripts/validate-phase16l-local-first-hybrid-storage-adapter-plan.js'
 ]);
 
 // Hard-forbidden scheduler/storage/EduGen runtime files. Phase 16J must not touch these.
