@@ -29,6 +29,12 @@ const forbiddenChangedFiles = [
 ];
 
 const allowedChangedFiles = new Set([
+  // Phase 17C compatibility: allow only the approved IndexedDB dry-run
+  // harness files while preserving older Phase 12B guardrails.
+  'docs/phase17c-indexeddb-migration-dry-run-harness.md',
+  'scripts/validate-phase17c-indexeddb-migration-dry-run-harness.js',
+  'src/storage/indexedDbDryRunHarness.js',
+  'tests/unit/indexedDbDryRunHarness.test.js',
   // Phase 14B compatibility: allow only the approved internal/test-only
   // FSRS wrapper prototype files and exact ts-fsrs package metadata.
   'package.json',

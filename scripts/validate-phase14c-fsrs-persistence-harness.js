@@ -407,6 +407,11 @@ const phase14cAllowedChangedFiles = new Set([
   'tests/unit/storageAdapterScaffold.test.js',
   'tests/unit/recommendationFeedbackStorageAdapter.test.js',
   'tests/unit/storageLargeImportEdugenRiskAudit.test.js',
+  // Phase 17C forward-compat entries (IndexedDB dry-run harness)
+  'docs/phase17c-indexeddb-migration-dry-run-harness.md',
+  'scripts/validate-phase17c-indexeddb-migration-dry-run-harness.js',
+  'src/storage/indexedDbDryRunHarness.js',
+  'tests/unit/indexedDbDryRunHarness.test.js',
 ]);
 
 const generatedArtifacts = [
