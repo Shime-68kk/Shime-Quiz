@@ -44,6 +44,12 @@ const phase16jAllowedChangedFiles = new Set([
   VALIDATOR_SCRIPT,
   'src/styles/global.css',
   'public/sw.js',
+  // Phase 16K — Storage Quota & Backup-Before-Import Runtime Hardening (forward compatibility)
+  'docs/phase16k-storage-quota-backup-before-import-hardening.md',
+  'src/utils/storageQuotaEstimate.js',
+  'src/components/learning/BackupBeforeImportNotice.jsx',
+  'tests/unit/storageQuotaEstimate.test.js',
+  'tests/unit/storageQuotaBackupBeforeImport.test.jsx',
   'public/manifest.webmanifest',
   'index.html',
   'src/routes/Home.jsx',

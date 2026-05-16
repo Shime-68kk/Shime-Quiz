@@ -55,7 +55,15 @@ const phase16iAllowedChangedFiles = new Set([
   // Phase 16J — Mobile UX / PWA Quick Wins (forward compatibility)
   'docs/phase16j-mobile-ux-pwa-quick-wins.md',
   'src/styles/global.css',
-  'public/sw.js'
+  'public/sw.js',
+  // Phase 16K — Storage Quota & Backup-Before-Import Runtime Hardening (forward compatibility)
+  'docs/phase16k-storage-quota-backup-before-import-hardening.md',
+  'scripts/validate-phase16k-storage-quota-backup-before-import-hardening.js',
+  'src/utils/storageQuotaEstimate.js',
+  'src/routes/Library.jsx',
+  'src/components/learning/BackupBeforeImportNotice.jsx',
+  'tests/unit/storageQuotaEstimate.test.js',
+  'tests/unit/storageQuotaBackupBeforeImport.test.jsx',
 ]);
 
 // Hard-forbidden scheduler/storage/EduGen runtime files. Phase 16I must not touch these.

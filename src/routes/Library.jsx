@@ -6,6 +6,7 @@ import Card from '../components/Card.jsx';
 import EmptyState from '../components/EmptyState.jsx';
 import PageHeader from '../components/PageHeader.jsx';
 import Toast from '../components/Toast.jsx';
+import BackupBeforeImportNotice from '../components/learning/BackupBeforeImportNotice.jsx';
 import V2BackupRestorePanel from '../components/learning/V2BackupRestorePanel.jsx';
 import { buildManualAiQuizPrompt, getManualAiPromptWarnings } from '../data/aiPromptBuilder.js';
 import { reviewManualAiOutputText } from '../data/aiOutputReview.js';
@@ -239,6 +240,8 @@ function ImportPreview({ preview, fileName, onConfirm, onCancel }) {
           <p className="muted">Không có mục học hợp lệ để hiển thị mẫu.</p>
         )}
       </div>
+
+      <BackupBeforeImportNotice itemCount={summary.itemCount} />
 
       <div className="importPreview__actions">
         <Button type="button" onClick={onConfirm} disabled={!canImport}>

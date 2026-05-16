@@ -415,6 +415,9 @@ jobs:
       - name: Validate Phase 16J mobile UX PWA quick wins
         run: node scripts/validate-phase16j-mobile-ux-pwa-quick-wins.js
 
+      - name: Validate Phase 16K storage quota backup before import hardening
+        run: node scripts/validate-phase16k-storage-quota-backup-before-import-hardening.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

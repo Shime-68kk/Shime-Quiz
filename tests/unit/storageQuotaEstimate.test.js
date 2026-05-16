@@ -1,7 +1,9 @@
 import { describe, expect, it, afterEach } from 'vitest';
 import {
   normalizeStorageQuotaEstimate,
-  getStorageQuotaWarningState
+  getStorageQuotaWarningState,
+  getLargeImportItemCountWarning,
+  LARGE_IMPORT_ITEM_THRESHOLD
 } from '../../src/utils/storageQuotaEstimate.js';
 
 describe('storage quota estimate helpers', () => {
@@ -41,5 +43,41 @@ describe('storage quota estimate helpers', () => {
       shouldWarn: true,
       percent: 90
     });
+  });
+});
+
+describe('large import item count warning helper', () => {
+  it('returns isLarge=true when itemCount meets the threshold', () => {
+    const result = getLargeImportItemCountWarning(LARGE_IMPORT_ITEM_THRESHOLD);
+    expect(result.isLarge).toBe(true);
+    expect(result.itemCount).toBe(LARGE_IMPORT_ITEM_THRESHOLD);
+  });
+
+  it('returns isLarge=true for counts well above the threshold', () => {
+    expect(getLargeImportItemCountWarning(200)).toMatchObject({ isLarge: true, itemCount: 200 });
+  });
+
+  it('returns isLarge=false when itemCount is below the threshold', () => {
+    expect(getLargeImportItemCountWarning(10)).toMatchObject({ isLarge: false, itemCount: 10 });
+  });
+
+  it('returns isLarge=false for 0 items', () => {
+    expect(getLargeImportItemCountWarning(0)).toMatchObject({ isLarge: false, itemCount: 0 });
+  });
+
+  it('returns isLarge=false and does not throw for invalid inputs', () => {
+    expect(getLargeImportItemCountWarning(-1)).toMatchObject({ isLarge: false });
+    expect(getLargeImportItemCountWarning(null)).toMatchObject({ isLarge: false });
+    expect(getLargeImportItemCountWarning(NaN)).toMatchObject({ isLarge: false });
+    expect(getLargeImportItemCountWarning('lots')).toMatchObject({ isLarge: false });
+    expect(getLargeImportItemCountWarning(undefined)).toMatchObject({ isLarge: false });
+  });
+
+  it('does not change import semantics — isLarge is advisory only', () => {
+    const large = getLargeImportItemCountWarning(100);
+    const small = getLargeImportItemCountWarning(5);
+    expect(large).not.toHaveProperty('blocked');
+    expect(large).not.toHaveProperty('prevented');
+    expect(small).not.toHaveProperty('blocked');
   });
 });
