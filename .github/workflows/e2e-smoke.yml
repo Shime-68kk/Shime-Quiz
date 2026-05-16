@@ -436,6 +436,9 @@ jobs:
       - name: Validate Phase 17E Per-Key Migration Manifest Design
         run: node scripts/validate-phase17e-per-key-migration-manifest-design.js
 
+      - name: Validate Phase 17F Test-Only Migration Journal Prototype
+        run: node scripts/validate-phase17f-test-only-migration-journal-prototype.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

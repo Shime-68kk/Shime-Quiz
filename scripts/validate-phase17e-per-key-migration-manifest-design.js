@@ -25,6 +25,11 @@ const phase17eAllowedChangedFiles = new Set([
   'scripts/validate-phase17c-indexeddb-migration-dry-run-harness.js',
   PHASE17D_VALIDATOR,
   'scripts/validate-backup-transfer-safety-hardening.js',
+  // Phase 17F forward-compat entries (Test-Only Migration Journal Prototype)
+  'docs/phase17f-test-only-migration-journal-prototype.md',
+  'scripts/validate-phase17f-test-only-migration-journal-prototype.js',
+  'tests/unit/helpers/migrationJournalTestHarness.js',
+  'tests/unit/migrationJournalTestHarness.test.js',
 ]);
 
 // Forbidden runtime files that must not exist in Phase 17E.
@@ -172,6 +177,11 @@ const broadPathPatterns = [
 const phase17eForwardCompatEntries = [
   'docs/phase17e-per-key-migration-manifest-design.md',
   'scripts/validate-phase17e-per-key-migration-manifest-design.js',
+  // Phase 17F forward-compat entries (Test-Only Migration Journal Prototype)
+  'docs/phase17f-test-only-migration-journal-prototype.md',
+  'scripts/validate-phase17f-test-only-migration-journal-prototype.js',
+  'tests/unit/helpers/migrationJournalTestHarness.js',
+  'tests/unit/migrationJournalTestHarness.test.js',
 ];
 
 function fail(message) {
@@ -292,7 +302,9 @@ function noSrcChangesGuard() {
 
 function noTestsChangesGuard() {
   for (const file of changedFiles()) {
-    if (file.startsWith('tests/')) fail(`tests/ file changed in Phase 17E (forbidden): ${file}`);
+    if (phase17eAllowedChangedFiles.has(file)) continue;
+    const firstSegment = file.indexOf('/') >= 0 ? file.slice(0, file.indexOf('/')) : file;
+    if (firstSegment === 'tests') fail(`tests/ file changed in Phase 17E (forbidden): ${file}`);
   }
 }
 
@@ -426,22 +438,31 @@ function historicalValidatorForwardCompatGuard() {
       .filter(line => line.length > 0 && !line.startsWith('//') && !line.startsWith('*'));
 
     for (const line of addedLines) {
-      // Check #17: no broad path allowlists added
+      // Extract all single-quoted path strings from the line.
+      const extractedPaths = [...line.matchAll(/'([^']+)'/g)].map(([, p]) => p);
+
+      // Check #17: no broad path allowlists added.
+      // Uses exact-path matching: only flag if the extracted path IS the broad path (not a longer path prefixed by it).
       for (const broadPattern of broadPathPatterns) {
-        if (line.includes(broadPattern)) {
+        const broadPath = broadPattern.slice(1, -1); // strip surrounding quotes
+        if (extractedPaths.some(p => p === broadPath)) {
           fail(`Historical validator ${validatorFile} adds forbidden broad path allowlist: ${broadPattern}`);
         }
       }
 
-      // Check #16: any docs/ path strings added in quotes must be Phase 17E forward-compat entries
+      // Check #16: any docs/ or tests/ path strings added in quotes must be Phase 17E forward-compat entries
       const pathMatches = [...line.matchAll(/'([^']{5,})'/g)];
       for (const [, path] of pathMatches) {
         if (!path.includes('/')) continue; // not a file path
-        // Only scrutinize docs/ paths — scripts/validate- paths are checked by broadPathPatterns
+        // Scrutinize docs/ paths — scripts/validate- paths are checked by broadPathPatterns
         if (path.startsWith('docs/') && !path.includes('phase17e')) {
           if (!phase17eForwardCompatEntries.includes(path)) {
             fail(`Historical validator ${validatorFile} adds unexpected non-Phase-17E docs/ entry: '${path}'`);
           }
+        }
+        // Scrutinize tests/ paths — only exact Phase 17E/17F forward-compat test entries allowed
+        if (path.startsWith('tests/') && !phase17eForwardCompatEntries.includes(path)) {
+          fail(`Historical validator ${validatorFile} adds unexpected non-Phase-17E tests/ entry: '${path}'`);
         }
       }
     }
