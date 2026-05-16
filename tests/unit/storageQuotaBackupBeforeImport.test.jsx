@@ -153,13 +153,19 @@ describe('Phase 16K — no forbidden runtime changes', () => {
     });
   }
 
-  it('no IndexedDB runtime introduced in src/', () => {
+  it('no IndexedDB runtime introduced in src/ outside Phase 17C dry-run harness', () => {
+    // Phase 17C forward-compat: indexedDbDryRunHarness.js is the only approved
+    // file that may call indexedDB.open — it is a dry-run-only harness.
+    const ALLOWED_INDEXEDDB_FILES = new Set([
+      resolve(PROJECT_ROOT, 'src/storage/indexedDbDryRunHarness.js'),
+    ]);
     function scanDir(dirPath) {
       const entries = fs.readdirSync(dirPath, { withFileTypes: true });
       for (const entry of entries) {
         const full = resolve(PROJECT_ROOT, dirPath, entry.name);
         if (entry.isDirectory()) scanDir(`${dirPath}/${entry.name}`);
         else if (entry.isFile() && (entry.name.endsWith('.js') || entry.name.endsWith('.jsx'))) {
+          if (ALLOWED_INDEXEDDB_FILES.has(full)) continue;
           const content = fs.readFileSync(full, 'utf8');
           if (/indexedDB\.open\s*\(|openIDB\s*\(|new\s+IDBFactory/i.test(content)) {
             throw new Error(`IndexedDB runtime found in: ${full}`);

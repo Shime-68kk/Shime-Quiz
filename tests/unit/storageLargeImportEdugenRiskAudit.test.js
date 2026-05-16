@@ -261,8 +261,13 @@ describe('Phase 16C — no new e2e files added', () => {
 // ── 6. No new IndexedDB runtime use in src/ ────────────────────────────────
 
 describe('Phase 16C — no new IndexedDB runtime in src/', () => {
-  it('src/ does not contain openIndexedDB or indexedDB.open calls', () => {
+  it('src/ does not contain openIndexedDB or indexedDB.open calls outside Phase 17C dry-run harness', () => {
     const SRC_DIR = resolve(PROJECT_ROOT, 'src');
+    // Phase 17C forward-compat: indexedDbDryRunHarness.js is the only approved
+    // file that may call indexedDB.open — it is a dry-run-only harness.
+    const ALLOWED_INDEXEDDB_FILES = new Set([
+      'src/storage/indexedDbDryRunHarness.js',
+    ]);
     const violations = [];
 
     function scanDir(dirPath) {
@@ -272,9 +277,11 @@ describe('Phase 16C — no new IndexedDB runtime in src/', () => {
         if (entry.isDirectory()) {
           scanDir(full);
         } else if (entry.isFile() && (entry.name.endsWith('.js') || entry.name.endsWith('.jsx'))) {
+          const rel = full.replace(PROJECT_ROOT + '/', '');
+          if (ALLOWED_INDEXEDDB_FILES.has(rel)) continue;
           const content = fs.readFileSync(full, 'utf8');
           if (/indexedDB\.open\s*\(|openIDB\s*\(|new\s+IDBFactory/i.test(content)) {
-            violations.push(full.replace(PROJECT_ROOT + '/', ''));
+            violations.push(rel);
           }
         }
       }

@@ -16,6 +16,13 @@ const allowedChanged = new Set([
   'tests/unit/fsrsWrapper.test.js',
   '.github/workflows/e2e-smoke.yml',
 
+  // Phase 17C compatibility: allow only the approved IndexedDB dry-run
+  // harness files while preserving older Phase 11B guardrails.
+  'docs/phase17c-indexeddb-migration-dry-run-harness.md',
+  'scripts/validate-phase17c-indexeddb-migration-dry-run-harness.js',
+  'src/storage/indexedDbDryRunHarness.js',
+  'tests/unit/indexedDbDryRunHarness.test.js',
+
   // Phase 14C compatibility: allow only the approved FSRS persistence
   // backup harness files while preserving older phase guardrails.
   'docs/phase14c-fsrs-persistence-backup-harness.md',

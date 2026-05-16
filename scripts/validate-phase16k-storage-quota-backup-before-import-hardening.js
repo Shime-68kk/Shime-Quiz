@@ -65,6 +65,11 @@ const phase16kAllowedChangedFiles = new Set([
   'tests/unit/storageAdapterScaffold.test.js',
   'tests/unit/recommendationFeedbackStorageAdapter.test.js',
   'tests/unit/storageLargeImportEdugenRiskAudit.test.js',
+  // Phase 17C forward-compat entries (IndexedDB dry-run harness)
+  'docs/phase17c-indexeddb-migration-dry-run-harness.md',
+  'scripts/validate-phase17c-indexeddb-migration-dry-run-harness.js',
+  'src/storage/indexedDbDryRunHarness.js',
+  'tests/unit/indexedDbDryRunHarness.test.js',
 ]);
 
 // Hard-forbidden scheduler/storage/EduGen runtime files.
@@ -453,6 +458,7 @@ function noIndexedDBGuard() {
       } else if (entry.isFile() && (entry.name.endsWith('.js') || entry.name.endsWith('.jsx'))) {
         const content = fs.readFileSync(full, 'utf8');
         if (/indexedDB\.open\s*\(|openIDB\s*\(|new\s+IDBFactory/i.test(content)) {
+          if (full === 'src/storage/indexedDbDryRunHarness.js') continue;
           fail(`Phase 16K must not introduce IndexedDB runtime in: ${full}`);
         }
       }

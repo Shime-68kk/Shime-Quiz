@@ -3,6 +3,12 @@ import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 const requiredFiles = ['docs/phase12-closure-release-decision.md','docs/phase12-roadmap-risk-register.md','docs/study-flow-micro-feedback-runtime.md','README.md','RELEASE_QA_V2.md','docs/public-release-notes.md','docs/deployment-readiness.md','.github/workflows/e2e-smoke.yml','scripts/validate-phase12-closure-release-decision.js'];
 const allowedChangedFiles = new Set([
+  // Phase 17C compatibility: allow only the approved IndexedDB dry-run
+  // harness files while preserving older Phase 12J guardrails.
+  'docs/phase17c-indexeddb-migration-dry-run-harness.md',
+  'scripts/validate-phase17c-indexeddb-migration-dry-run-harness.js',
+  'src/storage/indexedDbDryRunHarness.js',
+  'tests/unit/indexedDbDryRunHarness.test.js',
   // Phase 14B compatibility: allow only the approved internal/test-only
   // FSRS wrapper prototype files and exact ts-fsrs package metadata.
   'package.json',
