@@ -369,6 +369,12 @@ const phase14oAllowedChangedFiles = new Set([
   // Phase 16L — Local-First Hybrid / StorageAdapter Plan (forward compatibility)
   'docs/phase16l-local-first-hybrid-storage-adapter-plan.md',
   'scripts/validate-phase16l-local-first-hybrid-storage-adapter-plan.js',
+  // Phase 17A — Backup/Rollback Harness BEFORE Migration (forward compatibility)
+  'docs/phase17a-backup-rollback-harness-before-migration.md',
+  'scripts/validate-phase17a-backup-rollback-harness-before-migration.js',
+  'src/state/v2BackupRestore.js',
+  'src/utils/storageQuotaEstimate.js',
+  'tests/unit/phase17aBackupRollbackHarness.test.js',
 ]);
 
 const generatedArtifacts = [
@@ -703,6 +709,8 @@ function noNewSrcFilesGuard() {
   // Phase 16K exact src files (forward compatibility — Storage Quota & Backup-Before-Import)
   'src/utils/storageQuotaEstimate.js',
   'src/components/learning/BackupBeforeImportNotice.jsx',
+  // Phase 17A exact src files (forward compatibility — Backup/Rollback Harness)
+  'src/state/v2BackupRestore.js',
   ]);
   for (const file of changedFiles()) {
     if (!file.startsWith('src/')) continue;

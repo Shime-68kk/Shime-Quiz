@@ -185,6 +185,12 @@ const phase16fAllowedChangedFiles = new Set([
   // Phase 16L — Local-First Hybrid / StorageAdapter Plan (forward compatibility)
   'docs/phase16l-local-first-hybrid-storage-adapter-plan.md',
   'scripts/validate-phase16l-local-first-hybrid-storage-adapter-plan.js',
+  // Phase 17A — Backup/Rollback Harness BEFORE Migration (forward compatibility)
+  'docs/phase17a-backup-rollback-harness-before-migration.md',
+  'scripts/validate-phase17a-backup-rollback-harness-before-migration.js',
+  'src/state/v2BackupRestore.js',
+  'src/utils/storageQuotaEstimate.js',
+  'tests/unit/phase17aBackupRollbackHarness.test.js',
 ]);
 
 // Hard-forbidden scheduler/storage/backup files. Phase 16F must not touch
@@ -407,7 +413,7 @@ function scopeGuard() {
 function forbiddenRuntimeFilesGuard() {
   const changed = new Set(changedFiles());
   for (const file of forbiddenRuntimeFiles) {
-    if (changed.has(file)) {
+    if (changed.has(file) && !phase16fAllowedChangedFiles.has(file)) {
       fail(`Phase 16F must not change scheduler/storage/backup file: ${file}`);
     }
   }

@@ -558,6 +558,12 @@ const allowedChanged = new Set([
   // Phase 16L — Local-First Hybrid / StorageAdapter Plan (forward compatibility)
   'docs/phase16l-local-first-hybrid-storage-adapter-plan.md',
   'scripts/validate-phase16l-local-first-hybrid-storage-adapter-plan.js',
+  // Phase 17A — Backup/Rollback Harness BEFORE Migration (forward compatibility)
+  'docs/phase17a-backup-rollback-harness-before-migration.md',
+  'scripts/validate-phase17a-backup-rollback-harness-before-migration.js',
+  'src/state/v2BackupRestore.js',
+  'src/utils/storageQuotaEstimate.js',
+  'tests/unit/phase17aBackupRollbackHarness.test.js',
 ]);
 for (const file of changedFiles()) {
   if (!allowedChanged.has(file)) failures.push(`Unexpected changed file for Phase 10O: ${file}`);
