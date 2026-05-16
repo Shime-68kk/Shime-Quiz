@@ -439,6 +439,9 @@ jobs:
       - name: Validate Phase 17F Test-Only Migration Journal Prototype
         run: node scripts/validate-phase17f-test-only-migration-journal-prototype.js
 
+      - name: Validate Phase 17G Single-Key Dry-Run Migration Rehearsal
+        run: node scripts/validate-phase17g-single-key-dry-run-migration-rehearsal.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

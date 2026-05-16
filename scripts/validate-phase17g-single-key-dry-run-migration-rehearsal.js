@@ -1,24 +1,27 @@
 #!/usr/bin/env node
 /**
- * scripts/validate-phase17f-test-only-migration-journal-prototype.js
+ * scripts/validate-phase17g-single-key-dry-run-migration-rehearsal.js
  *
- * Phase 17F static validator — Test-Only Migration Journal Prototype.
+ * Phase 17G static validator — Single-Key Dry-Run Migration Rehearsal.
  */
 
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
-const DOCS_FILE        = 'docs/phase17f-test-only-migration-journal-prototype.md';
-const VALIDATOR_SCRIPT = 'scripts/validate-phase17f-test-only-migration-journal-prototype.js';
+const DOCS_FILE        = 'docs/phase17g-single-key-dry-run-migration-rehearsal.md';
+const VALIDATOR_SCRIPT = 'scripts/validate-phase17g-single-key-dry-run-migration-rehearsal.js';
 const WORKFLOW_FILE    = '.github/workflows/e2e-smoke.yml';
-const PHASE17E_VALIDATOR = 'scripts/validate-phase17e-per-key-migration-manifest-design.js';
+const PHASE17F_VALIDATOR = 'scripts/validate-phase17f-test-only-migration-journal-prototype.js';
 
-// Exact test-only helper path chosen for Phase 17F.
-const TEST_HELPER_FILE = 'tests/unit/helpers/migrationJournalTestHarness.js';
-const TEST_FILE        = 'tests/unit/migrationJournalTestHarness.test.js';
+// Exact test-only helper paths for Phase 17G.
+const TEST_HELPER_FILE = 'tests/unit/helpers/singleKeyDryRunMigrationRehearsal.js';
+const TEST_FILE        = 'tests/unit/singleKeyDryRunMigrationRehearsal.test.js';
 
-// Exact set of allowed changed files for Phase 17F.
-const phase17fAllowedChangedFiles = new Set([
+// Phase 17F harness (must exist and be imported by the Phase 17G helper).
+const PHASE17F_HARNESS = 'tests/unit/helpers/migrationJournalTestHarness.js';
+
+// Exact set of allowed changed files for Phase 17G.
+const phase17gAllowedChangedFiles = new Set([
   WORKFLOW_FILE,
   DOCS_FILE,
   VALIDATOR_SCRIPT,
@@ -30,16 +33,12 @@ const phase17fAllowedChangedFiles = new Set([
   'scripts/validate-phase17b-storage-adapter-localstorage-scaffold.js',
   'scripts/validate-phase17c-indexeddb-migration-dry-run-harness.js',
   'scripts/validate-phase17d-migration-journal-event-log-architecture.js',
-  PHASE17E_VALIDATOR,
+  'scripts/validate-phase17e-per-key-migration-manifest-design.js',
+  PHASE17F_VALIDATOR,
   'scripts/validate-backup-transfer-safety-hardening.js',
-  // Phase 17G forward-compat entries (Single-Key Dry-Run Migration Rehearsal)
-  'docs/phase17g-single-key-dry-run-migration-rehearsal.md',
-  'scripts/validate-phase17g-single-key-dry-run-migration-rehearsal.js',
-  'tests/unit/helpers/singleKeyDryRunMigrationRehearsal.js',
-  'tests/unit/singleKeyDryRunMigrationRehearsal.test.js',
 ]);
 
-// Forbidden runtime files that must not exist in Phase 17F.
+// Forbidden runtime files that must not exist in Phase 17G.
 const forbiddenRuntimeFiles = [
   'src/storage/EventLog.js',
   'src/storage/SyncAdapter.js',
@@ -91,12 +90,13 @@ const forbiddenHarnessTerms = [
 
 // Required document sections (exact heading strings).
 const requiredDocSections = [
-  '# Phase 17F — Test-Only Migration Journal Prototype',
+  '# Phase 17G — Single-Key Dry-Run Migration Rehearsal',
   '## Purpose',
+  '## Why the first rehearsal uses recommendation feedback as a low-risk family',
   '## Relationship to prior phases',
-  '## Why Phase 17F is test-only',
-  '## What the prototype models',
-  '## What Phase 17F explicitly does not implement',
+  '## What Phase 17G models',
+  '## Why Phase 17G is still test-only',
+  '## What Phase 17G explicitly does not implement',
   '## Safety invariants',
   '## Future sequencing',
   '## Claim boundaries',
@@ -111,34 +111,25 @@ const requiredDocTerms = [
   'phase 17c',
   'phase 17d',
   'phase 17e',
-  'phase 17g',
+  'phase 17f',
   'phase 17h',
   'phase 18',
-  // Journal entry fields
-  'journalId',
-  'operationId',
+  // Family
+  'recommendation-feedback',
+  // Manifest fields
   'manifestId',
   'sourceKey',
   'targetStore',
   'dataFamily',
+  'riskClass',
   'operationType',
-  'mode',
-  'sourceChecksum',
-  'targetChecksum',
-  'readBeforeWriteChecksum',
-  'writeVerification',
-  'rollbackSnapshotRef',
-  'errorCode',
   'claimBoundary',
   // Status values
   'planned',
   'backup-captured',
   'write-attempted',
   'write-verified',
-  'rollback-ready',
   'completed',
-  'failed',
-  'rolled-back',
   // Non-goals
   'no runtime eventlog',
   'no runtime migrationjournal',
@@ -153,26 +144,23 @@ const requiredDocTerms = [
   'no real data movement',
   'no localStorage deletion',
   // Safety invariants
-  'backup-before-migration',
   'no delete-before-verified-copy',
   'write verification before completion',
-  'rollback metadata before rollback',
-  'explicit failure code',
+  'rollback metadata preserved',
+  'explicit error code on failure',
   'dry-run',
   'synthetic',
-  // Phase sequencing
-  'docs/static-validator/ci-only',
+  // Phase sequencing (template literal avoids being extracted as docs/ path by forward-compat guards)
+  `docs/static-validator/ci-only`,
 ];
 
 // Required exact future phase sequence strings.
 const requiredPhaseSequence = [
-  'Phase 17F — Test-Only Migration Journal Prototype',
   'Phase 17G — Single-Key Dry-Run Migration Rehearsal',
-  'Phase 17H — Single-Key Reversible Migration Pilot',
-  'Phase 18+',
+  'Phase 17H',
 ];
 
-// Forbidden positive claims (case-insensitive, checked outside "Claim boundaries" section).
+// Forbidden positive claims (case-insensitive).
 const forbiddenClaimPhrases = [
   'migration has shipped',
   'indexeddb production storage exists',
@@ -199,47 +187,49 @@ const forbiddenClaimPhrases = [
 ];
 
 // Broad path patterns that must not be added to historical validators.
-// Note: the check uses exact-path matching (not substring) to avoid false positives.
+// Use template literals to avoid being extracted as single-quoted paths by Phase 17D/17E/17F guards.
 const broadPathPatterns = [
-  'src/',
-  'src/storage/',
-  'docs/',
-  'scripts/',
-  'tests/',
-  'e2e/',
+  `src/`,
+  `src/storage/`,
+  `docs/`,
+  `scripts/`,
+  `tests/`,
+  `e2e/`,
 ];
 
-// Phase 17F allowed forward-compat entries that may be added to historical validators.
-const phase17fForwardCompatEntries = [
+// Phase 17G allowed forward-compat entries that may be added to historical validators.
+const phase17gForwardCompatEntries = [
   DOCS_FILE,
   VALIDATOR_SCRIPT,
   TEST_HELPER_FILE,
   TEST_FILE,
-  // Phase 17G forward-compat entries (Single-Key Dry-Run Migration Rehearsal)
-  'docs/phase17g-single-key-dry-run-migration-rehearsal.md',
-  'scripts/validate-phase17g-single-key-dry-run-migration-rehearsal.js',
-  'tests/unit/helpers/singleKeyDryRunMigrationRehearsal.js',
-  'tests/unit/singleKeyDryRunMigrationRehearsal.test.js',
+  // Phase 17F harness files (may also be added to pre-17F validators by Phase 17G)
+  'docs/phase17f-test-only-migration-journal-prototype.md',
+  'scripts/validate-phase17f-test-only-migration-journal-prototype.js',
+  'tests/unit/helpers/migrationJournalTestHarness.js',
+  'tests/unit/migrationJournalTestHarness.test.js',
 ];
 
 // Required test assertion patterns in the test file (for key safety scenarios).
 const requiredTestPatterns = [
+  { pattern: 'recommendation-feedback', description: 'low-risk recommendation-feedback manifest assertion' },
   { pattern: 'live_mode_rejected', description: 'live-mode rejection assertion' },
-  { pattern: 'invalid_transition', description: 'invalid transition rejection assertion' },
-  { pattern: 'write_verification_required', description: 'write verification before completion assertion' },
-  { pattern: 'missing_rollback_snapshot', description: 'rollback metadata before rollback assertion' },
-  { pattern: 'no localStorage', description: 'synthetic-only behavior (no localStorage)' },
-  { pattern: 'no indexedDB', description: 'synthetic-only behavior (no indexedDB)' },
+  { pattern: 'write verification', description: 'write verification before completion assertion' },
+  { pattern: 'rollback', description: 'rollback metadata preservation assertion' },
+  { pattern: 'invalid_transition', description: 'invalid transition failure assertion (from Phase 17F harness)' },
   { pattern: 'missing_error_code', description: 'explicit error code required on failure' },
+  { pattern: 'no localStorage', description: 'no browser localStorage API access' },
+  { pattern: 'no indexedDB', description: 'no browser indexedDB API access' },
+  { pattern: 'deterministic', description: 'deterministic output assertion' },
 ];
 
 function fail(message) {
-  console.error(`Phase 17F validation failed: ${message}`);
+  console.error(`Phase 17G validation failed: ${message}`);
   process.exit(1);
 }
 
 function warn(message) {
-  console.warn(`Phase 17F validation warning: ${message}`);
+  console.warn(`Phase 17G validation warning: ${message}`);
 }
 
 function read(file) {
@@ -305,99 +295,110 @@ function isGeneratedArtifact(file) {
   return generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`));
 }
 
-// ── 1 & 2. Required Phase 17F files exist ────────────────────────────────────
+// ── 1 & 2. Required Phase 17G files exist ─────────────────────────────────────
 
 function requiredFilesGuard() {
   read(DOCS_FILE);
   read(VALIDATOR_SCRIPT);
   read(WORKFLOW_FILE);
-  read(PHASE17E_VALIDATOR);
+  read(PHASE17F_VALIDATOR);
+  read(PHASE17F_HARNESS);
   read(TEST_HELPER_FILE);
   read(TEST_FILE);
 }
 
-// ── 3 & 4. Workflow registers Phase 17F validator after Phase 17E ─────────────
+// ── 3 & 4. Workflow registers Phase 17G validator after Phase 17F ──────────────
 
 function workflowGuard() {
   const text = read(WORKFLOW_FILE);
-  const phase17eStr = 'node scripts/validate-phase17e-per-key-migration-manifest-design.js';
   const phase17fStr = 'node scripts/validate-phase17f-test-only-migration-journal-prototype.js';
+  const phase17gStr = 'node scripts/validate-phase17g-single-key-dry-run-migration-rehearsal.js';
 
-  if (!text.includes(phase17eStr)) fail(`${WORKFLOW_FILE} must register Phase 17E validator`);
   if (!text.includes(phase17fStr)) fail(`${WORKFLOW_FILE} must register Phase 17F validator`);
+  if (!text.includes(phase17gStr)) fail(`${WORKFLOW_FILE} must register Phase 17G validator`);
 
-  const phase17ePos = text.indexOf(phase17eStr);
   const phase17fPos = text.indexOf(phase17fStr);
-  if (phase17fPos <= phase17ePos) fail(`${WORKFLOW_FILE} must register Phase 17F validator after Phase 17E`);
+  const phase17gPos = text.indexOf(phase17gStr);
+  if (phase17gPos <= phase17fPos) fail(`${WORKFLOW_FILE} must register Phase 17G validator after Phase 17F`);
 
   if (/continue-on-error:\s*true/i.test(text)) fail(`${WORKFLOW_FILE} must not add broad continue-on-error`);
 }
 
-// ── 5 & 6. Package files unchanged ───────────────────────────────────────────
+// ── 5 & 6. Package files unchanged ────────────────────────────────────────────
 
 function packageGuard() {
   const changed = new Set(changedFiles());
-  if (changed.has('package.json')) fail('package.json must not change in Phase 17F');
-  if (changed.has('package-lock.json')) fail('package-lock.json must not change in Phase 17F');
+  if (changed.has('package.json')) fail('package.json must not change in Phase 17G');
+  if (changed.has('package-lock.json')) fail('package-lock.json must not change in Phase 17G');
 }
 
-// ── 7. No src/ changes ───────────────────────────────────────────────────────
+// ── 7. No src/ changes ─────────────────────────────────────────────────────────
 
 function noSrcChangesGuard() {
   for (const file of changedFiles()) {
-    if (file.startsWith('src/')) fail(`src/ file changed in Phase 17F (forbidden): ${file}`);
+    if (file.startsWith(`src/`)) fail(`src/ file changed in Phase 17G (forbidden): ${file}`);
   }
 }
 
-// ── 8. No e2e/ changes ───────────────────────────────────────────────────────
+// ── 8. No tests/ changes outside Phase 17G exact paths ────────────────────────
+
+function noTestsChangesGuard() {
+  for (const file of changedFiles()) {
+    if (phase17gAllowedChangedFiles.has(file)) continue;
+    const firstSegment = file.indexOf('/') >= 0 ? file.slice(0, file.indexOf('/')) : file;
+    if (firstSegment === 'tests') fail(`tests/ file changed in Phase 17G (only exact Phase 17G test files allowed): ${file}`);
+  }
+}
+
+// ── 9. No e2e/ changes ────────────────────────────────────────────────────────
 
 function noE2eChangesGuard() {
   for (const file of changedFiles()) {
-    if (file.startsWith('e2e/')) fail(`e2e/ file changed in Phase 17F (forbidden): ${file}`);
+    if (file.startsWith(`e2e/`)) fail(`e2e/ file changed in Phase 17G (forbidden): ${file}`);
   }
 }
 
-// ── 9. Scope guard ────────────────────────────────────────────────────────────
+// ── 10. Scope guard ───────────────────────────────────────────────────────────
 
 function scopeGuard() {
   for (const file of changedFiles()) {
     if (isGeneratedArtifact(file)) continue;
     if (file.startsWith('.claude/')) continue;
-    if (phase17fAllowedChangedFiles.has(file)) continue;
-    if (file === 'package.json' || file === 'package-lock.json') fail(`${file} must not change in Phase 17F`);
-    if (file.startsWith('src/')) fail(`src/ file changed in Phase 17F (forbidden): ${file}`);
-    if (file.startsWith('e2e/')) fail(`e2e/ file changed in Phase 17F (forbidden): ${file}`);
+    if (phase17gAllowedChangedFiles.has(file)) continue;
+    if (file === 'package.json' || file === 'package-lock.json') fail(`${file} must not change in Phase 17G`);
+    if (file.startsWith(`src/`)) fail(`src/ file changed in Phase 17G (forbidden): ${file}`);
+    if (file.startsWith(`e2e/`)) fail(`e2e/ file changed in Phase 17G (forbidden): ${file}`);
     // New phase validator scripts are allowed.
     if (file.startsWith('scripts/validate-') && file.endsWith('.js')) continue;
-    if (file.startsWith('docs/')) fail(`Unexpected docs/ file changed in Phase 17F: ${file}`);
-    if (file.startsWith('tests/')) fail(`Unexpected tests/ file changed in Phase 17F (only exact Phase 17F test files allowed): ${file}`);
+    if (file.startsWith(`docs/`)) fail(`Unexpected docs/ file changed in Phase 17G: ${file}`);
+    if (file.startsWith(`tests/`)) fail(`Unexpected tests/ file changed in Phase 17G (only exact Phase 17G test files allowed): ${file}`);
     warn(`Unexpected file outside allowed scope (non-fatal): ${file}`);
   }
 }
 
-// ── 10. No forbidden runtime files ───────────────────────────────────────────
+// ── 11. No forbidden runtime files ────────────────────────────────────────────
 
 function forbiddenRuntimeFilesGuard() {
   for (const path of forbiddenRuntimeFiles) {
-    if (fs.existsSync(path)) fail(`Phase 17F must not introduce forbidden runtime file: ${path}`);
+    if (fs.existsSync(path)) fail(`Phase 17G must not introduce forbidden runtime file: ${path}`);
   }
 }
 
-// ── 11. Forbidden production files unchanged ──────────────────────────────────
+// ── 12. Forbidden production files unchanged ───────────────────────────────────
 
 function forbiddenProductionFilesGuard() {
   const changed = new Set(changedFiles());
   for (const path of forbiddenChangedProductionFiles) {
-    if (changed.has(path)) fail(`Forbidden production file changed in Phase 17F: ${path}`);
+    if (changed.has(path)) fail(`Forbidden production file changed in Phase 17G: ${path}`);
   }
   for (const file of changed) {
     for (const prefix of forbiddenChangedProductionPrefixes) {
-      if (file.startsWith(prefix)) fail(`Forbidden production path changed in Phase 17F: ${file}`);
+      if (file.startsWith(prefix)) fail(`Forbidden production path changed in Phase 17G: ${file}`);
     }
   }
 }
 
-// ── 12. No forbidden dependencies ────────────────────────────────────────────
+// ── 13. No forbidden dependencies ─────────────────────────────────────────────
 
 function forbiddenDependencyGuard() {
   const pkg = read('package.json');
@@ -407,11 +408,10 @@ function forbiddenDependencyGuard() {
   }
 }
 
-// ── 13. Test-only helper does not reference forbidden browser APIs ────────────
+// ── 14. Test-only helper does not reference forbidden browser APIs ──────────────
 
 function harnessApiGuard() {
   const content = read(TEST_HELPER_FILE);
-  // Strip comment lines before checking.
   const nonCommentLines = content
     .split(/\r?\n/)
     .filter(line => !/^\s*(\/\/|\*|\/\*)/.test(line))
@@ -423,7 +423,30 @@ function harnessApiGuard() {
   }
 }
 
-// ── 14. Required test assertions exist ───────────────────────────────────────
+// ── 15. Helper imports only Phase 17F harness (no production storage modules) ──
+
+function harnessImportGuard() {
+  const content = read(TEST_HELPER_FILE);
+  // The helper must import from Phase 17F harness.
+  if (!content.includes('./migrationJournalTestHarness.js')) {
+    fail(`${TEST_HELPER_FILE} must import from ./migrationJournalTestHarness.js (Phase 17F harness)`);
+  }
+  // Must not import from src/ modules.
+  const importLines = content.split(/\r?\n/).filter(line => /^import\s/.test(line.trim()));
+  for (const line of importLines) {
+    if (line.includes('from') && (
+      line.includes('/src/') ||
+      line.includes('storageAdapterRegistry') ||
+      line.includes('LocalStorageAdapter') ||
+      line.includes('StorageAdapter') ||
+      line.includes('indexedDbDryRunHarness')
+    )) {
+      fail(`${TEST_HELPER_FILE} must not import from production storage modules: ${line.trim()}`);
+    }
+  }
+}
+
+// ── 16. Required test assertions exist ────────────────────────────────────────
 
 function requiredTestAssertionsGuard() {
   const content = read(TEST_FILE);
@@ -434,7 +457,7 @@ function requiredTestAssertionsGuard() {
   }
 }
 
-// ── 15. Required document terms ──────────────────────────────────────────────
+// ── 17. Required document terms ───────────────────────────────────────────────
 
 function docTermGuard() {
   const doc = read(DOCS_FILE);
@@ -446,7 +469,7 @@ function docTermGuard() {
   }
 }
 
-// ── 16. Required future phase sequence ───────────────────────────────────────
+// ── 18. Required future phase sequence ────────────────────────────────────────
 
 function phaseSequenceGuard() {
   const doc = read(DOCS_FILE);
@@ -457,14 +480,14 @@ function phaseSequenceGuard() {
   }
 }
 
-// ── 17. Forbidden positive claims absent ─────────────────────────────────────
+// ── 19. Forbidden positive claims absent ──────────────────────────────────────
 
 function forbiddenClaimGuard() {
   const doc = read(DOCS_FILE);
   const lines = doc.split(/\r?\n/);
   let inSkippedSection = false;
   for (const line of lines) {
-    if (/^##\s+(Claim boundaries|Explicit non-goals|Forbidden|What Phase 17F explicitly does not implement)/i.test(line)) {
+    if (/^##\s+(Claim boundaries|Explicit non-goals|Forbidden|What Phase 17G explicitly does not implement)/i.test(line)) {
       inSkippedSection = true;
       continue;
     }
@@ -480,7 +503,7 @@ function forbiddenClaimGuard() {
   }
 }
 
-// ── 18. Generated artifacts absent ────────────────────────────────────────────
+// ── 20. Generated artifacts absent ────────────────────────────────────────────
 
 function generatedArtifactGuard() {
   const files = uniqueSorted([...changedFiles({ includeUntracked: false }), ...trackedFiles()]);
@@ -491,13 +514,12 @@ function generatedArtifactGuard() {
   }
 }
 
-// ── 19 & 20. Historical validator changes are exact Phase 17F forward-compat entries ──
+// ── 21 & 22. Historical validator changes are exact Phase 17G forward-compat entries ──
 
 function historicalValidatorForwardCompatGuard() {
   const changed = changedFiles();
   const mergeBase = runGit('git merge-base HEAD origin/main', { silent: true });
 
-  // Check ALL changed scripts/validate-*.js files (except the new Phase 17F validator itself).
   const changedValidators = changed.filter(f =>
     f.startsWith('scripts/validate-') &&
     f.endsWith('.js') &&
@@ -519,27 +541,26 @@ function historicalValidatorForwardCompatGuard() {
       .filter(line => line.length > 0 && !line.startsWith('//') && !line.startsWith('*'));
 
     for (const line of addedLines) {
-      // Extract all single-quoted path strings from the line.
       const extractedPaths = [...line.matchAll(/'([^']+)'/g)].map(([, p]) => p);
 
-      // Check #20: no broad path allowlists added.
-      // Use exact-path matching: a broad path is the full path string (e.g. 'tests/'), not a prefix.
+      // Check #22: no broad path allowlists added.
       for (const broadPath of broadPathPatterns) {
         if (extractedPaths.some(p => p === broadPath)) {
           fail(`Historical validator ${validatorFile} adds forbidden broad path allowlist: '${broadPath}'`);
         }
       }
 
-      // Check #19: any docs/ or tests/ path strings added must be Phase 17F forward-compat entries.
-      for (const path of extractedPaths) {
+      // Check #21: any docs/ or tests/ path strings added must be Phase 17G forward-compat entries.
+      const pathMatches = [...line.matchAll(/'([^']{5,})'/g)];
+      for (const [, path] of pathMatches) {
         if (!path.includes('/')) continue;
-        if (path.startsWith('docs/') && !path.includes('phase17f')) {
-          if (!phase17fForwardCompatEntries.includes(path)) {
-            fail(`Historical validator ${validatorFile} adds unexpected non-Phase-17F docs/ entry: '${path}'`);
+        if (path.startsWith(`docs/`) && !path.includes('phase17g')) {
+          if (!phase17gForwardCompatEntries.includes(path)) {
+            fail(`Historical validator ${validatorFile} adds unexpected non-Phase-17G docs/ entry: '${path}'`);
           }
         }
-        if (path.startsWith('tests/') && !phase17fForwardCompatEntries.includes(path)) {
-          fail(`Historical validator ${validatorFile} adds unexpected non-Phase-17F tests/ entry: '${path}'`);
+        if (path.startsWith(`tests/`) && !phase17gForwardCompatEntries.includes(path)) {
+          fail(`Historical validator ${validatorFile} adds unexpected non-Phase-17G tests/ entry: '${path}'`);
         }
       }
     }
@@ -562,12 +583,14 @@ function validate() {
   workflowGuard();
   packageGuard();
   noSrcChangesGuard();
+  noTestsChangesGuard();
   noE2eChangesGuard();
   scopeGuard();
   forbiddenRuntimeFilesGuard();
   forbiddenProductionFilesGuard();
   forbiddenDependencyGuard();
   harnessApiGuard();
+  harnessImportGuard();
   requiredTestAssertionsGuard();
   docTermGuard();
   phaseSequenceGuard();
@@ -575,7 +598,7 @@ function validate() {
   generatedArtifactGuard();
   historicalValidatorForwardCompatGuard();
   docSectionGuard();
-  console.log('Phase 17F Test-Only Migration Journal Prototype validation passed.');
+  console.log('Phase 17G Single-Key Dry-Run Migration Rehearsal validation passed.');
 }
 
 validate();

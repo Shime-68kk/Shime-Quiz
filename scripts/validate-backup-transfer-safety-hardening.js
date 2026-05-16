@@ -28,6 +28,16 @@ const allowedChanged = new Set([
   // Phase 17E forward-compat entries (Per-Key Migration Manifest Design)
   'docs/phase17e-per-key-migration-manifest-design.md',
   'scripts/validate-phase17e-per-key-migration-manifest-design.js',
+  // Phase 17F forward-compat entries (Test-Only Migration Journal Prototype)
+  'docs/phase17f-test-only-migration-journal-prototype.md',
+  'scripts/validate-phase17f-test-only-migration-journal-prototype.js',
+  'tests/unit/helpers/migrationJournalTestHarness.js',
+  'tests/unit/migrationJournalTestHarness.test.js',
+  // Phase 17G forward-compat entries (Single-Key Dry-Run Migration Rehearsal)
+  'docs/phase17g-single-key-dry-run-migration-rehearsal.md',
+  'scripts/validate-phase17g-single-key-dry-run-migration-rehearsal.js',
+  'tests/unit/helpers/singleKeyDryRunMigrationRehearsal.js',
+  'tests/unit/singleKeyDryRunMigrationRehearsal.test.js',
 
   // Phase 14C compatibility: allow only the approved FSRS persistence
   // backup harness files while preserving older phase guardrails.
