@@ -47,6 +47,9 @@ const phase17aAllowedChangedFiles = new Set([
   // Phase 17D forward-compat entries (Migration Journal / Event Log Architecture)
   'docs/phase17d-migration-journal-event-log-architecture.md',
   'scripts/validate-phase17d-migration-journal-event-log-architecture.js',
+  // Phase 17E forward-compat entries (Per-Key Migration Manifest Design)
+  'docs/phase17e-per-key-migration-manifest-design.md',
+  'scripts/validate-phase17e-per-key-migration-manifest-design.js',
 ]);
 
 // Phase 17B forward-compat: StorageAdapter/LocalStorageAdapter/registry are now
