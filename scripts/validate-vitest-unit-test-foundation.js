@@ -461,6 +461,12 @@ const allowedChangedFiles = new Set([
   'docs/phase16j-mobile-ux-pwa-quick-wins.md',
   'scripts/validate-phase16j-mobile-ux-pwa-quick-wins.js',
   'public/sw.js',
+  // Phase 16K — Storage Quota & Backup-Before-Import Runtime Hardening (forward compatibility)
+  'docs/phase16k-storage-quota-backup-before-import-hardening.md',
+  'scripts/validate-phase16k-storage-quota-backup-before-import-hardening.js',
+  'src/utils/storageQuotaEstimate.js',
+  'src/components/learning/BackupBeforeImportNotice.jsx',
+  'tests/unit/storageQuotaBackupBeforeImport.test.jsx',
   'scripts/validate-public-release-docs.js',
   'scripts/validate-readme-public-facing.js',
   'scripts/validate-release-candidate-freeze-final-decision.js',

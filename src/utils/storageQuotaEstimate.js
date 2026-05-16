@@ -1,4 +1,5 @@
 export const STORAGE_QUOTA_WARNING_THRESHOLD = 0.7;
+export const LARGE_IMPORT_ITEM_THRESHOLD = 50;
 
 function isFinitePositiveNumber(value) {
   return typeof value === 'number' && Number.isFinite(value) && value > 0;
@@ -22,6 +23,16 @@ export function normalizeStorageQuotaEstimate(estimate, threshold = STORAGE_QUOT
     quota,
     ratio,
     percent
+  };
+}
+
+export function getLargeImportItemCountWarning(itemCount) {
+  if (typeof itemCount !== 'number' || !Number.isFinite(itemCount) || itemCount < 0) {
+    return { isLarge: false, itemCount: 0 };
+  }
+  return {
+    isLarge: itemCount >= LARGE_IMPORT_ITEM_THRESHOLD,
+    itemCount
   };
 }
 

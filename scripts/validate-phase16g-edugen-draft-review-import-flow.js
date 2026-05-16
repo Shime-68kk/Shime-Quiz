@@ -159,6 +159,13 @@ const phase16gAllowedChangedFiles = new Set([
   'docs/phase16j-mobile-ux-pwa-quick-wins.md',
   'src/styles/global.css',
   'public/sw.js',
+  // Phase 16K — Storage Quota & Backup-Before-Import Runtime Hardening (forward compatibility)
+  'docs/phase16k-storage-quota-backup-before-import-hardening.md',
+  'scripts/validate-phase16k-storage-quota-backup-before-import-hardening.js',
+  'src/utils/storageQuotaEstimate.js',
+  'src/components/learning/BackupBeforeImportNotice.jsx',
+  'tests/unit/storageQuotaEstimate.test.js',
+  'tests/unit/storageQuotaBackupBeforeImport.test.jsx',
 ]);
 
 // Hard-forbidden scheduler/storage files. Phase 16G must not touch these.

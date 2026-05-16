@@ -292,6 +292,25 @@ const allowedChangedFiles = new Set([
   'src/routes/Library.jsx',
   'src/routes/Settings.jsx',
   '.github/workflows/e2e-smoke.yml',
+  // Phase 16I allowlist entries (Public README / Landing / Screenshots Polish)
+  'docs/phase16i-public-readme-landing-screenshots-demo-refresh.md',
+  'docs/demo-quickstart.md',
+  'docs/screenshot-capture-guide.md',
+  'scripts/validate-phase16i-public-readme-landing-screenshots-demo-refresh.js',
+  'README.md',
+  'docs/deployment-readiness.md',
+  'docs/public-release-notes.md',
+  // Phase 16J — Mobile UX / PWA Quick Wins (forward compatibility)
+  'docs/phase16j-mobile-ux-pwa-quick-wins.md',
+  'scripts/validate-phase16j-mobile-ux-pwa-quick-wins.js',
+  'public/sw.js',
+  // Phase 16K — Storage Quota & Backup-Before-Import Runtime Hardening (forward compatibility)
+  'docs/phase16k-storage-quota-backup-before-import-hardening.md',
+  'scripts/validate-phase16k-storage-quota-backup-before-import-hardening.js',
+  'src/utils/storageQuotaEstimate.js',
+  'src/components/learning/BackupBeforeImportNotice.jsx',
+  'tests/unit/storageQuotaEstimate.test.js',
+  'tests/unit/storageQuotaBackupBeforeImport.test.jsx',
 ]);
 const generatedArtifacts = ['node_modules', 'dist', 'test-results', 'playwright-report', 'coverage', 'FETCH_HEAD'];
 const publicClaimFiles = [
