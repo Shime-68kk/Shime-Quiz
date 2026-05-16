@@ -44,6 +44,9 @@ const phase17aAllowedChangedFiles = new Set([
   'src/storage/indexedDbDryRunHarness.js',
   'tests/unit/indexedDbDryRunHarness.test.js',
   'tests/unit/storageQuotaBackupBeforeImport.test.jsx',
+  // Phase 17D forward-compat entries (Migration Journal / Event Log Architecture)
+  'docs/phase17d-migration-journal-event-log-architecture.md',
+  'scripts/validate-phase17d-migration-journal-event-log-architecture.js',
 ]);
 
 // Phase 17B forward-compat: StorageAdapter/LocalStorageAdapter/registry are now

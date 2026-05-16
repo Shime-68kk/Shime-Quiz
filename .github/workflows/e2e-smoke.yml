@@ -430,6 +430,9 @@ jobs:
       - name: Validate Phase 17C IndexedDB migration dry-run harness
         run: node scripts/validate-phase17c-indexeddb-migration-dry-run-harness.js
 
+      - name: Validate Phase 17D Migration Journal Event Log Architecture
+        run: node scripts/validate-phase17d-migration-journal-event-log-architecture.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

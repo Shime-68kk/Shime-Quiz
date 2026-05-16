@@ -33,6 +33,9 @@ const phase17cAllowedChangedFiles = new Set([
   'tests/unit/storageLargeImportEdugenRiskAudit.test.js',
   // Phase 16K unit test updated for Phase 17C forward-compat
   'tests/unit/storageQuotaBackupBeforeImport.test.jsx',
+  // Phase 17D forward-compat entries (Migration Journal / Event Log Architecture)
+  'docs/phase17d-migration-journal-event-log-architecture.md',
+  'scripts/validate-phase17d-migration-journal-event-log-architecture.js',
 ]);
 
 // Files that absolutely must not change.
