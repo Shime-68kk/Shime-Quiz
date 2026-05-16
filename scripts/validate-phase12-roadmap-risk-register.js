@@ -205,6 +205,9 @@ const allowedChanged = new Set([
   'scripts/validate-phase17c-indexeddb-migration-dry-run-harness.js',
   'src/storage/indexedDbDryRunHarness.js',
   'tests/unit/indexedDbDryRunHarness.test.js',
+  // Phase 17D forward-compat entries (Migration Journal / Event Log Architecture)
+  'docs/phase17d-migration-journal-event-log-architecture.md',
+  'scripts/validate-phase17d-migration-journal-event-log-architecture.js',
   // Phase 14B compatibility: allow only the approved internal/test-only
   // FSRS wrapper prototype files and exact ts-fsrs package metadata.
   'package.json',

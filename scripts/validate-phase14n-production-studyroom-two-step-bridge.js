@@ -392,6 +392,9 @@ const phase14nAllowedChangedFiles = new Set([
   'scripts/validate-phase17c-indexeddb-migration-dry-run-harness.js',
   'src/storage/indexedDbDryRunHarness.js',
   'tests/unit/indexedDbDryRunHarness.test.js',
+  // Phase 17D forward-compat entries (Migration Journal / Event Log Architecture)
+  'docs/phase17d-migration-journal-event-log-architecture.md',
+  'scripts/validate-phase17d-migration-journal-event-log-architecture.js',
 ]);
 
 const generatedArtifacts = [
