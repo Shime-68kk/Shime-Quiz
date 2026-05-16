@@ -577,6 +577,9 @@ const allowedChanged = new Set([
   // Phase 17D forward-compat entries (Migration Journal / Event Log Architecture)
   'docs/phase17d-migration-journal-event-log-architecture.md',
   'scripts/validate-phase17d-migration-journal-event-log-architecture.js',
+  // Phase 17E forward-compat entries (Per-Key Migration Manifest Design)
+  'docs/phase17e-per-key-migration-manifest-design.md',
+  'scripts/validate-phase17e-per-key-migration-manifest-design.js',
 ]);
 for (const file of changedFiles()) {
   if (!allowedChanged.has(file)) failures.push(`Unexpected changed file for Phase 10M: ${file}`);
