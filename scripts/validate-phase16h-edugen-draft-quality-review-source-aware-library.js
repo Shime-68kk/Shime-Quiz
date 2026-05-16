@@ -53,6 +53,7 @@ const PHASE15H_VALIDATOR = 'scripts/validate-phase15h-fsrs-foundation-closure-ph
 // minimal additive change to the existing adapter/schema for
 // sourceMetadata round-trip, panel/settings/library polish, plus doc,
 // test, validator, and CI registration.
+// Phase 16I additions (docs/copy polish only — no runtime change):
 const phase16hAllowedChangedFiles = new Set([
   WORKFLOW_FILE,
   DOCS_FILE,
@@ -63,7 +64,14 @@ const phase16hAllowedChangedFiles = new Set([
   SETTINGS_ROUTE,
   LIBRARY_ROUTE,
   ADAPTER_FILE,
-  IMPORT_VALIDATOR
+  IMPORT_VALIDATOR,
+  // Phase 16I — public README / landing / screenshots / demo quickstart (docs only)
+  'README.md',
+  'docs/phase16i-public-readme-landing-screenshots-demo-refresh.md',
+  'docs/demo-quickstart.md',
+  'docs/screenshot-capture-guide.md',
+  'docs/public-release-notes.md',
+  'docs/deployment-readiness.md'
 ]);
 
 // Hard-forbidden scheduler/storage files. Phase 16H must not touch these.

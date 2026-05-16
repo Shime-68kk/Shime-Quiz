@@ -185,7 +185,7 @@ const publicDocs = [
 ];
 
 function guarded(context) {
-  return /no |not |does not|do not|must not|unless|without|unsupported|forbidden|avoid|separate|separately|requires|manual|only|caveat|future|later|not bundled|not included|not claim|has not been|should not|cannot|before|placeholder|after.*passes|actual .*run|TBD|dry-run|dry run/i.test(context);
+  return /no |not |does not|do not|must not|unless|without|unsupported|forbidden|avoid|separate|separately|requires|manual|only|caveat|future|later|not bundled|not included|not claim|has not been|should not|cannot|before|placeholder|after.*passes|actual .*run|TBD|dry-run|dry run|không/i.test(context);
 }
 
 const misleadingClaims = [

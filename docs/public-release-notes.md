@@ -294,3 +294,16 @@ Phase 12J records the Phase 12 closure decision. Phase 12 is closed through Phas
 
 No release package, release tag, or GitHub Release is created by Phase 12J. No runtime behavior changes are introduced by Phase 12J. Final release execution, if desired, remains a separate explicit user-approved process.
 
+## Phase 16I — Public README / Landing / Screenshots Polish + Demo Quickstart Refresh
+
+Phase 16I is market-readiness / public-facing copy / docs polish only.
+
+Changes include:
+- README rewritten with Vietnamese-first user sections (Shime là gì, Dành cho ai, Thử trong 5 phút, Tính năng chính, Xưởng bản nháp EduGen là gì, Quyền riêng tư và local-first, Trạng thái ghi nhớ thích ứng/FSRS, Cách chạy local, Cách chụp ảnh demo, Giới hạn hiện tại).
+- New [`docs/demo-quickstart.md`](demo-quickstart.md): Vietnamese-first demo quickstart guide.
+- New [`docs/screenshot-capture-guide.md`](screenshot-capture-guide.md): screenshot/demo asset capture instructions.
+
+Phase 16I does not implement new runtime features, does not change EduGen runtime, does not change scheduler/FSRS behavior, does not change storage/schema, and does not change package/dependencies. No binary screenshot/video assets were added. No release tag, GitHub Release, or release package was created.
+
+Claim guardrails after Phase 16I: built-in AI generation, built-in OCR, EduGen bundled, cloud sync available, sync implemented, E2EE implemented, active FSRS public rollout, generated questions guaranteed correct, production/security certification, and frontend-only PDF/DOCX processing without EduGen are not claimed by Shime.
+

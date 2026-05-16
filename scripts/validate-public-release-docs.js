@@ -59,7 +59,7 @@ const publicDocs = [
   ['RELEASE_QA_V2.md', releaseQa],
 ];
 
-const unsupportedPattern = /\b(no|not|does not|do not|without|unsupported|doesn\u2019t|doesn't|non-goals?|limitations?|forbidden|avoid|cannot|is not|are not)\b/i;
+const unsupportedPattern = /\b(no|not|does not|do not|without|unsupported|doesn\u2019t|doesn't|non-goals?|limitations?|forbidden|avoid|cannot|is not|are not)\b|kh\u00f4ng/i;
 const misleadingClaims = [
   /built-in AI generation/i,
   /OCR support/i,

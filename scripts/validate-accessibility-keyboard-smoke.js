@@ -209,7 +209,9 @@ const publicDocs = [
 ];
 
 function guarded(context) {
-  return /no |not |does not|do not|must not|unless|without|unsupported|forbidden|avoid|separate|separately|requires|manual|only|caveat|future|later|not bundled|not included|not claim|has not been|should not|cannot|before|placeholder|after.*passes|actual .*run|if claiming|evidence|configured|tested|unavailable|boundary|claim|imply|safe claims|do not say|stop condition|local-first|where applicable|checked|advisory|not guaranteed|not a full|does not certify/i.test(context);
+  // Phase 16I: added "không" (Vietnamese negation word) so Vietnamese-first copy
+  // using "không có X" (no X / not have X) is correctly recognized as a negation guard.
+  return /no |not |does not|do not|must not|unless|without|unsupported|forbidden|avoid|separate|separately|requires|manual|only|caveat|future|later|not bundled|not included|not claim|has not been|should not|cannot|before|placeholder|after.*passes|actual .*run|if claiming|evidence|configured|tested|unavailable|boundary|claim|imply|safe claims|do not say|stop condition|local-first|where applicable|checked|advisory|not guaranteed|not a full|does not certify|không/i.test(context);
 }
 
 const misleadingClaims = [

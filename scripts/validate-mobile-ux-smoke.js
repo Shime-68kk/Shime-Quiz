@@ -35,7 +35,7 @@ function contextAround(text, match, span = 260) {
   return text.slice(Math.max(0, index - span), Math.min(text.length, index + span));
 }
 function guarded(context) {
-  return /no |not |does not|do not|must not|without|unless|unsupported|forbidden|avoid|separate|separately|requires|manual|only|caveat|future|later|not bundled|not included|not claim|has not been|should not|cannot|before|placeholder|actual|evidence|configured|tested|unavailable|boundary|claim|imply|safe claims|unsafe claims|pending|reviewed|checklist|this phase does not|not a full|no screenshot|not completed|local-first|non-blocking|warning|audit|follow-up|future optimization|measured|if measured|unless measured|unless actual|environment|docs only|documented/i.test(context);
+  return /no |not |does not|do not|must not|without|unless|unsupported|forbidden|avoid|separate|separately|requires|manual|only|caveat|future|later|not bundled|not included|not claim|has not been|should not|cannot|before|placeholder|actual|evidence|configured|tested|unavailable|boundary|claim|imply|safe claims|unsafe claims|pending|reviewed|checklist|this phase does not|not a full|no screenshot|not completed|local-first|không|non-blocking|warning|audit|follow-up|future optimization|measured|if measured|unless measured|unless actual|environment|docs only|documented/i.test(context);
 }
 function markdownLinks(markdown) {
   const refs = [];

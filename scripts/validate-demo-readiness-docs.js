@@ -51,7 +51,7 @@ assertMatches(demo, /EduGen is not bundled|separate(?:ly)? configured EduGen|sep
 assertMatches(demo, /what not to say|do not say|forbidden claims/i, 'demo script must include what-not-to-say or forbidden-claims guidance');
 assertMatches(screenshots, /unsupported AI, OCR, API-key, backend, cloud|unsupported AI\/OCR\/API\/cloud|Do not publish screenshots/i, 'screenshot checklist must warn against implying unsupported AI/OCR/API/cloud features');
 
-const guardedContext = /(unsupported|not supported|do not claim|do not say|do not describe|do not publish|avoid|without implying|without requiring|does not|does not include|do not use|no\s+|not a|without claiming|absence of|not production|not security|is not bundled|not bundled|must not imply|does shime include)/i;
+const guardedContext = /(unsupported|not supported|do not claim|do not say|do not describe|do not publish|avoid|without implying|without requiring|does not|does not include|do not use|no\s+|not a|without claiming|absence of|not production|not security|is not bundled|not bundled|must not imply|does shime include|not claimed|are not claimed)|không/i;
 const misleadingClaims = [
   { label: 'built-in AI generation', pattern: /built-in AI (?:quiz )?generation/i },
   { label: 'external AI/API integration', pattern: /external AI\/API integration|calls external AI APIs|external AI API calls/i },
