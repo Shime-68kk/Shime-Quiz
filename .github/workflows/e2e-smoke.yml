@@ -406,6 +406,9 @@ jobs:
       - name: Validate Phase 16G EduGen draft review import flow
         run: node scripts/validate-phase16g-edugen-draft-review-import-flow.js
 
+      - name: Validate Phase 16H EduGen draft quality review source-aware library
+        run: node scripts/validate-phase16h-edugen-draft-quality-review-source-aware-library.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

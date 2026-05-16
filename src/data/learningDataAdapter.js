@@ -84,6 +84,32 @@ function normalizeTopic(topic, subjectIds) {
   };
 }
 
+// Phase 16H — preserve optional source-aware metadata additively. Items
+// without sourceMetadata continue to round-trip unchanged. Malformed
+// metadata is dropped so existing imports/backups are never broken.
+const EDUGEN_DRAFT_SOURCE_TYPE = 'edugen-draft';
+const EDUGEN_DRAFT_PROCESSOR = 'edugen';
+
+function normalizeSourceMetadata(rawMeta) {
+  if (!rawMeta || typeof rawMeta !== 'object' || Array.isArray(rawMeta)) return undefined;
+  const sourceType = cleanString(rawMeta.sourceType);
+  if (sourceType !== EDUGEN_DRAFT_SOURCE_TYPE) return undefined;
+  const processor = cleanString(rawMeta.processor);
+  if (processor && processor !== EDUGEN_DRAFT_PROCESSOR) return undefined;
+  const sourceName = typeof rawMeta.sourceName === 'string' ? rawMeta.sourceName.trim() : '';
+  if (sourceName.length > 240) return undefined;
+  const importedAt = typeof rawMeta.importedAt === 'string' ? rawMeta.importedAt.trim() : '';
+  if (importedAt.length > 64) return undefined;
+  if (rawMeta.reviewRequired !== true) return undefined;
+  return {
+    sourceType: EDUGEN_DRAFT_SOURCE_TYPE,
+    sourceName,
+    importedAt,
+    processor: EDUGEN_DRAFT_PROCESSOR,
+    reviewRequired: true
+  };
+}
+
 function normalizeItem(item, subjectIds, topicIds) {
   if (!item || typeof item !== 'object') return null;
 
@@ -104,7 +130,9 @@ function normalizeItem(item, subjectIds, topicIds) {
   if (type === ITEM_TYPES.MULTIPLE_CHOICE && (!choices.length || !correctAnswer)) return null;
   if ((type === ITEM_TYPES.SHORT_ANSWER || type === ITEM_TYPES.FLASHCARD) && !correctAnswer) return null;
 
-  return {
+  const sourceMetadata = normalizeSourceMetadata(item.sourceMetadata);
+
+  const normalized = {
     id,
     type,
     subjectId,
@@ -119,6 +147,12 @@ function normalizeItem(item, subjectIds, topicIds) {
     difficulty: toOptionalString(item.difficulty),
     source: toOptionalString(item.source)
   };
+
+  if (sourceMetadata) {
+    normalized.sourceMetadata = sourceMetadata;
+  }
+
+  return normalized;
 }
 
 export function normalizeLearningData(rawData = mockLearningData) {

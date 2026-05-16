@@ -17,6 +17,7 @@ import { isSupportedTextQuizFileName, parseTextQuizDraft } from '../data/textQui
 import { extractSingleFile, getFileProcessorBaseUrl, isSupportedEduGenDocumentFileName } from '../services/fileProcessorClient.js';
 import { createLibraryBackupFileName, createLibraryExportPayload, downloadJsonFile } from '../data/libraryExport.js';
 import { resetLearningDataToMock, setLearningData, useLearningDataAdapter, useLearningDataSource, useLearningDataSummary } from '../data/learningDataStore.js';
+import { isSafeEdugenSourceMetadata } from '../edugen/edugenDraftImport.js';
 import { selectWeightedPracticeItems } from '../learning/weightedPracticeSelector.js';
 import { readReviewSchedule } from '../state/reviewScheduleStorage.js';
 import { readStudyHistory } from '../state/studyHistoryStorage.js';
@@ -34,6 +35,17 @@ function getItemTypeCounts(items) {
   }, {});
 }
 
+function countEdugenDraftItems(items) {
+  if (!Array.isArray(items)) return 0;
+  let count = 0;
+  for (const item of items) {
+    if (item && isSafeEdugenSourceMetadata(item.sourceMetadata)) {
+      count += 1;
+    }
+  }
+  return count;
+}
+
 function buildSubjectCards(adapter) {
   return adapter.getSubjects().map(subject => {
     const topics = adapter.getTopicsBySubject(subject.id);
@@ -43,7 +55,8 @@ function buildSubjectCards(adapter) {
       subject,
       topics,
       items,
-      itemTypeCounts: getItemTypeCounts(items)
+      itemTypeCounts: getItemTypeCounts(items),
+      edugenDraftCount: countEdugenDraftItems(items)
     };
   });
 }
@@ -1048,7 +1061,7 @@ B. TCP/IP
       ) : null}
 
       <div className="librarySubjectGrid" aria-label="Danh sách môn học">
-        {subjectCards.map(({ subject, topics, items, itemTypeCounts }) => (
+        {subjectCards.map(({ subject, topics, items, itemTypeCounts, edugenDraftCount }) => (
           <Card key={subject.id} title={subject.title} eyebrow="Môn học" variant="elevated" interactive>
             <div className="libraryCardBody">
               <p className="muted">{subject.description}</p>
@@ -1062,6 +1075,12 @@ B. TCP/IP
                     {itemTypeLabels[type] || type}: {count}
                   </Badge>
                 ))}
+                {edugenDraftCount > 0 ? (
+                  <>
+                    <Badge tone="warning">Bản nháp cần xem lại: {edugenDraftCount}</Badge>
+                    <Badge tone="neutral">Nguồn: EduGen</Badge>
+                  </>
+                ) : null}
               </div>
               <div className="topicList" aria-label={`Chủ đề trong ${subject.title}`}>
                 {topics.map(topic => {
