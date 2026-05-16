@@ -504,6 +504,14 @@ const allowedChanged = new Set([
   'scripts/validate-phase16g-edugen-draft-review-import-flow.js',
   'src/edugen/edugenDraftParser.js',
   'src/components/edugen/EduGenDraftReviewPanel.jsx',
+  // Phase 16H allowlist entries (EduGen Draft Quality Review / Source-Aware Library)
+  'docs/phase16h-edugen-draft-quality-review-source-aware-library.md',
+  'tests/unit/edugenDraftQualityReviewSourceLibrary.test.jsx',
+  'scripts/validate-phase16h-edugen-draft-quality-review-source-aware-library.js',
+  'src/edugen/edugenDraftImport.js',
+  'src/data/learningDataAdapter.js',
+  'src/data/importValidator.js',
+  'src/routes/Library.jsx',
   'src/routes/Settings.jsx',
   '.github/workflows/e2e-smoke.yml',
 ]);

@@ -314,6 +314,15 @@ const allowedChanged = new Set([
   'src/components/edugen/EduGenDraftReviewPanel.jsx',
   'src/routes/Settings.jsx',
   '.github/workflows/e2e-smoke.yml',
+
+  // Phase 16H exact files (forward compatibility)
+  'docs/phase16h-edugen-draft-quality-review-source-aware-library.md',
+  'tests/unit/edugenDraftQualityReviewSourceLibrary.test.jsx',
+  'scripts/validate-phase16h-edugen-draft-quality-review-source-aware-library.js',
+  'src/edugen/edugenDraftImport.js',
+  'src/data/learningDataAdapter.js',
+  'src/data/importValidator.js',
+  'src/routes/Library.jsx',
 ]);
 
 function fail(message) { failures.push(message); }

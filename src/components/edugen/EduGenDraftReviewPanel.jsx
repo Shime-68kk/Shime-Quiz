@@ -105,9 +105,10 @@ export default function EduGenDraftReviewPanel({
 
   function handleConfirm() {
     if (!result || !result.ok) return;
+    let importOutcome = null;
     if (typeof onConfirmImport === 'function') {
       try {
-        onConfirmImport({
+        importOutcome = onConfirmImport({
           items: result.items,
           summary: result.summary
         });
@@ -116,10 +117,18 @@ export default function EduGenDraftReviewPanel({
         return;
       }
     }
+    const outcome = importOutcome && typeof importOutcome === 'object' ? importOutcome : null;
     setSavedSummary({
-      count: result.items.length,
+      count: outcome && Number.isFinite(outcome.addedCount)
+        ? outcome.addedCount
+        : result.items.length,
+      duplicateCount: outcome && Number.isFinite(outcome.duplicateCount)
+        ? outcome.duplicateCount
+        : 0,
+      persisted: outcome ? Boolean(outcome.persisted) : false,
       sourceName: result.summary.sourceName || sourceName.trim(),
-      importedAt: result.summary.importedAt
+      importedAt: result.summary.importedAt,
+      message: outcome && typeof outcome.message === 'string' ? outcome.message : ''
     });
     setStatus(STATUS_SAVED);
   }
@@ -146,10 +155,22 @@ export default function EduGenDraftReviewPanel({
 
   function renderErrorOrSummary() {
     if (isSaved && savedSummary) {
+      if (savedSummary.persisted) {
+        const dupeNote = savedSummary.duplicateCount > 0
+          ? ` Đã bỏ qua ${savedSummary.duplicateCount} thẻ trùng câu hỏi/đáp án để tránh ghi đè tiến độ học cũ.`
+          : '';
+        return (
+          <p className="settingsPanel__helper" role="status">
+            Xác nhận lưu vào thư viện thành công: đã thêm {savedSummary.count} thẻ vào{' '}
+            <strong>Bản nháp EduGen → Bản nháp cần xem lại</strong>.
+            {dupeNote} Shime không tự kích hoạt xếp lịch ghi nhớ FSRS cho các thẻ mới này.
+          </p>
+        );
+      }
       return (
         <p className="settingsPanel__helper" role="status">
-          Đã ghi nhận {savedSummary.count} bản nháp để xem lại. Shime chưa tự lưu vào học —
-          các thẻ sẽ chỉ vào Thư viện khi luồng nhập của bạn xác nhận lần cuối.
+          {savedSummary.message ||
+            `Đã ghi nhận ${savedSummary.count} bản nháp để xem lại. Shime chưa tự lưu vào học — các thẻ sẽ chỉ vào Thư viện khi luồng nhập của bạn xác nhận lần cuối.`}
         </p>
       );
     }
@@ -321,9 +342,11 @@ export default function EduGenDraftReviewPanel({
 
           <ul className="edugenWorkshopPanel__guardrails">
             <li>Bản nháp cần xem lại trước khi lưu — Shime không tự lưu vào học.</li>
+            <li>Tạo bản sao lưu trước khi nhập nhiều thẻ để có thể quay lại nếu cần.</li>
             <li>Shime không tự gọi AI/OCR và không tự xử lý tài liệu PDF/DOCX trên trình duyệt.</li>
             <li>EduGen chạy riêng và tùy chọn; không có cloud sync, không có tài khoản.</li>
             <li>Shime không tự bật xếp lịch ghi nhớ FSRS khi bạn nhập bản nháp EduGen.</li>
+            <li>Thẻ trùng câu hỏi/đáp án sẽ bị bỏ qua để không ghi đè tiến độ học cũ.</li>
           </ul>
         </div>
       </Card>

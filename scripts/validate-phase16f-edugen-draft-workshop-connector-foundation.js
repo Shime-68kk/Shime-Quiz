@@ -72,6 +72,14 @@ const phase16fAllowedChangedFiles = new Set([
   'scripts/validate-phase16g-edugen-draft-review-import-flow.js',
   'src/edugen/edugenDraftParser.js',
   'src/components/edugen/EduGenDraftReviewPanel.jsx',
+  // Phase 16H exact files (forward compatibility)
+  'docs/phase16h-edugen-draft-quality-review-source-aware-library.md',
+  'tests/unit/edugenDraftQualityReviewSourceLibrary.test.jsx',
+  'scripts/validate-phase16h-edugen-draft-quality-review-source-aware-library.js',
+  'src/edugen/edugenDraftImport.js',
+  'src/data/learningDataAdapter.js',
+  'src/data/importValidator.js',
+  'src/routes/Library.jsx',
 ]);
 
 // Hard-forbidden scheduler/storage/backup files. Phase 16F must not touch

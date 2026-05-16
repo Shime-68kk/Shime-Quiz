@@ -36,6 +36,18 @@ const V2TopicSchema = z.object({
   description: z.string().optional()
 }).passthrough();
 
+// Phase 16H — declare optional `sourceMetadata` block on items so the
+// schema acknowledges (and the passthrough preserves) source-aware
+// attribution for items imported from EduGen drafts. Existing items
+// without sourceMetadata continue to work unchanged.
+const V2ItemSourceMetadataSchema = z.object({
+  sourceType: z.string().optional(),
+  sourceName: z.string().optional(),
+  importedAt: z.string().optional(),
+  processor: z.string().optional(),
+  reviewRequired: z.boolean().optional()
+}).passthrough();
+
 const V2ItemSchema = z.object({
   id: z.string().optional(),
   type: z.string().optional(),
@@ -52,7 +64,8 @@ const V2ItemSchema = z.object({
   explanation: z.string().optional(),
   tags: z.array(z.string()).optional(),
   difficulty: z.string().optional(),
-  source: z.string().optional()
+  source: z.string().optional(),
+  sourceMetadata: V2ItemSourceMetadataSchema.optional()
 }).passthrough();
 
 const V2ImportSchema = z.object({

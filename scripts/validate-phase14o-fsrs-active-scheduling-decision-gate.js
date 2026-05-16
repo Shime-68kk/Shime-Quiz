@@ -254,6 +254,15 @@ const phase14oAllowedChangedFiles = new Set([
   'src/components/edugen/EduGenDraftReviewPanel.jsx',
   'src/routes/Settings.jsx',
   '.github/workflows/e2e-smoke.yml',
+
+  // Phase 16H allowlist entries (EduGen Draft Quality Review / Source-Aware Library)
+  'docs/phase16h-edugen-draft-quality-review-source-aware-library.md',
+  'tests/unit/edugenDraftQualityReviewSourceLibrary.test.jsx',
+  'scripts/validate-phase16h-edugen-draft-quality-review-source-aware-library.js',
+  'src/edugen/edugenDraftImport.js',
+  'src/data/learningDataAdapter.js',
+  'src/data/importValidator.js',
+  'src/routes/Library.jsx',
 ]);
 
 const generatedArtifacts = [
@@ -577,6 +586,14 @@ function noNewSrcFilesGuard() {
     // Phase 16G exact src files (forward compatibility — EduGen Draft Review Import Flow)
     'src/edugen/edugenDraftParser.js',
     'src/components/edugen/EduGenDraftReviewPanel.jsx',
+  // Phase 16H allowlist entries (EduGen Draft Quality Review / Source-Aware Library)
+  'docs/phase16h-edugen-draft-quality-review-source-aware-library.md',
+  'tests/unit/edugenDraftQualityReviewSourceLibrary.test.jsx',
+  'scripts/validate-phase16h-edugen-draft-quality-review-source-aware-library.js',
+  'src/edugen/edugenDraftImport.js',
+  'src/data/learningDataAdapter.js',
+  'src/data/importValidator.js',
+  'src/routes/Library.jsx',
   ]);
   for (const file of changedFiles()) {
     if (!file.startsWith('src/')) continue;

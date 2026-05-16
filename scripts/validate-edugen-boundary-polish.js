@@ -442,6 +442,20 @@ const allowedChanged = new Set([
   'src/components/settings/EduGenDraftWorkshopPanel.jsx',
   'src/routes/Settings.jsx',
   'src/state/settingsStorage.js',
+  // Phase 16G allowlist entries (EduGen Draft Review Import Flow)
+  'docs/phase16g-edugen-draft-review-import-flow.md',
+  'tests/unit/edugenDraftReviewImportFlow.test.jsx',
+  'scripts/validate-phase16g-edugen-draft-review-import-flow.js',
+  'src/edugen/edugenDraftParser.js',
+  'src/components/edugen/EduGenDraftReviewPanel.jsx',
+  // Phase 16H allowlist entries (EduGen Draft Quality Review / Source-Aware Library)
+  'docs/phase16h-edugen-draft-quality-review-source-aware-library.md',
+  'tests/unit/edugenDraftQualityReviewSourceLibrary.test.jsx',
+  'scripts/validate-phase16h-edugen-draft-quality-review-source-aware-library.js',
+  'src/edugen/edugenDraftImport.js',
+  'src/data/learningDataAdapter.js',
+  'src/data/importValidator.js',
+  'src/routes/Library.jsx',
 
 ]);
 for (const file of currentDiff) {
