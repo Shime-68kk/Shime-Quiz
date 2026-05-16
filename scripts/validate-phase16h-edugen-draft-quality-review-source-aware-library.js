@@ -83,6 +83,9 @@ const phase16hAllowedChangedFiles = new Set([
   'src/components/learning/BackupBeforeImportNotice.jsx',
   'tests/unit/storageQuotaEstimate.test.js',
   'tests/unit/storageQuotaBackupBeforeImport.test.jsx',
+  // Phase 16L — Local-First Hybrid / StorageAdapter Plan (forward compatibility)
+  'docs/phase16l-local-first-hybrid-storage-adapter-plan.md',
+  'scripts/validate-phase16l-local-first-hybrid-storage-adapter-plan.js',
 ]);
 
 // Hard-forbidden scheduler/storage files. Phase 16H must not touch these.

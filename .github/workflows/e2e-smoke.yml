@@ -418,6 +418,9 @@ jobs:
       - name: Validate Phase 16K storage quota backup before import hardening
         run: node scripts/validate-phase16k-storage-quota-backup-before-import-hardening.js
 
+      - name: Validate Phase 16L local-first hybrid StorageAdapter plan
+        run: node scripts/validate-phase16l-local-first-hybrid-storage-adapter-plan.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
