@@ -27,6 +27,11 @@ const phase17dAllowedChangedFiles = new Set([
   // Phase 17E forward-compat entries (Per-Key Migration Manifest Design)
   'docs/phase17e-per-key-migration-manifest-design.md',
   'scripts/validate-phase17e-per-key-migration-manifest-design.js',
+  // Phase 17F forward-compat entries (Test-Only Migration Journal Prototype)
+  'docs/phase17f-test-only-migration-journal-prototype.md',
+  'scripts/validate-phase17f-test-only-migration-journal-prototype.js',
+  'tests/unit/helpers/migrationJournalTestHarness.js',
+  'tests/unit/migrationJournalTestHarness.test.js',
 ]);
 
 // Forbidden runtime files that must not exist in Phase 17D.
@@ -168,6 +173,9 @@ const phase17dForwardCompatEntries = [
   // Phase 17E forward-compat entries (Per-Key Migration Manifest Design)
   'docs/phase17e-per-key-migration-manifest-design.md',
   'scripts/validate-phase17e-per-key-migration-manifest-design.js',
+  // Phase 17F forward-compat entries (Test-Only Migration Journal Prototype)
+  'docs/phase17f-test-only-migration-journal-prototype.md',
+  'scripts/validate-phase17f-test-only-migration-journal-prototype.js',
 ];
 
 function fail(message) {
@@ -288,7 +296,9 @@ function noSrcChangesGuard() {
 
 function noTestsChangesGuard() {
   for (const file of changedFiles()) {
-    if (file.startsWith('tests/')) fail(`tests/ file changed in Phase 17D (forbidden): ${file}`);
+    if (phase17dAllowedChangedFiles.has(file)) continue;
+    const firstSegment = file.indexOf('/') >= 0 ? file.slice(0, file.indexOf('/')) : file;
+    if (firstSegment === 'tests') fail(`tests/ file changed in Phase 17D (forbidden): ${file}`);
   }
 }
 
@@ -422,9 +432,14 @@ function historicalValidatorForwardCompatGuard() {
       .filter(line => line.length > 0 && !line.startsWith('//') && !line.startsWith('*'));
 
     for (const line of addedLines) {
-      // Check #17: no broad path allowlists added
+      // Extract all single-quoted path strings from the line.
+      const extractedPaths = [...line.matchAll(/'([^']+)'/g)].map(([, p]) => p);
+
+      // Check #17: no broad path allowlists added.
+      // Uses exact-path matching: only flag if the extracted path IS the broad path (not a longer path prefixed by it).
       for (const broadPattern of broadPathPatterns) {
-        if (line.includes(broadPattern)) {
+        const broadPath = broadPattern.slice(1, -1); // strip surrounding quotes
+        if (extractedPaths.some(p => p === broadPath)) {
           fail(`Historical validator ${validatorFile} adds forbidden broad path allowlist: ${broadPattern}`);
         }
       }
