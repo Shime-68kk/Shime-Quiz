@@ -425,6 +425,12 @@ const historicalValidatorCompatibilityFiles = new Set([
   // Phase 17E forward-compat entries (Per-Key Migration Manifest Design)
   'docs/phase17e-per-key-migration-manifest-design.md',
   'scripts/validate-phase17e-per-key-migration-manifest-design.js',
+  'scripts/validate-phase17f-test-only-migration-journal-prototype.js',
+  // Phase 17G forward-compat entries (Single-Key Dry-Run Migration Rehearsal)
+  'docs/phase17g-single-key-dry-run-migration-rehearsal.md',
+  'scripts/validate-phase17g-single-key-dry-run-migration-rehearsal.js',
+  'tests/unit/helpers/singleKeyDryRunMigrationRehearsal.js',
+  'tests/unit/singleKeyDryRunMigrationRehearsal.test.js',
   'tests/unit/storageQuotaBackupBeforeImport.test.jsx',
 ]);
 

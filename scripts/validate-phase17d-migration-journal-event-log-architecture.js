@@ -32,6 +32,11 @@ const phase17dAllowedChangedFiles = new Set([
   'scripts/validate-phase17f-test-only-migration-journal-prototype.js',
   'tests/unit/helpers/migrationJournalTestHarness.js',
   'tests/unit/migrationJournalTestHarness.test.js',
+  // Phase 17G forward-compat entries (Single-Key Dry-Run Migration Rehearsal)
+  'docs/phase17g-single-key-dry-run-migration-rehearsal.md',
+  'scripts/validate-phase17g-single-key-dry-run-migration-rehearsal.js',
+  'tests/unit/helpers/singleKeyDryRunMigrationRehearsal.js',
+  'tests/unit/singleKeyDryRunMigrationRehearsal.test.js',
 ]);
 
 // Forbidden runtime files that must not exist in Phase 17D.
@@ -176,6 +181,9 @@ const phase17dForwardCompatEntries = [
   // Phase 17F forward-compat entries (Test-Only Migration Journal Prototype)
   'docs/phase17f-test-only-migration-journal-prototype.md',
   'scripts/validate-phase17f-test-only-migration-journal-prototype.js',
+  // Phase 17G forward-compat entries (Single-Key Dry-Run Migration Rehearsal)
+  'docs/phase17g-single-key-dry-run-migration-rehearsal.md',
+  'scripts/validate-phase17g-single-key-dry-run-migration-rehearsal.js',
 ];
 
 function fail(message) {

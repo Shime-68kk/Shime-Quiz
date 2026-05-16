@@ -55,6 +55,11 @@ const phase17aAllowedChangedFiles = new Set([
   'scripts/validate-phase17f-test-only-migration-journal-prototype.js',
   'tests/unit/helpers/migrationJournalTestHarness.js',
   'tests/unit/migrationJournalTestHarness.test.js',
+  // Phase 17G forward-compat entries (Single-Key Dry-Run Migration Rehearsal)
+  'docs/phase17g-single-key-dry-run-migration-rehearsal.md',
+  'scripts/validate-phase17g-single-key-dry-run-migration-rehearsal.js',
+  'tests/unit/helpers/singleKeyDryRunMigrationRehearsal.js',
+  'tests/unit/singleKeyDryRunMigrationRehearsal.test.js',
 ]);
 
 // Phase 17B forward-compat: StorageAdapter/LocalStorageAdapter/registry are now
