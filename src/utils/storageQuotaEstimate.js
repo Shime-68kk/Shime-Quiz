@@ -59,3 +59,27 @@ export async function getStorageQuotaWarningState() {
     return { available: false, shouldWarn: false };
   }
 }
+
+export async function checkStorageHeadroomForBytes(neededBytes) {
+  if (typeof neededBytes !== 'number' || !Number.isFinite(neededBytes) || neededBytes < 0) {
+    return { ok: true, estimated: false, reason: 'invalid_input' };
+  }
+  if (typeof navigator === 'undefined' || typeof navigator.storage?.estimate !== 'function') {
+    return { ok: true, estimated: false, reason: 'api_unavailable' };
+  }
+  try {
+    const estimate = await navigator.storage.estimate();
+    const usage = estimate?.usage;
+    const quota = estimate?.quota;
+    if (!isFinitePositiveNumber(usage) || !isFinitePositiveNumber(quota)) {
+      return { ok: true, estimated: false, reason: 'invalid_estimate' };
+    }
+    const available = quota - usage;
+    if (available < neededBytes) {
+      return { ok: false, estimated: true, available, neededBytes, reason: 'insufficient_space' };
+    }
+    return { ok: true, estimated: true, available, neededBytes };
+  } catch {
+    return { ok: true, estimated: false, reason: 'estimate_failed' };
+  }
+}

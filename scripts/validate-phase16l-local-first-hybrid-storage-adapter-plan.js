@@ -43,7 +43,13 @@ const phase16lAllowedChangedFiles = new Set([
   VALIDATOR_SCRIPT,
   'README.md',
   'docs/public-release-notes.md',
-  'docs/deployment-readiness.md'
+  'docs/deployment-readiness.md',
+  // Phase 17A forward-compat entries (backup/rollback harness)
+  'docs/phase17a-backup-rollback-harness-before-migration.md',
+  'scripts/validate-phase17a-backup-rollback-harness-before-migration.js',
+  'src/state/v2BackupRestore.js',
+  'src/utils/storageQuotaEstimate.js',
+  'tests/unit/phase17aBackupRollbackHarness.test.js',
 ]);
 
 const forbiddenRuntimePaths = [

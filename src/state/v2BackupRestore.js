@@ -93,6 +93,18 @@ export function estimateV2BackupPayloadSize(payload) {
   };
 }
 
+export function estimateV2BackupReadiness(payload) {
+  if (!payload || typeof payload !== 'object') {
+    return { ok: false, error: 'invalid_payload', estimatedBytes: 0, sections: {} };
+  }
+  const sizes = estimateV2BackupPayloadSize(payload);
+  return {
+    ok: true,
+    estimatedBytes: sizes.totalBytes,
+    sections: sizes.sections
+  };
+}
+
 const SECTION_CONFIG = {
   studyHistory: {
     key: STUDY_HISTORY_STORAGE_KEY,
@@ -577,6 +589,22 @@ function rollbackRestoreWrites(storage, snapshot) {
   return rollbackErrors;
 }
 
+function verifyRestoredWrite(storage, write) {
+  try {
+    const readBack = storage.getItem(write.key);
+    if (readBack !== write.value) {
+      return { ok: false, key: write.key, reason: 'mismatch' };
+    }
+    return { ok: true, key: write.key };
+  } catch {
+    return { ok: false, key: write.key, reason: 'read_failed' };
+  }
+}
+
+export function captureRestoreSnapshot(storage, writes) {
+  return snapshotRestoreKeys(storage, writes);
+}
+
 function emitRestoreEvents(writes) {
   writes.forEach(write => {
     if (write.eventName) emitEvent(write.eventName, { reason: 'v2_backup_restored' });
@@ -602,11 +630,14 @@ export function restoreV2BackupPayload(payload) {
 
   const snapshot = snapshotRestoreKeys(storage, writes);
   const writtenSections = [];
+  const verificationMismatches = [];
 
   try {
     writes.forEach(write => {
       storage.setItem(write.key, write.value);
       writtenSections.push(write.section);
+      const verify = verifyRestoredWrite(storage, write);
+      if (!verify.ok) verificationMismatches.push(verify);
     });
   } catch (error) {
     const rollbackErrors = rollbackRestoreWrites(storage, snapshot);
@@ -647,7 +678,7 @@ export function restoreV2BackupPayload(payload) {
     try { importSettings(validation.settings); } catch { /* non-fatal */ }
   }
 
-  return { ok: true, validation, writtenSections };
+  return { ok: true, validation, writtenSections, verificationMismatches };
 }
 
 export function parseV2BackupJson(text) {
