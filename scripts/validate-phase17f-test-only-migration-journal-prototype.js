@@ -72,6 +72,9 @@ const phase17fAllowedChangedFiles = new Set([
   // Phase 19B forward-compat entries (Optional Sync Architecture Decision Gate)
   `docs/adr/phase19b-optional-sync-direction.md`,
   `scripts/validate-phase19b-optional-sync-architecture-decision.js`,
+  // Phase 19C forward-compat entries (Optional Sync Conflict Model Design Gate)
+  `docs/adr/phase19c-optional-sync-conflict-model.md`,
+  `scripts/validate-phase19c-optional-sync-conflict-model.js`,
 ]);
 
 // Forbidden runtime files that must not exist in Phase 17F.
@@ -279,6 +282,9 @@ const phase17fForwardCompatEntries = [
   // Phase 19B forward-compat entries (Optional Sync Architecture Decision Gate)
   `docs/adr/phase19b-optional-sync-direction.md`,
   `scripts/validate-phase19b-optional-sync-architecture-decision.js`,
+  // Phase 19C forward-compat entries (Optional Sync Conflict Model Design Gate)
+  `docs/adr/phase19c-optional-sync-conflict-model.md`,
+  `scripts/validate-phase19c-optional-sync-conflict-model.js`,
 ];
 
 // Required test assertion patterns in the test file (for key safety scenarios).

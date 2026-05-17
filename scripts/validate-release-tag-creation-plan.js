@@ -619,6 +619,15 @@ const allowedChanged = new Set([
   `scripts/validate-phase18e-limited-local-backend-pilot-rollback-gates.js`,
   `tests/unit/helpers/limitedLocalBackendPilot.js`,
   `tests/unit/limitedLocalBackendPilot.test.js`,
+  // Phase 19A forward-compat entries (FSRS Public Opt-In Sequencing Gate)
+  `docs/phase19a-fsrs-public-opt-in-sequencing-gate.md`,
+  `scripts/validate-phase19a-fsrs-public-opt-in-sequencing-gate.js`,
+  // Phase 19B forward-compat entries (Optional Sync Architecture Decision Gate)
+  `docs/adr/phase19b-optional-sync-direction.md`,
+  `scripts/validate-phase19b-optional-sync-architecture-decision.js`,
+  // Phase 19C forward-compat entries (Optional Sync Conflict Model Design Gate)
+  `docs/adr/phase19c-optional-sync-conflict-model.md`,
+  `scripts/validate-phase19c-optional-sync-conflict-model.js`,
 ]);
 for (const file of changedFiles()) {
   if (!allowedChanged.has(file)) failures.push(`Unexpected changed file for Phase 10M: ${file}`);
