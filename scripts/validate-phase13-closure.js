@@ -461,6 +461,9 @@ const historicalValidatorCompatibilityFiles = new Set([
   `tests/unit/helpers/limitedLocalBackendPilot.js`,
   `tests/unit/limitedLocalBackendPilot.test.js`,
   'tests/unit/storageQuotaBackupBeforeImport.test.jsx',
+  // Phase 19A forward-compat entries (FSRS Public Opt-In Sequencing Gate)
+  `docs/phase19a-fsrs-public-opt-in-sequencing-gate.md`,
+  `scripts/validate-phase19a-fsrs-public-opt-in-sequencing-gate.js`,
 ]);
 
 const forbiddenChangedFiles = new Set([

@@ -68,6 +68,9 @@ const allowedChanged = new Set([
   `scripts/validate-phase18e-limited-local-backend-pilot-rollback-gates.js`,
   `tests/unit/helpers/limitedLocalBackendPilot.js`,
   `tests/unit/limitedLocalBackendPilot.test.js`,
+  // Phase 19A forward-compat entries (FSRS Public Opt-In Sequencing Gate)
+  `docs/phase19a-fsrs-public-opt-in-sequencing-gate.md`,
+  `scripts/validate-phase19a-fsrs-public-opt-in-sequencing-gate.js`,
   // Phase 14C compatibility: allow only the approved FSRS persistence
   // backup harness files while preserving older phase guardrails.
   'docs/phase14c-fsrs-persistence-backup-harness.md',

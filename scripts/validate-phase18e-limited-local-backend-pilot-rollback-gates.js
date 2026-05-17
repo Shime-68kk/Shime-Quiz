@@ -36,12 +36,18 @@ const previousForwardCompatEntries = [
   `scripts/validate-phase18d-internal-test-only-local-migration-pilot.js`,
   `tests/unit/helpers/internalLocalMigrationPilot.js`,
   `tests/unit/internalLocalMigrationPilot.test.js`,
+  // Phase 19A forward-compat entries (FSRS Public Opt-In Sequencing Gate)
+  `docs/phase19a-fsrs-public-opt-in-sequencing-gate.md`,
+  `scripts/validate-phase19a-fsrs-public-opt-in-sequencing-gate.js`,
 ];
 
 const phase18eAllowedChangedFiles = new Set([
   WORKFLOW_FILE,
   ...phase18eCoreFiles,
   ...prePhase18eBaselineFiles,
+  // Phase 19A forward-compat entries (FSRS Public Opt-In Sequencing Gate)
+  `docs/phase19a-fsrs-public-opt-in-sequencing-gate.md`,
+  `scripts/validate-phase19a-fsrs-public-opt-in-sequencing-gate.js`,
 ]);
 
 const backupRestoreRuntimeFiles = [

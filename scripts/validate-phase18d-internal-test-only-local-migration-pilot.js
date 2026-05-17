@@ -27,6 +27,9 @@ const phase18dAllowedChangedFiles = new Set([
   `scripts/validate-phase18e-limited-local-backend-pilot-rollback-gates.js`,
   `tests/unit/helpers/limitedLocalBackendPilot.js`,
   `tests/unit/limitedLocalBackendPilot.test.js`,
+  // Phase 19A forward-compat entries (FSRS Public Opt-In Sequencing Gate)
+  `docs/phase19a-fsrs-public-opt-in-sequencing-gate.md`,
+  `scripts/validate-phase19a-fsrs-public-opt-in-sequencing-gate.js`,
   // Historical validator forward-compat edits
   `scripts/validate-phase16l-local-first-hybrid-storage-adapter-plan.js`,
   `scripts/validate-phase17a-backup-rollback-harness-before-migration.js`,
@@ -205,6 +208,9 @@ const phase18dForwardCompatEntries = [
   `scripts/validate-phase18e-limited-local-backend-pilot-rollback-gates.js`,
   `tests/unit/helpers/limitedLocalBackendPilot.js`,
   `tests/unit/limitedLocalBackendPilot.test.js`,
+  // Phase 19A forward-compat entries (FSRS Public Opt-In Sequencing Gate)
+  `docs/phase19a-fsrs-public-opt-in-sequencing-gate.md`,
+  `scripts/validate-phase19a-fsrs-public-opt-in-sequencing-gate.js`,
 ];
 
 
