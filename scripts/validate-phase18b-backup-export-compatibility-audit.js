@@ -1,24 +1,24 @@
 #!/usr/bin/env node
 /**
- * scripts/validate-phase17i-local-migration-readiness-closure-phase18-gate.js
+ * scripts/validate-phase18b-backup-export-compatibility-audit.js
  *
- * Phase 17I static validator — Local Migration Readiness Closure / Phase 18 Gate.
+ * Phase 18B static validator — Backup/Export Compatibility Audit for Adapter-Backed Storage.
  */
 
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
-const DOCS_FILE        = 'docs/phase17i-local-migration-readiness-closure-phase18-gate.md';
-const VALIDATOR_SCRIPT = 'scripts/validate-phase17i-local-migration-readiness-closure-phase18-gate.js';
+const DOCS_FILE        = 'docs/phase18b-backup-export-compatibility-audit.md';
+const VALIDATOR_SCRIPT = 'scripts/validate-phase18b-backup-export-compatibility-audit.js';
 const WORKFLOW_FILE    = '.github/workflows/e2e-smoke.yml';
-const PHASE17H_VALIDATOR = 'scripts/validate-phase17h-single-key-reversible-migration-pilot.js';
+const PHASE18A_VALIDATOR = 'scripts/validate-phase18a-test-only-indexeddb-adapter-prototype.js';
 
-// Exact set of allowed changed files for Phase 17I (docs/CI-only, no test files).
-const phase17iAllowedChangedFiles = new Set([
+// Exact set of allowed changed files for Phase 18B.
+const phase18bAllowedChangedFiles = new Set([
   WORKFLOW_FILE,
   DOCS_FILE,
   VALIDATOR_SCRIPT,
-  // Historical validator forward-compat edits (backtick literals to avoid single-quote extraction by earlier guards)
+  // Historical validator forward-compat edits
   'scripts/validate-phase16l-local-first-hybrid-storage-adapter-plan.js',
   'scripts/validate-phase17a-backup-rollback-harness-before-migration.js',
   'scripts/validate-phase17b-storage-adapter-localstorage-scaffold.js',
@@ -27,38 +27,24 @@ const phase17iAllowedChangedFiles = new Set([
   'scripts/validate-phase17e-per-key-migration-manifest-design.js',
   'scripts/validate-phase17f-test-only-migration-journal-prototype.js',
   'scripts/validate-phase17g-single-key-dry-run-migration-rehearsal.js',
-  PHASE17H_VALIDATOR,
+  'scripts/validate-phase17h-single-key-reversible-migration-pilot.js',
+  'scripts/validate-phase17i-local-migration-readiness-closure-phase18-gate.js',
   'scripts/validate-backup-transfer-safety-hardening.js',
-  // Phase 18A forward-compat entries (Test-Only IndexedDBAdapter Prototype)
-  `tests/unit/helpers/indexedDbAdapterTestPrototype.js`,
-  `tests/unit/indexedDbAdapterTestPrototype.test.js`,
-  `docs/phase18a-test-only-indexeddb-adapter-prototype.md`,
-  `scripts/validate-phase18a-test-only-indexeddb-adapter-prototype.js`,
-  // Phase 18B forward-compat entries (Backup/Export Compatibility Audit)
-  `docs/phase18b-backup-export-compatibility-audit.md`,
-  `scripts/validate-phase18b-backup-export-compatibility-audit.js`,
+  PHASE18A_VALIDATOR,
 ]);
 
-// Forbidden runtime files that must not exist in Phase 17I.
+// Forbidden runtime files that must not exist in Phase 18B.
 const forbiddenRuntimeFiles = [
-  'src/storage/EventLog.js',
-  'src/storage/SyncAdapter.js',
   'src/storage/IndexedDBAdapter.js',
+  'src/storage/EventLog.js',
   'src/storage/MigrationJournal.js',
+  'src/storage/SyncAdapter.js',
   'src/storage/migrationJournal.js',
   'src/storage/migrationRunner.js',
   'src/storage/migrationManifest.js',
   'src/storage/migrationRegistry.js',
-];
-
-// Production directory prefixes that must not change.
-const forbiddenChangedProductionPrefixes = [
-  'src/state/',
-  'src/quiz/',
-  'src/edugen/',
-  'src/data/',
-  'src/routes/',
-  'src/components/',
+  'src/storage/backupCoverageMap.js',
+  'src/state/adapterBackupBridge.js',
 ];
 
 // Forbidden npm dependencies.
@@ -68,8 +54,112 @@ const generatedArtifacts = [
   'node_modules', 'dist', 'test-results', 'playwright-report', 'coverage', 'FETCH_HEAD', '.env', '.env.local', '.git'
 ];
 
+// Required document sections (exact heading strings).
+const requiredDocSections = [
+  '# Phase 18B — Backup / Export Compatibility Audit for Adapter-Backed Storage',
+  '## Purpose',
+  '## Relationship to Phase 17I gate and Phase 18A prototype',
+  '## Production baseline (what is canonical today)',
+  '## Stage truth table',
+  '## Backup/export compatibility risks',
+  '## Restore and rollback risk analysis',
+  '## Verified-copy-before-delete invariant',
+  '## What Phase 18B explicitly does not implement',
+  '## Claim boundaries',
+  '## Go/no-go criteria for Phase 18C, 18D, 18E',
+  '## Safety invariants',
+  '## Future sequencing',
+  '## Acceptance criteria',
+];
+
+// Required terms in the doc (case-insensitive).
+const requiredDocTerms = [
+  'phase 18b',
+  'phase 18a',
+  'phase 17i',
+  'localstorage canonical',
+  'adapter-backed storage',
+  'indexeddbadapter',
+  'backup envelope',
+  'per-section schemaversion',
+  'restore atomicity envelope',
+  'quiesce',
+  'read-after-write verification',
+  'verified copy precedes delete',
+  'rollback snapshot completeness',
+  'claim boundary',
+  'incomplete export',
+  'split-brain',
+  'stale localstorage',
+  'stale indexeddb',
+  'partial restore',
+  'quota failure during export',
+  'schema mismatch',
+  'async read failure',
+  'transaction failure',
+  'false positive on validate',
+  'coverage assertion',
+  'cross-device drift',
+  'test-vs-production divergence',
+  'phase 18c',
+  'phase 18d',
+  'phase 18e',
+];
+
+// Required non-goal negation terms (case-insensitive exact phrases).
+const requiredNonGoalTerms = [
+  `no production indexeddbadapter`,
+  `no production registry switch`,
+  `no live migration`,
+  `no dual-write`,
+  `no runtime manifest`,
+  `no runtime eventlog`,
+  `no runtime migrationjournal`,
+  `no migration engine`,
+  `no app boot migration`,
+  `no user-facing migration ui`,
+  `no real data movement`,
+  `no localstorage deletion`,
+  `no sync`,
+  `no cloud`,
+  `no account`,
+  `no auth`,
+  `no backend`,
+  `no backup schema change`,
+  `no restore behavior change`,
+  `no production runtime changes`,
+  `docs/static-validator/ci-only`,
+];
+
+// Forbidden positive claims (case-insensitive) in the doc.
+const forbiddenClaimPhrases = [
+  'backup/export supports indexeddb-backed production storage',
+  'adapter-backed migration is ready',
+  'production indexeddb storage exists',
+  'data-loss prevention is guaranteed',
+  'live migration is safe',
+  'live migration is implemented',
+  'cloud sync exists',
+  'cloud sync is available',
+  'storage sync exists',
+  'e2ee exists',
+  'migration has shipped',
+  'migration is complete',
+  'migration done',
+  'runtime eventlog exists',
+  'runtime migrationjournal exists',
+  'runtime migration exists',
+  'public active fsrs rollout',
+  'dual-write is safe',
+  'cross-device parity is guaranteed',
+  'backup is adapter-aware',
+  'restore is adapter-aware',
+  'guaranteed no data loss',
+  'guaranteed data safety',
+];
+
 // Broad path patterns that must not be added to historical validators.
-// Use template literals to avoid being extracted as single-quoted paths by Phase 17D/17E/17F/17G/17H guards.
+// Use template literals to avoid being extracted as single-quoted paths by earlier guards.
 const broadPathPatterns = [
   `src/`,
   `src/storage/`,
@@ -79,123 +169,19 @@ const broadPathPatterns = [
   `e2e/`,
 ];
 
-// Phase 17I allowed forward-compat entries that may be added to historical validators.
-const phase17iForwardCompatEntries = [
+// Phase 18B allowed forward-compat entries that may be added to historical validators.
+const phase18bForwardCompatEntries = [
   DOCS_FILE,
   VALIDATOR_SCRIPT,
 ];
 
-// Required document sections (exact heading strings).
-const requiredDocSections = [
-  '# Phase 17I — Local Migration Readiness Closure / Phase 18 Gate',
-  '## Purpose',
-  '## Phase 17 Evidence Summary',
-  '## What Phase 17 Proves',
-  '## What Phase 17 Does Not Prove',
-  '## Phase 18A Entry Criteria',
-  '## Phase 18A Allowed Scope Preview',
-  '## Claim Boundaries',
-  '## Risk Register for Phase 18',
-  '## Safety Invariants That Must Be Preserved in Phase 18',
-  '## Future Sequencing',
-  '## Acceptance Criteria',
-];
-
-// Required terms in the doc (case-insensitive).
-const requiredDocTerms = [
-  // Phase 17A-17H evidence
-  'phase 17a',
-  'phase 17b',
-  'phase 17c',
-  'phase 17d',
-  'phase 17e',
-  'phase 17f',
-  'phase 17g',
-  'phase 17h',
-  // Phase 18A gate
-  'phase 18a',
-  // Key concepts
-  'recommendation-feedback',
-  'dry-run',
-  'synthetic',
-  'test-only',
-  'reversible',
-  'rollback',
-  'backup',
-  'manifest',
-  'journal',
-  // Entry criteria terms
-  'entry criteria',
-  'ci is green',
-  'test-only indexeddbadapter',
-  // Claim boundary terms
-  'production migration remains unshipped',
-  'localstorage remains',
-  // Risk register terms
-  'quota',
-  'transaction failure',
-  'partial writes',
-  'fallback to localstorage',
-  'export/backup mismatch',
-  // Non-goals (template literal avoids extraction by forward-compat guards)
-  `docs/static-validator/ci-only`,
-];
-
-// Required Phase 17A-17H summary headings.
-const requiredPhase17SummaryHeadings = [
-  'Phase 17A',
-  'Phase 17B',
-  'Phase 17C',
-  'Phase 17D',
-  'Phase 17E',
-  'Phase 17F',
-  'Phase 17G',
-  'Phase 17H',
-];
-
-// Required Phase 18A scope terms.
-const requiredPhase18aTerms = [
-  'Phase 18A May',
-  'Phase 18A Must Not',
-];
-
-// Forbidden positive claims (case-insensitive).
-const forbiddenClaimPhrases = [
-  'migration has shipped',
-  'indexeddb production storage exists',
-  'indexeddb is production',
-  'production indexeddbadapter exists',
-  'runtime eventlog exists',
-  'runtime migrationjournal exists',
-  'live migration is safe',
-  'cloud sync exists',
-  'cloud sync is available',
-  'storage sync exists',
-  'e2ee exists',
-  'e2ee is available',
-  'e2ee is certified',
-  'data-loss prevention is guaranteed',
-  'guaranteed data safety',
-  'guaranteed recovery',
-  'guaranteed no data loss',
-  'public active fsrs rollout',
-  'built-in ai exists',
-  'built-in ocr',
-  'production security certification',
-  'security certification exists',
-  'migration is complete',
-  'migration done',
-  'live migration is implemented',
-  'runtime migration exists',
-];
-
 function fail(message) {
-  console.error(`Phase 17I validation failed: ${message}`);
+  console.error(`Phase 18B validation failed: ${message}`);
   process.exit(1);
 }
 
 function warn(message) {
-  console.warn(`Phase 17I validation warning: ${message}`);
+  console.warn(`Phase 18B validation warning: ${message}`);
 }
 
 function read(file) {
@@ -261,28 +247,28 @@ function isGeneratedArtifact(file) {
   return generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`));
 }
 
-// ── 1. Required Phase 17I files exist ──────────────────────────────────────────
+// ── 1. Required Phase 18B files exist ─────────────────────────────────────────
 
 function requiredFilesGuard() {
   read(DOCS_FILE);
   read(VALIDATOR_SCRIPT);
   read(WORKFLOW_FILE);
-  read(PHASE17H_VALIDATOR);
+  read(PHASE18A_VALIDATOR);
 }
 
-// ── 2. Workflow registers Phase 17I validator after Phase 17H ──────────────────
+// ── 2. Workflow registers Phase 18B validator after Phase 18A ──────────────────
 
 function workflowGuard() {
-  const text = read(WORKFLOW_FILE);
-  const phase17hStr = 'node scripts/validate-phase17h-single-key-reversible-migration-pilot.js';
-  const phase17iStr = 'node scripts/validate-phase17i-local-migration-readiness-closure-phase18-gate.js';
+  const text        = read(WORKFLOW_FILE);
+  const phase18aStr = 'node scripts/validate-phase18a-test-only-indexeddb-adapter-prototype.js';
+  const phase18bStr = 'node scripts/validate-phase18b-backup-export-compatibility-audit.js';
 
-  if (!text.includes(phase17hStr)) fail(`${WORKFLOW_FILE} must register Phase 17H validator`);
-  if (!text.includes(phase17iStr)) fail(`${WORKFLOW_FILE} must register Phase 17I validator`);
+  if (!text.includes(phase18aStr)) fail(`${WORKFLOW_FILE} must register Phase 18A validator`);
+  if (!text.includes(phase18bStr)) fail(`${WORKFLOW_FILE} must register Phase 18B validator`);
 
-  const phase17hPos = text.indexOf(phase17hStr);
-  const phase17iPos = text.indexOf(phase17iStr);
-  if (phase17iPos <= phase17hPos) fail(`${WORKFLOW_FILE} must register Phase 17I validator after Phase 17H`);
+  const phase18aPos = text.indexOf(phase18aStr);
+  const phase18bPos = text.indexOf(phase18bStr);
+  if (phase18bPos <= phase18aPos) fail(`${WORKFLOW_FILE} must register Phase 18B validator after Phase 18A`);
 
   if (/continue-on-error:\s*true/i.test(text)) fail(`${WORKFLOW_FILE} must not add broad continue-on-error`);
 }
@@ -291,15 +277,15 @@ function workflowGuard() {
 
 function packageGuard() {
   const changed = new Set(changedFiles());
-  if (changed.has('package.json')) fail('package.json must not change in Phase 17I');
-  if (changed.has('package-lock.json')) fail('package-lock.json must not change in Phase 17I');
+  if (changed.has('package.json'))      fail('package.json must not change in Phase 18B');
+  if (changed.has('package-lock.json')) fail('package-lock.json must not change in Phase 18B');
 }
 
 // ── 4. No src/ changes ────────────────────────────────────────────────────────
 
 function noSrcChangesGuard() {
   for (const file of changedFiles()) {
-    if (file.startsWith(`src/`)) fail(`src/ file changed in Phase 17I (forbidden): ${file}`);
+    if (file.startsWith(`src/`)) fail(`src/ file changed in Phase 18B (forbidden): ${file}`);
   }
 }
 
@@ -307,9 +293,8 @@ function noSrcChangesGuard() {
 
 function noTestsChangesGuard() {
   for (const file of changedFiles()) {
-    if (phase17iAllowedChangedFiles.has(file)) continue;
     const firstSegment = file.indexOf('/') >= 0 ? file.slice(0, file.indexOf('/')) : file;
-    if (firstSegment === 'tests') fail(`tests/ file changed in Phase 17I (forbidden — docs/CI-only phase): ${file}`);
+    if (firstSegment === 'tests') fail(`tests/ file changed in Phase 18B (forbidden): ${file}`);
   }
 }
 
@@ -317,7 +302,7 @@ function noTestsChangesGuard() {
 
 function noE2eChangesGuard() {
   for (const file of changedFiles()) {
-    if (file.startsWith(`e2e/`)) fail(`e2e/ file changed in Phase 17I (forbidden): ${file}`);
+    if (file.startsWith(`e2e/`)) fail(`e2e/ file changed in Phase 18B (forbidden): ${file}`);
   }
 }
 
@@ -327,14 +312,15 @@ function scopeGuard() {
   for (const file of changedFiles()) {
     if (isGeneratedArtifact(file)) continue;
     if (file.startsWith('.claude/')) continue;
-    if (phase17iAllowedChangedFiles.has(file)) continue;
-    if (file === 'package.json' || file === 'package-lock.json') fail(`${file} must not change in Phase 17I`);
-    if (file.startsWith(`src/`)) fail(`src/ file changed in Phase 17I (forbidden): ${file}`);
-    if (file.startsWith(`e2e/`)) fail(`e2e/ file changed in Phase 17I (forbidden): ${file}`);
-    if (file.startsWith(`tests/`)) fail(`tests/ file changed in Phase 17I (forbidden — docs/CI-only phase): ${file}`);
+    if (phase18bAllowedChangedFiles.has(file)) continue;
+    if (file === 'package.json' || file === 'package-lock.json') fail(`${file} must not change in Phase 18B`);
+    if (file.startsWith(`src/`))   fail(`src/ file changed in Phase 18B (forbidden): ${file}`);
+    if (file.startsWith(`e2e/`))   fail(`e2e/ file changed in Phase 18B (forbidden): ${file}`);
     // New phase validator scripts are allowed.
     if (file.startsWith('scripts/validate-') && file.endsWith('.js')) continue;
-    if (file.startsWith(`docs/`)) fail(`Unexpected docs/ file changed in Phase 17I: ${file}`);
+    if (file.startsWith(`docs/`))  fail(`Unexpected docs/ file changed in Phase 18B: ${file}`);
+    const firstSegment = file.indexOf('/') >= 0 ? file.slice(0, file.indexOf('/')) : file;
+    if (firstSegment === 'tests') fail(`Unexpected tests/ file changed in Phase 18B (Phase 18B must not add tests): ${file}`);
     warn(`Unexpected file outside allowed scope (non-fatal): ${file}`);
   }
 }
@@ -343,22 +329,11 @@ function scopeGuard() {
 
 function forbiddenRuntimeFilesGuard() {
   for (const path of forbiddenRuntimeFiles) {
-    if (fs.existsSync(path)) fail(`Phase 17I must not introduce forbidden runtime file: ${path}`);
+    if (fs.existsSync(path)) fail(`Phase 18B must not introduce forbidden runtime file: ${path}`);
   }
 }
 
-// ── 9. Protected production directories unchanged ─────────────────────────────
-
-function forbiddenProductionFilesGuard() {
-  const changed = new Set(changedFiles());
-  for (const file of changed) {
-    for (const prefix of forbiddenChangedProductionPrefixes) {
-      if (file.startsWith(prefix)) fail(`Forbidden production path changed in Phase 17I: ${file}`);
-    }
-  }
-}
-
-// ── 10. No forbidden dependencies ─────────────────────────────────────────────
+// ── 9. No forbidden dependencies ──────────────────────────────────────────────
 
 function forbiddenDependencyGuard() {
   const pkg = read('package.json');
@@ -368,7 +343,7 @@ function forbiddenDependencyGuard() {
   }
 }
 
-// ── 11. Required document sections ────────────────────────────────────────────
+// ── 10. Required document sections ────────────────────────────────────────────
 
 function docSectionGuard() {
   const doc = read(DOCS_FILE);
@@ -377,32 +352,10 @@ function docSectionGuard() {
   }
 }
 
-// ── 12. Required Phase 17A-17H summary headings ───────────────────────────────
-
-function phase17SummaryGuard() {
-  const doc = read(DOCS_FILE);
-  for (const heading of requiredPhase17SummaryHeadings) {
-    if (!doc.includes(heading)) {
-      fail(`${DOCS_FILE} must include Phase 17 evidence summary heading for: "${heading}"`);
-    }
-  }
-}
-
-// ── 13. Required Phase 18A scope headings ─────────────────────────────────────
-
-function phase18aScopeGuard() {
-  const doc = read(DOCS_FILE);
-  for (const term of requiredPhase18aTerms) {
-    if (!doc.includes(term)) {
-      fail(`${DOCS_FILE} must include Phase 18A scope term: "${term}"`);
-    }
-  }
-}
-
-// ── 14. Required document terms ───────────────────────────────────────────────
+// ── 11. Required document terms ───────────────────────────────────────────────
 
 function docTermGuard() {
-  const doc = read(DOCS_FILE);
+  const doc   = read(DOCS_FILE);
   const lower = doc.toLowerCase();
   for (const term of requiredDocTerms) {
     if (!lower.includes(term.toLowerCase())) {
@@ -411,14 +364,26 @@ function docTermGuard() {
   }
 }
 
-// ── 15. Forbidden positive claims absent ──────────────────────────────────────
+// ── 12. Required non-goal terms ───────────────────────────────────────────────
+
+function nonGoalTermGuard() {
+  const doc   = read(DOCS_FILE);
+  const lower = doc.toLowerCase();
+  for (const term of requiredNonGoalTerms) {
+    if (!lower.includes(term.toLowerCase())) {
+      fail(`${DOCS_FILE} must include required non-goal term: "${term}"`);
+    }
+  }
+}
+
+// ── 13. Forbidden positive claims absent ──────────────────────────────────────
 
 function forbiddenClaimGuard() {
-  const doc = read(DOCS_FILE);
+  const doc   = read(DOCS_FILE);
   const lines = doc.split(/\r?\n/);
   let inSkippedSection = false;
   for (const line of lines) {
-    if (/^##\s+(Claim Boundaries|Forbidden Claims|What Phase 17 Does Not Prove)/i.test(line)) {
+    if (/^##\s+(What Phase 18B explicitly does not implement|Claim boundaries|Forbidden|Safety invariants)/i.test(line)) {
       inSkippedSection = true;
       continue;
     }
@@ -434,7 +399,7 @@ function forbiddenClaimGuard() {
   }
 }
 
-// ── 16. Generated artifacts absent ────────────────────────────────────────────
+// ── 14. Generated artifacts absent ────────────────────────────────────────────
 
 function generatedArtifactGuard() {
   const files = uniqueSorted([...changedFiles({ includeUntracked: false }), ...trackedFiles()]);
@@ -445,10 +410,10 @@ function generatedArtifactGuard() {
   }
 }
 
-// ── 17. Historical validator changes are exact Phase 17I forward-compat entries ─
+// ── 15. Historical validator forward-compat guard ─────────────────────────────
 
 function historicalValidatorForwardCompatGuard() {
-  const changed = changedFiles();
+  const changed   = changedFiles();
   const mergeBase = runGit('git merge-base HEAD origin/main', { silent: true });
 
   const changedValidators = changed.filter(f =>
@@ -481,17 +446,18 @@ function historicalValidatorForwardCompatGuard() {
         }
       }
 
-      // Check: any docs/ or tests/ path strings added must be Phase 17I forward-compat entries.
+      // Check: any docs/ or tests/ path strings added must be Phase 18B forward-compat entries.
       const pathMatches = [...line.matchAll(/'([^']{5,})'/g)];
       for (const [, path] of pathMatches) {
         if (!path.includes('/')) continue;
-        if (path.startsWith(`docs/`) && !path.includes('phase17i')) {
-          if (!phase17iForwardCompatEntries.includes(path)) {
-            fail(`Historical validator ${validatorFile} adds unexpected non-Phase-17I docs/ entry: '${path}'`);
+        if (path.startsWith(`docs/`) && !path.includes('phase18b')) {
+          if (!phase18bForwardCompatEntries.includes(path)) {
+            fail(`Historical validator ${validatorFile} adds unexpected non-Phase-18B docs/ entry: '${path}'`);
           }
         }
-        if (path.startsWith(`tests/`) && !phase17iForwardCompatEntries.includes(path)) {
-          fail(`Historical validator ${validatorFile} adds unexpected non-Phase-17I tests/ entry: '${path}'`);
+        const firstSegment = path.indexOf('/') >= 0 ? path.slice(0, path.indexOf('/')) : path;
+        if (firstSegment === 'tests' && !phase18bForwardCompatEntries.includes(path)) {
+          fail(`Historical validator ${validatorFile} adds unexpected non-Phase-18B tests/ entry: '${path}'`);
         }
       }
     }
@@ -509,16 +475,14 @@ function validate() {
   noE2eChangesGuard();
   scopeGuard();
   forbiddenRuntimeFilesGuard();
-  forbiddenProductionFilesGuard();
   forbiddenDependencyGuard();
   docSectionGuard();
-  phase17SummaryGuard();
-  phase18aScopeGuard();
   docTermGuard();
+  nonGoalTermGuard();
   forbiddenClaimGuard();
   generatedArtifactGuard();
   historicalValidatorForwardCompatGuard();
-  console.log('Phase 17I Local Migration Readiness Closure / Phase 18 Gate validation passed.');
+  console.log('Phase 18B Backup/Export Compatibility Audit validation passed.');
 }
 
 validate();

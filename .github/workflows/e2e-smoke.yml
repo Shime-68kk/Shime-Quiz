@@ -451,6 +451,9 @@ jobs:
       - name: Validate Phase 18A Test-Only IndexedDBAdapter Prototype
         run: node scripts/validate-phase18a-test-only-indexeddb-adapter-prototype.js
 
+      - name: Validate Phase 18B Backup / Export Compatibility Audit
+        run: node scripts/validate-phase18b-backup-export-compatibility-audit.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

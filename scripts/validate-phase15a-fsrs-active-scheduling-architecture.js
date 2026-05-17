@@ -350,6 +350,9 @@ const phase15aAllowedChangedFiles = new Set([
   `tests/unit/indexedDbAdapterTestPrototype.test.js`,
   `docs/phase18a-test-only-indexeddb-adapter-prototype.md`,
   `scripts/validate-phase18a-test-only-indexeddb-adapter-prototype.js`,
+  // Phase 18B forward-compat entries (Backup/Export Compatibility Audit)
+  `docs/phase18b-backup-export-compatibility-audit.md`,
+  `scripts/validate-phase18b-backup-export-compatibility-audit.js`,
 ]);
 
 const generatedArtifacts = [
