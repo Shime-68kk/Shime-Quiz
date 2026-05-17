@@ -55,6 +55,9 @@ const phase18aAllowedChangedFiles = new Set([
   // Phase 19A forward-compat entries (FSRS Public Opt-In Sequencing Gate)
   `docs/phase19a-fsrs-public-opt-in-sequencing-gate.md`,
   `scripts/validate-phase19a-fsrs-public-opt-in-sequencing-gate.js`,
+  // Phase 19B forward-compat entries (Optional Sync Architecture Decision Gate)
+  `docs/adr/phase19b-optional-sync-direction.md`,
+  `scripts/validate-phase19b-optional-sync-architecture-decision.js`,
 ]);
 
 // Forbidden runtime files that must not exist in Phase 18A.
@@ -249,6 +252,9 @@ const phase18aForwardCompatEntries = [
   // Phase 19A forward-compat entries (FSRS Public Opt-In Sequencing Gate)
   `docs/phase19a-fsrs-public-opt-in-sequencing-gate.md`,
   `scripts/validate-phase19a-fsrs-public-opt-in-sequencing-gate.js`,
+  // Phase 19B forward-compat entries (Optional Sync Architecture Decision Gate)
+  `docs/adr/phase19b-optional-sync-direction.md`,
+  `scripts/validate-phase19b-optional-sync-architecture-decision.js`,
 ];
 
 function fail(message) {
