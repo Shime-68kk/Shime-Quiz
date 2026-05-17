@@ -448,6 +448,9 @@ jobs:
       - name: Validate Phase 17I Local Migration Readiness Closure / Phase 18 Gate
         run: node scripts/validate-phase17i-local-migration-readiness-closure-phase18-gate.js
 
+      - name: Validate Phase 18A Test-Only IndexedDBAdapter Prototype
+        run: node scripts/validate-phase18a-test-only-indexeddb-adapter-prototype.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

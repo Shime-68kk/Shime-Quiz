@@ -29,6 +29,11 @@ const phase17iAllowedChangedFiles = new Set([
   'scripts/validate-phase17g-single-key-dry-run-migration-rehearsal.js',
   PHASE17H_VALIDATOR,
   'scripts/validate-backup-transfer-safety-hardening.js',
+  // Phase 18A forward-compat entries (Test-Only IndexedDBAdapter Prototype)
+  `tests/unit/helpers/indexedDbAdapterTestPrototype.js`,
+  `tests/unit/indexedDbAdapterTestPrototype.test.js`,
+  `docs/phase18a-test-only-indexeddb-adapter-prototype.md`,
+  `scripts/validate-phase18a-test-only-indexeddb-adapter-prototype.js`,
 ]);
 
 // Forbidden runtime files that must not exist in Phase 17I.
@@ -299,6 +304,7 @@ function noSrcChangesGuard() {
 
 function noTestsChangesGuard() {
   for (const file of changedFiles()) {
+    if (phase17iAllowedChangedFiles.has(file)) continue;
     const firstSegment = file.indexOf('/') >= 0 ? file.slice(0, file.indexOf('/')) : file;
     if (firstSegment === 'tests') fail(`tests/ file changed in Phase 17I (forbidden — docs/CI-only phase): ${file}`);
   }

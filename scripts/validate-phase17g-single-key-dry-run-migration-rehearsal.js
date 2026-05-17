@@ -44,6 +44,11 @@ const phase17gAllowedChangedFiles = new Set([
   // Phase 17I forward-compat entries (Local Migration Readiness Closure / Phase 18 Gate)
   `docs/phase17i-local-migration-readiness-closure-phase18-gate.md`,
   `scripts/validate-phase17i-local-migration-readiness-closure-phase18-gate.js`,
+  // Phase 18A forward-compat entries (Test-Only IndexedDBAdapter Prototype)
+  `tests/unit/helpers/indexedDbAdapterTestPrototype.js`,
+  `tests/unit/indexedDbAdapterTestPrototype.test.js`,
+  `docs/phase18a-test-only-indexeddb-adapter-prototype.md`,
+  `scripts/validate-phase18a-test-only-indexeddb-adapter-prototype.js`,
 ]);
 
 // Forbidden runtime files that must not exist in Phase 17G.
@@ -221,6 +226,11 @@ const phase17gForwardCompatEntries = [
   'scripts/validate-phase17h-single-key-reversible-migration-pilot.js',
   'tests/unit/helpers/singleKeyReversibleMigrationPilot.js',
   'tests/unit/singleKeyReversibleMigrationPilot.test.js',
+  // Phase 18A forward-compat entries (Test-Only IndexedDBAdapter Prototype)
+  `tests/unit/helpers/indexedDbAdapterTestPrototype.js`,
+  `tests/unit/indexedDbAdapterTestPrototype.test.js`,
+  `docs/phase18a-test-only-indexeddb-adapter-prototype.md`,
+  `scripts/validate-phase18a-test-only-indexeddb-adapter-prototype.js`,
 ];
 
 // Required test assertion patterns in the test file (for key safety scenarios).
