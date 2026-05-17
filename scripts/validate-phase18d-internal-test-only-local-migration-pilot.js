@@ -41,6 +41,9 @@ const phase18dAllowedChangedFiles = new Set([
   `docs/trust/no-cloud-default-off.md`,
   `docs/adr/phase19d-no-cloud-default-off-trust-copy.md`,
   `scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`,
+  // Phase 20A forward-compat entries (Beta Local-First Hybrid Stabilization Gate)
+  `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`,
+  `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
   // Historical validator forward-compat edits
   `scripts/validate-phase16l-local-first-hybrid-storage-adapter-plan.js`,
   `scripts/validate-phase17a-backup-rollback-harness-before-migration.js`,
@@ -233,6 +236,9 @@ const phase18dForwardCompatEntries = [
   `docs/trust/no-cloud-default-off.md`,
   `docs/adr/phase19d-no-cloud-default-off-trust-copy.md`,
   `scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`,
+  // Phase 20A forward-compat entries (Beta Local-First Hybrid Stabilization Gate)
+  `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`,
+  `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
 ];
 
 

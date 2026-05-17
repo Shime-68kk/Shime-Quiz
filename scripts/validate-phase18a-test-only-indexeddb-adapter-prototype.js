@@ -66,6 +66,9 @@ const phase18aAllowedChangedFiles = new Set([
   `docs/trust/no-cloud-default-off.md`,
   `docs/adr/phase19d-no-cloud-default-off-trust-copy.md`,
   `scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`,
+  // Phase 20A forward-compat entries (Beta Local-First Hybrid Stabilization Gate)
+  `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`,
+  `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
 ]);
 
 // Forbidden runtime files that must not exist in Phase 18A.
@@ -271,6 +274,9 @@ const phase18aForwardCompatEntries = [
   `docs/trust/no-cloud-default-off.md`,
   `docs/adr/phase19d-no-cloud-default-off-trust-copy.md`,
   `scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`,
+  // Phase 20A forward-compat entries (Beta Local-First Hybrid Stabilization Gate)
+  `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`,
+  `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
 ];
 
 function fail(message) {
