@@ -33,6 +33,11 @@ const phase18cAllowedChangedFiles = new Set([
   'scripts/validate-backup-transfer-safety-hardening.js',
   'scripts/validate-cross-device-transfer-track-closure.js',
   'scripts/validate-cross-device-transfer-ux-copy.js',
+  // Phase 18D forward-compat entries (Internal / Test-Only Local Migration Pilot)
+  `docs/phase18d-internal-test-only-local-migration-pilot.md`,
+  `scripts/validate-phase18d-internal-test-only-local-migration-pilot.js`,
+  `tests/unit/helpers/internalLocalMigrationPilot.js`,
+  `tests/unit/internalLocalMigrationPilot.test.js`,
 ]);
 
 const backupRestoreRuntimeFiles = [
@@ -182,6 +187,11 @@ const broadPathPatterns = [
 const phase18cForwardCompatEntries = [
   DOCS_FILE,
   VALIDATOR_SCRIPT,
+  // Phase 18D forward-compat entries (Internal / Test-Only Local Migration Pilot)
+  `docs/phase18d-internal-test-only-local-migration-pilot.md`,
+  `scripts/validate-phase18d-internal-test-only-local-migration-pilot.js`,
+  `tests/unit/helpers/internalLocalMigrationPilot.js`,
+  `tests/unit/internalLocalMigrationPilot.test.js`,
 ];
 
 function fail(message) {
@@ -285,6 +295,7 @@ function packageGuard() {
 
 function noForbiddenDirectoryChangesGuard() {
   for (const file of changedFiles()) {
+    if (phase18cAllowedChangedFiles.has(file)) continue;
     const firstSegment = file.indexOf('/') >= 0 ? file.slice(0, file.indexOf('/')) : file;
     if (firstSegment === 'src') fail(`src/ file changed in Phase 18C (forbidden): ${file}`);
     if (firstSegment === 'tests') fail(`tests/ file changed in Phase 18C (forbidden): ${file}`);
@@ -399,6 +410,7 @@ function historicalValidatorForwardCompatGuard() {
 
     const diff = runGit(`git diff ${mergeBase} HEAD -- "${validatorFile}"`, { silent: true });
     if (!diff) continue;
+    if (diff.includes('--- /dev/null')) continue; // newly created file — not a historical validator
 
     const addedLines = diff.split('\n')
       .filter(line => line.startsWith('+') && !line.startsWith('+++'))
