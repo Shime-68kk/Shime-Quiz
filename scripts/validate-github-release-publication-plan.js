@@ -640,6 +640,9 @@ const allowedChanged = new Set([
   // Phase 20A forward-compat entries (Beta Local-First Hybrid Stabilization Gate)
   `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`,
   `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
+`docs/adr/phase20b-real-user-testing-data-safety-feedback.md`,
+`docs/testing/phase20b-real-user-testing-plan.md`,
+`scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`,
 ]);
 for (const file of changedFiles()) {
   if (!allowedChanged.has(file)) failures.push(`Unexpected changed file for Phase 10N: ${file}`);
