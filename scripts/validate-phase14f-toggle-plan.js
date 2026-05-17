@@ -448,6 +448,9 @@ const phase14fAllowedChangedFiles = new Set([
   // Phase 19B forward-compat entries (Optional Sync Architecture Decision Gate)
   `docs/adr/phase19b-optional-sync-direction.md`,
   `scripts/validate-phase19b-optional-sync-architecture-decision.js`,
+  // Phase 19C forward-compat entries (Optional Sync Conflict Model Design Gate)
+  `docs/adr/phase19c-optional-sync-conflict-model.md`,
+  `scripts/validate-phase19c-optional-sync-conflict-model.js`,
 ]);
 
 const generatedArtifacts = [

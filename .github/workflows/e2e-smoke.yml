@@ -469,6 +469,9 @@ jobs:
       - name: Validate Phase 19B Optional Sync Architecture Decision Gate
         run: node scripts/validate-phase19b-optional-sync-architecture-decision.js
 
+      - name: Validate Phase 19C Optional Sync Conflict Model Design Gate
+        run: node scripts/validate-phase19c-optional-sync-conflict-model.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
