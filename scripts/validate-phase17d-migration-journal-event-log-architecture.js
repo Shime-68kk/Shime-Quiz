@@ -37,6 +37,11 @@ const phase17dAllowedChangedFiles = new Set([
   'scripts/validate-phase17g-single-key-dry-run-migration-rehearsal.js',
   'tests/unit/helpers/singleKeyDryRunMigrationRehearsal.js',
   'tests/unit/singleKeyDryRunMigrationRehearsal.test.js',
+  // Phase 17H forward-compat entries (Single-Key Reversible Migration Pilot)
+  'docs/phase17h-single-key-reversible-migration-pilot.md',
+  'scripts/validate-phase17h-single-key-reversible-migration-pilot.js',
+  'tests/unit/helpers/singleKeyReversibleMigrationPilot.js',
+  'tests/unit/singleKeyReversibleMigrationPilot.test.js',
 ]);
 
 // Forbidden runtime files that must not exist in Phase 17D.
@@ -184,6 +189,11 @@ const phase17dForwardCompatEntries = [
   // Phase 17G forward-compat entries (Single-Key Dry-Run Migration Rehearsal)
   'docs/phase17g-single-key-dry-run-migration-rehearsal.md',
   'scripts/validate-phase17g-single-key-dry-run-migration-rehearsal.js',
+  // Phase 17H forward-compat entries (Single-Key Reversible Migration Pilot)
+  'docs/phase17h-single-key-reversible-migration-pilot.md',
+  'scripts/validate-phase17h-single-key-reversible-migration-pilot.js',
+  'tests/unit/helpers/singleKeyReversibleMigrationPilot.js',
+  'tests/unit/singleKeyReversibleMigrationPilot.test.js',
 ];
 
 function fail(message) {

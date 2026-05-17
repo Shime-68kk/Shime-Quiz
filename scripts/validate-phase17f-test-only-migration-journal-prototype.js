@@ -37,6 +37,11 @@ const phase17fAllowedChangedFiles = new Set([
   'scripts/validate-phase17g-single-key-dry-run-migration-rehearsal.js',
   'tests/unit/helpers/singleKeyDryRunMigrationRehearsal.js',
   'tests/unit/singleKeyDryRunMigrationRehearsal.test.js',
+  // Phase 17H forward-compat entries (Single-Key Reversible Migration Pilot)
+  'docs/phase17h-single-key-reversible-migration-pilot.md',
+  'scripts/validate-phase17h-single-key-reversible-migration-pilot.js',
+  'tests/unit/helpers/singleKeyReversibleMigrationPilot.js',
+  'tests/unit/singleKeyReversibleMigrationPilot.test.js',
 ]);
 
 // Forbidden runtime files that must not exist in Phase 17F.
@@ -220,6 +225,11 @@ const phase17fForwardCompatEntries = [
   'scripts/validate-phase17g-single-key-dry-run-migration-rehearsal.js',
   'tests/unit/helpers/singleKeyDryRunMigrationRehearsal.js',
   'tests/unit/singleKeyDryRunMigrationRehearsal.test.js',
+  // Phase 17H forward-compat entries (Single-Key Reversible Migration Pilot)
+  'docs/phase17h-single-key-reversible-migration-pilot.md',
+  'scripts/validate-phase17h-single-key-reversible-migration-pilot.js',
+  'tests/unit/helpers/singleKeyReversibleMigrationPilot.js',
+  'tests/unit/singleKeyReversibleMigrationPilot.test.js',
 ];
 
 // Required test assertion patterns in the test file (for key safety scenarios).
