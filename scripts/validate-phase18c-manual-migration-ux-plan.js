@@ -57,6 +57,9 @@ const phase18cAllowedChangedFiles = new Set([
   `docs/trust/no-cloud-default-off.md`,
   `docs/adr/phase19d-no-cloud-default-off-trust-copy.md`,
   `scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`,
+  // Phase 20A forward-compat entries (Beta Local-First Hybrid Stabilization Gate)
+  `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`,
+  `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
 ]);
 
 const backupRestoreRuntimeFiles = [
@@ -230,6 +233,9 @@ const phase18cForwardCompatEntries = [
   `docs/trust/no-cloud-default-off.md`,
   `docs/adr/phase19d-no-cloud-default-off-trust-copy.md`,
   `scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`,
+  // Phase 20A forward-compat entries (Beta Local-First Hybrid Stabilization Gate)
+  `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`,
+  `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
 ];
 
 function fail(message) {

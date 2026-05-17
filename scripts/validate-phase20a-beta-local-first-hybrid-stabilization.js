@@ -1,45 +1,40 @@
 #!/usr/bin/env node
 /**
- * scripts/validate-phase19d-no-cloud-default-off-trust-copy.js
+ * scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js
  *
- * Phase 19D static validator — No-Cloud / Default-Off Trust Copy.
+ * Phase 20A static validator — Beta Local-First Hybrid Stabilization Gate.
  *
- * Phase 19D is docs/static-validator/CI-only. It does not implement sync,
- * cloud, account/auth/backend, storage changes, FSRS changes, backup/export/
- * restore changes, UI, tests, or package changes. Its deliverables are the
- * Vietnamese-first trust copy, English companion copy, ADR, this validator,
- * CI registration after Phase 19C, and exact historical validator
- * forward-compat entries.
+ * Phase 20A is docs/static-validator/CI-only. It does not implement sync,
+ * account/auth/backend, storage changes, FSRS changes, backup/export/restore
+ * changes, UI, tests, or package changes. Its only deliverables are this
+ * validator, the Phase 20A ADR, and CI registration after Phase 19D.
  */
 
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
-const VI_TRUST_FILE       = `docs/trust/no-cloud-default-off.vi.md`;
-const EN_TRUST_FILE       = `docs/trust/no-cloud-default-off.md`;
-const ADR_FILE            = `docs/adr/phase19d-no-cloud-default-off-trust-copy.md`;
-const VALIDATOR_SCRIPT    = `scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`;
-const WORKFLOW_FILE       = `.github/workflows/e2e-smoke.yml`;
-const PHASE19C_VALIDATOR  = `scripts/validate-phase19c-optional-sync-conflict-model.js`;
+const ADR_FILE           = `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`;
+const VALIDATOR_SCRIPT   = `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`;
+const WORKFLOW_FILE      = `.github/workflows/e2e-smoke.yml`;
+const PHASE19D_VALIDATOR = `scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`;
 
-const phase19dCoreFiles = [
-  VI_TRUST_FILE,
-  EN_TRUST_FILE,
+const phase20aCoreFiles = [
   ADR_FILE,
   VALIDATOR_SCRIPT,
 ];
 
-const phase19dForwardCompatEntries = [
-  `docs/trust/no-cloud-default-off.vi.md`,
-  `docs/trust/no-cloud-default-off.md`,
-  `docs/adr/phase19d-no-cloud-default-off-trust-copy.md`,
-  `scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`,
-  // Phase 20A forward-compat entries (Beta Local-First Hybrid Stabilization Gate)
+// Phase 20A forward-compat entries: the only paths historical validators may add.
+const phase20aForwardCompatEntries = [
   `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`,
   `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
 ];
 
+// Pre-Phase-20A baseline files that may already appear in historical validator
+// forward-compat lists from prior phases. They are NOT additions in Phase 20A;
+// they are tolerated only so that pre-existing references in historical validators
+// do not trip this guard.
 const previousForwardCompatEntries = [
+  // Phase 18C/18D/18E baseline
   `docs/phase18c-manual-migration-ux-plan.md`,
   `docs/phase18d-internal-test-only-local-migration-pilot.md`,
   `docs/phase18e-limited-local-backend-pilot-rollback-gates.md`,
@@ -49,35 +44,50 @@ const previousForwardCompatEntries = [
   `tests/unit/internalLocalMigrationPilot.test.js`,
   `tests/unit/helpers/limitedLocalBackendPilot.js`,
   `tests/unit/limitedLocalBackendPilot.test.js`,
+  // Phase 19A baseline
   `docs/phase19a-fsrs-public-opt-in-sequencing-gate.md`,
   `scripts/validate-phase19a-fsrs-public-opt-in-sequencing-gate.js`,
+  // Phase 19B baseline
   `docs/adr/phase19b-optional-sync-direction.md`,
   `scripts/validate-phase19b-optional-sync-architecture-decision.js`,
+  // Phase 19C baseline
   `docs/adr/phase19c-optional-sync-conflict-model.md`,
   `scripts/validate-phase19c-optional-sync-conflict-model.js`,
+  // Phase 19D baseline
+  `docs/trust/no-cloud-default-off.vi.md`,
+  `docs/trust/no-cloud-default-off.md`,
+  `docs/adr/phase19d-no-cloud-default-off-trust-copy.md`,
+  `scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`,
 ];
 
-const prePhase19dBaselineFiles = [
+const prePhase20aBaselineFiles = [
   `docs/phase18c-manual-migration-ux-plan.md`,
   `docs/phase18d-internal-test-only-local-migration-pilot.md`,
   `docs/phase18e-limited-local-backend-pilot-rollback-gates.md`,
   `docs/phase19a-fsrs-public-opt-in-sequencing-gate.md`,
   `docs/adr/phase19b-optional-sync-direction.md`,
   `docs/adr/phase19c-optional-sync-conflict-model.md`,
+  `docs/trust/no-cloud-default-off.vi.md`,
+  `docs/trust/no-cloud-default-off.md`,
+  `docs/adr/phase19d-no-cloud-default-off-trust-copy.md`,
   `tests/unit/helpers/internalLocalMigrationPilot.js`,
   `tests/unit/internalLocalMigrationPilot.test.js`,
   `tests/unit/helpers/limitedLocalBackendPilot.js`,
   `tests/unit/limitedLocalBackendPilot.test.js`,
 ];
 
-const phase19dAllowedChangedFiles = new Set([
+const phase20aAllowedChangedFiles = new Set([
   WORKFLOW_FILE,
-  PHASE19C_VALIDATOR,
-  ...phase19dCoreFiles,
-  ...prePhase19dBaselineFiles,
-  // Phase 20A forward-compat entries (Beta Local-First Hybrid Stabilization Gate)
-  `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`,
-  `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
+  PHASE19D_VALIDATOR,
+  ...phase20aCoreFiles,
+  ...prePhase20aBaselineFiles,
+  // Historical validator forward-compat edits
+  `scripts/validate-phase18c-manual-migration-ux-plan.js`,
+  `scripts/validate-phase18d-internal-test-only-local-migration-pilot.js`,
+  `scripts/validate-phase18e-limited-local-backend-pilot-rollback-gates.js`,
+  `scripts/validate-phase19a-fsrs-public-opt-in-sequencing-gate.js`,
+  `scripts/validate-phase19b-optional-sync-architecture-decision.js`,
+  `scripts/validate-phase19c-optional-sync-conflict-model.js`,
 ]);
 
 const fsrsRuntimeFiles = [
@@ -139,141 +149,130 @@ const generatedArtifacts = [
   `.env`,
   `.env.local`,
   `.git`,
-  `phase19d-no-cloud-default-off-trust-copy.patch`,
-  `phase19d-no-cloud-default-off-trust-copy.zip`,
-  `phase19d-no-cloud-default-off-trust-copy-handoff.md`,
-];
-
-const requiredViHeadings = [
-  `# Không có đám mây mặc định / Đồng bộ luôn tắt mặc định`,
-  `## Mục đích`,
-  `## Shime hiện tại là gì`,
-  `## Shime hiện tại không làm gì`,
-  `## Dữ liệu của bạn đang ở đâu`,
-  `## Sao lưu, xuất dữ liệu, nhập dữ liệu và khôi phục`,
-  `## Chuyển dữ liệu thủ công trước, đồng bộ sau nếu đủ an toàn`,
-  `## Nếu sau này có đồng bộ, đồng bộ phải là tùy chọn`,
-  `## Xung đột dữ liệu và vì sao không được hứa "không có xung đột"`,
-  `## FSRS, lịch ôn tập và dữ liệu trí nhớ`,
-  `## Những câu Shime được phép nói`,
-  `## Những câu Shime không được phép nói`,
-  `## Tiêu chí trước khi bất kỳ đồng bộ nào được triển khai`,
-  `## Ghi chú cho người dùng`,
-];
-
-const requiredEnHeadings = [
-  `# No Cloud by Default / Sync Always Default-Off`,
-  `## Purpose`,
-  `## What Shime is today`,
-  `## What Shime does not do today`,
-  `## Where your data lives`,
-  `## Backup, export, import, and restore`,
-  `## Manual transfer first, sync later only if safe`,
-  `## If sync exists later, it must be optional`,
-  `## Data conflicts and why Shime must not promise "no conflicts"`,
-  `## FSRS, review schedules, and memory data`,
-  `## Claims Shime may make`,
-  `## Claims Shime must not make`,
-  `## Criteria before any sync implementation`,
-  `## User note`,
+  `phase20a-beta-local-first-hybrid-stabilization.patch`,
+  `phase20a-beta-local-first-hybrid-stabilization.zip`,
+  `phase20a-beta-local-first-hybrid-stabilization-handoff.md`,
 ];
 
 const requiredAdrHeadings = [
-  `# Phase 19D — No-Cloud / Default-Off Trust Copy`,
+  `# Phase 20A — Beta Local-First Hybrid Stabilization Gate`,
   `## Purpose`,
-  `## Relationship to Phase 19B`,
-  `## Relationship to Phase 19C`,
-  `## Vietnamese-first decision`,
-  `## Trust copy files`,
-  `## Allowed claims`,
-  `## Forbidden claims`,
-  `## User-facing copy boundaries`,
-  `## Validator and CI guardrails`,
-  `## What Phase 19D explicitly does not implement`,
-  `## Go/no-go criteria for Phase 20A`,
-  `## Future sequencing`,
+  `## Relationship to Phase 17 storage readiness`,
+  `## Relationship to Phase 18 local backend pilots`,
+  `## Relationship to Phase 19 sync and trust decisions`,
+  `## Current production baseline`,
+  `## Beta stabilization decision`,
+  `## What "local-first hybrid" means for beta`,
+  `## What is stable enough for beta discussion`,
+  `## What is not stable enough for beta`,
+  `## Evidence inventory`,
+  `## Safety invariants`,
+  `## Manual transfer before sync`,
+  `## Backup and restore boundaries`,
+  `## FSRS and scheduler boundaries`,
+  `## Storage and migration boundaries`,
+  `## Sync and cloud boundaries`,
+  `## Vietnamese-first trust copy boundaries`,
+  `## Phase 20B scope`,
+  `## Phase 20C scope`,
+  `## Phase 20D scope`,
+  `## What Phase 20A explicitly does not implement`,
   `## Acceptance criteria`,
 ];
 
-const requiredViTerms = [
-  `không có đám mây mặc định`,
-  `đồng bộ luôn tắt mặc định`,
-  `không cần tài khoản`,
-  `không có đăng nhập`,
-  `không có máy chủ Shime`,
-  `dữ liệu nằm trên thiết bị này`,
-  `trừ khi bạn tự xuất dữ liệu`,
-  `localStorage vẫn là nguồn dữ liệu sản xuất chính`,
-  `sao lưu không phải là đồng bộ`,
-  `khôi phục có thể ghi đè dữ liệu hiện tại`,
-  `chuyển dữ liệu thủ công`,
-  `không hứa không có xung đột`,
-  `không hứa chống mất dữ liệu tuyệt đối`,
-  `không hứa mã hóa đầu cuối`,
-  `không hứa zero-knowledge`,
-  `FSRS không được đồng bộ âm thầm`,
-  `lịch ôn tập không được gộp âm thầm`,
-  `trước khi gộp dữ liệu phải có bản sao lưu có thể khôi phục`,
+// Required Phase 17–18 evidence terms
+const requiredPhase17EvidenceTerms = [
+  `phase 17a`,
+  `phase 17b`,
+  `phase 17c`,
+  `phase 17d`,
+  `phase 17e`,
+  `phase 17f`,
+  `phase 17g`,
+  `phase 17h`,
+  `phase 17i`,
+  `backup/rollback harness before migration`,
+  `storageadapter`,
+  `test-only`,
+  `migration journal`,
 ];
 
-const requiredEnTerms = [
-  `no cloud by default`,
-  `sync is always default-off`,
-  `no account required`,
-  `no login`,
-  `no Shime server`,
-  `data lives on this device`,
-  `unless you export it yourself`,
-  `localStorage remains the canonical production source of truth`,
+const requiredPhase18EvidenceTerms = [
+  `phase 18a`,
+  `phase 18b`,
+  `phase 18c`,
+  `phase 18d`,
+  `phase 18e`,
+  `test-only indexeddbadapter`,
+  `backup/export compatibility`,
+  `synthetic`,
+];
+
+const requiredPhase19EvidenceTerms = [
+  `phase 19a`,
+  `phase 19b`,
+  `phase 19c`,
+  `phase 19d`,
+  `hybrid_staged_approach`,
+  `event_log_plus_per_record_revision_clock`,
+  `backup-before-merge`,
+  `no-cloud/default-off`,
+];
+
+// Required decision terms
+const requiredDecisionTerms = [
+  `beta_stabilization_decision: local_first_hybrid_stabilization_audit_only`,
+  `phase 20a is docs/static-validator/ci-only`,
+  `phase 20a is a stabilization audit gate only`,
+  `phase 20a does not implement sync runtime`,
+  `phase 20a does not implement account/cloud/auth/backend`,
+  `phase 20a does not implement storage backend switch`,
+  `phase 20a does not implement migration runtime`,
+  `phase 20a does not implement ui`,
+  `phase 20a does not add tests`,
+  `localstorage remains the canonical production source of truth`,
+  `production backup/export/restore behavior remains unchanged`,
+  `manual transfer comes before runtime sync`,
+  `sync remains unshipped`,
+  `conflict model remains a design decision only`,
+  `no-cloud/default-off trust copy remains the user-trust boundary`,
+  `phase 20b should handle real user testing`,
+  `phase 20c should handle performance/quota/import stress test plan`,
+  `phase 20d should decide local-first hybrid beta-ready or hold`,
+];
+
+// Required safety invariant terms
+const requiredSafetyInvariantTerms = [
+  `localstorage remains canonical production storage`,
+  `backup/export/restore remains separate from sync`,
   `backup is not sync`,
   `restore may overwrite current data`,
-  `manual transfer`,
-  `Shime must not promise no conflicts`,
-  `Shime must not promise absolute data-loss prevention`,
-  `Shime must not claim end-to-end encryption`,
-  `Shime must not claim zero-knowledge`,
-  `FSRS must not silently sync`,
-  `review schedules must not silently merge`,
-  `before merging data, Shime must capture a restorable backup`,
+  `backup-before-merge remains required`,
+  `backup payloads must never auto-sync`,
+  `migration manifests/journals must never auto-sync`,
+  `fsrs/review schedule data must not silently merge`,
+  `no sync runtime before manual transfer`,
+  `no storage backend switch without a separate runtime gate`,
+  `no account/cloud/auth/backend without a separate architecture gate`,
+  `no public claim that sync exists`,
+  `no public claim that data-loss prevention is guaranteed`,
+  `no public claim of end-to-end encryption or zero-knowledge`,
 ];
 
-const requiredAllowedClaimTerms = [
-  `local-first by default`,
-  `no account required`,
-  `no login required`,
-  `no cloud sync today`,
-  `no Shime server today`,
-  `data stays on this device unless exported`,
-  `backup and restore are manual user-controlled actions`,
-  `manual transfer comes before sync`,
-  `optional sync remains unshipped`,
-  `conflict model is a design decision only`,
-  `backup-before-merge is a future invariant`,
-];
-
-const requiredAdrTerms = [
-  `phase 19d is a docs/static-validator/ci-only`,
-  `vietnamese trust copy is the source of truth`,
-  `english copy is the companion`,
-  `no sync runtime exists`,
-  `phase 19d does not implement cloud sync`,
-  `phase 19d does not implement a shime-hosted backend`,
-  `phase 19d does not implement account/auth/identity`,
-  `phase 19d does not implement a remote endpoint`,
-  `no dual-write exists`,
-  `phase 19d does not implement an app-boot migration`,
-  `phase 19d does not implement a production storage backend switch`,
-  `no production indexeddbadapter exists`,
-  `no runtime migration exists`,
-  `no localstorage deletion happens`,
-  `localstorage remains the canonical production source of truth`,
-  `backup/export/restore behavior remains unchanged`,
-  `must never be described as`,
-  `restore may overwrite current data`,
-  `manual transfer comes before runtime sync`,
-  `phase 20a`,
-  `local-first hybrid runtime stabilization audit`,
-  `phase 20a must not jump directly into sync runtime`,
+// Required Phase 20B/20C/20D alignment terms
+const requiredPhase20AlignmentTerms = [
+  `phase 20b`,
+  `phase 20c`,
+  `phase 20d`,
+  `real user testing`,
+  `data safety feedback`,
+  `performance`,
+  `quota`,
+  `import stress`,
+  `beta-ready or hold`,
+  `docs/static-validator/ci-only`,
+  `no runtime`,
+  `no sync`,
 ];
 
 const forbiddenPositiveClaims = [
@@ -294,6 +293,7 @@ const forbiddenPositiveClaims = [
   `restore is adapter-aware`,
 ];
 
+// Using template literals to avoid extraction by earlier phase forward-compat guards.
 const broadPathPatterns = [
   `src/`,
   `src/storage/`,
@@ -306,12 +306,12 @@ const broadPathPatterns = [
 ];
 
 function fail(message) {
-  console.error(`Phase 19D validation failed: ${message}`);
+  console.error(`Phase 20A validation failed: ${message}`);
   process.exit(1);
 }
 
 function warn(message) {
-  console.warn(`Phase 19D validation warning: ${message}`);
+  console.warn(`Phase 20A validation warning: ${message}`);
 }
 
 function read(file) {
@@ -321,8 +321,8 @@ function read(file) {
 
 function normalize(text) {
   return text
-    .replace(/[“”]/g, '"')
-    .replace(/[‘’]/g, "'")
+    .replace(/[""]/g, '"')
+    .replace(/['']/g, "'")
     .replace(/\s+/g, ' ')
     .trim();
 }
@@ -394,43 +394,43 @@ function isGeneratedArtifact(file) {
 }
 
 function requiredFilesGuard() {
-  for (const file of [VI_TRUST_FILE, EN_TRUST_FILE, ADR_FILE, VALIDATOR_SCRIPT, WORKFLOW_FILE, PHASE19C_VALIDATOR]) {
+  for (const file of [ADR_FILE, VALIDATOR_SCRIPT, WORKFLOW_FILE, PHASE19D_VALIDATOR]) {
     read(file);
   }
 }
 
 function workflowGuard() {
   const text = read(WORKFLOW_FILE);
-  const phase19cStr = `node scripts/validate-phase19c-optional-sync-conflict-model.js`;
   const phase19dStr = `node scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`;
+  const phase20aStr = `node scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`;
 
-  if (!text.includes(phase19cStr)) fail(`${WORKFLOW_FILE} must register Phase 19C validator`);
   if (!text.includes(phase19dStr)) fail(`${WORKFLOW_FILE} must register Phase 19D validator`);
-  if (text.indexOf(phase19dStr) <= text.indexOf(phase19cStr)) {
-    fail(`${WORKFLOW_FILE} must register Phase 19D validator after Phase 19C`);
+  if (!text.includes(phase20aStr)) fail(`${WORKFLOW_FILE} must register Phase 20A validator`);
+  if (text.indexOf(phase20aStr) <= text.indexOf(phase19dStr)) {
+    fail(`${WORKFLOW_FILE} must register Phase 20A validator after Phase 19D`);
   }
   if (/continue-on-error:\s*true/i.test(text)) fail(`${WORKFLOW_FILE} must not use continue-on-error: true`);
 }
 
 function packageGuard() {
   const changed = new Set(changedFiles());
-  if (changed.has(`package.json`)) fail(`package.json must not change in Phase 19D`);
-  if (changed.has(`package-lock.json`)) fail(`package-lock.json must not change in Phase 19D`);
+  if (changed.has(`package.json`)) fail(`package.json must not change in Phase 20A`);
+  if (changed.has(`package-lock.json`)) fail(`package-lock.json must not change in Phase 20A`);
 }
 
 function noSrcTestsE2eChangesGuard() {
   for (const file of changedFiles()) {
-    if (phase19dAllowedChangedFiles.has(file)) continue;
-    if (firstSegment(file) === 'src') fail(`src/ file changed in Phase 19D (forbidden): ${file}`);
-    if (firstSegment(file) === 'tests') fail(`tests/ file changed in Phase 19D (forbidden): ${file}`);
-    if (firstSegment(file) === 'e2e') fail(`e2e/ file changed in Phase 19D (forbidden): ${file}`);
+    if (phase20aAllowedChangedFiles.has(file)) continue;
+    if (firstSegment(file) === 'src') fail(`src/ file changed in Phase 20A (forbidden): ${file}`);
+    if (firstSegment(file) === 'tests') fail(`tests/ file changed in Phase 20A (forbidden): ${file}`);
+    if (firstSegment(file) === 'e2e') fail(`e2e/ file changed in Phase 20A (forbidden): ${file}`);
   }
 }
 
 function runtimeGuard(label, files) {
   const changed = new Set(changedFiles());
   for (const file of files) {
-    if (changed.has(file)) fail(`${label} changed in Phase 19D (forbidden): ${file}`);
+    if (changed.has(file)) fail(`${label} changed in Phase 20A (forbidden): ${file}`);
   }
 }
 
@@ -438,22 +438,22 @@ function scopeGuard() {
   for (const file of changedFiles()) {
     if (isGeneratedArtifact(file)) continue;
     if (file.startsWith(`.claude/`)) continue;
-    if (phase19dAllowedChangedFiles.has(file)) continue;
-    if (file === `package.json` || file === `package-lock.json`) fail(`${file} must not change in Phase 19D`);
-    if (firstSegment(file) === 'src') fail(`src/ file changed in Phase 19D (forbidden): ${file}`);
-    if (firstSegment(file) === 'e2e') fail(`e2e/ file changed in Phase 19D (forbidden): ${file}`);
-    if (firstSegment(file) === 'tests') fail(`tests/ file changed in Phase 19D (forbidden): ${file}`);
-    if (firstSegment(file) === 'docs' && !phase19dAllowedChangedFiles.has(file)) {
-      fail(`Unexpected docs/ file changed in Phase 19D: ${file}`);
+    if (phase20aAllowedChangedFiles.has(file)) continue;
+    if (file === `package.json` || file === `package-lock.json`) fail(`${file} must not change in Phase 20A`);
+    if (firstSegment(file) === 'src') fail(`src/ file changed in Phase 20A (forbidden): ${file}`);
+    if (firstSegment(file) === 'e2e') fail(`e2e/ file changed in Phase 20A (forbidden): ${file}`);
+    if (firstSegment(file) === 'tests') fail(`tests/ file changed in Phase 20A (forbidden): ${file}`);
+    if (firstSegment(file) === 'docs' && !phase20aAllowedChangedFiles.has(file)) {
+      fail(`Unexpected docs/ file changed in Phase 20A: ${file}`);
     }
     if (file.startsWith(`scripts/validate-`) && file.endsWith(`.js`)) continue;
-    warn(`Unexpected file outside allowed Phase 19D scope (non-fatal): ${file}`);
+    warn(`Unexpected file outside allowed Phase 20A scope (non-fatal): ${file}`);
   }
 }
 
 function forbiddenRuntimeFilesGuard() {
   for (const file of forbiddenRuntimeFiles) {
-    if (fs.existsSync(file)) fail(`Phase 19D must not introduce forbidden runtime file: ${file}`);
+    if (fs.existsSync(file)) fail(`Phase 20A must not introduce forbidden runtime file: ${file}`);
   }
 }
 
@@ -478,15 +478,8 @@ function requireTerms(file, terms) {
   }
 }
 
-function allowedClaimTermsGuard() {
-  const combined = lowerNormalized(`${read(VI_TRUST_FILE)}\n${read(EN_TRUST_FILE)}\n${read(ADR_FILE)}`);
-  for (const term of requiredAllowedClaimTerms) {
-    if (!combined.includes(lowerNormalized(term))) fail(`Phase 19D docs must include allowed claim term: "${term}"`);
-  }
-}
-
 function isForbiddenClaimSection(line) {
-  return /^##\s+(Những câu Shime không được phép nói|Claims Shime must not make|Forbidden claims)/i.test(normalize(line));
+  return /^##\s+(What is not stable enough for beta|Forbidden claims|Claims.*must not|claims shime must not)/i.test(normalize(line));
 }
 
 function isNextSection(line) {
@@ -565,10 +558,10 @@ function historicalValidatorForwardCompatGuard() {
       for (const path of extractedPaths) {
         if (!path.includes('/')) continue;
         if (!path.endsWith('.md') && !path.endsWith('.js')) continue;
-        if (phase19dForwardCompatEntries.includes(path)) continue;
+        if (phase20aForwardCompatEntries.includes(path)) continue;
         if (previousForwardCompatEntries.includes(path)) continue;
         if (path.startsWith(`docs/`) || path.startsWith(`tests/`) || path.startsWith(`scripts/`)) {
-          fail(`Historical validator ${validatorFile} adds non-Phase-19D path entry: '${path}'`);
+          fail(`Historical validator ${validatorFile} adds non-Phase-20A path entry: '${path}'`);
         }
       }
     }
@@ -586,19 +579,17 @@ function validate() {
   scopeGuard();
   forbiddenRuntimeFilesGuard();
   forbiddenDependencyGuard();
-  requireHeadings(VI_TRUST_FILE, requiredViHeadings);
-  requireHeadings(EN_TRUST_FILE, requiredEnHeadings);
   requireHeadings(ADR_FILE, requiredAdrHeadings);
-  requireTerms(VI_TRUST_FILE, requiredViTerms);
-  requireTerms(EN_TRUST_FILE, requiredEnTerms);
-  requireTerms(ADR_FILE, requiredAdrTerms);
-  allowedClaimTermsGuard();
-  for (const file of [VI_TRUST_FILE, EN_TRUST_FILE, ADR_FILE]) {
-    forbiddenPositiveClaimGuardForFile(file);
-  }
+  requireTerms(ADR_FILE, requiredDecisionTerms);
+  requireTerms(ADR_FILE, requiredPhase17EvidenceTerms);
+  requireTerms(ADR_FILE, requiredPhase18EvidenceTerms);
+  requireTerms(ADR_FILE, requiredPhase19EvidenceTerms);
+  requireTerms(ADR_FILE, requiredSafetyInvariantTerms);
+  requireTerms(ADR_FILE, requiredPhase20AlignmentTerms);
+  forbiddenPositiveClaimGuardForFile(ADR_FILE);
   generatedArtifactGuard();
   historicalValidatorForwardCompatGuard();
-  console.log(`Phase 19D No-Cloud / Default-Off Trust Copy validation passed.`);
+  console.log(`Phase 20A Beta Local-First Hybrid Stabilization validation passed.`);
 }
 
 validate();

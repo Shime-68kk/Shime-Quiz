@@ -638,6 +638,9 @@ const allowedChanged = new Set([
   `docs/trust/no-cloud-default-off.md`,
   `docs/adr/phase19d-no-cloud-default-off-trust-copy.md`,
   `scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`,
+  // Phase 20A forward-compat entries (Beta Local-First Hybrid Stabilization Gate)
+  `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`,
+  `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
 ]);
 for (const file of changedFiles()) {
   if (!allowedChanged.has(file)) failures.push(`Unexpected changed file for Phase 10O: ${file}`);
