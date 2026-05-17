@@ -41,6 +41,9 @@ const phase17gAllowedChangedFiles = new Set([
   'docs/phase17h-single-key-reversible-migration-pilot.md',
   'tests/unit/helpers/singleKeyReversibleMigrationPilot.js',
   'tests/unit/singleKeyReversibleMigrationPilot.test.js',
+  // Phase 17I forward-compat entries (Local Migration Readiness Closure / Phase 18 Gate)
+  `docs/phase17i-local-migration-readiness-closure-phase18-gate.md`,
+  `scripts/validate-phase17i-local-migration-readiness-closure-phase18-gate.js`,
 ]);
 
 // Forbidden runtime files that must not exist in Phase 17G.

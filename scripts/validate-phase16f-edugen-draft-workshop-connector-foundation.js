@@ -223,6 +223,9 @@ const phase16fAllowedChangedFiles = new Set([
   'scripts/validate-phase17h-single-key-reversible-migration-pilot.js',
   'tests/unit/helpers/singleKeyReversibleMigrationPilot.js',
   'tests/unit/singleKeyReversibleMigrationPilot.test.js',
+  // Phase 17I forward-compat entries (Local Migration Readiness Closure / Phase 18 Gate)
+  `docs/phase17i-local-migration-readiness-closure-phase18-gate.md`,
+  `scripts/validate-phase17i-local-migration-readiness-closure-phase18-gate.js`,
 ]);
 
 // Hard-forbidden scheduler/storage/backup files. Phase 16F must not touch
