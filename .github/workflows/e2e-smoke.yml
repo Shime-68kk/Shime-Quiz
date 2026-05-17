@@ -466,6 +466,9 @@ jobs:
       - name: Validate Phase 19A FSRS Public Opt-In Sequencing Gate
         run: node scripts/validate-phase19a-fsrs-public-opt-in-sequencing-gate.js
 
+      - name: Validate Phase 19B Optional Sync Architecture Decision Gate
+        run: node scripts/validate-phase19b-optional-sync-architecture-decision.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

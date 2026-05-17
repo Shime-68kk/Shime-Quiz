@@ -23,6 +23,9 @@ const phase19aCoreFiles = [
 const phase19aForwardCompatEntries = [
   `docs/phase19a-fsrs-public-opt-in-sequencing-gate.md`,
   `scripts/validate-phase19a-fsrs-public-opt-in-sequencing-gate.js`,
+  // Phase 19B forward-compat entries (Optional Sync Architecture Decision Gate)
+  `docs/adr/phase19b-optional-sync-direction.md`,
+  `scripts/validate-phase19b-optional-sync-architecture-decision.js`,
 ];
 
 // Pre-Phase-19A baseline files added in Phase 18 that may appear in changedFiles()
@@ -55,6 +58,9 @@ const phase19aAllowedChangedFiles = new Set([
   VALIDATOR_SCRIPT,
   PHASE18E_VALIDATOR,
   ...prePhase19aBaselineFiles,
+  // Phase 19B forward-compat entries (Optional Sync Architecture Decision Gate)
+  `docs/adr/phase19b-optional-sync-direction.md`,
+  `scripts/validate-phase19b-optional-sync-architecture-decision.js`,
 ]);
 
 const backupRestoreRuntimeFiles = [
