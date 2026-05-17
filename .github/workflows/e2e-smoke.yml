@@ -442,6 +442,9 @@ jobs:
       - name: Validate Phase 17G Single-Key Dry-Run Migration Rehearsal
         run: node scripts/validate-phase17g-single-key-dry-run-migration-rehearsal.js
 
+      - name: Validate Phase 17H Single-Key Reversible Migration Pilot
+        run: node scripts/validate-phase17h-single-key-reversible-migration-pilot.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
