@@ -61,6 +61,9 @@ const allowedChangedFiles = new Set([
   // Phase 18B forward-compat entries (Backup/Export Compatibility Audit)
   `docs/phase18b-backup-export-compatibility-audit.md`,
   `scripts/validate-phase18b-backup-export-compatibility-audit.js`,
+  // Phase 18C forward-compat entries (Manual Migration UX Plan)
+  `docs/phase18c-manual-migration-ux-plan.md`,
+  `scripts/validate-phase18c-manual-migration-ux-plan.js`,
   // Phase 14B compatibility: allow only the approved internal/test-only
   // FSRS wrapper prototype files and exact ts-fsrs package metadata.
   'package.json',

@@ -52,6 +52,9 @@ const phase17gAllowedChangedFiles = new Set([
   // Phase 18B forward-compat entries (Backup/Export Compatibility Audit)
   `docs/phase18b-backup-export-compatibility-audit.md`,
   `scripts/validate-phase18b-backup-export-compatibility-audit.js`,
+  // Phase 18C forward-compat entries (Manual Migration UX Plan)
+  `docs/phase18c-manual-migration-ux-plan.md`,
+  `scripts/validate-phase18c-manual-migration-ux-plan.js`,
 ]);
 
 // Forbidden runtime files that must not exist in Phase 17G.
@@ -237,6 +240,9 @@ const phase17gForwardCompatEntries = [
   // Phase 18B forward-compat entries (Backup/Export Compatibility Audit)
   `docs/phase18b-backup-export-compatibility-audit.md`,
   `scripts/validate-phase18b-backup-export-compatibility-audit.js`,
+  // Phase 18C forward-compat entries (Manual Migration UX Plan)
+  `docs/phase18c-manual-migration-ux-plan.md`,
+  `scripts/validate-phase18c-manual-migration-ux-plan.js`,
 ];
 
 // Required test assertion patterns in the test file (for key safety scenarios).

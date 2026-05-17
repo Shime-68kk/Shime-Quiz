@@ -31,6 +31,9 @@ const phase18bAllowedChangedFiles = new Set([
   'scripts/validate-phase17i-local-migration-readiness-closure-phase18-gate.js',
   'scripts/validate-backup-transfer-safety-hardening.js',
   PHASE18A_VALIDATOR,
+  // Phase 18C forward-compat entries (Manual Migration UX Plan)
+  `docs/phase18c-manual-migration-ux-plan.md`,
+  `scripts/validate-phase18c-manual-migration-ux-plan.js`,
 ]);
 
 // Forbidden runtime files that must not exist in Phase 18B.
@@ -173,6 +176,9 @@ const broadPathPatterns = [
 const phase18bForwardCompatEntries = [
   DOCS_FILE,
   VALIDATOR_SCRIPT,
+  // Phase 18C forward-compat entries (Manual Migration UX Plan)
+  `docs/phase18c-manual-migration-ux-plan.md`,
+  `scripts/validate-phase18c-manual-migration-ux-plan.js`,
 ];
 
 function fail(message) {
