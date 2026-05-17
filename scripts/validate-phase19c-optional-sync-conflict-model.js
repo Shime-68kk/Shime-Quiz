@@ -29,6 +29,11 @@ const phase19cCoreFiles = [
 const phase19cForwardCompatEntries = [
   `docs/adr/phase19c-optional-sync-conflict-model.md`,
   `scripts/validate-phase19c-optional-sync-conflict-model.js`,
+  // Phase 19D forward-compat entries (No-Cloud / Default-Off Trust Copy Gate)
+  `docs/trust/no-cloud-default-off.vi.md`,
+  `docs/trust/no-cloud-default-off.md`,
+  `docs/adr/phase19d-no-cloud-default-off-trust-copy.md`,
+  `scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`,
 ];
 
 // Pre-Phase-19C baseline files that may already appear in historical validator
@@ -73,6 +78,11 @@ const phase19cAllowedChangedFiles = new Set([
   ADR_FILE,
   VALIDATOR_SCRIPT,
   PHASE19B_VALIDATOR,
+  // Phase 19D forward-compat entries (No-Cloud / Default-Off Trust Copy Gate)
+  `docs/trust/no-cloud-default-off.vi.md`,
+  `docs/trust/no-cloud-default-off.md`,
+  `docs/adr/phase19d-no-cloud-default-off-trust-copy.md`,
+  `scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`,
   ...prePhase19cBaselineFiles,
 ]);
 

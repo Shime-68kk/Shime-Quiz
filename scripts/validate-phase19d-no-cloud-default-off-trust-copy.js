@@ -1,0 +1,598 @@
+#!/usr/bin/env node
+/**
+ * scripts/validate-phase19d-no-cloud-default-off-trust-copy.js
+ *
+ * Phase 19D static validator — No-Cloud / Default-Off Trust Copy.
+ *
+ * Phase 19D is docs/static-validator/CI-only. It does not implement sync,
+ * cloud, account/auth/backend, storage changes, FSRS changes, backup/export/
+ * restore changes, UI, tests, or package changes. Its deliverables are the
+ * Vietnamese-first trust copy, English companion copy, ADR, this validator,
+ * CI registration after Phase 19C, and exact historical validator
+ * forward-compat entries.
+ */
+
+import fs from 'node:fs';
+import { execSync } from 'node:child_process';
+
+const VI_TRUST_FILE       = `docs/trust/no-cloud-default-off.vi.md`;
+const EN_TRUST_FILE       = `docs/trust/no-cloud-default-off.md`;
+const ADR_FILE            = `docs/adr/phase19d-no-cloud-default-off-trust-copy.md`;
+const VALIDATOR_SCRIPT    = `scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`;
+const WORKFLOW_FILE       = `.github/workflows/e2e-smoke.yml`;
+const PHASE19C_VALIDATOR  = `scripts/validate-phase19c-optional-sync-conflict-model.js`;
+
+const phase19dCoreFiles = [
+  VI_TRUST_FILE,
+  EN_TRUST_FILE,
+  ADR_FILE,
+  VALIDATOR_SCRIPT,
+];
+
+const phase19dForwardCompatEntries = [
+  `docs/trust/no-cloud-default-off.vi.md`,
+  `docs/trust/no-cloud-default-off.md`,
+  `docs/adr/phase19d-no-cloud-default-off-trust-copy.md`,
+  `scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`,
+];
+
+const previousForwardCompatEntries = [
+  `docs/phase18c-manual-migration-ux-plan.md`,
+  `docs/phase18d-internal-test-only-local-migration-pilot.md`,
+  `docs/phase18e-limited-local-backend-pilot-rollback-gates.md`,
+  `scripts/validate-phase18d-internal-test-only-local-migration-pilot.js`,
+  `scripts/validate-phase18e-limited-local-backend-pilot-rollback-gates.js`,
+  `tests/unit/helpers/internalLocalMigrationPilot.js`,
+  `tests/unit/internalLocalMigrationPilot.test.js`,
+  `tests/unit/helpers/limitedLocalBackendPilot.js`,
+  `tests/unit/limitedLocalBackendPilot.test.js`,
+  `docs/phase19a-fsrs-public-opt-in-sequencing-gate.md`,
+  `scripts/validate-phase19a-fsrs-public-opt-in-sequencing-gate.js`,
+  `docs/adr/phase19b-optional-sync-direction.md`,
+  `scripts/validate-phase19b-optional-sync-architecture-decision.js`,
+  `docs/adr/phase19c-optional-sync-conflict-model.md`,
+  `scripts/validate-phase19c-optional-sync-conflict-model.js`,
+];
+
+const prePhase19dBaselineFiles = [
+  `docs/phase18c-manual-migration-ux-plan.md`,
+  `docs/phase18d-internal-test-only-local-migration-pilot.md`,
+  `docs/phase18e-limited-local-backend-pilot-rollback-gates.md`,
+  `docs/phase19a-fsrs-public-opt-in-sequencing-gate.md`,
+  `docs/adr/phase19b-optional-sync-direction.md`,
+  `docs/adr/phase19c-optional-sync-conflict-model.md`,
+  `tests/unit/helpers/internalLocalMigrationPilot.js`,
+  `tests/unit/internalLocalMigrationPilot.test.js`,
+  `tests/unit/helpers/limitedLocalBackendPilot.js`,
+  `tests/unit/limitedLocalBackendPilot.test.js`,
+];
+
+const phase19dAllowedChangedFiles = new Set([
+  WORKFLOW_FILE,
+  PHASE19C_VALIDATOR,
+  ...phase19dCoreFiles,
+  ...prePhase19dBaselineFiles,
+]);
+
+const fsrsRuntimeFiles = [
+  `src/scheduler/fsrsAdapter.js`,
+  `src/scheduler/fsrsScheduler.js`,
+  `src/scheduler/fsrsEnrollment.js`,
+  `src/state/fsrsMetadata.js`,
+  `src/ui/FsrsExperimentalSettingsPanel.js`,
+];
+
+const storageMigrationRuntimeFiles = [
+  `src/storage/IndexedDBAdapter.js`,
+  `src/storage/EventLog.js`,
+  `src/storage/MigrationJournal.js`,
+  `src/storage/SyncAdapter.js`,
+  `src/storage/migrationJournal.js`,
+  `src/storage/migrationRunner.js`,
+  `src/storage/migrationManifest.js`,
+  `src/storage/migrationRegistry.js`,
+  `src/storage/backupCoverageMap.js`,
+  `src/state/adapterBackupBridge.js`,
+  `src/storage/StorageAdapter.js`,
+  `src/storage/LocalStorageDriver.js`,
+];
+
+const backupRestoreRuntimeFiles = [
+  `src/state/v2BackupRestore.js`,
+  `src/quiz/dataBackup.js`,
+  `src/ui/dataBackupPanel.js`,
+];
+
+const forbiddenRuntimeFiles = [
+  `src/storage/EventLog.js`,
+  `src/storage/SyncAdapter.js`,
+  `src/storage/conflictResolver.js`,
+  `src/storage/operationLog.js`,
+  `src/storage/tombstones.js`,
+  `src/storage/deviceIdentity.js`,
+  `src/storage/syncEngine.js`,
+  `src/state/syncStorage.js`,
+  `src/state/adapterBackupBridge.js`,
+  `src/sync/SyncEngine.js`,
+  `src/sync/CloudSyncAdapter.js`,
+  `src/auth/AccountProvider.js`,
+];
+
+const forbiddenDependencies = [
+  `idb`, `dexie`, `localforage`, `pouchdb`, `rxdb`, `firebase`, `supabase`,
+  `aws-sdk`, `@supabase/supabase-js`, `pocketbase`,
+];
+
+const generatedArtifacts = [
+  `node_modules`,
+  `dist`,
+  `test-results`,
+  `playwright-report`,
+  `coverage`,
+  `FETCH_HEAD`,
+  `.env`,
+  `.env.local`,
+  `.git`,
+  `phase19d-no-cloud-default-off-trust-copy.patch`,
+  `phase19d-no-cloud-default-off-trust-copy.zip`,
+  `phase19d-no-cloud-default-off-trust-copy-handoff.md`,
+];
+
+const requiredViHeadings = [
+  `# Không có đám mây mặc định / Đồng bộ luôn tắt mặc định`,
+  `## Mục đích`,
+  `## Shime hiện tại là gì`,
+  `## Shime hiện tại không làm gì`,
+  `## Dữ liệu của bạn đang ở đâu`,
+  `## Sao lưu, xuất dữ liệu, nhập dữ liệu và khôi phục`,
+  `## Chuyển dữ liệu thủ công trước, đồng bộ sau nếu đủ an toàn`,
+  `## Nếu sau này có đồng bộ, đồng bộ phải là tùy chọn`,
+  `## Xung đột dữ liệu và vì sao không được hứa "không có xung đột"`,
+  `## FSRS, lịch ôn tập và dữ liệu trí nhớ`,
+  `## Những câu Shime được phép nói`,
+  `## Những câu Shime không được phép nói`,
+  `## Tiêu chí trước khi bất kỳ đồng bộ nào được triển khai`,
+  `## Ghi chú cho người dùng`,
+];
+
+const requiredEnHeadings = [
+  `# No Cloud by Default / Sync Always Default-Off`,
+  `## Purpose`,
+  `## What Shime is today`,
+  `## What Shime does not do today`,
+  `## Where your data lives`,
+  `## Backup, export, import, and restore`,
+  `## Manual transfer first, sync later only if safe`,
+  `## If sync exists later, it must be optional`,
+  `## Data conflicts and why Shime must not promise "no conflicts"`,
+  `## FSRS, review schedules, and memory data`,
+  `## Claims Shime may make`,
+  `## Claims Shime must not make`,
+  `## Criteria before any sync implementation`,
+  `## User note`,
+];
+
+const requiredAdrHeadings = [
+  `# Phase 19D — No-Cloud / Default-Off Trust Copy`,
+  `## Purpose`,
+  `## Relationship to Phase 19B`,
+  `## Relationship to Phase 19C`,
+  `## Vietnamese-first decision`,
+  `## Trust copy files`,
+  `## Allowed claims`,
+  `## Forbidden claims`,
+  `## User-facing copy boundaries`,
+  `## Validator and CI guardrails`,
+  `## What Phase 19D explicitly does not implement`,
+  `## Go/no-go criteria for Phase 20A`,
+  `## Future sequencing`,
+  `## Acceptance criteria`,
+];
+
+const requiredViTerms = [
+  `không có đám mây mặc định`,
+  `đồng bộ luôn tắt mặc định`,
+  `không cần tài khoản`,
+  `không có đăng nhập`,
+  `không có máy chủ Shime`,
+  `dữ liệu nằm trên thiết bị này`,
+  `trừ khi bạn tự xuất dữ liệu`,
+  `localStorage vẫn là nguồn dữ liệu sản xuất chính`,
+  `sao lưu không phải là đồng bộ`,
+  `khôi phục có thể ghi đè dữ liệu hiện tại`,
+  `chuyển dữ liệu thủ công`,
+  `không hứa không có xung đột`,
+  `không hứa chống mất dữ liệu tuyệt đối`,
+  `không hứa mã hóa đầu cuối`,
+  `không hứa zero-knowledge`,
+  `FSRS không được đồng bộ âm thầm`,
+  `lịch ôn tập không được gộp âm thầm`,
+  `trước khi gộp dữ liệu phải có bản sao lưu có thể khôi phục`,
+];
+
+const requiredEnTerms = [
+  `no cloud by default`,
+  `sync is always default-off`,
+  `no account required`,
+  `no login`,
+  `no Shime server`,
+  `data lives on this device`,
+  `unless you export it yourself`,
+  `localStorage remains the canonical production source of truth`,
+  `backup is not sync`,
+  `restore may overwrite current data`,
+  `manual transfer`,
+  `Shime must not promise no conflicts`,
+  `Shime must not promise absolute data-loss prevention`,
+  `Shime must not claim end-to-end encryption`,
+  `Shime must not claim zero-knowledge`,
+  `FSRS must not silently sync`,
+  `review schedules must not silently merge`,
+  `before merging data, Shime must capture a restorable backup`,
+];
+
+const requiredAllowedClaimTerms = [
+  `local-first by default`,
+  `no account required`,
+  `no login required`,
+  `no cloud sync today`,
+  `no Shime server today`,
+  `data stays on this device unless exported`,
+  `backup and restore are manual user-controlled actions`,
+  `manual transfer comes before sync`,
+  `optional sync remains unshipped`,
+  `conflict model is a design decision only`,
+  `backup-before-merge is a future invariant`,
+];
+
+const requiredAdrTerms = [
+  `phase 19d is a docs/static-validator/ci-only`,
+  `vietnamese trust copy is the source of truth`,
+  `english copy is the companion`,
+  `no sync runtime exists`,
+  `phase 19d does not implement cloud sync`,
+  `phase 19d does not implement a shime-hosted backend`,
+  `phase 19d does not implement account/auth/identity`,
+  `phase 19d does not implement a remote endpoint`,
+  `no dual-write exists`,
+  `phase 19d does not implement an app-boot migration`,
+  `phase 19d does not implement a production storage backend switch`,
+  `no production indexeddbadapter exists`,
+  `no runtime migration exists`,
+  `no localstorage deletion happens`,
+  `localstorage remains the canonical production source of truth`,
+  `backup/export/restore behavior remains unchanged`,
+  `must never be described as`,
+  `restore may overwrite current data`,
+  `manual transfer comes before runtime sync`,
+  `phase 20a`,
+  `local-first hybrid runtime stabilization audit`,
+  `phase 20a must not jump directly into sync runtime`,
+];
+
+const forbiddenPositiveClaims = [
+  `sync exists`,
+  `cloud sync exists`,
+  `account/auth/backend exists`,
+  `Shime stores your data in the cloud`,
+  `encrypted end-to-end`,
+  `zero-knowledge`,
+  `sync just works`,
+  `no conflicts`,
+  `data-loss prevention is guaranteed`,
+  `FSRS sync is available`,
+  `review schedules sync automatically`,
+  `production sync is ready`,
+  `production IndexedDB storage exists`,
+  `backup/export is adapter-aware`,
+  `restore is adapter-aware`,
+];
+
+const broadPathPatterns = [
+  `src/`,
+  `src/storage/`,
+  `docs/`,
+  `scripts/`,
+  `tests/`,
+  `e2e/`,
+  `package.json`,
+  `package-lock.json`,
+];
+
+function fail(message) {
+  console.error(`Phase 19D validation failed: ${message}`);
+  process.exit(1);
+}
+
+function warn(message) {
+  console.warn(`Phase 19D validation warning: ${message}`);
+}
+
+function read(file) {
+  if (!fs.existsSync(file)) fail(`Missing required file: ${file}`);
+  return fs.readFileSync(file, 'utf8');
+}
+
+function normalize(text) {
+  return text
+    .replace(/[“”]/g, '"')
+    .replace(/[‘’]/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function lowerNormalized(text) {
+  return normalize(text).toLowerCase();
+}
+
+function runGit(command, options = {}) {
+  try {
+    return execSync(command, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], ...options }).trim();
+  } catch {
+    if (!options.silent) warn(`Git command failed; scope checking may be limited: ${command}`);
+    return '';
+  }
+}
+
+function splitLines(output) {
+  return output ? output.split(/\r?\n/).map(line => line.trim()).filter(Boolean) : [];
+}
+
+function uniqueSorted(items) {
+  return [...new Set(items)].sort();
+}
+
+function changedFilesFromPullRequestBase() {
+  const baseRef = process.env.GITHUB_BASE_REF;
+  if (!baseRef) return [];
+  runGit(`git fetch --no-tags --depth=1 origin ${baseRef}`, { silent: true });
+  const mergeBase = runGit(`git merge-base HEAD origin/${baseRef}`, { silent: true });
+  if (!mergeBase) return [];
+  return splitLines(runGit(`git diff --name-only ${mergeBase} HEAD`, { silent: true }));
+}
+
+function changedFilesFromBranchBase() {
+  const mergeBase = runGit(`git merge-base HEAD origin/main`, { silent: true });
+  if (!mergeBase) return [];
+  return splitLines(runGit(`git diff --name-only ${mergeBase} HEAD`, { silent: true }));
+}
+
+function changedFilesFromLocalFallbacks({ includeUntracked = true } = {}) {
+  const files = [
+    ...splitLines(runGit(`git diff --name-only HEAD`, { silent: true })),
+    ...splitLines(runGit(`git diff --cached --name-only`, { silent: true })),
+  ];
+  if (includeUntracked) files.push(...splitLines(runGit(`git ls-files --others --exclude-standard`, { silent: true })));
+  return files;
+}
+
+function changedFiles({ includeUntracked = true } = {}) {
+  const prBaseFiles = changedFilesFromPullRequestBase();
+  if (prBaseFiles.length > 0) return uniqueSorted(prBaseFiles);
+  return uniqueSorted([
+    ...changedFilesFromBranchBase(),
+    ...changedFilesFromLocalFallbacks({ includeUntracked }),
+  ]);
+}
+
+function trackedFiles() {
+  return uniqueSorted(splitLines(runGit(`git ls-files`, { silent: true })));
+}
+
+function firstSegment(file) {
+  return file.indexOf('/') >= 0 ? file.slice(0, file.indexOf('/')) : file;
+}
+
+function isGeneratedArtifact(file) {
+  return generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`));
+}
+
+function requiredFilesGuard() {
+  for (const file of [VI_TRUST_FILE, EN_TRUST_FILE, ADR_FILE, VALIDATOR_SCRIPT, WORKFLOW_FILE, PHASE19C_VALIDATOR]) {
+    read(file);
+  }
+}
+
+function workflowGuard() {
+  const text = read(WORKFLOW_FILE);
+  const phase19cStr = `node scripts/validate-phase19c-optional-sync-conflict-model.js`;
+  const phase19dStr = `node scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`;
+
+  if (!text.includes(phase19cStr)) fail(`${WORKFLOW_FILE} must register Phase 19C validator`);
+  if (!text.includes(phase19dStr)) fail(`${WORKFLOW_FILE} must register Phase 19D validator`);
+  if (text.indexOf(phase19dStr) <= text.indexOf(phase19cStr)) {
+    fail(`${WORKFLOW_FILE} must register Phase 19D validator after Phase 19C`);
+  }
+  if (/continue-on-error:\s*true/i.test(text)) fail(`${WORKFLOW_FILE} must not use continue-on-error: true`);
+}
+
+function packageGuard() {
+  const changed = new Set(changedFiles());
+  if (changed.has(`package.json`)) fail(`package.json must not change in Phase 19D`);
+  if (changed.has(`package-lock.json`)) fail(`package-lock.json must not change in Phase 19D`);
+}
+
+function noSrcTestsE2eChangesGuard() {
+  for (const file of changedFiles()) {
+    if (phase19dAllowedChangedFiles.has(file)) continue;
+    if (firstSegment(file) === 'src') fail(`src/ file changed in Phase 19D (forbidden): ${file}`);
+    if (firstSegment(file) === 'tests') fail(`tests/ file changed in Phase 19D (forbidden): ${file}`);
+    if (firstSegment(file) === 'e2e') fail(`e2e/ file changed in Phase 19D (forbidden): ${file}`);
+  }
+}
+
+function runtimeGuard(label, files) {
+  const changed = new Set(changedFiles());
+  for (const file of files) {
+    if (changed.has(file)) fail(`${label} changed in Phase 19D (forbidden): ${file}`);
+  }
+}
+
+function scopeGuard() {
+  for (const file of changedFiles()) {
+    if (isGeneratedArtifact(file)) continue;
+    if (file.startsWith(`.claude/`)) continue;
+    if (phase19dAllowedChangedFiles.has(file)) continue;
+    if (file === `package.json` || file === `package-lock.json`) fail(`${file} must not change in Phase 19D`);
+    if (firstSegment(file) === 'src') fail(`src/ file changed in Phase 19D (forbidden): ${file}`);
+    if (firstSegment(file) === 'e2e') fail(`e2e/ file changed in Phase 19D (forbidden): ${file}`);
+    if (firstSegment(file) === 'tests') fail(`tests/ file changed in Phase 19D (forbidden): ${file}`);
+    if (firstSegment(file) === 'docs' && !phase19dAllowedChangedFiles.has(file)) {
+      fail(`Unexpected docs/ file changed in Phase 19D: ${file}`);
+    }
+    if (file.startsWith(`scripts/validate-`) && file.endsWith(`.js`)) continue;
+    warn(`Unexpected file outside allowed Phase 19D scope (non-fatal): ${file}`);
+  }
+}
+
+function forbiddenRuntimeFilesGuard() {
+  for (const file of forbiddenRuntimeFiles) {
+    if (fs.existsSync(file)) fail(`Phase 19D must not introduce forbidden runtime file: ${file}`);
+  }
+}
+
+function forbiddenDependencyGuard() {
+  const pkg = read(`package.json`);
+  for (const dep of forbiddenDependencies) {
+    if (new RegExp(`"${dep}"\\s*:`).test(pkg)) fail(`package.json must not add forbidden dependency: "${dep}"`);
+  }
+}
+
+function requireHeadings(file, headings) {
+  const text = normalize(read(file));
+  for (const heading of headings) {
+    if (!text.includes(normalize(heading))) fail(`${file} must include required heading: "${heading}"`);
+  }
+}
+
+function requireTerms(file, terms) {
+  const text = lowerNormalized(read(file));
+  for (const term of terms) {
+    if (!text.includes(lowerNormalized(term))) fail(`${file} must include required term: "${term}"`);
+  }
+}
+
+function allowedClaimTermsGuard() {
+  const combined = lowerNormalized(`${read(VI_TRUST_FILE)}\n${read(EN_TRUST_FILE)}\n${read(ADR_FILE)}`);
+  for (const term of requiredAllowedClaimTerms) {
+    if (!combined.includes(lowerNormalized(term))) fail(`Phase 19D docs must include allowed claim term: "${term}"`);
+  }
+}
+
+function isForbiddenClaimSection(line) {
+  return /^##\s+(Những câu Shime không được phép nói|Claims Shime must not make|Forbidden claims)/i.test(normalize(line));
+}
+
+function isNextSection(line) {
+  return /^##\s+/.test(line);
+}
+
+function isNegatedClaimContext(line) {
+  return /\b(if|later|future|only if|no|not|must not|does not|do not|none|without|forbidden|disallowed|absent|unshipped|not implemented|not yet|cannot|never|unchanged|request to claim|không|chưa|nếu|sau này|bị cấm|không được phép)\b/i.test(line);
+}
+
+function forbiddenPositiveClaimGuardForFile(file) {
+  const lines = read(file).split(/\r?\n/);
+  let inForbiddenClaimSection = false;
+
+  for (const rawLine of lines) {
+    const line = normalize(rawLine);
+    if (isForbiddenClaimSection(line)) {
+      inForbiddenClaimSection = true;
+      continue;
+    }
+    if (isNextSection(line)) inForbiddenClaimSection = false;
+    if (inForbiddenClaimSection) continue;
+
+    const lowerLine = line.toLowerCase();
+    for (const claim of forbiddenPositiveClaims) {
+      if (!lowerLine.includes(lowerNormalized(claim))) continue;
+      if (isNegatedClaimContext(line)) continue;
+      fail(`${file} must not contain forbidden positive claim outside forbidden-claim sections: "${claim}" (line: ${line})`);
+    }
+  }
+}
+
+function generatedArtifactGuard() {
+  const files = uniqueSorted([...changedFiles({ includeUntracked: false }), ...trackedFiles()]);
+  for (const artifact of generatedArtifacts) {
+    if (files.some(file => file === artifact || file.startsWith(`${artifact}/`))) {
+      fail(`Generated artifact appears in changed or tracked files: ${artifact}`);
+    }
+  }
+}
+
+function historicalValidatorForwardCompatGuard() {
+  const mergeBase = runGit(`git merge-base HEAD origin/main`, { silent: true });
+  const changedValidators = changedFiles().filter(file =>
+    file.startsWith(`scripts/validate-`) &&
+    file.endsWith(`.js`) &&
+    file !== VALIDATOR_SCRIPT
+  );
+
+  for (const validatorFile of changedValidators) {
+    if (!mergeBase) {
+      warn(`Cannot verify ${validatorFile} forward-compat: no merge base.`);
+      continue;
+    }
+
+    const diff = runGit(`git diff ${mergeBase} HEAD -- "${validatorFile}"`, { silent: true });
+    if (!diff || diff.includes('--- /dev/null')) continue;
+
+    const addedLines = diff.split('\n')
+      .filter(line => line.startsWith('+') && !line.startsWith('+++'))
+      .map(line => line.slice(1).trim())
+      .filter(line => line.length > 0 && !line.startsWith('//') && !line.startsWith('*'));
+
+    for (const line of addedLines) {
+      const extractedPaths = [
+        ...line.matchAll(/'([^']+)'/g),
+        ...line.matchAll(/`([^`]+)`/g),
+      ].map(([, path]) => path);
+
+      for (const broadPath of broadPathPatterns) {
+        if (extractedPaths.some(path => path === broadPath)) {
+          fail(`Historical validator ${validatorFile} adds forbidden broad path allowlist: '${broadPath}'`);
+        }
+      }
+
+      for (const path of extractedPaths) {
+        if (!path.includes('/')) continue;
+        if (!path.endsWith('.md') && !path.endsWith('.js')) continue;
+        if (phase19dForwardCompatEntries.includes(path)) continue;
+        if (previousForwardCompatEntries.includes(path)) continue;
+        if (path.startsWith(`docs/`) || path.startsWith(`tests/`) || path.startsWith(`scripts/`)) {
+          fail(`Historical validator ${validatorFile} adds non-Phase-19D path entry: '${path}'`);
+        }
+      }
+    }
+  }
+}
+
+function validate() {
+  requiredFilesGuard();
+  workflowGuard();
+  packageGuard();
+  noSrcTestsE2eChangesGuard();
+  runtimeGuard(`FSRS runtime file`, fsrsRuntimeFiles);
+  runtimeGuard(`Storage/migration runtime file`, storageMigrationRuntimeFiles);
+  runtimeGuard(`Backup/export/restore runtime file`, backupRestoreRuntimeFiles);
+  scopeGuard();
+  forbiddenRuntimeFilesGuard();
+  forbiddenDependencyGuard();
+  requireHeadings(VI_TRUST_FILE, requiredViHeadings);
+  requireHeadings(EN_TRUST_FILE, requiredEnHeadings);
+  requireHeadings(ADR_FILE, requiredAdrHeadings);
+  requireTerms(VI_TRUST_FILE, requiredViTerms);
+  requireTerms(EN_TRUST_FILE, requiredEnTerms);
+  requireTerms(ADR_FILE, requiredAdrTerms);
+  allowedClaimTermsGuard();
+  for (const file of [VI_TRUST_FILE, EN_TRUST_FILE, ADR_FILE]) {
+    forbiddenPositiveClaimGuardForFile(file);
+  }
+  generatedArtifactGuard();
+  historicalValidatorForwardCompatGuard();
+  console.log(`Phase 19D No-Cloud / Default-Off Trust Copy validation passed.`);
+}
+
+validate();

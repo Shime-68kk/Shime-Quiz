@@ -45,6 +45,11 @@ const previousForwardCompatEntries = [
   // Phase 19C forward-compat entries (Optional Sync Conflict Model Design Gate)
   `docs/adr/phase19c-optional-sync-conflict-model.md`,
   `scripts/validate-phase19c-optional-sync-conflict-model.js`,
+  // Phase 19D forward-compat entries (No-Cloud / Default-Off Trust Copy Gate)
+  `docs/trust/no-cloud-default-off.vi.md`,
+  `docs/trust/no-cloud-default-off.md`,
+  `docs/adr/phase19d-no-cloud-default-off-trust-copy.md`,
+  `scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`,
 ];
 
 const phase18eAllowedChangedFiles = new Set([
@@ -60,6 +65,11 @@ const phase18eAllowedChangedFiles = new Set([
   // Phase 19C forward-compat entries (Optional Sync Conflict Model Design Gate)
   `docs/adr/phase19c-optional-sync-conflict-model.md`,
   `scripts/validate-phase19c-optional-sync-conflict-model.js`,
+  // Phase 19D forward-compat entries (No-Cloud / Default-Off Trust Copy Gate)
+  `docs/trust/no-cloud-default-off.vi.md`,
+  `docs/trust/no-cloud-default-off.md`,
+  `docs/adr/phase19d-no-cloud-default-off-trust-copy.md`,
+  `scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`,
 ]);
 
 const backupRestoreRuntimeFiles = [
