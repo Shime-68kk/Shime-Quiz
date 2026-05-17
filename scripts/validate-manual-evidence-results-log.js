@@ -74,6 +74,9 @@ const allowedChanged = new Set([
   // Phase 20A forward-compat entries (Beta Local-First Hybrid Stabilization Gate)
   `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`,
   `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
+`docs/adr/phase20b-real-user-testing-data-safety-feedback.md`,
+`docs/testing/phase20b-real-user-testing-plan.md`,
+`scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`,
   // Phase 14B compatibility: allow only the approved internal/test-only
   // FSRS wrapper prototype files and exact ts-fsrs package metadata.
   'package.json',

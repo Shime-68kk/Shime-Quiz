@@ -67,6 +67,10 @@ const phase17iAllowedChangedFiles = new Set([
   // Phase 20A forward-compat entries (Beta Local-First Hybrid Stabilization Gate)
   `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`,
   `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
+  // Phase 20B forward-compat entries (Real User Testing / Data Safety Feedback Plan)
+  `docs/adr/phase20b-real-user-testing-data-safety-feedback.md`,
+  `docs/testing/phase20b-real-user-testing-plan.md`,
+  `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`,
 ]);
 
 // Forbidden runtime files that must not exist in Phase 17I.
@@ -143,6 +147,10 @@ const phase17iForwardCompatEntries = [
   // Phase 20A forward-compat entries (Beta Local-First Hybrid Stabilization Gate)
   `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`,
   `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
+  // Phase 20B forward-compat entries (Real User Testing / Data Safety Feedback Plan)
+  `docs/adr/phase20b-real-user-testing-data-safety-feedback.md`,
+  `docs/testing/phase20b-real-user-testing-plan.md`,
+  `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`,
 ];
 
 // Required document sections (exact heading strings).

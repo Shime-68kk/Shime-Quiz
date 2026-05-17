@@ -1,42 +1,41 @@
 #!/usr/bin/env node
 /**
- * scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js
+ * scripts/validate-phase20b-real-user-testing-data-safety-feedback.js
  *
- * Phase 20A static validator — Beta Local-First Hybrid Stabilization Gate.
+ * Phase 20B static validator — Real User Testing / Data Safety Feedback Plan.
  *
- * Phase 20A is docs/static-validator/CI-only. It does not implement sync,
+ * Phase 20B is docs/static-validator/CI-only. It does not implement sync,
  * account/auth/backend, storage changes, FSRS changes, backup/export/restore
- * changes, UI, tests, or package changes. Its only deliverables are this
- * validator, the Phase 20A ADR, and CI registration after Phase 19D.
+ * changes, UI, tests, telemetry, analytics, user accounts, or package changes.
+ * Its deliverables are this validator, the Phase 20B ADR, the Phase 20B testing
+ * plan, and CI registration after Phase 20A.
  */
 
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
-const ADR_FILE           = `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`;
-const VALIDATOR_SCRIPT   = `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`;
-const WORKFLOW_FILE      = `.github/workflows/e2e-smoke.yml`;
-const PHASE19D_VALIDATOR = `scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`;
+const ADR_FILE            = `docs/adr/phase20b-real-user-testing-data-safety-feedback.md`;
+const TESTING_PLAN_FILE   = `docs/testing/phase20b-real-user-testing-plan.md`;
+const VALIDATOR_SCRIPT    = `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`;
+const WORKFLOW_FILE       = `.github/workflows/e2e-smoke.yml`;
+const PHASE20A_VALIDATOR  = `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`;
+const PHASE19D_VALIDATOR  = `scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`;
 
-const phase20aCoreFiles = [
+const phase20bCoreFiles = [
   ADR_FILE,
+  TESTING_PLAN_FILE,
   VALIDATOR_SCRIPT,
 ];
 
-// Phase 20A forward-compat entries: the only paths historical validators may add.
-const phase20aForwardCompatEntries = [
-  `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`,
-  `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
-  // Phase 20B forward-compat entries (Real User Testing / Data Safety Feedback Plan)
+// Phase 20B forward-compat entries: the only paths historical validators may add.
+const phase20bForwardCompatEntries = [
   `docs/adr/phase20b-real-user-testing-data-safety-feedback.md`,
   `docs/testing/phase20b-real-user-testing-plan.md`,
   `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`,
 ];
 
-// Pre-Phase-20A baseline files that may already appear in historical validator
-// forward-compat lists from prior phases. They are NOT additions in Phase 20A;
-// they are tolerated only so that pre-existing references in historical validators
-// do not trip this guard.
+// Pre-Phase-20B baseline files that may already appear in historical validator
+// forward-compat lists from prior phases. They are NOT additions in Phase 20B.
 const previousForwardCompatEntries = [
   // Phase 18C/18D/18E baseline
   `docs/phase18c-manual-migration-ux-plan.md`,
@@ -62,40 +61,16 @@ const previousForwardCompatEntries = [
   `docs/trust/no-cloud-default-off.md`,
   `docs/adr/phase19d-no-cloud-default-off-trust-copy.md`,
   `scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`,
+  // Phase 20A baseline
+  `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`,
+  `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
 ];
 
-const prePhase20aBaselineFiles = [
-  `docs/phase18c-manual-migration-ux-plan.md`,
-  `docs/phase18d-internal-test-only-local-migration-pilot.md`,
-  `docs/phase18e-limited-local-backend-pilot-rollback-gates.md`,
-  `docs/phase19a-fsrs-public-opt-in-sequencing-gate.md`,
-  `docs/adr/phase19b-optional-sync-direction.md`,
-  `docs/adr/phase19c-optional-sync-conflict-model.md`,
-  `docs/trust/no-cloud-default-off.vi.md`,
-  `docs/trust/no-cloud-default-off.md`,
-  `docs/adr/phase19d-no-cloud-default-off-trust-copy.md`,
-  `tests/unit/helpers/internalLocalMigrationPilot.js`,
-  `tests/unit/internalLocalMigrationPilot.test.js`,
-  `tests/unit/helpers/limitedLocalBackendPilot.js`,
-  `tests/unit/limitedLocalBackendPilot.test.js`,
-];
-
-const phase20aAllowedChangedFiles = new Set([
+const phase20bAllowedChangedFiles = new Set([
   WORKFLOW_FILE,
+  PHASE20A_VALIDATOR,
   PHASE19D_VALIDATOR,
-  ...phase20aCoreFiles,
-  ...prePhase20aBaselineFiles,
-  // Historical validator forward-compat edits
-  `scripts/validate-phase18c-manual-migration-ux-plan.js`,
-  `scripts/validate-phase18d-internal-test-only-local-migration-pilot.js`,
-  `scripts/validate-phase18e-limited-local-backend-pilot-rollback-gates.js`,
-  `scripts/validate-phase19a-fsrs-public-opt-in-sequencing-gate.js`,
-  `scripts/validate-phase19b-optional-sync-architecture-decision.js`,
-  `scripts/validate-phase19c-optional-sync-conflict-model.js`,
-  // Phase 20B forward-compat entries (Real User Testing / Data Safety Feedback Plan)
-  `docs/adr/phase20b-real-user-testing-data-safety-feedback.md`,
-  `docs/testing/phase20b-real-user-testing-plan.md`,
-  `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`,
+  ...phase20bCoreFiles,
 ]);
 
 const fsrsRuntimeFiles = [
@@ -157,130 +132,149 @@ const generatedArtifacts = [
   `.env`,
   `.env.local`,
   `.git`,
-  `phase20a-beta-local-first-hybrid-stabilization.patch`,
-  `phase20a-beta-local-first-hybrid-stabilization.zip`,
-  `phase20a-beta-local-first-hybrid-stabilization-handoff.md`,
+  `phase20b-real-user-testing-data-safety-feedback.patch`,
+  `phase20b-real-user-testing-data-safety-feedback.zip`,
+  `phase20b-real-user-testing-data-safety-feedback-handoff.md`,
 ];
 
 const requiredAdrHeadings = [
-  `# Phase 20A — Beta Local-First Hybrid Stabilization Gate`,
+  `# Phase 20B — Real User Testing / Data Safety Feedback Plan`,
   `## Purpose`,
-  `## Relationship to Phase 17 storage readiness`,
-  `## Relationship to Phase 18 local backend pilots`,
-  `## Relationship to Phase 19 sync and trust decisions`,
+  `## Relationship to Phase 20A`,
   `## Current production baseline`,
-  `## Beta stabilization decision`,
-  `## What "local-first hybrid" means for beta`,
-  `## What is stable enough for beta discussion`,
-  `## What is not stable enough for beta`,
-  `## Evidence inventory`,
-  `## Safety invariants`,
-  `## Manual transfer before sync`,
-  `## Backup and restore boundaries`,
-  `## FSRS and scheduler boundaries`,
-  `## Storage and migration boundaries`,
-  `## Sync and cloud boundaries`,
-  `## Vietnamese-first trust copy boundaries`,
-  `## Phase 20B scope`,
+  `## Testing decision`,
+  `## What "real user testing" means in Phase 20B`,
+  `## What Phase 20B does not collect`,
+  `## Data safety principles`,
+  `## Tester profile and recruitment boundaries`,
+  `## Test scenarios`,
+  `## Feedback questions`,
+  `## Backup and restore safety checklist`,
+  `## Manual transfer safety checklist`,
+  `## FSRS and review schedule feedback boundaries`,
+  `## Failure and escalation criteria`,
+  `## Privacy and trust copy requirements`,
   `## Phase 20C scope`,
   `## Phase 20D scope`,
-  `## What Phase 20A explicitly does not implement`,
+  `## What Phase 20B explicitly does not implement`,
   `## Acceptance criteria`,
 ];
 
-// Required Phase 17–18 evidence terms
-const requiredPhase17EvidenceTerms = [
-  `phase 17a`,
-  `phase 17b`,
-  `phase 17c`,
-  `phase 17d`,
-  `phase 17e`,
-  `phase 17f`,
-  `phase 17g`,
-  `phase 17h`,
-  `phase 17i`,
-  `backup/rollback harness before migration`,
-  `storageadapter`,
-  `test-only`,
-  `migration journal`,
+const requiredTestingPlanHeadings = [
+  `# Phase 20B — Real User Testing Plan`,
+  `## Purpose`,
+  `## Who should test`,
+  `## Who should not test yet`,
+  `## Pre-test safety checklist`,
+  `## Test dataset guidance`,
+  `## Core user flows to observe`,
+  `## Backup and restore observation`,
+  `## Manual transfer observation`,
+  `## FSRS and scheduler observation`,
+  `## Import and large data observation`,
+  `## Mobile/PWA observation`,
+  `## Vietnamese-first trust copy observation`,
+  `## Questions to ask testers`,
+  `## What to record`,
+  `## What not to record`,
+  `## Stop conditions during testing`,
+  `## Post-test review`,
+  `## Phase 20D evidence handoff`,
 ];
 
-const requiredPhase18EvidenceTerms = [
-  `phase 18a`,
-  `phase 18b`,
-  `phase 18c`,
-  `phase 18d`,
-  `phase 18e`,
-  `test-only indexeddbadapter`,
-  `backup/export compatibility`,
-  `synthetic`,
-];
-
-const requiredPhase19EvidenceTerms = [
-  `phase 19a`,
-  `phase 19b`,
-  `phase 19c`,
-  `phase 19d`,
-  `hybrid_staged_approach`,
-  `event_log_plus_per_record_revision_clock`,
-  `backup-before-merge`,
-  `no-cloud/default-off`,
-];
-
-// Required decision terms
+// Required decision terms checked against the ADR.
 const requiredDecisionTerms = [
-  `beta_stabilization_decision: local_first_hybrid_stabilization_audit_only`,
-  `phase 20a is docs/static-validator/ci-only`,
-  `phase 20a is a stabilization audit gate only`,
-  `phase 20a does not implement sync runtime`,
-  `phase 20a does not implement account/cloud/auth/backend`,
-  `phase 20a does not implement storage backend switch`,
-  `phase 20a does not implement migration runtime`,
-  `phase 20a does not implement ui`,
-  `phase 20a does not add tests`,
-  `localstorage remains the canonical production source of truth`,
-  `production backup/export/restore behavior remains unchanged`,
-  `manual transfer comes before runtime sync`,
+  `real_user_testing_decision: plan_only_no_data_collection`,
+  `phase 20b is docs/static-validator/ci-only`,
+  `phase 20b is a plan-only gate`,
+  `phase 20b does not implement user testing runtime`,
+  `phase 20b does not collect telemetry`,
+  `phase 20b does not add analytics`,
+  `phase 20b does not add user accounts`,
+  `phase 20b does not store tester identity in app code`,
+  `phase 20b does not add ui`,
+  `phase 20b does not add tests`,
+  `phase 20b does not implement sync runtime`,
+  `phase 20b does not implement storage backend switch`,
+  `phase 20b does not implement migration runtime`,
+  `localstorage remains canonical production storage`,
+  `backup/export/restore behavior remains unchanged`,
+  `manual transfer remains a user-controlled action`,
   `sync remains unshipped`,
-  `conflict model remains a design decision only`,
-  `no-cloud/default-off trust copy remains the user-trust boundary`,
-  `phase 20b should handle real user testing`,
-  `phase 20c should handle performance/quota/import stress test plan`,
-  `phase 20d should decide local-first hybrid beta-ready or hold`,
+  `beta readiness remains gated by phase 20c and phase 20d`,
 ];
 
-// Required safety invariant terms
-const requiredSafetyInvariantTerms = [
-  `localstorage remains canonical production storage`,
-  `backup/export/restore remains separate from sync`,
+// Required Phase 20A inheritance terms checked against the ADR.
+const requiredPhase20aInheritanceTerms = [
+  `beta_stabilization_decision: local_first_hybrid_stabilization_audit_only`,
+  `localstorage remains the canonical production source of truth`,
   `backup is not sync`,
   `restore may overwrite current data`,
-  `backup-before-merge remains required`,
-  `backup payloads must never auto-sync`,
-  `migration manifests/journals must never auto-sync`,
-  `fsrs/review schedule data must not silently merge`,
-  `no sync runtime before manual transfer`,
-  `no storage backend switch without a separate runtime gate`,
-  `no account/cloud/auth/backend without a separate architecture gate`,
-  `no public claim that sync exists`,
-  `no public claim that data-loss prevention is guaranteed`,
-  `no public claim of end-to-end encryption or zero-knowledge`,
+  `manual transfer is the only cross-device data movement`,
+  `phase 20a`,
 ];
 
-// Required Phase 20B/20C/20D alignment terms
-const requiredPhase20AlignmentTerms = [
-  `phase 20b`,
-  `phase 20c`,
-  `phase 20d`,
-  `real user testing`,
-  `data safety feedback`,
-  `performance`,
-  `quota`,
-  `import stress`,
-  `beta-ready or hold`,
-  `docs/static-validator/ci-only`,
-  `no runtime`,
-  `no sync`,
+// Required scenario terms checked against combined ADR + testing plan.
+const requiredScenarioTerms = [
+  `first-run onboarding`,
+  `create/import small library`,
+  `import larger library`,
+  `study session`,
+  `review schedule / due cards`,
+  `backup before risky action`,
+  `restore from backup`,
+  `manual export/import transfer`,
+  `fsrs experimental/off/default boundary`,
+  `edugen draft review/import boundary`,
+  `mobile/pwa basic usage`,
+  `storage quota or large import warning`,
+  `vietnamese trust copy comprehension`,
+  `user confusion around sync/cloud/account claims`,
+];
+
+// Required data-safety principles checked against combined ADR + testing plan.
+const requiredDataSafetyTerms = [
+  `use duplicate/test data when possible`,
+  `ask testers to make a backup before risky testing`,
+  `do not ask testers to use irreplaceable study data without backup`,
+  `do not promise that data loss cannot happen`,
+  `do not ask testers to share private study content unless they choose to`,
+  `do not collect sensitive personal information`,
+  `do not collect account credentials`,
+  `do not collect cloud credentials`,
+  `do not ask testers to test sync because sync is not shipped`,
+  `stop testing if backup/restore behavior is unclear`,
+  `stop testing if the tester believes shime is cloud-backed`,
+  `stop testing if due dates/review schedules appear confusing or unsafe`,
+];
+
+// Required feedback question terms checked against combined ADR + testing plan.
+const requiredFeedbackQuestionTerms = [
+  `did the tester understand data is local`,
+  `did the tester understand there is no cloud sync today`,
+  `did the tester understand backup is not sync`,
+  `did the tester understand restore may overwrite current data`,
+  `did the tester feel safe before import/restore`,
+  `did manual transfer feel understandable`,
+  `did any copy imply account/cloud/sync`,
+  `did review schedules or fsrs copy feel confusing`,
+  `did vietnamese-first trust copy feel clear`,
+  `did the tester know what to do before risky actions`,
+  `did any action feel like it could lose data`,
+];
+
+// Required Phase 20C/20D alignment terms checked against ADR.
+const requiredPhase20CDAlignmentTerms = [
+  `phase 20c — performance / quota / import stress test plan`,
+  `phase 20d — release decision: local-first hybrid beta-ready or hold`,
+  `docs/static-validator/ci-only by default`,
+  `no sync runtime`,
+  `no production migration`,
+  `no storage backend switch`,
+  `docs/static-validator/ci-only decision gate`,
+  `consumes phase 20a`,
+  `decides beta-ready or hold`,
+  `no runtime by default`,
 ];
 
 const forbiddenPositiveClaims = [
@@ -314,12 +308,12 @@ const broadPathPatterns = [
 ];
 
 function fail(message) {
-  console.error(`Phase 20A validation failed: ${message}`);
+  console.error(`Phase 20B validation failed: ${message}`);
   process.exit(1);
 }
 
 function warn(message) {
-  console.warn(`Phase 20A validation warning: ${message}`);
+  console.warn(`Phase 20B validation warning: ${message}`);
 }
 
 function read(file) {
@@ -402,43 +396,43 @@ function isGeneratedArtifact(file) {
 }
 
 function requiredFilesGuard() {
-  for (const file of [ADR_FILE, VALIDATOR_SCRIPT, WORKFLOW_FILE, PHASE19D_VALIDATOR]) {
+  for (const file of [ADR_FILE, TESTING_PLAN_FILE, VALIDATOR_SCRIPT, WORKFLOW_FILE, PHASE20A_VALIDATOR]) {
     read(file);
   }
 }
 
 function workflowGuard() {
   const text = read(WORKFLOW_FILE);
-  const phase19dStr = `node scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`;
   const phase20aStr = `node scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`;
+  const phase20bStr = `node scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`;
 
-  if (!text.includes(phase19dStr)) fail(`${WORKFLOW_FILE} must register Phase 19D validator`);
   if (!text.includes(phase20aStr)) fail(`${WORKFLOW_FILE} must register Phase 20A validator`);
-  if (text.indexOf(phase20aStr) <= text.indexOf(phase19dStr)) {
-    fail(`${WORKFLOW_FILE} must register Phase 20A validator after Phase 19D`);
+  if (!text.includes(phase20bStr)) fail(`${WORKFLOW_FILE} must register Phase 20B validator`);
+  if (text.indexOf(phase20bStr) <= text.indexOf(phase20aStr)) {
+    fail(`${WORKFLOW_FILE} must register Phase 20B validator after Phase 20A`);
   }
   if (/continue-on-error:\s*true/i.test(text)) fail(`${WORKFLOW_FILE} must not use continue-on-error: true`);
 }
 
 function packageGuard() {
   const changed = new Set(changedFiles());
-  if (changed.has(`package.json`)) fail(`package.json must not change in Phase 20A`);
-  if (changed.has(`package-lock.json`)) fail(`package-lock.json must not change in Phase 20A`);
+  if (changed.has(`package.json`)) fail(`package.json must not change in Phase 20B`);
+  if (changed.has(`package-lock.json`)) fail(`package-lock.json must not change in Phase 20B`);
 }
 
 function noSrcTestsE2eChangesGuard() {
   for (const file of changedFiles()) {
-    if (phase20aAllowedChangedFiles.has(file)) continue;
-    if (firstSegment(file) === 'src') fail(`src/ file changed in Phase 20A (forbidden): ${file}`);
-    if (firstSegment(file) === 'tests') fail(`tests/ file changed in Phase 20A (forbidden): ${file}`);
-    if (firstSegment(file) === 'e2e') fail(`e2e/ file changed in Phase 20A (forbidden): ${file}`);
+    if (phase20bAllowedChangedFiles.has(file)) continue;
+    if (firstSegment(file) === 'src') fail(`src/ file changed in Phase 20B (forbidden): ${file}`);
+    if (firstSegment(file) === 'tests') fail(`tests/ file changed in Phase 20B (forbidden): ${file}`);
+    if (firstSegment(file) === 'e2e') fail(`e2e/ file changed in Phase 20B (forbidden): ${file}`);
   }
 }
 
 function runtimeGuard(label, files) {
   const changed = new Set(changedFiles());
   for (const file of files) {
-    if (changed.has(file)) fail(`${label} changed in Phase 20A (forbidden): ${file}`);
+    if (changed.has(file)) fail(`${label} changed in Phase 20B (forbidden): ${file}`);
   }
 }
 
@@ -446,22 +440,22 @@ function scopeGuard() {
   for (const file of changedFiles()) {
     if (isGeneratedArtifact(file)) continue;
     if (file.startsWith(`.claude/`)) continue;
-    if (phase20aAllowedChangedFiles.has(file)) continue;
-    if (file === `package.json` || file === `package-lock.json`) fail(`${file} must not change in Phase 20A`);
-    if (firstSegment(file) === 'src') fail(`src/ file changed in Phase 20A (forbidden): ${file}`);
-    if (firstSegment(file) === 'e2e') fail(`e2e/ file changed in Phase 20A (forbidden): ${file}`);
-    if (firstSegment(file) === 'tests') fail(`tests/ file changed in Phase 20A (forbidden): ${file}`);
-    if (firstSegment(file) === 'docs' && !phase20aAllowedChangedFiles.has(file)) {
-      fail(`Unexpected docs/ file changed in Phase 20A: ${file}`);
+    if (phase20bAllowedChangedFiles.has(file)) continue;
+    if (file === `package.json` || file === `package-lock.json`) fail(`${file} must not change in Phase 20B`);
+    if (firstSegment(file) === 'src') fail(`src/ file changed in Phase 20B (forbidden): ${file}`);
+    if (firstSegment(file) === 'e2e') fail(`e2e/ file changed in Phase 20B (forbidden): ${file}`);
+    if (firstSegment(file) === 'tests') fail(`tests/ file changed in Phase 20B (forbidden): ${file}`);
+    if (firstSegment(file) === 'docs' && !phase20bAllowedChangedFiles.has(file)) {
+      fail(`Unexpected docs/ file changed in Phase 20B: ${file}`);
     }
     if (file.startsWith(`scripts/validate-`) && file.endsWith(`.js`)) continue;
-    warn(`Unexpected file outside allowed Phase 20A scope (non-fatal): ${file}`);
+    warn(`Unexpected file outside allowed Phase 20B scope (non-fatal): ${file}`);
   }
 }
 
 function forbiddenRuntimeFilesGuard() {
   for (const file of forbiddenRuntimeFiles) {
-    if (fs.existsSync(file)) fail(`Phase 20A must not introduce forbidden runtime file: ${file}`);
+    if (fs.existsSync(file)) fail(`Phase 20B must not introduce forbidden runtime file: ${file}`);
   }
 }
 
@@ -486,8 +480,17 @@ function requireTerms(file, terms) {
   }
 }
 
+function requireTermsCombined(files, terms, label) {
+  const combined = lowerNormalized(files.map(f => read(f)).join('\n'));
+  for (const term of terms) {
+    if (!combined.includes(lowerNormalized(term))) {
+      fail(`Combined ${label} docs must include required term: "${term}"`);
+    }
+  }
+}
+
 function isForbiddenClaimSection(line) {
-  return /^##\s+(What is not stable enough for beta|Forbidden claims|Claims.*must not|claims shime must not)/i.test(normalize(line));
+  return /^##\s+(What is not stable enough|Forbidden claims|Claims.*must not|claims shime must not|What Phase 20B explicitly does not|Forbidden positive)/i.test(normalize(line));
 }
 
 function isNextSection(line) {
@@ -566,10 +569,10 @@ function historicalValidatorForwardCompatGuard() {
       for (const path of extractedPaths) {
         if (!path.includes('/')) continue;
         if (!path.endsWith('.md') && !path.endsWith('.js')) continue;
-        if (phase20aForwardCompatEntries.includes(path)) continue;
+        if (phase20bForwardCompatEntries.includes(path)) continue;
         if (previousForwardCompatEntries.includes(path)) continue;
         if (path.startsWith(`docs/`) || path.startsWith(`tests/`) || path.startsWith(`scripts/`)) {
-          fail(`Historical validator ${validatorFile} adds non-Phase-20A path entry: '${path}'`);
+          fail(`Historical validator ${validatorFile} adds non-Phase-20B path entry: '${path}'`);
         }
       }
     }
@@ -588,16 +591,17 @@ function validate() {
   forbiddenRuntimeFilesGuard();
   forbiddenDependencyGuard();
   requireHeadings(ADR_FILE, requiredAdrHeadings);
+  requireHeadings(TESTING_PLAN_FILE, requiredTestingPlanHeadings);
   requireTerms(ADR_FILE, requiredDecisionTerms);
-  requireTerms(ADR_FILE, requiredPhase17EvidenceTerms);
-  requireTerms(ADR_FILE, requiredPhase18EvidenceTerms);
-  requireTerms(ADR_FILE, requiredPhase19EvidenceTerms);
-  requireTerms(ADR_FILE, requiredSafetyInvariantTerms);
-  requireTerms(ADR_FILE, requiredPhase20AlignmentTerms);
+  requireTerms(ADR_FILE, requiredPhase20aInheritanceTerms);
+  requireTerms(ADR_FILE, requiredPhase20CDAlignmentTerms);
+  requireTermsCombined([ADR_FILE, TESTING_PLAN_FILE], requiredScenarioTerms, `ADR + testing plan`);
+  requireTermsCombined([ADR_FILE, TESTING_PLAN_FILE], requiredDataSafetyTerms, `ADR + testing plan`);
+  requireTermsCombined([ADR_FILE, TESTING_PLAN_FILE], requiredFeedbackQuestionTerms, `ADR + testing plan`);
   forbiddenPositiveClaimGuardForFile(ADR_FILE);
   generatedArtifactGuard();
   historicalValidatorForwardCompatGuard();
-  console.log(`Phase 20A Beta Local-First Hybrid Stabilization validation passed.`);
+  console.log(`Phase 20B Real User Testing / Data Safety Feedback Plan validation passed.`);
 }
 
 validate();

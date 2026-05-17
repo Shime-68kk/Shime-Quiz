@@ -83,6 +83,10 @@ const phase17fAllowedChangedFiles = new Set([
   // Phase 20A forward-compat entries (Beta Local-First Hybrid Stabilization Gate)
   `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`,
   `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
+  // Phase 20B forward-compat entries (Real User Testing / Data Safety Feedback Plan)
+  `docs/adr/phase20b-real-user-testing-data-safety-feedback.md`,
+  `docs/testing/phase20b-real-user-testing-plan.md`,
+  `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`,
 ]);
 
 // Forbidden runtime files that must not exist in Phase 17F.
@@ -301,6 +305,10 @@ const phase17fForwardCompatEntries = [
   // Phase 20A forward-compat entries (Beta Local-First Hybrid Stabilization Gate)
   `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`,
   `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
+  // Phase 20B forward-compat entries (Real User Testing / Data Safety Feedback Plan)
+  `docs/adr/phase20b-real-user-testing-data-safety-feedback.md`,
+  `docs/testing/phase20b-real-user-testing-plan.md`,
+  `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`,
 ];
 
 // Required test assertion patterns in the test file (for key safety scenarios).

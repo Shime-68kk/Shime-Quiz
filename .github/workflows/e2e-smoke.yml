@@ -478,6 +478,9 @@ jobs:
       - name: Validate Phase 20A Beta Local-First Hybrid Stabilization Gate
         run: node scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js
 
+      - name: Validate Phase 20B Real User Testing Data Safety Feedback Plan Gate
+        run: node scripts/validate-phase20b-real-user-testing-data-safety-feedback.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

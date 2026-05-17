@@ -37,6 +37,10 @@ const phase19cForwardCompatEntries = [
   // Phase 20A forward-compat entries (Beta Local-First Hybrid Stabilization Gate)
   `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`,
   `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
+  // Phase 20B forward-compat entries (Real User Testing / Data Safety Feedback Plan)
+  `docs/adr/phase20b-real-user-testing-data-safety-feedback.md`,
+  `docs/testing/phase20b-real-user-testing-plan.md`,
+  `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`,
 ];
 
 // Pre-Phase-19C baseline files that may already appear in historical validator
@@ -89,6 +93,10 @@ const phase19cAllowedChangedFiles = new Set([
   // Phase 20A forward-compat entries (Beta Local-First Hybrid Stabilization Gate)
   `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`,
   `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
+  // Phase 20B forward-compat entries (Real User Testing / Data Safety Feedback Plan)
+  `docs/adr/phase20b-real-user-testing-data-safety-feedback.md`,
+  `docs/testing/phase20b-real-user-testing-plan.md`,
+  `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`,
   ...prePhase19cBaselineFiles,
 ]);
 
