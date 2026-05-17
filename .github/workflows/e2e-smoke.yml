@@ -460,6 +460,9 @@ jobs:
       - name: Validate Phase 18D Internal / Test-Only Local Migration Pilot
         run: node scripts/validate-phase18d-internal-test-only-local-migration-pilot.js
 
+      - name: Validate Phase 18E Limited Local Backend Pilot with Rollback Gates
+        run: node scripts/validate-phase18e-limited-local-backend-pilot-rollback-gates.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

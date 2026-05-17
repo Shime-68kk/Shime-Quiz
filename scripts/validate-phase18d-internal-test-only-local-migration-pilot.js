@@ -22,6 +22,11 @@ const phase18dAllowedChangedFiles = new Set([
   VALIDATOR_SCRIPT,
   TEST_HELPER_FILE,
   TEST_FILE,
+  // Phase 18E forward-compat entries (Limited Local Backend Pilot with Rollback Gates)
+  `docs/phase18e-limited-local-backend-pilot-rollback-gates.md`,
+  `scripts/validate-phase18e-limited-local-backend-pilot-rollback-gates.js`,
+  `tests/unit/helpers/limitedLocalBackendPilot.js`,
+  `tests/unit/limitedLocalBackendPilot.test.js`,
   // Historical validator forward-compat edits
   `scripts/validate-phase16l-local-first-hybrid-storage-adapter-plan.js`,
   `scripts/validate-phase17a-backup-rollback-harness-before-migration.js`,
@@ -195,6 +200,11 @@ const phase18dForwardCompatEntries = [
   VALIDATOR_SCRIPT,
   TEST_HELPER_FILE,
   TEST_FILE,
+  // Phase 18E forward-compat entries (Limited Local Backend Pilot with Rollback Gates)
+  `docs/phase18e-limited-local-backend-pilot-rollback-gates.md`,
+  `scripts/validate-phase18e-limited-local-backend-pilot-rollback-gates.js`,
+  `tests/unit/helpers/limitedLocalBackendPilot.js`,
+  `tests/unit/limitedLocalBackendPilot.test.js`,
 ];
 
 

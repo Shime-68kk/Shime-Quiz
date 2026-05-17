@@ -631,6 +631,16 @@ const allowedChanged = new Set([
   // Phase 18C forward-compat entries (Manual Migration UX Plan)
   `docs/phase18c-manual-migration-ux-plan.md`,
   `scripts/validate-phase18c-manual-migration-ux-plan.js`,
+  // Phase 18D forward-compat entries (Internal / Test-Only Local Migration Pilot)
+  `docs/phase18d-internal-test-only-local-migration-pilot.md`,
+  `scripts/validate-phase18d-internal-test-only-local-migration-pilot.js`,
+  `tests/unit/helpers/internalLocalMigrationPilot.js`,
+  `tests/unit/internalLocalMigrationPilot.test.js`,
+  // Phase 18E forward-compat entries (Limited Local Backend Pilot with Rollback Gates)
+  `docs/phase18e-limited-local-backend-pilot-rollback-gates.md`,
+  `scripts/validate-phase18e-limited-local-backend-pilot-rollback-gates.js`,
+  `tests/unit/helpers/limitedLocalBackendPilot.js`,
+  `tests/unit/limitedLocalBackendPilot.test.js`,
 ]);
 for (const file of changedFiles()) {
   if (allowedChanged.has(file)) continue;

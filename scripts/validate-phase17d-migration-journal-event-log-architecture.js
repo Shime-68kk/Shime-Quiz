@@ -61,6 +61,11 @@ const phase17dAllowedChangedFiles = new Set([
   `scripts/validate-phase18d-internal-test-only-local-migration-pilot.js`,
   `tests/unit/helpers/internalLocalMigrationPilot.js`,
   `tests/unit/internalLocalMigrationPilot.test.js`,
+  // Phase 18E forward-compat entries (Limited Local Backend Pilot with Rollback Gates)
+  `docs/phase18e-limited-local-backend-pilot-rollback-gates.md`,
+  `scripts/validate-phase18e-limited-local-backend-pilot-rollback-gates.js`,
+  `tests/unit/helpers/limitedLocalBackendPilot.js`,
+  `tests/unit/limitedLocalBackendPilot.test.js`,
 ]);
 
 // Forbidden runtime files that must not exist in Phase 17D.
@@ -221,6 +226,11 @@ const phase17dForwardCompatEntries = [
   `scripts/validate-phase18d-internal-test-only-local-migration-pilot.js`,
   `tests/unit/helpers/internalLocalMigrationPilot.js`,
   `tests/unit/internalLocalMigrationPilot.test.js`,
+  // Phase 18E forward-compat entries (Limited Local Backend Pilot with Rollback Gates)
+  `docs/phase18e-limited-local-backend-pilot-rollback-gates.md`,
+  `scripts/validate-phase18e-limited-local-backend-pilot-rollback-gates.js`,
+  `tests/unit/helpers/limitedLocalBackendPilot.js`,
+  `tests/unit/limitedLocalBackendPilot.test.js`,
 ];
 
 function fail(message) {
