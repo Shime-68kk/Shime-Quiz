@@ -34,6 +34,11 @@ const phase18bAllowedChangedFiles = new Set([
   // Phase 18C forward-compat entries (Manual Migration UX Plan)
   `docs/phase18c-manual-migration-ux-plan.md`,
   `scripts/validate-phase18c-manual-migration-ux-plan.js`,
+  // Phase 18D forward-compat entries (Internal / Test-Only Local Migration Pilot)
+  `docs/phase18d-internal-test-only-local-migration-pilot.md`,
+  `scripts/validate-phase18d-internal-test-only-local-migration-pilot.js`,
+  `tests/unit/helpers/internalLocalMigrationPilot.js`,
+  `tests/unit/internalLocalMigrationPilot.test.js`,
 ]);
 
 // Forbidden runtime files that must not exist in Phase 18B.
@@ -179,6 +184,11 @@ const phase18bForwardCompatEntries = [
   // Phase 18C forward-compat entries (Manual Migration UX Plan)
   `docs/phase18c-manual-migration-ux-plan.md`,
   `scripts/validate-phase18c-manual-migration-ux-plan.js`,
+  // Phase 18D forward-compat entries (Internal / Test-Only Local Migration Pilot)
+  `docs/phase18d-internal-test-only-local-migration-pilot.md`,
+  `scripts/validate-phase18d-internal-test-only-local-migration-pilot.js`,
+  `tests/unit/helpers/internalLocalMigrationPilot.js`,
+  `tests/unit/internalLocalMigrationPilot.test.js`,
 ];
 
 function fail(message) {
@@ -299,6 +309,7 @@ function noSrcChangesGuard() {
 
 function noTestsChangesGuard() {
   for (const file of changedFiles()) {
+    if (phase18bAllowedChangedFiles.has(file)) continue;
     const firstSegment = file.indexOf('/') >= 0 ? file.slice(0, file.indexOf('/')) : file;
     if (firstSegment === 'tests') fail(`tests/ file changed in Phase 18B (forbidden): ${file}`);
   }
@@ -436,6 +447,7 @@ function historicalValidatorForwardCompatGuard() {
 
     const diff = runGit(`git diff ${mergeBase} HEAD -- "${validatorFile}"`, { silent: true });
     if (!diff) continue;
+    if (diff.includes('--- /dev/null')) continue; // newly created file — not a historical validator
 
     const addedLines = diff.split('\n')
       .filter(line => line.startsWith('+') && !line.startsWith('+++'))
