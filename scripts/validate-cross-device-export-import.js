@@ -613,6 +613,9 @@ const allowedChanged = new Set([
   'scripts/validate-phase17h-single-key-reversible-migration-pilot.js',
   'tests/unit/helpers/singleKeyReversibleMigrationPilot.js',
   'tests/unit/singleKeyReversibleMigrationPilot.test.js',
+  // Phase 17I forward-compat entries (Local Migration Readiness Closure / Phase 18 Gate)
+  `docs/phase17i-local-migration-readiness-closure-phase18-gate.md`,
+  `scripts/validate-phase17i-local-migration-readiness-closure-phase18-gate.js`,
 ]);
 for (const file of changedFiles()) {
   if (!allowedChanged.has(file)) failures.push(`Unexpected changed file for Phase 10I: ${file}`);

@@ -445,6 +445,9 @@ jobs:
       - name: Validate Phase 17H Single-Key Reversible Migration Pilot
         run: node scripts/validate-phase17h-single-key-reversible-migration-pilot.js
 
+      - name: Validate Phase 17I Local Migration Readiness Closure / Phase 18 Gate
+        run: node scripts/validate-phase17i-local-migration-readiness-closure-phase18-gate.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
