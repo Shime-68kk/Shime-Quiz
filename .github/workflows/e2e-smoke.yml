@@ -454,6 +454,9 @@ jobs:
       - name: Validate Phase 18B Backup / Export Compatibility Audit
         run: node scripts/validate-phase18b-backup-export-compatibility-audit.js
 
+      - name: Validate Phase 18C Manual Migration UX Plan
+        run: node scripts/validate-phase18c-manual-migration-ux-plan.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

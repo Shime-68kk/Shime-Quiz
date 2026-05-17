@@ -37,6 +37,9 @@ const phase17iAllowedChangedFiles = new Set([
   // Phase 18B forward-compat entries (Backup/Export Compatibility Audit)
   `docs/phase18b-backup-export-compatibility-audit.md`,
   `scripts/validate-phase18b-backup-export-compatibility-audit.js`,
+  // Phase 18C forward-compat entries (Manual Migration UX Plan)
+  `docs/phase18c-manual-migration-ux-plan.md`,
+  `scripts/validate-phase18c-manual-migration-ux-plan.js`,
 ]);
 
 // Forbidden runtime files that must not exist in Phase 17I.
@@ -83,6 +86,9 @@ const broadPathPatterns = [
 const phase17iForwardCompatEntries = [
   DOCS_FILE,
   VALIDATOR_SCRIPT,
+  // Phase 18C forward-compat entries (Manual Migration UX Plan)
+  `docs/phase18c-manual-migration-ux-plan.md`,
+  `scripts/validate-phase18c-manual-migration-ux-plan.js`,
 ];
 
 // Required document sections (exact heading strings).
