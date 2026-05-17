@@ -472,6 +472,9 @@ jobs:
       - name: Validate Phase 19C Optional Sync Conflict Model Design Gate
         run: node scripts/validate-phase19c-optional-sync-conflict-model.js
 
+      - name: Validate Phase 19D No-Cloud Default-Off Trust Copy Gate
+        run: node scripts/validate-phase19d-no-cloud-default-off-trust-copy.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
