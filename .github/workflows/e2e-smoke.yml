@@ -463,6 +463,9 @@ jobs:
       - name: Validate Phase 18E Limited Local Backend Pilot with Rollback Gates
         run: node scripts/validate-phase18e-limited-local-backend-pilot-rollback-gates.js
 
+      - name: Validate Phase 19A FSRS Public Opt-In Sequencing Gate
+        run: node scripts/validate-phase19a-fsrs-public-opt-in-sequencing-gate.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

@@ -442,6 +442,9 @@ const phase14fAllowedChangedFiles = new Set([
   `scripts/validate-phase18e-limited-local-backend-pilot-rollback-gates.js`,
   `tests/unit/helpers/limitedLocalBackendPilot.js`,
   `tests/unit/limitedLocalBackendPilot.test.js`,
+  // Phase 19A forward-compat entries (FSRS Public Opt-In Sequencing Gate)
+  `docs/phase19a-fsrs-public-opt-in-sequencing-gate.md`,
+  `scripts/validate-phase19a-fsrs-public-opt-in-sequencing-gate.js`,
 ]);
 
 const generatedArtifacts = [
