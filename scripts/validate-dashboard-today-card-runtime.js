@@ -725,6 +725,9 @@ const allowedChangedFiles = new Set([
   `docs/testing/phase22b-real-user-evidence-filled-results.md`,
   `docs/release/phase22b-real-user-evidence-summary.md`,
   `scripts/validate-phase22b-fill-real-user-evidence-results.js`,
+  `docs/testing/phase22c-stress-evidence-filled-results.md`,
+  `docs/release/phase22c-stress-evidence-summary.md`,
+  `scripts/validate-phase22c-fill-stress-evidence-results.js`,
 ]);
 
 const forbiddenChangedFiles = [

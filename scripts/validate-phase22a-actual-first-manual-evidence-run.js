@@ -179,10 +179,16 @@ const allowedChanged = new Set([WORKFLOW, ...phase22aPaths]);
 allowedChanged.add(`docs/testing/phase22b-real-user-evidence-filled-results.md`);
 allowedChanged.add(`docs/release/phase22b-real-user-evidence-summary.md`);
 allowedChanged.add(`scripts/validate-phase22b-fill-real-user-evidence-results.js`);
+allowedChanged.add(`docs/testing/phase22c-stress-evidence-filled-results.md`);
+allowedChanged.add(`docs/release/phase22c-stress-evidence-summary.md`);
+allowedChanged.add(`scripts/validate-phase22c-fill-stress-evidence-results.js`);
 const phase22aForwardCompatPaths = new Set(phase22aPaths);
 phase22aForwardCompatPaths.add(`docs/testing/phase22b-real-user-evidence-filled-results.md`);
 phase22aForwardCompatPaths.add(`docs/release/phase22b-real-user-evidence-summary.md`);
 phase22aForwardCompatPaths.add(`scripts/validate-phase22b-fill-real-user-evidence-results.js`);
+phase22aForwardCompatPaths.add(`docs/testing/phase22c-stress-evidence-filled-results.md`);
+phase22aForwardCompatPaths.add(`docs/release/phase22c-stress-evidence-summary.md`);
+phase22aForwardCompatPaths.add(`scripts/validate-phase22c-fill-stress-evidence-results.js`);
 
 function fail(message) {
   console.error(`Phase 22A validation failed: ${message}`);
