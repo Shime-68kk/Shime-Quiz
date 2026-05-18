@@ -126,6 +126,9 @@ allowedChanged.add(`scripts/validate-phase22a-actual-first-manual-evidence-run.j
 allowedChanged.add(`docs/testing/phase22b-real-user-evidence-filled-results.md`);
 allowedChanged.add(`docs/release/phase22b-real-user-evidence-summary.md`);
 allowedChanged.add(`scripts/validate-phase22b-fill-real-user-evidence-results.js`);
+allowedChanged.add(`docs/testing/phase22c-stress-evidence-filled-results.md`);
+allowedChanged.add(`docs/release/phase22c-stress-evidence-summary.md`);
+allowedChanged.add(`scripts/validate-phase22c-fill-stress-evidence-results.js`);
 const phase21gForwardCompatPaths = new Set(phase21gPaths);
 phase21gForwardCompatPaths.add(`docs/testing/phase22a-actual-first-manual-evidence-run.md`);
 phase21gForwardCompatPaths.add(`docs/release/phase22a-first-manual-evidence-run-summary.md`);
@@ -133,6 +136,9 @@ phase21gForwardCompatPaths.add(`scripts/validate-phase22a-actual-first-manual-ev
 phase21gForwardCompatPaths.add(`docs/testing/phase22b-real-user-evidence-filled-results.md`);
 phase21gForwardCompatPaths.add(`docs/release/phase22b-real-user-evidence-summary.md`);
 phase21gForwardCompatPaths.add(`scripts/validate-phase22b-fill-real-user-evidence-results.js`);
+phase21gForwardCompatPaths.add(`docs/testing/phase22c-stress-evidence-filled-results.md`);
+phase21gForwardCompatPaths.add(`docs/release/phase22c-stress-evidence-summary.md`);
+phase21gForwardCompatPaths.add(`scripts/validate-phase22c-fill-stress-evidence-results.js`);
 const forbiddenPrefixes = [
   `src/`,
   `tests/`,

@@ -1,113 +1,111 @@
 #!/usr/bin/env node
 /**
- * Phase 22B static validator - Fill Real-User Evidence With Actual Results.
+ * Phase 22C static validator - Fill Stress Evidence With Actual Results.
  */
 
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
-const EVIDENCE = `docs/testing/phase22b-real-user-evidence-filled-results.md`;
-const SUMMARY = `docs/release/phase22b-real-user-evidence-summary.md`;
-const VALIDATOR = `scripts/validate-phase22b-fill-real-user-evidence-results.js`;
+const EVIDENCE = `docs/testing/phase22c-stress-evidence-filled-results.md`;
+const SUMMARY = `docs/release/phase22c-stress-evidence-summary.md`;
+const VALIDATOR = `scripts/validate-phase22c-fill-stress-evidence-results.js`;
 const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 const PHASE22A_EVIDENCE = `docs/testing/phase22a-actual-first-manual-evidence-run.md`;
 const PHASE22A_SUMMARY = `docs/release/phase22a-first-manual-evidence-run-summary.md`;
+const PHASE22B_EVIDENCE = `docs/testing/phase22b-real-user-evidence-filled-results.md`;
+const PHASE22B_SUMMARY = `docs/release/phase22b-real-user-evidence-summary.md`;
 
-const phase22bPaths = [EVIDENCE, SUMMARY, VALIDATOR];
+const phase22cPaths = [EVIDENCE, SUMMARY, VALIDATOR];
 
 const requiredEvidenceHeadings = [
-  `# Phase 22B — Real-User Evidence Filled Results`,
+  `# Phase 22C — Stress Evidence Filled Results`,
   `## Purpose`,
   `## Status`,
   `## Relationship to Phase 22A`,
-  `## Relationship to Phase 21B`,
+  `## Relationship to Phase 22B`,
+  `## Relationship to Phase 21C`,
   `## Evidence source rules`,
-  `## Privacy and anonymization rules`,
-  `## Filled evidence count`,
+  `## Data safety rules`,
+  `## Filled stress evidence count`,
   `## Evidence classification`,
-  `## Session 1 — Phase 22A internal manual/browser evidence`,
-  `## Additional user/tester sessions`,
+  `## Stress evidence source`,
+  `## Stress-adjacent evidence from Phase 22A`,
+  `## Additional stress runs`,
   `## What was observed`,
   `## What was not observed`,
-  `## Data safety findings`,
+  `## Performance findings`,
+  `## Storage quota findings`,
+  `## Import findings`,
   `## Backup and restore findings`,
   `## Manual transfer findings`,
-  `## Local-first copy findings`,
-  `## Vietnamese-first copy findings`,
+  `## Mobile/PWA findings`,
   `## FSRS and review schedule findings`,
   `## EduGen Draft Workshop boundary findings`,
-  `## Mobile/PWA findings`,
   `## beta-ai naming findings`,
   `## Pass signals`,
   `## Hold signals`,
   `## Evidence completeness assessment`,
   `## Claim boundaries`,
-  `## Phase 22C handoff`,
   `## Phase 22D handoff`,
 ];
 
 const requiredSummaryHeadings = [
-  `# Phase 22B — Real-User Evidence Summary`,
+  `# Phase 22C — Stress Evidence Summary`,
   `## Purpose`,
   `## Status`,
   `## Evidence quality`,
-  `## Filled evidence count`,
+  `## Filled stress evidence count`,
   `## Evidence source`,
   `## What passed`,
   `## What remains untested`,
-  `## Data safety assessment`,
+  `## Performance assessment`,
+  `## Storage quota assessment`,
+  `## Import assessment`,
   `## Backup and restore assessment`,
   `## Manual transfer assessment`,
-  `## Trust-copy comprehension assessment`,
-  `## Vietnamese-first copy assessment`,
+  `## Mobile/PWA assessment`,
   `## FSRS and review schedule assessment`,
   `## EduGen boundary assessment`,
-  `## Mobile/PWA assessment`,
   `## beta-ai naming assessment`,
   `## Remaining evidence gaps`,
   `## Recommendation`,
-  `## Phase 22C relationship`,
+  `## Phase 22B relationship`,
   `## Phase 22D readiness gate`,
 ];
 
 const validStatuses = [
-  `REAL_USER_EVIDENCE_FILLED_STATUS: UPDATED_WITH_PHASE22A_INTERNAL_MANUAL_EVIDENCE`,
-  `REAL_USER_EVIDENCE_FILLED_STATUS: BLOCKED_NO_USABLE_EVIDENCE`,
+  `STRESS_EVIDENCE_FILLED_STATUS: UPDATED_WITH_LIMITED_PHASE22A_STRESS_ADJACENT_EVIDENCE`,
+  `STRESS_EVIDENCE_FILLED_STATUS: UPDATED_WITH_PHASE22C_ACTUAL_STRESS_EVIDENCE`,
+  `STRESS_EVIDENCE_FILLED_STATUS: BLOCKED_NO_USABLE_STRESS_EVIDENCE`,
 ];
 
-const validSessionCounts = [
-  `REAL_USER_EVIDENCE_FILLED_SESSIONS: 1`,
-  `REAL_USER_EVIDENCE_FILLED_SESSIONS: 0`,
+const validRunCounts = [
+  `STRESS_EVIDENCE_FILLED_RUNS: 1`,
+  `STRESS_EVIDENCE_FILLED_RUNS: 0`,
 ];
 
-const requiredTerms = [
-  `Phase 22A`,
-  `PHASE22A_FIRST_MANUAL_EVIDENCE_STATUS: EXECUTED_WITH_ANONYMIZED_RESULTS`,
-  `FIRST_MANUAL_EVIDENCE_RUN_EXECUTED: YES`,
-  `internal/manual browser evidence`,
-  `not broad external real-user research`,
-  `No private study content is recorded`,
-  `No contact information is recorded`,
-  `No credentials are recorded`,
-  `No telemetry or analytics were added`,
-  `Broader real-user testing remains incomplete`,
-  `HOLD remains active`,
-  `BETA_READY is not claimed`,
+const requiredScenarioTerms = [
   `app startup`,
   `onboarding`,
   `create/import small library`,
   `generated JSON import`,
+  `larger import`,
+  `CSV import`,
+  `text/markdown import`,
   `study session`,
   `due cards / review schedule count`,
   `backup before risky action`,
   `restore from backup`,
   `manual export/import transfer`,
+  `storage quota estimate`,
+  `large import warning`,
   `local-first copy comprehension`,
   `no-cloud/default-off trust copy`,
-  `Vietnamese-first copy`,
+  `Vietnamese-first copy comprehension`,
   `FSRS experimental/off/default boundary`,
   `EduGen Draft Workshop boundary`,
   `mobile viewport`,
+  `PWA/service-worker cache boundary`,
   `beta-ai naming absence`,
   `backup is not sync`,
   `restore may overwrite current data`,
@@ -115,19 +113,38 @@ const requiredTerms = [
   `no built-in AI/OCR/AI generation`,
 ];
 
+const requiredSafetyTerms = [
+  `Phase 22C fills the stress evidence track using actual evidence only`,
+  `limited stress-adjacent first-run/manual evidence`,
+  `not full stress testing`,
+  `No private study content is recorded`,
+  `No contact information is recorded`,
+  `No credentials are recorded`,
+  `No telemetry or analytics were added`,
+  `Full stress testing remains incomplete`,
+  `HOLD remains active`,
+  `BETA_READY is not claimed`,
+  `Phase 22D must not reconsider BETA_READY unless`,
+];
+
 const forbiddenClaims = [
-  `BETA_READY`,
+  `broad stress testing is complete`,
+  `stress testing is complete`,
   `broad real-user testing is complete`,
   `real-user testing is complete`,
-  `real user testing is complete`,
+  `local-first hybrid beta is ready`,
   `sync exists`,
   `cloud sync exists`,
   `account/auth/backend exists`,
   `production sync is ready`,
+  `production IndexedDB storage exists`,
+  `storage migration is complete`,
+  `backup/export is adapter-aware`,
+  `restore is adapter-aware`,
   `data-loss prevention is guaranteed`,
   `built-in AI exists`,
-  `OCR exists`,
   `AI quiz generation exists`,
+  `OCR exists`,
   `beta-ai is acceptable public naming`,
 ];
 
@@ -154,15 +171,15 @@ const generatedArtifacts = [
   `test-results`,
   `playwright-report`,
   `FETCH_HEAD`,
-  `phase22b-fill-real-user-evidence-results.patch`,
-  `phase22b-fill-real-user-evidence-results.zip`,
-  `phase22b-fill-real-user-evidence-results-handoff.md`,
+  `phase22c-fill-stress-evidence-results.patch`,
+  `phase22c-fill-stress-evidence-results.zip`,
+  `phase22c-fill-stress-evidence-results-handoff.md`,
 ];
-const allowedChanged = new Set([WORKFLOW, ...phase22bPaths, `docs/testing/phase22c-stress-evidence-filled-results.md`, `docs/release/phase22c-stress-evidence-summary.md`, `scripts/validate-phase22c-fill-stress-evidence-results.js`]);
-const phase22bForwardCompatPaths = new Set([...phase22bPaths, `docs/testing/phase22c-stress-evidence-filled-results.md`, `docs/release/phase22c-stress-evidence-summary.md`, `scripts/validate-phase22c-fill-stress-evidence-results.js`]);
+const allowedChanged = new Set([WORKFLOW, ...phase22cPaths]);
+const phase22cForwardCompatPaths = new Set(phase22cPaths);
 
 function fail(message) {
-  console.error(`Phase 22B validation failed: ${message}`);
+  console.error(`Phase 22C validation failed: ${message}`);
   process.exit(1);
 }
 
@@ -211,11 +228,11 @@ function combinedDocs() {
 
 function validateWorkflow() {
   const workflow = read(WORKFLOW);
-  const phase22a = `node scripts/validate-phase22a-actual-first-manual-evidence-run.js`;
   const phase22b = `node scripts/validate-phase22b-fill-real-user-evidence-results.js`;
-  if (!workflow.includes(phase22b)) fail(`CI does not register Phase 22B validator`);
-  if (workflow.indexOf(phase22b) <= workflow.indexOf(phase22a)) {
-    fail(`CI must register Phase 22B after Phase 22A`);
+  const phase22c = `node scripts/validate-phase22c-fill-stress-evidence-results.js`;
+  if (!workflow.includes(phase22c)) fail(`CI does not register Phase 22C validator`);
+  if (workflow.indexOf(phase22c) <= workflow.indexOf(phase22b)) {
+    fail(`CI must register Phase 22C after Phase 22B`);
   }
   if (/continue-on-error:\s*true/i.test(workflow)) fail(`workflow must not use continue-on-error: true`);
 }
@@ -223,35 +240,48 @@ function validateWorkflow() {
 function validateStatusTokens() {
   const combined = combinedDocs();
   const statusMatches = validStatuses.filter(status => combined.includes(status));
-  const sessionMatches = validSessionCounts.filter(status => combined.includes(status));
-  if (statusMatches.length !== 1) fail(`Expected exactly one valid Phase 22B status token`);
-  if (sessionMatches.length !== 1) fail(`Expected exactly one valid Phase 22B session count token`);
-  if (statusMatches[0].endsWith(`UPDATED_WITH_PHASE22A_INTERNAL_MANUAL_EVIDENCE`) !== sessionMatches[0].endsWith(`1`)) {
-    fail(`Phase 22B status and session count disagree`);
+  const runMatches = validRunCounts.filter(count => combined.includes(count));
+  if (statusMatches.length !== 1) fail(`Expected exactly one valid Phase 22C status token`);
+  if (runMatches.length !== 1) fail(`Expected exactly one valid Phase 22C run count token`);
+  const status = statusMatches[0];
+  const runs = runMatches[0];
+  if (status.endsWith(`BLOCKED_NO_USABLE_STRESS_EVIDENCE`) !== runs.endsWith(`0`)) {
+    fail(`Blocked Phase 22C status must have run count 0`);
   }
-  if (sessionMatches[0].endsWith(`1`) && !combined.includes(`FIRST_MANUAL_EVIDENCE_RUN_EXECUTED: YES`)) {
-    fail(`Session count 1 requires Phase 22A executed evidence token reference`);
+  if (!status.endsWith(`BLOCKED_NO_USABLE_STRESS_EVIDENCE`) && !runs.endsWith(`1`)) {
+    fail(`Filled Phase 22C status must have run count 1`);
   }
 }
 
-function validatePhase22AReference() {
+function validatePhaseReferences() {
   const phase22aCombined = `${read(PHASE22A_EVIDENCE)}\n${read(PHASE22A_SUMMARY)}`;
+  const phase22bCombined = `${read(PHASE22B_EVIDENCE)}\n${read(PHASE22B_SUMMARY)}`;
   if (!phase22aCombined.includes(`PHASE22A_FIRST_MANUAL_EVIDENCE_STATUS: EXECUTED_WITH_ANONYMIZED_RESULTS`)) {
     fail(`Phase 22A evidence is not executed with anonymized results`);
   }
-  if (!phase22aCombined.includes(`FIRST_MANUAL_EVIDENCE_RUN_EXECUTED: YES`)) {
-    fail(`Phase 22A executed evidence token is missing`);
+  if (!phase22bCombined.includes(`REAL_USER_EVIDENCE_FILLED_STATUS: UPDATED_WITH_PHASE22A_INTERNAL_MANUAL_EVIDENCE`)) {
+    fail(`Phase 22B filled evidence status is missing`);
   }
   const combined = combinedDocs();
-  for (const file of [PHASE22A_EVIDENCE, PHASE22A_SUMMARY]) {
-    if (!combined.includes(file)) fail(`Phase 22B docs must reference ${file}`);
+  for (const file of [PHASE22A_EVIDENCE, PHASE22A_SUMMARY, PHASE22B_EVIDENCE, PHASE22B_SUMMARY]) {
+    if (!combined.includes(file)) fail(`Phase 22C docs must reference ${file}`);
+  }
+}
+
+function validateLimitedClassification() {
+  const combined = normalize(combinedDocs()).toLowerCase();
+  if (combinedDocs().includes(`STRESS_EVIDENCE_FILLED_RUNS: 1`) &&
+      combinedDocs().includes(`UPDATED_WITH_LIMITED_PHASE22A_STRESS_ADJACENT_EVIDENCE`)) {
+    for (const term of [`limited stress-adjacent`, `first-run/manual`, `not full stress testing`]) {
+      if (!combined.includes(term)) fail(`Phase 22A limited stress-adjacent count must classify evidence as ${term}`);
+    }
   }
 }
 
 function validateTerms() {
   const text = normalize(combinedDocs()).toLowerCase();
-  for (const term of requiredTerms) {
-    if (!text.includes(term.toLowerCase())) fail(`Phase 22B docs missing required term: ${term}`);
+  for (const term of [...requiredScenarioTerms, ...requiredSafetyTerms]) {
+    if (!text.includes(term.toLowerCase())) fail(`Phase 22C docs missing required term: ${term}`);
   }
 }
 
@@ -278,7 +308,7 @@ function validateNoActiveForbiddenClaims() {
     let index = combined.indexOf(needle);
     while (index !== -1) {
       const context = combined.slice(Math.max(0, index - 900), index + needle.length + 300);
-      const safeContext = /not claimed|does not claim|must not|not claim|no .*claim|not enough|not complete|not observed|not tested|unacceptable|forbidden|hold remains active|unless enough|data-loss prevention is not guaranteed|no built-in|no positive|absence|absent|remains incomplete/.test(context);
+      const safeContext = /not claimed|does not claim|must not|not claim|no .*claim|not enough|not complete|incomplete|not observed|not tested|unacceptable|forbidden|hold remains active|unless enough|data-loss prevention is not guaranteed|no built-in|absence|absent|remains incomplete|remaining gaps/.test(context);
       if (!safeContext) fail(`Forbidden positive claim appears outside forbidden/warning section: ${claim}`);
       index = combined.indexOf(needle, index + 1);
     }
@@ -305,27 +335,28 @@ function validateHistoricalForwardCompat() {
         removed.replace(/,\]\.includes\(file\)\) continue;$/, `,`) === added
       ));
       if (isCommaOnlyContinuationChange) continue;
-      if (![...phase22bForwardCompatPaths].some(path => line.includes(path))) {
-        fail(`${file} has non-Phase-22B forward-compat addition: ${line}`);
+      if (![...phase22cForwardCompatPaths].some(path => line.includes(path))) {
+        fail(`${file} has non-Phase-22C forward-compat addition: ${line}`);
       }
-      for (const path of phase22bForwardCompatPaths) {
+      for (const path of phase22cForwardCompatPaths) {
         if (line.includes(path) && !line.includes(`\`${path}\``) && !line.includes(`'${path}'`) && !line.includes(`"${path}"`)) {
-          fail(`${file} must add exact Phase 22B path only: ${line}`);
+          fail(`${file} must add exact Phase 22C path only: ${line}`);
         }
       }
     }
   }
 }
 
-for (const file of [...phase22bPaths, PHASE22A_EVIDENCE, PHASE22A_SUMMARY]) read(file);
+for (const file of [...phase22cPaths, PHASE22A_EVIDENCE, PHASE22A_SUMMARY, PHASE22B_EVIDENCE, PHASE22B_SUMMARY]) read(file);
 requireHeadings(EVIDENCE, requiredEvidenceHeadings);
 requireHeadings(SUMMARY, requiredSummaryHeadings);
 validateWorkflow();
 validateStatusTokens();
-validatePhase22AReference();
+validatePhaseReferences();
+validateLimitedClassification();
 validateTerms();
 validateChangedScope();
 validateNoActiveForbiddenClaims();
 validateHistoricalForwardCompat();
 
-console.log(`Phase 22B fill real-user evidence results validation passed.`);
+console.log(`Phase 22C fill stress evidence results validation passed.`);
