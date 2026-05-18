@@ -505,6 +505,9 @@ jobs:
       - name: Validate Phase 20J Final Beta Readiness Re-decision Gate
         run: node scripts/validate-phase20j-final-beta-readiness-redecision.js
 
+      - name: Validate Phase 21A Manual Evidence Execution Run Pack Gate
+        run: node scripts/validate-phase21a-manual-evidence-execution-run-pack.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

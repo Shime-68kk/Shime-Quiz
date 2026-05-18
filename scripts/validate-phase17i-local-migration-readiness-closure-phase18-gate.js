@@ -238,6 +238,9 @@ const phase17iAllowedChangedFiles = new Set([
   `docs/adr/phase20j-final-beta-readiness-redecision.md`,
   `docs/release/phase20j-final-beta-readiness-evidence-summary.md`,
   `scripts/validate-phase20j-final-beta-readiness-redecision.js`,
+  `docs/testing/phase21a-manual-evidence-execution-run-pack.md`,
+  `docs/release/phase21a-evidence-execution-safety-checklist.md`,
+  `scripts/validate-phase21a-manual-evidence-execution-run-pack.js`,
 ]);
 
 // Forbidden runtime files that must not exist in Phase 17I.
@@ -485,6 +488,9 @@ const phase17iForwardCompatEntries = [
   `docs/adr/phase20j-final-beta-readiness-redecision.md`,
   `docs/release/phase20j-final-beta-readiness-evidence-summary.md`,
   `scripts/validate-phase20j-final-beta-readiness-redecision.js`,
+  `docs/testing/phase21a-manual-evidence-execution-run-pack.md`,
+  `docs/release/phase21a-evidence-execution-safety-checklist.md`,
+  `scripts/validate-phase21a-manual-evidence-execution-run-pack.js`,
 ];
 
 // Required document sections (exact heading strings).

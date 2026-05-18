@@ -32,6 +32,9 @@ const phase20jForwardCompatEntries = [
   ADR_FILE,
   SUMMARY_FILE,
   VALIDATOR_SCRIPT,
+  `docs/testing/phase21a-manual-evidence-execution-run-pack.md`,
+  `docs/release/phase21a-evidence-execution-safety-checklist.md`,
+  `scripts/validate-phase21a-manual-evidence-execution-run-pack.js`,
 ];
 
 const generatedArtifacts = [
@@ -194,6 +197,9 @@ const phase20jAllowedChangedFiles = new Set([
   ADR_FILE,
   SUMMARY_FILE,
   VALIDATOR_SCRIPT,
+  `docs/testing/phase21a-manual-evidence-execution-run-pack.md`,
+  `docs/release/phase21a-evidence-execution-safety-checklist.md`,
+  `scripts/validate-phase21a-manual-evidence-execution-run-pack.js`,
 ]);
 
 function fail(message) {
