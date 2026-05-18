@@ -253,6 +253,9 @@ const phase17cAllowedChangedFiles = new Set([
   `docs/testing/phase20f-performance-quota-import-stress-results-log.md`,
   `docs/release/phase20f-performance-quota-import-stress-evidence-protocol.md`,
   `scripts/validate-phase20f-performance-quota-import-stress-results-log.js`,
+  `docs/adr/phase20g-beta-readiness-redecision-after-evidence.md`,
+  `docs/release/phase20g-beta-readiness-redecision-evidence-summary.md`,
+  `scripts/validate-phase20g-beta-readiness-redecision-after-evidence.js`,
 ]);
 
 // Files that absolutely must not change.
