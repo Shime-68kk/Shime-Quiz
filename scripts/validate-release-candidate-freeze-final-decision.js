@@ -818,6 +818,9 @@ const allowedChanged = new Set([
   `docs/adr/phase20g-beta-readiness-redecision-after-evidence.md`,
   `docs/release/phase20g-beta-readiness-redecision-evidence-summary.md`,
   `scripts/validate-phase20g-beta-readiness-redecision-after-evidence.js`,
+  `docs/testing/phase20h-real-user-testing-execution-results.md`,
+  `docs/release/phase20h-real-user-testing-evidence-summary.md`,
+  `scripts/validate-phase20h-real-user-testing-execution-results.js`,
 ]);
 for (const file of changedFiles()) {
   if (allowedChanged.has(file)) continue;
