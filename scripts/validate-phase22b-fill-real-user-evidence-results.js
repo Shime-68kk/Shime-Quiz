@@ -158,8 +158,8 @@ const generatedArtifacts = [
   `phase22b-fill-real-user-evidence-results.zip`,
   `phase22b-fill-real-user-evidence-results-handoff.md`,
 ];
-const allowedChanged = new Set([WORKFLOW, ...phase22bPaths, `docs/testing/phase22c-stress-evidence-filled-results.md`, `docs/release/phase22c-stress-evidence-summary.md`, `scripts/validate-phase22c-fill-stress-evidence-results.js`]);
-const phase22bForwardCompatPaths = new Set([...phase22bPaths, `docs/testing/phase22c-stress-evidence-filled-results.md`, `docs/release/phase22c-stress-evidence-summary.md`, `scripts/validate-phase22c-fill-stress-evidence-results.js`]);
+const allowedChanged = new Set([WORKFLOW, ...phase22bPaths, `docs/testing/phase22c-stress-evidence-filled-results.md`, `docs/release/phase22c-stress-evidence-summary.md`, `scripts/validate-phase22c-fill-stress-evidence-results.js`, `docs/adr/phase22d-beta-readiness-redecision-actual-evidence.md`, `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`, `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`]);
+const phase22bForwardCompatPaths = new Set([...phase22bPaths, `docs/testing/phase22c-stress-evidence-filled-results.md`, `docs/release/phase22c-stress-evidence-summary.md`, `scripts/validate-phase22c-fill-stress-evidence-results.js`, `docs/adr/phase22d-beta-readiness-redecision-actual-evidence.md`, `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`, `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`]);
 
 function fail(message) {
   console.error(`Phase 22B validation failed: ${message}`);
@@ -287,7 +287,7 @@ function validateNoActiveForbiddenClaims() {
 }
 
 function validateHistoricalForwardCompat() {
-  const changedValidators = changedFiles().filter(file => file.startsWith(`scripts/validate-`) && file.endsWith(`.js`) && file !== VALIDATOR);
+  const changedValidators = changedFiles().filter(file => file.startsWith(`scripts/validate-`) && file.endsWith(`.js`) && file !== VALIDATOR && file !== `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`);
   for (const file of changedValidators) {
     const diff = runGit(`git diff --unified=0 origin/main -- ${file}`);
     const removedLines = diff.split(/\r?\n/)

@@ -11,7 +11,7 @@ const SUMMARY = `docs/release/phase21f-first-manual-evidence-run-summary.md`;
 const VALIDATOR = `scripts/validate-phase21f-first-manual-evidence-run-capture.js`;
 const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 
-const phase21fPaths = [CAPTURE, SUMMARY, VALIDATOR, `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`, `docs/release/phase21g-phase22-readiness-handoff.md`, `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`, `docs/testing/phase22a-actual-first-manual-evidence-run.md`, `docs/release/phase22a-first-manual-evidence-run-summary.md`, `scripts/validate-phase22a-actual-first-manual-evidence-run.js`, `docs/testing/phase22b-real-user-evidence-filled-results.md`, `docs/release/phase22b-real-user-evidence-summary.md`, `scripts/validate-phase22b-fill-real-user-evidence-results.js`, `docs/testing/phase22c-stress-evidence-filled-results.md`, `docs/release/phase22c-stress-evidence-summary.md`, `scripts/validate-phase22c-fill-stress-evidence-results.js`];
+const phase21fPaths = [CAPTURE, SUMMARY, VALIDATOR, `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`, `docs/release/phase21g-phase22-readiness-handoff.md`, `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`, `docs/testing/phase22a-actual-first-manual-evidence-run.md`, `docs/release/phase22a-first-manual-evidence-run-summary.md`, `scripts/validate-phase22a-actual-first-manual-evidence-run.js`, `docs/testing/phase22b-real-user-evidence-filled-results.md`, `docs/release/phase22b-real-user-evidence-summary.md`, `scripts/validate-phase22b-fill-real-user-evidence-results.js`, `docs/testing/phase22c-stress-evidence-filled-results.md`, `docs/release/phase22c-stress-evidence-summary.md`, `scripts/validate-phase22c-fill-stress-evidence-results.js`, `docs/adr/phase22d-beta-readiness-redecision-actual-evidence.md`, `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`, `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`];
 
 const requiredCaptureHeadings = [
   `# Phase 21F — First Manual Evidence Run Capture`,
@@ -277,7 +277,7 @@ function validateNoExecutedClaimWithoutEvidence() {
 }
 
 function validateHistoricalForwardCompat() {
-  const changedValidators = changedFiles().filter(file => file.startsWith(`scripts/validate-`) && file.endsWith(`.js`) && file !== VALIDATOR);
+  const changedValidators = changedFiles().filter(file => file.startsWith(`scripts/validate-`) && file.endsWith(`.js`) && file !== VALIDATOR && file !== `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`);
   for (const file of changedValidators) {
     const diff = runGit(`git diff --unified=0 origin/main -- ${file}`);
     for (const line of diff.split(/\r?\n/)) {

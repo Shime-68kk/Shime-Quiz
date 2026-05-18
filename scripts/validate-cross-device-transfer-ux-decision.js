@@ -713,6 +713,9 @@ const allowedChanged = new Set([
   `docs/testing/phase22c-stress-evidence-filled-results.md`,
   `docs/release/phase22c-stress-evidence-summary.md`,
   `scripts/validate-phase22c-fill-stress-evidence-results.js`,
+  `docs/adr/phase22d-beta-readiness-redecision-actual-evidence.md`,
+  `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`,
+  `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`,
 ]);
 
 function fail(message) { failures.push(message); }

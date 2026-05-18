@@ -832,7 +832,10 @@ function scopeGuard() {
   `scripts/validate-phase22b-fill-real-user-evidence-results.js`,
   `docs/testing/phase22c-stress-evidence-filled-results.md`,
   `docs/release/phase22c-stress-evidence-summary.md`,
-  `scripts/validate-phase22c-fill-stress-evidence-results.js`,].includes(file)) continue;
+  `scripts/validate-phase22c-fill-stress-evidence-results.js`,
+  `docs/adr/phase22d-beta-readiness-redecision-actual-evidence.md`,
+  `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`,
+  `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`,].includes(file)) continue;
     if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) continue;
     if (file.startsWith('.claude/')) continue;
     if (phase14oAllowedChangedFiles.has(file)) continue;
@@ -885,7 +888,10 @@ function forbiddenScopeGuard() {
   `scripts/validate-phase22b-fill-real-user-evidence-results.js`,
   `docs/testing/phase22c-stress-evidence-filled-results.md`,
   `docs/release/phase22c-stress-evidence-summary.md`,
-  `scripts/validate-phase22c-fill-stress-evidence-results.js`,].includes(file)) continue;
+  `scripts/validate-phase22c-fill-stress-evidence-results.js`,
+  `docs/adr/phase22d-beta-readiness-redecision-actual-evidence.md`,
+  `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`,
+  `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`,].includes(file)) continue;
     if (file.startsWith('e2e/')) fail(`E2E file changed in Phase 14O: ${file}`);
   }
 }
@@ -1013,7 +1019,10 @@ function noNewSrcFilesGuard() {
   `scripts/validate-phase22b-fill-real-user-evidence-results.js`,
   `docs/testing/phase22c-stress-evidence-filled-results.md`,
   `docs/release/phase22c-stress-evidence-summary.md`,
-  `scripts/validate-phase22c-fill-stress-evidence-results.js`,].includes(file)) continue;
+  `scripts/validate-phase22c-fill-stress-evidence-results.js`,
+  `docs/adr/phase22d-beta-readiness-redecision-actual-evidence.md`,
+  `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`,
+  `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`,].includes(file)) continue;
     if (!file.startsWith('src/')) continue;
     if (generatedArtifacts.some(a => file === a || file.startsWith(`${a}/`))) continue;
     if (phase14nSrcAllowed.has(file)) continue;

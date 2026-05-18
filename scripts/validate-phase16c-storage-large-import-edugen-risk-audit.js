@@ -729,7 +729,10 @@ function scopeGuard() {
   `scripts/validate-phase22b-fill-real-user-evidence-results.js`,
   `docs/testing/phase22c-stress-evidence-filled-results.md`,
   `docs/release/phase22c-stress-evidence-summary.md`,
-  `scripts/validate-phase22c-fill-stress-evidence-results.js`,].includes(file)) continue;
+  `scripts/validate-phase22c-fill-stress-evidence-results.js`,
+  `docs/adr/phase22d-beta-readiness-redecision-actual-evidence.md`,
+  `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`,
+  `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`,].includes(file)) continue;
     if (isGeneratedArtifact(file)) continue;
     if (file.startsWith('.claude/')) continue;
     if (phase16cAllowedChangedFiles.has(file)) continue;
@@ -813,7 +816,10 @@ function noRuntimeImplementationGuard() {
   `scripts/validate-phase22b-fill-real-user-evidence-results.js`,
   `docs/testing/phase22c-stress-evidence-filled-results.md`,
   `docs/release/phase22c-stress-evidence-summary.md`,
-  `scripts/validate-phase22c-fill-stress-evidence-results.js`,].includes(file)) continue;
+  `scripts/validate-phase22c-fill-stress-evidence-results.js`,
+  `docs/adr/phase22d-beta-readiness-redecision-actual-evidence.md`,
+  `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`,
+  `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`,].includes(file)) continue;
     if (isGeneratedArtifact(file)) continue;
     if (phase16cAllowedChangedFiles.has(file)) continue;
     if (file.startsWith('src/')) {
