@@ -508,6 +508,9 @@ jobs:
       - name: Validate Phase 21A Manual Evidence Execution Run Pack Gate
         run: node scripts/validate-phase21a-manual-evidence-execution-run-pack.js
 
+      - name: Validate Phase 21B Real User Testing Filled Results Gate
+        run: node scripts/validate-phase21b-real-user-testing-filled-results.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
