@@ -487,6 +487,9 @@ jobs:
       - name: Validate Phase 20D HOLD Decision and beta-ai Naming Cleanup Gate
         run: node scripts/validate-phase20d-hold-decision-beta-ai-naming-cleanup.js
 
+      - name: Validate Phase 20E Real User Testing Results Log Gate
+        run: node scripts/validate-phase20e-real-user-testing-results-log.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

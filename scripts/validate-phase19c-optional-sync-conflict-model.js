@@ -188,6 +188,10 @@ const phase19cForwardCompatEntries = [
   `docs/release-tag-creation-plan.md`,
   `docs/release-candidate-tag-publish-gate.md`,
   `docs/github-release-publication-plan.md`,
+  // Phase 20E forward-compat entries (Real User Testing Results Log)
+  `docs/testing/phase20e-real-user-testing-results-log.md`,
+  `docs/release/phase20e-real-user-testing-evidence-protocol.md`,
+  `scripts/validate-phase20e-real-user-testing-results-log.js`,
 ];
 
 // Pre-Phase-19C baseline files that may already appear in historical validator
@@ -391,6 +395,10 @@ const phase19cAllowedChangedFiles = new Set([
   `docs/release-tag-creation-plan.md`,
   `docs/release-candidate-tag-publish-gate.md`,
   `docs/github-release-publication-plan.md`,
+  // Phase 20E forward-compat entries (Real User Testing Results Log)
+  `docs/testing/phase20e-real-user-testing-results-log.md`,
+  `docs/release/phase20e-real-user-testing-evidence-protocol.md`,
+  `scripts/validate-phase20e-real-user-testing-results-log.js`,
   ...prePhase19cBaselineFiles,
 ]);
 
