@@ -43,6 +43,10 @@ const phase19bForwardCompatEntries = [
   `docs/adr/phase20b-real-user-testing-data-safety-feedback.md`,
   `docs/testing/phase20b-real-user-testing-plan.md`,
   `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`,
+  // Phase 20C forward-compat entries (Performance / Quota / Import Stress Test Plan)
+  `docs/adr/phase20c-performance-quota-import-stress-test-plan.md`,
+  `docs/testing/phase20c-performance-quota-import-stress-test-plan.md`,
+  `scripts/validate-phase20c-performance-quota-import-stress-test-plan.js`,
 ];
 
 // Pre-Phase-19B baseline files that may already appear in historical validator
@@ -99,6 +103,10 @@ const phase19bAllowedChangedFiles = new Set([
   `docs/adr/phase20b-real-user-testing-data-safety-feedback.md`,
   `docs/testing/phase20b-real-user-testing-plan.md`,
   `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`,
+  // Phase 20C forward-compat entries (Performance / Quota / Import Stress Test Plan)
+  `docs/adr/phase20c-performance-quota-import-stress-test-plan.md`,
+  `docs/testing/phase20c-performance-quota-import-stress-test-plan.md`,
+  `scripts/validate-phase20c-performance-quota-import-stress-test-plan.js`,
 ]);
 
 const fsrsRuntimeFiles = [

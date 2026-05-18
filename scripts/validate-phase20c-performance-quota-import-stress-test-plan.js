@@ -1,45 +1,41 @@
 #!/usr/bin/env node
 /**
- * scripts/validate-phase20b-real-user-testing-data-safety-feedback.js
+ * scripts/validate-phase20c-performance-quota-import-stress-test-plan.js
  *
- * Phase 20B static validator — Real User Testing / Data Safety Feedback Plan.
+ * Phase 20C static validator — Performance / Quota / Import Stress Test Plan.
  *
- * Phase 20B is docs/static-validator/CI-only. It does not implement sync,
+ * Phase 20C is docs/static-validator/CI-only. It does not implement sync,
  * account/auth/backend, storage changes, FSRS changes, backup/export/restore
- * changes, UI, tests, telemetry, analytics, user accounts, or package changes.
- * Its deliverables are this validator, the Phase 20B ADR, the Phase 20B testing
- * plan, and CI registration after Phase 20A.
+ * changes, UI, tests, telemetry, analytics, runtime stress fixtures, or package
+ * changes. Its deliverables are this validator, the Phase 20C ADR, the Phase 20C
+ * stress-test plan doc, and CI registration after Phase 20B.
  */
 
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
-const ADR_FILE            = `docs/adr/phase20b-real-user-testing-data-safety-feedback.md`;
-const TESTING_PLAN_FILE   = `docs/testing/phase20b-real-user-testing-plan.md`;
-const VALIDATOR_SCRIPT    = `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`;
-const WORKFLOW_FILE       = `.github/workflows/e2e-smoke.yml`;
-const PHASE20A_VALIDATOR  = `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`;
-const PHASE19D_VALIDATOR  = `scripts/validate-phase19d-no-cloud-default-off-trust-copy.js`;
+const ADR_FILE              = `docs/adr/phase20c-performance-quota-import-stress-test-plan.md`;
+const STRESS_TEST_PLAN_FILE = `docs/testing/phase20c-performance-quota-import-stress-test-plan.md`;
+const VALIDATOR_SCRIPT      = `scripts/validate-phase20c-performance-quota-import-stress-test-plan.js`;
+const WORKFLOW_FILE         = `.github/workflows/e2e-smoke.yml`;
+const PHASE20B_VALIDATOR    = `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`;
+const PHASE20A_VALIDATOR    = `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`;
 
-const phase20bCoreFiles = [
+const phase20cCoreFiles = [
   ADR_FILE,
-  TESTING_PLAN_FILE,
+  STRESS_TEST_PLAN_FILE,
   VALIDATOR_SCRIPT,
 ];
 
-// Phase 20B forward-compat entries: the only paths historical validators may add.
-const phase20bForwardCompatEntries = [
-  `docs/adr/phase20b-real-user-testing-data-safety-feedback.md`,
-  `docs/testing/phase20b-real-user-testing-plan.md`,
-  `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`,
-  // Phase 20C forward-compat entries (Performance / Quota / Import Stress Test Plan)
+// Phase 20C forward-compat entries: the only paths historical validators may add.
+const phase20cForwardCompatEntries = [
   `docs/adr/phase20c-performance-quota-import-stress-test-plan.md`,
   `docs/testing/phase20c-performance-quota-import-stress-test-plan.md`,
   `scripts/validate-phase20c-performance-quota-import-stress-test-plan.js`,
 ];
 
-// Pre-Phase-20B baseline files that may already appear in historical validator
-// forward-compat lists from prior phases. They are NOT additions in Phase 20B.
+// Pre-Phase-20C baseline files that may already appear in historical validator
+// forward-compat lists from prior phases. They are NOT additions in Phase 20C.
 const previousForwardCompatEntries = [
   // Phase 18C/18D/18E baseline
   `docs/phase18c-manual-migration-ux-plan.md`,
@@ -68,17 +64,17 @@ const previousForwardCompatEntries = [
   // Phase 20A baseline
   `docs/adr/phase20a-beta-local-first-hybrid-stabilization.md`,
   `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
+  // Phase 20B baseline
+  `docs/adr/phase20b-real-user-testing-data-safety-feedback.md`,
+  `docs/testing/phase20b-real-user-testing-plan.md`,
+  `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`,
 ];
 
-const phase20bAllowedChangedFiles = new Set([
+const phase20cAllowedChangedFiles = new Set([
   WORKFLOW_FILE,
+  PHASE20B_VALIDATOR,
   PHASE20A_VALIDATOR,
-  PHASE19D_VALIDATOR,
-  ...phase20bCoreFiles,
-  // Phase 20C forward-compat entries (Performance / Quota / Import Stress Test Plan)
-  `docs/adr/phase20c-performance-quota-import-stress-test-plan.md`,
-  `docs/testing/phase20c-performance-quota-import-stress-test-plan.md`,
-  `scripts/validate-phase20c-performance-quota-import-stress-test-plan.js`,
+  ...phase20cCoreFiles,
 ]);
 
 const fsrsRuntimeFiles = [
@@ -140,149 +136,166 @@ const generatedArtifacts = [
   `.env`,
   `.env.local`,
   `.git`,
-  `phase20b-real-user-testing-data-safety-feedback.patch`,
-  `phase20b-real-user-testing-data-safety-feedback.zip`,
-  `phase20b-real-user-testing-data-safety-feedback-handoff.md`,
+  `phase20c-performance-quota-import-stress-test-plan.patch`,
+  `phase20c-performance-quota-import-stress-test-plan.zip`,
+  `phase20c-performance-quota-import-stress-test-plan-handoff.md`,
 ];
 
 const requiredAdrHeadings = [
-  `# Phase 20B — Real User Testing / Data Safety Feedback Plan`,
+  `# Phase 20C — Performance / Quota / Import Stress Test Plan`,
   `## Purpose`,
   `## Relationship to Phase 20A`,
+  `## Relationship to Phase 20B`,
   `## Current production baseline`,
-  `## Testing decision`,
-  `## What "real user testing" means in Phase 20B`,
-  `## What Phase 20B does not collect`,
-  `## Data safety principles`,
-  `## Tester profile and recruitment boundaries`,
-  `## Test scenarios`,
-  `## Feedback questions`,
-  `## Backup and restore safety checklist`,
-  `## Manual transfer safety checklist`,
-  `## FSRS and review schedule feedback boundaries`,
-  `## Failure and escalation criteria`,
-  `## Privacy and trust copy requirements`,
-  `## Phase 20C scope`,
-  `## Phase 20D scope`,
-  `## What Phase 20B explicitly does not implement`,
+  `## Stress-test planning decision`,
+  `## What Phase 20C measures`,
+  `## What Phase 20C does not measure yet`,
+  `## Performance risk areas`,
+  `## Storage quota risk areas`,
+  `## Import risk areas`,
+  `## Backup and restore risk areas`,
+  `## Manual transfer risk areas`,
+  `## FSRS and review schedule risk areas`,
+  `## Mobile/PWA risk areas`,
+  `## Test data design`,
+  `## Measurement approach`,
+  `## Safety and privacy boundaries`,
+  `## Failure thresholds and hold criteria`,
+  `## Phase 20D evidence handoff`,
+  `## What Phase 20C explicitly does not implement`,
   `## Acceptance criteria`,
 ];
 
-const requiredTestingPlanHeadings = [
-  `# Phase 20B — Real User Testing Plan`,
+const requiredStressTestPlanHeadings = [
+  `# Phase 20C — Performance / Quota / Import Stress Test Plan`,
   `## Purpose`,
-  `## Who should test`,
-  `## Who should not test yet`,
-  `## Pre-test safety checklist`,
-  `## Test dataset guidance`,
-  `## Core user flows to observe`,
-  `## Backup and restore observation`,
-  `## Manual transfer observation`,
-  `## FSRS and scheduler observation`,
-  `## Import and large data observation`,
-  `## Mobile/PWA observation`,
-  `## Vietnamese-first trust copy observation`,
-  `## Questions to ask testers`,
+  `## Test environment assumptions`,
+  `## Test data sets`,
+  `## Performance scenarios`,
+  `## Storage quota scenarios`,
+  `## Import scenarios`,
+  `## Backup and restore scenarios`,
+  `## Manual transfer scenarios`,
+  `## FSRS and review schedule scenarios`,
+  `## Mobile/PWA scenarios`,
+  `## Measurement notes`,
   `## What to record`,
   `## What not to record`,
-  `## Stop conditions during testing`,
-  `## Post-test review`,
+  `## Stop conditions during stress testing`,
   `## Phase 20D evidence handoff`,
 ];
 
 // Required decision terms checked against the ADR.
 const requiredDecisionTerms = [
-  `real_user_testing_decision: plan_only_no_data_collection`,
-  `phase 20b is docs/static-validator/ci-only`,
-  `phase 20b is a plan-only gate`,
-  `phase 20b does not implement user testing runtime`,
-  `phase 20b does not collect telemetry`,
-  `phase 20b does not add analytics`,
-  `phase 20b does not add user accounts`,
-  `phase 20b does not store tester identity in app code`,
-  `phase 20b does not add ui`,
-  `phase 20b does not add tests`,
-  `phase 20b does not implement sync runtime`,
-  `phase 20b does not implement storage backend switch`,
-  `phase 20b does not implement migration runtime`,
+  `performance_stress_decision: plan_only_no_runtime_stress_fixtures`,
+  `phase 20c is docs/static-validator/ci-only`,
+  `phase 20c is a plan-only gate`,
+  `phase 20c does not implement runtime stress fixtures`,
+  `phase 20c does not add tests`,
+  `phase 20c does not add ui`,
+  `phase 20c does not add telemetry`,
+  `phase 20c does not add analytics`,
+  `phase 20c does not collect user data`,
+  `phase 20c does not change import parser behavior`,
+  `phase 20c does not change backup/export/restore behavior`,
+  `phase 20c does not implement sync runtime`,
+  `phase 20c does not implement storage backend switch`,
+  `phase 20c does not implement migration runtime`,
   `localstorage remains canonical production storage`,
   `backup/export/restore behavior remains unchanged`,
   `manual transfer remains a user-controlled action`,
   `sync remains unshipped`,
-  `beta readiness remains gated by phase 20c and phase 20d`,
+  `beta readiness remains gated by phase 20d`,
 ];
 
-// Required Phase 20A inheritance terms checked against the ADR.
-const requiredPhase20aInheritanceTerms = [
+// Required Phase 20A/20B inheritance terms checked against the ADR.
+const requiredPhase20ABInheritanceTerms = [
   `beta_stabilization_decision: local_first_hybrid_stabilization_audit_only`,
+  `real_user_testing_decision: plan_only_no_data_collection`,
   `localstorage remains the canonical production source of truth`,
   `backup is not sync`,
   `restore may overwrite current data`,
   `manual transfer is the only cross-device data movement`,
   `phase 20a`,
+  `phase 20b`,
 ];
 
-// Required scenario terms checked against combined ADR + testing plan.
+// Required scenario terms checked against combined ADR + stress-test plan.
 const requiredScenarioTerms = [
-  `first-run onboarding`,
-  `create/import small library`,
-  `import larger library`,
-  `study session`,
-  `review schedule / due cards`,
+  `app startup with small library`,
+  `app startup with large library`,
+  `dashboard today plan with large library`,
+  `study room session with due cards`,
+  `import small json`,
+  `import larger json`,
+  `import csv`,
+  `import text/markdown`,
+  `edugen draft review import boundary`,
   `backup before risky action`,
   `restore from backup`,
   `manual export/import transfer`,
-  `fsrs experimental/off/default boundary`,
-  `edugen draft review/import boundary`,
-  `mobile/pwa basic usage`,
-  `storage quota or large import warning`,
-  `vietnamese trust copy comprehension`,
-  `user confusion around sync/cloud/account claims`,
+  `storage quota estimate`,
+  `large import warning`,
+  `repeated backup/restore rehearsal`,
+  `mobile viewport`,
+  `pwa/service worker cache boundary`,
+  `fsrs active/off/default boundary`,
+  `review schedule due-count accuracy`,
+  `no telemetry / no analytics collection`,
 ];
 
-// Required data-safety principles checked against combined ADR + testing plan.
+// Required data-safety principles checked against combined ADR + stress-test plan.
 const requiredDataSafetyTerms = [
-  `use duplicate/test data when possible`,
-  `ask testers to make a backup before risky testing`,
-  `do not ask testers to use irreplaceable study data without backup`,
-  `do not promise that data loss cannot happen`,
-  `do not ask testers to share private study content unless they choose to`,
-  `do not collect sensitive personal information`,
-  `do not collect account credentials`,
-  `do not collect cloud credentials`,
-  `do not ask testers to test sync because sync is not shipped`,
-  `stop testing if backup/restore behavior is unclear`,
-  `stop testing if the tester believes shime is cloud-backed`,
-  `stop testing if due dates/review schedules appear confusing or unsafe`,
+  `use generated or duplicate test data`,
+  `do not use irreplaceable study data without backup`,
+  `always create a restorable backup before destructive/risky tests`,
+  `do not promise data loss cannot happen`,
+  `do not collect private study content`,
+  `do not collect telemetry or analytics`,
+  `do not collect account credentials or cloud credentials`,
+  `do not test sync because sync is not shipped`,
+  `stop testing if backup/restore results are unclear`,
+  `stop testing if import creates confusing or unsafe data`,
+  `stop testing if due cards/review schedules look inconsistent`,
+  `stop testing if storage quota warning is unclear or missing for risky import size`,
 ];
 
-// Required feedback question terms checked against combined ADR + testing plan.
-const requiredFeedbackQuestionTerms = [
-  `did the tester understand data is local`,
-  `did the tester understand there is no cloud sync today`,
-  `did the tester understand backup is not sync`,
-  `did the tester understand restore may overwrite current data`,
-  `did the tester feel safe before import/restore`,
-  `did manual transfer feel understandable`,
-  `did any copy imply account/cloud/sync`,
-  `did review schedules or fsrs copy feel confusing`,
-  `did vietnamese-first trust copy feel clear`,
-  `did the tester know what to do before risky actions`,
-  `did any action feel like it could lose data`,
+// Required measurement category terms checked against combined ADR + stress-test plan.
+const requiredMeasurementTerms = [
+  `subjective responsiveness`,
+  `visible delay`,
+  `browser console errors`,
+  `import success/failure`,
+  `import warnings`,
+  `backup file creation`,
+  `restore success/failure`,
+  `item count after restore`,
+  `review schedule count after restore`,
+  `quota warning visibility`,
+  `mobile layout usability`,
+  `pwa/cache confusion`,
+  `tester confidence before risky actions`,
 ];
 
-// Required Phase 20C/20D alignment terms checked against ADR.
-const requiredPhase20CDAlignmentTerms = [
-  `phase 20c — performance / quota / import stress test plan`,
+// Required Phase 20D alignment terms checked against combined ADR + stress-test plan.
+const requiredPhase20DAlignmentTerms = [
   `phase 20d — release decision: local-first hybrid beta-ready or hold`,
-  `docs/static-validator/ci-only by default`,
-  `no sync runtime`,
-  `no production migration`,
-  `no storage backend switch`,
   `docs/static-validator/ci-only decision gate`,
-  `consumes phase 20a`,
+  `consumes phase 20a stabilization audit`,
+  `phase 20b`,
+  `phase 20c stress-test plan`,
   `decides beta-ready or hold`,
   `no runtime by default`,
+  `version/name claim cleanup`,
+  `beta-ai naming`,
+];
+
+// Required beta-ai naming warning terms checked against ADR.
+const requiredBetaAiNamingTerms = [
+  `v2.0.0-beta-ai.1 is potentially misleading`,
+  `beta-ai can imply built-in ai`,
+  `v2.0.0-beta.1`,
+  `phase 20d should decide or gate this naming cleanup`,
 ];
 
 const forbiddenPositiveClaims = [
@@ -316,12 +329,12 @@ const broadPathPatterns = [
 ];
 
 function fail(message) {
-  console.error(`Phase 20B validation failed: ${message}`);
+  console.error(`Phase 20C validation failed: ${message}`);
   process.exit(1);
 }
 
 function warn(message) {
-  console.warn(`Phase 20B validation warning: ${message}`);
+  console.warn(`Phase 20C validation warning: ${message}`);
 }
 
 function read(file) {
@@ -404,43 +417,43 @@ function isGeneratedArtifact(file) {
 }
 
 function requiredFilesGuard() {
-  for (const file of [ADR_FILE, TESTING_PLAN_FILE, VALIDATOR_SCRIPT, WORKFLOW_FILE, PHASE20A_VALIDATOR]) {
+  for (const file of [ADR_FILE, STRESS_TEST_PLAN_FILE, VALIDATOR_SCRIPT, WORKFLOW_FILE, PHASE20B_VALIDATOR]) {
     read(file);
   }
 }
 
 function workflowGuard() {
   const text = read(WORKFLOW_FILE);
-  const phase20aStr = `node scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`;
   const phase20bStr = `node scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`;
+  const phase20cStr = `node scripts/validate-phase20c-performance-quota-import-stress-test-plan.js`;
 
-  if (!text.includes(phase20aStr)) fail(`${WORKFLOW_FILE} must register Phase 20A validator`);
   if (!text.includes(phase20bStr)) fail(`${WORKFLOW_FILE} must register Phase 20B validator`);
-  if (text.indexOf(phase20bStr) <= text.indexOf(phase20aStr)) {
-    fail(`${WORKFLOW_FILE} must register Phase 20B validator after Phase 20A`);
+  if (!text.includes(phase20cStr)) fail(`${WORKFLOW_FILE} must register Phase 20C validator`);
+  if (text.indexOf(phase20cStr) <= text.indexOf(phase20bStr)) {
+    fail(`${WORKFLOW_FILE} must register Phase 20C validator after Phase 20B`);
   }
   if (/continue-on-error:\s*true/i.test(text)) fail(`${WORKFLOW_FILE} must not use continue-on-error: true`);
 }
 
 function packageGuard() {
   const changed = new Set(changedFiles());
-  if (changed.has(`package.json`)) fail(`package.json must not change in Phase 20B`);
-  if (changed.has(`package-lock.json`)) fail(`package-lock.json must not change in Phase 20B`);
+  if (changed.has(`package.json`)) fail(`package.json must not change in Phase 20C`);
+  if (changed.has(`package-lock.json`)) fail(`package-lock.json must not change in Phase 20C`);
 }
 
 function noSrcTestsE2eChangesGuard() {
   for (const file of changedFiles()) {
-    if (phase20bAllowedChangedFiles.has(file)) continue;
-    if (firstSegment(file) === 'src') fail(`src/ file changed in Phase 20B (forbidden): ${file}`);
-    if (firstSegment(file) === 'tests') fail(`tests/ file changed in Phase 20B (forbidden): ${file}`);
-    if (firstSegment(file) === 'e2e') fail(`e2e/ file changed in Phase 20B (forbidden): ${file}`);
+    if (phase20cAllowedChangedFiles.has(file)) continue;
+    if (firstSegment(file) === 'src') fail(`src/ file changed in Phase 20C (forbidden): ${file}`);
+    if (firstSegment(file) === 'tests') fail(`tests/ file changed in Phase 20C (forbidden): ${file}`);
+    if (firstSegment(file) === 'e2e') fail(`e2e/ file changed in Phase 20C (forbidden): ${file}`);
   }
 }
 
 function runtimeGuard(label, files) {
   const changed = new Set(changedFiles());
   for (const file of files) {
-    if (changed.has(file)) fail(`${label} changed in Phase 20B (forbidden): ${file}`);
+    if (changed.has(file)) fail(`${label} changed in Phase 20C (forbidden): ${file}`);
   }
 }
 
@@ -448,22 +461,22 @@ function scopeGuard() {
   for (const file of changedFiles()) {
     if (isGeneratedArtifact(file)) continue;
     if (file.startsWith(`.claude/`)) continue;
-    if (phase20bAllowedChangedFiles.has(file)) continue;
-    if (file === `package.json` || file === `package-lock.json`) fail(`${file} must not change in Phase 20B`);
-    if (firstSegment(file) === 'src') fail(`src/ file changed in Phase 20B (forbidden): ${file}`);
-    if (firstSegment(file) === 'e2e') fail(`e2e/ file changed in Phase 20B (forbidden): ${file}`);
-    if (firstSegment(file) === 'tests') fail(`tests/ file changed in Phase 20B (forbidden): ${file}`);
-    if (firstSegment(file) === 'docs' && !phase20bAllowedChangedFiles.has(file)) {
-      fail(`Unexpected docs/ file changed in Phase 20B: ${file}`);
+    if (phase20cAllowedChangedFiles.has(file)) continue;
+    if (file === `package.json` || file === `package-lock.json`) fail(`${file} must not change in Phase 20C`);
+    if (firstSegment(file) === 'src') fail(`src/ file changed in Phase 20C (forbidden): ${file}`);
+    if (firstSegment(file) === 'e2e') fail(`e2e/ file changed in Phase 20C (forbidden): ${file}`);
+    if (firstSegment(file) === 'tests') fail(`tests/ file changed in Phase 20C (forbidden): ${file}`);
+    if (firstSegment(file) === 'docs' && !phase20cAllowedChangedFiles.has(file)) {
+      fail(`Unexpected docs/ file changed in Phase 20C: ${file}`);
     }
     if (file.startsWith(`scripts/validate-`) && file.endsWith(`.js`)) continue;
-    warn(`Unexpected file outside allowed Phase 20B scope (non-fatal): ${file}`);
+    warn(`Unexpected file outside allowed Phase 20C scope (non-fatal): ${file}`);
   }
 }
 
 function forbiddenRuntimeFilesGuard() {
   for (const file of forbiddenRuntimeFiles) {
-    if (fs.existsSync(file)) fail(`Phase 20B must not introduce forbidden runtime file: ${file}`);
+    if (fs.existsSync(file)) fail(`Phase 20C must not introduce forbidden runtime file: ${file}`);
   }
 }
 
@@ -498,7 +511,7 @@ function requireTermsCombined(files, terms, label) {
 }
 
 function isForbiddenClaimSection(line) {
-  return /^##\s+(What is not stable enough|Forbidden claims|Claims.*must not|claims shime must not|What Phase 20B explicitly does not|Forbidden positive)/i.test(normalize(line));
+  return /^##\s+(What is not stable enough|Forbidden claims|Claims.*must not|claims shime must not|What Phase 20C explicitly does not|Forbidden positive)/i.test(normalize(line));
 }
 
 function isNextSection(line) {
@@ -577,10 +590,10 @@ function historicalValidatorForwardCompatGuard() {
       for (const path of extractedPaths) {
         if (!path.includes('/')) continue;
         if (!path.endsWith('.md') && !path.endsWith('.js')) continue;
-        if (phase20bForwardCompatEntries.includes(path)) continue;
+        if (phase20cForwardCompatEntries.includes(path)) continue;
         if (previousForwardCompatEntries.includes(path)) continue;
         if (path.startsWith(`docs/`) || path.startsWith(`tests/`) || path.startsWith(`scripts/`)) {
-          fail(`Historical validator ${validatorFile} adds non-Phase-20B path entry: '${path}'`);
+          fail(`Historical validator ${validatorFile} adds non-Phase-20C path entry: '${path}'`);
         }
       }
     }
@@ -599,17 +612,18 @@ function validate() {
   forbiddenRuntimeFilesGuard();
   forbiddenDependencyGuard();
   requireHeadings(ADR_FILE, requiredAdrHeadings);
-  requireHeadings(TESTING_PLAN_FILE, requiredTestingPlanHeadings);
+  requireHeadings(STRESS_TEST_PLAN_FILE, requiredStressTestPlanHeadings);
   requireTerms(ADR_FILE, requiredDecisionTerms);
-  requireTerms(ADR_FILE, requiredPhase20aInheritanceTerms);
-  requireTerms(ADR_FILE, requiredPhase20CDAlignmentTerms);
-  requireTermsCombined([ADR_FILE, TESTING_PLAN_FILE], requiredScenarioTerms, `ADR + testing plan`);
-  requireTermsCombined([ADR_FILE, TESTING_PLAN_FILE], requiredDataSafetyTerms, `ADR + testing plan`);
-  requireTermsCombined([ADR_FILE, TESTING_PLAN_FILE], requiredFeedbackQuestionTerms, `ADR + testing plan`);
+  requireTerms(ADR_FILE, requiredPhase20ABInheritanceTerms);
+  requireTerms(ADR_FILE, requiredBetaAiNamingTerms);
+  requireTermsCombined([ADR_FILE, STRESS_TEST_PLAN_FILE], requiredScenarioTerms, `ADR + stress-test plan`);
+  requireTermsCombined([ADR_FILE, STRESS_TEST_PLAN_FILE], requiredDataSafetyTerms, `ADR + stress-test plan`);
+  requireTermsCombined([ADR_FILE, STRESS_TEST_PLAN_FILE], requiredMeasurementTerms, `ADR + stress-test plan`);
+  requireTermsCombined([ADR_FILE, STRESS_TEST_PLAN_FILE], requiredPhase20DAlignmentTerms, `ADR + stress-test plan`);
   forbiddenPositiveClaimGuardForFile(ADR_FILE);
   generatedArtifactGuard();
   historicalValidatorForwardCompatGuard();
-  console.log(`Phase 20B Real User Testing / Data Safety Feedback Plan validation passed.`);
+  console.log(`Phase 20C Performance / Quota / Import Stress Test Plan validation passed.`);
 }
 
 validate();
