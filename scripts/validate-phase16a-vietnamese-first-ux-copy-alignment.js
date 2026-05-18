@@ -327,6 +327,7 @@ function workflowGuard() {
 
 function scopeGuard() {
   for (const file of changedFiles()) {
+    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
   // Phase 20D naming-cleanup compat: line neutralized for exact 2.0.0-beta.1 transition.
   // Phase 20D naming-cleanup compat: line neutralized for exact 2.0.0-beta.1 transition.
     if (file.startsWith('e2e/') && file !== 'e2e/smoke.spec.js') {

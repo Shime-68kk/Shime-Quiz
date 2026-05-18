@@ -32,6 +32,10 @@ const phase21dForwardCompatEntries = [
   ADR_FILE,
   EVIDENCE_SUMMARY_FILE,
   VALIDATOR_SCRIPT,
+  `docs/testing/phase21e-manual-evidence-first-run-pack.md`,
+  `docs/testing/phase21e-fillable-evidence-session-template.md`,
+  `docs/release/phase21e-first-run-safety-and-claim-checklist.md`,
+  `scripts/validate-phase21e-manual-evidence-first-run-pack.js`,
 ];
 
 const generatedArtifacts = [
@@ -196,6 +200,10 @@ const allowedChangedFiles = new Set([
   VALIDATOR_SCRIPT,
   `scripts/validate-phase21b-real-user-testing-filled-results.js`,
   `scripts/validate-phase21c-stress-testing-filled-results.js`,
+  `docs/testing/phase21e-manual-evidence-first-run-pack.md`,
+  `docs/testing/phase21e-fillable-evidence-session-template.md`,
+  `docs/release/phase21e-first-run-safety-and-claim-checklist.md`,
+  `scripts/validate-phase21e-manual-evidence-first-run-pack.js`,
 ]);
 
 function fail(message) {
@@ -317,6 +325,7 @@ function workflowGuard() {
 
 function scopeGuard() {
   for (const file of changedFiles()) {
+    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
     if (isGeneratedArtifact(file)) continue;
     if (allowedChangedFiles.has(file)) continue;
     if (file.startsWith(`scripts/validate-`) && file.endsWith(`.js`)) continue;

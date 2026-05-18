@@ -817,6 +817,10 @@ const allowedChanged = new Set([
   `docs/adr/phase21d-beta-readiness-redecision-filled-evidence.md`,
   `docs/release/phase21d-beta-readiness-filled-evidence-summary.md`,
   `scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js`,
+  `docs/testing/phase21e-manual-evidence-first-run-pack.md`,
+  `docs/testing/phase21e-fillable-evidence-session-template.md`,
+  `docs/release/phase21e-first-run-safety-and-claim-checklist.md`,
+  `scripts/validate-phase21e-manual-evidence-first-run-pack.js`,
 ]);
 for (const file of changedFiles()) {
   if (!allowedChanged.has(file)) failures.push(`Unexpected changed file for Phase 10M: ${file}`);

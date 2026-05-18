@@ -517,6 +517,9 @@ jobs:
       - name: Validate Phase 21D Beta Readiness Re-decision With Filled Evidence Gate
         run: node scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js
 
+      - name: Validate Phase 21E Manual Evidence First Run Pack Gate
+        run: node scripts/validate-phase21e-manual-evidence-first-run-pack.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

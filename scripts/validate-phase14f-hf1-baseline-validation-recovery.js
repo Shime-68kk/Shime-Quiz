@@ -474,6 +474,7 @@ function workflowGuard() {
 
 function scopeGuard() {
   for (const file of changedFiles()) {
+    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
     if (generatedArtifacts.some(a => file === a || file.startsWith(`${a}/`))) continue;
     if (hf1AllowedChangedFiles.has(file)) continue;
     if (file === STUDY_ROOM) fail(`StudyRoom.jsx must not change in Phase 14F-HF1`);

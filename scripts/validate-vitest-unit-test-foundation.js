@@ -764,6 +764,10 @@ const allowedChangedFiles = new Set([
   // Phase 17D forward-compat entries (Migration Journal / Event Log Architecture)
   'docs/phase17d-migration-journal-event-log-architecture.md',
   'scripts/validate-phase17d-migration-journal-event-log-architecture.js',
+  `docs/testing/phase21e-manual-evidence-first-run-pack.md`,
+  `docs/testing/phase21e-fillable-evidence-session-template.md`,
+  `docs/release/phase21e-first-run-safety-and-claim-checklist.md`,
+  `scripts/validate-phase21e-manual-evidence-first-run-pack.js`,
 ]);
 
 const generatedArtifacts = ['node_modules', 'dist', 'test-results', 'playwright-report', 'coverage', 'FETCH_HEAD'];

@@ -697,6 +697,10 @@ const allowedChanged = new Set([
   'tests/unit/storageAdapterScaffold.test.js',
   'tests/unit/recommendationFeedbackStorageAdapter.test.js',
   'tests/unit/storageLargeImportEdugenRiskAudit.test.js',
+  `docs/testing/phase21e-manual-evidence-first-run-pack.md`,
+  `docs/testing/phase21e-fillable-evidence-session-template.md`,
+  `docs/release/phase21e-first-run-safety-and-claim-checklist.md`,
+  `scripts/validate-phase21e-manual-evidence-first-run-pack.js`,
 ]);
 
 function fail(message) { failures.push(message); }

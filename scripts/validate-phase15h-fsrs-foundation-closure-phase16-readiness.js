@@ -712,6 +712,7 @@ function workflowGuard() {
 
 function scopeGuard() {
   for (const file of changedFiles()) {
+    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
     if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) continue;
     if (file.startsWith('.claude/')) continue;
     if (phase15hAllowedChangedFiles.has(file)) continue;
@@ -740,6 +741,7 @@ function generatedArtifactGuard() {
 function forbiddenScopeGuard() {
   const changed = new Set(changedFiles());
   for (const file of changed) {
+    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
     if (phase15hAllowedChangedFiles.has(file)) continue;
     if (file.startsWith('src/')) fail(`src/ file changed in Phase 15H: ${file}`);
     if (file.startsWith('tests/')) fail(`tests/ file changed in Phase 15H: ${file}`);
