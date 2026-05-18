@@ -217,7 +217,7 @@ for (const [sourceFile, text] of [
   }
 }
 
-if (pkg.version !== '2.0.0-beta-ai.1') failures.push(`package.json version changed unexpectedly: ${pkg.version}`);
+if (pkg.version !== '2.0.0-beta.1') failures.push(`package.json version changed unexpectedly: ${pkg.version}`);
 const lockVersion = lockRoot.version;
 if (lockVersion && lockVersion !== pkg.version) failures.push(`package-lock root version ${lockVersion} does not match package.json ${pkg.version}.`);
 const pkgDeps = JSON.stringify(pkg.dependencies || {});

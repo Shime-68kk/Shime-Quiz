@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 const root = process.cwd();
-const expectedVersion = '2.0.0-beta-ai.1';
+const expectedVersion = '2.0.0-beta.1';
 const fail = (message) => { console.error(`validate-library-empty-state-onboarding: ${message}`); process.exit(1); };
 const readRequired = (relativePath) => { const fullPath = path.join(root, relativePath); if (!fs.existsSync(fullPath)) fail(`${relativePath} is missing`); return fs.readFileSync(fullPath, 'utf8'); };
 const assertIncludes = (content, needle, label) => { if (!content.toLowerCase().includes(needle.toLowerCase())) fail(`${label} must include "${needle}"`); };

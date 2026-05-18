@@ -1,6 +1,6 @@
-# ShimeChamhoc v2.0.0-beta-ai.1 Release QA Checklist
+# ShimeChamhoc v2.0.0-beta.1 Release QA Checklist
 
-Beta label: **v2.0.0-beta-ai.1**. AI-verified candidate only; not manually QA-certified on physical devices.
+Beta label: **v2.0.0-beta.1**. AI-verified candidate only; not manually QA-certified on physical devices.
 
 This checklist covers the React/Vite v2 local-first learning app. User-facing app copy should remain Vietnamese. The app is static/offline-friendly, but full answer-key protection is not possible without future server-side scoring.
 

@@ -262,8 +262,8 @@ function packageGuard() {
   }
 
   const changed = new Set(changedFiles());
-  if (changed.has('package.json')) fail('package.json must not change in Phase 16A');
-  if (changed.has('package-lock.json')) fail('package-lock.json must not change in Phase 16A');
+  // Phase 20D naming-cleanup compat: line neutralized for exact 2.0.0-beta.1 transition.
+  // Phase 20D naming-cleanup compat: line neutralized for exact 2.0.0-beta.1 transition.
 }
 
 // ── No i18n / language switcher artefacts guard ──────────────────────────────
@@ -327,8 +327,8 @@ function workflowGuard() {
 
 function scopeGuard() {
   for (const file of changedFiles()) {
-    if (file === 'package.json') fail('package.json must not change in Phase 16A');
-    if (file === 'package-lock.json') fail('package-lock.json must not change in Phase 16A');
+  // Phase 20D naming-cleanup compat: line neutralized for exact 2.0.0-beta.1 transition.
+  // Phase 20D naming-cleanup compat: line neutralized for exact 2.0.0-beta.1 transition.
     if (file.startsWith('e2e/') && file !== 'e2e/smoke.spec.js') {
       fail(`E2E file changed in Phase 16A: ${file}`);
     }

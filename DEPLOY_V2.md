@@ -1,6 +1,6 @@
 # ShimeChamhoc v2 Staging / Beta Deployment Guide
 
-Beta label: **v2.0.0-beta-ai.1**
+Beta label: **v2.0.0-beta.1**
 
 ShimeChamhoc v2 is a React/Vite static web app. Core learning features run locally in the browser: library import, Study Room, history, analytics, spaced repetition, mastery, recommendations, goals, plans, and backup/restore. No app-owned backend is required for the v2 static deployment.
 
@@ -181,7 +181,7 @@ The v2 React app is static/local-first. It includes Vietnamese PWA metadata and 
 
 - serve `sw.js` from the same path scope as `index.html`
 - do not cache `sw.js` with long immutable headers
-- keep the service worker cache version aligned with the release, currently `shimechamhoc-v2.0.0-beta-ai.1`
+- keep the service worker cache version aligned with the release, currently `shimechamhoc-v2.0.0-beta.1`
 - verify `sw.js` does not precache source-only paths such as `/src/*` in production
 - deploy the full build together to avoid mixed old/new assets
 - ask beta testers to hard reload or clear site data if stale behavior appears

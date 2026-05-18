@@ -17,7 +17,7 @@ This phase does not publish a GitHub Release, does not create or push a git tag,
 - Release tag has not been created.
 - GitHub Release has not been published.
 - Release package has not been published.
-- Package version remains unchanged unless explicitly approved by the user. Current package version remains `2.0.0-beta-ai.1` unless changed in a future approved phase.
+- Package version remains unchanged unless explicitly approved by the user. Current package version remains `2.0.0-beta.1` unless changed in a future approved phase.
 
 ## Publication policy
 

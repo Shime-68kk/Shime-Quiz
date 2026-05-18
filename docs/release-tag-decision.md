@@ -14,14 +14,14 @@ Phase 9A is documentation, release-readiness, static validation, and CI registra
 - GitHub Release draft documentation is prepared later in Phase 9B at [`docs/github-release-draft.md`](github-release-draft.md).
 - Release tag has not been created in this phase.
 - GitHub release has not been published in this phase.
-- Current `package.json` version: `2.0.0-beta-ai.1`.
+- Current `package.json` version: `2.0.0-beta.1`.
 
 ## Release naming / tag options
 
 These options are documented for the user to choose from before any tag or release is created:
 
 1. **Keep the existing package version and create an RC tag later**
-   - Keep `package.json` at `2.0.0-beta-ai.1`.
+   - Keep `package.json` at `2.0.0-beta.1`.
    - Use a git tag that clearly identifies the release-candidate state.
    - This is conservative because it avoids a package version bump in the release-decision phase.
 
@@ -35,7 +35,7 @@ These options are documented for the user to choose from before any tag or relea
    - This is useful when the release track needs to distinguish the final docs/onboarding/E2E-readiness pass from an earlier candidate.
 
 4. **Keep a beta-style tag for continuity**
-   - Use this if the user wants tag naming to follow the current package version style, such as a tag aligned with `2.0.0-beta-ai.1`.
+   - Use this if the user wants tag naming to follow the current package version style, such as a tag aligned with `2.0.0-beta.1`.
    - This keeps continuity with the current package label but may be less clear than an explicit RC tag for public release-candidate communication.
 
 ## Recommendation
@@ -84,7 +84,7 @@ Safe claims after Phase 9A:
 
 - Release tag decision documentation exists.
 - Release tag/version options are documented.
-- Current package version is captured as `2.0.0-beta-ai.1`.
+- Current package version is captured as `2.0.0-beta.1`.
 - Phase 9B — GitHub Release Draft is the recommended next release-finalization step.
 
 Unsafe claims after Phase 9A:

@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 const root = process.cwd();
-const expectedVersion = '2.0.0-beta-ai.1';
+const expectedVersion = '2.0.0-beta.1';
 
 const fail = (message) => {
   console.error(`validate-visual-asset-guidance: ${message}`);

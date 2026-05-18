@@ -14,7 +14,7 @@ Phase 10M creates a **Release Tag Creation Plan** for ShimeChamhoc v2. This is a
 - Release tag has not been created.
 - GitHub Release has not been published.
 - Release package has not been published.
-- Package version remains unchanged unless explicitly approved by the user. Current package version remains `2.0.0-beta-ai.1`.
+- Package version remains unchanged unless explicitly approved by the user. Current package version remains `2.0.0-beta.1`.
 
 ## Tag creation policy
 
@@ -30,10 +30,10 @@ Phase 10M creates a **Release Tag Creation Plan** for ShimeChamhoc v2. This is a
 
 These candidate tag naming options are examples only; they are not created tags.
 
-- `v2.0.0-beta-ai.1`
+- `v2.0.0-beta.1`
   - Pro: matches the current package version exactly.
   - Con: reads like a beta tag rather than an RC-specific tag.
-- `v2.0.0-beta-ai.1-rc1`
+- `v2.0.0-beta.1-rc1`
   - Pro: preserves current beta version lineage while marking the candidate as release-candidate 1.
   - Con: longer and slightly less conventional than a simple RC tag.
 - `v2.0.0-rc1`
