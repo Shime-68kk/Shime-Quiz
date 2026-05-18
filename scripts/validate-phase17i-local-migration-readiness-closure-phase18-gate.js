@@ -244,6 +244,9 @@ const phase17iAllowedChangedFiles = new Set([
   `docs/testing/phase21b-real-user-testing-filled-results.md`,
   `docs/release/phase21b-real-user-testing-filled-evidence-summary.md`,
   `scripts/validate-phase21b-real-user-testing-filled-results.js`,
+  `docs/testing/phase21c-stress-testing-filled-results.md`,
+  `docs/release/phase21c-stress-testing-filled-evidence-summary.md`,
+  `scripts/validate-phase21c-stress-testing-filled-results.js`,
 ]);
 
 // Forbidden runtime files that must not exist in Phase 17I.
@@ -497,6 +500,9 @@ const phase17iForwardCompatEntries = [
   `docs/testing/phase21b-real-user-testing-filled-results.md`,
   `docs/release/phase21b-real-user-testing-filled-evidence-summary.md`,
   `scripts/validate-phase21b-real-user-testing-filled-results.js`,
+  `docs/testing/phase21c-stress-testing-filled-results.md`,
+  `docs/release/phase21c-stress-testing-filled-evidence-summary.md`,
+  `scripts/validate-phase21c-stress-testing-filled-results.js`,
 ];
 
 // Required document sections (exact heading strings).
