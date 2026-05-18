@@ -443,6 +443,9 @@ const phase16fAllowedChangedFiles = new Set([
   `docs/testing/phase21c-stress-testing-filled-results.md`,
   `docs/release/phase21c-stress-testing-filled-evidence-summary.md`,
   `scripts/validate-phase21c-stress-testing-filled-results.js`,
+  `docs/adr/phase21d-beta-readiness-redecision-filled-evidence.md`,
+  `docs/release/phase21d-beta-readiness-filled-evidence-summary.md`,
+  `scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js`,
 ]);
 
 // Hard-forbidden scheduler/storage/backup files. Phase 16F must not touch
