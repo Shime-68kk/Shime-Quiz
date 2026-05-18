@@ -534,7 +534,10 @@ function noSrcChangesGuard() {
     if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`, `docs/testing/phase21f-first-manual-evidence-run-capture.md`, `docs/release/phase21f-first-manual-evidence-run-summary.md`, `scripts/validate-phase21f-first-manual-evidence-run-capture.js`,
   `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`,
   `docs/release/phase21g-phase22-readiness-handoff.md`,
-  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,].includes(file)) continue;
+  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,
+  `docs/testing/phase22a-actual-first-manual-evidence-run.md`,
+  `docs/release/phase22a-first-manual-evidence-run-summary.md`,
+  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,].includes(file)) continue;
     if (file === 'src/version.js') { /* Phase 20D naming-cleanup compat: allow src/version.js */ } else if (file.startsWith('src/')) fail(`src/ file changed in Phase 18B (forbidden): ${file}`);
   }
 }
@@ -546,7 +549,10 @@ function noTestsChangesGuard() {
     if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`, `docs/testing/phase21f-first-manual-evidence-run-capture.md`, `docs/release/phase21f-first-manual-evidence-run-summary.md`, `scripts/validate-phase21f-first-manual-evidence-run-capture.js`,
   `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`,
   `docs/release/phase21g-phase22-readiness-handoff.md`,
-  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,].includes(file)) continue;
+  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,
+  `docs/testing/phase22a-actual-first-manual-evidence-run.md`,
+  `docs/release/phase22a-first-manual-evidence-run-summary.md`,
+  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,].includes(file)) continue;
     if (phase18bAllowedChangedFiles.has(file)) continue;
     const firstSegment = file.indexOf('/') >= 0 ? file.slice(0, file.indexOf('/')) : file;
     if (firstSegment === 'tests') fail(`tests/ file changed in Phase 18B (forbidden): ${file}`);
@@ -560,7 +566,10 @@ function noE2eChangesGuard() {
     if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`, `docs/testing/phase21f-first-manual-evidence-run-capture.md`, `docs/release/phase21f-first-manual-evidence-run-summary.md`, `scripts/validate-phase21f-first-manual-evidence-run-capture.js`,
   `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`,
   `docs/release/phase21g-phase22-readiness-handoff.md`,
-  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,].includes(file)) continue;
+  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,
+  `docs/testing/phase22a-actual-first-manual-evidence-run.md`,
+  `docs/release/phase22a-first-manual-evidence-run-summary.md`,
+  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,].includes(file)) continue;
     if (file.startsWith(`e2e/`)) fail(`e2e/ file changed in Phase 18B (forbidden): ${file}`);
   }
 }
@@ -572,7 +581,10 @@ function scopeGuard() {
     if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`, `docs/testing/phase21f-first-manual-evidence-run-capture.md`, `docs/release/phase21f-first-manual-evidence-run-summary.md`, `scripts/validate-phase21f-first-manual-evidence-run-capture.js`,
   `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`,
   `docs/release/phase21g-phase22-readiness-handoff.md`,
-  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,].includes(file)) continue;
+  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,
+  `docs/testing/phase22a-actual-first-manual-evidence-run.md`,
+  `docs/release/phase22a-first-manual-evidence-run-summary.md`,
+  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,].includes(file)) continue;
     if (isGeneratedArtifact(file)) continue;
     if (file.startsWith('.claude/')) continue;
     if (phase18bAllowedChangedFiles.has(file)) continue;
