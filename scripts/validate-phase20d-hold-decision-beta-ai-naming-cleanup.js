@@ -74,6 +74,9 @@ const phase20dForwardCompatEntries = [
   `docs/adr/phase20g-beta-readiness-redecision-after-evidence.md`,
   `docs/release/phase20g-beta-readiness-redecision-evidence-summary.md`,
   `scripts/validate-phase20g-beta-readiness-redecision-after-evidence.js`,
+  `docs/testing/phase20h-real-user-testing-execution-results.md`,
+  `docs/release/phase20h-real-user-testing-evidence-summary.md`,
+  `scripts/validate-phase20h-real-user-testing-execution-results.js`,
 ];
 
 // Pre-Phase-20D baseline forward-compat entries already present in historical
@@ -151,6 +154,9 @@ const phase20dAllowedChangedFiles = new Set([
   `docs/adr/phase20g-beta-readiness-redecision-after-evidence.md`,
   `docs/release/phase20g-beta-readiness-redecision-evidence-summary.md`,
   `scripts/validate-phase20g-beta-readiness-redecision-after-evidence.js`,
+  `docs/testing/phase20h-real-user-testing-execution-results.md`,
+  `docs/release/phase20h-real-user-testing-evidence-summary.md`,
+  `scripts/validate-phase20h-real-user-testing-execution-results.js`,
   ...phase20dCoreFiles,
   ...allowedPackageVersionCleanupFiles,
   ...allowedPublicDocsCleanupFiles,

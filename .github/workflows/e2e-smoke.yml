@@ -496,6 +496,9 @@ jobs:
       - name: Validate Phase 20G Beta Readiness Re-decision After Evidence Gate
         run: node scripts/validate-phase20g-beta-readiness-redecision-after-evidence.js
 
+      - name: Validate Phase 20H Real User Testing Execution Results Gate
+        run: node scripts/validate-phase20h-real-user-testing-execution-results.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
