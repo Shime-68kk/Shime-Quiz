@@ -526,6 +526,9 @@ jobs:
       - name: Validate Phase 21G Evidence Track Closure / Phase 22 Readiness Gate
         run: node scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js
 
+      - name: Validate Phase 22A Actual First Manual Evidence Run Gate
+        run: node scripts/validate-phase22a-actual-first-manual-evidence-run.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

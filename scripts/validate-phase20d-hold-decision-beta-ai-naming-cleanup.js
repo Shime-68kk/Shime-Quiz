@@ -513,7 +513,10 @@ function noTestsE2eChangesGuard() {
     if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`, `docs/testing/phase21f-first-manual-evidence-run-capture.md`, `docs/release/phase21f-first-manual-evidence-run-summary.md`, `scripts/validate-phase21f-first-manual-evidence-run-capture.js`,
   `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`,
   `docs/release/phase21g-phase22-readiness-handoff.md`,
-  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,].includes(file)) continue;
+  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,
+  `docs/testing/phase22a-actual-first-manual-evidence-run.md`,
+  `docs/release/phase22a-first-manual-evidence-run-summary.md`,
+  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,].includes(file)) continue;
     if (firstSegment(file) === `tests`) fail(`tests/ file changed in Phase 20D (forbidden): ${file}`);
     if (firstSegment(file) === `e2e`) fail(`e2e/ file changed in Phase 20D (forbidden): ${file}`);
   }
@@ -524,7 +527,10 @@ function noSrcChangesExceptVersionGuard() {
     if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`, `docs/testing/phase21f-first-manual-evidence-run-capture.md`, `docs/release/phase21f-first-manual-evidence-run-summary.md`, `scripts/validate-phase21f-first-manual-evidence-run-capture.js`,
   `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`,
   `docs/release/phase21g-phase22-readiness-handoff.md`,
-  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,].includes(file)) continue;
+  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,
+  `docs/testing/phase22a-actual-first-manual-evidence-run.md`,
+  `docs/release/phase22a-first-manual-evidence-run-summary.md`,
+  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,].includes(file)) continue;
     if (firstSegment(file) !== `src`) continue;
     if (file === SRC_VERSION_FILE) continue;
     fail(`src/ file changed in Phase 20D outside src/version.js (forbidden): ${file}`);
@@ -618,7 +624,10 @@ function scopeGuard() {
     if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`, `docs/testing/phase21f-first-manual-evidence-run-capture.md`, `docs/release/phase21f-first-manual-evidence-run-summary.md`, `scripts/validate-phase21f-first-manual-evidence-run-capture.js`,
   `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`,
   `docs/release/phase21g-phase22-readiness-handoff.md`,
-  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,].includes(file)) continue;
+  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,
+  `docs/testing/phase22a-actual-first-manual-evidence-run.md`,
+  `docs/release/phase22a-first-manual-evidence-run-summary.md`,
+  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,].includes(file)) continue;
     if (isGeneratedArtifact(file)) continue;
     if (file.startsWith(`.claude/`)) continue;
     if (phase20dAllowedChangedFiles.has(file)) continue;

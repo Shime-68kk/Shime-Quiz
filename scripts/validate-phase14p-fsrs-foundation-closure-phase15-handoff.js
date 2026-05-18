@@ -798,7 +798,10 @@ function scopeGuard() {
     if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`, `docs/testing/phase21f-first-manual-evidence-run-capture.md`, `docs/release/phase21f-first-manual-evidence-run-summary.md`, `scripts/validate-phase21f-first-manual-evidence-run-capture.js`,
   `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`,
   `docs/release/phase21g-phase22-readiness-handoff.md`,
-  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,].includes(file)) continue;
+  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,
+  `docs/testing/phase22a-actual-first-manual-evidence-run.md`,
+  `docs/release/phase22a-first-manual-evidence-run-summary.md`,
+  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,].includes(file)) continue;
     if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) continue;
     if (file.startsWith('.claude/')) continue;
     if (phase14pAllowedChangedFiles.has(file)) continue;
@@ -839,7 +842,10 @@ function forbiddenScopeGuard() {
     if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`, `docs/testing/phase21f-first-manual-evidence-run-capture.md`, `docs/release/phase21f-first-manual-evidence-run-summary.md`, `scripts/validate-phase21f-first-manual-evidence-run-capture.js`,
   `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`,
   `docs/release/phase21g-phase22-readiness-handoff.md`,
-  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,].includes(file)) continue;
+  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,
+  `docs/testing/phase22a-actual-first-manual-evidence-run.md`,
+  `docs/release/phase22a-first-manual-evidence-run-summary.md`,
+  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,].includes(file)) continue;
     if (phase14pAllowedChangedFiles.has(file)) continue;
     if (file.startsWith('e2e/')) fail(`E2E file changed in Phase 14P: ${file}`);
     if (file.startsWith('src/')) fail(`src/ file changed in Phase 14P: ${file}`);
@@ -852,7 +858,10 @@ function noNewSrcFilesGuard() {
     if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`, `docs/testing/phase21f-first-manual-evidence-run-capture.md`, `docs/release/phase21f-first-manual-evidence-run-summary.md`, `scripts/validate-phase21f-first-manual-evidence-run-capture.js`,
   `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`,
   `docs/release/phase21g-phase22-readiness-handoff.md`,
-  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,].includes(file)) continue;
+  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,
+  `docs/testing/phase22a-actual-first-manual-evidence-run.md`,
+  `docs/release/phase22a-first-manual-evidence-run-summary.md`,
+  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,].includes(file)) continue;
     if (!file.startsWith('src/')) continue;
     if (generatedArtifacts.some(a => file === a || file.startsWith(`${a}/`))) continue;
     if (phase14pAllowedChangedFiles.has(file)) continue;

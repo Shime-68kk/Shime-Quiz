@@ -777,7 +777,10 @@ function scopeGuard() {
     if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`, `docs/testing/phase21f-first-manual-evidence-run-capture.md`, `docs/release/phase21f-first-manual-evidence-run-summary.md`, `scripts/validate-phase21f-first-manual-evidence-run-capture.js`,
   `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`,
   `docs/release/phase21g-phase22-readiness-handoff.md`,
-  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,].includes(file)) continue;
+  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,
+  `docs/testing/phase22a-actual-first-manual-evidence-run.md`,
+  `docs/release/phase22a-first-manual-evidence-run-summary.md`,
+  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,].includes(file)) continue;
     if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) continue;
     if (file.startsWith('.claude/')) continue;
     if (phase14gAllowedChangedFiles.has(file)) continue;

@@ -120,7 +120,13 @@ const forbiddenClaims = [
 ];
 
 const allowedChanged = new Set([WORKFLOW, ...phase21gPaths]);
+allowedChanged.add(`docs/testing/phase22a-actual-first-manual-evidence-run.md`);
+allowedChanged.add(`docs/release/phase22a-first-manual-evidence-run-summary.md`);
+allowedChanged.add(`scripts/validate-phase22a-actual-first-manual-evidence-run.js`);
 const phase21gForwardCompatPaths = new Set(phase21gPaths);
+phase21gForwardCompatPaths.add(`docs/testing/phase22a-actual-first-manual-evidence-run.md`);
+phase21gForwardCompatPaths.add(`docs/release/phase22a-first-manual-evidence-run-summary.md`);
+phase21gForwardCompatPaths.add(`scripts/validate-phase22a-actual-first-manual-evidence-run.js`);
 const forbiddenPrefixes = [
   `src/`,
   `tests/`,
