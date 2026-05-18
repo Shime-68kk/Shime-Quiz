@@ -862,6 +862,9 @@ const allowedChanged = new Set([
   `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`,
   `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`,
 ]);
+allowedChanged.add(`docs/testing/phase22e-broader-manual-evidence-run.md`);
+allowedChanged.add(`docs/release/phase22e-broader-manual-evidence-summary.md`);
+allowedChanged.add(`scripts/validate-phase22e-broader-manual-evidence.js`);
 for (const file of changedFiles()) {
   if (allowedChanged.has(file)) continue;
   failures.push(`Unexpected changed file for Phase 10R: ${file}`);

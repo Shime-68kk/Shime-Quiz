@@ -160,6 +160,12 @@ const generatedArtifacts = [
 ];
 const allowedChanged = new Set([WORKFLOW, ...phase22bPaths, `docs/testing/phase22c-stress-evidence-filled-results.md`, `docs/release/phase22c-stress-evidence-summary.md`, `scripts/validate-phase22c-fill-stress-evidence-results.js`, `docs/adr/phase22d-beta-readiness-redecision-actual-evidence.md`, `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`, `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`]);
 const phase22bForwardCompatPaths = new Set([...phase22bPaths, `docs/testing/phase22c-stress-evidence-filled-results.md`, `docs/release/phase22c-stress-evidence-summary.md`, `scripts/validate-phase22c-fill-stress-evidence-results.js`, `docs/adr/phase22d-beta-readiness-redecision-actual-evidence.md`, `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`, `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`]);
+allowedChanged.add(`docs/testing/phase22e-broader-manual-evidence-run.md`);
+allowedChanged.add(`docs/release/phase22e-broader-manual-evidence-summary.md`);
+allowedChanged.add(`scripts/validate-phase22e-broader-manual-evidence.js`);
+phase22bForwardCompatPaths.add(`docs/testing/phase22e-broader-manual-evidence-run.md`);
+phase22bForwardCompatPaths.add(`docs/release/phase22e-broader-manual-evidence-summary.md`);
+phase22bForwardCompatPaths.add(`scripts/validate-phase22e-broader-manual-evidence.js`);
 
 function fail(message) {
   console.error(`Phase 22B validation failed: ${message}`);

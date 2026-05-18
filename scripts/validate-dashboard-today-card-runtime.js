@@ -731,6 +731,9 @@ const allowedChangedFiles = new Set([
   `docs/adr/phase22d-beta-readiness-redecision-actual-evidence.md`,
   `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`,
   `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`,
+  `docs/testing/phase22e-broader-manual-evidence-run.md`,
+  `docs/release/phase22e-broader-manual-evidence-summary.md`,
+  `scripts/validate-phase22e-broader-manual-evidence.js`,
 ]);
 
 const forbiddenChangedFiles = [

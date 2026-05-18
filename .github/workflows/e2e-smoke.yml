@@ -538,6 +538,9 @@ jobs:
       - name: Validate Phase 22D Beta Readiness Re-decision Actual Evidence Gate
         run: node scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js
 
+      - name: Validate Phase 22E Broader Manual Evidence Gate
+        run: node scripts/validate-phase22e-broader-manual-evidence.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

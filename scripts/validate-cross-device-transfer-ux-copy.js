@@ -717,6 +717,9 @@ const allowedChanged = new Set([
   `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`,
   `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`,
 ]);
+allowedChanged.add(`docs/testing/phase22e-broader-manual-evidence-run.md`);
+allowedChanged.add(`docs/release/phase22e-broader-manual-evidence-summary.md`);
+allowedChanged.add(`scripts/validate-phase22e-broader-manual-evidence.js`);
 const friendlySourceFiles = ['src/components/learning/V2BackupRestorePanel.jsx'];
 
 function fail(message) { failures.push(message); }

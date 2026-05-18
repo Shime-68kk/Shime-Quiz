@@ -133,6 +133,12 @@ allowedChanged.add(`docs/adr/phase22d-beta-readiness-redecision-actual-evidence.
 allowedChanged.add(`docs/release/phase22d-beta-readiness-actual-evidence-summary.md`);
 allowedChanged.add(`scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`);
 const phase21gForwardCompatPaths = new Set(phase21gPaths);
+allowedChanged.add(`docs/testing/phase22e-broader-manual-evidence-run.md`);
+allowedChanged.add(`docs/release/phase22e-broader-manual-evidence-summary.md`);
+allowedChanged.add(`scripts/validate-phase22e-broader-manual-evidence.js`);
+phase21gForwardCompatPaths.add(`docs/testing/phase22e-broader-manual-evidence-run.md`);
+phase21gForwardCompatPaths.add(`docs/release/phase22e-broader-manual-evidence-summary.md`);
+phase21gForwardCompatPaths.add(`scripts/validate-phase22e-broader-manual-evidence.js`);
 phase21gForwardCompatPaths.add(`docs/testing/phase22a-actual-first-manual-evidence-run.md`);
 phase21gForwardCompatPaths.add(`docs/release/phase22a-first-manual-evidence-run-summary.md`);
 phase21gForwardCompatPaths.add(`scripts/validate-phase22a-actual-first-manual-evidence-run.js`);

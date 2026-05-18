@@ -11,7 +11,7 @@ const SUMMARY = `docs/release/phase21f-first-manual-evidence-run-summary.md`;
 const VALIDATOR = `scripts/validate-phase21f-first-manual-evidence-run-capture.js`;
 const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 
-const phase21fPaths = [CAPTURE, SUMMARY, VALIDATOR, `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`, `docs/release/phase21g-phase22-readiness-handoff.md`, `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`, `docs/testing/phase22a-actual-first-manual-evidence-run.md`, `docs/release/phase22a-first-manual-evidence-run-summary.md`, `scripts/validate-phase22a-actual-first-manual-evidence-run.js`, `docs/testing/phase22b-real-user-evidence-filled-results.md`, `docs/release/phase22b-real-user-evidence-summary.md`, `scripts/validate-phase22b-fill-real-user-evidence-results.js`, `docs/testing/phase22c-stress-evidence-filled-results.md`, `docs/release/phase22c-stress-evidence-summary.md`, `scripts/validate-phase22c-fill-stress-evidence-results.js`, `docs/adr/phase22d-beta-readiness-redecision-actual-evidence.md`, `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`, `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`];
+const phase21fPaths = [CAPTURE, SUMMARY, VALIDATOR, `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`, `docs/release/phase21g-phase22-readiness-handoff.md`, `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`, `docs/testing/phase22a-actual-first-manual-evidence-run.md`, `docs/release/phase22a-first-manual-evidence-run-summary.md`, `scripts/validate-phase22a-actual-first-manual-evidence-run.js`, `docs/testing/phase22b-real-user-evidence-filled-results.md`, `docs/release/phase22b-real-user-evidence-summary.md`, `scripts/validate-phase22b-fill-real-user-evidence-results.js`, `docs/testing/phase22c-stress-evidence-filled-results.md`, `docs/release/phase22c-stress-evidence-summary.md`, `scripts/validate-phase22c-fill-stress-evidence-results.js`, `docs/adr/phase22d-beta-readiness-redecision-actual-evidence.md`, `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`, `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`, `docs/testing/phase22e-broader-manual-evidence-run.md`, `docs/release/phase22e-broader-manual-evidence-summary.md`, `scripts/validate-phase22e-broader-manual-evidence.js`];
 
 const requiredCaptureHeadings = [
   `# Phase 21F — First Manual Evidence Run Capture`,
@@ -144,6 +144,9 @@ const forbiddenClaims = [
 ];
 
 const allowedChanged = new Set([WORKFLOW, ...phase21fPaths]);
+allowedChanged.add(`docs/testing/phase22e-broader-manual-evidence-run.md`);
+allowedChanged.add(`docs/release/phase22e-broader-manual-evidence-summary.md`);
+allowedChanged.add(`scripts/validate-phase22e-broader-manual-evidence.js`);
 const forbiddenPrefixes = [
   `src/`,
   `tests/`,

@@ -155,6 +155,12 @@ const generatedArtifacts = [
 ];
 const allowedChanged = new Set([WORKFLOW, ...phase22dPaths]);
 const phase22dForwardCompatPaths = new Set(phase22dPaths);
+allowedChanged.add(`docs/testing/phase22e-broader-manual-evidence-run.md`);
+allowedChanged.add(`docs/release/phase22e-broader-manual-evidence-summary.md`);
+allowedChanged.add(`scripts/validate-phase22e-broader-manual-evidence.js`);
+phase22dForwardCompatPaths.add(`docs/testing/phase22e-broader-manual-evidence-run.md`);
+phase22dForwardCompatPaths.add(`docs/release/phase22e-broader-manual-evidence-summary.md`);
+phase22dForwardCompatPaths.add(`scripts/validate-phase22e-broader-manual-evidence.js`);
 
 function fail(message) {
   console.error(`Phase 22D validation failed: ${message}`);
