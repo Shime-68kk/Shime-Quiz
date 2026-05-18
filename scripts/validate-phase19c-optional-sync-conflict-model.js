@@ -200,8 +200,11 @@ const phase19cForwardCompatEntries = [
   `docs/release/phase20g-beta-readiness-redecision-evidence-summary.md`,
   `scripts/validate-phase20g-beta-readiness-redecision-after-evidence.js`,
   `docs/testing/phase20h-real-user-testing-execution-results.md`,
+  `docs/testing/phase20i-performance-quota-import-stress-execution-results.md`,
   `docs/release/phase20h-real-user-testing-evidence-summary.md`,
+  `docs/release/phase20i-performance-quota-import-stress-evidence-summary.md`,
   `scripts/validate-phase20h-real-user-testing-execution-results.js`,
+  `scripts/validate-phase20i-performance-quota-import-stress-execution-results.js`,
 ];
 
 // Pre-Phase-19C baseline files that may already appear in historical validator
@@ -417,8 +420,11 @@ const phase19cAllowedChangedFiles = new Set([
   `docs/release/phase20g-beta-readiness-redecision-evidence-summary.md`,
   `scripts/validate-phase20g-beta-readiness-redecision-after-evidence.js`,
   `docs/testing/phase20h-real-user-testing-execution-results.md`,
+  `docs/testing/phase20i-performance-quota-import-stress-execution-results.md`,
   `docs/release/phase20h-real-user-testing-evidence-summary.md`,
+  `docs/release/phase20i-performance-quota-import-stress-evidence-summary.md`,
   `scripts/validate-phase20h-real-user-testing-execution-results.js`,
+  `scripts/validate-phase20i-performance-quota-import-stress-execution-results.js`,
   ...prePhase19cBaselineFiles,
 ]);
 

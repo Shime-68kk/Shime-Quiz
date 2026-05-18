@@ -25,6 +25,9 @@ const phase20hForwardCompatEntries = [
   RESULTS_FILE,
   SUMMARY_FILE,
   VALIDATOR_SCRIPT,
+  `docs/testing/phase20i-performance-quota-import-stress-execution-results.md`,
+  `docs/release/phase20i-performance-quota-import-stress-evidence-summary.md`,
+  `scripts/validate-phase20i-performance-quota-import-stress-execution-results.js`,
 ];
 
 const generatedArtifacts = [
@@ -201,6 +204,9 @@ const phase20hAllowedChangedFiles = new Set([
   RESULTS_FILE,
   SUMMARY_FILE,
   VALIDATOR_SCRIPT,
+  `docs/testing/phase20i-performance-quota-import-stress-execution-results.md`,
+  `docs/release/phase20i-performance-quota-import-stress-evidence-summary.md`,
+  `scripts/validate-phase20i-performance-quota-import-stress-execution-results.js`,
 ]);
 
 function fail(message) {
