@@ -272,6 +272,9 @@ const phase16eAllowedChangedFiles = new Set([
   `docs/adr/phase20b-real-user-testing-data-safety-feedback.md`,
   `docs/testing/phase20b-real-user-testing-plan.md`,
   `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`,
+  `docs/adr/phase20c-performance-quota-import-stress-test-plan.md`,
+  `docs/testing/phase20c-performance-quota-import-stress-test-plan.md`,
+  `scripts/validate-phase20c-performance-quota-import-stress-test-plan.js`,
 ]);
 
 // Hard-forbidden scheduler/storage files for Phase 16E.

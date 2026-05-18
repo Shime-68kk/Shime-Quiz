@@ -64,6 +64,10 @@ const phase18cAllowedChangedFiles = new Set([
   `docs/adr/phase20b-real-user-testing-data-safety-feedback.md`,
   `docs/testing/phase20b-real-user-testing-plan.md`,
   `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`,
+  // Phase 20C forward-compat entries (Performance / Quota / Import Stress Test Plan)
+  `docs/adr/phase20c-performance-quota-import-stress-test-plan.md`,
+  `docs/testing/phase20c-performance-quota-import-stress-test-plan.md`,
+  `scripts/validate-phase20c-performance-quota-import-stress-test-plan.js`,
 ]);
 
 const backupRestoreRuntimeFiles = [
@@ -244,6 +248,10 @@ const phase18cForwardCompatEntries = [
   `docs/adr/phase20b-real-user-testing-data-safety-feedback.md`,
   `docs/testing/phase20b-real-user-testing-plan.md`,
   `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`,
+  // Phase 20C forward-compat entries (Performance / Quota / Import Stress Test Plan)
+  `docs/adr/phase20c-performance-quota-import-stress-test-plan.md`,
+  `docs/testing/phase20c-performance-quota-import-stress-test-plan.md`,
+  `scripts/validate-phase20c-performance-quota-import-stress-test-plan.js`,
 ];
 
 function fail(message) {

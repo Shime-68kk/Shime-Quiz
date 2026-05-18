@@ -88,6 +88,10 @@ const allowedChanged = new Set([
 `docs/adr/phase20b-real-user-testing-data-safety-feedback.md`,
 `docs/testing/phase20b-real-user-testing-plan.md`,
 `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`,
+  // Phase 20C forward-compat entries (Performance / Quota / Import Stress Test Plan)
+  `docs/adr/phase20c-performance-quota-import-stress-test-plan.md`,
+  `docs/testing/phase20c-performance-quota-import-stress-test-plan.md`,
+  `scripts/validate-phase20c-performance-quota-import-stress-test-plan.js`,
   // Phase 14C compatibility: allow only the approved FSRS persistence
   // backup harness files while preserving older phase guardrails.
   'docs/phase14c-fsrs-persistence-backup-harness.md',
