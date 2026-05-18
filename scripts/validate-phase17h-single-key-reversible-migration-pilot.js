@@ -229,6 +229,10 @@ const phase17hAllowedChangedFiles = new Set([
   `docs/release-tag-creation-plan.md`,
   `docs/release-candidate-tag-publish-gate.md`,
   `docs/github-release-publication-plan.md`,
+  // Phase 20E forward-compat entries (Real User Testing Results Log)
+  `docs/testing/phase20e-real-user-testing-results-log.md`,
+  `docs/release/phase20e-real-user-testing-evidence-protocol.md`,
+  `scripts/validate-phase20e-real-user-testing-results-log.js`,
 ]);
 
 // Forbidden runtime files that must not exist in Phase 17H.

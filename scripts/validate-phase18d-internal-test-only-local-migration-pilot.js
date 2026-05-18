@@ -213,6 +213,10 @@ const phase18dAllowedChangedFiles = new Set([
   `scripts/validate-backup-transfer-safety-hardening.js`,
   `scripts/validate-cross-device-transfer-track-closure.js`,
   `scripts/validate-cross-device-transfer-ux-copy.js`,
+  // Phase 20E forward-compat entries (Real User Testing Results Log)
+  `docs/testing/phase20e-real-user-testing-results-log.md`,
+  `docs/release/phase20e-real-user-testing-evidence-protocol.md`,
+  `scripts/validate-phase20e-real-user-testing-results-log.js`,
 ]);
 
 const backupRestoreRuntimeFiles = [
@@ -541,6 +545,10 @@ const phase18dForwardCompatEntries = [
   `docs/release-tag-creation-plan.md`,
   `docs/release-candidate-tag-publish-gate.md`,
   `docs/github-release-publication-plan.md`,
+  // Phase 20E forward-compat entries (Real User Testing Results Log)
+  `docs/testing/phase20e-real-user-testing-results-log.md`,
+  `docs/release/phase20e-real-user-testing-evidence-protocol.md`,
+  `scripts/validate-phase20e-real-user-testing-results-log.js`,
 ];
 
 
