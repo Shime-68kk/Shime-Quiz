@@ -11,7 +11,7 @@ const SUMMARY = `docs/release/phase21f-first-manual-evidence-run-summary.md`;
 const VALIDATOR = `scripts/validate-phase21f-first-manual-evidence-run-capture.js`;
 const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 
-const phase21fPaths = [CAPTURE, SUMMARY, VALIDATOR];
+const phase21fPaths = [CAPTURE, SUMMARY, VALIDATOR, `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`, `docs/release/phase21g-phase22-readiness-handoff.md`, `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`];
 
 const requiredCaptureHeadings = [
   `# Phase 21F — First Manual Evidence Run Capture`,
