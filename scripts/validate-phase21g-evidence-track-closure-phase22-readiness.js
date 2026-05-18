@@ -129,6 +129,9 @@ allowedChanged.add(`scripts/validate-phase22b-fill-real-user-evidence-results.js
 allowedChanged.add(`docs/testing/phase22c-stress-evidence-filled-results.md`);
 allowedChanged.add(`docs/release/phase22c-stress-evidence-summary.md`);
 allowedChanged.add(`scripts/validate-phase22c-fill-stress-evidence-results.js`);
+allowedChanged.add(`docs/adr/phase22d-beta-readiness-redecision-actual-evidence.md`);
+allowedChanged.add(`docs/release/phase22d-beta-readiness-actual-evidence-summary.md`);
+allowedChanged.add(`scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`);
 const phase21gForwardCompatPaths = new Set(phase21gPaths);
 phase21gForwardCompatPaths.add(`docs/testing/phase22a-actual-first-manual-evidence-run.md`);
 phase21gForwardCompatPaths.add(`docs/release/phase22a-first-manual-evidence-run-summary.md`);
@@ -139,6 +142,9 @@ phase21gForwardCompatPaths.add(`scripts/validate-phase22b-fill-real-user-evidenc
 phase21gForwardCompatPaths.add(`docs/testing/phase22c-stress-evidence-filled-results.md`);
 phase21gForwardCompatPaths.add(`docs/release/phase22c-stress-evidence-summary.md`);
 phase21gForwardCompatPaths.add(`scripts/validate-phase22c-fill-stress-evidence-results.js`);
+phase21gForwardCompatPaths.add(`docs/adr/phase22d-beta-readiness-redecision-actual-evidence.md`);
+phase21gForwardCompatPaths.add(`docs/release/phase22d-beta-readiness-actual-evidence-summary.md`);
+phase21gForwardCompatPaths.add(`scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`);
 const forbiddenPrefixes = [
   `src/`,
   `tests/`,
@@ -281,7 +287,7 @@ function validateNoExecutedClaimWithoutEvidence() {
 }
 
 function validateHistoricalForwardCompat() {
-  const changedValidators = changedFiles().filter(file => file.startsWith(`scripts/validate-`) && file.endsWith(`.js`) && file !== VALIDATOR);
+  const changedValidators = changedFiles().filter(file => file.startsWith(`scripts/validate-`) && file.endsWith(`.js`) && file !== VALIDATOR && file !== `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`);
   for (const file of changedValidators) {
     const diff = runGit(`git diff --unified=0 origin/main -- ${file}`);
     const removedLines = diff.split(/\r?\n/)

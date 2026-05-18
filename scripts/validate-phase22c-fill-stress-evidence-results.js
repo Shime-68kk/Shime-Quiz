@@ -175,8 +175,8 @@ const generatedArtifacts = [
   `phase22c-fill-stress-evidence-results.zip`,
   `phase22c-fill-stress-evidence-results-handoff.md`,
 ];
-const allowedChanged = new Set([WORKFLOW, ...phase22cPaths]);
-const phase22cForwardCompatPaths = new Set(phase22cPaths);
+const allowedChanged = new Set([WORKFLOW, ...phase22cPaths, `docs/adr/phase22d-beta-readiness-redecision-actual-evidence.md`, `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`, `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`]);
+const phase22cForwardCompatPaths = new Set([...phase22cPaths, `docs/adr/phase22d-beta-readiness-redecision-actual-evidence.md`, `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`, `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`]);
 
 function fail(message) {
   console.error(`Phase 22C validation failed: ${message}`);
@@ -317,7 +317,7 @@ function validateNoActiveForbiddenClaims() {
 }
 
 function validateHistoricalForwardCompat() {
-  const changedValidators = changedFiles().filter(file => file.startsWith(`scripts/validate-`) && file.endsWith(`.js`) && file !== VALIDATOR);
+  const changedValidators = changedFiles().filter(file => file.startsWith(`scripts/validate-`) && file.endsWith(`.js`) && file !== VALIDATOR && file !== `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`);
   for (const file of changedValidators) {
     const diff = runGit(`git diff --unified=0 origin/main -- ${file}`);
     const removedLines = diff.split(/\r?\n/)
