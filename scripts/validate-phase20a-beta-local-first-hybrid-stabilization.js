@@ -198,6 +198,9 @@ const phase20aForwardCompatEntries = [
   `docs/adr/phase20j-final-beta-readiness-redecision.md`,
   `docs/release/phase20j-final-beta-readiness-evidence-summary.md`,
   `scripts/validate-phase20j-final-beta-readiness-redecision.js`,
+  `docs/testing/phase21a-manual-evidence-execution-run-pack.md`,
+  `docs/release/phase21a-evidence-execution-safety-checklist.md`,
+  `scripts/validate-phase21a-manual-evidence-execution-run-pack.js`,
 ];
 
 // Pre-Phase-20A baseline files that may already appear in historical validator
@@ -430,6 +433,9 @@ const phase20aAllowedChangedFiles = new Set([
   `docs/adr/phase20j-final-beta-readiness-redecision.md`,
   `docs/release/phase20j-final-beta-readiness-evidence-summary.md`,
   `scripts/validate-phase20j-final-beta-readiness-redecision.js`,
+  `docs/testing/phase21a-manual-evidence-execution-run-pack.md`,
+  `docs/release/phase21a-evidence-execution-safety-checklist.md`,
+  `scripts/validate-phase21a-manual-evidence-execution-run-pack.js`,
 ]);
 
 const fsrsRuntimeFiles = [
