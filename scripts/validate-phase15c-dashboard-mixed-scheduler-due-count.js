@@ -745,6 +745,7 @@ function workflowGuard() {
 
 function scopeGuard() {
   for (const file of changedFiles()) {
+    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
     if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) continue;
     if (file.startsWith('.claude/')) continue;
     if (phase15cAllowedChangedFiles.has(file)) continue;
@@ -785,6 +786,7 @@ function forbiddenScopeGuard() {
     if (changed.has(file)) fail(`Forbidden file changed in Phase 15C: ${file}`);
   }
   for (const file of changedFiles()) {
+    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
     if (file.startsWith('e2e/')) fail(`E2E file changed in Phase 15C: ${file}`);
   }
 }

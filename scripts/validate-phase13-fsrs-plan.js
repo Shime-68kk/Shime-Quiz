@@ -928,8 +928,13 @@ function scopeGuard() {
   'docs/phase13-intelligence-layer-boundaries.md',
   'docs/phase13-phase14-plus-roadmap.md',
   'scripts/validate-phase13-local-adaptive-roadmap.js',
+  `docs/testing/phase21e-manual-evidence-first-run-pack.md`,
+  `docs/testing/phase21e-fillable-evidence-session-template.md`,
+  `docs/release/phase21e-first-run-safety-and-claim-checklist.md`,
+  `scripts/validate-phase21e-manual-evidence-first-run-pack.js`,
 ...coreAllowedChangedFiles, ...historicalValidatorCompatibilityFiles]);
   for (const file of changed) {
+    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
     if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) {
       continue;
     }

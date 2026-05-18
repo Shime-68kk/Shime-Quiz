@@ -728,6 +728,7 @@ function packageGuard() {
 
 function noSrcChangesGuard() {
   for (const file of changedFiles()) {
+    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
     if (phase19bAllowedChangedFiles.has(file)) continue;
     if (file === 'src/version.js') { /* Phase 20D naming-cleanup compat */ } else if (firstSegment(file) === 'src') fail(`src/ file changed in Phase 19B (forbidden): ${file}`);
   }
@@ -737,6 +738,7 @@ function noSrcChangesGuard() {
 
 function noTestsChangesGuard() {
   for (const file of changedFiles()) {
+    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
     if (phase19bAllowedChangedFiles.has(file)) continue;
     if (firstSegment(file) === 'tests') fail(`tests/ file changed in Phase 19B (forbidden): ${file}`);
   }
@@ -746,6 +748,7 @@ function noTestsChangesGuard() {
 
 function noE2eChangesGuard() {
   for (const file of changedFiles()) {
+    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
     if (phase19bAllowedChangedFiles.has(file)) continue;
     if (firstSegment(file) === 'e2e') fail(`e2e/ file changed in Phase 19B (forbidden): ${file}`);
   }
@@ -782,6 +785,7 @@ function backupRestoreRuntimeGuard() {
 
 function scopeGuard() {
   for (const file of changedFiles()) {
+    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
     if (isGeneratedArtifact(file)) continue;
     if (file.startsWith(`.claude/`)) continue;
     if (phase19bAllowedChangedFiles.has(file)) continue;

@@ -219,6 +219,10 @@ const allowedChangedFiles = new Set([
   `docs/adr/phase21d-beta-readiness-redecision-filled-evidence.md`,
   `docs/release/phase21d-beta-readiness-filled-evidence-summary.md`,
   `scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js`,
+  `docs/testing/phase21e-manual-evidence-first-run-pack.md`,
+  `docs/testing/phase21e-fillable-evidence-session-template.md`,
+  `docs/release/phase21e-first-run-safety-and-claim-checklist.md`,
+  `scripts/validate-phase21e-manual-evidence-first-run-pack.js`,
 ]);
 
 function fail(message) {
@@ -338,6 +342,7 @@ function workflowGuard() {
 
 function scopeGuard() {
   for (const file of changedFiles()) {
+    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
     if (isGeneratedArtifact(file)) continue;
     if (allowedChangedFiles.has(file)) continue;
     if (file.startsWith(`scripts/validate-`) && file.endsWith(`.js`)) continue;

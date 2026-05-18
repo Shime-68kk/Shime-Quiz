@@ -678,6 +678,10 @@ const allowedChangedFiles = new Set([
   `docs/adr/phase21d-beta-readiness-redecision-filled-evidence.md`,
   `docs/release/phase21d-beta-readiness-filled-evidence-summary.md`,
   `scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js`,
+  `docs/testing/phase21e-manual-evidence-first-run-pack.md`,
+  `docs/testing/phase21e-fillable-evidence-session-template.md`,
+  `docs/release/phase21e-first-run-safety-and-claim-checklist.md`,
+  `scripts/validate-phase21e-manual-evidence-first-run-pack.js`,
 ]);
 
 const forbiddenChangedFiles = new Set([
@@ -882,6 +886,7 @@ function overclaimGuard() {
 function scopeGuard() {
   const changed = changedFiles();
   for (const file of changed) {
+    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
     if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) continue;
     if (file.startsWith('.claude/')) continue;
     if (allowedChangedFiles.has(file)) continue;

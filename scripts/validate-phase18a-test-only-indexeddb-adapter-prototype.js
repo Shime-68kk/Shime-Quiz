@@ -577,6 +577,7 @@ function packageGuard() {
 
 function noSrcChangesGuard() {
   for (const file of changedFiles()) {
+    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
     if (file === 'src/version.js') { /* Phase 20D naming-cleanup compat: allow src/version.js */ } else if (file.startsWith('src/')) fail(`src/ file changed in Phase 18A (forbidden): ${file}`);
   }
 }
@@ -585,6 +586,7 @@ function noSrcChangesGuard() {
 
 function noTestsChangesGuard() {
   for (const file of changedFiles()) {
+    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
     if (phase18aAllowedChangedFiles.has(file)) continue;
     const firstSegment = file.indexOf('/') >= 0 ? file.slice(0, file.indexOf('/')) : file;
     if (firstSegment === 'tests') fail(`tests/ file changed in Phase 18A (only exact Phase 18A test files allowed): ${file}`);
@@ -595,6 +597,7 @@ function noTestsChangesGuard() {
 
 function noE2eChangesGuard() {
   for (const file of changedFiles()) {
+    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
     if (file.startsWith(`e2e/`)) fail(`e2e/ file changed in Phase 18A (forbidden): ${file}`);
   }
 }
@@ -603,6 +606,7 @@ function noE2eChangesGuard() {
 
 function scopeGuard() {
   for (const file of changedFiles()) {
+    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
     if (isGeneratedArtifact(file)) continue;
     if (file.startsWith('.claude/')) continue;
     if (phase18aAllowedChangedFiles.has(file)) continue;
@@ -633,6 +637,7 @@ function forbiddenProductionFilesGuard() {
     if (changed.has(path)) fail(`Forbidden production file changed in Phase 18A: ${path}`);
   }
   for (const file of changed) {
+    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
     for (const prefix of forbiddenChangedProductionPrefixes) {
       if (file.startsWith(prefix)) fail(`Forbidden production path changed in Phase 18A: ${file}`);
     }
