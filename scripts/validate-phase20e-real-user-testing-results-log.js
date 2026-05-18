@@ -50,6 +50,9 @@ const phase20eForwardCompatEntries = [
   `docs/testing/phase21b-real-user-testing-filled-results.md`,
   `docs/release/phase21b-real-user-testing-filled-evidence-summary.md`,
   `scripts/validate-phase21b-real-user-testing-filled-results.js`,
+  `docs/testing/phase21c-stress-testing-filled-results.md`,
+  `docs/release/phase21c-stress-testing-filled-evidence-summary.md`,
+  `scripts/validate-phase21c-stress-testing-filled-results.js`,
 ];
 
 // Pre-Phase-20E baseline entries already present in historical validators.
@@ -321,6 +324,9 @@ const phase20eAllowedChangedFiles = new Set([
   `docs/testing/phase21b-real-user-testing-filled-results.md`,
   `docs/release/phase21b-real-user-testing-filled-evidence-summary.md`,
   `scripts/validate-phase21b-real-user-testing-filled-results.js`,
+  `docs/testing/phase21c-stress-testing-filled-results.md`,
+  `docs/release/phase21c-stress-testing-filled-evidence-summary.md`,
+  `scripts/validate-phase21c-stress-testing-filled-results.js`,
   `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
   `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`,
   `scripts/validate-phase20c-performance-quota-import-stress-test-plan.js`,

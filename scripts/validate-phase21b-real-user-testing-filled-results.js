@@ -27,6 +27,9 @@ const phase21bForwardCompatEntries = [
   FILLED_RESULTS_FILE,
   EVIDENCE_SUMMARY_FILE,
   VALIDATOR_SCRIPT,
+  `docs/testing/phase21c-stress-testing-filled-results.md`,
+  `docs/release/phase21c-stress-testing-filled-evidence-summary.md`,
+  `scripts/validate-phase21c-stress-testing-filled-results.js`,
 ];
 
 const generatedArtifacts = [
@@ -185,6 +188,9 @@ const allowedChangedFiles = new Set([
   FILLED_RESULTS_FILE,
   EVIDENCE_SUMMARY_FILE,
   VALIDATOR_SCRIPT,
+  `docs/testing/phase21c-stress-testing-filled-results.md`,
+  `docs/release/phase21c-stress-testing-filled-evidence-summary.md`,
+  `scripts/validate-phase21c-stress-testing-filled-results.js`,
 ]);
 
 function fail(message) {

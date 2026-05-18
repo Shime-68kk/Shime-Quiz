@@ -214,6 +214,9 @@ const phase19cForwardCompatEntries = [
   `docs/testing/phase21b-real-user-testing-filled-results.md`,
   `docs/release/phase21b-real-user-testing-filled-evidence-summary.md`,
   `scripts/validate-phase21b-real-user-testing-filled-results.js`,
+  `docs/testing/phase21c-stress-testing-filled-results.md`,
+  `docs/release/phase21c-stress-testing-filled-evidence-summary.md`,
+  `scripts/validate-phase21c-stress-testing-filled-results.js`,
 ];
 
 // Pre-Phase-19C baseline files that may already appear in historical validator
@@ -443,6 +446,9 @@ const phase19cAllowedChangedFiles = new Set([
   `docs/testing/phase21b-real-user-testing-filled-results.md`,
   `docs/release/phase21b-real-user-testing-filled-evidence-summary.md`,
   `scripts/validate-phase21b-real-user-testing-filled-results.js`,
+  `docs/testing/phase21c-stress-testing-filled-results.md`,
+  `docs/release/phase21c-stress-testing-filled-evidence-summary.md`,
+  `scripts/validate-phase21c-stress-testing-filled-results.js`,
   ...prePhase19cBaselineFiles,
 ]);
 

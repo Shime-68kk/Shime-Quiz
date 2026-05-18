@@ -265,6 +265,9 @@ const allowedChangedFiles = new Set([
   `docs/testing/phase21b-real-user-testing-filled-results.md`,
   `docs/release/phase21b-real-user-testing-filled-evidence-summary.md`,
   `scripts/validate-phase21b-real-user-testing-filled-results.js`,
+  `docs/testing/phase21c-stress-testing-filled-results.md`,
+  `docs/release/phase21c-stress-testing-filled-evidence-summary.md`,
+  `scripts/validate-phase21c-stress-testing-filled-results.js`,
   // Phase 14B compatibility: allow only the approved internal/test-only
   // FSRS wrapper prototype files and exact ts-fsrs package metadata.
   'package.json',
