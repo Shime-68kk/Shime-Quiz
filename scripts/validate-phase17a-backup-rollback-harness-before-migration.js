@@ -502,7 +502,10 @@ function scopeGuard() {
   `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,
   `docs/testing/phase22a-actual-first-manual-evidence-run.md`,
   `docs/release/phase22a-first-manual-evidence-run-summary.md`,
-  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,].includes(file)) continue;
+  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,
+  `docs/testing/phase22b-real-user-evidence-filled-results.md`,
+  `docs/release/phase22b-real-user-evidence-summary.md`,
+  `scripts/validate-phase22b-fill-real-user-evidence-results.js`,].includes(file)) continue;
     if (isGeneratedArtifact(file)) continue;
     if (file.startsWith('.claude/')) continue;
     if (phase17aAllowedChangedFiles.has(file)) continue;
@@ -545,7 +548,10 @@ function forbiddenFileGuard() {
   `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,
   `docs/testing/phase22a-actual-first-manual-evidence-run.md`,
   `docs/release/phase22a-first-manual-evidence-run-summary.md`,
-  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,].includes(file)) continue;
+  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,
+  `docs/testing/phase22b-real-user-evidence-filled-results.md`,
+  `docs/release/phase22b-real-user-evidence-summary.md`,
+  `scripts/validate-phase22b-fill-real-user-evidence-results.js`,].includes(file)) continue;
       if (file.startsWith(prefix)) fail(`Forbidden path must not change in Phase 17A: ${file}`);
     }
   }

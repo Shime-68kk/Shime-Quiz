@@ -45,6 +45,9 @@ const phase21dForwardCompatEntries = [
   `docs/testing/phase22a-actual-first-manual-evidence-run.md`,
   `docs/release/phase22a-first-manual-evidence-run-summary.md`,
   `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,
+  `docs/testing/phase22b-real-user-evidence-filled-results.md`,
+  `docs/release/phase22b-real-user-evidence-summary.md`,
+  `scripts/validate-phase22b-fill-real-user-evidence-results.js`,
 ];
 
 const generatedArtifacts = [
@@ -222,6 +225,9 @@ const allowedChangedFiles = new Set([
   `docs/testing/phase22a-actual-first-manual-evidence-run.md`,
   `docs/release/phase22a-first-manual-evidence-run-summary.md`,
   `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,
+  `docs/testing/phase22b-real-user-evidence-filled-results.md`,
+  `docs/release/phase22b-real-user-evidence-summary.md`,
+  `scripts/validate-phase22b-fill-real-user-evidence-results.js`,
 ]);
 
 function fail(message) {

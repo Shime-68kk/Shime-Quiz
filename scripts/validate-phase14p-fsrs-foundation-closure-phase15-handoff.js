@@ -801,7 +801,10 @@ function scopeGuard() {
   `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,
   `docs/testing/phase22a-actual-first-manual-evidence-run.md`,
   `docs/release/phase22a-first-manual-evidence-run-summary.md`,
-  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,].includes(file)) continue;
+  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,
+  `docs/testing/phase22b-real-user-evidence-filled-results.md`,
+  `docs/release/phase22b-real-user-evidence-summary.md`,
+  `scripts/validate-phase22b-fill-real-user-evidence-results.js`,].includes(file)) continue;
     if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) continue;
     if (file.startsWith('.claude/')) continue;
     if (phase14pAllowedChangedFiles.has(file)) continue;
@@ -845,7 +848,10 @@ function forbiddenScopeGuard() {
   `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,
   `docs/testing/phase22a-actual-first-manual-evidence-run.md`,
   `docs/release/phase22a-first-manual-evidence-run-summary.md`,
-  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,].includes(file)) continue;
+  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,
+  `docs/testing/phase22b-real-user-evidence-filled-results.md`,
+  `docs/release/phase22b-real-user-evidence-summary.md`,
+  `scripts/validate-phase22b-fill-real-user-evidence-results.js`,].includes(file)) continue;
     if (phase14pAllowedChangedFiles.has(file)) continue;
     if (file.startsWith('e2e/')) fail(`E2E file changed in Phase 14P: ${file}`);
     if (file.startsWith('src/')) fail(`src/ file changed in Phase 14P: ${file}`);
@@ -861,7 +867,10 @@ function noNewSrcFilesGuard() {
   `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,
   `docs/testing/phase22a-actual-first-manual-evidence-run.md`,
   `docs/release/phase22a-first-manual-evidence-run-summary.md`,
-  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,].includes(file)) continue;
+  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,
+  `docs/testing/phase22b-real-user-evidence-filled-results.md`,
+  `docs/release/phase22b-real-user-evidence-summary.md`,
+  `scripts/validate-phase22b-fill-real-user-evidence-results.js`,].includes(file)) continue;
     if (!file.startsWith('src/')) continue;
     if (generatedArtifacts.some(a => file === a || file.startsWith(`${a}/`))) continue;
     if (phase14pAllowedChangedFiles.has(file)) continue;

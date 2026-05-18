@@ -333,7 +333,10 @@ function scopeGuard() {
   `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,
   `docs/testing/phase22a-actual-first-manual-evidence-run.md`,
   `docs/release/phase22a-first-manual-evidence-run-summary.md`,
-  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,].includes(file)) continue;
+  `scripts/validate-phase22a-actual-first-manual-evidence-run.js`,
+  `docs/testing/phase22b-real-user-evidence-filled-results.md`,
+  `docs/release/phase22b-real-user-evidence-summary.md`,
+  `scripts/validate-phase22b-fill-real-user-evidence-results.js`,].includes(file)) continue;
   // Phase 20D naming-cleanup compat: line neutralized for exact 2.0.0-beta.1 transition.
   // Phase 20D naming-cleanup compat: line neutralized for exact 2.0.0-beta.1 transition.
     if (file.startsWith('e2e/') && file !== 'e2e/smoke.spec.js') {

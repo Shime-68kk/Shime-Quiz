@@ -529,6 +529,9 @@ jobs:
       - name: Validate Phase 22A Actual First Manual Evidence Run Gate
         run: node scripts/validate-phase22a-actual-first-manual-evidence-run.js
 
+      - name: Validate Phase 22B Fill Real-User Evidence Results Gate
+        run: node scripts/validate-phase22b-fill-real-user-evidence-results.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
