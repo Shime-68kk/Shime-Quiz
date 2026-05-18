@@ -32,6 +32,9 @@ const phase20eForwardCompatEntries = [
   `docs/testing/phase20f-performance-quota-import-stress-results-log.md`,
   `docs/release/phase20f-performance-quota-import-stress-evidence-protocol.md`,
   `scripts/validate-phase20f-performance-quota-import-stress-results-log.js`,
+  `docs/adr/phase20g-beta-readiness-redecision-after-evidence.md`,
+  `docs/release/phase20g-beta-readiness-redecision-evidence-summary.md`,
+  `scripts/validate-phase20g-beta-readiness-redecision-after-evidence.js`,
 ];
 
 // Pre-Phase-20E baseline entries already present in historical validators.
@@ -285,6 +288,9 @@ const phase20eAllowedChangedFiles = new Set([
   RESULTS_LOG_FILE,
   EVIDENCE_PROTO_FILE,
   VALIDATOR_SCRIPT,
+  `docs/adr/phase20g-beta-readiness-redecision-after-evidence.md`,
+  `docs/release/phase20g-beta-readiness-redecision-evidence-summary.md`,
+  `scripts/validate-phase20g-beta-readiness-redecision-after-evidence.js`,
   `scripts/validate-phase20a-beta-local-first-hybrid-stabilization.js`,
   `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`,
   `scripts/validate-phase20c-performance-quota-import-stress-test-plan.js`,

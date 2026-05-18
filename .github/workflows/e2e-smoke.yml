@@ -493,6 +493,9 @@ jobs:
       - name: Validate Phase 20F Performance Quota Import Stress Results Log Gate
         run: node scripts/validate-phase20f-performance-quota-import-stress-results-log.js
 
+      - name: Validate Phase 20G Beta Readiness Re-decision After Evidence Gate
+        run: node scripts/validate-phase20g-beta-readiness-redecision-after-evidence.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

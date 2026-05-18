@@ -811,6 +811,9 @@ const allowedChanged = new Set([
   `docs/testing/phase20f-performance-quota-import-stress-results-log.md`,
   `docs/release/phase20f-performance-quota-import-stress-evidence-protocol.md`,
   `scripts/validate-phase20f-performance-quota-import-stress-results-log.js`,
+  `docs/adr/phase20g-beta-readiness-redecision-after-evidence.md`,
+  `docs/release/phase20g-beta-readiness-redecision-evidence-summary.md`,
+  `scripts/validate-phase20g-beta-readiness-redecision-after-evidence.js`,
 ]);
 for (const file of changedFiles()) {
   if (!allowedChanged.has(file)) failures.push(`Unexpected changed file for Phase 10I: ${file}`);
