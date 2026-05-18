@@ -853,6 +853,9 @@ const allowedChanged = new Set([
   `docs/testing/phase21e-fillable-evidence-session-template.md`,
   `docs/release/phase21e-first-run-safety-and-claim-checklist.md`,
   `scripts/validate-phase21e-manual-evidence-first-run-pack.js`,
+  `docs/testing/phase21f-first-manual-evidence-run-capture.md`,
+  `docs/release/phase21f-first-manual-evidence-run-summary.md`,
+  `scripts/validate-phase21f-first-manual-evidence-run-capture.js`,
 ]);
 for (const file of changedFiles()) {
   if (!allowedChanged.has(file)) failures.push(`Unexpected changed file for Phase 10L: ${file}`);
