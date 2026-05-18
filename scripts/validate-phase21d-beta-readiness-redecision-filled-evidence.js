@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
- * scripts/validate-phase21c-stress-testing-filled-results.js
+ * scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js
  *
- * Phase 21C static validator — Stress Testing Filled Results.
+ * Phase 21D static validator — Beta Readiness Re-decision With Filled Evidence.
  *
- * Phase 21C is docs/static-validator/CI-only. It does not implement runtime
+ * Phase 21D is docs/static-validator/CI-only. It does not implement runtime
  * behavior, tests, e2e, dependencies, telemetry, analytics, import/storage/
  * backup/FSRS/sync runtime changes, cloud/account/auth/backend, or service
  * worker behavior.
@@ -13,27 +13,25 @@
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
-const FILLED_RESULTS_FILE = `docs/testing/phase21c-stress-testing-filled-results.md`;
-const EVIDENCE_SUMMARY_FILE = `docs/release/phase21c-stress-testing-filled-evidence-summary.md`;
-const VALIDATOR_SCRIPT = `scripts/validate-phase21c-stress-testing-filled-results.js`;
+const ADR_FILE = `docs/adr/phase21d-beta-readiness-redecision-filled-evidence.md`;
+const EVIDENCE_SUMMARY_FILE = `docs/release/phase21d-beta-readiness-filled-evidence-summary.md`;
+const VALIDATOR_SCRIPT = `scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js`;
 const WORKFLOW_FILE = `.github/workflows/e2e-smoke.yml`;
 
 const PHASE21A_RUN_PACK = `docs/testing/phase21a-manual-evidence-execution-run-pack.md`;
 const PHASE21A_CHECKLIST = `docs/release/phase21a-evidence-execution-safety-checklist.md`;
 const PHASE21B_RESULTS = `docs/testing/phase21b-real-user-testing-filled-results.md`;
 const PHASE21B_SUMMARY = `docs/release/phase21b-real-user-testing-filled-evidence-summary.md`;
-const PHASE20I_RESULTS = `docs/testing/phase20i-performance-quota-import-stress-execution-results.md`;
-const PHASE20I_SUMMARY = `docs/release/phase20i-performance-quota-import-stress-evidence-summary.md`;
+const PHASE21C_RESULTS = `docs/testing/phase21c-stress-testing-filled-results.md`;
+const PHASE21C_SUMMARY = `docs/release/phase21c-stress-testing-filled-evidence-summary.md`;
 const PHASE20J_ADR = `docs/adr/phase20j-final-beta-readiness-redecision.md`;
 const PHASE20J_SUMMARY = `docs/release/phase20j-final-beta-readiness-evidence-summary.md`;
+const PHASE20D_ADR = `docs/adr/phase20d-hold-decision-beta-ai-naming-cleanup.md`;
 
-const phase21cForwardCompatEntries = [
-  FILLED_RESULTS_FILE,
+const phase21dForwardCompatEntries = [
+  ADR_FILE,
   EVIDENCE_SUMMARY_FILE,
   VALIDATOR_SCRIPT,
-  `docs/adr/phase21d-beta-readiness-redecision-filled-evidence.md`,
-  `docs/release/phase21d-beta-readiness-filled-evidence-summary.md`,
-  `scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js`,
 ];
 
 const generatedArtifacts = [
@@ -46,121 +44,89 @@ const generatedArtifacts = [
   `.env`,
   `.env.local`,
   `.git`,
-  `phase21c-stress-testing-filled-results.patch`,
-  `phase21c-stress-testing-filled-results.zip`,
-  `phase21c-stress-testing-filled-results-handoff.md`,
+  `phase21d-beta-readiness-redecision-filled-evidence.patch`,
+  `phase21d-beta-readiness-redecision-filled-evidence.zip`,
+  `phase21d-beta-readiness-redecision-filled-evidence-handoff.md`,
 ];
 
-const requiredFilledResultsHeadings = [
-  `# Phase 21C — Stress Testing Filled Results`,
+const requiredAdrHeadings = [
+  `# Phase 21D — Beta Readiness Re-decision With Filled Evidence`,
   `## Purpose`,
-  `## Status`,
+  `## Decision`,
+  `## Evidence consumed`,
+  `## Relationship to Phase 20J`,
   `## Relationship to Phase 21A`,
   `## Relationship to Phase 21B`,
-  `## Relationship to Phase 20I`,
-  `## Relationship to Phase 20J`,
-  `## Evidence source rules`,
-  `## Data safety rules`,
-  `## Filled stress run count`,
-  `## Filled stress result schema`,
-  `## Small data set filled result`,
-  `## Medium data set filled result`,
-  `## Large data set filled result`,
-  `## Startup responsiveness findings`,
-  `## Dashboard today plan findings`,
-  `## Study Room findings`,
-  `## Import findings`,
-  `## Storage quota findings`,
-  `## Backup and restore findings`,
-  `## Manual transfer findings`,
-  `## Mobile/PWA findings`,
-  `## FSRS and review schedule findings`,
-  `## EduGen Draft Workshop boundary findings`,
-  `## beta-ai naming findings`,
-  `## Evidence completeness assessment`,
-  `## Observed pass signals`,
-  `## Observed hold signals`,
-  `## Claim boundaries`,
-  `## Phase 21D handoff`,
+  `## Relationship to Phase 21C`,
+  `## Current filled evidence status`,
+  `## Real-user testing filled evidence status`,
+  `## Stress testing filled evidence status`,
+  `## Why BETA_READY is not selected`,
+  `## Conditions required before BETA_READY`,
+  `## Data safety decision`,
+  `## Backup and restore decision`,
+  `## Import and quota decision`,
+  `## FSRS and scheduler decision`,
+  `## Optional sync decision`,
+  `## No-cloud/default-off trust decision`,
+  `## beta-ai naming decision`,
+  `## User-facing claim boundaries`,
+  `## What Phase 21D explicitly does not implement`,
+  `## Post-Phase-21 path`,
+  `## Acceptance criteria`,
 ];
 
 const requiredSummaryHeadings = [
-  `# Phase 21C — Stress Testing Filled Evidence Summary`,
+  `# Phase 21D — Beta Readiness Filled Evidence Summary`,
   `## Purpose`,
-  `## Evidence status`,
-  `## Filled stress runs`,
-  `## Evidence quality`,
-  `## What was validated`,
-  `## What was not validated`,
-  `## Pass signals`,
+  `## Decision summary`,
+  `## Evidence inventory`,
+  `## Phase 21B evidence`,
+  `## Phase 21C evidence`,
+  `## Real-user testing filled session count`,
+  `## Stress testing filled run count`,
+  `## Evidence gaps`,
   `## Hold signals`,
-  `## Performance assessment`,
-  `## Storage quota assessment`,
-  `## Import assessment`,
+  `## Pass signals`,
+  `## Data safety assessment`,
   `## Backup and restore assessment`,
-  `## Manual transfer assessment`,
-  `## Mobile/PWA assessment`,
-  `## FSRS and review schedule assessment`,
-  `## EduGen Draft Workshop boundary assessment`,
+  `## Import and quota assessment`,
+  `## FSRS and scheduler assessment`,
+  `## Optional sync assessment`,
+  `## No-cloud/default-off trust assessment`,
   `## beta-ai naming assessment`,
-  `## Remaining evidence gaps`,
   `## Recommendation`,
-  `## Phase 21B relationship`,
-  `## Phase 21D readiness gate`,
+  `## Required evidence before release reconsideration`,
+  `## Next steps`,
 ];
 
-const requiredStatusToken =
-  `PERFORMANCE_STRESS_FILLED_RESULTS_STATUS: FILLED_RESULTS_DOCUMENT_READY`;
+const requiredDecisionToken =
+  `LOCAL_FIRST_HYBRID_BETA_FILLED_EVIDENCE_DECISION: HOLD_INSUFFICIENT_FILLED_EVIDENCE`;
+const requiredSessionCountToken = `REAL_USER_TEST_FILLED_SESSIONS: 0`;
 const requiredRunCountToken = `PERFORMANCE_STRESS_FILLED_RUNS: 0`;
-const requiredHoldToken =
+const requiredPhase20jHoldToken =
   `LOCAL_FIRST_HYBRID_BETA_FINAL_DECISION: HOLD_EXECUTED_EVIDENCE_REQUIRED`;
 
-const requiredScenarioTerms = [
-  `small data set`,
-  `medium data set`,
-  `large data set`,
-  `app startup`,
-  `Dashboard today plan`,
-  `Study Room session`,
-  `due cards / review schedule count`,
-  `JSON import`,
-  `CSV import`,
-  `text/markdown import`,
-  `EduGen Draft Workshop import boundary`,
-  `storage quota estimate`,
-  `large import warning`,
-  `backup before risky action`,
-  `restore from backup`,
-  `repeated backup/restore rehearsal`,
-  `manual export/import transfer`,
-  `mobile viewport`,
-  `PWA/service-worker cache boundary`,
-  `FSRS experimental/off/default boundary`,
-  `beta-ai naming absence`,
-  `backup is not sync`,
-  `restore may overwrite current data`,
-  `no account/cloud/sync/backend`,
-  `no built-in AI/OCR/AI generation`,
-];
-
-const requiredSafetyTerms = [
-  `Phase 21C records filled performance/quota/import stress testing results`,
-  `Results must be based only on actual manual/user-provided evidence`,
-  `PERFORMANCE_STRESS_FILLED_RUNS: 0`,
-  `No telemetry is collected`,
-  `No analytics are added`,
-  `No runtime instrumentation is added`,
-  `No runtime stress harness is added`,
-  `Testers should use generated/duplicate/test data where possible`,
-  `Backup should be created before risky`,
-  `HOLD remains active`,
-  `BETA_READY is not claimed in Phase 21C`,
-  `Phase 21D must not reconsider BETA_READY unless`,
+const requiredTerms = [
+  `Phase 21D does not claim beta-ready`,
+  `filled evidence remains insufficient`,
+  `Phase 21D is docs/static-validator/CI-only`,
+  `Phase 21D does not implement storage migration`,
+  `Sync remains unshipped`,
+  `Cloud/account/auth/backend remain absent`,
+  `Production IndexedDB storage remains absent`,
+  `Backup/export/restore are not adapter-aware`,
+  `Data-loss prevention is not guaranteed`,
+  `Built-in AI/OCR/AI quiz generation are not shipped`,
+  `beta-ai naming cleanup remains preserved`,
+  `actual manual evidence collection before beta-ready reconsideration`,
+  `21E — Manual evidence execution guidance for first real run`,
+  `21F — Filled real-user evidence update after actual sessions`,
+  `21G — Filled stress evidence update after actual runs`,
+  `21H — Beta readiness re-decision with actual filled evidence`,
 ];
 
 const forbiddenPositiveClaims = [
-  `stress testing is complete`,
-  `real user testing is complete`,
   `local-first hybrid beta is ready`,
   `sync exists`,
   `cloud sync exists`,
@@ -225,21 +191,20 @@ const runtimeSpecificFiles = [
 
 const allowedChangedFiles = new Set([
   WORKFLOW_FILE,
-  FILLED_RESULTS_FILE,
+  ADR_FILE,
   EVIDENCE_SUMMARY_FILE,
   VALIDATOR_SCRIPT,
-  `docs/adr/phase21d-beta-readiness-redecision-filled-evidence.md`,
-  `docs/release/phase21d-beta-readiness-filled-evidence-summary.md`,
-  `scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js`,
+  `scripts/validate-phase21b-real-user-testing-filled-results.js`,
+  `scripts/validate-phase21c-stress-testing-filled-results.js`,
 ]);
 
 function fail(message) {
-  console.error(`Phase 21C validation failed: ${message}`);
+  console.error(`Phase 21D validation failed: ${message}`);
   process.exit(1);
 }
 
 function warn(message) {
-  console.warn(`Phase 21C validation warning: ${message}`);
+  console.warn(`Phase 21D validation warning: ${message}`);
 }
 
 function read(file) {
@@ -319,7 +284,7 @@ function isGeneratedArtifact(file) {
 
 function requiredFilesGuard() {
   for (const file of [
-    FILLED_RESULTS_FILE,
+    ADR_FILE,
     EVIDENCE_SUMMARY_FILE,
     VALIDATOR_SCRIPT,
     WORKFLOW_FILE,
@@ -327,10 +292,11 @@ function requiredFilesGuard() {
     PHASE21A_CHECKLIST,
     PHASE21B_RESULTS,
     PHASE21B_SUMMARY,
-    PHASE20I_RESULTS,
-    PHASE20I_SUMMARY,
+    PHASE21C_RESULTS,
+    PHASE21C_SUMMARY,
     PHASE20J_ADR,
     PHASE20J_SUMMARY,
+    PHASE20D_ADR,
   ]) {
     read(file);
   }
@@ -338,13 +304,13 @@ function requiredFilesGuard() {
 
 function workflowGuard() {
   const text = read(WORKFLOW_FILE);
-  const phase21bStr = `node scripts/validate-phase21b-real-user-testing-filled-results.js`;
   const phase21cStr = `node scripts/validate-phase21c-stress-testing-filled-results.js`;
+  const phase21dStr = `node scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js`;
 
-  if (!text.includes(phase21bStr)) fail(`${WORKFLOW_FILE} must register Phase 21B validator`);
   if (!text.includes(phase21cStr)) fail(`${WORKFLOW_FILE} must register Phase 21C validator`);
-  if (text.indexOf(phase21cStr) <= text.indexOf(phase21bStr)) {
-    fail(`${WORKFLOW_FILE} must register Phase 21C after Phase 21B`);
+  if (!text.includes(phase21dStr)) fail(`${WORKFLOW_FILE} must register Phase 21D validator`);
+  if (text.indexOf(phase21dStr) <= text.indexOf(phase21cStr)) {
+    fail(`${WORKFLOW_FILE} must register Phase 21D after Phase 21C`);
   }
   if (/continue-on-error:\s*true/i.test(text)) fail(`${WORKFLOW_FILE} must not use continue-on-error: true`);
 }
@@ -354,11 +320,11 @@ function scopeGuard() {
     if (isGeneratedArtifact(file)) continue;
     if (allowedChangedFiles.has(file)) continue;
     if (file.startsWith(`scripts/validate-`) && file.endsWith(`.js`)) continue;
-    if (runtimeSpecificFiles.includes(file)) fail(`Forbidden runtime/package/service-worker file changed in Phase 21C: ${file}`);
+    if (runtimeSpecificFiles.includes(file)) fail(`Forbidden runtime/package/service-worker file changed in Phase 21D: ${file}`);
     if (runtimeFilePrefixes.some(prefix => file.startsWith(prefix))) {
-      fail(`Runtime, test, e2e, import, storage, backup, FSRS, sync, cloud, account, auth, backend, or UI file changed in Phase 21C: ${file}`);
+      fail(`Runtime, test, e2e, import, storage, backup, FSRS, sync, cloud, account, auth, backend, or UI file changed in Phase 21D: ${file}`);
     }
-    fail(`Unexpected changed file outside Phase 21C scope: ${file}`);
+    fail(`Unexpected changed file outside Phase 21D scope: ${file}`);
   }
 }
 
@@ -370,34 +336,33 @@ function requireHeadings(file, headings) {
 }
 
 function combinedDocs() {
-  return `${read(FILLED_RESULTS_FILE)}\n${read(EVIDENCE_SUMMARY_FILE)}`;
+  return `${read(ADR_FILE)}\n${read(EVIDENCE_SUMMARY_FILE)}`;
 }
 
 function requireTermAcrossDocs(term, termsName) {
   if (!lowerNormalized(combinedDocs()).includes(lowerNormalized(term))) {
-    fail(`Required ${termsName} term "${term}" not found across Phase 21C docs`);
+    fail(`Required ${termsName} term "${term}" not found across Phase 21D docs`);
   }
 }
 
 function tokenGuard() {
   const combined = combinedDocs();
-  if (!combined.includes(requiredStatusToken)) fail(`Phase 21C docs must include ${requiredStatusToken}`);
-  if (!combined.includes(requiredRunCountToken)) fail(`Phase 21C docs must include ${requiredRunCountToken}`);
-  if (!combined.includes(requiredHoldToken)) fail(`Phase 21C docs must include ${requiredHoldToken}`);
-  if (!read(PHASE21B_RESULTS).includes(`REAL_USER_TEST_FILLED_SESSIONS: 0`)) {
-    fail(`Phase 21B filled session count is missing`);
+  if (!combined.includes(requiredDecisionToken)) fail(`Phase 21D docs must include ${requiredDecisionToken}`);
+  if (!combined.includes(requiredSessionCountToken)) fail(`Phase 21D docs must include ${requiredSessionCountToken}`);
+  if (!combined.includes(requiredRunCountToken)) fail(`Phase 21D docs must include ${requiredRunCountToken}`);
+  if (!read(PHASE21B_RESULTS).includes(requiredSessionCountToken)) fail(`Phase 21B filled session count is missing`);
+  if (!read(PHASE21C_RESULTS).includes(requiredRunCountToken)) fail(`Phase 21C filled run count is missing`);
+  if (!read(PHASE20J_ADR).includes(requiredPhase20jHoldToken)) fail(`Phase 20J HOLD decision is missing`);
+  for (const phase of [`Phase 21A`, `Phase 21B`, `Phase 21C`, `Phase 20J`, `Phase 20D`]) {
+    if (!combined.includes(phase)) fail(`Phase 21D docs must reference ${phase}`);
   }
-  if (!read(PHASE20J_ADR).includes(requiredHoldToken)) fail(`Phase 20J HOLD decision is missing`);
-  if (!combined.includes(`Phase 21B`)) fail(`Phase 21C docs must reference Phase 21B`);
-  if (!combined.includes(`Phase 20J`)) fail(`Phase 21C docs must reference Phase 20J`);
 }
 
 function betaReadyDecisionGuard() {
+  const combined = combinedDocs();
   const activeBetaReadyPattern =
-    /LOCAL_FIRST_HYBRID_BETA_(?:FINAL_)?REDECISION\s*:\s*BETA_READY|LOCAL_FIRST_HYBRID_BETA_FINAL_DECISION\s*:\s*BETA_READY/;
-  if (activeBetaReadyPattern.test(combinedDocs())) {
-    fail(`Phase 21C must not declare BETA_READY`);
-  }
+    /LOCAL_FIRST_HYBRID_BETA_(?:FILLED_EVIDENCE_DECISION|(?:FINAL_)?REDECISION|FINAL_DECISION)\s*:\s*BETA_READY/;
+  if (activeBetaReadyPattern.test(combined)) fail(`Phase 21D must not declare BETA_READY without sufficient filled evidence`);
 }
 
 function sectionName(line) {
@@ -407,13 +372,14 @@ function sectionName(line) {
 
 function isForbiddenOrWarningSection(name) {
   return [
-    `claim boundaries`,
-    `phase 21d handoff`,
-    `phase 21d readiness gate`,
-    `observed hold signals`,
+    `user-facing claim boundaries`,
+    `why beta_ready is not selected`,
+    `conditions required before beta_ready`,
     `hold signals`,
-    `remaining evidence gaps`,
+    `evidence gaps`,
     `recommendation`,
+    `required evidence before release reconsideration`,
+    `acceptance criteria`,
   ].includes(name);
 }
 
@@ -481,9 +447,9 @@ function historicalValidatorForwardCompatGuard() {
       for (const path of extractedPaths) {
         if (!path.includes(`/`)) continue;
         if (!path.endsWith(`.md`) && !path.endsWith(`.js`)) continue;
-        if (phase21cForwardCompatEntries.includes(path)) continue;
+        if (phase21dForwardCompatEntries.includes(path)) continue;
         if (path.startsWith(`docs/`) || path.startsWith(`tests/`) || path.startsWith(`scripts/`)) {
-          fail(`Historical validator ${validatorFile} adds non-Phase-21C path entry: '${path}'`);
+          fail(`Historical validator ${validatorFile} adds non-Phase-21D path entry: '${path}'`);
         }
       }
     }
@@ -494,19 +460,18 @@ function validate() {
   requiredFilesGuard();
   workflowGuard();
   scopeGuard();
-  requireHeadings(FILLED_RESULTS_FILE, requiredFilledResultsHeadings);
+  requireHeadings(ADR_FILE, requiredAdrHeadings);
   requireHeadings(EVIDENCE_SUMMARY_FILE, requiredSummaryHeadings);
   tokenGuard();
   betaReadyDecisionGuard();
 
-  for (const term of requiredScenarioTerms) requireTermAcrossDocs(term, `scenario`);
-  for (const term of requiredSafetyTerms) requireTermAcrossDocs(term, `safety`);
+  for (const term of requiredTerms) requireTermAcrossDocs(term, `evidence/decision`);
 
-  forbiddenPositiveClaimGuardForFile(FILLED_RESULTS_FILE);
+  forbiddenPositiveClaimGuardForFile(ADR_FILE);
   forbiddenPositiveClaimGuardForFile(EVIDENCE_SUMMARY_FILE);
   generatedArtifactGuard();
   historicalValidatorForwardCompatGuard();
-  console.log(`Phase 21C Stress Testing Filled Results validation passed.`);
+  console.log(`Phase 21D Beta Readiness Re-decision With Filled Evidence validation passed.`);
 }
 
 validate();

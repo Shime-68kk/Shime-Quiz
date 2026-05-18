@@ -207,6 +207,9 @@ const phase20aForwardCompatEntries = [
   `docs/testing/phase21c-stress-testing-filled-results.md`,
   `docs/release/phase21c-stress-testing-filled-evidence-summary.md`,
   `scripts/validate-phase21c-stress-testing-filled-results.js`,
+  `docs/adr/phase21d-beta-readiness-redecision-filled-evidence.md`,
+  `docs/release/phase21d-beta-readiness-filled-evidence-summary.md`,
+  `scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js`,
 ];
 
 // Pre-Phase-20A baseline files that may already appear in historical validator
@@ -448,6 +451,9 @@ const phase20aAllowedChangedFiles = new Set([
   `docs/testing/phase21c-stress-testing-filled-results.md`,
   `docs/release/phase21c-stress-testing-filled-evidence-summary.md`,
   `scripts/validate-phase21c-stress-testing-filled-results.js`,
+  `docs/adr/phase21d-beta-readiness-redecision-filled-evidence.md`,
+  `docs/release/phase21d-beta-readiness-filled-evidence-summary.md`,
+  `scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js`,
 ]);
 
 const fsrsRuntimeFiles = [

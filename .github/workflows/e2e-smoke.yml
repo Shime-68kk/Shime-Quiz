@@ -514,6 +514,9 @@ jobs:
       - name: Validate Phase 21C Stress Testing Filled Results Gate
         run: node scripts/validate-phase21c-stress-testing-filled-results.js
 
+      - name: Validate Phase 21D Beta Readiness Re-decision With Filled Evidence Gate
+        run: node scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
