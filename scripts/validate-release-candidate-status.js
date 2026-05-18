@@ -20,7 +20,7 @@ const status = exists(statusPath) ? read(statusPath) : '';
 const qa = exists('RELEASE_QA_V2.md') ? read('RELEASE_QA_V2.md') : '';
 const pkg = exists('package.json') ? JSON.parse(read('package.json')) : {};
 
-assert(pkg.version === '2.0.0-beta-ai.1', 'package version must remain 2.0.0-beta-ai.1');
+assert(pkg.version === '2.0.0-beta.1', 'package version must remain 2.0.0-beta.1');
 assert(qa.includes('Phase 8G'), 'RELEASE_QA_V2.md must include Phase 8G');
 assert(status.includes('Phase 8F'), 'release status must mention Phase 8F');
 assert(/Phase 8F\.1[^\n]*(PARTIAL|pending|manual Ubuntu browser smoke still pending)/i.test(status), 'release status must state Phase 8F.1 is partial/pending, not passed');

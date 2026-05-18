@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'shimechamhoc-v2.0.0-beta-ai.1';
+const CACHE_VERSION = 'shimechamhoc-v2.0.0-beta.1';
 const APP_SHELL = [
   './',
   './index.html',

@@ -1,8 +1,8 @@
-# Ghi chú phát hành — ShimeChamhoc v2.0.0-beta-ai.1
+# Ghi chú phát hành — ShimeChamhoc v2.0.0-beta.1
 
 ## Trạng thái
 
-**v2.0.0-beta-ai.1** là bản beta ứng viên đã được AI kiểm tra.
+**v2.0.0-beta.1** là bản beta ứng viên đã được AI kiểm tra.
 
 Kết luận đánh giá cuối: **AI-verified beta candidate: YES — SHIP**.
 

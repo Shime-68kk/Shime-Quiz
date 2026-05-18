@@ -484,6 +484,9 @@ jobs:
       - name: Validate Phase 20C Performance Quota Import Stress Test Plan Gate
         run: node scripts/validate-phase20c-performance-quota-import-stress-test-plan.js
 
+      - name: Validate Phase 20D HOLD Decision and beta-ai Naming Cleanup Gate
+        run: node scripts/validate-phase20d-hold-decision-beta-ai-naming-cleanup.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

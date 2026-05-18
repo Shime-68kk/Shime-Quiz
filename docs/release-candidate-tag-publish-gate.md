@@ -28,7 +28,7 @@ The current public-readiness baseline includes:
 - Release package has not been published.
 - Package version remains unchanged unless explicitly updated by the user in a future phase.
 
-Current package version recorded from `package.json`: `2.0.0-beta-ai.1`.
+Current package version recorded from `package.json`: `2.0.0-beta.1`.
 
 ## Release gate decision
 
@@ -67,9 +67,9 @@ Proposed tag names are examples only. Do not create any of these tags automatica
 
 Possible candidate names:
 
-- `v2.0.0-beta-ai.1-rc`
+- `v2.0.0-beta.1-rc`
 - `v2.0.0-rc1`
-- `v2.0.0-beta-ai.1`
+- `v2.0.0-beta.1`
 
 The final tag name must be chosen by the user before tagging.
 

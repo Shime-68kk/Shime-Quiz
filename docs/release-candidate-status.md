@@ -1,4 +1,4 @@
-# Release Candidate Status — Shime Quiz v2.0.0-beta-ai.1
+# Release Candidate Status — Shime Quiz v2.0.0-beta.1
 
 This document consolidates the current release-candidate status for Shime Quiz after Phase 8F.
 
