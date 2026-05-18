@@ -67,6 +67,10 @@ const phase20dForwardCompatEntries = [
   `docs/testing/phase20e-real-user-testing-results-log.md`,
   `docs/release/phase20e-real-user-testing-evidence-protocol.md`,
   `scripts/validate-phase20e-real-user-testing-results-log.js`,
+  // Phase 20F forward-compat entries (Performance / Quota / Import Stress Results Log)
+  `docs/testing/phase20f-performance-quota-import-stress-results-log.md`,
+  `docs/release/phase20f-performance-quota-import-stress-evidence-protocol.md`,
+  `scripts/validate-phase20f-performance-quota-import-stress-results-log.js`,
 ];
 
 // Pre-Phase-20D baseline forward-compat entries already present in historical

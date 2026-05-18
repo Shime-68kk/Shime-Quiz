@@ -418,6 +418,10 @@ const phase16fAllowedChangedFiles = new Set([
   `docs/testing/phase20e-real-user-testing-results-log.md`,
   `docs/release/phase20e-real-user-testing-evidence-protocol.md`,
   `scripts/validate-phase20e-real-user-testing-results-log.js`,
+  // Phase 20F forward-compat entries (Performance / Quota / Import Stress Results Log)
+  `docs/testing/phase20f-performance-quota-import-stress-results-log.md`,
+  `docs/release/phase20f-performance-quota-import-stress-evidence-protocol.md`,
+  `scripts/validate-phase20f-performance-quota-import-stress-results-log.js`,
 ]);
 
 // Hard-forbidden scheduler/storage/backup files. Phase 16F must not touch

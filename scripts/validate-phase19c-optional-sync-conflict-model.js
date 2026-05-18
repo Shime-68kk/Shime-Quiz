@@ -192,6 +192,10 @@ const phase19cForwardCompatEntries = [
   `docs/testing/phase20e-real-user-testing-results-log.md`,
   `docs/release/phase20e-real-user-testing-evidence-protocol.md`,
   `scripts/validate-phase20e-real-user-testing-results-log.js`,
+  // Phase 20F forward-compat entries (Performance / Quota / Import Stress Results Log)
+  `docs/testing/phase20f-performance-quota-import-stress-results-log.md`,
+  `docs/release/phase20f-performance-quota-import-stress-evidence-protocol.md`,
+  `scripts/validate-phase20f-performance-quota-import-stress-results-log.js`,
 ];
 
 // Pre-Phase-19C baseline files that may already appear in historical validator
@@ -399,6 +403,10 @@ const phase19cAllowedChangedFiles = new Set([
   `docs/testing/phase20e-real-user-testing-results-log.md`,
   `docs/release/phase20e-real-user-testing-evidence-protocol.md`,
   `scripts/validate-phase20e-real-user-testing-results-log.js`,
+  // Phase 20F forward-compat entries (Performance / Quota / Import Stress Results Log)
+  `docs/testing/phase20f-performance-quota-import-stress-results-log.md`,
+  `docs/release/phase20f-performance-quota-import-stress-evidence-protocol.md`,
+  `scripts/validate-phase20f-performance-quota-import-stress-results-log.js`,
   ...prePhase19cBaselineFiles,
 ]);
 
