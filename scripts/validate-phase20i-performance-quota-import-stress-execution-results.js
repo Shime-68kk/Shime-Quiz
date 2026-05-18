@@ -25,6 +25,9 @@ const phase20iForwardCompatEntries = [
   RESULTS_FILE,
   SUMMARY_FILE,
   VALIDATOR_SCRIPT,
+  `docs/adr/phase20j-final-beta-readiness-redecision.md`,
+  `docs/release/phase20j-final-beta-readiness-evidence-summary.md`,
+  `scripts/validate-phase20j-final-beta-readiness-redecision.js`,
 ];
 
 const generatedArtifacts = [
@@ -217,6 +220,9 @@ const phase20iAllowedChangedFiles = new Set([
   RESULTS_FILE,
   SUMMARY_FILE,
   VALIDATOR_SCRIPT,
+  `docs/adr/phase20j-final-beta-readiness-redecision.md`,
+  `docs/release/phase20j-final-beta-readiness-evidence-summary.md`,
+  `scripts/validate-phase20j-final-beta-readiness-redecision.js`,
 ]);
 
 function fail(message) {

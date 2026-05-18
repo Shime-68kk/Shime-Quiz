@@ -196,6 +196,9 @@ const phase20bForwardCompatEntries = [
   `docs/release/phase20i-performance-quota-import-stress-evidence-summary.md`,
   `scripts/validate-phase20h-real-user-testing-execution-results.js`,
   `scripts/validate-phase20i-performance-quota-import-stress-execution-results.js`,
+  `docs/adr/phase20j-final-beta-readiness-redecision.md`,
+  `docs/release/phase20j-final-beta-readiness-evidence-summary.md`,
+  `scripts/validate-phase20j-final-beta-readiness-redecision.js`,
 ];
 
 // Pre-Phase-20B baseline files that may already appear in historical validator
@@ -399,6 +402,9 @@ const phase20bAllowedChangedFiles = new Set([
   `docs/release/phase20i-performance-quota-import-stress-evidence-summary.md`,
   `scripts/validate-phase20h-real-user-testing-execution-results.js`,
   `scripts/validate-phase20i-performance-quota-import-stress-execution-results.js`,
+  `docs/adr/phase20j-final-beta-readiness-redecision.md`,
+  `docs/release/phase20j-final-beta-readiness-evidence-summary.md`,
+  `scripts/validate-phase20j-final-beta-readiness-redecision.js`,
 ]);
 
 const fsrsRuntimeFiles = [

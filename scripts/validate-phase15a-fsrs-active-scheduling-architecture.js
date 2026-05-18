@@ -550,6 +550,9 @@ const phase15aAllowedChangedFiles = new Set([
   `docs/release/phase20i-performance-quota-import-stress-evidence-summary.md`,
   `scripts/validate-phase20h-real-user-testing-execution-results.js`,
   `scripts/validate-phase20i-performance-quota-import-stress-execution-results.js`,
+  `docs/adr/phase20j-final-beta-readiness-redecision.md`,
+  `docs/release/phase20j-final-beta-readiness-evidence-summary.md`,
+  `scripts/validate-phase20j-final-beta-readiness-redecision.js`,
 ]);
 
 const generatedArtifacts = [

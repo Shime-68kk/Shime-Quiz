@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
- * scripts/validate-phase20h-real-user-testing-execution-results.js
+ * scripts/validate-phase20j-final-beta-readiness-redecision.js
  *
- * Phase 20H static validator — Real User Testing Execution Results.
+ * Phase 20J static validator — Final Beta Readiness Re-decision.
  *
- * Phase 20H is docs/static-validator/CI-only. It does not implement runtime
+ * Phase 20J is docs/static-validator/CI-only. It does not implement runtime
  * behavior, tests, e2e, dependencies, telemetry, analytics, import/storage/
  * backup/FSRS/sync runtime changes, cloud/account/auth/backend, or service
  * worker behavior.
@@ -13,24 +13,25 @@
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
-const RESULTS_FILE = `docs/testing/phase20h-real-user-testing-execution-results.md`;
-const SUMMARY_FILE = `docs/release/phase20h-real-user-testing-evidence-summary.md`;
-const VALIDATOR_SCRIPT = `scripts/validate-phase20h-real-user-testing-execution-results.js`;
+const ADR_FILE = `docs/adr/phase20j-final-beta-readiness-redecision.md`;
+const SUMMARY_FILE = `docs/release/phase20j-final-beta-readiness-evidence-summary.md`;
+const VALIDATOR_SCRIPT = `scripts/validate-phase20j-final-beta-readiness-redecision.js`;
 const WORKFLOW_FILE = `.github/workflows/e2e-smoke.yml`;
+
+const PHASE20D_ADR = `docs/adr/phase20d-hold-decision-beta-ai-naming-cleanup.md`;
+const PHASE20D_EVIDENCE = `docs/release/phase20d-beta-hold-evidence.md`;
 const PHASE20G_ADR = `docs/adr/phase20g-beta-readiness-redecision-after-evidence.md`;
 const PHASE20G_SUMMARY = `docs/release/phase20g-beta-readiness-redecision-evidence-summary.md`;
-const PHASE20G_VALIDATOR = `scripts/validate-phase20g-beta-readiness-redecision-after-evidence.js`;
+const PHASE20H_RESULTS = `docs/testing/phase20h-real-user-testing-execution-results.md`;
+const PHASE20H_SUMMARY = `docs/release/phase20h-real-user-testing-evidence-summary.md`;
+const PHASE20I_RESULTS = `docs/testing/phase20i-performance-quota-import-stress-execution-results.md`;
+const PHASE20I_SUMMARY = `docs/release/phase20i-performance-quota-import-stress-evidence-summary.md`;
+const PHASE20I_VALIDATOR = `scripts/validate-phase20i-performance-quota-import-stress-execution-results.js`;
 
-const phase20hForwardCompatEntries = [
-  RESULTS_FILE,
+const phase20jForwardCompatEntries = [
+  ADR_FILE,
   SUMMARY_FILE,
   VALIDATOR_SCRIPT,
-  `docs/testing/phase20i-performance-quota-import-stress-execution-results.md`,
-  `docs/release/phase20i-performance-quota-import-stress-evidence-summary.md`,
-  `scripts/validate-phase20i-performance-quota-import-stress-execution-results.js`,
-  `docs/adr/phase20j-final-beta-readiness-redecision.md`,
-  `docs/release/phase20j-final-beta-readiness-evidence-summary.md`,
-  `scripts/validate-phase20j-final-beta-readiness-redecision.js`,
 ];
 
 const generatedArtifacts = [
@@ -43,107 +44,93 @@ const generatedArtifacts = [
   `.env`,
   `.env.local`,
   `.git`,
-  `phase20h-real-user-testing-execution-results.patch`,
-  `phase20h-real-user-testing-execution-results.zip`,
-  `phase20h-real-user-testing-execution-results-handoff.md`,
+  `phase20j-final-beta-readiness-redecision.patch`,
+  `phase20j-final-beta-readiness-redecision.zip`,
+  `phase20j-final-beta-readiness-redecision-handoff.md`,
 ];
 
-const requiredResultsHeadings = [
-  `# Phase 20H — Real User Testing Execution Results`,
+const requiredAdrHeadings = [
+  `# Phase 20J — Final Beta Readiness Re-decision After Executed Evidence`,
   `## Purpose`,
-  `## Status`,
-  `## Relationship to Phase 20E`,
+  `## Final decision`,
+  `## Evidence consumed`,
+  `## Relationship to Phase 20D`,
   `## Relationship to Phase 20G`,
-  `## Evidence source rules`,
-  `## Privacy and anonymization rules`,
-  `## Recorded session count`,
-  `## Session result schema`,
-  `## Session 1 result`,
-  `## Session 2 result`,
-  `## Session 3 result`,
-  `## Session 4 result`,
-  `## Session 5 result`,
-  `## Observed pass signals`,
-  `## Observed hold signals`,
-  `## Data safety observations`,
-  `## Backup and restore observations`,
-  `## Manual transfer observations`,
-  `## Local-first copy comprehension observations`,
-  `## Vietnamese-first copy comprehension observations`,
-  `## FSRS and review schedule observations`,
-  `## Import observations`,
-  `## Mobile/PWA observations`,
-  `## beta-ai naming observations`,
-  `## Evidence completeness assessment`,
-  `## Claim boundaries`,
-  `## Phase 20I handoff`,
-  `## Phase 20J handoff`,
+  `## Relationship to Phase 20H`,
+  `## Relationship to Phase 20I`,
+  `## Current evidence status`,
+  `## Real-user testing evidence status`,
+  `## Stress execution evidence status`,
+  `## Why BETA_READY is not selected`,
+  `## Conditions required before BETA_READY`,
+  `## Data safety decision`,
+  `## Backup and restore decision`,
+  `## Import and quota decision`,
+  `## FSRS and scheduler decision`,
+  `## Optional sync decision`,
+  `## No-cloud/default-off trust decision`,
+  `## beta-ai naming decision`,
+  `## User-facing claim boundaries`,
+  `## What Phase 20J explicitly does not implement`,
+  `## Post-Phase-20 path`,
+  `## Acceptance criteria`,
 ];
 
 const requiredSummaryHeadings = [
-  `# Phase 20H — Real User Testing Evidence Summary`,
+  `# Phase 20J — Final Beta Readiness Evidence Summary`,
   `## Purpose`,
-  `## Evidence status`,
-  `## Recorded sessions`,
-  `## Evidence quality`,
-  `## What was validated`,
-  `## What was not validated`,
-  `## Pass signals`,
+  `## Decision summary`,
+  `## Evidence inventory`,
+  `## Phase 20H evidence`,
+  `## Phase 20I evidence`,
+  `## Real-user testing session count`,
+  `## Stress execution run count`,
+  `## Evidence gaps`,
   `## Hold signals`,
+  `## Pass signals`,
   `## Data safety assessment`,
   `## Backup and restore assessment`,
-  `## Manual transfer assessment`,
-  `## Trust-copy comprehension assessment`,
-  `## Vietnamese-first copy assessment`,
-  `## FSRS and review schedule assessment`,
-  `## Import assessment`,
-  `## Mobile/PWA assessment`,
+  `## Import and quota assessment`,
+  `## FSRS and scheduler assessment`,
+  `## Optional sync assessment`,
+  `## No-cloud/default-off trust assessment`,
   `## beta-ai naming assessment`,
-  `## Remaining evidence gaps`,
   `## Recommendation`,
-  `## Phase 20I relationship`,
-  `## Phase 20J readiness gate`,
+  `## Required evidence before release reconsideration`,
+  `## Next steps`,
 ];
 
-const requiredStatusToken =
-  `REAL_USER_TEST_EXECUTION_STATUS: EXECUTION_RESULTS_LOG_READY`;
-const requiredRecordedToken = `REAL_USER_TEST_RECORDED_SESSIONS: 0`;
-const requiredHoldToken =
-  `LOCAL_FIRST_HYBRID_BETA_REDECISION: HOLD_PENDING_EXECUTED_EVIDENCE`;
+const requiredDecisionToken =
+  `LOCAL_FIRST_HYBRID_BETA_FINAL_DECISION: HOLD_EXECUTED_EVIDENCE_REQUIRED`;
 
-const requiredScenarioTerms = [
-  `onboarding`,
-  `create/import small library`,
-  `import larger library`,
-  `study session`,
-  `due cards / review schedule`,
-  `backup before risky action`,
-  `restore from backup`,
-  `manual export/import transfer`,
-  `local-first copy`,
-  `Vietnamese-first copy`,
-  `FSRS`,
-  `mobile/PWA`,
-  `beta-ai`,
-];
-
-const requiredSafetyTerms = [
-  `Phase 20H creates an execution results evidence artifact`,
-  `Results must be based only on actual user/tester-provided evidence`,
-  `Do not record private study content`,
-  `Do not record contact information`,
-  `Do not record credentials`,
-  `Do not collect telemetry`,
-  `Do not add analytics`,
-  `A backup should be created before risky testing`,
-  `HOLD remains active until enough evidence exists`,
-  `BETA_READY is not claimed in Phase 20H`,
+const requiredTerms = [
+  `Phase 20J is docs/static-validator/CI-only`,
+  `Phase 20J keeps HOLD active`,
+  `Phase 20J does not claim beta-ready if Phase 20H sessions are 0 and Phase 20I runs are 0`,
+  `REAL_USER_TEST_RECORDED_SESSIONS: 0`,
+  `PERFORMANCE_STRESS_RECORDED_RUNS: 0`,
+  `BETA_READY requires actual evidence, not templates`,
+  `If both are 0, HOLD is required`,
+  `Sync remains unshipped`,
+  `Cloud/account/auth/backend remain absent`,
+  `Production IndexedDB storage remains absent`,
+  `Backup/export/restore are not adapter-aware`,
+  `Data-loss prevention is not guaranteed`,
+  `Built-in AI/OCR/AI quiz generation are not shipped`,
+  `beta-ai naming cleanup remains preserved`,
+  `21A — Manual evidence execution run pack`,
+  `21B — Real user testing filled results`,
+  `21C — Stress testing filled results`,
+  `21D — Beta readiness re-decision with actual evidence`,
+  `Phase 20J must not unlock sync/runtime/migration`,
 ];
 
 const forbiddenPositiveClaims = [
+  `LOCAL_FIRST_HYBRID_BETA_FINAL_DECISION: BETA_READY`,
   `LOCAL_FIRST_HYBRID_BETA_REDECISION: BETA_READY`,
   `local-first hybrid beta is ready`,
   `real user testing is complete`,
+  `stress testing is complete`,
   `sync exists`,
   `cloud sync exists`,
   `account/auth/backend exists`,
@@ -202,26 +189,20 @@ const syncCloudAccountRuntimePrefixes = [
   `src/backend/`,
 ];
 
-const phase20hAllowedChangedFiles = new Set([
+const phase20jAllowedChangedFiles = new Set([
   WORKFLOW_FILE,
-  RESULTS_FILE,
+  ADR_FILE,
   SUMMARY_FILE,
   VALIDATOR_SCRIPT,
-  `docs/testing/phase20i-performance-quota-import-stress-execution-results.md`,
-  `docs/release/phase20i-performance-quota-import-stress-evidence-summary.md`,
-  `scripts/validate-phase20i-performance-quota-import-stress-execution-results.js`,
-  `docs/adr/phase20j-final-beta-readiness-redecision.md`,
-  `docs/release/phase20j-final-beta-readiness-evidence-summary.md`,
-  `scripts/validate-phase20j-final-beta-readiness-redecision.js`,
 ]);
 
 function fail(message) {
-  console.error(`Phase 20H validation failed: ${message}`);
+  console.error(`Phase 20J validation failed: ${message}`);
   process.exit(1);
 }
 
 function warn(message) {
-  console.warn(`Phase 20H validation warning: ${message}`);
+  console.warn(`Phase 20J validation warning: ${message}`);
 }
 
 function read(file) {
@@ -305,13 +286,19 @@ function isGeneratedArtifact(file) {
 
 function requiredFilesGuard() {
   for (const file of [
-    RESULTS_FILE,
+    ADR_FILE,
     SUMMARY_FILE,
     VALIDATOR_SCRIPT,
     WORKFLOW_FILE,
+    PHASE20D_ADR,
+    PHASE20D_EVIDENCE,
     PHASE20G_ADR,
     PHASE20G_SUMMARY,
-    PHASE20G_VALIDATOR,
+    PHASE20H_RESULTS,
+    PHASE20H_SUMMARY,
+    PHASE20I_RESULTS,
+    PHASE20I_SUMMARY,
+    PHASE20I_VALIDATOR,
   ]) {
     read(file);
   }
@@ -319,13 +306,13 @@ function requiredFilesGuard() {
 
 function workflowGuard() {
   const text = read(WORKFLOW_FILE);
-  const phase20gStr = `node scripts/validate-phase20g-beta-readiness-redecision-after-evidence.js`;
-  const phase20hStr = `node scripts/validate-phase20h-real-user-testing-execution-results.js`;
+  const phase20iStr = `node scripts/validate-phase20i-performance-quota-import-stress-execution-results.js`;
+  const phase20jStr = `node scripts/validate-phase20j-final-beta-readiness-redecision.js`;
 
-  if (!text.includes(phase20gStr)) fail(`${WORKFLOW_FILE} must register Phase 20G validator`);
-  if (!text.includes(phase20hStr)) fail(`${WORKFLOW_FILE} must register Phase 20H validator`);
-  if (text.indexOf(phase20hStr) <= text.indexOf(phase20gStr)) {
-    fail(`${WORKFLOW_FILE} must register Phase 20H after Phase 20G`);
+  if (!text.includes(phase20iStr)) fail(`${WORKFLOW_FILE} must register Phase 20I validator`);
+  if (!text.includes(phase20jStr)) fail(`${WORKFLOW_FILE} must register Phase 20J validator`);
+  if (text.indexOf(phase20jStr) <= text.indexOf(phase20iStr)) {
+    fail(`${WORKFLOW_FILE} must register Phase 20J after Phase 20I`);
   }
   if (/continue-on-error:\s*true/i.test(text)) fail(`${WORKFLOW_FILE} must not use continue-on-error: true`);
 }
@@ -333,29 +320,29 @@ function workflowGuard() {
 function scopeGuard() {
   for (const file of changedFiles()) {
     if (isGeneratedArtifact(file)) continue;
-    if (phase20hAllowedChangedFiles.has(file)) continue;
-    if (firstSegment(file) === `src`) fail(`src/ file changed in Phase 20H (forbidden): ${file}`);
-    if (firstSegment(file) === `tests`) fail(`tests/ file changed in Phase 20H (forbidden): ${file}`);
-    if (firstSegment(file) === `e2e`) fail(`e2e/ file changed in Phase 20H (forbidden): ${file}`);
-    if (file === `package.json`) fail(`package.json changed in Phase 20H (forbidden)`);
-    if (file === `package-lock.json`) fail(`package-lock.json changed in Phase 20H (forbidden)`);
-    if (file === `sw.js`) fail(`sw.js changed in Phase 20H (forbidden)`);
+    if (phase20jAllowedChangedFiles.has(file)) continue;
+    if (firstSegment(file) === `src`) fail(`src/ file changed in Phase 20J (forbidden): ${file}`);
+    if (firstSegment(file) === `tests`) fail(`tests/ file changed in Phase 20J (forbidden): ${file}`);
+    if (firstSegment(file) === `e2e`) fail(`e2e/ file changed in Phase 20J (forbidden): ${file}`);
+    if (file === `package.json`) fail(`package.json changed in Phase 20J (forbidden)`);
+    if (file === `package-lock.json`) fail(`package-lock.json changed in Phase 20J (forbidden)`);
+    if (file === `sw.js`) fail(`sw.js changed in Phase 20J (forbidden)`);
     if (file.startsWith(`scripts/validate-`) && file.endsWith(`.js`)) continue;
-    fail(`Unexpected changed file outside Phase 20H scope: ${file}`);
+    fail(`Unexpected changed file outside Phase 20J scope: ${file}`);
   }
 }
 
 function runtimeGuard(label, files) {
   const changed = new Set(changedFiles());
   for (const file of files) {
-    if (changed.has(file)) fail(`${label} changed in Phase 20H (forbidden): ${file}`);
+    if (changed.has(file)) fail(`${label} changed in Phase 20J (forbidden): ${file}`);
   }
 }
 
 function syncCloudAccountGuard() {
   for (const file of changedFiles()) {
     if (syncCloudAccountRuntimePrefixes.some(prefix => file.startsWith(prefix))) {
-      fail(`sync/cloud/account/auth/backend runtime file changed in Phase 20H (forbidden): ${file}`);
+      fail(`sync/cloud/account/auth/backend runtime file changed in Phase 20J (forbidden): ${file}`);
     }
   }
 }
@@ -368,25 +355,34 @@ function requireHeadings(file, headings) {
 }
 
 function requireTermAcrossDocs(term) {
-  const combined = lowerNormalized(`${read(RESULTS_FILE)}\n${read(SUMMARY_FILE)}`);
+  const combined = lowerNormalized(`${read(ADR_FILE)}\n${read(SUMMARY_FILE)}`);
   if (!combined.includes(lowerNormalized(term))) {
-    fail(`Required term "${term}" not found across Phase 20H docs`);
+    fail(`Required term "${term}" not found across Phase 20J docs`);
   }
 }
 
 function tokenGuard() {
-  const combined = `${read(RESULTS_FILE)}\n${read(SUMMARY_FILE)}`;
-  for (const token of [requiredStatusToken, requiredRecordedToken, requiredHoldToken]) {
-    if (!combined.includes(token)) fail(`Phase 20H docs must include ${token}`);
+  const combined = `${read(ADR_FILE)}\n${read(SUMMARY_FILE)}`;
+  if (!combined.includes(requiredDecisionToken)) fail(`Phase 20J docs must include ${requiredDecisionToken}`);
+}
+
+function evidenceCountGuard() {
+  const phase20hText = read(PHASE20H_RESULTS);
+  const phase20iText = read(PHASE20I_RESULTS);
+  if (!phase20hText.includes(`REAL_USER_TEST_RECORDED_SESSIONS: 0`)) {
+    fail(`Phase 20H must record REAL_USER_TEST_RECORDED_SESSIONS: 0 or validator must be updated for actual evidence`);
+  }
+  if (!phase20iText.includes(`PERFORMANCE_STRESS_RECORDED_RUNS: 0`)) {
+    fail(`Phase 20I must record PERFORMANCE_STRESS_RECORDED_RUNS: 0 or validator must be updated for actual evidence`);
   }
 }
 
 function betaReadyDecisionGuard() {
   const activeBetaReadyPattern =
-    /LOCAL_FIRST_HYBRID_BETA_REDECISION\s*:\s*BETA_READY/;
-  const combined = `${read(RESULTS_FILE)}\n${read(SUMMARY_FILE)}`;
+    /LOCAL_FIRST_HYBRID_BETA_(?:FINAL_)?REDECISION\s*:\s*BETA_READY|LOCAL_FIRST_HYBRID_BETA_FINAL_DECISION\s*:\s*BETA_READY/;
+  const combined = `${read(ADR_FILE)}\n${read(SUMMARY_FILE)}`;
   if (activeBetaReadyPattern.test(combined)) {
-    fail(`Phase 20H must not declare LOCAL_FIRST_HYBRID_BETA_REDECISION: BETA_READY`);
+    fail(`Phase 20J must not declare BETA_READY without actual supporting evidence`);
   }
 }
 
@@ -397,20 +393,22 @@ function sectionName(line) {
 
 function isForbiddenOrWarningSection(name) {
   return [
-    `claim boundaries`,
-    `phase 20j handoff`,
-    `phase 20j readiness gate`,
-    `recommendation`,
-    `what was not validated`,
+    `user-facing claim boundaries`,
+    `why beta_ready is not selected`,
+    `conditions required before beta_ready`,
+    `what phase 20j explicitly does not implement`,
     `hold signals`,
-    `observed hold signals`,
-    `evidence completeness assessment`,
-    `remaining evidence gaps`,
+    `evidence gaps`,
+    `recommendation`,
+    `required evidence before release reconsideration`,
+    `next steps`,
+    `post-phase-20 path`,
+    `acceptance criteria`,
   ].includes(name);
 }
 
 function isNegatedClaimContext(line) {
-  return /\b(if|unless|only if|only after|after|future|no|not|must not|does not|do not|none|without|forbidden|absent|absence|unshipped|not implemented|not selected|not supported|not allowed|not shipped|cannot|never|unchanged|reconsider|missing|imply|misleading|hold|boundary|boundaries|pending|zero|is not|are not)\b/i.test(line);
+  return /\b(if|unless|only if|only after|after|future|no|not|must not|does not|do not|none|without|forbidden|absent|absence|unshipped|not implemented|not selected|not supported|not allowed|not shipped|cannot|never|unchanged|reconsider|missing|imply|misleading|hold|boundary|boundaries|pending|zero|is not|are not|requires|required)\b/i.test(line);
 }
 
 function forbiddenPositiveClaimGuardForFile(file) {
@@ -473,9 +471,9 @@ function historicalValidatorForwardCompatGuard() {
       for (const path of extractedPaths) {
         if (!path.includes(`/`)) continue;
         if (!path.endsWith(`.md`) && !path.endsWith(`.js`)) continue;
-        if (phase20hForwardCompatEntries.includes(path)) continue;
+        if (phase20jForwardCompatEntries.includes(path)) continue;
         if (path.startsWith(`docs/`) || path.startsWith(`tests/`) || path.startsWith(`scripts/`)) {
-          fail(`Historical validator ${validatorFile} adds non-Phase-20H path entry: '${path}'`);
+          fail(`Historical validator ${validatorFile} adds non-Phase-20J path entry: '${path}'`);
         }
       }
     }
@@ -491,20 +489,21 @@ function validate() {
   runtimeGuard(`Backup/export/restore runtime file`, backupRestoreRuntimeFiles);
   runtimeGuard(`Import parser/runtime file`, importRuntimeFiles);
   syncCloudAccountGuard();
-  requireHeadings(RESULTS_FILE, requiredResultsHeadings);
+  requireHeadings(ADR_FILE, requiredAdrHeadings);
   requireHeadings(SUMMARY_FILE, requiredSummaryHeadings);
   tokenGuard();
+  evidenceCountGuard();
   betaReadyDecisionGuard();
 
-  for (const term of [...requiredScenarioTerms, ...requiredSafetyTerms]) {
+  for (const term of requiredTerms) {
     requireTermAcrossDocs(term);
   }
 
-  forbiddenPositiveClaimGuardForFile(RESULTS_FILE);
+  forbiddenPositiveClaimGuardForFile(ADR_FILE);
   forbiddenPositiveClaimGuardForFile(SUMMARY_FILE);
   generatedArtifactGuard();
   historicalValidatorForwardCompatGuard();
-  console.log(`Phase 20H Real User Testing Execution Results validation passed.`);
+  console.log(`Phase 20J Final Beta Readiness Re-decision validation passed.`);
 }
 
 validate();
