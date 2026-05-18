@@ -366,7 +366,7 @@ function workflowGuard() {
 
 function scopeGuard() {
   for (const file of changedFiles()) {
-    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
+    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`, `docs/testing/phase21f-first-manual-evidence-run-capture.md`, `docs/release/phase21f-first-manual-evidence-run-summary.md`, `scripts/validate-phase21f-first-manual-evidence-run-capture.js`].includes(file)) continue;
     if (isGeneratedArtifact(file)) continue;
     if (phase20iAllowedChangedFiles.has(file)) continue;
     if (firstSegment(file) === `src`) fail(`src/ file changed in Phase 20I (forbidden): ${file}`);
@@ -389,7 +389,7 @@ function runtimeGuard(label, files) {
 
 function syncCloudAccountGuard() {
   for (const file of changedFiles()) {
-    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
+    if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`, `docs/testing/phase21f-first-manual-evidence-run-capture.md`, `docs/release/phase21f-first-manual-evidence-run-summary.md`, `scripts/validate-phase21f-first-manual-evidence-run-capture.js`].includes(file)) continue;
     if (syncCloudAccountRuntimePrefixes.some(prefix => file.startsWith(prefix))) {
       fail(`sync/cloud/account/auth/backend runtime file changed in Phase 20I (forbidden): ${file}`);
     }

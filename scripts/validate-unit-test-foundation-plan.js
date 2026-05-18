@@ -707,6 +707,9 @@ const allowedChangedFiles = new Set([
   `docs/testing/phase21e-fillable-evidence-session-template.md`,
   `docs/release/phase21e-first-run-safety-and-claim-checklist.md`,
   `scripts/validate-phase21e-manual-evidence-first-run-pack.js`,
+  `docs/testing/phase21f-first-manual-evidence-run-capture.md`,
+  `docs/release/phase21f-first-manual-evidence-run-summary.md`,
+  `scripts/validate-phase21f-first-manual-evidence-run-capture.js`,
 ]);
 const forbiddenChangedFiles = ['package.json','package-lock.json','vite.config','vite.config.js','vite.config.mjs','playwright.config','playwright.config.js'];
 const forbiddenChangedPrefixes = ['src/','e2e/','tests/','__tests__/'];
