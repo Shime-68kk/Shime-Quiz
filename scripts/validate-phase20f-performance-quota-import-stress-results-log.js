@@ -41,6 +41,9 @@ const phase20fForwardCompatEntries = [
   `docs/testing/phase21a-manual-evidence-execution-run-pack.md`,
   `docs/release/phase21a-evidence-execution-safety-checklist.md`,
   `scripts/validate-phase21a-manual-evidence-execution-run-pack.js`,
+  `docs/testing/phase21b-real-user-testing-filled-results.md`,
+  `docs/release/phase21b-real-user-testing-filled-evidence-summary.md`,
+  `scripts/validate-phase21b-real-user-testing-filled-results.js`,
 ];
 
 // Pre-Phase-20F exact entries already present in historical validators.
@@ -259,6 +262,9 @@ const phase20fAllowedChangedFiles = new Set([
   `docs/testing/phase21a-manual-evidence-execution-run-pack.md`,
   `docs/release/phase21a-evidence-execution-safety-checklist.md`,
   `scripts/validate-phase21a-manual-evidence-execution-run-pack.js`,
+  `docs/testing/phase21b-real-user-testing-filled-results.md`,
+  `docs/release/phase21b-real-user-testing-filled-evidence-summary.md`,
+  `scripts/validate-phase21b-real-user-testing-filled-results.js`,
 ]);
 
 function fail(message) {

@@ -626,6 +626,9 @@ const phase14eAllowedChangedFiles = new Set([
   `docs/testing/phase21a-manual-evidence-execution-run-pack.md`,
   `docs/release/phase21a-evidence-execution-safety-checklist.md`,
   `scripts/validate-phase21a-manual-evidence-execution-run-pack.js`,
+  `docs/testing/phase21b-real-user-testing-filled-results.md`,
+  `docs/release/phase21b-real-user-testing-filled-evidence-summary.md`,
+  `scripts/validate-phase21b-real-user-testing-filled-results.js`,
 ]);
 
 const generatedArtifacts = [
