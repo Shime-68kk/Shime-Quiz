@@ -33,6 +33,9 @@ const phase21bForwardCompatEntries = [
   `docs/adr/phase21d-beta-readiness-redecision-filled-evidence.md`,
   `docs/release/phase21d-beta-readiness-filled-evidence-summary.md`,
   `scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js`,
+  `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`,
+  `docs/release/phase21g-phase22-readiness-handoff.md`,
+  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,
 ];
 
 const generatedArtifacts = [
@@ -204,6 +207,9 @@ const allowedChangedFiles = new Set([
   `docs/testing/phase21f-first-manual-evidence-run-capture.md`,
   `docs/release/phase21f-first-manual-evidence-run-summary.md`,
   `scripts/validate-phase21f-first-manual-evidence-run-capture.js`,
+  `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`,
+  `docs/release/phase21g-phase22-readiness-handoff.md`,
+  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,
 ]);
 
 function fail(message) {

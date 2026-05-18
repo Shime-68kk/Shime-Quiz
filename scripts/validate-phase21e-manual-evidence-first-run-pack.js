@@ -12,7 +12,7 @@ const CHECKLIST = `docs/release/phase21e-first-run-safety-and-claim-checklist.md
 const VALIDATOR = `scripts/validate-phase21e-manual-evidence-first-run-pack.js`;
 const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 
-const phase21ePaths = [PACK, TEMPLATE, CHECKLIST, VALIDATOR, `docs/testing/phase21f-first-manual-evidence-run-capture.md`, `docs/release/phase21f-first-manual-evidence-run-summary.md`, `scripts/validate-phase21f-first-manual-evidence-run-capture.js`];
+const phase21ePaths = [PACK, TEMPLATE, CHECKLIST, VALIDATOR, `docs/testing/phase21f-first-manual-evidence-run-capture.md`, `docs/release/phase21f-first-manual-evidence-run-summary.md`, `scripts/validate-phase21f-first-manual-evidence-run-capture.js`, `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`, `docs/release/phase21g-phase22-readiness-handoff.md`, `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`];
 
 const requiredPackHeadings = [
   `# Phase 21E — Manual Evidence First Run Pack`,

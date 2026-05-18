@@ -699,6 +699,9 @@ const allowedChanged = new Set([
   `docs/testing/phase21f-first-manual-evidence-run-capture.md`,
   `docs/release/phase21f-first-manual-evidence-run-summary.md`,
   `scripts/validate-phase21f-first-manual-evidence-run-capture.js`,
+  `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`,
+  `docs/release/phase21g-phase22-readiness-handoff.md`,
+  `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`,
 ]);
 
 function fail(message) { failures.push(message); }
