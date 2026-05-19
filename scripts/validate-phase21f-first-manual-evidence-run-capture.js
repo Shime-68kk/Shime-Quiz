@@ -15,6 +15,9 @@ const phase21fPaths = [CAPTURE, SUMMARY, VALIDATOR, `docs/adr/phase21g-evidence-
 phase21fPaths.push(`docs/testing/phase22g-filled-evidence-update.md`);
 phase21fPaths.push(`docs/release/phase22g-filled-evidence-summary.md`);
 phase21fPaths.push(`scripts/validate-phase22g-filled-evidence-update.js`);
+phase21fPaths.push(`docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`);
+phase21fPaths.push(`docs/testing/phase22h-beta-readiness-evidence-matrix.md`);
+phase21fPaths.push(`scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`);
 
 const requiredCaptureHeadings = [
   `# Phase 21F — First Manual Evidence Run Capture`,
@@ -185,6 +188,9 @@ allowedChanged.add(`scripts/validate-phase22f-actual-stress-run.js`);
 allowedChanged.add(`docs/testing/phase22g-filled-evidence-update.md`);
 allowedChanged.add(`docs/release/phase22g-filled-evidence-summary.md`);
 allowedChanged.add(`scripts/validate-phase22g-filled-evidence-update.js`);
+allowedChanged.add(`docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`);
+allowedChanged.add(`docs/testing/phase22h-beta-readiness-evidence-matrix.md`);
+allowedChanged.add(`scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`);
 function fail(message) {
   console.error(`Phase 21F validation failed: ${message}`);
   process.exit(1);
