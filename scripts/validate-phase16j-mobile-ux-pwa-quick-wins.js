@@ -329,6 +329,9 @@ phase16jAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy
 phase16jAllowedChangedFiles.add(`docs/research/phase23c-backup-health-last-backup-indicator-design.md`);
 phase16jAllowedChangedFiles.add(`docs/release/phase23c-backup-health-design-summary.md`);
 phase16jAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.js`);
+phase16jAllowedChangedFiles.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
+phase16jAllowedChangedFiles.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
+phase16jAllowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
 
 // Hard-forbidden scheduler/storage/EduGen runtime files. Phase 16J must not touch these.
 const forbiddenRuntimeFiles = [

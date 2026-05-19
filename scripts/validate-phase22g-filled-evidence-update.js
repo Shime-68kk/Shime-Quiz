@@ -19,6 +19,9 @@ allowedChanged.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 allowedChanged.add(`docs/research/phase23c-backup-health-last-backup-indicator-design.md`);
 allowedChanged.add(`docs/release/phase23c-backup-health-design-summary.md`);
 allowedChanged.add(`scripts/validate-phase23c-backup-health-design.js`);
+allowedChanged.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
+allowedChanged.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
+allowedChanged.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
 const phase22gForwardCompatPaths = new Set(phase22gPaths);
 phase22gForwardCompatPaths.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase22gForwardCompatPaths.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
@@ -26,6 +29,9 @@ phase22gForwardCompatPaths.add(`scripts/validate-phase23b-data-survival-ux-copy.
 phase22gForwardCompatPaths.add(`docs/research/phase23c-backup-health-last-backup-indicator-design.md`);
 phase22gForwardCompatPaths.add(`docs/release/phase23c-backup-health-design-summary.md`);
 phase22gForwardCompatPaths.add(`scripts/validate-phase23c-backup-health-design.js`);
+phase22gForwardCompatPaths.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
+phase22gForwardCompatPaths.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
+phase22gForwardCompatPaths.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
 
 allowedChanged.add(`docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`);
 allowedChanged.add(`docs/testing/phase22h-beta-readiness-evidence-matrix.md`);

@@ -250,6 +250,9 @@ phase18cAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy
 phase18cAllowedChangedFiles.add(`docs/research/phase23c-backup-health-last-backup-indicator-design.md`);
 phase18cAllowedChangedFiles.add(`docs/release/phase23c-backup-health-design-summary.md`);
 phase18cAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.js`);
+phase18cAllowedChangedFiles.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
+phase18cAllowedChangedFiles.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
+phase18cAllowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
 
 const backupRestoreRuntimeFiles = [
   'src/state/v2BackupRestore.js',

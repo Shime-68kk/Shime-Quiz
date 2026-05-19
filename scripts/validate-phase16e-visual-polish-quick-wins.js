@@ -457,6 +457,9 @@ phase16eAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy
 phase16eAllowedChangedFiles.add(`docs/research/phase23c-backup-health-last-backup-indicator-design.md`);
 phase16eAllowedChangedFiles.add(`docs/release/phase23c-backup-health-design-summary.md`);
 phase16eAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.js`);
+phase16eAllowedChangedFiles.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
+phase16eAllowedChangedFiles.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
+phase16eAllowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
 
 // Hard-forbidden scheduler/storage files for Phase 16E.
 //

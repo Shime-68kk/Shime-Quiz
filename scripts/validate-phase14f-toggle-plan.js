@@ -30,6 +30,9 @@ const phase14fAllowedChangedFiles = new Set([
   'docs/research/phase23c-backup-health-last-backup-indicator-design.md',
   'docs/release/phase23c-backup-health-design-summary.md',
   'scripts/validate-phase23c-backup-health-design.js',
+  'docs/research/phase23d-backup-reminder-risk-friction-design.md',
+  'docs/release/phase23d-backup-reminder-risk-friction-summary.md',
+  'scripts/validate-phase23d-backup-reminder-risk-friction-design.js',
 
   DOCS_FILE,
   VALIDATOR_SCRIPT,
