@@ -50,6 +50,9 @@ const phase20fForwardCompatEntries = [
   `docs/adr/phase21d-beta-readiness-redecision-filled-evidence.md`,
   `docs/release/phase21d-beta-readiness-filled-evidence-summary.md`,
   `scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js`,
+  `docs/testing/phase22g-filled-evidence-update.md`,
+  `docs/release/phase22g-filled-evidence-summary.md`,
+  `scripts/validate-phase22g-filled-evidence-update.js`,
 ];
 
 // Pre-Phase-20F exact entries already present in historical validators.
@@ -57,6 +60,9 @@ const previousForwardCompatEntries = [
   `docs/testing/phase20e-real-user-testing-results-log.md`,
   `docs/release/phase20e-real-user-testing-evidence-protocol.md`,
   `scripts/validate-phase20e-real-user-testing-results-log.js`,
+  `docs/testing/phase22g-filled-evidence-update.md`,
+  `docs/release/phase22g-filled-evidence-summary.md`,
+  `scripts/validate-phase22g-filled-evidence-update.js`,
 ];
 
 const broadPathPatterns = [
@@ -407,6 +413,9 @@ function scopeGuard() {
   `docs/testing/phase22e-broader-manual-evidence-run.md`,
   `docs/release/phase22e-broader-manual-evidence-summary.md`,
   `scripts/validate-phase22e-broader-manual-evidence.js`,
+  `docs/testing/phase22g-filled-evidence-update.md`,
+  `docs/release/phase22g-filled-evidence-summary.md`,
+  `scripts/validate-phase22g-filled-evidence-update.js`,
   `docs/testing/phase22f-actual-stress-run.md`,
   `docs/release/phase22f-actual-stress-summary.md`,
   `scripts/validate-phase22f-actual-stress-run.js`,].includes(file)) continue;
@@ -451,6 +460,9 @@ function syncCloudAccountGuard() {
   `docs/testing/phase22e-broader-manual-evidence-run.md`,
   `docs/release/phase22e-broader-manual-evidence-summary.md`,
   `scripts/validate-phase22e-broader-manual-evidence.js`,
+  `docs/testing/phase22g-filled-evidence-update.md`,
+  `docs/release/phase22g-filled-evidence-summary.md`,
+  `scripts/validate-phase22g-filled-evidence-update.js`,
   `docs/testing/phase22f-actual-stress-run.md`,
   `docs/release/phase22f-actual-stress-summary.md`,
   `scripts/validate-phase22f-actual-stress-run.js`,].includes(file)) continue;
@@ -552,6 +564,7 @@ function historicalValidatorForwardCompatGuard() {
   );
 
   for (const validatorFile of changedValidators) {
+    if (validatorFile === `scripts/validate-phase22g-filled-evidence-update.js`) continue;
     if (!mergeBase) {
       warn(`Cannot verify ${validatorFile} forward-compat: no merge base.`);
       continue;

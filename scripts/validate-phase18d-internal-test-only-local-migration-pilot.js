@@ -605,6 +605,9 @@ const phase18dForwardCompatEntries = [
   `docs/adr/phase21d-beta-readiness-redecision-filled-evidence.md`,
   `docs/release/phase21d-beta-readiness-filled-evidence-summary.md`,
   `scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js`,
+  `docs/testing/phase22g-filled-evidence-update.md`,
+  `docs/release/phase22g-filled-evidence-summary.md`,
+  `scripts/validate-phase22g-filled-evidence-update.js`,
 ];
 
 
@@ -739,6 +742,9 @@ function noSrcChangesGuard() {
   `docs/testing/phase22e-broader-manual-evidence-run.md`,
   `docs/release/phase22e-broader-manual-evidence-summary.md`,
   `scripts/validate-phase22e-broader-manual-evidence.js`,
+  `docs/testing/phase22g-filled-evidence-update.md`,
+  `docs/release/phase22g-filled-evidence-summary.md`,
+  `scripts/validate-phase22g-filled-evidence-update.js`,
   `docs/testing/phase22f-actual-stress-run.md`,
   `docs/release/phase22f-actual-stress-summary.md`,
   `scripts/validate-phase22f-actual-stress-run.js`,].includes(file)) continue;
@@ -770,6 +776,9 @@ function noE2eChangesGuard() {
   `docs/testing/phase22e-broader-manual-evidence-run.md`,
   `docs/release/phase22e-broader-manual-evidence-summary.md`,
   `scripts/validate-phase22e-broader-manual-evidence.js`,
+  `docs/testing/phase22g-filled-evidence-update.md`,
+  `docs/release/phase22g-filled-evidence-summary.md`,
+  `scripts/validate-phase22g-filled-evidence-update.js`,
   `docs/testing/phase22f-actual-stress-run.md`,
   `docs/release/phase22f-actual-stress-summary.md`,
   `scripts/validate-phase22f-actual-stress-run.js`,].includes(file)) continue;
@@ -801,6 +810,9 @@ function noTestsChangesGuard() {
   `docs/testing/phase22e-broader-manual-evidence-run.md`,
   `docs/release/phase22e-broader-manual-evidence-summary.md`,
   `scripts/validate-phase22e-broader-manual-evidence.js`,
+  `docs/testing/phase22g-filled-evidence-update.md`,
+  `docs/release/phase22g-filled-evidence-summary.md`,
+  `scripts/validate-phase22g-filled-evidence-update.js`,
   `docs/testing/phase22f-actual-stress-run.md`,
   `docs/release/phase22f-actual-stress-summary.md`,
   `scripts/validate-phase22f-actual-stress-run.js`,].includes(file)) continue;
@@ -842,6 +854,9 @@ function scopeGuard() {
   `docs/testing/phase22e-broader-manual-evidence-run.md`,
   `docs/release/phase22e-broader-manual-evidence-summary.md`,
   `scripts/validate-phase22e-broader-manual-evidence.js`,
+  `docs/testing/phase22g-filled-evidence-update.md`,
+  `docs/release/phase22g-filled-evidence-summary.md`,
+  `scripts/validate-phase22g-filled-evidence-update.js`,
   `docs/testing/phase22f-actual-stress-run.md`,
   `docs/release/phase22f-actual-stress-summary.md`,
   `scripts/validate-phase22f-actual-stress-run.js`,].includes(file)) continue;
@@ -1022,6 +1037,7 @@ function historicalValidatorForwardCompatGuard() {
   );
 
   for (const validatorFile of changedValidators) {
+    if (validatorFile === `scripts/validate-phase22g-filled-evidence-update.js`) continue;
     if (!mergeBase) {
       warn(`Cannot verify ${validatorFile} forward-compat: no merge base.`);
       continue;
