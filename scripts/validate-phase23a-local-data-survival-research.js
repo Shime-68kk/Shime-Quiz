@@ -12,6 +12,7 @@ const VALIDATOR = `scripts/validate-phase23a-local-data-survival-research.js`;
 const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 
 const phase23aPaths = [RESEARCH_DOC, RELEASE_SUMMARY, VALIDATOR];
+const phase23eForwardCompatPaths = [`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`, `docs/release/phase23e-data-survival-comprehension-plan-summary.md`, `scripts/validate-phase23e-data-survival-comprehension-plan.js`];
 const allowedChanged = new Set([WORKFLOW, ...phase23aPaths]);
 const phase23aForwardCompatPaths = new Set(phase23aPaths);
 phase23aForwardCompatPaths.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
@@ -23,6 +24,9 @@ phase23aForwardCompatPaths.add(`scripts/validate-phase23c-backup-health-design.j
 phase23aForwardCompatPaths.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
 phase23aForwardCompatPaths.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
 phase23aForwardCompatPaths.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
+phase23aForwardCompatPaths.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
+phase23aForwardCompatPaths.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
+phase23aForwardCompatPaths.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
 allowedChanged.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 allowedChanged.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 allowedChanged.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
@@ -32,6 +36,9 @@ allowedChanged.add(`scripts/validate-phase23c-backup-health-design.js`);
 allowedChanged.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
 allowedChanged.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
 allowedChanged.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
+allowedChanged.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
+allowedChanged.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
+allowedChanged.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
 phase23aForwardCompatPaths.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase23aForwardCompatPaths.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase23aForwardCompatPaths.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
@@ -41,6 +48,9 @@ phase23aForwardCompatPaths.add(`scripts/validate-phase23c-backup-health-design.j
 phase23aForwardCompatPaths.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
 phase23aForwardCompatPaths.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
 phase23aForwardCompatPaths.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
+phase23aForwardCompatPaths.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
+phase23aForwardCompatPaths.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
+phase23aForwardCompatPaths.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
 
 const statusToken = `PHASE23A_DATA_SURVIVAL_RESEARCH_STATUS: COMPLETED_DOCS_ONLY`;
 const nextPhase = `Next recommended phase: Phase 23B — Data-Survival UX and Vietnamese Copy Decision Doc`;
@@ -267,6 +277,7 @@ function validateHistoricalForwardCompat() {
     for (const line of diff.split(/\r?\n/)) {
       if (!line.startsWith(`+`) || line.startsWith(`+++`)) continue;
       if (/^\+\s*[\]\)]*;?\s*$/.test(line)) continue;
+      if (line.includes(`phase23eForwardCompatPaths`)) continue;
       const added = line.slice(1).trim();
       const commaOnly = removedLines.some(removed => (
         `${removed},` === added ||
@@ -276,10 +287,10 @@ function validateHistoricalForwardCompat() {
         removed.replace(/,\]\.includes\(file\)\) continue;$/, `,`) === added
       ));
       if (commaOnly) continue;
-      if (![...phase23aForwardCompatPaths].some(path => line.includes(path))) {
+      if (![...phase23aForwardCompatPaths, ...phase23eForwardCompatPaths].some(path => line.includes(path))) {
         fail(`${file} has non-Phase-23A forward-compat addition: ${line}`);
       }
-      for (const path of phase23aForwardCompatPaths) {
+      for (const path of [...phase23aForwardCompatPaths, ...phase23eForwardCompatPaths]) {
         if (line.includes(path) && !line.includes(`\`${path}\``) && !line.includes(`'${path}'`) && !line.includes(`"${path}"`)) {
           fail(`${file} must add exact Phase 23A path only: ${line}`);
         }

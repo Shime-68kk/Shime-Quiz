@@ -131,12 +131,19 @@ const historicalValidatorForwardCompatFiles = [
 ];
 
 const phase23dPaths = [DESIGN_DOC, RELEASE_SUMMARY, VALIDATOR];
+const phase23eForwardCompatPaths = [`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`, `docs/release/phase23e-data-survival-comprehension-plan-summary.md`, `scripts/validate-phase23e-data-survival-comprehension-plan.js`];
 const allowedChanged = new Set([
   WORKFLOW,
   ...phase23dPaths,
   ...historicalValidatorForwardCompatFiles,
 ]);
 const phase23dForwardCompatPaths = new Set(phase23dPaths);
+phase23dForwardCompatPaths.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
+phase23dForwardCompatPaths.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
+phase23dForwardCompatPaths.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
+allowedChanged.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
+allowedChanged.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
+allowedChanged.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
 
 const statusToken = `PHASE23D_BACKUP_REMINDER_RISK_FRICTION_DESIGN_STATUS: COMPLETED_DOCS_ONLY`;
 const nextPhaseText = `Phase 23E — Evidence-Run Plan for Data-Survival Comprehension`;
@@ -466,6 +473,7 @@ function validateHistoricalForwardCompat() {
     for (const line of diff.split(/\r?\n/)) {
       if (!line.startsWith(`+`) || line.startsWith(`+++`)) continue;
       if (/^\+\s*[\]\)]*;?\s*$/.test(line)) continue;
+      if (line.includes(`phase23eForwardCompatPaths`)) continue;
       const added = line.slice(1).trim();
       const commaOnly = removedLines.some(removed => (
         `${removed},` === added ||
@@ -475,10 +483,10 @@ function validateHistoricalForwardCompat() {
         removed.replace(/,\]\.includes\(file\)\) continue;$/, `,`) === added
       ));
       if (commaOnly) continue;
-      if (![...phase23dForwardCompatPaths].some(path => line.includes(path))) {
+      if (![...phase23dForwardCompatPaths, ...phase23eForwardCompatPaths].some(path => line.includes(path))) {
         fail(`${file} has non-Phase-23D forward-compat addition: ${line}`);
       }
-      for (const path of phase23dForwardCompatPaths) {
+      for (const path of [...phase23dForwardCompatPaths, ...phase23eForwardCompatPaths]) {
         if (line.includes(path) && !line.includes(`\`${path}\``) && !line.includes(`'${path}'`) && !line.includes(`"${path}"`)) {
           fail(`${file} must add exact Phase 23D path only: ${line}`);
         }
