@@ -1,75 +1,70 @@
 #!/usr/bin/env node
 /**
- * Phase 22E static validator - broader manual evidence with larger import coverage.
+ * Phase 22F static validator - actual stress run with larger import / quota / backup rehearsal.
  */
 
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
-const EVIDENCE = `docs/testing/phase22e-broader-manual-evidence-run.md`;
-const SUMMARY = `docs/release/phase22e-broader-manual-evidence-summary.md`;
-const VALIDATOR = `scripts/validate-phase22e-broader-manual-evidence.js`;
+const EVIDENCE = `docs/testing/phase22f-actual-stress-run.md`;
+const SUMMARY = `docs/release/phase22f-actual-stress-summary.md`;
+const VALIDATOR = `scripts/validate-phase22f-actual-stress-run.js`;
 const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 
-const phase22ePaths = [EVIDENCE, SUMMARY, VALIDATOR];
-const allowedChanged = new Set([WORKFLOW, ...phase22ePaths]);
-const phase22eForwardCompatPaths = new Set(phase22ePaths);
-allowedChanged.add(`docs/testing/phase22f-actual-stress-run.md`);
-allowedChanged.add(`docs/release/phase22f-actual-stress-summary.md`);
-allowedChanged.add(`scripts/validate-phase22f-actual-stress-run.js`);
-phase22eForwardCompatPaths.add(`docs/testing/phase22f-actual-stress-run.md`);
-phase22eForwardCompatPaths.add(`docs/release/phase22f-actual-stress-summary.md`);
-phase22eForwardCompatPaths.add(`scripts/validate-phase22f-actual-stress-run.js`);
+const phase22fPaths = [EVIDENCE, SUMMARY, VALIDATOR];
+const allowedChanged = new Set([WORKFLOW, ...phase22fPaths]);
+const phase22fForwardCompatPaths = new Set(phase22fPaths);
 
 const evidenceHeadings = [
-  `# Phase 22E — Broader Manual Evidence Run With Larger Import Coverage`,
+  `# Phase 22F — Actual Stress Run With Larger Import / Quota / Backup Rehearsal`,
   `## Status tokens`,
   `## Environment and baseline`,
   `## Generated/test data policy`,
-  `## Scenario table`,
-  `## Executed observations`,
-  `## Blocked, unsupported, unavailable, or not-tested scenarios`,
+  `## Stress scenario table`,
+  `## Executed stress observations`,
+  `## Blocked, unsupported, unavailable, or not-tested stress scenarios`,
   `## Evidence interpretation`,
   `## Guardrails`,
+  `## Remaining gaps`,
   `## Next recommended phase`,
 ];
 
 const summaryHeadings = [
-  `# Phase 22E — Broader Manual Evidence Summary`,
+  `# Phase 22F — Actual Stress Run Summary`,
   `## Status tokens`,
   `## Scope`,
-  `## Evidence summary`,
-  `## What Phase 22E can claim`,
-  `## What Phase 22E must not claim`,
+  `## Stress evidence summary`,
+  `## What Phase 22F can claim`,
+  `## What Phase 22F must not claim`,
   `## Remaining evidence gaps`,
   `## Guardrails`,
   `## Next recommended phase`,
 ];
 
 const requiredCategories = [
-  `larger import`,
-  `CSV import`,
-  `text or Markdown import`,
+  `larger import stress`,
+  `large CSV import stress`,
+  `large text or Markdown import stress`,
   `storage quota or large import warning`,
-  `backup before restore`,
+  `backup before restore rehearsal`,
+  `repeated backup before restore rehearsal`,
   `restore preview or overwrite confirmation`,
-  `manual transfer`,
-  `mobile viewport`,
-  `no-cloud default-off`,
-  `FSRS boundary`,
-  `EduGen boundary`,
-  `beta-ai naming absence`,
+  `restore completion with disposable/generated data`,
+  `post-import app stability`,
+  `manual export or transfer rehearsal`,
+  `mobile viewport stress-adjacent check`,
+  `remaining gaps after stress run`,
 ];
 
 const statusValues = [`EXECUTED_WITH_ANONYMIZED_RESULTS`, `BLOCKED_BY_ENVIRONMENT`];
 const rowStatuses = new Set([`PASS`, `FAIL`, `BLOCKED`, `NOT_TESTED`, `UNSUPPORTED`, `UNAVAILABLE`]);
-const tableHeader = `| Scenario ID | Scenario category | Data type | Expected safety boundary | Observed result | Status | Notes |`;
+const tableHeader = `| Scenario ID | Stress category | Data shape | Expected safety boundary | Observed result | Status | Notes |`;
 
 const forbiddenPositiveClaims = [
   `BETA_READY`,
   `local-first hybrid beta ready`,
   `broad external real-user testing complete`,
-  `full stress testing complete`,
+  `full production stress testing complete`,
   `production readiness`,
   `sync exists`,
   `cloud sync exists`,
@@ -102,13 +97,13 @@ const generatedArtifacts = [
   `FETCH_HEAD`,
   `.env`,
   `.env.local`,
-  `phase22e-broader-manual-evidence.patch`,
-  `phase22e-broader-manual-evidence.zip`,
-  `phase22e-broader-manual-evidence-handoff.md`,
+  `phase22f-actual-stress-run.patch`,
+  `phase22f-actual-stress-run.zip`,
+  `phase22f-actual-stress-run-handoff.md`,
 ];
 
 function fail(message) {
-  console.error(`Phase 22E validation failed: ${message}`);
+  console.error(`Phase 22F validation failed: ${message}`);
   process.exit(1);
 }
 
@@ -153,56 +148,56 @@ function requireHeadings(file, headings) {
 
 function validateWorkflow() {
   const workflow = read(WORKFLOW);
-  const phase22d = `node scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`;
   const phase22e = `node scripts/validate-phase22e-broader-manual-evidence.js`;
-  if (!workflow.includes(phase22e)) fail(`CI does not register Phase 22E validator`);
-  if (workflow.indexOf(phase22e) <= workflow.indexOf(phase22d)) fail(`CI must register Phase 22E after Phase 22D`);
+  const phase22f = `node scripts/validate-phase22f-actual-stress-run.js`;
+  if (!workflow.includes(phase22f)) fail(`CI does not register Phase 22F validator`);
+  if (workflow.indexOf(phase22f) <= workflow.indexOf(phase22e)) fail(`CI must register Phase 22F after Phase 22E`);
   if (/continue-on-error:\s*true/i.test(workflow)) fail(`workflow must not use continue-on-error: true`);
 }
 
 function parseStatusAndCount(file) {
   const text = read(file);
-  const statusMatches = [...text.matchAll(/PHASE22E_BROADER_MANUAL_EVIDENCE_STATUS:\s*([A-Z_]+)/g)];
-  if (statusMatches.length !== 1) fail(`${file} must contain exactly one Phase 22E status token`);
+  const statusMatches = [...text.matchAll(/PHASE22F_ACTUAL_STRESS_RUN_STATUS:\s*([A-Z_]+)/g)];
+  if (statusMatches.length !== 1) fail(`${file} must contain exactly one Phase 22F status token`);
   const status = statusMatches[0][1];
-  if (!statusValues.includes(status)) fail(`${file} has invalid Phase 22E status: ${status}`);
+  if (!statusValues.includes(status)) fail(`${file} has invalid Phase 22F status: ${status}`);
 
-  const countMatches = [...text.matchAll(/PHASE22E_BROADER_MANUAL_EVIDENCE_SCENARIOS_RECORDED:\s*([0-9]+(?:\.[0-9]+)?)/g)];
-  if (countMatches.length !== 1) fail(`${file} must contain exactly one scenario count token`);
+  const countMatches = [...text.matchAll(/PHASE22F_ACTUAL_STRESS_SCENARIOS_RECORDED:\s*([0-9]+(?:\.[0-9]+)?)/g)];
+  if (countMatches.length !== 1) fail(`${file} must contain exactly one stress scenario count token`);
   const count = Number(countMatches[0][1]);
-  if (!Number.isFinite(count)) fail(`${file} scenario count is not parseable`);
+  if (!Number.isFinite(count)) fail(`${file} stress scenario count is not parseable`);
   return { status, count };
 }
 
 function parseScenarioRows() {
   const text = read(EVIDENCE);
   const headerIndex = text.indexOf(tableHeader);
-  if (headerIndex === -1) fail(`Scenario table header is missing or does not match required columns`);
+  if (headerIndex === -1) fail(`Stress scenario table header is missing or does not match required columns`);
   const tableText = text.slice(headerIndex).split(/\n\n/)[0];
   const rows = tableText.split(/\r?\n/).filter(line => line.startsWith(`|`));
-  if (rows.length < 3) fail(`Scenario table must include header, separator, and data rows`);
+  if (rows.length < 3) fail(`Stress scenario table must include header, separator, and data rows`);
   const dataRows = rows.slice(2).filter(line => !/^\|\s*-+/.test(line));
   return dataRows.map((line, index) => {
     const cells = line.split(`|`).slice(1, -1).map(cell => cell.trim());
-    if (cells.length !== 7) fail(`Scenario table row ${index + 1} must have 7 cells`);
-    const [id, category, dataType, boundary, observed, status, notes] = cells;
-    if (!rowStatuses.has(status)) fail(`Scenario table row ${id || index + 1} has invalid status: ${status}`);
-    return { id, category, dataType, boundary, observed, status, notes, line };
+    if (cells.length !== 7) fail(`Stress scenario table row ${index + 1} must have 7 cells`);
+    const [id, category, dataShape, boundary, observed, status, notes] = cells;
+    if (!rowStatuses.has(status)) fail(`Stress scenario table row ${id || index + 1} has invalid status: ${status}`);
+    return { id, category, dataShape, boundary, observed, status, notes, line };
   });
 }
 
 function validateScenarioTable(status, count) {
   const rows = parseScenarioRows();
-  if (rows.length !== count) fail(`Scenario table row count ${rows.length} does not match token count ${count}`);
-  if (status === `EXECUTED_WITH_ANONYMIZED_RESULTS` && count <= 0) fail(`Executed status requires scenario count greater than 0`);
+  if (rows.length !== count) fail(`Stress scenario table row count ${rows.length} does not match token count ${count}`);
+  if (status === `EXECUTED_WITH_ANONYMIZED_RESULTS` && count <= 0) fail(`Executed status requires stress scenario count greater than 0`);
   if (status === `BLOCKED_BY_ENVIRONMENT`) {
     const text = normalize(read(EVIDENCE)).toLowerCase();
     if (!/blocked explanation|blocked by environment|environment blocked/.test(text)) fail(`Blocked status requires blocked explanation`);
-    if (/executed observations.*pass/i.test(text)) fail(`Blocked status must not claim executed observations`);
+    if (/executed stress observations.*pass/i.test(text)) fail(`Blocked status must not claim executed stress observations`);
   }
   for (const row of rows) {
     if (row.status !== `PASS` && /\bPASS\b/i.test(row.observed)) {
-      fail(`Non-PASS scenario must not describe observed result as PASS: ${row.id}`);
+      fail(`Non-PASS stress scenario must not describe observed result as PASS: ${row.id}`);
     }
   }
 }
@@ -211,12 +206,12 @@ function validateRequiredCategories() {
   const docs = `${read(EVIDENCE)}\n${read(SUMMARY)}`;
   const lowerDocs = docs.toLowerCase();
   for (const category of requiredCategories) {
-    if (!lowerDocs.includes(category.toLowerCase())) fail(`Docs missing required category: ${category}`);
+    if (!lowerDocs.includes(category.toLowerCase())) fail(`Docs missing required stress category: ${category}`);
   }
   const rows = parseScenarioRows();
   const rowCategories = rows.map(row => row.category.toLowerCase());
   for (const category of requiredCategories) {
-    if (!rowCategories.includes(category.toLowerCase())) fail(`Scenario table missing required category row: ${category}`);
+    if (!rowCategories.includes(category.toLowerCase())) fail(`Stress scenario table missing required category row: ${category}`);
   }
 }
 
@@ -227,8 +222,8 @@ function validateForbiddenClaims() {
     const needle = claim.toLowerCase();
     let index = combined.indexOf(needle);
     while (index !== -1) {
-      const context = combined.slice(Math.max(0, index - 220), index + needle.length + 220);
-      const guarded = /does not|do not|must not|not claim|not claimed|remaining gaps|guardrails|absence|zero|no `beta-ai`|no phase 22e/.test(context);
+      const context = combined.slice(Math.max(0, index - 240), index + needle.length + 240);
+      const guarded = /does not|do not|must not|not claim|not claimed|remaining gaps|guardrails|absence|zero|no `beta-ai`|no phase 22f/.test(context);
       if (!guarded) fail(`Forbidden positive claim appears outside guarded context: ${claim}`);
       index = combined.indexOf(needle, index + 1);
     }
@@ -266,30 +261,30 @@ function validateHistoricalForwardCompat() {
         removed.replace(/,\]\.includes\(file\)\) continue;$/, `,`) === added
       ));
       if (commaOnly) continue;
-      if (![...phase22eForwardCompatPaths].some(path => line.includes(path))) {
-        fail(`${file} has non-Phase-22E forward-compat addition: ${line}`);
+      if (![...phase22fForwardCompatPaths].some(path => line.includes(path))) {
+        fail(`${file} has non-Phase-22F forward-compat addition: ${line}`);
       }
-      for (const path of phase22eForwardCompatPaths) {
+      for (const path of phase22fForwardCompatPaths) {
         if (line.includes(path) && !line.includes(`\`${path}\``) && !line.includes(`'${path}'`) && !line.includes(`"${path}"`)) {
-          fail(`${file} must add exact Phase 22E path only: ${line}`);
+          fail(`${file} must add exact Phase 22F path only: ${line}`);
         }
       }
     }
   }
 }
 
-for (const file of phase22ePaths) read(file);
+for (const file of phase22fPaths) read(file);
 requireHeadings(EVIDENCE, evidenceHeadings);
 requireHeadings(SUMMARY, summaryHeadings);
 validateWorkflow();
 const evidenceStatus = parseStatusAndCount(EVIDENCE);
 const summaryStatus = parseStatusAndCount(SUMMARY);
 if (evidenceStatus.status !== summaryStatus.status) fail(`Status tokens differ between docs`);
-if (evidenceStatus.count !== summaryStatus.count) fail(`Scenario count tokens differ between docs`);
+if (evidenceStatus.count !== summaryStatus.count) fail(`Stress scenario count tokens differ between docs`);
 validateScenarioTable(evidenceStatus.status, evidenceStatus.count);
 validateRequiredCategories();
 validateForbiddenClaims();
 validateChangedScope();
 validateHistoricalForwardCompat();
 
-console.log(`Phase 22E broader manual evidence validation passed.`);
+console.log(`Phase 22F actual stress run validation passed.`);

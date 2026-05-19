@@ -179,6 +179,12 @@ const generatedArtifacts = [
   `phase21g-evidence-track-closure-phase22-readiness-handoff.md`,
 ];
 
+allowedChanged.add(`docs/testing/phase22f-actual-stress-run.md`);
+allowedChanged.add(`docs/release/phase22f-actual-stress-summary.md`);
+allowedChanged.add(`scripts/validate-phase22f-actual-stress-run.js`);
+phase21gForwardCompatPaths.add(`docs/testing/phase22f-actual-stress-run.md`);
+phase21gForwardCompatPaths.add(`docs/release/phase22f-actual-stress-summary.md`);
+phase21gForwardCompatPaths.add(`scripts/validate-phase22f-actual-stress-run.js`);
 function fail(message) {
   console.error(`Phase 21G validation failed: ${message}`);
   process.exit(1);

@@ -514,7 +514,10 @@ function scopeGuard() {
   `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`,
   `docs/testing/phase22e-broader-manual-evidence-run.md`,
   `docs/release/phase22e-broader-manual-evidence-summary.md`,
-  `scripts/validate-phase22e-broader-manual-evidence.js`,].includes(file)) continue;
+  `scripts/validate-phase22e-broader-manual-evidence.js`,
+  `docs/testing/phase22f-actual-stress-run.md`,
+  `docs/release/phase22f-actual-stress-summary.md`,
+  `scripts/validate-phase22f-actual-stress-run.js`,].includes(file)) continue;
     if (isGeneratedArtifact(file)) continue;
     if (file.startsWith('.claude/')) continue;
     if (phase17aAllowedChangedFiles.has(file)) continue;
@@ -569,7 +572,10 @@ function forbiddenFileGuard() {
   `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`,
   `docs/testing/phase22e-broader-manual-evidence-run.md`,
   `docs/release/phase22e-broader-manual-evidence-summary.md`,
-  `scripts/validate-phase22e-broader-manual-evidence.js`,].includes(file)) continue;
+  `scripts/validate-phase22e-broader-manual-evidence.js`,
+  `docs/testing/phase22f-actual-stress-run.md`,
+  `docs/release/phase22f-actual-stress-summary.md`,
+  `scripts/validate-phase22f-actual-stress-run.js`,].includes(file)) continue;
       if (file.startsWith(prefix)) fail(`Forbidden path must not change in Phase 17A: ${file}`);
     }
   }

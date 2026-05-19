@@ -466,7 +466,10 @@ function noTestsE2eChangesGuard() {
   `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`,
   `docs/testing/phase22e-broader-manual-evidence-run.md`,
   `docs/release/phase22e-broader-manual-evidence-summary.md`,
-  `scripts/validate-phase22e-broader-manual-evidence.js`,].includes(file)) continue;
+  `scripts/validate-phase22e-broader-manual-evidence.js`,
+  `docs/testing/phase22f-actual-stress-run.md`,
+  `docs/release/phase22f-actual-stress-summary.md`,
+  `scripts/validate-phase22f-actual-stress-run.js`,].includes(file)) continue;
     if (firstSegment(file) === `tests`) fail(`tests/ file changed in Phase 20E (forbidden): ${file}`);
     if (firstSegment(file) === `e2e`) fail(`e2e/ file changed in Phase 20E (forbidden): ${file}`);
   }
@@ -492,7 +495,10 @@ function noSrcChangesGuard() {
   `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`,
   `docs/testing/phase22e-broader-manual-evidence-run.md`,
   `docs/release/phase22e-broader-manual-evidence-summary.md`,
-  `scripts/validate-phase22e-broader-manual-evidence.js`,].includes(file)) continue;
+  `scripts/validate-phase22e-broader-manual-evidence.js`,
+  `docs/testing/phase22f-actual-stress-run.md`,
+  `docs/release/phase22f-actual-stress-summary.md`,
+  `scripts/validate-phase22f-actual-stress-run.js`,].includes(file)) continue;
     if (firstSegment(file) === `src`) {
       fail(`src/ file changed in Phase 20E (forbidden): ${file}`);
     }
@@ -519,7 +525,10 @@ function noPackageChangesGuard() {
   `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`,
   `docs/testing/phase22e-broader-manual-evidence-run.md`,
   `docs/release/phase22e-broader-manual-evidence-summary.md`,
-  `scripts/validate-phase22e-broader-manual-evidence.js`,].includes(file)) continue;
+  `scripts/validate-phase22e-broader-manual-evidence.js`,
+  `docs/testing/phase22f-actual-stress-run.md`,
+  `docs/release/phase22f-actual-stress-summary.md`,
+  `scripts/validate-phase22f-actual-stress-run.js`,].includes(file)) continue;
     if (file === `package.json`) fail(`package.json changed in Phase 20E (forbidden)`);
     if (file === `package-lock.json`) fail(`package-lock.json changed in Phase 20E (forbidden)`);
     if (file === `sw.js`) fail(`sw.js changed in Phase 20E (forbidden)`);
@@ -553,7 +562,10 @@ function scopeGuard() {
   `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`,
   `docs/testing/phase22e-broader-manual-evidence-run.md`,
   `docs/release/phase22e-broader-manual-evidence-summary.md`,
-  `scripts/validate-phase22e-broader-manual-evidence.js`,].includes(file)) continue;
+  `scripts/validate-phase22e-broader-manual-evidence.js`,
+  `docs/testing/phase22f-actual-stress-run.md`,
+  `docs/release/phase22f-actual-stress-summary.md`,
+  `scripts/validate-phase22f-actual-stress-run.js`,].includes(file)) continue;
     if (isGeneratedArtifact(file)) continue;
     if (file.startsWith(`.claude/`)) continue;
     if (phase20eAllowedChangedFiles.has(file)) continue;

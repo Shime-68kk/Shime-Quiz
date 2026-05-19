@@ -202,6 +202,12 @@ phase22aForwardCompatPaths.add(`docs/adr/phase22d-beta-readiness-redecision-actu
 phase22aForwardCompatPaths.add(`docs/release/phase22d-beta-readiness-actual-evidence-summary.md`);
 phase22aForwardCompatPaths.add(`scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`);
 
+allowedChanged.add(`docs/testing/phase22f-actual-stress-run.md`);
+allowedChanged.add(`docs/release/phase22f-actual-stress-summary.md`);
+allowedChanged.add(`scripts/validate-phase22f-actual-stress-run.js`);
+phase22aForwardCompatPaths.add(`docs/testing/phase22f-actual-stress-run.md`);
+phase22aForwardCompatPaths.add(`docs/release/phase22f-actual-stress-summary.md`);
+phase22aForwardCompatPaths.add(`scripts/validate-phase22f-actual-stress-run.js`);
 function fail(message) {
   console.error(`Phase 22A validation failed: ${message}`);
   process.exit(1);

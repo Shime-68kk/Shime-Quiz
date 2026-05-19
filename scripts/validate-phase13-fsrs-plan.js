@@ -953,6 +953,9 @@ function scopeGuard() {
   `docs/testing/phase22e-broader-manual-evidence-run.md`,
   `docs/release/phase22e-broader-manual-evidence-summary.md`,
   `scripts/validate-phase22e-broader-manual-evidence.js`,
+  `docs/testing/phase22f-actual-stress-run.md`,
+  `docs/release/phase22f-actual-stress-summary.md`,
+  `scripts/validate-phase22f-actual-stress-run.js`,
 ...coreAllowedChangedFiles, ...historicalValidatorCompatibilityFiles]);
   for (const file of changed) {
     if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
