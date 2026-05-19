@@ -12,9 +12,11 @@ const VALIDATOR = `scripts/validate-phase23e-data-survival-comprehension-plan.js
 const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 
 const phase23ePaths = [PLAN_DOC, RELEASE_SUMMARY, VALIDATOR];
+const phase23fForwardCompatPaths = [`docs/release/phase23f-phase23-decision-gate.md`, `docs/research/phase23f-data-survival-decision-matrix.md`, `scripts/validate-phase23f-phase23-decision-gate.js`];
 const allowedChanged = new Set([
   WORKFLOW,
   ...phase23ePaths,
+  ...phase23fForwardCompatPaths,
   `scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`,
   `scripts/validate-phase23a-local-data-survival-research.js`,
   `scripts/validate-phase23b-data-survival-ux-copy.js`,
@@ -340,8 +342,11 @@ function validateHistoricalForwardCompatEntries() {
     for (const line of diff.split(/\r?\n/)) {
       if (!line.startsWith(`+`) || line.startsWith(`+++`)) continue;
       const isPhase23ePathEntry = [...phase23ePaths].some(path => line.includes(path));
+      const isPhase23fPathEntry = [...phase23fForwardCompatPaths].some(path => line.includes(path));
       const isPhase23eForwardCompatLogic = line.includes(`phase23eForwardCompatPaths`);
-      if (!isPhase23ePathEntry && !isPhase23eForwardCompatLogic) {
+      const isPhase23fForwardCompatLogic = line.includes(`phase23fForwardCompatPaths`);
+      const isPhase23fGuardLogic = line.includes(`isPhase23f`);
+      if (!isPhase23ePathEntry && !isPhase23fPathEntry && !isPhase23eForwardCompatLogic && !isPhase23fForwardCompatLogic && !isPhase23fGuardLogic) {
         fail(`${file} contains non-Phase-23E forward-compat addition: ${line}`);
       }
     }

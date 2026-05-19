@@ -268,6 +268,9 @@ const phase17gAllowedChangedFiles = new Set([
 phase17gAllowedChangedFiles.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
 phase17gAllowedChangedFiles.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
 phase17gAllowedChangedFiles.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
+phase17gAllowedChangedFiles.add(`docs/release/phase23f-phase23-decision-gate.md`);
+phase17gAllowedChangedFiles.add(`docs/research/phase23f-data-survival-decision-matrix.md`);
+phase17gAllowedChangedFiles.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
 phase17gAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase17gAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase17gAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);

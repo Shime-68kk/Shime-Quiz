@@ -884,9 +884,15 @@ allowedChanged.add(`scripts/validate-phase23d-backup-reminder-risk-friction-desi
 allowedChanged.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
 allowedChanged.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
 allowedChanged.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
+allowedChanged.add(`docs/release/phase23f-phase23-decision-gate.md`);
+allowedChanged.add(`docs/research/phase23f-data-survival-decision-matrix.md`);
+allowedChanged.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
 allowedChanged.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
 allowedChanged.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
 allowedChanged.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
+allowedChanged.add(`docs/release/phase23f-phase23-decision-gate.md`);
+allowedChanged.add(`docs/research/phase23f-data-survival-decision-matrix.md`);
+allowedChanged.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
 allowedChanged.add(`docs/testing/phase22f-actual-stress-run.md`);
 allowedChanged.add(`docs/release/phase22f-actual-stress-summary.md`);
 allowedChanged.add(`scripts/validate-phase22f-actual-stress-run.js`);

@@ -13,6 +13,7 @@ const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 
 const phase21fPaths = [CAPTURE, SUMMARY, VALIDATOR, `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`, `docs/release/phase21g-phase22-readiness-handoff.md`, `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`, `docs/testing/phase22a-actual-first-manual-evidence-run.md`, `docs/release/phase22a-first-manual-evidence-run-summary.md`, `scripts/validate-phase22a-actual-first-manual-evidence-run.js`, `docs/testing/phase22b-real-user-evidence-filled-results.md`, `docs/release/phase22b-real-user-evidence-summary.md`, `scripts/validate-phase22b-fill-real-user-evidence-results.js`, `docs/testing/phase22c-stress-evidence-filled-results.md`, `docs/release/phase22c-stress-evidence-summary.md`, `scripts/validate-phase22c-fill-stress-evidence-results.js`, `docs/adr/phase22d-beta-readiness-redecision-actual-evidence.md`, `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`, `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`, `docs/testing/phase22e-broader-manual-evidence-run.md`, `docs/release/phase22e-broader-manual-evidence-summary.md`, `scripts/validate-phase22e-broader-manual-evidence.js`, `docs/testing/phase22f-actual-stress-run.md`, `docs/release/phase22f-actual-stress-summary.md`, `scripts/validate-phase22f-actual-stress-run.js`];
 const phase23eForwardCompatPaths = [`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`, `docs/release/phase23e-data-survival-comprehension-plan-summary.md`, `scripts/validate-phase23e-data-survival-comprehension-plan.js`];
+const phase23fForwardCompatPaths = [`docs/release/phase23f-phase23-decision-gate.md`, `docs/research/phase23f-data-survival-decision-matrix.md`, `scripts/validate-phase23f-phase23-decision-gate.js`];
 phase21fPaths.push(`docs/testing/phase22g-filled-evidence-update.md`);
 phase21fPaths.push(`docs/release/phase22g-filled-evidence-summary.md`);
 phase21fPaths.push(`scripts/validate-phase22g-filled-evidence-update.js`);
@@ -175,9 +176,15 @@ allowedChanged.add(`scripts/validate-phase23d-backup-reminder-risk-friction-desi
 allowedChanged.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
 allowedChanged.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
 allowedChanged.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
+allowedChanged.add(`docs/release/phase23f-phase23-decision-gate.md`);
+allowedChanged.add(`docs/research/phase23f-data-survival-decision-matrix.md`);
+allowedChanged.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
 allowedChanged.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
 allowedChanged.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
 allowedChanged.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
+allowedChanged.add(`docs/release/phase23f-phase23-decision-gate.md`);
+allowedChanged.add(`docs/research/phase23f-data-survival-decision-matrix.md`);
+allowedChanged.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
 allowedChanged.add(`docs/testing/phase22e-broader-manual-evidence-run.md`);
 allowedChanged.add(`docs/release/phase22e-broader-manual-evidence-summary.md`);
 allowedChanged.add(`scripts/validate-phase22e-broader-manual-evidence.js`);
@@ -335,10 +342,12 @@ function validateHistoricalForwardCompat() {
       if (!line.startsWith(`+`) || line.startsWith(`+++`)) continue;
       if (/^\+\s*[\]\)]*;?\s*$/.test(line)) continue;
       if (line.includes(`phase23eForwardCompatPaths`)) continue;
-      if (![...phase21fPaths, ...phase23eForwardCompatPaths].some(path => line.includes(path))) {
+      if (line.includes(`phase23fForwardCompatPaths`)) continue;
+      if (line.includes(`isPhase23f`)) continue;
+      if (![...phase21fPaths, ...phase23eForwardCompatPaths, ...phase23fForwardCompatPaths].some(path => line.includes(path))) {
         fail(`${file} has non-Phase-21F forward-compat addition: ${line}`);
       }
-      for (const path of [...phase21fPaths, ...phase23eForwardCompatPaths]) {
+      for (const path of [...phase21fPaths, ...phase23eForwardCompatPaths, ...phase23fForwardCompatPaths]) {
         if (line.includes(path) && !line.includes(`\`${path}\``) && !line.includes(`'${path}'`) && !line.includes(`"${path}"`)) {
           fail(`${file} must add exact Phase 21F path only: ${line}`);
         }

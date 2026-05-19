@@ -274,6 +274,9 @@ allowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction
 allowedChangedFiles.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
 allowedChangedFiles.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
 allowedChangedFiles.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
+allowedChangedFiles.add(`docs/release/phase23f-phase23-decision-gate.md`);
+allowedChangedFiles.add(`docs/research/phase23f-data-survival-decision-matrix.md`);
+allowedChangedFiles.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
 
 function fail(message) {
   console.error(`Phase 21B validation failed: ${message}`);

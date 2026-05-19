@@ -565,6 +565,9 @@ jobs:
       - name: Validate Phase 23E Data Survival Comprehension Plan Gate
         run: node scripts/validate-phase23e-data-survival-comprehension-plan.js
 
+      - name: Validate Phase 23F Phase 23 Decision Gate
+        run: node scripts/validate-phase23f-phase23-decision-gate.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

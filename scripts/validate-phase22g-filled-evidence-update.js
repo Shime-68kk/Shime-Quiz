@@ -13,6 +13,7 @@ const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 
 const phase22gPaths = [EVIDENCE, SUMMARY, VALIDATOR];
 const phase23eForwardCompatPaths = [`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`, `docs/release/phase23e-data-survival-comprehension-plan-summary.md`, `scripts/validate-phase23e-data-survival-comprehension-plan.js`];
+const phase23fForwardCompatPaths = [`docs/release/phase23f-phase23-decision-gate.md`, `docs/research/phase23f-data-survival-decision-matrix.md`, `scripts/validate-phase23f-phase23-decision-gate.js`];
 const allowedChanged = new Set([WORKFLOW, ...phase22gPaths]);
 allowedChanged.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 allowedChanged.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
@@ -26,9 +27,15 @@ allowedChanged.add(`scripts/validate-phase23d-backup-reminder-risk-friction-desi
 allowedChanged.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
 allowedChanged.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
 allowedChanged.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
+allowedChanged.add(`docs/release/phase23f-phase23-decision-gate.md`);
+allowedChanged.add(`docs/research/phase23f-data-survival-decision-matrix.md`);
+allowedChanged.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
 allowedChanged.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
 allowedChanged.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
 allowedChanged.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
+allowedChanged.add(`docs/release/phase23f-phase23-decision-gate.md`);
+allowedChanged.add(`docs/research/phase23f-data-survival-decision-matrix.md`);
+allowedChanged.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
 const phase22gForwardCompatPaths = new Set(phase22gPaths);
 phase22gForwardCompatPaths.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase22gForwardCompatPaths.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
@@ -281,6 +288,8 @@ function validateHistoricalForwardCompat() {
       if (!line.startsWith(`+`) || line.startsWith(`+++`)) continue;
       if (/^\+\s*[\]\)]*;?\s*$/.test(line)) continue;
       if (line.includes(`phase23eForwardCompatPaths`)) continue;
+      if (line.includes(`phase23fForwardCompatPaths`)) continue;
+      if (line.includes(`isPhase23f`)) continue;
       const added = line.slice(1).trim();
       const commaOnly = removedLines.some(removed => (
         `${removed},` === added ||
@@ -290,10 +299,10 @@ function validateHistoricalForwardCompat() {
         removed.replace(/,\]\.includes\(file\)\) continue;$/, `,`) === added
       ));
       if (commaOnly) continue;
-      if (![...phase22gForwardCompatPaths, ...phase23eForwardCompatPaths].some(path => line.includes(path))) {
+      if (![...phase22gForwardCompatPaths, ...phase23eForwardCompatPaths, ...phase23fForwardCompatPaths].some(path => line.includes(path))) {
         fail(`${file} has non-Phase-22G forward-compat addition: ${line}`);
       }
-      for (const path of [...phase22gForwardCompatPaths, ...phase23eForwardCompatPaths]) {
+      for (const path of [...phase22gForwardCompatPaths, ...phase23eForwardCompatPaths, ...phase23fForwardCompatPaths]) {
         if (line.includes(path) && !line.includes(`\`${path}\``) && !line.includes(`'${path}'`) && !line.includes(`"${path}"`)) {
           fail(`${file} must add exact Phase 22G path only: ${line}`);
         }
