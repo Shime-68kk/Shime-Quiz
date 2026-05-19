@@ -26,6 +26,9 @@ const phase14eAllowedChangedFiles = new Set([
   'docs/research/phase23d-backup-reminder-risk-friction-design.md',
   'docs/release/phase23d-backup-reminder-risk-friction-summary.md',
   'scripts/validate-phase23d-backup-reminder-risk-friction-design.js',
+  'docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md',
+  'docs/release/phase23e-data-survival-comprehension-plan-summary.md',
+  'scripts/validate-phase23e-data-survival-comprehension-plan.js',
 
   DOCS_FILE,
   VALIDATOR_SCRIPT,

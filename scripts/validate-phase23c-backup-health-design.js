@@ -12,14 +12,21 @@ const VALIDATOR = `scripts/validate-phase23c-backup-health-design.js`;
 const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 
 const phase23cPaths = [DESIGN_DOC, RELEASE_SUMMARY, VALIDATOR];
+const phase23eForwardCompatPaths = [`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`, `docs/release/phase23e-data-survival-comprehension-plan-summary.md`, `scripts/validate-phase23e-data-survival-comprehension-plan.js`];
 const allowedChanged = new Set([WORKFLOW, ...phase23cPaths]);
 const phase23cForwardCompatPaths = new Set(phase23cPaths);
 phase23cForwardCompatPaths.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
 phase23cForwardCompatPaths.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
 phase23cForwardCompatPaths.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
+phase23cForwardCompatPaths.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
+phase23cForwardCompatPaths.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
+phase23cForwardCompatPaths.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
 allowedChanged.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
 allowedChanged.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
 allowedChanged.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
+allowedChanged.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
+allowedChanged.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
+allowedChanged.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
 
 const statusToken = `PHASE23C_BACKUP_HEALTH_DESIGN_STATUS: COMPLETED_DOCS_ONLY`;
 const nextPhaseText = `Phase 23D — Backup Reminder + Pre-Risk-Action Friction Design Doc`;
@@ -326,6 +333,7 @@ function validateHistoricalForwardCompat() {
     for (const line of diff.split(/\r?\n/)) {
       if (!line.startsWith(`+`) || line.startsWith(`+++`)) continue;
       if (/^\+\s*[\]\)]*;?\s*$/.test(line)) continue;
+      if (line.includes(`phase23eForwardCompatPaths`)) continue;
       const added = line.slice(1).trim();
       const commaOnly = removedLines.some(removed => (
         `${removed},` === added ||
@@ -335,10 +343,10 @@ function validateHistoricalForwardCompat() {
         removed.replace(/,\]\.includes\(file\)\) continue;$/, `,`) === added
       ));
       if (commaOnly) continue;
-      if (![...phase23cForwardCompatPaths].some(path => line.includes(path))) {
+      if (![...phase23cForwardCompatPaths, ...phase23eForwardCompatPaths].some(path => line.includes(path))) {
         fail(`${file} has non-Phase-23C forward-compat addition: ${line}`);
       }
-      for (const path of phase23cForwardCompatPaths) {
+      for (const path of [...phase23cForwardCompatPaths, ...phase23eForwardCompatPaths]) {
         if (line.includes(path) && !line.includes(`\`${path}\``) && !line.includes(`'${path}'`) && !line.includes(`"${path}"`)) {
           fail(`${file} must add exact Phase 23C path only: ${line}`);
         }

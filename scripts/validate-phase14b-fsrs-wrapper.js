@@ -869,6 +869,9 @@ allowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.js`);
 allowedChangedFiles.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
 allowedChangedFiles.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
 allowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
+allowedChangedFiles.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
+allowedChangedFiles.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
+allowedChangedFiles.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
   for (const file of changedFiles()) {
     if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`, `docs/testing/phase21f-first-manual-evidence-run-capture.md`, `docs/release/phase21f-first-manual-evidence-run-summary.md`, `scripts/validate-phase21f-first-manual-evidence-run-capture.js`,
   `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`,

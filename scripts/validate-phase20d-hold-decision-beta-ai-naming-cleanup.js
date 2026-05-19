@@ -215,6 +215,9 @@ const phase20dAllowedChangedFiles = new Set([
   ...allowedPackageVersionCleanupFiles,
   ...allowedPublicDocsCleanupFiles,
 ]);
+phase20dAllowedChangedFiles.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
+phase20dAllowedChangedFiles.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
+phase20dAllowedChangedFiles.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
 phase20dAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase20dAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase20dAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);

@@ -12,6 +12,7 @@ const VALIDATOR = `scripts/validate-phase22a-actual-first-manual-evidence-run.js
 const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 
 const phase22aPaths = [EVIDENCE, SUMMARY, VALIDATOR];
+const phase23eForwardCompatPaths = [`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`, `docs/release/phase23e-data-survival-comprehension-plan-summary.md`, `scripts/validate-phase23e-data-survival-comprehension-plan.js`];
 
 const requiredEvidenceHeadings = [
   `# Phase 22A — Actual First Manual Evidence Run`,
@@ -185,6 +186,12 @@ allowedChanged.add(`scripts/validate-phase23c-backup-health-design.js`);
 allowedChanged.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
 allowedChanged.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
 allowedChanged.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
+allowedChanged.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
+allowedChanged.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
+allowedChanged.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
+allowedChanged.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
+allowedChanged.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
+allowedChanged.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
 allowedChanged.add(`docs/testing/phase22b-real-user-evidence-filled-results.md`);
 allowedChanged.add(`docs/release/phase22b-real-user-evidence-summary.md`);
 allowedChanged.add(`scripts/validate-phase22b-fill-real-user-evidence-results.js`);
@@ -389,6 +396,7 @@ function validateHistoricalForwardCompat() {
     for (const line of diff.split(/\r?\n/)) {
       if (!line.startsWith(`+`) || line.startsWith(`+++`)) continue;
       if (/^\+\s*[\]\)]*;?\s*$/.test(line)) continue;
+      if (line.includes(`phase23eForwardCompatPaths`)) continue;
       const added = line.slice(1).trim();
       const isCommaOnlyContinuationChange = removedLines.some(removed => (
         `${removed},` === added ||
@@ -398,10 +406,10 @@ function validateHistoricalForwardCompat() {
         || removed.replace(/,\]\.includes\(file\)\) continue;$/, `,`) === added
       ));
       if (isCommaOnlyContinuationChange) continue;
-      if (![...phase22aForwardCompatPaths].some(path => line.includes(path))) {
+      if (![...phase22aForwardCompatPaths, ...phase23eForwardCompatPaths].some(path => line.includes(path))) {
         fail(`${file} has non-Phase-22A forward-compat addition: ${line}`);
       }
-      for (const path of phase22aForwardCompatPaths) {
+      for (const path of [...phase22aForwardCompatPaths, ...phase23eForwardCompatPaths]) {
         if (line.includes(path) && !line.includes(`\`${path}\``) && !line.includes(`'${path}'`) && !line.includes(`"${path}"`)) {
           fail(`${file} must add exact Phase 22A path only: ${line}`);
         }

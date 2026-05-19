@@ -311,6 +311,9 @@ const phase16kAllowedChangedFiles = new Set([
   `docs/release/phase21d-beta-readiness-filled-evidence-summary.md`,
   `scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js`,
 ]);
+phase16kAllowedChangedFiles.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
+phase16kAllowedChangedFiles.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
+phase16kAllowedChangedFiles.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
 phase16kAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase16kAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase16kAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);

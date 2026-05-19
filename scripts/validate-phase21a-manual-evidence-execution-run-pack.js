@@ -293,6 +293,9 @@ allowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.js`);
 allowedChangedFiles.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
 allowedChangedFiles.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
 allowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
+allowedChangedFiles.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
+allowedChangedFiles.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
+allowedChangedFiles.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
 
 function fail(message) {
   console.error(`Phase 21A validation failed: ${message}`);
