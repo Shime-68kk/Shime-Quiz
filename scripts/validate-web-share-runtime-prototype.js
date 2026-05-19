@@ -717,6 +717,9 @@ const allowedChanged = new Set([
 allowedChanged.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 allowedChanged.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 allowedChanged.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
+allowedChanged.add(`docs/research/phase23c-backup-health-last-backup-indicator-design.md`);
+allowedChanged.add(`docs/release/phase23c-backup-health-design-summary.md`);
+allowedChanged.add(`scripts/validate-phase23c-backup-health-design.js`);
 allowedChanged.add(`docs/testing/phase22e-broader-manual-evidence-run.md`);
 allowedChanged.add(`docs/release/phase22e-broader-manual-evidence-summary.md`);
 allowedChanged.add(`scripts/validate-phase22e-broader-manual-evidence.js`);

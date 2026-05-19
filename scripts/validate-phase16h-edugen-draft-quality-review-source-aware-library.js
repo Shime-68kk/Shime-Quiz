@@ -351,6 +351,9 @@ const phase16hAllowedChangedFiles = new Set([
 phase16hAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase16hAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase16hAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
+phase16hAllowedChangedFiles.add(`docs/research/phase23c-backup-health-last-backup-indicator-design.md`);
+phase16hAllowedChangedFiles.add(`docs/release/phase23c-backup-health-design-summary.md`);
+phase16hAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.js`);
 
 // Hard-forbidden scheduler/storage files. Phase 16H must not touch these.
 const forbiddenRuntimeFiles = [

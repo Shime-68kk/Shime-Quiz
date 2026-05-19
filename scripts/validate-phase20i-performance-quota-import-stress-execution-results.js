@@ -260,6 +260,9 @@ const phase20iAllowedChangedFiles = new Set([
 phase20iAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase20iAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase20iAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
+phase20iAllowedChangedFiles.add(`docs/research/phase23c-backup-health-last-backup-indicator-design.md`);
+phase20iAllowedChangedFiles.add(`docs/release/phase23c-backup-health-design-summary.md`);
+phase20iAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.js`);
 
 function fail(message) {
   console.error(`Phase 20I validation failed: ${message}`);
