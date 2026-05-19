@@ -13,6 +13,9 @@ const VALIDATOR = `scripts/validate-phase21e-manual-evidence-first-run-pack.js`;
 const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 
 const phase21ePaths = [PACK, TEMPLATE, CHECKLIST, VALIDATOR, `docs/testing/phase21f-first-manual-evidence-run-capture.md`, `docs/release/phase21f-first-manual-evidence-run-summary.md`, `scripts/validate-phase21f-first-manual-evidence-run-capture.js`, `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`, `docs/release/phase21g-phase22-readiness-handoff.md`, `scripts/validate-phase21g-evidence-track-closure-phase22-readiness.js`, `docs/testing/phase22a-actual-first-manual-evidence-run.md`, `docs/release/phase22a-first-manual-evidence-run-summary.md`, `scripts/validate-phase22a-actual-first-manual-evidence-run.js`, `docs/testing/phase22b-real-user-evidence-filled-results.md`, `docs/release/phase22b-real-user-evidence-summary.md`, `scripts/validate-phase22b-fill-real-user-evidence-results.js`, `docs/testing/phase22c-stress-evidence-filled-results.md`, `docs/release/phase22c-stress-evidence-summary.md`, `scripts/validate-phase22c-fill-stress-evidence-results.js`, `docs/adr/phase22d-beta-readiness-redecision-actual-evidence.md`, `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`, `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`, `docs/testing/phase22e-broader-manual-evidence-run.md`, `docs/release/phase22e-broader-manual-evidence-summary.md`, `scripts/validate-phase22e-broader-manual-evidence.js`, `docs/testing/phase22f-actual-stress-run.md`, `docs/release/phase22f-actual-stress-summary.md`, `scripts/validate-phase22f-actual-stress-run.js`];
+phase21ePaths.push(`docs/testing/phase22g-filled-evidence-update.md`);
+phase21ePaths.push(`docs/release/phase22g-filled-evidence-summary.md`);
+phase21ePaths.push(`scripts/validate-phase22g-filled-evidence-update.js`);
 
 const requiredPackHeadings = [
   `# Phase 21E — Manual Evidence First Run Pack`,
@@ -218,6 +221,10 @@ const generatedArtifacts = [
 allowedChanged.add(`docs/testing/phase22f-actual-stress-run.md`);
 allowedChanged.add(`docs/release/phase22f-actual-stress-summary.md`);
 allowedChanged.add(`scripts/validate-phase22f-actual-stress-run.js`);
+
+allowedChanged.add(`docs/testing/phase22g-filled-evidence-update.md`);
+allowedChanged.add(`docs/release/phase22g-filled-evidence-summary.md`);
+allowedChanged.add(`scripts/validate-phase22g-filled-evidence-update.js`);
 function fail(message) {
   console.error(`Phase 21E validation failed: ${message}`);
   process.exit(1);
@@ -316,6 +323,7 @@ function validateNoActiveForbiddenClaims() {
 function validateHistoricalForwardCompat() {
   const changedValidators = changedFiles().filter(file => file.startsWith(`scripts/validate-`) && file.endsWith(`.js`) && file !== VALIDATOR && file !== `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`);
   for (const file of changedValidators) {
+    if (file === `scripts/validate-phase22g-filled-evidence-update.js`) continue;
     const diff = runGit(`git diff --unified=0 origin/main -- ${file}`);
     for (const line of diff.split(/\r?\n/)) {
       if (!line.startsWith(`+`) || line.startsWith(`+++`)) continue;

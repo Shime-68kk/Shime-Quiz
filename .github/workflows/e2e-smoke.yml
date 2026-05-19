@@ -544,6 +544,9 @@ jobs:
       - name: Validate Phase 22F Actual Stress Run Gate
         run: node scripts/validate-phase22f-actual-stress-run.js
 
+      - name: Validate Phase 22G Filled Evidence Update Gate
+        run: node scripts/validate-phase22g-filled-evidence-update.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

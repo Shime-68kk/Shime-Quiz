@@ -14,6 +14,12 @@ const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 const phase22fPaths = [EVIDENCE, SUMMARY, VALIDATOR];
 const allowedChanged = new Set([WORKFLOW, ...phase22fPaths]);
 const phase22fForwardCompatPaths = new Set(phase22fPaths);
+allowedChanged.add(`docs/testing/phase22g-filled-evidence-update.md`);
+allowedChanged.add(`docs/release/phase22g-filled-evidence-summary.md`);
+allowedChanged.add(`scripts/validate-phase22g-filled-evidence-update.js`);
+phase22fForwardCompatPaths.add(`docs/testing/phase22g-filled-evidence-update.md`);
+phase22fForwardCompatPaths.add(`docs/release/phase22g-filled-evidence-summary.md`);
+phase22fForwardCompatPaths.add(`scripts/validate-phase22g-filled-evidence-update.js`);
 
 const evidenceHeadings = [
   `# Phase 22F — Actual Stress Run With Larger Import / Quota / Backup Rehearsal`,
@@ -245,6 +251,7 @@ function validateChangedScope() {
 function validateHistoricalForwardCompat() {
   const changedValidators = changedFiles().filter(file => file.startsWith(`scripts/validate-`) && file.endsWith(`.js`) && file !== VALIDATOR);
   for (const file of changedValidators) {
+    if (file === `scripts/validate-phase22g-filled-evidence-update.js`) continue;
     const diff = runGit(`git diff --unified=0 origin/main -- ${file}`);
     const removedLines = diff.split(/\r?\n/)
       .filter(line => line.startsWith(`-`) && !line.startsWith(`---`))

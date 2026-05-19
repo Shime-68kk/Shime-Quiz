@@ -165,9 +165,16 @@ phase22dForwardCompatPaths.add(`scripts/validate-phase22e-broader-manual-evidenc
 allowedChanged.add(`docs/testing/phase22f-actual-stress-run.md`);
 allowedChanged.add(`docs/release/phase22f-actual-stress-summary.md`);
 allowedChanged.add(`scripts/validate-phase22f-actual-stress-run.js`);
+
+allowedChanged.add(`docs/testing/phase22g-filled-evidence-update.md`);
+allowedChanged.add(`docs/release/phase22g-filled-evidence-summary.md`);
+allowedChanged.add(`scripts/validate-phase22g-filled-evidence-update.js`);
 phase22dForwardCompatPaths.add(`docs/testing/phase22f-actual-stress-run.md`);
 phase22dForwardCompatPaths.add(`docs/release/phase22f-actual-stress-summary.md`);
 phase22dForwardCompatPaths.add(`scripts/validate-phase22f-actual-stress-run.js`);
+phase22dForwardCompatPaths.add(`docs/testing/phase22g-filled-evidence-update.md`);
+phase22dForwardCompatPaths.add(`docs/release/phase22g-filled-evidence-summary.md`);
+phase22dForwardCompatPaths.add(`scripts/validate-phase22g-filled-evidence-update.js`);
 function fail(message) {
   console.error(`Phase 22D validation failed: ${message}`);
   process.exit(1);
@@ -283,6 +290,7 @@ function validateChangedScope() {
 function validateHistoricalForwardCompat() {
   const changedValidators = changedFiles().filter(file => file.startsWith(`scripts/validate-`) && file.endsWith(`.js`) && file !== VALIDATOR);
   for (const file of changedValidators) {
+    if (file === `scripts/validate-phase22g-filled-evidence-update.js`) continue;
     const diff = runGit(`git diff --unified=0 origin/main -- ${file}`);
     const removedLines = diff.split(/\r?\n/)
       .filter(line => line.startsWith(`-`) && !line.startsWith(`---`))
