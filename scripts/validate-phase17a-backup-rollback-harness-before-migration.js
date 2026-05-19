@@ -289,6 +289,9 @@ const phase17aAllowedChangedFiles = new Set([
   `docs/release/phase21d-beta-readiness-filled-evidence-summary.md`,
   `scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js`,
 ]);
+phase17aAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
+phase17aAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
+phase17aAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 
 // Phase 17B forward-compat: StorageAdapter/LocalStorageAdapter/registry are now
 // created by Phase 17B and are legitimate scaffold files, not forbidden paths.

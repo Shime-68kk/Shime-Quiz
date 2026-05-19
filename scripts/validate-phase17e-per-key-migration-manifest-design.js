@@ -264,6 +264,9 @@ const phase17eAllowedChangedFiles = new Set([
   `docs/release/phase21d-beta-readiness-filled-evidence-summary.md`,
   `scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js`,
 ]);
+phase17eAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
+phase17eAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
+phase17eAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 
 // Forbidden runtime files that must not exist in Phase 17E.
 const forbiddenRuntimeFiles = [

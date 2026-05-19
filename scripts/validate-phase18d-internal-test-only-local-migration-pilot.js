@@ -246,6 +246,9 @@ const phase18dAllowedChangedFiles = new Set([
   `docs/release/phase21d-beta-readiness-filled-evidence-summary.md`,
   `scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js`,
 ]);
+phase18dAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
+phase18dAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
+phase18dAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 
 const backupRestoreRuntimeFiles = [
   `src/state/v2BackupRestore.js`,

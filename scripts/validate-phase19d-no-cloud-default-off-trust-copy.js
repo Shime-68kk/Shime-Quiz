@@ -463,6 +463,9 @@ const phase19dAllowedChangedFiles = new Set([
   `docs/release/phase21d-beta-readiness-filled-evidence-summary.md`,
   `scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js`,
 ]);
+phase19dAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
+phase19dAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
+phase19dAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 
 const fsrsRuntimeFiles = [
   `src/scheduler/fsrsAdapter.js`,

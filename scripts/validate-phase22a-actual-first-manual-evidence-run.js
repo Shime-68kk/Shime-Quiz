@@ -176,6 +176,9 @@ const generatedArtifacts = [
   `phase22a-actual-first-manual-evidence-run-handoff.md`,
 ];
 const allowedChanged = new Set([WORKFLOW, ...phase22aPaths]);
+allowedChanged.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
+allowedChanged.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
+allowedChanged.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 allowedChanged.add(`docs/testing/phase22b-real-user-evidence-filled-results.md`);
 allowedChanged.add(`docs/release/phase22b-real-user-evidence-summary.md`);
 allowedChanged.add(`scripts/validate-phase22b-fill-real-user-evidence-results.js`);
@@ -186,6 +189,9 @@ allowedChanged.add(`docs/adr/phase22d-beta-readiness-redecision-actual-evidence.
 allowedChanged.add(`docs/release/phase22d-beta-readiness-actual-evidence-summary.md`);
 allowedChanged.add(`scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`);
 const phase22aForwardCompatPaths = new Set(phase22aPaths);
+phase22aForwardCompatPaths.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
+phase22aForwardCompatPaths.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
+phase22aForwardCompatPaths.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 allowedChanged.add(`docs/testing/phase22e-broader-manual-evidence-run.md`);
 allowedChanged.add(`docs/release/phase22e-broader-manual-evidence-summary.md`);
 allowedChanged.add(`scripts/validate-phase22e-broader-manual-evidence.js`);

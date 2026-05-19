@@ -726,6 +726,9 @@ const allowedChangedFiles = new Set([
   `docs/release/phase22f-actual-stress-summary.md`,
   `scripts/validate-phase22f-actual-stress-run.js`,
 ]);
+allowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
+allowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
+allowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 const forbiddenFiles = ['package.json','package-lock.json','vite.config.js','vite.config.mjs','playwright.config.js'];
 const forbiddenPrefixes = ['src/','e2e/','tests/','__tests__/'];
 const generatedArtifacts = ['node_modules','dist','test-results','playwright-report','coverage','FETCH_HEAD'];

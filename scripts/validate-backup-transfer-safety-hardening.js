@@ -15,6 +15,9 @@ const allowedChanged = new Set([
   'src/quiz/fsrsWrapper.js',
   'tests/unit/fsrsWrapper.test.js',
   '.github/workflows/e2e-smoke.yml',
+  'docs/research/phase23b-data-survival-ux-copy-decision.md',
+  'docs/release/phase23b-data-survival-ux-copy-summary.md',
+  'scripts/validate-phase23b-data-survival-ux-copy.js',
 
   // Phase 17C compatibility: allow only the approved IndexedDB dry-run
   // harness files while preserving older Phase 11C guardrails.

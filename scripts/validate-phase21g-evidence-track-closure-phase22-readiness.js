@@ -120,6 +120,9 @@ const forbiddenClaims = [
 ];
 
 const allowedChanged = new Set([WORKFLOW, ...phase21gPaths]);
+allowedChanged.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
+allowedChanged.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
+allowedChanged.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 allowedChanged.add(`docs/testing/phase22a-actual-first-manual-evidence-run.md`);
 allowedChanged.add(`docs/release/phase22a-first-manual-evidence-run-summary.md`);
 allowedChanged.add(`scripts/validate-phase22a-actual-first-manual-evidence-run.js`);
@@ -133,6 +136,9 @@ allowedChanged.add(`docs/adr/phase22d-beta-readiness-redecision-actual-evidence.
 allowedChanged.add(`docs/release/phase22d-beta-readiness-actual-evidence-summary.md`);
 allowedChanged.add(`scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`);
 const phase21gForwardCompatPaths = new Set(phase21gPaths);
+phase21gForwardCompatPaths.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
+phase21gForwardCompatPaths.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
+phase21gForwardCompatPaths.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 allowedChanged.add(`docs/testing/phase22e-broader-manual-evidence-run.md`);
 allowedChanged.add(`docs/release/phase22e-broader-manual-evidence-summary.md`);
 allowedChanged.add(`scripts/validate-phase22e-broader-manual-evidence.js`);

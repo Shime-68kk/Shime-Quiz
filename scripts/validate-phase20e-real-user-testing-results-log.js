@@ -356,6 +356,9 @@ const phase20eAllowedChangedFiles = new Set([
   `scripts/validate-phase20c-performance-quota-import-stress-test-plan.js`,
   PHASE20D_VALIDATOR,
 ]);
+phase20eAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
+phase20eAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
+phase20eAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 
 function fail(message) {
   console.error(`Phase 20E validation failed: ${message}`);

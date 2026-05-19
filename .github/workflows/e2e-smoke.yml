@@ -553,6 +553,9 @@ jobs:
       - name: Validate Phase 23A Local Data Survival Research Gate
         run: node scripts/validate-phase23a-local-data-survival-research.js
 
+      - name: Validate Phase 23B Data Survival UX Copy Gate
+        run: node scripts/validate-phase23b-data-survival-ux-copy.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
