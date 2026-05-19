@@ -556,6 +556,9 @@ jobs:
       - name: Validate Phase 23B Data Survival UX Copy Gate
         run: node scripts/validate-phase23b-data-survival-ux-copy.js
 
+      - name: Validate Phase 23C Backup Health Design Gate
+        run: node scripts/validate-phase23c-backup-health-design.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

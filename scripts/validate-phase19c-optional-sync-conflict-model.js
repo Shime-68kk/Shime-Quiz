@@ -478,6 +478,9 @@ const phase19cAllowedChangedFiles = new Set([
 phase19cAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase19cAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase19cAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
+phase19cAllowedChangedFiles.add(`docs/research/phase23c-backup-health-last-backup-indicator-design.md`);
+phase19cAllowedChangedFiles.add(`docs/release/phase23c-backup-health-design-summary.md`);
+phase19cAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.js`);
 
 const fsrsRuntimeFiles = [
   `src/scheduler/fsrsAdapter.js`,

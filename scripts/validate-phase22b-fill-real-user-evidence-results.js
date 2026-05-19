@@ -162,10 +162,16 @@ const allowedChanged = new Set([WORKFLOW, ...phase22bPaths, `docs/testing/phase2
 allowedChanged.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 allowedChanged.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 allowedChanged.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
+allowedChanged.add(`docs/research/phase23c-backup-health-last-backup-indicator-design.md`);
+allowedChanged.add(`docs/release/phase23c-backup-health-design-summary.md`);
+allowedChanged.add(`scripts/validate-phase23c-backup-health-design.js`);
 const phase22bForwardCompatPaths = new Set([...phase22bPaths, `docs/testing/phase22c-stress-evidence-filled-results.md`, `docs/release/phase22c-stress-evidence-summary.md`, `scripts/validate-phase22c-fill-stress-evidence-results.js`, `docs/adr/phase22d-beta-readiness-redecision-actual-evidence.md`, `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`, `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`]);
 phase22bForwardCompatPaths.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase22bForwardCompatPaths.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase22bForwardCompatPaths.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
+phase22bForwardCompatPaths.add(`docs/research/phase23c-backup-health-last-backup-indicator-design.md`);
+phase22bForwardCompatPaths.add(`docs/release/phase23c-backup-health-design-summary.md`);
+phase22bForwardCompatPaths.add(`scripts/validate-phase23c-backup-health-design.js`);
 allowedChanged.add(`docs/testing/phase22e-broader-manual-evidence-run.md`);
 allowedChanged.add(`docs/release/phase22e-broader-manual-evidence-summary.md`);
 allowedChanged.add(`scripts/validate-phase22e-broader-manual-evidence.js`);

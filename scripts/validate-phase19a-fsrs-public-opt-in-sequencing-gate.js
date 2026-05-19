@@ -471,6 +471,9 @@ const phase19aAllowedChangedFiles = new Set([
 phase19aAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase19aAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase19aAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
+phase19aAllowedChangedFiles.add(`docs/research/phase23c-backup-health-last-backup-indicator-design.md`);
+phase19aAllowedChangedFiles.add(`docs/release/phase23c-backup-health-design-summary.md`);
+phase19aAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.js`);
 
 const backupRestoreRuntimeFiles = [
   `src/state/v2BackupRestore.js`,

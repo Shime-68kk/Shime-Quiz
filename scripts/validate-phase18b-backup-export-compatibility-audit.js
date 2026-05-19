@@ -247,6 +247,9 @@ const phase18bAllowedChangedFiles = new Set([
 phase18bAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase18bAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase18bAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
+phase18bAllowedChangedFiles.add(`docs/research/phase23c-backup-health-last-backup-indicator-design.md`);
+phase18bAllowedChangedFiles.add(`docs/release/phase23c-backup-health-design-summary.md`);
+phase18bAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.js`);
 
 // Forbidden runtime files that must not exist in Phase 18B.
 const forbiddenRuntimeFiles = [

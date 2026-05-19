@@ -18,6 +18,9 @@ const allowedChanged = new Set([
   'docs/research/phase23b-data-survival-ux-copy-decision.md',
   'docs/release/phase23b-data-survival-ux-copy-summary.md',
   'scripts/validate-phase23b-data-survival-ux-copy.js',
+  'docs/research/phase23c-backup-health-last-backup-indicator-design.md',
+  'docs/release/phase23c-backup-health-design-summary.md',
+  'scripts/validate-phase23c-backup-health-design.js',
 
   // Phase 17C compatibility: allow only the approved IndexedDB dry-run
   // harness files while preserving older Phase 11A guardrails.
