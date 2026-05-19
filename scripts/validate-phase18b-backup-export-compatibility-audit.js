@@ -425,6 +425,9 @@ const phase18bForwardCompatEntries = [
   `docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`,
   `docs/testing/phase22h-beta-readiness-evidence-matrix.md`,
   `scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`,
+  `docs/research/phase23a-local-data-survival-uninstall-device-loss-research.md`,
+  `docs/release/phase23a-local-data-survival-research-summary.md`,
+  `scripts/validate-phase23a-local-data-survival-research.js`,
 ];
 
 function fail(message) {
@@ -562,6 +565,9 @@ function noSrcChangesGuard() {
   `docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`,
   `docs/testing/phase22h-beta-readiness-evidence-matrix.md`,
   `scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`,
+  `docs/research/phase23a-local-data-survival-uninstall-device-loss-research.md`,
+  `docs/release/phase23a-local-data-survival-research-summary.md`,
+  `scripts/validate-phase23a-local-data-survival-research.js`,
   `docs/testing/phase22f-actual-stress-run.md`,
   `docs/release/phase22f-actual-stress-summary.md`,
   `scripts/validate-phase22f-actual-stress-run.js`,].includes(file)) continue;
@@ -598,6 +604,9 @@ function noTestsChangesGuard() {
   `docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`,
   `docs/testing/phase22h-beta-readiness-evidence-matrix.md`,
   `scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`,
+  `docs/research/phase23a-local-data-survival-uninstall-device-loss-research.md`,
+  `docs/release/phase23a-local-data-survival-research-summary.md`,
+  `scripts/validate-phase23a-local-data-survival-research.js`,
   `docs/testing/phase22f-actual-stress-run.md`,
   `docs/release/phase22f-actual-stress-summary.md`,
   `scripts/validate-phase22f-actual-stress-run.js`,].includes(file)) continue;
@@ -636,6 +645,9 @@ function noE2eChangesGuard() {
   `docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`,
   `docs/testing/phase22h-beta-readiness-evidence-matrix.md`,
   `scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`,
+  `docs/research/phase23a-local-data-survival-uninstall-device-loss-research.md`,
+  `docs/release/phase23a-local-data-survival-research-summary.md`,
+  `scripts/validate-phase23a-local-data-survival-research.js`,
   `docs/testing/phase22f-actual-stress-run.md`,
   `docs/release/phase22f-actual-stress-summary.md`,
   `scripts/validate-phase22f-actual-stress-run.js`,].includes(file)) continue;
@@ -672,6 +684,9 @@ function scopeGuard() {
   `docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`,
   `docs/testing/phase22h-beta-readiness-evidence-matrix.md`,
   `scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`,
+  `docs/research/phase23a-local-data-survival-uninstall-device-loss-research.md`,
+  `docs/release/phase23a-local-data-survival-research-summary.md`,
+  `scripts/validate-phase23a-local-data-survival-research.js`,
   `docs/testing/phase22f-actual-stress-run.md`,
   `docs/release/phase22f-actual-stress-summary.md`,
   `scripts/validate-phase22f-actual-stress-run.js`,].includes(file)) continue;

@@ -24,6 +24,9 @@ allowedChanged.add(`scripts/validate-phase22g-filled-evidence-update.js`);
 allowedChanged.add(`docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`);
 allowedChanged.add(`docs/testing/phase22h-beta-readiness-evidence-matrix.md`);
 allowedChanged.add(`scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`);
+allowedChanged.add(`docs/research/phase23a-local-data-survival-uninstall-device-loss-research.md`);
+allowedChanged.add(`docs/release/phase23a-local-data-survival-research-summary.md`);
+allowedChanged.add(`scripts/validate-phase23a-local-data-survival-research.js`);
 phase22eForwardCompatPaths.add(`docs/testing/phase22f-actual-stress-run.md`);
 phase22eForwardCompatPaths.add(`docs/release/phase22f-actual-stress-summary.md`);
 phase22eForwardCompatPaths.add(`scripts/validate-phase22f-actual-stress-run.js`);
@@ -33,6 +36,9 @@ phase22eForwardCompatPaths.add(`scripts/validate-phase22g-filled-evidence-update
 phase22eForwardCompatPaths.add(`docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`);
 phase22eForwardCompatPaths.add(`docs/testing/phase22h-beta-readiness-evidence-matrix.md`);
 phase22eForwardCompatPaths.add(`scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`);
+phase22eForwardCompatPaths.add(`docs/research/phase23a-local-data-survival-uninstall-device-loss-research.md`);
+phase22eForwardCompatPaths.add(`docs/release/phase23a-local-data-survival-research-summary.md`);
+phase22eForwardCompatPaths.add(`scripts/validate-phase23a-local-data-survival-research.js`);
 
 const evidenceHeadings = [
   `# Phase 22E — Broader Manual Evidence Run With Larger Import Coverage`,

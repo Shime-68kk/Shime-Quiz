@@ -550,6 +550,9 @@ jobs:
       - name: Validate Phase 22H Beta Readiness Re-decision Broader Evidence Gate
         run: node scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js
 
+      - name: Validate Phase 23A Local Data Survival Research Gate
+        run: node scripts/validate-phase23a-local-data-survival-research.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

@@ -18,6 +18,9 @@ phase21fPaths.push(`scripts/validate-phase22g-filled-evidence-update.js`);
 phase21fPaths.push(`docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`);
 phase21fPaths.push(`docs/testing/phase22h-beta-readiness-evidence-matrix.md`);
 phase21fPaths.push(`scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`);
+phase21fPaths.push(`docs/research/phase23a-local-data-survival-uninstall-device-loss-research.md`);
+phase21fPaths.push(`docs/release/phase23a-local-data-survival-research-summary.md`);
+phase21fPaths.push(`scripts/validate-phase23a-local-data-survival-research.js`);
 
 const requiredCaptureHeadings = [
   `# Phase 21F — First Manual Evidence Run Capture`,
@@ -191,6 +194,9 @@ allowedChanged.add(`scripts/validate-phase22g-filled-evidence-update.js`);
 allowedChanged.add(`docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`);
 allowedChanged.add(`docs/testing/phase22h-beta-readiness-evidence-matrix.md`);
 allowedChanged.add(`scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`);
+allowedChanged.add(`docs/research/phase23a-local-data-survival-uninstall-device-loss-research.md`);
+allowedChanged.add(`docs/release/phase23a-local-data-survival-research-summary.md`);
+allowedChanged.add(`scripts/validate-phase23a-local-data-survival-research.js`);
 function fail(message) {
   console.error(`Phase 21F validation failed: ${message}`);
   process.exit(1);

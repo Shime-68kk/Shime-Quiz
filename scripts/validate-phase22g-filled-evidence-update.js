@@ -18,9 +18,15 @@ const phase22gForwardCompatPaths = new Set(phase22gPaths);
 allowedChanged.add(`docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`);
 allowedChanged.add(`docs/testing/phase22h-beta-readiness-evidence-matrix.md`);
 allowedChanged.add(`scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`);
+allowedChanged.add(`docs/research/phase23a-local-data-survival-uninstall-device-loss-research.md`);
+allowedChanged.add(`docs/release/phase23a-local-data-survival-research-summary.md`);
+allowedChanged.add(`scripts/validate-phase23a-local-data-survival-research.js`);
 phase22gForwardCompatPaths.add(`docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`);
 phase22gForwardCompatPaths.add(`docs/testing/phase22h-beta-readiness-evidence-matrix.md`);
 phase22gForwardCompatPaths.add(`scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`);
+phase22gForwardCompatPaths.add(`docs/research/phase23a-local-data-survival-uninstall-device-loss-research.md`);
+phase22gForwardCompatPaths.add(`docs/release/phase23a-local-data-survival-research-summary.md`);
+phase22gForwardCompatPaths.add(`scripts/validate-phase23a-local-data-survival-research.js`);
 
 const testingHeadings = [
   `# Phase 22G — Filled Evidence Update After Broader Manual and Stress Runs`,
