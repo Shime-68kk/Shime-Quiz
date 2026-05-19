@@ -13,7 +13,13 @@ const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 
 const phase22ePaths = [EVIDENCE, SUMMARY, VALIDATOR];
 const allowedChanged = new Set([WORKFLOW, ...phase22ePaths]);
+allowedChanged.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
+allowedChanged.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
+allowedChanged.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 const phase22eForwardCompatPaths = new Set(phase22ePaths);
+phase22eForwardCompatPaths.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
+phase22eForwardCompatPaths.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
+phase22eForwardCompatPaths.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 allowedChanged.add(`docs/testing/phase22f-actual-stress-run.md`);
 allowedChanged.add(`docs/release/phase22f-actual-stress-summary.md`);
 allowedChanged.add(`scripts/validate-phase22f-actual-stress-run.js`);

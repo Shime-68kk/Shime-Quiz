@@ -304,6 +304,9 @@ const hf1AllowedChangedFiles = new Set([
   `tests/unit/helpers/limitedLocalBackendPilot.js`,
   `tests/unit/limitedLocalBackendPilot.test.js`,
 ]);
+hf1AllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
+hf1AllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
+hf1AllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 
 const generatedArtifacts = [
   'node_modules', 'dist', 'test-results', 'playwright-report',

@@ -21,6 +21,9 @@ phase21fPaths.push(`scripts/validate-phase22h-beta-readiness-redecision-broader-
 phase21fPaths.push(`docs/research/phase23a-local-data-survival-uninstall-device-loss-research.md`);
 phase21fPaths.push(`docs/release/phase23a-local-data-survival-research-summary.md`);
 phase21fPaths.push(`scripts/validate-phase23a-local-data-survival-research.js`);
+phase21fPaths.push(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
+phase21fPaths.push(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
+phase21fPaths.push(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 
 const requiredCaptureHeadings = [
   `# Phase 21F — First Manual Evidence Run Capture`,
@@ -153,6 +156,9 @@ const forbiddenClaims = [
 ];
 
 const allowedChanged = new Set([WORKFLOW, ...phase21fPaths]);
+allowedChanged.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
+allowedChanged.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
+allowedChanged.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 allowedChanged.add(`docs/testing/phase22e-broader-manual-evidence-run.md`);
 allowedChanged.add(`docs/release/phase22e-broader-manual-evidence-summary.md`);
 allowedChanged.add(`scripts/validate-phase22e-broader-manual-evidence.js`);

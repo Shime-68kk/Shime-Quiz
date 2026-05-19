@@ -296,6 +296,9 @@ const phase20fAllowedChangedFiles = new Set([
   `docs/release/phase21d-beta-readiness-filled-evidence-summary.md`,
   `scripts/validate-phase21d-beta-readiness-redecision-filled-evidence.js`,
 ]);
+phase20fAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
+phase20fAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
+phase20fAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 
 function fail(message) {
   console.error(`Phase 20F validation failed: ${message}`);

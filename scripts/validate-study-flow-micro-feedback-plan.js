@@ -742,6 +742,9 @@ const allowedChangedFiles = new Set([
   `docs/release/phase22f-actual-stress-summary.md`,
   `scripts/validate-phase22f-actual-stress-run.js`,
 ]);
+allowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
+allowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
+allowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 
 const forbiddenChangedFiles = [
   'package.json',

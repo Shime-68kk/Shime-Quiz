@@ -862,6 +862,9 @@ const allowedChanged = new Set([
   `docs/release/phase22d-beta-readiness-actual-evidence-summary.md`,
   `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`,
 ]);
+allowedChanged.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
+allowedChanged.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
+allowedChanged.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 allowedChanged.add(`docs/testing/phase22f-actual-stress-run.md`);
 allowedChanged.add(`docs/release/phase22f-actual-stress-summary.md`);
 allowedChanged.add(`scripts/validate-phase22f-actual-stress-run.js`);

@@ -64,6 +64,9 @@ const coreAllowedChangedFiles = new Set([
   'src/state/settingsStorage.js',
 
 ]);
+coreAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
+coreAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
+coreAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 
 const historicalValidatorCompatibilityFiles = new Set([
   // Phase 14B compatibility: allow only the approved internal/test-only
@@ -966,6 +969,9 @@ function scopeGuard() {
   `docs/release/phase22f-actual-stress-summary.md`,
   `scripts/validate-phase22f-actual-stress-run.js`,
 ...coreAllowedChangedFiles, ...historicalValidatorCompatibilityFiles]);
+allowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
+allowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
+allowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
   for (const file of changed) {
     if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
     if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) {

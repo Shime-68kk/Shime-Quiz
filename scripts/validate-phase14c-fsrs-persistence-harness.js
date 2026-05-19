@@ -27,6 +27,10 @@ const requiredFiles = [
 ];
 
 const phase14cAllowedChangedFiles = new Set([
+  'docs/research/phase23b-data-survival-ux-copy-decision.md',
+  'docs/release/phase23b-data-survival-ux-copy-summary.md',
+  'scripts/validate-phase23b-data-survival-ux-copy.js',
+
   DOCS_FILE,
   TEST_FILE,
   VALIDATOR_SCRIPT,
