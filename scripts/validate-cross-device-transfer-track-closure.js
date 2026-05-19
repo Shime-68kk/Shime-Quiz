@@ -27,6 +27,9 @@ const allowedChanged = new Set([
   'docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md',
   'docs/release/phase23e-data-survival-comprehension-plan-summary.md',
   'scripts/validate-phase23e-data-survival-comprehension-plan.js',
+  'docs/release/phase23f-phase23-decision-gate.md',
+  'docs/research/phase23f-data-survival-decision-matrix.md',
+  'scripts/validate-phase23f-phase23-decision-gate.js',
 
   // Phase 17C compatibility: allow only the approved IndexedDB dry-run
   // harness files while preserving older Phase 11H guardrails.
