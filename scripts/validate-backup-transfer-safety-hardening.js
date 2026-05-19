@@ -724,6 +724,9 @@ allowedChanged.add(`docs/testing/phase22e-broader-manual-evidence-run.md`);
 allowedChanged.add(`docs/release/phase22e-broader-manual-evidence-summary.md`);
 allowedChanged.add(`scripts/validate-phase22e-broader-manual-evidence.js`);
 
+allowedChanged.add(`docs/testing/phase22f-actual-stress-run.md`);
+allowedChanged.add(`docs/release/phase22f-actual-stress-summary.md`);
+allowedChanged.add(`scripts/validate-phase22f-actual-stress-run.js`);
 function fail(message) { failures.push(message); }
 function read(file) {
   const target = path.join(root, file);

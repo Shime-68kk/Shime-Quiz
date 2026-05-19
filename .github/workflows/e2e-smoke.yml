@@ -541,6 +541,9 @@ jobs:
       - name: Validate Phase 22E Broader Manual Evidence Gate
         run: node scripts/validate-phase22e-broader-manual-evidence.js
 
+      - name: Validate Phase 22F Actual Stress Run Gate
+        run: node scripts/validate-phase22f-actual-stress-run.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

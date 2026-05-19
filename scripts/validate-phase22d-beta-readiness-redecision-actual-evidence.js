@@ -162,6 +162,12 @@ phase22dForwardCompatPaths.add(`docs/testing/phase22e-broader-manual-evidence-ru
 phase22dForwardCompatPaths.add(`docs/release/phase22e-broader-manual-evidence-summary.md`);
 phase22dForwardCompatPaths.add(`scripts/validate-phase22e-broader-manual-evidence.js`);
 
+allowedChanged.add(`docs/testing/phase22f-actual-stress-run.md`);
+allowedChanged.add(`docs/release/phase22f-actual-stress-summary.md`);
+allowedChanged.add(`scripts/validate-phase22f-actual-stress-run.js`);
+phase22dForwardCompatPaths.add(`docs/testing/phase22f-actual-stress-run.md`);
+phase22dForwardCompatPaths.add(`docs/release/phase22f-actual-stress-summary.md`);
+phase22dForwardCompatPaths.add(`scripts/validate-phase22f-actual-stress-run.js`);
 function fail(message) {
   console.error(`Phase 22D validation failed: ${message}`);
   process.exit(1);
