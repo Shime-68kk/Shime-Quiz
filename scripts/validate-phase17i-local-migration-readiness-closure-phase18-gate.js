@@ -257,6 +257,9 @@ phase17iAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy
 phase17iAllowedChangedFiles.add(`docs/research/phase23c-backup-health-last-backup-indicator-design.md`);
 phase17iAllowedChangedFiles.add(`docs/release/phase23c-backup-health-design-summary.md`);
 phase17iAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.js`);
+phase17iAllowedChangedFiles.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
+phase17iAllowedChangedFiles.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
+phase17iAllowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
 
 // Forbidden runtime files that must not exist in Phase 17I.
 const forbiddenRuntimeFiles = [

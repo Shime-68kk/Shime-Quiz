@@ -76,6 +76,9 @@ coreAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`
 coreAllowedChangedFiles.add(`docs/research/phase23c-backup-health-last-backup-indicator-design.md`);
 coreAllowedChangedFiles.add(`docs/release/phase23c-backup-health-design-summary.md`);
 coreAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.js`);
+coreAllowedChangedFiles.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
+coreAllowedChangedFiles.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
+coreAllowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
 
 const historicalValidatorCompatibilityFiles = new Set([
   // Phase 14B compatibility: allow only the approved internal/test-only
@@ -840,6 +843,9 @@ allowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 allowedChangedFiles.add(`docs/research/phase23c-backup-health-last-backup-indicator-design.md`);
 allowedChangedFiles.add(`docs/release/phase23c-backup-health-design-summary.md`);
 allowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.js`);
+allowedChangedFiles.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
+allowedChangedFiles.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
+allowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
   for (const file of changedFiles()) {
     if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`, `docs/testing/phase21f-first-manual-evidence-run-capture.md`, `docs/release/phase21f-first-manual-evidence-run-summary.md`, `scripts/validate-phase21f-first-manual-evidence-run-capture.js`,
   `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`,

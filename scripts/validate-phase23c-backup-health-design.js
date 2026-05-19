@@ -14,6 +14,12 @@ const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 const phase23cPaths = [DESIGN_DOC, RELEASE_SUMMARY, VALIDATOR];
 const allowedChanged = new Set([WORKFLOW, ...phase23cPaths]);
 const phase23cForwardCompatPaths = new Set(phase23cPaths);
+phase23cForwardCompatPaths.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
+phase23cForwardCompatPaths.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
+phase23cForwardCompatPaths.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
+allowedChanged.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
+allowedChanged.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
+allowedChanged.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
 
 const statusToken = `PHASE23C_BACKUP_HEALTH_DESIGN_STATUS: COMPLETED_DOCS_ONLY`;
 const nextPhaseText = `Phase 23D — Backup Reminder + Pre-Risk-Action Friction Design Doc`;

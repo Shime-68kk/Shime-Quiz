@@ -20,18 +20,27 @@ phase23aForwardCompatPaths.add(`scripts/validate-phase23b-data-survival-ux-copy.
 phase23aForwardCompatPaths.add(`docs/research/phase23c-backup-health-last-backup-indicator-design.md`);
 phase23aForwardCompatPaths.add(`docs/release/phase23c-backup-health-design-summary.md`);
 phase23aForwardCompatPaths.add(`scripts/validate-phase23c-backup-health-design.js`);
+phase23aForwardCompatPaths.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
+phase23aForwardCompatPaths.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
+phase23aForwardCompatPaths.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
 allowedChanged.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 allowedChanged.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 allowedChanged.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 allowedChanged.add(`docs/research/phase23c-backup-health-last-backup-indicator-design.md`);
 allowedChanged.add(`docs/release/phase23c-backup-health-design-summary.md`);
 allowedChanged.add(`scripts/validate-phase23c-backup-health-design.js`);
+allowedChanged.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
+allowedChanged.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
+allowedChanged.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
 phase23aForwardCompatPaths.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase23aForwardCompatPaths.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase23aForwardCompatPaths.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
 phase23aForwardCompatPaths.add(`docs/research/phase23c-backup-health-last-backup-indicator-design.md`);
 phase23aForwardCompatPaths.add(`docs/release/phase23c-backup-health-design-summary.md`);
 phase23aForwardCompatPaths.add(`scripts/validate-phase23c-backup-health-design.js`);
+phase23aForwardCompatPaths.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
+phase23aForwardCompatPaths.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
+phase23aForwardCompatPaths.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
 
 const statusToken = `PHASE23A_DATA_SURVIVAL_RESEARCH_STATUS: COMPLETED_DOCS_ONLY`;
 const nextPhase = `Next recommended phase: Phase 23B — Data-Survival UX and Vietnamese Copy Decision Doc`;

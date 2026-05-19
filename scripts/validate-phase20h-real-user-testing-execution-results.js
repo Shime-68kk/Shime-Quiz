@@ -253,6 +253,9 @@ phase20hAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy
 phase20hAllowedChangedFiles.add(`docs/research/phase23c-backup-health-last-backup-indicator-design.md`);
 phase20hAllowedChangedFiles.add(`docs/release/phase23c-backup-health-design-summary.md`);
 phase20hAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.js`);
+phase20hAllowedChangedFiles.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
+phase20hAllowedChangedFiles.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
+phase20hAllowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
 
 function fail(message) {
   console.error(`Phase 20H validation failed: ${message}`);

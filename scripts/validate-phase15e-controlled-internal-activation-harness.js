@@ -559,6 +559,9 @@ phase15eAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy
 phase15eAllowedChangedFiles.add(`docs/research/phase23c-backup-health-last-backup-indicator-design.md`);
 phase15eAllowedChangedFiles.add(`docs/release/phase23c-backup-health-design-summary.md`);
 phase15eAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.js`);
+phase15eAllowedChangedFiles.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
+phase15eAllowedChangedFiles.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
+phase15eAllowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
 
 const generatedArtifacts = [
   'node_modules',

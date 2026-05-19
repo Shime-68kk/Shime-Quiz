@@ -559,6 +559,9 @@ jobs:
       - name: Validate Phase 23C Backup Health Design Gate
         run: node scripts/validate-phase23c-backup-health-design.js
 
+      - name: Validate Phase 23D Backup Reminder Risk Friction Design Gate
+        run: node scripts/validate-phase23d-backup-reminder-risk-friction-design.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
