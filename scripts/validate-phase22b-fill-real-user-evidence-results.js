@@ -177,6 +177,9 @@ allowedChanged.add(`scripts/validate-phase22g-filled-evidence-update.js`);
 allowedChanged.add(`docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`);
 allowedChanged.add(`docs/testing/phase22h-beta-readiness-evidence-matrix.md`);
 allowedChanged.add(`scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`);
+allowedChanged.add(`docs/research/phase23a-local-data-survival-uninstall-device-loss-research.md`);
+allowedChanged.add(`docs/release/phase23a-local-data-survival-research-summary.md`);
+allowedChanged.add(`scripts/validate-phase23a-local-data-survival-research.js`);
 phase22bForwardCompatPaths.add(`docs/testing/phase22f-actual-stress-run.md`);
 phase22bForwardCompatPaths.add(`docs/release/phase22f-actual-stress-summary.md`);
 phase22bForwardCompatPaths.add(`scripts/validate-phase22f-actual-stress-run.js`);
@@ -186,6 +189,9 @@ phase22bForwardCompatPaths.add(`scripts/validate-phase22g-filled-evidence-update
 phase22bForwardCompatPaths.add(`docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`);
 phase22bForwardCompatPaths.add(`docs/testing/phase22h-beta-readiness-evidence-matrix.md`);
 phase22bForwardCompatPaths.add(`scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`);
+phase22bForwardCompatPaths.add(`docs/research/phase23a-local-data-survival-uninstall-device-loss-research.md`);
+phase22bForwardCompatPaths.add(`docs/release/phase23a-local-data-survival-research-summary.md`);
+phase22bForwardCompatPaths.add(`scripts/validate-phase23a-local-data-survival-research.js`);
 function fail(message) {
   console.error(`Phase 22B validation failed: ${message}`);
   process.exit(1);
