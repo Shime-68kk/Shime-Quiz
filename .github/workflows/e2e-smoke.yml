@@ -547,6 +547,9 @@ jobs:
       - name: Validate Phase 22G Filled Evidence Update Gate
         run: node scripts/validate-phase22g-filled-evidence-update.js
 
+      - name: Validate Phase 22H Beta Readiness Re-decision Broader Evidence Gate
+        run: node scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

@@ -16,6 +16,9 @@ const phase21ePaths = [PACK, TEMPLATE, CHECKLIST, VALIDATOR, `docs/testing/phase
 phase21ePaths.push(`docs/testing/phase22g-filled-evidence-update.md`);
 phase21ePaths.push(`docs/release/phase22g-filled-evidence-summary.md`);
 phase21ePaths.push(`scripts/validate-phase22g-filled-evidence-update.js`);
+phase21ePaths.push(`docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`);
+phase21ePaths.push(`docs/testing/phase22h-beta-readiness-evidence-matrix.md`);
+phase21ePaths.push(`scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`);
 
 const requiredPackHeadings = [
   `# Phase 21E — Manual Evidence First Run Pack`,
@@ -225,6 +228,9 @@ allowedChanged.add(`scripts/validate-phase22f-actual-stress-run.js`);
 allowedChanged.add(`docs/testing/phase22g-filled-evidence-update.md`);
 allowedChanged.add(`docs/release/phase22g-filled-evidence-summary.md`);
 allowedChanged.add(`scripts/validate-phase22g-filled-evidence-update.js`);
+allowedChanged.add(`docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`);
+allowedChanged.add(`docs/testing/phase22h-beta-readiness-evidence-matrix.md`);
+allowedChanged.add(`scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`);
 function fail(message) {
   console.error(`Phase 21E validation failed: ${message}`);
   process.exit(1);

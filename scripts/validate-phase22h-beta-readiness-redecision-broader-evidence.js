@@ -1,71 +1,74 @@
 #!/usr/bin/env node
 /**
- * Phase 22G static validator - filled evidence update after broader manual and stress runs.
+ * Phase 22H static validator - beta readiness re-decision with broader actual evidence.
  */
 
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
-const EVIDENCE = `docs/testing/phase22g-filled-evidence-update.md`;
-const SUMMARY = `docs/release/phase22g-filled-evidence-summary.md`;
-const VALIDATOR = `scripts/validate-phase22g-filled-evidence-update.js`;
+const DECISION_DOC = `docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`;
+const MATRIX_DOC = `docs/testing/phase22h-beta-readiness-evidence-matrix.md`;
+const VALIDATOR = `scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`;
 const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 
-const phase22gPaths = [EVIDENCE, SUMMARY, VALIDATOR];
-const allowedChanged = new Set([WORKFLOW, ...phase22gPaths]);
-const phase22gForwardCompatPaths = new Set(phase22gPaths);
+const phase22hPaths = [DECISION_DOC, MATRIX_DOC, VALIDATOR];
+const allowedChanged = new Set([WORKFLOW, ...phase22hPaths]);
+const phase22hForwardCompatPaths = new Set(phase22hPaths);
 
-allowedChanged.add(`docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`);
-allowedChanged.add(`docs/testing/phase22h-beta-readiness-evidence-matrix.md`);
-allowedChanged.add(`scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`);
-phase22gForwardCompatPaths.add(`docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`);
-phase22gForwardCompatPaths.add(`docs/testing/phase22h-beta-readiness-evidence-matrix.md`);
-phase22gForwardCompatPaths.add(`scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`);
-
-const testingHeadings = [
-  `# Phase 22G — Filled Evidence Update After Broader Manual and Stress Runs`,
-  `## Status tokens`,
-  `## Evidence sources consumed`,
-  `## Filled evidence summary`,
-  `## Evidence coverage improvements`,
-  `## Remaining evidence gaps`,
-  `## Evidence interpretation for Phase 22H`,
-  `## Guardrails`,
-  `## Next recommended phase`,
-];
-
-const summaryHeadings = [
-  `# Phase 22G — Filled Evidence Summary`,
-  `## Status tokens`,
-  `## Scope`,
+const decisionHeadings = [
+  `# Phase 22H — Beta Readiness Re-decision With Broader Actual Evidence`,
+  `## Decision token`,
   `## Evidence consumed`,
-  `## What Phase 22G can claim`,
-  `## What Phase 22G must not claim`,
+  `## What improved since Phase 22D`,
   `## Remaining evidence gaps`,
+  `## Decision rationale`,
+  `## What Phase 22H can claim`,
+  `## What Phase 22H must not claim`,
   `## Guardrails`,
+  `## Post-22H stop and Pre-23 planning checkpoint`,
   `## Next recommended phase`,
 ];
 
-const phase22gTokens = [
+const matrixHeadings = [
+  `# Phase 22H — Beta Readiness Evidence Matrix`,
+  `## Decision token`,
+  `## Evidence sources`,
+  `## Evidence matrix`,
+  `## Remaining evidence gaps`,
+  `## Interpretation`,
+  `## Guardrails`,
+  `## Post-22H stop and Pre-23 planning checkpoint`,
+];
+
+const decisionToken = `LOCAL_FIRST_HYBRID_BETA_EVIDENCE_DECISION: HOLD_BROADER_ACTUAL_EVIDENCE_STILL_LIMITED`;
+
+const priorEvidenceTokens = [
+  `PHASE22A_FIRST_MANUAL_EVIDENCE_STATUS: EXECUTED_WITH_ANONYMIZED_RESULTS`,
+  `FIRST_MANUAL_EVIDENCE_RUN_EXECUTED: YES`,
+  `REAL_USER_EVIDENCE_FILLED_STATUS: UPDATED_WITH_PHASE22A_INTERNAL_MANUAL_EVIDENCE`,
+  `REAL_USER_EVIDENCE_FILLED_SESSIONS: 1`,
+  `STRESS_EVIDENCE_FILLED_STATUS: UPDATED_WITH_LIMITED_PHASE22A_STRESS_ADJACENT_EVIDENCE`,
+  `STRESS_EVIDENCE_FILLED_RUNS: 1`,
+  `LOCAL_FIRST_HYBRID_BETA_EVIDENCE_DECISION: HOLD_LIMITED_ACTUAL_EVIDENCE`,
+  `PHASE22E_BROADER_MANUAL_EVIDENCE_STATUS: EXECUTED_WITH_ANONYMIZED_RESULTS`,
+  `PHASE22E_BROADER_MANUAL_EVIDENCE_SCENARIOS_RECORDED: 12`,
+  `PHASE22F_ACTUAL_STRESS_RUN_STATUS: EXECUTED_WITH_ANONYMIZED_RESULTS`,
+  `PHASE22F_ACTUAL_STRESS_SCENARIOS_RECORDED: 12`,
   `PHASE22G_FILLED_EVIDENCE_UPDATE_STATUS: UPDATED_WITH_PHASE22E_AND_PHASE22F_ACTUAL_EVIDENCE`,
   `PHASE22G_MANUAL_EVIDENCE_SCENARIOS_CONSUMED: 12`,
   `PHASE22G_STRESS_EVIDENCE_SCENARIOS_CONSUMED: 12`,
 ];
 
-const priorEvidenceTokens = [
-  `PHASE22E_BROADER_MANUAL_EVIDENCE_STATUS: EXECUTED_WITH_ANONYMIZED_RESULTS`,
-  `PHASE22E_BROADER_MANUAL_EVIDENCE_SCENARIOS_RECORDED: 12`,
-  `PHASE22F_ACTUAL_STRESS_RUN_STATUS: EXECUTED_WITH_ANONYMIZED_RESULTS`,
-  `PHASE22F_ACTUAL_STRESS_SCENARIOS_RECORDED: 12`,
-];
-
 const requiredInterpretationTerms = [
-  `broader manual evidence exists from Phase 22E`,
-  `actual stress-oriented evidence exists from Phase 22F`,
-  `evidence coverage improved compared with Phase 22D`,
-  `Phase 22H can re-decide beta readiness using broader actual evidence`,
-  `generated/test-data`,
-  `anonymized`,
+  `broader actual manual evidence exists`,
+  `actual stress-oriented evidence exists`,
+  `evidence coverage improved after 22E/22F/22G`,
+  `better-informed than Phase 22D`,
+  `HOLD remains because material evidence gaps remain`,
+  `one internal/manual evidence session`,
+  `one limited stress-adjacent run`,
+  `12 broader manual scenarios`,
+  `12 stress-oriented scenarios`,
 ];
 
 const remainingGaps = [
@@ -76,6 +79,20 @@ const remainingGaps = [
   `real mobile file picker behavior`,
   `long-duration endurance`,
   `broad external real-user evidence`,
+];
+
+const checkpointStatement = `After Phase 22H, stop coding phases and open a Pre-23 Planning / Research Checkpoint before Phase 23.`;
+
+const checkpointTopics = [
+  `local-first hybrid roadmap review`,
+  `Local Data Survival / Uninstall & Device-Loss Protection`,
+  `backup reminder UX`,
+  `backup health UX`,
+  `user-controlled backup file strategy`,
+  `StorageAdapter research gate`,
+  `IndexedDB/migration research gate`,
+  `backup adapter-awareness research gate`,
+  `optional sync/conflict resolver research gate`,
 ];
 
 const forbiddenPositiveClaims = [
@@ -120,13 +137,13 @@ const generatedArtifacts = [
   `FETCH_HEAD`,
   `.env`,
   `.env.local`,
-  `phase22g-filled-evidence-update.patch`,
-  `phase22g-filled-evidence-update.zip`,
-  `phase22g-filled-evidence-update-handoff.md`,
+  `phase22h-beta-readiness-redecision-broader-evidence.patch`,
+  `phase22h-beta-readiness-redecision-broader-evidence.zip`,
+  `phase22h-beta-readiness-redecision-broader-evidence-handoff.md`,
 ];
 
 function fail(message) {
-  console.error(`Phase 22G validation failed: ${message}`);
+  console.error(`Phase 22H validation failed: ${message}`);
   process.exit(1);
 }
 
@@ -170,24 +187,22 @@ function requireHeadings(file, headings) {
 }
 
 function combinedDocs() {
-  return `${read(EVIDENCE)}\n${read(SUMMARY)}`;
+  return `${read(DECISION_DOC)}\n${read(MATRIX_DOC)}`;
 }
 
 function validateWorkflow() {
   const workflow = read(WORKFLOW);
-  const phase22f = `node scripts/validate-phase22f-actual-stress-run.js`;
   const phase22g = `node scripts/validate-phase22g-filled-evidence-update.js`;
-  if (!workflow.includes(phase22g)) fail(`CI does not register Phase 22G validator`);
-  if (workflow.indexOf(phase22g) <= workflow.indexOf(phase22f)) fail(`CI must register Phase 22G after Phase 22F`);
+  const phase22h = `node scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`;
+  if (!workflow.includes(phase22h)) fail(`CI does not register Phase 22H validator`);
+  if (workflow.indexOf(phase22h) <= workflow.indexOf(phase22g)) fail(`CI must register Phase 22H after Phase 22G`);
   if (/continue-on-error:\s*true/i.test(workflow)) fail(`workflow must not use continue-on-error: true`);
 }
 
 function validateTokens() {
-  for (const file of [EVIDENCE, SUMMARY]) {
+  for (const file of [DECISION_DOC, MATRIX_DOC]) {
     const text = read(file);
-    for (const token of phase22gTokens) {
-      if (!text.includes(token)) fail(`${file} missing required Phase 22G token: ${token}`);
-    }
+    if (!text.includes(decisionToken)) fail(`${file} missing required decision token`);
     for (const token of priorEvidenceTokens) {
       if (!text.includes(token)) fail(`${file} missing prior evidence token: ${token}`);
     }
@@ -195,18 +210,30 @@ function validateTokens() {
 }
 
 function validateInterpretation() {
-  const docs = combinedDocs();
-  const lower = normalize(docs).toLowerCase();
+  const lower = normalize(combinedDocs()).toLowerCase();
   for (const term of requiredInterpretationTerms) {
     if (!lower.includes(term.toLowerCase())) fail(`Docs missing interpretation term: ${term}`);
   }
 }
 
 function validateRemainingGaps() {
-  for (const file of [EVIDENCE, SUMMARY]) {
+  for (const file of [DECISION_DOC, MATRIX_DOC]) {
     const text = read(file).toLowerCase();
     for (const gap of remainingGaps) {
       if (!text.includes(gap.toLowerCase())) fail(`${file} missing remaining gap: ${gap}`);
+    }
+  }
+  if (!normalize(read(DECISION_DOC)).includes(`These remaining gaps prevent \`BETA_READY\`.`)) {
+    fail(`Decision doc must explicitly state that remaining gaps prevent BETA_READY`);
+  }
+}
+
+function validateCheckpoint() {
+  for (const file of [DECISION_DOC, MATRIX_DOC]) {
+    const text = read(file);
+    if (!text.includes(checkpointStatement)) fail(`${file} missing post-22H stop statement`);
+    for (const topic of checkpointTopics) {
+      if (!text.includes(topic)) fail(`${file} missing Pre-23 checkpoint topic: ${topic}`);
     }
   }
 }
@@ -217,8 +244,8 @@ function validateForbiddenClaims() {
     const needle = claim.toLowerCase();
     let index = combined.indexOf(needle);
     while (index !== -1) {
-      const context = combined.slice(Math.max(0, index - 260), index + needle.length + 260);
-      const guarded = /must not|does not|do not|not claim|not claimed|remaining gaps|guardrails|absent|absence|without|no runtime/.test(context);
+      const context = combined.slice(Math.max(0, index - 300), index + needle.length + 300);
+      const guarded = /must not|does not|do not|not claim|not claimed|remaining gaps|guardrails|absent|absence|without|no runtime|prevent|prevents|not broad|not full|not local-first|no sync|no full/.test(context);
       if (!guarded) fail(`Forbidden positive claim appears outside guarded context: ${claim}`);
       index = combined.indexOf(needle, index + 1);
     }
@@ -241,7 +268,6 @@ function validateChangedScope() {
 function validateHistoricalForwardCompat() {
   const changedValidators = changedFiles().filter(file => file.startsWith(`scripts/validate-`) && file.endsWith(`.js`) && file !== VALIDATOR);
   for (const file of changedValidators) {
-    if (file === `scripts/validate-phase22g-filled-evidence-update.js`) continue;
     const diff = runGit(`git diff --unified=0 origin/main -- ${file}`);
     const removedLines = diff.split(/\r?\n/)
       .filter(line => line.startsWith(`-`) && !line.startsWith(`---`))
@@ -258,12 +284,12 @@ function validateHistoricalForwardCompat() {
         removed.replace(/,\]\.includes\(file\)\) continue;$/, `,`) === added
       ));
       if (commaOnly) continue;
-      if (![...phase22gForwardCompatPaths].some(path => line.includes(path))) {
-        fail(`${file} has non-Phase-22G forward-compat addition: ${line}`);
+      if (![...phase22hForwardCompatPaths].some(path => line.includes(path))) {
+        fail(`${file} has non-Phase-22H forward-compat addition: ${line}`);
       }
-      for (const path of phase22gForwardCompatPaths) {
+      for (const path of phase22hForwardCompatPaths) {
         if (line.includes(path) && !line.includes(`\`${path}\``) && !line.includes(`'${path}'`) && !line.includes(`"${path}"`)) {
-          fail(`${file} must add exact Phase 22G path only: ${line}`);
+          fail(`${file} must add exact Phase 22H path only: ${line}`);
         }
       }
     }
@@ -282,16 +308,17 @@ function validateGeneratedArtifactsAbsent() {
   }
 }
 
-for (const file of phase22gPaths) read(file);
-requireHeadings(EVIDENCE, testingHeadings);
-requireHeadings(SUMMARY, summaryHeadings);
+for (const file of phase22hPaths) read(file);
+requireHeadings(DECISION_DOC, decisionHeadings);
+requireHeadings(MATRIX_DOC, matrixHeadings);
 validateWorkflow();
 validateTokens();
 validateInterpretation();
 validateRemainingGaps();
+validateCheckpoint();
 validateForbiddenClaims();
 validateChangedScope();
 validateHistoricalForwardCompat();
 validateGeneratedArtifactsAbsent();
 
-console.log(`Phase 22G filled evidence update validation passed.`);
+console.log(`Phase 22H beta readiness re-decision validation passed.`);

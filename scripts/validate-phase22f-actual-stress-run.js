@@ -17,9 +17,15 @@ const phase22fForwardCompatPaths = new Set(phase22fPaths);
 allowedChanged.add(`docs/testing/phase22g-filled-evidence-update.md`);
 allowedChanged.add(`docs/release/phase22g-filled-evidence-summary.md`);
 allowedChanged.add(`scripts/validate-phase22g-filled-evidence-update.js`);
+allowedChanged.add(`docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`);
+allowedChanged.add(`docs/testing/phase22h-beta-readiness-evidence-matrix.md`);
+allowedChanged.add(`scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`);
 phase22fForwardCompatPaths.add(`docs/testing/phase22g-filled-evidence-update.md`);
 phase22fForwardCompatPaths.add(`docs/release/phase22g-filled-evidence-summary.md`);
 phase22fForwardCompatPaths.add(`scripts/validate-phase22g-filled-evidence-update.js`);
+phase22fForwardCompatPaths.add(`docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`);
+phase22fForwardCompatPaths.add(`docs/testing/phase22h-beta-readiness-evidence-matrix.md`);
+phase22fForwardCompatPaths.add(`scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`);
 
 const evidenceHeadings = [
   `# Phase 22F — Actual Stress Run With Larger Import / Quota / Backup Rehearsal`,

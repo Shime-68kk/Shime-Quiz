@@ -169,12 +169,18 @@ allowedChanged.add(`scripts/validate-phase22f-actual-stress-run.js`);
 allowedChanged.add(`docs/testing/phase22g-filled-evidence-update.md`);
 allowedChanged.add(`docs/release/phase22g-filled-evidence-summary.md`);
 allowedChanged.add(`scripts/validate-phase22g-filled-evidence-update.js`);
+allowedChanged.add(`docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`);
+allowedChanged.add(`docs/testing/phase22h-beta-readiness-evidence-matrix.md`);
+allowedChanged.add(`scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`);
 phase22dForwardCompatPaths.add(`docs/testing/phase22f-actual-stress-run.md`);
 phase22dForwardCompatPaths.add(`docs/release/phase22f-actual-stress-summary.md`);
 phase22dForwardCompatPaths.add(`scripts/validate-phase22f-actual-stress-run.js`);
 phase22dForwardCompatPaths.add(`docs/testing/phase22g-filled-evidence-update.md`);
 phase22dForwardCompatPaths.add(`docs/release/phase22g-filled-evidence-summary.md`);
 phase22dForwardCompatPaths.add(`scripts/validate-phase22g-filled-evidence-update.js`);
+phase22dForwardCompatPaths.add(`docs/release/phase22h-beta-readiness-redecision-broader-evidence.md`);
+phase22dForwardCompatPaths.add(`docs/testing/phase22h-beta-readiness-evidence-matrix.md`);
+phase22dForwardCompatPaths.add(`scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`);
 function fail(message) {
   console.error(`Phase 22D validation failed: ${message}`);
   process.exit(1);
