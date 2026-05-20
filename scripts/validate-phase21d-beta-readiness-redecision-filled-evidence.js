@@ -34,6 +34,9 @@ const phase21dForwardCompatEntries = [
   `docs/research/phase24a-residual-direct-storage-audit.md`,
   `docs/release/phase24a-residual-direct-storage-audit-summary.md`,
   `scripts/validate-phase24a-residual-direct-storage-audit.js`,
+  `docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`,
+  `docs/release/phase24b-storage-adapter-boundary-summary.md`,
+  `scripts/validate-phase24b-storage-adapter-boundary-decision.js`,
   ADR_FILE,
   EVIDENCE_SUMMARY_FILE,
   VALIDATOR_SCRIPT,
@@ -291,6 +294,9 @@ allowedChangedFiles.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
 allowedChangedFiles.add(`docs/research/phase24a-residual-direct-storage-audit.md`);
 allowedChangedFiles.add(`docs/release/phase24a-residual-direct-storage-audit-summary.md`);
 allowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-storage-audit.js`);
+allowedChangedFiles.add(`docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`);
+allowedChangedFiles.add(`docs/release/phase24b-storage-adapter-boundary-summary.md`);
+allowedChangedFiles.add(`scripts/validate-phase24b-storage-adapter-boundary-decision.js`);
 
 function fail(message) {
   console.error(`Phase 21D validation failed: ${message}`);

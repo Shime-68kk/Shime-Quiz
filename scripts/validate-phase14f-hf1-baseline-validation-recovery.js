@@ -313,6 +313,9 @@ hf1AllowedChangedFiles.add(`scripts/validate-phase23f-phase23-decision-gate.js`)
 hf1AllowedChangedFiles.add(`docs/research/phase24a-residual-direct-storage-audit.md`);
 hf1AllowedChangedFiles.add(`docs/release/phase24a-residual-direct-storage-audit-summary.md`);
 hf1AllowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-storage-audit.js`);
+hf1AllowedChangedFiles.add(`docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`);
+hf1AllowedChangedFiles.add(`docs/release/phase24b-storage-adapter-boundary-summary.md`);
+hf1AllowedChangedFiles.add(`scripts/validate-phase24b-storage-adapter-boundary-decision.js`);
 hf1AllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 hf1AllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 hf1AllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);

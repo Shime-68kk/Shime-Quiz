@@ -48,6 +48,9 @@ const phase20dForwardCompatEntries = [
   `docs/research/phase24a-residual-direct-storage-audit.md`,
   `docs/release/phase24a-residual-direct-storage-audit-summary.md`,
   `scripts/validate-phase24a-residual-direct-storage-audit.js`,
+  `docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`,
+  `docs/release/phase24b-storage-adapter-boundary-summary.md`,
+  `scripts/validate-phase24b-storage-adapter-boundary-decision.js`,
   `docs/adr/phase20d-hold-decision-beta-ai-naming-cleanup.md`,
   `docs/release/phase20d-beta-hold-evidence.md`,
   `scripts/validate-phase20d-hold-decision-beta-ai-naming-cleanup.js`,
@@ -119,6 +122,9 @@ const previousForwardCompatEntries = [
   `docs/research/phase24a-residual-direct-storage-audit.md`,
   `docs/release/phase24a-residual-direct-storage-audit-summary.md`,
   `scripts/validate-phase24a-residual-direct-storage-audit.js`,
+  `docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`,
+  `docs/release/phase24b-storage-adapter-boundary-summary.md`,
+  `scripts/validate-phase24b-storage-adapter-boundary-decision.js`,
   // Phase 18C/18D/18E baseline
   `docs/phase18c-manual-migration-ux-plan.md`,
   `docs/phase18d-internal-test-only-local-migration-pilot.md`,
@@ -234,6 +240,9 @@ phase20dAllowedChangedFiles.add(`scripts/validate-phase23f-phase23-decision-gate
 phase20dAllowedChangedFiles.add(`docs/research/phase24a-residual-direct-storage-audit.md`);
 phase20dAllowedChangedFiles.add(`docs/release/phase24a-residual-direct-storage-audit-summary.md`);
 phase20dAllowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-storage-audit.js`);
+phase20dAllowedChangedFiles.add(`docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`);
+phase20dAllowedChangedFiles.add(`docs/release/phase24b-storage-adapter-boundary-summary.md`);
+phase20dAllowedChangedFiles.add(`scripts/validate-phase24b-storage-adapter-boundary-decision.js`);
 phase20dAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase20dAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase20dAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);

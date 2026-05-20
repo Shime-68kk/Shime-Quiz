@@ -13,10 +13,11 @@ const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 
 const phase23fPaths = [DECISION_DOC, MATRIX_DOC, VALIDATOR];
 const phase24aForwardCompatPaths = [`docs/research/phase24a-residual-direct-storage-audit.md`, `docs/release/phase24a-residual-direct-storage-audit-summary.md`, `scripts/validate-phase24a-residual-direct-storage-audit.js`];
+const phase24bForwardCompatPaths = [`docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`, `docs/release/phase24b-storage-adapter-boundary-summary.md`, `scripts/validate-phase24b-storage-adapter-boundary-decision.js`];
 const allowedChanged = new Set([
   WORKFLOW,
   ...phase23fPaths,
-  ...phase24aForwardCompatPaths,
+  ...phase24aForwardCompatPaths, ...phase24bForwardCompatPaths,
   `scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`,
   `scripts/validate-phase23a-local-data-survival-research.js`,
   `scripts/validate-phase23b-data-survival-ux-copy.js`,
@@ -288,6 +289,8 @@ function validateChangedFiles() {
 function validateHistoricalForwardCompat() {
   const changed = changedFiles().filter(file => file.startsWith(`scripts/validate-`) && file !== VALIDATOR);
   for (const file of changed) {
+    if (file === `scripts/validate-phase24a-residual-direct-storage-audit.js`) continue;
+    if (file === `scripts/validate-phase24b-storage-adapter-boundary-decision.js`) continue;
     const text = read(file);
     for (const phase23fPath of phase23fPaths) {
       if (!text.includes(phase23fPath)) fail(`${file} is missing exact Phase 23F forward-compat path: ${phase23fPath}`);

@@ -820,6 +820,9 @@ allowedChangedFiles.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
 allowedChangedFiles.add(`docs/research/phase24a-residual-direct-storage-audit.md`);
 allowedChangedFiles.add(`docs/release/phase24a-residual-direct-storage-audit-summary.md`);
 allowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-storage-audit.js`);
+allowedChangedFiles.add(`docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`);
+allowedChangedFiles.add(`docs/release/phase24b-storage-adapter-boundary-summary.md`);
+allowedChangedFiles.add(`scripts/validate-phase24b-storage-adapter-boundary-decision.js`);
 
 const generatedArtifacts = ['node_modules', 'dist', 'test-results', 'playwright-report', 'coverage', 'FETCH_HEAD'];
 const forbiddenChangedPrefixes = ['e2e/'];
