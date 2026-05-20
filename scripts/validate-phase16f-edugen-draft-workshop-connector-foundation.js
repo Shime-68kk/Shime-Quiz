@@ -479,7 +479,10 @@ phase16fAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.
 phase16fAllowedChangedFiles.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
 phase16fAllowedChangedFiles.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
 phase16fAllowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
-
+phase16fAllowedChangedFiles.add(`docs/research/phase24d-hf1-validator-forward-compat-maintenance.md`);
+phase16fAllowedChangedFiles.add(`docs/release/phase24d-hf1-validator-forward-compat-summary.md`);
+phase16fAllowedChangedFiles.add(`scripts/register-phase-forward-compat.js`);
+phase16fAllowedChangedFiles.add(`scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`);
 // Hard-forbidden scheduler/storage/backup files. Phase 16F must not touch
 // these even if a future implementation needs to wire up source metadata.
 const forbiddenRuntimeFiles = [

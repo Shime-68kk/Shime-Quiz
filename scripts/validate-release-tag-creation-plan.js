@@ -887,7 +887,10 @@ allowedChanged.add(`scripts/validate-phase24b-storage-adapter-boundary-decision.
 allowedChanged.add(`docs/testing/phase22f-actual-stress-run.md`);
 allowedChanged.add(`docs/release/phase22f-actual-stress-summary.md`);
 allowedChanged.add(`scripts/validate-phase22f-actual-stress-run.js`);
-
+allowedChanged.add(`docs/research/phase24d-hf1-validator-forward-compat-maintenance.md`);
+allowedChanged.add(`docs/release/phase24d-hf1-validator-forward-compat-summary.md`);
+allowedChanged.add(`scripts/register-phase-forward-compat.js`);
+allowedChanged.add(`scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`);
 allowedChanged.add(`docs/testing/phase22g-filled-evidence-update.md`);
 allowedChanged.add(`docs/release/phase22g-filled-evidence-summary.md`);
 allowedChanged.add(`scripts/validate-phase22g-filled-evidence-update.js`);

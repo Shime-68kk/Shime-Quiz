@@ -17,8 +17,10 @@ const phase24bForwardCompatPaths = [`docs/research/phase24b-storage-adapter-cove
 const phase24cForwardCompatPaths = [`src/ui/helpTourStorage.js`, `src/ui/helpTour.js`, `tests/unit/helpTourStorageAdapterScaffold.test.js`, `docs/research/phase24c-help-tour-storage-adapter-scaffold.md`, `docs/release/phase24c-help-tour-storage-adapter-scaffold-summary.md`, `scripts/validate-phase24c-help-tour-storage-adapter-scaffold.js`];
 // Phase 24D forward-compat entries (Backup/Export/Restore Adapter-Awareness Design)
 const phase24dForwardCompatPaths = [`docs/research/phase24d-backup-export-restore-adapter-awareness-design.md`, `docs/release/phase24d-backup-export-restore-adapter-awareness-summary.md`, `scripts/validate-phase24d-backup-export-restore-adapter-awareness-design.js`];
+const phase24dHf1ForwardCompatPaths = [`docs/research/phase24d-hf1-validator-forward-compat-maintenance.md`, `docs/release/phase24d-hf1-validator-forward-compat-summary.md`, `scripts/register-phase-forward-compat.js`, `scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`];
 const allowedChanged = new Set([
   ...phase24dForwardCompatPaths,
+  ...phase24dHf1ForwardCompatPaths,
   WORKFLOW,
   ...phase23fPaths,
   ...phase24aForwardCompatPaths, ...phase24bForwardCompatPaths, ...phase24cForwardCompatPaths,
@@ -279,7 +281,7 @@ function validateForbiddenClaims() {
 function validateChangedFiles() {
   const changed = changedFiles();
   for (const file of changed) {
-    const isHistoricalValidator = file.startsWith(`scripts/validate-`) && file !== VALIDATOR;
+    const isHistoricalValidator = file.startsWith(`scripts/validate-`) && file !== VALIDATOR && file !== `scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`;
     if (!allowedChanged.has(file) && !isHistoricalValidator) fail(`Unexpected changed file: ${file}`);
     if (allowedChanged.has(file)) continue;
     if (forbiddenPrefixes.some(prefix => file.startsWith(prefix))) fail(`Forbidden area changed: ${file}`);
@@ -292,7 +294,7 @@ function validateChangedFiles() {
 }
 
 function validateHistoricalForwardCompat() {
-  const changed = changedFiles().filter(file => file.startsWith(`scripts/validate-`) && file !== VALIDATOR);
+  const changed = changedFiles().filter(file => file.startsWith(`scripts/validate-`) && file !== VALIDATOR && file !== `scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`);
   for (const file of changed) {
     if (file === `scripts/validate-phase24a-residual-direct-storage-audit.js`) continue;
     if (file === `scripts/validate-phase24b-storage-adapter-boundary-decision.js`) continue;
@@ -300,6 +302,8 @@ function validateHistoricalForwardCompat() {
     const text = read(file);
     const isPhase24cForwardCompat = phase24cForwardCompatPaths.some(path => text.includes(path));
     if (isPhase24cForwardCompat) continue;
+    const isPhase24dHf1ForwardCompat = phase24dHf1ForwardCompatPaths.some(path => text.includes(path));
+    if (isPhase24dHf1ForwardCompat) continue;
     for (const phase23fPath of phase23fPaths) {
       if (!text.includes(phase23fPath)) fail(`${file} is missing exact Phase 23F forward-compat path: ${phase23fPath}`);
     }

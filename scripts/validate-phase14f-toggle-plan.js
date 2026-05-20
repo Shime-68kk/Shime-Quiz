@@ -56,7 +56,10 @@ const phase14fAllowedChangedFiles = new Set([
   `docs/research/phase24d-backup-export-restore-adapter-awareness-design.md`,
   `docs/release/phase24d-backup-export-restore-adapter-awareness-summary.md`,
   `scripts/validate-phase24d-backup-export-restore-adapter-awareness-design.js`,
-
+  `docs/research/phase24d-hf1-validator-forward-compat-maintenance.md`,
+  `docs/release/phase24d-hf1-validator-forward-compat-summary.md`,
+  `scripts/register-phase-forward-compat.js`,
+  `scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`,
   DOCS_FILE,
   VALIDATOR_SCRIPT,
   WORKFLOW_FILE,

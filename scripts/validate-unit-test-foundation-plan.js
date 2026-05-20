@@ -784,6 +784,10 @@ function normalize(text){ return String(text).toLowerCase().replace(/[`*_()[\]\/
 function requireIncludes(file, terms){ const text=normalize(read(file)); for(const term of terms){ if(!text.includes(normalize(term))) fail(`${file} must mention: ${term}`); } }
 function requireAny(file,label,patterns){ const text=normalize(read(file)); if(!patterns.some((p)=>text.includes(normalize(p)))) fail(`${file} must mention ${label}; accepted wording: ${patterns.join(' | ')}`); }
 function runGit(command, options={}){ try { return execSync(command,{encoding:'utf8',stdio:['ignore','pipe','pipe'],...options}).trim(); } catch { if(!options.silent) warn(`Git command failed; changed-file scope checking may be limited: ${command}`); return ''; } }
+allowedChangedFiles.add(`docs/research/phase24d-hf1-validator-forward-compat-maintenance.md`);
+allowedChangedFiles.add(`docs/release/phase24d-hf1-validator-forward-compat-summary.md`);
+allowedChangedFiles.add(`scripts/register-phase-forward-compat.js`);
+allowedChangedFiles.add(`scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`);
 function splitLines(output){ return output ? output.split(/\r?\n/).map((line)=>line.trim()).filter(Boolean) : []; }
 function uniqueSorted(files){ return [...new Set(files)].sort((a,b)=>a.localeCompare(b)); }
 function changedFilesFromPullRequestBase(){ const baseRef=process.env.GITHUB_BASE_REF; if(!baseRef) return []; runGit(`git fetch --no-tags --depth=1 origin ${baseRef}`,{silent:true}); const mergeBase=runGit(`git merge-base HEAD origin/${baseRef}`,{silent:true}); if(!mergeBase){ warn(`Could not compute merge base against origin/${baseRef}; falling back to local changed-file detection.`); return []; } return splitLines(runGit(`git diff --name-only ${mergeBase} HEAD`,{silent:true})); }

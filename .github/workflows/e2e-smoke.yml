@@ -580,6 +580,9 @@ jobs:
       - name: Validate Phase 24D Backup Export Restore Adapter-Awareness Design
         run: node scripts/validate-phase24d-backup-export-restore-adapter-awareness-design.js
 
+      - name: Validate Phase 24D-HF1 Validator Forward-Compat Maintenance
+        run: node scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

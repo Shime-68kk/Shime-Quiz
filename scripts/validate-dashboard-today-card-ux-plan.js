@@ -50,7 +50,10 @@ const allowedChangedFiles = new Set([
   `docs/research/phase24d-backup-export-restore-adapter-awareness-design.md`,
   `docs/release/phase24d-backup-export-restore-adapter-awareness-summary.md`,
   `scripts/validate-phase24d-backup-export-restore-adapter-awareness-design.js`,
-
+  `docs/research/phase24d-hf1-validator-forward-compat-maintenance.md`,
+  `docs/release/phase24d-hf1-validator-forward-compat-summary.md`,
+  `scripts/register-phase-forward-compat.js`,
+  `scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`,
   // Phase 17C compatibility: allow only the approved IndexedDB dry-run
   // harness files while preserving older Phase 12D guardrails.
   'docs/phase17c-indexeddb-migration-dry-run-harness.md',

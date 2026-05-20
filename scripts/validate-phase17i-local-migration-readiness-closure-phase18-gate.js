@@ -283,7 +283,10 @@ phase17iAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.
 phase17iAllowedChangedFiles.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
 phase17iAllowedChangedFiles.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
 phase17iAllowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
-
+phase17iAllowedChangedFiles.add(`docs/research/phase24d-hf1-validator-forward-compat-maintenance.md`);
+phase17iAllowedChangedFiles.add(`docs/release/phase24d-hf1-validator-forward-compat-summary.md`);
+phase17iAllowedChangedFiles.add(`scripts/register-phase-forward-compat.js`);
+phase17iAllowedChangedFiles.add(`scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`);
 // Forbidden runtime files that must not exist in Phase 17I.
 const forbiddenRuntimeFiles = [
   'src/storage/EventLog.js',

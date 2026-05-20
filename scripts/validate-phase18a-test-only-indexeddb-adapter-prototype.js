@@ -284,7 +284,10 @@ phase18aAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.
 phase18aAllowedChangedFiles.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
 phase18aAllowedChangedFiles.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
 phase18aAllowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
-
+phase18aAllowedChangedFiles.add(`docs/research/phase24d-hf1-validator-forward-compat-maintenance.md`);
+phase18aAllowedChangedFiles.add(`docs/release/phase24d-hf1-validator-forward-compat-summary.md`);
+phase18aAllowedChangedFiles.add(`scripts/register-phase-forward-compat.js`);
+phase18aAllowedChangedFiles.add(`scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`);
 // Forbidden runtime files that must not exist in Phase 18A.
 const forbiddenRuntimeFiles = [
   'src/storage/IndexedDBAdapter.js',
