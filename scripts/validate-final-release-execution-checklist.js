@@ -858,6 +858,13 @@ allowedChanged.add(`scripts/validate-phase24a-residual-direct-storage-audit.js`)
 allowedChanged.add(`docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`);
 allowedChanged.add(`docs/release/phase24b-storage-adapter-boundary-summary.md`);
 allowedChanged.add(`scripts/validate-phase24b-storage-adapter-boundary-decision.js`);
+// Phase 24C forward-compat entries (Help Tour StorageAdapter scaffold)
+allowedChanged.add(`src/ui/helpTourStorage.js`);
+allowedChanged.add(`src/ui/helpTour.js`);
+allowedChanged.add(`tests/unit/helpTourStorageAdapterScaffold.test.js`);
+allowedChanged.add(`docs/research/phase24c-help-tour-storage-adapter-scaffold.md`);
+allowedChanged.add(`docs/release/phase24c-help-tour-storage-adapter-scaffold-summary.md`);
+allowedChanged.add(`scripts/validate-phase24c-help-tour-storage-adapter-scaffold.js`);
 allowedChanged.add(`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`);
 allowedChanged.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
 allowedChanged.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);

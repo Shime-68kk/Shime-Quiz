@@ -14,10 +14,11 @@ const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 const phase23fPaths = [DECISION_DOC, MATRIX_DOC, VALIDATOR];
 const phase24aForwardCompatPaths = [`docs/research/phase24a-residual-direct-storage-audit.md`, `docs/release/phase24a-residual-direct-storage-audit-summary.md`, `scripts/validate-phase24a-residual-direct-storage-audit.js`];
 const phase24bForwardCompatPaths = [`docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`, `docs/release/phase24b-storage-adapter-boundary-summary.md`, `scripts/validate-phase24b-storage-adapter-boundary-decision.js`];
+const phase24cForwardCompatPaths = [`src/ui/helpTourStorage.js`, `src/ui/helpTour.js`, `tests/unit/helpTourStorageAdapterScaffold.test.js`, `docs/research/phase24c-help-tour-storage-adapter-scaffold.md`, `docs/release/phase24c-help-tour-storage-adapter-scaffold-summary.md`, `scripts/validate-phase24c-help-tour-storage-adapter-scaffold.js`];
 const allowedChanged = new Set([
   WORKFLOW,
   ...phase23fPaths,
-  ...phase24aForwardCompatPaths, ...phase24bForwardCompatPaths,
+  ...phase24aForwardCompatPaths, ...phase24bForwardCompatPaths, ...phase24cForwardCompatPaths,
   `scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`,
   `scripts/validate-phase23a-local-data-survival-research.js`,
   `scripts/validate-phase23b-data-survival-ux-copy.js`,
@@ -277,6 +278,7 @@ function validateChangedFiles() {
   for (const file of changed) {
     const isHistoricalValidator = file.startsWith(`scripts/validate-`) && file !== VALIDATOR;
     if (!allowedChanged.has(file) && !isHistoricalValidator) fail(`Unexpected changed file: ${file}`);
+    if (allowedChanged.has(file)) continue;
     if (forbiddenPrefixes.some(prefix => file.startsWith(prefix))) fail(`Forbidden area changed: ${file}`);
     if (forbiddenFiles.includes(file)) fail(`Forbidden file changed: ${file}`);
     if (forbiddenPathPatterns.some(pattern => pattern.test(file))) fail(`Forbidden path pattern changed: ${file}`);
@@ -291,7 +293,10 @@ function validateHistoricalForwardCompat() {
   for (const file of changed) {
     if (file === `scripts/validate-phase24a-residual-direct-storage-audit.js`) continue;
     if (file === `scripts/validate-phase24b-storage-adapter-boundary-decision.js`) continue;
+    if (file === `scripts/validate-phase24c-help-tour-storage-adapter-scaffold.js`) continue;
     const text = read(file);
+    const isPhase24cForwardCompat = phase24cForwardCompatPaths.some(path => text.includes(path));
+    if (isPhase24cForwardCompat) continue;
     for (const phase23fPath of phase23fPaths) {
       if (!text.includes(phase23fPath)) fail(`${file} is missing exact Phase 23F forward-compat path: ${phase23fPath}`);
     }

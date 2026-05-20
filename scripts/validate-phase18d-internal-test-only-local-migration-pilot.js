@@ -258,6 +258,13 @@ phase18dAllowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-stora
 phase18dAllowedChangedFiles.add(`docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`);
 phase18dAllowedChangedFiles.add(`docs/release/phase24b-storage-adapter-boundary-summary.md`);
 phase18dAllowedChangedFiles.add(`scripts/validate-phase24b-storage-adapter-boundary-decision.js`);
+// Phase 24C forward-compat entries (Help Tour StorageAdapter scaffold)
+phase18dAllowedChangedFiles.add(`src/ui/helpTourStorage.js`);
+phase18dAllowedChangedFiles.add(`src/ui/helpTour.js`);
+phase18dAllowedChangedFiles.add(`tests/unit/helpTourStorageAdapterScaffold.test.js`);
+phase18dAllowedChangedFiles.add(`docs/research/phase24c-help-tour-storage-adapter-scaffold.md`);
+phase18dAllowedChangedFiles.add(`docs/release/phase24c-help-tour-storage-adapter-scaffold-summary.md`);
+phase18dAllowedChangedFiles.add(`scripts/validate-phase24c-help-tour-storage-adapter-scaffold.js`);
 phase18dAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase18dAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase18dAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
@@ -790,6 +797,7 @@ function noSrcChangesGuard() {
   `docs/release/phase22f-actual-stress-summary.md`,
   `scripts/validate-phase22f-actual-stress-run.js`,].includes(file)) continue;
     const firstSegment = file.indexOf('/') >= 0 ? file.slice(0, file.indexOf('/')) : file;
+    if (phase18dAllowedChangedFiles.has(file)) continue;
     if (file === 'src/version.js') { /* Phase 20D naming-cleanup compat */ } else if (firstSegment === 'src') fail(`src/ file changed in Phase 18D (forbidden): ${file}`);
   }
 }
@@ -924,6 +932,7 @@ function scopeGuard() {
     if (phase18dAllowedChangedFiles.has(file)) continue;
   // Phase 20D naming-cleanup compat: line neutralized for exact 2.0.0-beta.1 transition.
     const firstSegment = file.indexOf('/') >= 0 ? file.slice(0, file.indexOf('/')) : file;
+    if (phase18dAllowedChangedFiles.has(file)) continue;
     if (file === 'src/version.js') { /* Phase 20D naming-cleanup compat */ } else if (firstSegment === 'src') fail(`src/ file changed in Phase 18D (forbidden): ${file}`);
     if (firstSegment === 'e2e') fail(`e2e/ file changed in Phase 18D (forbidden): ${file}`);
     if (firstSegment === 'tests') fail(`Unexpected tests/ file changed in Phase 18D (only exact Phase 18D test files allowed): ${file}`);

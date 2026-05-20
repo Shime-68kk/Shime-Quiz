@@ -1,6 +1,5 @@
 import { $ } from "./dom.js";
-
-const TOUR_KEY = "shime_tour_done";
+import { markHelpTourDone, readHelpTourDone } from "./helpTourStorage.js";
 
 const tourSteps = [
   { el: "#btnLoadJson", text: "Bấm vào đây để nạp file JSON đề thi." },
@@ -47,7 +46,7 @@ export function initHelpTour() {
   function closeWelcome(markDone = false) {
     const welcome = document.getElementById("tourWelcome");
     if (welcome) welcome.style.display = "none";
-    if (markDone) localStorage.setItem(TOUR_KEY, "1");
+    if (markDone) markHelpTourDone();
     restoreFocus(focusBeforeWelcome);
     focusBeforeWelcome = null;
   }
@@ -96,7 +95,7 @@ export function initHelpTour() {
 
   function endTour() {
     cleanupTourUI();
-    localStorage.setItem(TOUR_KEY, "1");
+    markHelpTourDone();
   }
 
   function ensureStepContext(stepElSelector) {
@@ -259,7 +258,7 @@ export function initHelpTour() {
   });
 
   window.addEventListener("DOMContentLoaded", () => {
-    if (!localStorage.getItem(TOUR_KEY)) {
+    if (!readHelpTourDone()) {
       focusBeforeWelcome = document.activeElement instanceof HTMLElement ? document.activeElement : null;
       document.getElementById("tourWelcome").style.display = "flex";
       requestAnimationFrame(() => document.getElementById("tourYes")?.focus({ preventScroll: true }));

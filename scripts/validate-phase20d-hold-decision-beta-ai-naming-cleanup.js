@@ -243,6 +243,13 @@ phase20dAllowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-stora
 phase20dAllowedChangedFiles.add(`docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`);
 phase20dAllowedChangedFiles.add(`docs/release/phase24b-storage-adapter-boundary-summary.md`);
 phase20dAllowedChangedFiles.add(`scripts/validate-phase24b-storage-adapter-boundary-decision.js`);
+// Phase 24C forward-compat entries (Help Tour StorageAdapter scaffold)
+phase20dAllowedChangedFiles.add(`src/ui/helpTourStorage.js`);
+phase20dAllowedChangedFiles.add(`src/ui/helpTour.js`);
+phase20dAllowedChangedFiles.add(`tests/unit/helpTourStorageAdapterScaffold.test.js`);
+phase20dAllowedChangedFiles.add(`docs/research/phase24c-help-tour-storage-adapter-scaffold.md`);
+phase20dAllowedChangedFiles.add(`docs/release/phase24c-help-tour-storage-adapter-scaffold-summary.md`);
+phase20dAllowedChangedFiles.add(`scripts/validate-phase24c-help-tour-storage-adapter-scaffold.js`);
 phase20dAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase20dAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase20dAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
@@ -596,6 +603,7 @@ function noTestsE2eChangesGuard() {
   `docs/testing/phase22f-actual-stress-run.md`,
   `docs/release/phase22f-actual-stress-summary.md`,
   `scripts/validate-phase22f-actual-stress-run.js`,].includes(file)) continue;
+    if (phase20dAllowedChangedFiles.has(file)) continue;
     if (firstSegment(file) === `tests`) fail(`tests/ file changed in Phase 20D (forbidden): ${file}`);
     if (firstSegment(file) === `e2e`) fail(`e2e/ file changed in Phase 20D (forbidden): ${file}`);
   }
@@ -634,6 +642,7 @@ function noSrcChangesExceptVersionGuard() {
   `docs/testing/phase22f-actual-stress-run.md`,
   `docs/release/phase22f-actual-stress-summary.md`,
   `scripts/validate-phase22f-actual-stress-run.js`,].includes(file)) continue;
+    if (phase20dAllowedChangedFiles.has(file)) continue;
     if (firstSegment(file) !== `src`) continue;
     if (file === SRC_VERSION_FILE) continue;
     fail(`src/ file changed in Phase 20D outside src/version.js (forbidden): ${file}`);

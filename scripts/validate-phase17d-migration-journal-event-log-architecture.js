@@ -278,6 +278,13 @@ phase17dAllowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-stora
 phase17dAllowedChangedFiles.add(`docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`);
 phase17dAllowedChangedFiles.add(`docs/release/phase24b-storage-adapter-boundary-summary.md`);
 phase17dAllowedChangedFiles.add(`scripts/validate-phase24b-storage-adapter-boundary-decision.js`);
+// Phase 24C forward-compat entries (Help Tour StorageAdapter scaffold)
+phase17dAllowedChangedFiles.add(`src/ui/helpTourStorage.js`);
+phase17dAllowedChangedFiles.add(`src/ui/helpTour.js`);
+phase17dAllowedChangedFiles.add(`tests/unit/helpTourStorageAdapterScaffold.test.js`);
+phase17dAllowedChangedFiles.add(`docs/research/phase24c-help-tour-storage-adapter-scaffold.md`);
+phase17dAllowedChangedFiles.add(`docs/release/phase24c-help-tour-storage-adapter-scaffold-summary.md`);
+phase17dAllowedChangedFiles.add(`scripts/validate-phase24c-help-tour-storage-adapter-scaffold.js`);
 phase17dAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase17dAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase17dAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
@@ -636,6 +643,7 @@ function noSrcChangesGuard() {
   `docs/testing/phase22f-actual-stress-run.md`,
   `docs/release/phase22f-actual-stress-summary.md`,
   `scripts/validate-phase22f-actual-stress-run.js`,].includes(file)) continue;
+    if (phase17dAllowedChangedFiles.has(file)) continue;
     if (file === 'src/version.js') { /* Phase 20D naming-cleanup compat: allow src/version.js */ } else if (file.startsWith('src/')) fail(`src/ file changed in Phase 17D (forbidden): ${file}`);
   }
 }
@@ -760,6 +768,7 @@ function scopeGuard() {
     if (phase17dAllowedChangedFiles.has(file)) continue;
   // Phase 20D naming-cleanup compat: line neutralized for exact 2.0.0-beta.1 transition.
     if (file === 'src/version.js') { /* Phase 20D naming-cleanup compat: allow src/version.js */ } else if (file.startsWith('src/')) fail(`src/ file changed in Phase 17D (forbidden): ${file}`);
+    if (phase17dAllowedChangedFiles.has(file)) continue;
     if (file.startsWith('tests/')) fail(`tests/ file changed in Phase 17D (forbidden): ${file}`);
     if (file.startsWith('e2e/')) fail(`e2e/ file changed in Phase 17D (forbidden): ${file}`);
     // New phase validator scripts are allowed.
