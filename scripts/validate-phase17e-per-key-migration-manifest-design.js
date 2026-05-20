@@ -273,6 +273,9 @@ phase17eAllowedChangedFiles.add(`scripts/validate-phase23f-phase23-decision-gate
 phase17eAllowedChangedFiles.add(`docs/research/phase24a-residual-direct-storage-audit.md`);
 phase17eAllowedChangedFiles.add(`docs/release/phase24a-residual-direct-storage-audit-summary.md`);
 phase17eAllowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-storage-audit.js`);
+phase17eAllowedChangedFiles.add(`docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`);
+phase17eAllowedChangedFiles.add(`docs/release/phase24b-storage-adapter-boundary-summary.md`);
+phase17eAllowedChangedFiles.add(`scripts/validate-phase24b-storage-adapter-boundary-decision.js`);
 phase17eAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase17eAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase17eAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
@@ -429,6 +432,9 @@ const phase17eForwardCompatEntries = [
   `docs/research/phase24a-residual-direct-storage-audit.md`,
   `docs/release/phase24a-residual-direct-storage-audit-summary.md`,
   `scripts/validate-phase24a-residual-direct-storage-audit.js`,
+  `docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`,
+  `docs/release/phase24b-storage-adapter-boundary-summary.md`,
+  `scripts/validate-phase24b-storage-adapter-boundary-decision.js`,
   'docs/phase17e-per-key-migration-manifest-design.md',
   'scripts/validate-phase17e-per-key-migration-manifest-design.js',
   // Phase 17F forward-compat entries (Test-Only Migration Journal Prototype)

@@ -571,6 +571,9 @@ jobs:
       - name: Validate Phase 24A Residual Direct-Storage Audit
         run: node scripts/validate-phase24a-residual-direct-storage-audit.js
 
+      - name: Validate Phase 24B StorageAdapter Boundary Decision
+        run: node scripts/validate-phase24b-storage-adapter-boundary-decision.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

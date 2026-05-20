@@ -45,6 +45,9 @@ const phase14dAllowedChangedFiles = new Set([
   'docs/research/phase24a-residual-direct-storage-audit.md',
   'docs/release/phase24a-residual-direct-storage-audit-summary.md',
   'scripts/validate-phase24a-residual-direct-storage-audit.js',
+  `docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`,
+  `docs/release/phase24b-storage-adapter-boundary-summary.md`,
+  `scripts/validate-phase24b-storage-adapter-boundary-decision.js`,
 
   DOCS_FILE,
   ADAPTER_SOURCE,
