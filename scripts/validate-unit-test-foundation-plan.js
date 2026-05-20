@@ -769,6 +769,10 @@ allowedChangedFiles.add(`tests/unit/helpTourStorageAdapterScaffold.test.js`);
 allowedChangedFiles.add(`docs/research/phase24c-help-tour-storage-adapter-scaffold.md`);
 allowedChangedFiles.add(`docs/release/phase24c-help-tour-storage-adapter-scaffold-summary.md`);
 allowedChangedFiles.add(`scripts/validate-phase24c-help-tour-storage-adapter-scaffold.js`);
+// Phase 24D forward-compat entries (Backup/Export/Restore Adapter-Awareness Design)
+allowedChangedFiles.add(`docs/research/phase24d-backup-export-restore-adapter-awareness-design.md`);
+allowedChangedFiles.add(`docs/release/phase24d-backup-export-restore-adapter-awareness-summary.md`);
+allowedChangedFiles.add(`scripts/validate-phase24d-backup-export-restore-adapter-awareness-design.js`);
 const forbiddenChangedFiles = ['package.json','package-lock.json','vite.config','vite.config.js','vite.config.mjs','playwright.config','playwright.config.js'];
 const forbiddenChangedPrefixes = ['src/','e2e/','tests/','__tests__/'];
 const generatedArtifacts = ['node_modules','dist','test-results','playwright-report','coverage','FETCH_HEAD'];

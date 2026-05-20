@@ -20,7 +20,13 @@ const phase24cForwardCompatPaths = [
   `docs/release/phase24c-help-tour-storage-adapter-scaffold-summary.md`,
   `scripts/validate-phase24c-help-tour-storage-adapter-scaffold.js`,
 ];
-const allowedChanged = new Set([WORKFLOW, ...phase24bPaths, ...phase24cForwardCompatPaths, `scripts/validate-phase24a-residual-direct-storage-audit.js`]);
+// Phase 24D forward-compat entries (Backup/Export/Restore Adapter-Awareness Design)
+const phase24dForwardCompatPaths = [
+  `docs/research/phase24d-backup-export-restore-adapter-awareness-design.md`,
+  `docs/release/phase24d-backup-export-restore-adapter-awareness-summary.md`,
+  `scripts/validate-phase24d-backup-export-restore-adapter-awareness-design.js`,
+];
+const allowedChanged = new Set([WORKFLOW, ...phase24bPaths, ...phase24cForwardCompatPaths, ...phase24dForwardCompatPaths, `scripts/validate-phase24a-residual-direct-storage-audit.js`]);
 
 const validDecisionTokens = [
   `PHASE24B_STORAGE_ADAPTER_BOUNDARY_DECISION: PASS_TO_PHASE24C_LOW_RISK_SCAFFOLD_PLANNING_WITH_RUNTIME_GATES`,
@@ -281,11 +287,12 @@ function validateChangedFiles() {
   const changed = changedFiles();
   for (const file of changed) {
     const isPhase24cForwardCompat = phase24cForwardCompatPaths.includes(file);
+    const isPhase24dForwardCompat = phase24dForwardCompatPaths.includes(file);
     const isHistoricalValidator = file.startsWith(`scripts/validate-`) && file !== VALIDATOR;
     if (!allowedChanged.has(file) && !isHistoricalValidator) fail(`Unexpected changed file: ${file}`);
-    if (!isPhase24cForwardCompat && forbiddenPrefixes.some(prefix => file.startsWith(prefix))) fail(`Forbidden path changed: ${file}`);
-    if (!isPhase24cForwardCompat && forbiddenFiles.includes(file)) fail(`Forbidden file changed: ${file}`);
-    if (!isPhase24cForwardCompat && forbiddenPathPatterns.some(pattern => pattern.test(file)) && !file.startsWith(`scripts/validate-`)) {
+    if (!isPhase24cForwardCompat && !isPhase24dForwardCompat && forbiddenPrefixes.some(prefix => file.startsWith(prefix))) fail(`Forbidden path changed: ${file}`);
+    if (!isPhase24cForwardCompat && !isPhase24dForwardCompat && forbiddenFiles.includes(file)) fail(`Forbidden file changed: ${file}`);
+    if (!isPhase24cForwardCompat && !isPhase24dForwardCompat && forbiddenPathPatterns.some(pattern => pattern.test(file)) && !file.startsWith(`scripts/validate-`)) {
       fail(`Forbidden runtime/storage/sync path changed: ${file}`);
     }
     if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`)) || file.endsWith(`.log`)) {
@@ -300,9 +307,10 @@ function validateHistoricalForwardCompatEntries() {
     const diff = runGit(`git diff -- ${file}`);
     if (!diff) continue;
     const isPhase24cForwardCompat = phase24cForwardCompatPaths.some(path => diff.includes(path));
-    const requiredForwardCompatPaths = isPhase24cForwardCompat ? phase24cForwardCompatPaths : phase24bPaths;
+    const isPhase24dForwardCompat = phase24dForwardCompatPaths.some(path => diff.includes(path));
+    const requiredForwardCompatPaths = isPhase24dForwardCompat ? phase24dForwardCompatPaths : (isPhase24cForwardCompat ? phase24cForwardCompatPaths : phase24bPaths);
     for (const requiredPath of requiredForwardCompatPaths) {
-      if (!diff.includes(requiredPath)) fail(`${file} missing exact ${isPhase24cForwardCompat ? `Phase 24C` : `Phase 24B`} forward-compat path: ${requiredPath}`);
+      if (!diff.includes(requiredPath)) fail(`${file} missing exact ${isPhase24dForwardCompat ? `Phase 24D` : (isPhase24cForwardCompat ? `Phase 24C` : `Phase 24B`)} forward-compat path: ${requiredPath}`);
     }
     for (const line of diff.split(/\r?\n/)) {
       if (!line.startsWith(`+`) || line.startsWith(`+++`)) continue;
@@ -310,11 +318,11 @@ function validateHistoricalForwardCompatEntries() {
       if (line.includes(`if (/^`)) continue;
       if (line.includes(`line.includes(\`/^`)) continue;
       if (line.includes(`line.includes(\`line.includes`)) continue;
-      const isPathEntry = phase24bPaths.some(path => line.includes(path)) || phase24cForwardCompatPaths.some(path => line.includes(path));
-      const isCompatName = line.includes(`phase24bForwardCompatPaths`) || line.includes(`phase24bPaths`) || line.includes(`phase24cForwardCompatPaths`);
-      const isCompatSpread = line.includes(`...phase24bForwardCompatPaths`) || line.includes(`...phase24cForwardCompatPaths`);
-      const isCompatGuard = line.includes(`isPhase24b`) || line.includes(`phase24bPath`) || line.includes(`isPhase24c`) || line.includes(`phase24cPath`) || line.includes(`requiredForwardCompatPaths`) || line.includes(`phase24aPath`) || line.includes(`validate-phase24a-residual-direct-storage-audit.js`) || line.includes(`AllowedChangedFiles.has(file)`) || line.includes(`allowedChangedFiles.has(file)`) || line.includes(`allowedChanged.has(file)`);
-      const isCompatMessage = line.includes(`Phase 24B forward-compat path`) || line.includes(`Phase 24B forward-compat entries`) || line.includes(`Phase 24C forward-compat path`) || line.includes(`Phase 24C forward-compat entries`) || line.includes(`non-forward-compat addition`) || line.includes(`forward-compat`);
+      const isPathEntry = phase24bPaths.some(path => line.includes(path)) || phase24cForwardCompatPaths.some(path => line.includes(path)) || phase24dForwardCompatPaths.some(path => line.includes(path));
+      const isCompatName = line.includes(`phase24bForwardCompatPaths`) || line.includes(`phase24bPaths`) || line.includes(`phase24cForwardCompatPaths`) || line.includes(`phase24dForwardCompatPaths`);
+      const isCompatSpread = line.includes(`...phase24bForwardCompatPaths`) || line.includes(`...phase24cForwardCompatPaths`) || line.includes(`...phase24dForwardCompatPaths`);
+      const isCompatGuard = line.includes(`isPhase24b`) || line.includes(`phase24bPath`) || line.includes(`isPhase24c`) || line.includes(`phase24cPath`) || line.includes(`isPhase24d`) || line.includes(`phase24dPath`) || line.includes(`requiredForwardCompatPaths`) || line.includes(`phase24aPath`) || line.includes(`validate-phase24a-residual-direct-storage-audit.js`) || line.includes(`AllowedChangedFiles.has(file)`) || line.includes(`allowedChangedFiles.has(file)`) || line.includes(`allowedChanged.has(file)`);
+      const isCompatMessage = line.includes(`Phase 24B forward-compat path`) || line.includes(`Phase 24B forward-compat entries`) || line.includes(`Phase 24C forward-compat path`) || line.includes(`Phase 24C forward-compat entries`) || line.includes(`Phase 24D forward-compat path`) || line.includes(`Phase 24D forward-compat entries`) || line.includes(`non-forward-compat addition`) || line.includes(`forward-compat`);
       if (!isPathEntry && !isCompatName && !isCompatSpread && !isCompatGuard && !isCompatMessage) {
         fail(`${file} contains non-forward-compat addition: ${line}`);
       }
