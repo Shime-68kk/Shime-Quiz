@@ -272,6 +272,9 @@ phase17dAllowedChangedFiles.add(`scripts/validate-phase23e-data-survival-compreh
 phase17dAllowedChangedFiles.add(`docs/release/phase23f-phase23-decision-gate.md`);
 phase17dAllowedChangedFiles.add(`docs/research/phase23f-data-survival-decision-matrix.md`);
 phase17dAllowedChangedFiles.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
+phase17dAllowedChangedFiles.add(`docs/research/phase24a-residual-direct-storage-audit.md`);
+phase17dAllowedChangedFiles.add(`docs/release/phase24a-residual-direct-storage-audit-summary.md`);
+phase17dAllowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-storage-audit.js`);
 phase17dAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase17dAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase17dAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
@@ -416,6 +419,9 @@ const coreHistoricalValidators = [
 
 // Phase 17D allowed forward-compat entries that may be added to historical validators.
 const phase17dForwardCompatEntries = [
+  `docs/research/phase24a-residual-direct-storage-audit.md`,
+  `docs/release/phase24a-residual-direct-storage-audit-summary.md`,
+  `scripts/validate-phase24a-residual-direct-storage-audit.js`,
   'docs/phase17d-migration-journal-event-log-architecture.md',
   'scripts/validate-phase17d-migration-journal-event-log-architecture.js',
   // Phase 17E forward-compat entries (Per-Key Migration Manifest Design)

@@ -27,6 +27,11 @@ const PHASE20F_PROTOCOL = `docs/release/phase20f-performance-quota-import-stress
 const PHASE20F_VALIDATOR = `scripts/validate-phase20f-performance-quota-import-stress-results-log.js`;
 
 const phase20gForwardCompatEntries = [
+  `scripts/validate-phase23e-data-survival-comprehension-plan.js`,
+  `scripts/validate-phase23f-phase23-decision-gate.js`,
+  `docs/research/phase24a-residual-direct-storage-audit.md`,
+  `docs/release/phase24a-residual-direct-storage-audit-summary.md`,
+  `scripts/validate-phase24a-residual-direct-storage-audit.js`,
   ADR_FILE,
   SUMMARY_FILE,
   VALIDATOR_SCRIPT,
@@ -246,6 +251,9 @@ phase20gAllowedChangedFiles.add(`scripts/validate-phase23e-data-survival-compreh
 phase20gAllowedChangedFiles.add(`docs/release/phase23f-phase23-decision-gate.md`);
 phase20gAllowedChangedFiles.add(`docs/research/phase23f-data-survival-decision-matrix.md`);
 phase20gAllowedChangedFiles.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
+phase20gAllowedChangedFiles.add(`docs/research/phase24a-residual-direct-storage-audit.md`);
+phase20gAllowedChangedFiles.add(`docs/release/phase24a-residual-direct-storage-audit-summary.md`);
+phase20gAllowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-storage-audit.js`);
 phase20gAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase20gAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase20gAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);

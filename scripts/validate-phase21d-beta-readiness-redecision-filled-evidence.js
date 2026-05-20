@@ -29,6 +29,11 @@ const PHASE20J_SUMMARY = `docs/release/phase20j-final-beta-readiness-evidence-su
 const PHASE20D_ADR = `docs/adr/phase20d-hold-decision-beta-ai-naming-cleanup.md`;
 
 const phase21dForwardCompatEntries = [
+  `scripts/validate-phase23e-data-survival-comprehension-plan.js`,
+  `scripts/validate-phase23f-phase23-decision-gate.js`,
+  `docs/research/phase24a-residual-direct-storage-audit.md`,
+  `docs/release/phase24a-residual-direct-storage-audit-summary.md`,
+  `scripts/validate-phase24a-residual-direct-storage-audit.js`,
   ADR_FILE,
   EVIDENCE_SUMMARY_FILE,
   VALIDATOR_SCRIPT,
@@ -283,6 +288,9 @@ allowedChangedFiles.add(`scripts/validate-phase23e-data-survival-comprehension-p
 allowedChangedFiles.add(`docs/release/phase23f-phase23-decision-gate.md`);
 allowedChangedFiles.add(`docs/research/phase23f-data-survival-decision-matrix.md`);
 allowedChangedFiles.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
+allowedChangedFiles.add(`docs/research/phase24a-residual-direct-storage-audit.md`);
+allowedChangedFiles.add(`docs/release/phase24a-residual-direct-storage-audit-summary.md`);
+allowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-storage-audit.js`);
 
 function fail(message) {
   console.error(`Phase 21D validation failed: ${message}`);

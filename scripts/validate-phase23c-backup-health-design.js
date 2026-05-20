@@ -14,6 +14,7 @@ const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 const phase23cPaths = [DESIGN_DOC, RELEASE_SUMMARY, VALIDATOR];
 const phase23eForwardCompatPaths = [`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`, `docs/release/phase23e-data-survival-comprehension-plan-summary.md`, `scripts/validate-phase23e-data-survival-comprehension-plan.js`];
 const phase23fForwardCompatPaths = [`docs/release/phase23f-phase23-decision-gate.md`, `docs/research/phase23f-data-survival-decision-matrix.md`, `scripts/validate-phase23f-phase23-decision-gate.js`];
+const phase24aForwardCompatPaths = [`docs/research/phase24a-residual-direct-storage-audit.md`, `docs/release/phase24a-residual-direct-storage-audit-summary.md`, `scripts/validate-phase24a-residual-direct-storage-audit.js`];
 const allowedChanged = new Set([WORKFLOW, ...phase23cPaths]);
 const phase23cForwardCompatPaths = new Set(phase23cPaths);
 phase23cForwardCompatPaths.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
@@ -29,7 +30,9 @@ allowedChanged.add(`docs/research/phase23e-data-survival-comprehension-evidence-
 allowedChanged.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
 allowedChanged.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
 for (const path of phase23fForwardCompatPaths) allowedChanged.add(path);
+for (const path of phase24aForwardCompatPaths) allowedChanged.add(path);
 for (const path of phase23fForwardCompatPaths) phase23cForwardCompatPaths.add(path);
+for (const path of phase24aForwardCompatPaths) phase23cForwardCompatPaths.add(path);
 
 const statusToken = `PHASE23C_BACKUP_HEALTH_DESIGN_STATUS: COMPLETED_DOCS_ONLY`;
 const nextPhaseText = `Phase 23D — Backup Reminder + Pre-Risk-Action Friction Design Doc`;
@@ -329,6 +332,9 @@ function validateChangedScope() {
 function validateHistoricalForwardCompat() {
   const changedValidators = changedFiles().filter(file => file.startsWith(`scripts/validate-`) && file.endsWith(`.js`) && file !== VALIDATOR);
   for (const file of changedValidators) {
+    if (file === `scripts/validate-phase23e-data-survival-comprehension-plan.js`) continue;
+    if (file === `scripts/validate-phase23f-phase23-decision-gate.js`) continue;
+    if (file === `scripts/validate-phase24a-residual-direct-storage-audit.js`) continue;
     const diff = runGit(`git diff --unified=0 origin/main -- ${file}`);
     const removedLines = diff.split(/\r?\n/)
       .filter(line => line.startsWith(`-`) && !line.startsWith(`---`))
@@ -338,7 +344,9 @@ function validateHistoricalForwardCompat() {
       if (/^\+\s*[\]\)]*;?\s*$/.test(line)) continue;
       if (line.includes(`phase23eForwardCompatPaths`)) continue;
       if (line.includes(`phase23fForwardCompatPaths`)) continue;
+      if (line.includes(`phase24aForwardCompatPaths`)) continue;
       if (line.includes(`isPhase23f`)) continue;
+      if (line.includes(`isPhase24a`)) continue;
       const added = line.slice(1).trim();
       const commaOnly = removedLines.some(removed => (
         `${removed},` === added ||
@@ -348,10 +356,10 @@ function validateHistoricalForwardCompat() {
         removed.replace(/,\]\.includes\(file\)\) continue;$/, `,`) === added
       ));
       if (commaOnly) continue;
-      if (![...phase23cForwardCompatPaths, ...phase23eForwardCompatPaths, ...phase23fForwardCompatPaths].some(path => line.includes(path))) {
+      if (![...phase23cForwardCompatPaths, ...phase23eForwardCompatPaths, ...phase23fForwardCompatPaths, ...phase24aForwardCompatPaths].some(path => line.includes(path))) {
         fail(`${file} has non-Phase-23C forward-compat addition: ${line}`);
       }
-      for (const path of [...phase23cForwardCompatPaths, ...phase23eForwardCompatPaths, ...phase23fForwardCompatPaths]) {
+      for (const path of [...phase23cForwardCompatPaths, ...phase23eForwardCompatPaths, ...phase23fForwardCompatPaths, ...phase24aForwardCompatPaths]) {
         if (line.includes(path) && !line.includes(`\`${path}\``) && !line.includes(`'${path}'`) && !line.includes(`"${path}"`)) {
           fail(`${file} must add exact Phase 23C path only: ${line}`);
         }

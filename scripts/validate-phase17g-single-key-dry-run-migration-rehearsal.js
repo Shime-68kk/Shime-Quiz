@@ -271,6 +271,9 @@ phase17gAllowedChangedFiles.add(`scripts/validate-phase23e-data-survival-compreh
 phase17gAllowedChangedFiles.add(`docs/release/phase23f-phase23-decision-gate.md`);
 phase17gAllowedChangedFiles.add(`docs/research/phase23f-data-survival-decision-matrix.md`);
 phase17gAllowedChangedFiles.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
+phase17gAllowedChangedFiles.add(`docs/research/phase24a-residual-direct-storage-audit.md`);
+phase17gAllowedChangedFiles.add(`docs/release/phase24a-residual-direct-storage-audit-summary.md`);
+phase17gAllowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-storage-audit.js`);
 phase17gAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase17gAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase17gAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
@@ -442,6 +445,9 @@ const broadPathPatterns = [
 
 // Phase 17G allowed forward-compat entries that may be added to historical validators.
 const phase17gForwardCompatEntries = [
+  `docs/research/phase24a-residual-direct-storage-audit.md`,
+  `docs/release/phase24a-residual-direct-storage-audit-summary.md`,
+  `scripts/validate-phase24a-residual-direct-storage-audit.js`,
   DOCS_FILE,
   VALIDATOR_SCRIPT,
   TEST_HELPER_FILE,

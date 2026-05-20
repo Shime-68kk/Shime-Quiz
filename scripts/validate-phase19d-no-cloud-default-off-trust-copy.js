@@ -30,6 +30,11 @@ const phase19dCoreFiles = [
 ];
 
 const phase19dForwardCompatEntries = [
+  `scripts/validate-phase23e-data-survival-comprehension-plan.js`,
+  `scripts/validate-phase23f-phase23-decision-gate.js`,
+  `docs/research/phase24a-residual-direct-storage-audit.md`,
+  `docs/release/phase24a-residual-direct-storage-audit-summary.md`,
+  `scripts/validate-phase24a-residual-direct-storage-audit.js`,
   `docs/trust/no-cloud-default-off.vi.md`,
   `docs/trust/no-cloud-default-off.md`,
   `docs/adr/phase19d-no-cloud-default-off-trust-copy.md`,
@@ -232,6 +237,11 @@ const phase19dForwardCompatEntries = [
 ];
 
 const previousForwardCompatEntries = [
+  `scripts/validate-phase23e-data-survival-comprehension-plan.js`,
+  `scripts/validate-phase23f-phase23-decision-gate.js`,
+  `docs/research/phase24a-residual-direct-storage-audit.md`,
+  `docs/release/phase24a-residual-direct-storage-audit-summary.md`,
+  `scripts/validate-phase24a-residual-direct-storage-audit.js`,
   `docs/phase18c-manual-migration-ux-plan.md`,
   `docs/phase18d-internal-test-only-local-migration-pilot.md`,
   `docs/phase18e-limited-local-backend-pilot-rollback-gates.md`,
@@ -469,6 +479,9 @@ phase19dAllowedChangedFiles.add(`scripts/validate-phase23e-data-survival-compreh
 phase19dAllowedChangedFiles.add(`docs/release/phase23f-phase23-decision-gate.md`);
 phase19dAllowedChangedFiles.add(`docs/research/phase23f-data-survival-decision-matrix.md`);
 phase19dAllowedChangedFiles.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
+phase19dAllowedChangedFiles.add(`docs/research/phase24a-residual-direct-storage-audit.md`);
+phase19dAllowedChangedFiles.add(`docs/release/phase24a-residual-direct-storage-audit-summary.md`);
+phase19dAllowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-storage-audit.js`);
 phase19dAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase19dAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase19dAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);

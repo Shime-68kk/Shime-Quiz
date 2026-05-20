@@ -13,10 +13,12 @@ const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 
 const phase23ePaths = [PLAN_DOC, RELEASE_SUMMARY, VALIDATOR];
 const phase23fForwardCompatPaths = [`docs/release/phase23f-phase23-decision-gate.md`, `docs/research/phase23f-data-survival-decision-matrix.md`, `scripts/validate-phase23f-phase23-decision-gate.js`];
+const phase24aForwardCompatPaths = [`docs/research/phase24a-residual-direct-storage-audit.md`, `docs/release/phase24a-residual-direct-storage-audit-summary.md`, `scripts/validate-phase24a-residual-direct-storage-audit.js`];
 const allowedChanged = new Set([
   WORKFLOW,
   ...phase23ePaths,
   ...phase23fForwardCompatPaths,
+  ...phase24aForwardCompatPaths,
   `scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`,
   `scripts/validate-phase23a-local-data-survival-research.js`,
   `scripts/validate-phase23b-data-survival-ux-copy.js`,
@@ -343,15 +345,24 @@ function validateHistoricalForwardCompatEntries() {
       if (!line.startsWith(`+`) || line.startsWith(`+++`)) continue;
       const isPhase23ePathEntry = [...phase23ePaths].some(path => line.includes(path));
       const isPhase23fPathEntry = [...phase23fForwardCompatPaths].some(path => line.includes(path));
+      const isPhase24aPathEntry = [...phase24aForwardCompatPaths].some(path => line.includes(path));
       const isPhase23eForwardCompatLogic = line.includes(`phase23eForwardCompatPaths`);
       const isPhase23fForwardCompatLogic = line.includes(`phase23fForwardCompatPaths`);
+      const isPhase24aForwardCompatLogic = line.includes(`phase24aForwardCompatPaths`);
       const isPhase23fGuardLogic = line.includes(`isPhase23f`);
-      if (!isPhase23ePathEntry && !isPhase23fPathEntry && !isPhase23eForwardCompatLogic && !isPhase23fForwardCompatLogic && !isPhase23fGuardLogic) {
+      const isPhase24aGuardLogic = line.includes(`isPhase24a`);
+      if (!isPhase23ePathEntry && !isPhase23fPathEntry && !isPhase24aPathEntry && !isPhase23eForwardCompatLogic && !isPhase23fForwardCompatLogic && !isPhase24aForwardCompatLogic && !isPhase23fGuardLogic && !isPhase24aGuardLogic) {
         fail(`${file} contains non-Phase-23E forward-compat addition: ${line}`);
       }
     }
-    for (const path of phase23ePaths) {
-      if (!diff.includes(path)) fail(`${file} missing Phase 23E forward-compat path: ${path}`);
+    const isPhase24aOnlyForwardCompat = phase24aForwardCompatPaths.some(path => diff.includes(path));
+    if (!isPhase24aOnlyForwardCompat) {
+      for (const path of phase23ePaths) {
+        if (!diff.includes(path)) fail(`${file} missing Phase 23E forward-compat path: ${path}`);
+      }
+    }
+    for (const path of phase24aForwardCompatPaths) {
+      if (!diff.includes(path)) fail(`${file} missing Phase 24A forward-compat path: ${path}`);
     }
   }
 }

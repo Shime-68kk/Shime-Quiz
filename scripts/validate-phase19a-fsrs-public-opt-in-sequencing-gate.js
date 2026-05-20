@@ -21,6 +21,11 @@ const phase19aCoreFiles = [
 
 // Phase 19A forward-compat entries: the only paths historical validators may add.
 const phase19aForwardCompatEntries = [
+  `scripts/validate-phase23e-data-survival-comprehension-plan.js`,
+  `scripts/validate-phase23f-phase23-decision-gate.js`,
+  `docs/research/phase24a-residual-direct-storage-audit.md`,
+  `docs/release/phase24a-residual-direct-storage-audit-summary.md`,
+  `scripts/validate-phase24a-residual-direct-storage-audit.js`,
   `docs/phase19a-fsrs-public-opt-in-sequencing-gate.md`,
   `scripts/validate-phase19a-fsrs-public-opt-in-sequencing-gate.js`,
   // Phase 19B forward-compat entries (Optional Sync Architecture Decision Gate)
@@ -246,6 +251,11 @@ const prePhase19aBaselineFiles = [
 // Previous forward-compat entries that historical validators may already contain
 // from Phase 18C, 18D, and 18E additions.
 const previousForwardCompatEntries = [
+  `scripts/validate-phase23e-data-survival-comprehension-plan.js`,
+  `scripts/validate-phase23f-phase23-decision-gate.js`,
+  `docs/research/phase24a-residual-direct-storage-audit.md`,
+  `docs/release/phase24a-residual-direct-storage-audit-summary.md`,
+  `scripts/validate-phase24a-residual-direct-storage-audit.js`,
   `docs/phase18c-manual-migration-ux-plan.md`,
   `docs/phase18d-internal-test-only-local-migration-pilot.md`,
   `docs/phase18e-limited-local-backend-pilot-rollback-gates.md`,
@@ -474,6 +484,9 @@ phase19aAllowedChangedFiles.add(`scripts/validate-phase23e-data-survival-compreh
 phase19aAllowedChangedFiles.add(`docs/release/phase23f-phase23-decision-gate.md`);
 phase19aAllowedChangedFiles.add(`docs/research/phase23f-data-survival-decision-matrix.md`);
 phase19aAllowedChangedFiles.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
+phase19aAllowedChangedFiles.add(`docs/research/phase24a-residual-direct-storage-audit.md`);
+phase19aAllowedChangedFiles.add(`docs/release/phase24a-residual-direct-storage-audit-summary.md`);
+phase19aAllowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-storage-audit.js`);
 phase19aAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase19aAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase19aAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);

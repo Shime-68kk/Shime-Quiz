@@ -29,6 +29,11 @@ const phase20bCoreFiles = [
 
 // Phase 20B forward-compat entries: the only paths historical validators may add.
 const phase20bForwardCompatEntries = [
+  `scripts/validate-phase23e-data-survival-comprehension-plan.js`,
+  `scripts/validate-phase23f-phase23-decision-gate.js`,
+  `docs/research/phase24a-residual-direct-storage-audit.md`,
+  `docs/release/phase24a-residual-direct-storage-audit-summary.md`,
+  `scripts/validate-phase24a-residual-direct-storage-audit.js`,
   `docs/adr/phase20b-real-user-testing-data-safety-feedback.md`,
   `docs/testing/phase20b-real-user-testing-plan.md`,
   `scripts/validate-phase20b-real-user-testing-data-safety-feedback.js`,
@@ -225,6 +230,11 @@ const phase20bForwardCompatEntries = [
 // Pre-Phase-20B baseline files that may already appear in historical validator
 // forward-compat lists from prior phases. They are NOT additions in Phase 20B.
 const previousForwardCompatEntries = [
+  `scripts/validate-phase23e-data-survival-comprehension-plan.js`,
+  `scripts/validate-phase23f-phase23-decision-gate.js`,
+  `docs/research/phase24a-residual-direct-storage-audit.md`,
+  `docs/release/phase24a-residual-direct-storage-audit-summary.md`,
+  `scripts/validate-phase24a-residual-direct-storage-audit.js`,
   // Phase 18C/18D/18E baseline
   `docs/phase18c-manual-migration-ux-plan.md`,
   `docs/phase18d-internal-test-only-local-migration-pilot.md`,
@@ -454,6 +464,9 @@ phase20bAllowedChangedFiles.add(`scripts/validate-phase23e-data-survival-compreh
 phase20bAllowedChangedFiles.add(`docs/release/phase23f-phase23-decision-gate.md`);
 phase20bAllowedChangedFiles.add(`docs/research/phase23f-data-survival-decision-matrix.md`);
 phase20bAllowedChangedFiles.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
+phase20bAllowedChangedFiles.add(`docs/research/phase24a-residual-direct-storage-audit.md`);
+phase20bAllowedChangedFiles.add(`docs/release/phase24a-residual-direct-storage-audit-summary.md`);
+phase20bAllowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-storage-audit.js`);
 phase20bAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase20bAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase20bAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
