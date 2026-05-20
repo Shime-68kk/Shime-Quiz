@@ -756,6 +756,9 @@ allowedChangedFiles.add(`scripts/validate-phase23e-data-survival-comprehension-p
 allowedChangedFiles.add(`docs/release/phase23f-phase23-decision-gate.md`);
 allowedChangedFiles.add(`docs/research/phase23f-data-survival-decision-matrix.md`);
 allowedChangedFiles.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
+allowedChangedFiles.add(`docs/research/phase24a-residual-direct-storage-audit.md`);
+allowedChangedFiles.add(`docs/release/phase24a-residual-direct-storage-audit-summary.md`);
+allowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-storage-audit.js`);
 const forbiddenChangedFiles = ['package.json','package-lock.json','vite.config','vite.config.js','vite.config.mjs','playwright.config','playwright.config.js'];
 const forbiddenChangedPrefixes = ['src/','e2e/','tests/','__tests__/'];
 const generatedArtifacts = ['node_modules','dist','test-results','playwright-report','coverage','FETCH_HEAD'];

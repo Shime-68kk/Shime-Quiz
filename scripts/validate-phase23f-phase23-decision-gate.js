@@ -12,9 +12,11 @@ const VALIDATOR = `scripts/validate-phase23f-phase23-decision-gate.js`;
 const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 
 const phase23fPaths = [DECISION_DOC, MATRIX_DOC, VALIDATOR];
+const phase24aForwardCompatPaths = [`docs/research/phase24a-residual-direct-storage-audit.md`, `docs/release/phase24a-residual-direct-storage-audit-summary.md`, `scripts/validate-phase24a-residual-direct-storage-audit.js`];
 const allowedChanged = new Set([
   WORKFLOW,
   ...phase23fPaths,
+  ...phase24aForwardCompatPaths,
   `scripts/validate-phase22h-beta-readiness-redecision-broader-evidence.js`,
   `scripts/validate-phase23a-local-data-survival-research.js`,
   `scripts/validate-phase23b-data-survival-ux-copy.js`,
@@ -289,6 +291,9 @@ function validateHistoricalForwardCompat() {
     const text = read(file);
     for (const phase23fPath of phase23fPaths) {
       if (!text.includes(phase23fPath)) fail(`${file} is missing exact Phase 23F forward-compat path: ${phase23fPath}`);
+    }
+    for (const phase24aPath of phase24aForwardCompatPaths) {
+      if (!text.includes(phase24aPath)) fail(`${file} is missing exact Phase 24A forward-compat path: ${phase24aPath}`);
     }
   }
 }

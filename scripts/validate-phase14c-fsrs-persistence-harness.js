@@ -42,6 +42,9 @@ const phase14cAllowedChangedFiles = new Set([
   'docs/release/phase23f-phase23-decision-gate.md',
   'docs/research/phase23f-data-survival-decision-matrix.md',
   'scripts/validate-phase23f-phase23-decision-gate.js',
+  'docs/research/phase24a-residual-direct-storage-audit.md',
+  'docs/release/phase24a-residual-direct-storage-audit-summary.md',
+  'scripts/validate-phase24a-residual-direct-storage-audit.js',
 
   DOCS_FILE,
   TEST_FILE,

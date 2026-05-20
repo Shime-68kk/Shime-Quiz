@@ -525,6 +525,9 @@ phase16bAllowedChangedFiles.add(`scripts/validate-phase23e-data-survival-compreh
 phase16bAllowedChangedFiles.add(`docs/release/phase23f-phase23-decision-gate.md`);
 phase16bAllowedChangedFiles.add(`docs/research/phase23f-data-survival-decision-matrix.md`);
 phase16bAllowedChangedFiles.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
+phase16bAllowedChangedFiles.add(`docs/research/phase24a-residual-direct-storage-audit.md`);
+phase16bAllowedChangedFiles.add(`docs/release/phase24a-residual-direct-storage-audit-summary.md`);
+phase16bAllowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-storage-audit.js`);
 phase16bAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase16bAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase16bAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);

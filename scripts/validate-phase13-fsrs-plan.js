@@ -990,6 +990,9 @@ allowedChangedFiles.add(`scripts/validate-phase23e-data-survival-comprehension-p
 allowedChangedFiles.add(`docs/release/phase23f-phase23-decision-gate.md`);
 allowedChangedFiles.add(`docs/research/phase23f-data-survival-decision-matrix.md`);
 allowedChangedFiles.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
+allowedChangedFiles.add(`docs/research/phase24a-residual-direct-storage-audit.md`);
+allowedChangedFiles.add(`docs/release/phase24a-residual-direct-storage-audit-summary.md`);
+allowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-storage-audit.js`);
   for (const file of changed) {
     if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
     if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) {

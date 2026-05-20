@@ -568,6 +568,9 @@ jobs:
       - name: Validate Phase 23F Phase 23 Decision Gate
         run: node scripts/validate-phase23f-phase23-decision-gate.js
 
+      - name: Validate Phase 24A Residual Direct-Storage Audit
+        run: node scripts/validate-phase24a-residual-direct-storage-audit.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

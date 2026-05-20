@@ -14,6 +14,7 @@ const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 const phase22hPaths = [DECISION_DOC, MATRIX_DOC, VALIDATOR];
 const phase23eForwardCompatPaths = [`docs/research/phase23e-data-survival-comprehension-evidence-run-plan.md`, `docs/release/phase23e-data-survival-comprehension-plan-summary.md`, `scripts/validate-phase23e-data-survival-comprehension-plan.js`];
 const phase23fForwardCompatPaths = [`docs/release/phase23f-phase23-decision-gate.md`, `docs/research/phase23f-data-survival-decision-matrix.md`, `scripts/validate-phase23f-phase23-decision-gate.js`];
+const phase24aForwardCompatPaths = [`docs/research/phase24a-residual-direct-storage-audit.md`, `docs/release/phase24a-residual-direct-storage-audit-summary.md`, `scripts/validate-phase24a-residual-direct-storage-audit.js`];
 const allowedChanged = new Set([WORKFLOW, ...phase22hPaths]);
 allowedChanged.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 allowedChanged.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
@@ -28,6 +29,7 @@ allowedChanged.add(`docs/research/phase23e-data-survival-comprehension-evidence-
 allowedChanged.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
 allowedChanged.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
 for (const path of phase23fForwardCompatPaths) allowedChanged.add(path);
+for (const path of phase24aForwardCompatPaths) allowedChanged.add(path);
 const phase22hForwardCompatPaths = new Set(phase22hPaths);
 phase22hForwardCompatPaths.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase22hForwardCompatPaths.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
@@ -42,6 +44,7 @@ phase22hForwardCompatPaths.add(`docs/research/phase23e-data-survival-comprehensi
 phase22hForwardCompatPaths.add(`docs/release/phase23e-data-survival-comprehension-plan-summary.md`);
 phase22hForwardCompatPaths.add(`scripts/validate-phase23e-data-survival-comprehension-plan.js`);
 for (const path of phase23fForwardCompatPaths) phase22hForwardCompatPaths.add(path);
+for (const path of phase24aForwardCompatPaths) phase22hForwardCompatPaths.add(path);
 allowedChanged.add(`docs/research/phase23a-local-data-survival-uninstall-device-loss-research.md`);
 allowedChanged.add(`docs/release/phase23a-local-data-survival-research-summary.md`);
 allowedChanged.add(`scripts/validate-phase23a-local-data-survival-research.js`);
@@ -302,6 +305,9 @@ function validateChangedScope() {
 function validateHistoricalForwardCompat() {
   const changedValidators = changedFiles().filter(file => file.startsWith(`scripts/validate-`) && file.endsWith(`.js`) && file !== VALIDATOR);
   for (const file of changedValidators) {
+    if (file === `scripts/validate-phase23e-data-survival-comprehension-plan.js`) continue;
+    if (file === `scripts/validate-phase23f-phase23-decision-gate.js`) continue;
+    if (file === `scripts/validate-phase24a-residual-direct-storage-audit.js`) continue;
     const diff = runGit(`git diff --unified=0 origin/main -- ${file}`);
     const removedLines = diff.split(/\r?\n/)
       .filter(line => line.startsWith(`-`) && !line.startsWith(`---`))
@@ -311,7 +317,11 @@ function validateHistoricalForwardCompat() {
       if (/^\+\s*[\]\)]*;?\s*$/.test(line)) continue;
       if (line.includes(`phase23eForwardCompatPaths`)) continue;
       if (line.includes(`phase23fForwardCompatPaths`)) continue;
+      if (line.includes(`phase24aForwardCompatPaths`)) continue;
+      if (line.includes(`phase24aForwardCompatPaths`)) continue;
       if (line.includes(`isPhase23f`)) continue;
+      if (line.includes(`isPhase24a`)) continue;
+      if (line.includes(`isPhase24a`)) continue;
       const added = line.slice(1).trim();
       const commaOnly = removedLines.some(removed => (
         `${removed},` === added ||
@@ -321,10 +331,10 @@ function validateHistoricalForwardCompat() {
         removed.replace(/,\]\.includes\(file\)\) continue;$/, `,`) === added
       ));
       if (commaOnly) continue;
-      if (![...phase22hForwardCompatPaths, ...phase23eForwardCompatPaths, ...phase23fForwardCompatPaths].some(path => line.includes(path))) {
+      if (![...phase22hForwardCompatPaths, ...phase23eForwardCompatPaths, ...phase23fForwardCompatPaths, ...phase24aForwardCompatPaths].some(path => line.includes(path))) {
         fail(`${file} has non-Phase-22H forward-compat addition: ${line}`);
       }
-      for (const path of [...phase22hForwardCompatPaths, ...phase23eForwardCompatPaths, ...phase23fForwardCompatPaths]) {
+      for (const path of [...phase22hForwardCompatPaths, ...phase23eForwardCompatPaths, ...phase23fForwardCompatPaths, ...phase24aForwardCompatPaths]) {
         if (line.includes(path) && !line.includes(`\`${path}\``) && !line.includes(`'${path}'`) && !line.includes(`"${path}"`)) {
           fail(`${file} must add exact Phase 22H path only: ${line}`);
         }

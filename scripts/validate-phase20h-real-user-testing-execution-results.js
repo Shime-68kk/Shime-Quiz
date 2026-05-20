@@ -22,6 +22,11 @@ const PHASE20G_SUMMARY = `docs/release/phase20g-beta-readiness-redecision-eviden
 const PHASE20G_VALIDATOR = `scripts/validate-phase20g-beta-readiness-redecision-after-evidence.js`;
 
 const phase20hForwardCompatEntries = [
+  `scripts/validate-phase23e-data-survival-comprehension-plan.js`,
+  `scripts/validate-phase23f-phase23-decision-gate.js`,
+  `docs/research/phase24a-residual-direct-storage-audit.md`,
+  `docs/release/phase24a-residual-direct-storage-audit-summary.md`,
+  `scripts/validate-phase24a-residual-direct-storage-audit.js`,
   RESULTS_FILE,
   SUMMARY_FILE,
   VALIDATOR_SCRIPT,
@@ -253,6 +258,9 @@ phase20hAllowedChangedFiles.add(`scripts/validate-phase23e-data-survival-compreh
 phase20hAllowedChangedFiles.add(`docs/release/phase23f-phase23-decision-gate.md`);
 phase20hAllowedChangedFiles.add(`docs/research/phase23f-data-survival-decision-matrix.md`);
 phase20hAllowedChangedFiles.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
+phase20hAllowedChangedFiles.add(`docs/research/phase24a-residual-direct-storage-audit.md`);
+phase20hAllowedChangedFiles.add(`docs/release/phase24a-residual-direct-storage-audit-summary.md`);
+phase20hAllowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-storage-audit.js`);
 phase20hAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase20hAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase20hAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);

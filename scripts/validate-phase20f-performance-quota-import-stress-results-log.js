@@ -23,6 +23,11 @@ const PHASE20D_VALIDATOR  = `scripts/validate-phase20d-hold-decision-beta-ai-nam
 
 // Phase 20F forward-compat entries: the only paths historical validators may add.
 const phase20fForwardCompatEntries = [
+  `scripts/validate-phase23e-data-survival-comprehension-plan.js`,
+  `scripts/validate-phase23f-phase23-decision-gate.js`,
+  `docs/research/phase24a-residual-direct-storage-audit.md`,
+  `docs/release/phase24a-residual-direct-storage-audit-summary.md`,
+  `scripts/validate-phase24a-residual-direct-storage-audit.js`,
   `docs/testing/phase20f-performance-quota-import-stress-results-log.md`,
   `docs/release/phase20f-performance-quota-import-stress-evidence-protocol.md`,
   `scripts/validate-phase20f-performance-quota-import-stress-results-log.js`,
@@ -63,6 +68,11 @@ const phase20fForwardCompatEntries = [
 
 // Pre-Phase-20F exact entries already present in historical validators.
 const previousForwardCompatEntries = [
+  `scripts/validate-phase23e-data-survival-comprehension-plan.js`,
+  `scripts/validate-phase23f-phase23-decision-gate.js`,
+  `docs/research/phase24a-residual-direct-storage-audit.md`,
+  `docs/release/phase24a-residual-direct-storage-audit-summary.md`,
+  `scripts/validate-phase24a-residual-direct-storage-audit.js`,
   `docs/testing/phase20e-real-user-testing-results-log.md`,
   `docs/release/phase20e-real-user-testing-evidence-protocol.md`,
   `scripts/validate-phase20e-real-user-testing-results-log.js`,
@@ -302,6 +312,9 @@ phase20fAllowedChangedFiles.add(`scripts/validate-phase23e-data-survival-compreh
 phase20fAllowedChangedFiles.add(`docs/release/phase23f-phase23-decision-gate.md`);
 phase20fAllowedChangedFiles.add(`docs/research/phase23f-data-survival-decision-matrix.md`);
 phase20fAllowedChangedFiles.add(`scripts/validate-phase23f-phase23-decision-gate.js`);
+phase20fAllowedChangedFiles.add(`docs/research/phase24a-residual-direct-storage-audit.md`);
+phase20fAllowedChangedFiles.add(`docs/release/phase24a-residual-direct-storage-audit-summary.md`);
+phase20fAllowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-storage-audit.js`);
 phase20fAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase20fAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase20fAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
