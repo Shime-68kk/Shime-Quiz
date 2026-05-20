@@ -574,6 +574,9 @@ jobs:
       - name: Validate Phase 24B StorageAdapter Boundary Decision
         run: node scripts/validate-phase24b-storage-adapter-boundary-decision.js
 
+      - name: Validate Phase 24C Help Tour StorageAdapter Scaffold
+        run: node scripts/validate-phase24c-help-tour-storage-adapter-scaffold.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

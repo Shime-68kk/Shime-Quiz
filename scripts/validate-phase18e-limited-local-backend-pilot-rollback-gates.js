@@ -472,6 +472,13 @@ phase18eAllowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-stora
 phase18eAllowedChangedFiles.add(`docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`);
 phase18eAllowedChangedFiles.add(`docs/release/phase24b-storage-adapter-boundary-summary.md`);
 phase18eAllowedChangedFiles.add(`scripts/validate-phase24b-storage-adapter-boundary-decision.js`);
+// Phase 24C forward-compat entries (Help Tour StorageAdapter scaffold)
+phase18eAllowedChangedFiles.add(`src/ui/helpTourStorage.js`);
+phase18eAllowedChangedFiles.add(`src/ui/helpTour.js`);
+phase18eAllowedChangedFiles.add(`tests/unit/helpTourStorageAdapterScaffold.test.js`);
+phase18eAllowedChangedFiles.add(`docs/research/phase24c-help-tour-storage-adapter-scaffold.md`);
+phase18eAllowedChangedFiles.add(`docs/release/phase24c-help-tour-storage-adapter-scaffold-summary.md`);
+phase18eAllowedChangedFiles.add(`scripts/validate-phase24c-help-tour-storage-adapter-scaffold.js`);
 phase18eAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase18eAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase18eAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
@@ -780,6 +787,7 @@ function noSrcChangesGuard() {
   `docs/testing/phase22f-actual-stress-run.md`,
   `docs/release/phase22f-actual-stress-summary.md`,
   `scripts/validate-phase22f-actual-stress-run.js`,].includes(file)) continue;
+    if (phase18eAllowedChangedFiles.has(file)) continue;
     if (file === 'src/version.js') { /* Phase 20D naming-cleanup compat */ } else if (firstSegment(file) === 'src') fail(`src/ file changed in Phase 18E (forbidden): ${file}`);
   }
 }

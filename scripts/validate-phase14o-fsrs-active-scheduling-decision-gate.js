@@ -643,6 +643,13 @@ phase14oAllowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-stora
 phase14oAllowedChangedFiles.add(`docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`);
 phase14oAllowedChangedFiles.add(`docs/release/phase24b-storage-adapter-boundary-summary.md`);
 phase14oAllowedChangedFiles.add(`scripts/validate-phase24b-storage-adapter-boundary-decision.js`);
+// Phase 24C forward-compat entries (Help Tour StorageAdapter scaffold)
+phase14oAllowedChangedFiles.add(`src/ui/helpTourStorage.js`);
+phase14oAllowedChangedFiles.add(`src/ui/helpTour.js`);
+phase14oAllowedChangedFiles.add(`tests/unit/helpTourStorageAdapterScaffold.test.js`);
+phase14oAllowedChangedFiles.add(`docs/research/phase24c-help-tour-storage-adapter-scaffold.md`);
+phase14oAllowedChangedFiles.add(`docs/release/phase24c-help-tour-storage-adapter-scaffold-summary.md`);
+phase14oAllowedChangedFiles.add(`scripts/validate-phase24c-help-tour-storage-adapter-scaffold.js`);
 phase14oAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase14oAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase14oAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
@@ -1056,6 +1063,9 @@ function noNewSrcFilesGuard() {
   'src/state/recommendationFeedbackStorage.js',
   // Phase 17C exact src files (forward compatibility — IndexedDB dry-run harness)
   'src/storage/indexedDbDryRunHarness.js',
+  // Phase 24C forward-compat entries (Help Tour StorageAdapter scaffold)
+  'src/ui/helpTourStorage.js',
+  'src/ui/helpTour.js',
   ]);
   for (const file of changedFiles()) {
     if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`, `docs/testing/phase21f-first-manual-evidence-run-capture.md`, `docs/release/phase21f-first-manual-evidence-run-summary.md`, `scripts/validate-phase21f-first-manual-evidence-run-capture.js`,

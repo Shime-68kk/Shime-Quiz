@@ -324,6 +324,13 @@ phase16lAllowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-stora
 phase16lAllowedChangedFiles.add(`docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`);
 phase16lAllowedChangedFiles.add(`docs/release/phase24b-storage-adapter-boundary-summary.md`);
 phase16lAllowedChangedFiles.add(`scripts/validate-phase24b-storage-adapter-boundary-decision.js`);
+// Phase 24C forward-compat entries (Help Tour StorageAdapter scaffold)
+phase16lAllowedChangedFiles.add(`src/ui/helpTourStorage.js`);
+phase16lAllowedChangedFiles.add(`src/ui/helpTour.js`);
+phase16lAllowedChangedFiles.add(`tests/unit/helpTourStorageAdapterScaffold.test.js`);
+phase16lAllowedChangedFiles.add(`docs/research/phase24c-help-tour-storage-adapter-scaffold.md`);
+phase16lAllowedChangedFiles.add(`docs/release/phase24c-help-tour-storage-adapter-scaffold-summary.md`);
+phase16lAllowedChangedFiles.add(`scripts/validate-phase24c-help-tour-storage-adapter-scaffold.js`);
 phase16lAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase16lAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase16lAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
@@ -631,8 +638,10 @@ function scopeGuard() {
     if (phase16lAllowedChangedFiles.has(file)) continue;
   // Phase 20D naming-cleanup compat: line neutralized for exact 2.0.0-beta.1 transition.
   // Phase 20D naming-cleanup compat: line neutralized for exact 2.0.0-beta.1 transition.
+    if (phase16lAllowedChangedFiles.has(file)) continue;
     if (file === 'src/version.js') { /* Phase 20D naming-cleanup compat: allow src/version.js */ } else if (file.startsWith('src/')) fail(`src/ file changed in Phase 16L (forbidden): ${file}`);
     if (file.startsWith('e2e/')) fail(`e2e/ file changed in Phase 16L (forbidden): ${file}`);
+    if (phase16lAllowedChangedFiles.has(file)) continue;
     if (file.startsWith('tests/')) fail(`tests/ file changed in Phase 16L (forbidden): ${file}`);
     // Historical validator updates and new phase validator scripts are allowed.
     if (file.startsWith('scripts/validate-') && file.endsWith('.js')) continue;

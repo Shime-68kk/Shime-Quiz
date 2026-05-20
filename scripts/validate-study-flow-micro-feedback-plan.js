@@ -763,6 +763,13 @@ allowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-storage-audit
 allowedChangedFiles.add(`docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`);
 allowedChangedFiles.add(`docs/release/phase24b-storage-adapter-boundary-summary.md`);
 allowedChangedFiles.add(`scripts/validate-phase24b-storage-adapter-boundary-decision.js`);
+// Phase 24C forward-compat entries (Help Tour StorageAdapter scaffold)
+allowedChangedFiles.add(`src/ui/helpTourStorage.js`);
+allowedChangedFiles.add(`src/ui/helpTour.js`);
+allowedChangedFiles.add(`tests/unit/helpTourStorageAdapterScaffold.test.js`);
+allowedChangedFiles.add(`docs/research/phase24c-help-tour-storage-adapter-scaffold.md`);
+allowedChangedFiles.add(`docs/release/phase24c-help-tour-storage-adapter-scaffold-summary.md`);
+allowedChangedFiles.add(`scripts/validate-phase24c-help-tour-storage-adapter-scaffold.js`);
 
 const forbiddenChangedFiles = [
   'package.json',

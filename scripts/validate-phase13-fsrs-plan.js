@@ -996,6 +996,13 @@ allowedChangedFiles.add(`scripts/validate-phase24a-residual-direct-storage-audit
 allowedChangedFiles.add(`docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`);
 allowedChangedFiles.add(`docs/release/phase24b-storage-adapter-boundary-summary.md`);
 allowedChangedFiles.add(`scripts/validate-phase24b-storage-adapter-boundary-decision.js`);
+// Phase 24C forward-compat entries (Help Tour StorageAdapter scaffold)
+allowedChangedFiles.add(`src/ui/helpTourStorage.js`);
+allowedChangedFiles.add(`src/ui/helpTour.js`);
+allowedChangedFiles.add(`tests/unit/helpTourStorageAdapterScaffold.test.js`);
+allowedChangedFiles.add(`docs/research/phase24c-help-tour-storage-adapter-scaffold.md`);
+allowedChangedFiles.add(`docs/release/phase24c-help-tour-storage-adapter-scaffold-summary.md`);
+allowedChangedFiles.add(`scripts/validate-phase24c-help-tour-storage-adapter-scaffold.js`);
   for (const file of changed) {
     if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`].includes(file)) continue;
     if (generatedArtifacts.some(artifact => file === artifact || file.startsWith(`${artifact}/`))) {

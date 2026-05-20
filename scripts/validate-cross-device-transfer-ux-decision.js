@@ -36,6 +36,13 @@ const allowedChanged = new Set([
   `docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`,
   `docs/release/phase24b-storage-adapter-boundary-summary.md`,
   `scripts/validate-phase24b-storage-adapter-boundary-decision.js`,
+  // Phase 24C forward-compat entries (Help Tour StorageAdapter scaffold)
+  `src/ui/helpTourStorage.js`,
+  `src/ui/helpTour.js`,
+  `tests/unit/helpTourStorageAdapterScaffold.test.js`,
+  `docs/research/phase24c-help-tour-storage-adapter-scaffold.md`,
+  `docs/release/phase24c-help-tour-storage-adapter-scaffold-summary.md`,
+  `scripts/validate-phase24c-help-tour-storage-adapter-scaffold.js`,
 
   // Phase 17C compatibility: allow only the approved IndexedDB dry-run
   // harness files while preserving older Phase 11A guardrails.
