@@ -274,6 +274,10 @@ phase20hAllowedChangedFiles.add(`tests/unit/helpTourStorageAdapterScaffold.test.
 phase20hAllowedChangedFiles.add(`docs/research/phase24c-help-tour-storage-adapter-scaffold.md`);
 phase20hAllowedChangedFiles.add(`docs/release/phase24c-help-tour-storage-adapter-scaffold-summary.md`);
 phase20hAllowedChangedFiles.add(`scripts/validate-phase24c-help-tour-storage-adapter-scaffold.js`);
+// Phase 24D forward-compat entries (Backup/Export/Restore Adapter-Awareness Design)
+phase20hAllowedChangedFiles.add(`docs/research/phase24d-backup-export-restore-adapter-awareness-design.md`);
+phase20hAllowedChangedFiles.add(`docs/release/phase24d-backup-export-restore-adapter-awareness-summary.md`);
+phase20hAllowedChangedFiles.add(`scripts/validate-phase24d-backup-export-restore-adapter-awareness-design.js`);
 phase20hAllowedChangedFiles.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase20hAllowedChangedFiles.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 phase20hAllowedChangedFiles.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);

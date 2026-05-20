@@ -888,6 +888,10 @@ allowedChangedFiles.add(`tests/unit/helpTourStorageAdapterScaffold.test.js`);
 allowedChangedFiles.add(`docs/research/phase24c-help-tour-storage-adapter-scaffold.md`);
 allowedChangedFiles.add(`docs/release/phase24c-help-tour-storage-adapter-scaffold-summary.md`);
 allowedChangedFiles.add(`scripts/validate-phase24c-help-tour-storage-adapter-scaffold.js`);
+// Phase 24D forward-compat entries (Backup/Export/Restore Adapter-Awareness Design)
+allowedChangedFiles.add(`docs/research/phase24d-backup-export-restore-adapter-awareness-design.md`);
+allowedChangedFiles.add(`docs/release/phase24d-backup-export-restore-adapter-awareness-summary.md`);
+allowedChangedFiles.add(`scripts/validate-phase24d-backup-export-restore-adapter-awareness-design.js`);
   for (const file of changedFiles()) {
     if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`, `docs/testing/phase21f-first-manual-evidence-run-capture.md`, `docs/release/phase21f-first-manual-evidence-run-summary.md`, `scripts/validate-phase21f-first-manual-evidence-run-capture.js`,
   `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`,

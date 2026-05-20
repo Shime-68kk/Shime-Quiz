@@ -17,7 +17,12 @@ const WORKFLOW = `.github/workflows/e2e-smoke.yml`;
 const statusToken = `PHASE24C_HELP_TOUR_STORAGE_ADAPTER_SCAFFOLD_STATUS: COMPLETED_LOW_RISK_RUNTIME_SCAFFOLD`;
 const phase24bToken = `PHASE24B_STORAGE_ADAPTER_BOUNDARY_DECISION: PASS_TO_PHASE24C_LOW_RISK_SCAFFOLD_PLANNING_WITH_RUNTIME_GATES`;
 const phase24cPaths = [HELPER, HELP_TOUR, TEST, RESEARCH_DOC, RELEASE_SUMMARY, VALIDATOR];
-const allowedChanged = new Set([HELP_TOUR, WORKFLOW, ...phase24cPaths]);
+const phase24dForwardCompatPaths = [
+  `docs/research/phase24d-backup-export-restore-adapter-awareness-design.md`,
+  `docs/release/phase24d-backup-export-restore-adapter-awareness-summary.md`,
+  `scripts/validate-phase24d-backup-export-restore-adapter-awareness-design.js`,
+];
+const allowedChanged = new Set([HELP_TOUR, WORKFLOW, ...phase24cPaths, ...phase24dForwardCompatPaths]);
 
 const researchHeadings = [
   `# Phase 24C — Help Tour StorageAdapter Scaffold`,
@@ -287,8 +292,10 @@ function validateHistoricalForwardCompatEntries() {
   for (const file of historicalFiles) {
     const diff = runGit(`git diff -- ${file}`);
     if (!diff) continue;
-    for (const phase24cPath of phase24cPaths) {
-      if (!diff.includes(phase24cPath)) fail(`${file} missing exact Phase 24C forward-compat path: ${phase24cPath}`);
+    const isPhase24dForwardCompat = phase24dForwardCompatPaths.some(path => diff.includes(path));
+    const requiredForwardCompatPaths = isPhase24dForwardCompat ? phase24dForwardCompatPaths : phase24cPaths;
+    for (const forwardCompatPath of requiredForwardCompatPaths) {
+      if (!diff.includes(forwardCompatPath)) fail(`${file} missing exact ${isPhase24dForwardCompat ? `Phase 24D` : `Phase 24C`} forward-compat path: ${forwardCompatPath}`);
     }
     for (const line of diff.split(/\r?\n/)) {
       if (!line.startsWith(`+`) || line.startsWith(`+++`)) continue;
@@ -296,16 +303,16 @@ function validateHistoricalForwardCompatEntries() {
       if (line.includes(`if (/^`)) continue;
       if (line.includes(`line.includes(\`/^`)) continue;
       if (line.includes(`line.includes(\`line.includes`)) continue;
-      const isPathEntry = phase24cPaths.some(path => line.includes(path));
-      const isCompatName = line.includes(`phase24cForwardCompatPaths`) || line.includes(`phase24cPaths`);
-      const isCompatSpread = line.includes(`...phase24cForwardCompatPaths`);
-      const isCompatGuard = line.includes(`isPhase24c`) || line.includes(`phase24cPath`) || line.includes(`requiredForwardCompatPaths`) || line.includes(`AllowedChangedFiles.has(file)`) || line.includes(`allowedChangedFiles.has(file)`) || line.includes(`allowedChanged.has(file)`);
-      const isCompatMessage = line.includes(`Phase 24C forward-compat path`) || line.includes(`Phase 24C forward-compat entries`) || line.includes(`non-forward-compat addition`) || line.includes(`forward-compat`);
+      const isPathEntry = phase24cPaths.some(path => line.includes(path)) || phase24dForwardCompatPaths.some(path => line.includes(path));
+      const isCompatName = line.includes(`phase24cForwardCompatPaths`) || line.includes(`phase24cPaths`) || line.includes(`phase24dForwardCompatPaths`);
+      const isCompatSpread = line.includes(`...phase24cForwardCompatPaths`) || line.includes(`...phase24dForwardCompatPaths`);
+      const isCompatGuard = line.includes(`isPhase24c`) || line.includes(`phase24cPath`) || line.includes(`isPhase24d`) || line.includes(`phase24dPath`) || line.includes(`requiredForwardCompatPaths`) || line.includes(`AllowedChangedFiles.has(file)`) || line.includes(`allowedChangedFiles.has(file)`) || line.includes(`allowedChanged.has(file)`);
+      const isCompatMessage = line.includes(`Phase 24C forward-compat path`) || line.includes(`Phase 24C forward-compat entries`) || line.includes(`Phase 24D forward-compat path`) || line.includes(`Phase 24D forward-compat entries`) || line.includes(`non-forward-compat addition`) || line.includes(`forward-compat`);
       if (!isPathEntry && !isCompatName && !isCompatSpread && !isCompatGuard && !isCompatMessage) {
-        fail(`${file} contains non-Phase-24C forward-compat addition: ${line}`);
+        fail(`${file} contains non-forward-compat addition: ${line}`);
       }
       if (/src\/ui\/\*\*|tests\/unit\/\*\*|docs\/research\/\*\*|docs\/release\/\*\*/.test(line)) {
-        fail(`${file} contains a folder-wide Phase 24C allowlist entry: ${line}`);
+        fail(`${file} contains a folder-wide forward-compat allowlist entry: ${line}`);
       }
     }
   }

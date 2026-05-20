@@ -15,7 +15,10 @@ const phase23fForwardCompatPaths = [`docs/release/phase23f-phase23-decision-gate
 const phase24aPaths = [AUDIT_DOC, RELEASE_SUMMARY, VALIDATOR];
 const phase24bForwardCompatPaths = [`docs/research/phase24b-storage-adapter-coverage-boundary-decision.md`, `docs/release/phase24b-storage-adapter-boundary-summary.md`, `scripts/validate-phase24b-storage-adapter-boundary-decision.js`];
 const phase24cForwardCompatPaths = [`src/ui/helpTourStorage.js`, `src/ui/helpTour.js`, `tests/unit/helpTourStorageAdapterScaffold.test.js`, `docs/research/phase24c-help-tour-storage-adapter-scaffold.md`, `docs/release/phase24c-help-tour-storage-adapter-scaffold-summary.md`, `scripts/validate-phase24c-help-tour-storage-adapter-scaffold.js`];
+// Phase 24D forward-compat entries (Backup/Export/Restore Adapter-Awareness Design)
+const phase24dForwardCompatPaths = [`docs/research/phase24d-backup-export-restore-adapter-awareness-design.md`, `docs/release/phase24d-backup-export-restore-adapter-awareness-summary.md`, `scripts/validate-phase24d-backup-export-restore-adapter-awareness-design.js`];
 const allowedChanged = new Set([
+  ...phase24dForwardCompatPaths,
   WORKFLOW,
   ...phase24aPaths,
   ...phase24bForwardCompatPaths,
@@ -292,9 +295,10 @@ function validateHistoricalForwardCompatEntries() {
     if (!diff) continue;
     const isPhase24bOnlyForwardCompat = phase24bForwardCompatPaths.some(path => diff.includes(path));
     const isPhase24cOnlyForwardCompat = phase24cForwardCompatPaths.some(path => diff.includes(path));
-    const requiredForwardCompatPaths = isPhase24cOnlyForwardCompat ? phase24cForwardCompatPaths : (isPhase24bOnlyForwardCompat ? phase24bForwardCompatPaths : phase24aPaths);
+    const isPhase24dOnlyForwardCompat = phase24dForwardCompatPaths.some(path => diff.includes(path));
+    const requiredForwardCompatPaths = isPhase24dOnlyForwardCompat ? phase24dForwardCompatPaths : (isPhase24cOnlyForwardCompat ? phase24cForwardCompatPaths : (isPhase24bOnlyForwardCompat ? phase24bForwardCompatPaths : phase24aPaths));
     for (const phase24aPath of requiredForwardCompatPaths) {
-      if (!diff.includes(phase24aPath)) fail(`${file} missing exact ${isPhase24cOnlyForwardCompat ? `Phase 24C` : (isPhase24bOnlyForwardCompat ? `Phase 24B` : `Phase 24A`)} forward-compat path: ${phase24aPath}`);
+      if (!diff.includes(phase24aPath)) fail(`${file} missing exact ${isPhase24dOnlyForwardCompat ? `Phase 24D` : (isPhase24cOnlyForwardCompat ? `Phase 24C` : (isPhase24bOnlyForwardCompat ? `Phase 24B` : `Phase 24A`))} forward-compat path: ${phase24aPath}`);
     }
     for (const line of diff.split(/\r?\n/)) {
       if (!line.startsWith(`+`) || line.startsWith(`+++`)) continue;
@@ -302,11 +306,11 @@ function validateHistoricalForwardCompatEntries() {
       if (line.includes(`if (/^`)) continue;
       if (line.includes(`line.includes(\`if (/^`)) continue;
       if (line.includes(`line.includes(\`line.includes`)) continue;
-      const isPathEntry = phase24aPaths.some(path => line.includes(path)) || phase24bForwardCompatPaths.some(path => line.includes(path)) || phase24cForwardCompatPaths.some(path => line.includes(path));
-      const isCompatName = line.includes(`phase24aForwardCompatPaths`) || line.includes(`phase24aPaths`) || line.includes(`phase24bForwardCompatPaths`) || line.includes(`phase24cForwardCompatPaths`);
-      const isCompatSpread = line.includes(`...phase24aForwardCompatPaths, ...phase24bForwardCompatPaths`) || line.includes(`...phase24bForwardCompatPaths`) || line.includes(`...phase24cForwardCompatPaths`);
-      const isCompatGuard = line.includes(`isPhase24a`) || line.includes(`phase24aPath`) || line.includes(`isPhase24b`) || line.includes(`isPhase24c`) || line.includes(`isRequiredForwardCompatLogic`) || line.includes(`requiredForwardCompatPaths`) || line.includes(`AllowedChangedFiles.has(file)`) || line.includes(`allowedChangedFiles.has(file)`) || line.includes(`allowedChanged.has(file)`);
-      const isCompatMessage = line.includes(`Phase 24A forward-compat path`) || line.includes(`Phase 24A forward-compat entries`) || line.includes(`Phase 24B forward-compat path`) || line.includes(`Phase 24B forward-compat entries`) || line.includes(`Phase 24C forward-compat path`) || line.includes(`Phase 24C forward-compat entries`) || line.includes(`isForwardCompatMessage`) || line.includes(`non-forward-compat addition`) || line.includes(`forward-compat`);
+      const isPathEntry = phase24aPaths.some(path => line.includes(path)) || phase24bForwardCompatPaths.some(path => line.includes(path)) || phase24cForwardCompatPaths.some(path => line.includes(path)) || phase24dForwardCompatPaths.some(path => line.includes(path));
+      const isCompatName = line.includes(`phase24aForwardCompatPaths`) || line.includes(`phase24aPaths`) || line.includes(`phase24bForwardCompatPaths`) || line.includes(`phase24cForwardCompatPaths`) || line.includes(`phase24dForwardCompatPaths`);
+      const isCompatSpread = line.includes(`...phase24aForwardCompatPaths, ...phase24bForwardCompatPaths`) || line.includes(`...phase24bForwardCompatPaths`) || line.includes(`...phase24cForwardCompatPaths`) || line.includes(`...phase24dForwardCompatPaths`);
+      const isCompatGuard = line.includes(`isPhase24a`) || line.includes(`phase24aPath`) || line.includes(`isPhase24b`) || line.includes(`isPhase24c`) || line.includes(`isPhase24d`) || line.includes(`isRequiredForwardCompatLogic`) || line.includes(`requiredForwardCompatPaths`) || line.includes(`AllowedChangedFiles.has(file)`) || line.includes(`allowedChangedFiles.has(file)`) || line.includes(`allowedChanged.has(file)`);
+      const isCompatMessage = line.includes(`Phase 24A forward-compat path`) || line.includes(`Phase 24A forward-compat entries`) || line.includes(`Phase 24B forward-compat path`) || line.includes(`Phase 24B forward-compat entries`) || line.includes(`Phase 24C forward-compat path`) || line.includes(`Phase 24C forward-compat entries`) || line.includes(`Phase 24D forward-compat path`) || line.includes(`Phase 24D forward-compat entries`) || line.includes(`isForwardCompatMessage`) || line.includes(`non-forward-compat addition`) || line.includes(`forward-compat`);
       if (!isPathEntry && !isCompatName && !isCompatSpread && !isCompatGuard && !isCompatMessage) {
         fail(`${file} contains non-forward-compat addition: ${line}`);
       }

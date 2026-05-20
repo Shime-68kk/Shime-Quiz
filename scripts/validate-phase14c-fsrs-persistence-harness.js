@@ -55,6 +55,10 @@ const phase14cAllowedChangedFiles = new Set([
   `docs/research/phase24c-help-tour-storage-adapter-scaffold.md`,
   `docs/release/phase24c-help-tour-storage-adapter-scaffold-summary.md`,
   `scripts/validate-phase24c-help-tour-storage-adapter-scaffold.js`,
+  // Phase 24D forward-compat entries (Backup/Export/Restore Adapter-Awareness Design)
+  `docs/research/phase24d-backup-export-restore-adapter-awareness-design.md`,
+  `docs/release/phase24d-backup-export-restore-adapter-awareness-summary.md`,
+  `scripts/validate-phase24d-backup-export-restore-adapter-awareness-design.js`,
 
   DOCS_FILE,
   TEST_FILE,
