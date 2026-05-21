@@ -52,8 +52,8 @@ jobs:
           test -x node_modules/.bin/vite
           test -x node_modules/.bin/vitest
 
-      - name: Validate Phase 24G-B Manual Smoke Evidence
-        run: node scripts/validate-phase24g-b-manual-smoke-evidence.js
+      - name: Validate Phase 24H Closure Phase 25 Planning Gate
+        run: node scripts/validate-phase24h-phase24-closure-phase25-planning-gate.js
 
       - name: Build app
         run: npm run build
