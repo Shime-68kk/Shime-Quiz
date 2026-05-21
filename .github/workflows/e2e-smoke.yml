@@ -52,8 +52,8 @@ jobs:
           test -x node_modules/.bin/vite
           test -x node_modules/.bin/vitest
 
-      - name: Validate Phase 24H Closure Phase 25 Planning Gate
-        run: node scripts/validate-phase24h-phase24-closure-phase25-planning-gate.js
+      - name: Validate Phase 25A Backup Restore Direction Decision
+        run: node scripts/validate-phase25a-backup-restore-direction-decision.js
 
       - name: Build app
         run: npm run build
@@ -66,6 +66,7 @@ jobs:
 
       # Historical audit references retained for legacy workflow-registration tests.
       # These are intentionally not run by the default e2e-smoke PR gate.
+      # node scripts/validate-phase24h-phase24-closure-phase25-planning-gate.js
       # node scripts/validate-phase24e-adapter-aware-backup-restore-test-only-scaffold.js
       # node scripts/validate-phase15e-controlled-internal-activation-harness.js
       # node scripts/validate-phase15f-studyroom-copy-ux-alignment.js
