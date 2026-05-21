@@ -52,8 +52,8 @@ jobs:
           test -x node_modules/.bin/vite
           test -x node_modules/.bin/vitest
 
-      - name: Validate Phase 24E Adapter-Aware Backup Restore Test-Only Scaffold
-        run: node scripts/validate-phase24e-adapter-aware-backup-restore-test-only-scaffold.js
+      - name: Validate Phase 24F Regression Evidence After Adapter Changes
+        run: node scripts/validate-phase24f-regression-evidence-after-adapter-changes.js
 
       - name: Build app
         run: npm run build
@@ -66,6 +66,7 @@ jobs:
 
       # Historical audit references retained for legacy workflow-registration tests.
       # These are intentionally not run by the default e2e-smoke PR gate.
+      # node scripts/validate-phase24e-adapter-aware-backup-restore-test-only-scaffold.js
       # node scripts/validate-phase15e-controlled-internal-activation-harness.js
       # node scripts/validate-phase15f-studyroom-copy-ux-alignment.js
       # node scripts/validate-phase15h-fsrs-foundation-closure-phase16-readiness.js
