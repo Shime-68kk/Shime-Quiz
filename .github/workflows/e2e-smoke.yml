@@ -52,8 +52,8 @@ jobs:
           test -x node_modules/.bin/vite
           test -x node_modules/.bin/vitest
 
-      - name: Validate Phase 25E Backup Health Copy State Model
-        run: node scripts/validate-phase25e-backup-health-copy-state-model.js
+      - name: Validate Phase 25F Backup Health Runtime Design Gate
+        run: node scripts/validate-phase25f-backup-health-runtime-design-gate.js
 
       - name: Build app
         run: npm run build
