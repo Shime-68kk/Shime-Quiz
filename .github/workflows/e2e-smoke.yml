@@ -75,8 +75,8 @@ jobs:
       # node scripts/validate-phase16g-edugen-draft-review-import-flow.js
       # node scripts/validate-phase16h-edugen-draft-quality-review-source-aware-library.js
 
-      - name: Validate Phase 24D-HF2 CI Validator Strategy Reset
-        run: node scripts/validate-phase24d-hf2-ci-validator-strategy-reset.js
+      - name: Validate Phase 24E Adapter-Aware Backup Restore Test-Only Scaffold
+        run: node scripts/validate-phase24e-adapter-aware-backup-restore-test-only-scaffold.js
 
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
