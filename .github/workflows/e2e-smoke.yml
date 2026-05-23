@@ -120,8 +120,11 @@ jobs:
       # Phase 28B validator retained as historical reference; not run as Phase 28C merge-blocking gate.
       # node scripts/validate-phase28b-test-only-restore-rehearsal-planner.js
 
-      - name: Validate Phase 28C Restore Rehearsal Planner Evidence and Prototype Design
-        run: node scripts/validate-phase28c-restore-rehearsal-planner-evidence-prototype-design.js
+      # Phase 28C validator retained as historical reference; not run as Phase 28D merge-blocking gate.
+      # node scripts/validate-phase28c-restore-rehearsal-planner-evidence-prototype-design.js
+
+      - name: Validate Phase 28D Generated/Test Restore Rehearsal Prototype
+        run: node scripts/validate-phase28d-generated-test-restore-rehearsal-prototype.js
 
       - name: Build app
         run: npm run build
