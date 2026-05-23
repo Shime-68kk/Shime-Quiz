@@ -67,11 +67,14 @@ jobs:
       # Phase 25L validator retained as historical reference; not run as Phase 25M merge-blocking gate.
       # node scripts/validate-phase25l-backup-health-production-ui-design-gate.js
 
-      - name: Fetch origin main for Phase 25M validator
+      # Phase 25M validator retained as historical reference; not run as Phase 25N merge-blocking gate.
+      # node scripts/validate-phase25m-backup-health-limited-default-off-ui-prototype.js
+
+      - name: Fetch origin main for Phase 25N validator
         run: git fetch origin refs/heads/main:refs/remotes/origin/main --prune
 
-      - name: Validate Phase 25M Backup Health Limited Default-Off UI Prototype
-        run: node scripts/validate-phase25m-backup-health-limited-default-off-ui-prototype.js
+      - name: Validate Phase 25N Backup Health Evidence and Phase 25 Closure Gate
+        run: node scripts/validate-phase25n-backup-health-evidence-closure-gate.js
 
       - name: Build app
         run: npm run build
