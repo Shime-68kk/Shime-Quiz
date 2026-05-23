@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -100,11 +102,11 @@ jobs:
       # Phase 27B validator retained as historical reference; not run as Phase 27C merge-blocking gate.
       # node scripts/validate-phase27b-adapter-awareness-evidence-runtime-design.js
 
-      - name: Fetch origin main for Phase 27C validator
-        run: git fetch origin refs/heads/main:refs/remotes/origin/main --prune
+      # Phase 27C validator retained as historical reference; not run as Phase 27D merge-blocking gate.
+      # node scripts/validate-phase27c-test-only-adapter-awareness-model.js
 
-      - name: Validate Phase 27C Test-Only No-Write Adapter-Awareness Model
-        run: node scripts/validate-phase27c-test-only-adapter-awareness-model.js
+      - name: Validate Phase 27D Adapter-Awareness Model Evidence and Integration Design
+        run: node scripts/validate-phase27d-adapter-awareness-model-evidence-integration-design.js
 
       - name: Build app
         run: npm run build
