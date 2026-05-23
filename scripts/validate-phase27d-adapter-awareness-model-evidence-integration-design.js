@@ -87,10 +87,18 @@ ciContent.includes('validate-phase27d-adapter-awareness-model-evidence-integrati
   ? pass('CI registers Phase 27D validator')
   : fail('CI registers Phase 27D validator', 'e2e-smoke.yml does not reference validate-phase27d');
 
-(ciContent.includes('Fetch origin main for Phase 27D validator') ||
-  ciContent.includes('Fetch origin main'))
-  ? pass('CI has explicit fetch step before Phase 27D validator')
-  : fail('CI has explicit fetch step before Phase 27D validator', 'missing fetch step');
+// Accept either: checkout with fetch-depth: 0 (preferred), or an explicit fetch step.
+const hasCheckoutFetchDepth =
+  ciContent.includes('fetch-depth: 0') || ciContent.includes("fetch-depth: '0'");
+const hasExplicitFetchStep =
+  ciContent.includes('Fetch origin main for Phase 27D validator') ||
+  ciContent.includes('Fetch origin main');
+(hasCheckoutFetchDepth || hasExplicitFetchStep)
+  ? pass('CI provides origin/main via checkout fetch-depth: 0 or explicit fetch step')
+  : fail(
+      'CI must provide origin/main via checkout with fetch-depth: 0 or an explicit fetch step',
+      'neither fetch-depth: 0 nor a Fetch origin main step found in e2e-smoke.yml'
+    );
 
 const PRIOR_PHASE_VALIDATOR_SLUGS = [
   'validate-phase24d',
@@ -577,10 +585,10 @@ let diffEmpty = false;
 let onMain = false;
 let originMainAvailable = false;
 
-// The workflow fetch step (before this validator) is the source of truth for origin/main.
 // This validator does NOT run its own git fetch — that would fail in GitHub Actions
-// (HTTPS auth unavailable inside scripts). Instead, verify that origin/main was made
-// available by the workflow fetch step.
+// (HTTPS auth unavailable inside scripts). origin/main is made available by the
+// actions/checkout@v4 step with fetch-depth: 0, which fetches all refs including
+// origin/main before any validator runs. Verify it is present.
 try {
   execSync('git rev-parse --verify origin/main', {
     cwd: ROOT,
@@ -591,8 +599,8 @@ try {
   originMainAvailable = false;
   fail(
     'origin/main available',
-    'git rev-parse --verify origin/main failed — workflow fetch step did not provide origin/main; ' +
-      'ensure the "Fetch origin main for Phase 27D validator" step runs before this validator in e2e-smoke.yml'
+    'git rev-parse --verify origin/main failed — ensure actions/checkout@v4 uses fetch-depth: 0 ' +
+      'or an explicit fetch step precedes this validator in e2e-smoke.yml'
   );
 }
 
