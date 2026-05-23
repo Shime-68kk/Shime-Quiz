@@ -575,20 +575,29 @@ const FORBIDDEN_PRIOR_PHASE_FILE_PREFIXES = [
 let changedFiles = [];
 let diffEmpty = false;
 let onMain = false;
-let fetchError = false;
+let originMainAvailable = false;
 
+// The workflow fetch step (before this validator) is the source of truth for origin/main.
+// This validator does NOT run its own git fetch — that would fail in GitHub Actions
+// (HTTPS auth unavailable inside scripts). Instead, verify that origin/main was made
+// available by the workflow fetch step.
 try {
-  execSync(`git fetch origin refs/heads/main:refs/remotes/origin/main --prune`, {
+  execSync('git rev-parse --verify origin/main', {
     cwd: ROOT,
     stdio: ['pipe', 'pipe', 'pipe'],
   });
+  originMainAvailable = true;
 } catch (e) {
-  fetchError = true;
-  fail('origin/main fetch', `git fetch failed: ${e.message}`);
+  originMainAvailable = false;
+  fail(
+    'origin/main available',
+    'git rev-parse --verify origin/main failed — workflow fetch step did not provide origin/main; ' +
+      'ensure the "Fetch origin main for Phase 27D validator" step runs before this validator in e2e-smoke.yml'
+  );
 }
 
-if (!fetchError) {
-  pass('Validator explicitly fetches origin/main');
+if (originMainAvailable) {
+  pass('origin/main is available (provided by workflow fetch step before this validator)');
 
   try {
     const currentBranch = execSync('git rev-parse --abbrev-ref HEAD', {
