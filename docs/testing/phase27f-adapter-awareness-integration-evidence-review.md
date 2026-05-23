@@ -224,7 +224,7 @@ Phase 27F must not claim:
 - Restore overwrite correctness
 - BETA_READY
 - Local-first hybrid readiness
-- Phase 28A implementation exists
+- That Phase 28A has been implemented or pre-approved
 
 ## Rollback/removal note
 

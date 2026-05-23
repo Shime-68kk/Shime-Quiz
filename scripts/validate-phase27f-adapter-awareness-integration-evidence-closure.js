@@ -664,17 +664,16 @@ if (originMainAvailable) {
         ? pass('No tests/ files changed')
         : fail('tests/ files must not be changed by Phase 27F', testFiles.join(', '));
 
-      // Check no new import of adapterAwarenessIntegrationPrototype in changed files
+      // Check no new JS import statement of adapterAwarenessIntegrationPrototype in changed files
       const changedDocOrScriptFiles = changedFiles.filter(
         f =>
           (f.startsWith('docs/') || f.startsWith('scripts/') || f.startsWith('.github/')) &&
           !f.includes('adapterAwarenessIntegrationPrototype')
       );
+      const JS_IMPORT_PROTOTYPE_RE = /^import\s+.*from\s+['"][^'"]*adapterAwarenessIntegrationPrototype[^'"]*['"]/m;
       for (const f of changedDocOrScriptFiles) {
         const content = readFile(f) || '';
-        const hasPrototypeImport =
-          content.includes(`import.*adapterAwarenessIntegrationPrototype`) ||
-          (content.includes('adapterAwarenessIntegrationPrototype') && content.includes('from'));
+        const hasPrototypeImport = JS_IMPORT_PROTOTYPE_RE.test(content);
         hasPrototypeImport
           ? fail(`New import of adapterAwarenessIntegrationPrototype found in changed file`, f)
           : pass(`No new import of adapterAwarenessIntegrationPrototype in changed file: ${f}`);
