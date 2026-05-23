@@ -111,8 +111,11 @@ jobs:
       # Phase 27E validator retained as historical reference; not run as Phase 27F merge-blocking gate.
       # node scripts/validate-phase27e-thin-read-only-adapter-awareness-integration-prototype.js
 
-      - name: Validate Phase 27F Adapter-Awareness Integration Evidence Review and Closure
-        run: node scripts/validate-phase27f-adapter-awareness-integration-evidence-closure.js
+      # Phase 27F validator retained as historical reference; not run as Phase 28A merge-blocking gate.
+      # node scripts/validate-phase27f-adapter-awareness-integration-evidence-closure.js
+
+      - name: Validate Phase 28A Generated/Test Restore Rehearsal Design Gate
+        run: node scripts/validate-phase28a-generated-test-restore-rehearsal-design.js
 
       - name: Build app
         run: npm run build
