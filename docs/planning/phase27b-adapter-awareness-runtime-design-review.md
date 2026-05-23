@@ -276,20 +276,20 @@ Phase 27C must STOP if:
 - Local-first hybrid readiness.
 - Manual/browser evidence was collected.
 - Runtime adapter-awareness was observed or tested.
-- Phase 27C implementation exists.
+- Phase 27C has been implemented (Phase 27C is a planning seed only).
 
 ## Guardrails
 
-- Docs do not claim BETA_READY.
-- Docs do not claim production adapter-aware backup approved.
-- Docs do not claim backup file format change approved.
-- Docs do not claim restore overwrite behavior change approved.
-- Docs do not claim storage migration approved.
-- Docs do not claim guaranteed data-loss prevention achieved.
-- Docs do not claim broad backup reliability achieved.
-- Docs do not claim local-first hybrid readiness achieved.
-- Docs do not claim runtime adapter-awareness implemented.
-- Docs do not claim Phase 27C implementation exists.
+- Phase 27B does not approve BETA_READY.
+- Phase 27B does not approve production adapter-aware backup/export/restore.
+- Phase 27B does not approve changes to the backup file format.
+- Phase 27B does not approve changes to restore overwrite behavior.
+- Phase 27B does not approve storage migration.
+- Phase 27B makes no claim of guaranteed data-loss prevention.
+- Phase 27B makes no claim of broad backup reliability.
+- Phase 27B makes no claim of local-first hybrid readiness.
+- Phase 27B does not introduce runtime adapter-awareness in production code.
+- Phase 27C planning seed is not an implementation; Phase 27C code does not exist.
 - No production backup/restore/export modules modified.
 - No storage drivers modified.
 - No runtime/source/test/e2e/ADR files changed.

@@ -123,7 +123,7 @@ Phase 27B validator (`scripts/validate-phase27b-adapter-awareness-evidence-runti
 - No sync/cloud/account/auth/backend files changed.
 - Production backup/export/restore files unchanged.
 - Storage drivers unchanged.
-- Docs do not claim BETA_READY, production adapter-aware backup/export/restore, backup file format changes, restore overwrite behavior changes, storage migration, Phase 27C implementation exists.
+- Docs do not claim BETA_READY, production adapter-aware backup/export/restore, backup file format changes, restore overwrite behavior changes, storage migration, or that Phase 27C code has been implemented.
 
 ## Guardrails
 
