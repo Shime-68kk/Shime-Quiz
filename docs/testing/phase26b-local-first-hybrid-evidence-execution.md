@@ -119,6 +119,7 @@ These results support continuing toward Phase 26C limited/default-off UI wiring 
 - Sync/cloud/account/auth/backend correctness.
 - backup file format changes or compatibility beyond current localStorage baseline.
 - restore overwrite behavior changes or guarantees beyond current behavior.
+- guaranteed data-loss prevention — no such guarantee is made by static/local automated evidence alone.
 
 ## Backup/export/restore boundary
 
