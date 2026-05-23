@@ -73,11 +73,14 @@ jobs:
       # Phase 25N validator retained as historical reference; not run as Phase 26A merge-blocking gate.
       # node scripts/validate-phase25n-backup-health-evidence-closure-gate.js
 
-      - name: Fetch origin main for Phase 26A validator
+      # Phase 26A validator retained as historical reference; not run as Phase 26B merge-blocking gate.
+      # node scripts/validate-phase26a-local-first-hybrid-readiness-direction.js
+
+      - name: Fetch origin main for Phase 26B validator
         run: git fetch origin refs/heads/main:refs/remotes/origin/main --prune
 
-      - name: Validate Phase 26A Local-First Hybrid Readiness Direction
-        run: node scripts/validate-phase26a-local-first-hybrid-readiness-direction.js
+      - name: Validate Phase 26B Local-First Hybrid Evidence Re-Decision
+        run: node scripts/validate-phase26b-local-first-hybrid-evidence-redecision.js
 
       - name: Build app
         run: npm run build
