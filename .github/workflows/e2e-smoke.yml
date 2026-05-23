@@ -52,8 +52,14 @@ jobs:
           test -x node_modules/.bin/vite
           test -x node_modules/.bin/vitest
 
-      - name: Validate Phase 25H Backup Health Persistence Signal Design
-        run: node scripts/validate-phase25h-backup-health-persistence-signal-design.js
+      # Phase 25H validator retained as historical reference; not run as Phase 25I merge-blocking gate.
+      # node scripts/validate-phase25h-backup-health-persistence-signal-design.js
+
+      - name: Fetch origin main for Phase 25I validator
+        run: git fetch origin refs/heads/main:refs/remotes/origin/main --prune
+
+      - name: Validate Phase 25I Backup Health Thin Read-Only Signal Layer
+        run: node scripts/validate-phase25i-backup-health-thin-read-only-signal-layer.js
 
       - name: Build app
         run: npm run build
