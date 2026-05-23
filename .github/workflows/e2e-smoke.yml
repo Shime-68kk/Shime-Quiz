@@ -105,8 +105,11 @@ jobs:
       # Phase 27C validator retained as historical reference; not run as Phase 27D merge-blocking gate.
       # node scripts/validate-phase27c-test-only-adapter-awareness-model.js
 
-      - name: Validate Phase 27D Adapter-Awareness Model Evidence and Integration Design
-        run: node scripts/validate-phase27d-adapter-awareness-model-evidence-integration-design.js
+      # Phase 27D validator retained as historical reference; not run as Phase 27E merge-blocking gate.
+      # node scripts/validate-phase27d-adapter-awareness-model-evidence-integration-design.js
+
+      - name: Validate Phase 27E Thin Read-Only Adapter-Awareness Integration Prototype
+        run: node scripts/validate-phase27e-thin-read-only-adapter-awareness-integration-prototype.js
 
       - name: Build app
         run: npm run build
