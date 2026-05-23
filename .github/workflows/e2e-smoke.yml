@@ -7,6 +7,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   e2e-smoke:
     name: E2E smoke
@@ -82,11 +85,14 @@ jobs:
       # Phase 26C validator retained as historical reference; not run as Phase 26D merge-blocking gate.
       # node scripts/validate-phase26c-limited-default-off-ui-wiring-design.js
 
-      - name: Fetch origin main for Phase 26D validator
+      # Phase 26D validator retained as historical reference; not run as Phase 26D-HF1 merge-blocking gate.
+      # node scripts/validate-phase26d-limited-default-off-ui-wiring-prototype.js
+
+      - name: Fetch origin main for Phase 26D-HF1 validator
         run: git fetch origin refs/heads/main:refs/remotes/origin/main --prune
 
-      - name: Validate Phase 26D Limited Default-Off UI Wiring Prototype
-        run: node scripts/validate-phase26d-limited-default-off-ui-wiring-prototype.js
+      - name: Validate Phase 26D-HF1 Restore Actions Checkout Permission
+        run: node scripts/validate-phase26d-hf1-restore-actions-checkout-permission.js
 
       - name: Build app
         run: npm run build
