@@ -195,40 +195,46 @@ const EXACT_ALLOWED_CHANGED_FILES = new Set([
   VALIDATOR,
 ]);
 
-// First verify origin/main is available; emit a hard failure if not.
+// Fetch and verify origin/main before diffing; GitHub Actions can use a shallow checkout.
 let originMainAvailable = false;
 try {
+  execSync('git fetch origin refs/heads/main:refs/remotes/origin/main --prune', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
   execSync('git rev-parse --verify origin/main', {
     cwd: ROOT,
     encoding: 'utf8',
-    stdio: ['pipe', 'pipe', 'pipe'],
+    stdio: ['ignore', 'pipe', 'pipe'],
   });
   originMainAvailable = true;
-} catch {
+} catch (error) {
   originMainAvailable = false;
+  fail(
+    'Exact changed-file git check — origin/main not available after explicit fetch',
+    error.stderr?.toString?.().trim() || error.message
+  );
 }
 
-if (!originMainAvailable) {
-  fail(
-    'Exact changed-file git check — origin/main not available',
-    'Run: git fetch origin refs/heads/main:refs/remotes/origin/main --prune'
-  );
-} else {
+if (originMainAvailable) {
 let gitChangedFiles = null;
 try {
-  const diffOutput = execSync('git diff --name-only origin/main...HEAD', {
+  const diffOutput = execSync('git diff --name-only origin/main..HEAD', {
     cwd: ROOT,
     encoding: 'utf8',
-    stdio: ['pipe', 'pipe', 'pipe'],
+    stdio: ['ignore', 'pipe', 'pipe'],
   }).trim();
   gitChangedFiles = diffOutput ? diffOutput.split('\n').map(f => f.trim()).filter(Boolean) : [];
-} catch {
+} catch (error) {
   gitChangedFiles = null;
+  fail(
+    'Exact changed-file git check',
+    `git diff origin/main..HEAD failed — ${error.stderr?.toString?.().trim() || error.message}`
+  );
 }
 
-if (gitChangedFiles === null) {
-  fail('Exact changed-file git check', 'git diff failed — cannot verify changed files');
-} else {
+if (gitChangedFiles !== null) {
   const unexpected = gitChangedFiles.filter(f => !EXACT_ALLOWED_CHANGED_FILES.has(f));
   const missing = [...EXACT_ALLOWED_CHANGED_FILES].filter(f => !gitChangedFiles.includes(f));
 
