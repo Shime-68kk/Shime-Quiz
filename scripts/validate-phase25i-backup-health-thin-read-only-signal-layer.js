@@ -186,6 +186,8 @@ for (const guardrail of REQUIRED_GUARDRAILS) {
 
 // ── 5. Exact changed-file enforcement via git ────────────────────────────────
 
+// The allowed set covers Phase 25I original files and Phase 25I-HF1 authorized hotfix files.
+// All changed files on a non-main branch must be within this set.
 const EXACT_ALLOWED_CHANGED_FILES = new Set([
   '.github/workflows/e2e-smoke.yml',
   SIGNAL_LAYER,
@@ -193,6 +195,7 @@ const EXACT_ALLOWED_CHANGED_FILES = new Set([
   TESTING_DOC,
   RELEASE_DOC,
   VALIDATOR,
+  'docs/release/phase25i-hf1-post-merge-validator-context-summary.md',
 ]);
 
 // Fetch and verify origin/main before diffing; GitHub Actions can use a shallow checkout.
@@ -235,34 +238,62 @@ try {
 }
 
 if (gitChangedFiles !== null) {
-  const unexpected = gitChangedFiles.filter(f => !EXACT_ALLOWED_CHANGED_FILES.has(f));
-  const missing = [...EXACT_ALLOWED_CHANGED_FILES].filter(f => !gitChangedFiles.includes(f));
+  // Detect post-merge main context: diff is empty because HEAD IS origin/main.
+  // Accept GITHUB_REF / GITHUB_REF_NAME env vars (set by GitHub Actions) or fall
+  // back to comparing HEAD sha with origin/main sha locally.
+  const isPostMergeMain = (() => {
+    const ref = process.env.GITHUB_REF || '';
+    const refName = process.env.GITHUB_REF_NAME || '';
+    if (ref === 'refs/heads/main' || refName === 'main') return true;
+    try {
+      const headSha = execSync('git rev-parse HEAD', { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+      const originSha = execSync('git rev-parse origin/main', { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+      return headSha === originSha;
+    } catch {
+      return false;
+    }
+  })();
 
-  unexpected.length === 0 && missing.length === 0
-    ? pass(`Exact changed files match allowed set (${gitChangedFiles.length} files)`)
-    : fail(
+  if (gitChangedFiles.length === 0) {
+    if (isPostMergeMain) {
+      pass('Exact changed-file check skipped for post-merge main context; content guardrails remain enforced.');
+      pass('No forbidden files changed (post-merge main context; no diff to check)');
+    } else {
+      // Empty diff on a non-main branch is unexpected — enforce strictly
+      fail(
         'Exact changed-file set mismatch',
-        [
-          unexpected.length ? `unexpected: ${unexpected.join(', ')}` : '',
-          missing.length ? `missing: ${missing.join(', ')}` : '',
-        ].filter(Boolean).join('; ')
+        `diff is empty on non-main context; expected 6 Phase 25I files`
       );
+      fail('No forbidden files changed', 'cannot verify — diff is empty on non-main context');
+    }
+  } else {
+    const unexpected = gitChangedFiles.filter(f => !EXACT_ALLOWED_CHANGED_FILES.has(f));
 
-  // Explicitly check forbidden files are not changed
-  const FORBIDDEN_CHANGED = [
-    'package.json',
-    'package-lock.json',
-    'sw.js',
-    'boot-guard.js',
-  ];
-  const forbiddenChanged = gitChangedFiles.filter(f =>
-    FORBIDDEN_CHANGED.includes(f) ||
-    f.startsWith('docs/adr/') ||
-    f.startsWith('e2e/')
-  );
-  forbiddenChanged.length === 0
-    ? pass('No forbidden files changed (package.json, package-lock.json, sw.js, boot-guard.js, docs/adr/**, e2e/**)')
-    : fail('Forbidden files must not be changed', forbiddenChanged.join(', '));
+    // Enforce: no unexpected files. Do not require all allowed files to be present
+    // (a hotfix may only touch a subset of the authorized set).
+    unexpected.length === 0
+      ? pass(`All changed files (${gitChangedFiles.length}) are within the authorized Phase 25I set`)
+      : fail(
+          'Unauthorized files changed',
+          `unexpected: ${unexpected.join(', ')}`
+        );
+
+    // Explicitly check forbidden files are not changed
+    const FORBIDDEN_CHANGED = [
+      'package.json',
+      'package-lock.json',
+      'sw.js',
+      'boot-guard.js',
+    ];
+    const forbiddenChanged = gitChangedFiles.filter(f =>
+      FORBIDDEN_CHANGED.includes(f) ||
+      f.startsWith('docs/adr/') ||
+      f.startsWith('e2e/')
+    );
+    forbiddenChanged.length === 0
+      ? pass('No forbidden files changed (package.json, package-lock.json, sw.js, boot-guard.js, docs/adr/**, e2e/**)')
+      : fail('Forbidden files must not be changed', forbiddenChanged.join(', '));
+  }
 }
 } // end originMainAvailable block
 
