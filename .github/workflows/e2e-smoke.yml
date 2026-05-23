@@ -85,14 +85,17 @@ jobs:
       # Phase 26C validator retained as historical reference; not run as Phase 26D merge-blocking gate.
       # node scripts/validate-phase26c-limited-default-off-ui-wiring-design.js
 
-      # Phase 26D validator retained as historical reference; not run as Phase 26D-HF1 merge-blocking gate.
+      # Phase 26D validator retained as historical reference; not run as Phase 26E merge-blocking gate.
       # node scripts/validate-phase26d-limited-default-off-ui-wiring-prototype.js
 
-      - name: Fetch origin main for Phase 26D-HF1 validator
+      # Phase 26D-HF1 validator retained as historical reference; not run as Phase 26E merge-blocking gate.
+      # node scripts/validate-phase26d-hf1-restore-actions-checkout-permission.js
+
+      - name: Fetch origin main for Phase 26E validator
         run: git fetch origin refs/heads/main:refs/remotes/origin/main --prune
 
-      - name: Validate Phase 26D-HF1 Restore Actions Checkout Permission
-        run: node scripts/validate-phase26d-hf1-restore-actions-checkout-permission.js
+      - name: Validate Phase 26E Tester Evidence and UI Wiring Re-Decision
+        run: node scripts/validate-phase26e-tester-evidence-ui-wiring-redecision.js
 
       - name: Build app
         run: npm run build
