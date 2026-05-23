@@ -94,11 +94,14 @@ jobs:
       # Phase 26E validator retained as historical reference; not run as Phase 27A merge-blocking gate.
       # node scripts/validate-phase26e-tester-evidence-ui-wiring-redecision.js
 
-      - name: Fetch origin main for Phase 27A validator
+      # Phase 27A validator retained as historical reference; not run as Phase 27B merge-blocking gate.
+      # node scripts/validate-phase27a-backup-restore-adapter-awareness-design.js
+
+      - name: Fetch origin main for Phase 27B validator
         run: git fetch origin refs/heads/main:refs/remotes/origin/main --prune
 
-      - name: Validate Phase 27A Backup/Export/Restore Adapter-Awareness Design Gate
-        run: node scripts/validate-phase27a-backup-restore-adapter-awareness-design.js
+      - name: Validate Phase 27B Adapter-Awareness Evidence and Runtime Design Review
+        run: node scripts/validate-phase27b-adapter-awareness-evidence-runtime-design.js
 
       - name: Build app
         run: npm run build
