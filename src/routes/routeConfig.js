@@ -3,6 +3,8 @@ import FsrsUiFixture from './FsrsUiFixture.jsx';
 import Library from './Library.jsx';
 import Settings from './Settings.jsx';
 import StudyRoom from './StudyRoom.jsx';
+// Phase 26D — hidden default-off dev/test harness (showInNav: false, returns null with no props)
+import BackupHealthDevHarness from '../components/dev/BackupHealthDevHarness.jsx';
 
 // Phase 1B migration boundary:
 // Keep route/page definitions UI-only for now. Future learning behavior should be
@@ -52,6 +54,17 @@ export const routes = [
     showInNav: false,
     focusMode: false,
     element: FsrsUiFixture
+  },
+  {
+    // Phase 26D — hidden default-off dev/test harness; never shown in nav
+    // Renders null with no props (default-off). Enable via explicit props: { enabled: true, mode: 'test' }
+    path: '/dev/backup-health-harness',
+    label: 'Backup Health Dev Harness',
+    shortLabel: 'BH Harness',
+    icon: '⚕',
+    showInNav: false,
+    focusMode: false,
+    element: BackupHealthDevHarness
   }
 ];
 
