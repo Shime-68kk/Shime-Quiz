@@ -55,11 +55,14 @@ jobs:
       # Phase 25H validator retained as historical reference; not run as Phase 25I merge-blocking gate.
       # node scripts/validate-phase25h-backup-health-persistence-signal-design.js
 
-      - name: Fetch origin main for Phase 25I validator
+      # Phase 25I validator retained as historical reference; not run as Phase 25J merge-blocking gate.
+      # node scripts/validate-phase25i-backup-health-thin-read-only-signal-layer.js
+
+      - name: Fetch origin main for Phase 25J validator
         run: git fetch origin refs/heads/main:refs/remotes/origin/main --prune
 
-      - name: Validate Phase 25I Backup Health Thin Read-Only Signal Layer
-        run: node scripts/validate-phase25i-backup-health-thin-read-only-signal-layer.js
+      - name: Validate Phase 25J Backup Health Read-Only Integration Design Gate
+        run: node scripts/validate-phase25j-backup-health-read-only-integration-design-gate.js
 
       - name: Build app
         run: npm run build
