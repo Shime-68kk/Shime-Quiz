@@ -36,6 +36,13 @@ const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '../..');
 const SOURCE_PATH = path.join(ROOT, 'src/state/generatedTestRestoreRehearsalPrototype.js');
 const sourceContent = fs.readFileSync(SOURCE_PATH, 'utf8');
+const sourceNonComment = sourceContent
+  .split('\n')
+  .filter(line => {
+    const t = line.trim();
+    return !t.startsWith('*') && !t.startsWith('//');
+  })
+  .join('\n');
 
 // ── 1. Exports exist ──────────────────────────────────────────────────────────
 
@@ -835,35 +842,27 @@ describe('generated/test data only boundary', () => {
 
 describe('no storage/write/network/telemetry APIs used in source', () => {
   it('does not use localStorage', () => {
-    expect(sourceContent).not.toMatch(/localStorage/);
+    expect(sourceNonComment).not.toMatch(/localStorage/);
   });
 
   it('does not use indexedDB or IndexedDB', () => {
-    expect(sourceContent).not.toMatch(/[Ii]ndexed[Dd][Bb]/);
+    expect(sourceNonComment).not.toMatch(/[Ii]ndexed[Dd][Bb]/);
   });
 
   it('does not use fetch(', () => {
-    const nonCommentLines = sourceContent
-      .split('\n')
-      .filter(l => !l.trim().startsWith('*') && !l.trim().startsWith('//'))
-      .join('\n');
-    expect(nonCommentLines).not.toMatch(/\bfetch\s*\(/);
+    expect(sourceNonComment).not.toMatch(/\bfetch\s*\(/);
   });
 
   it('does not use XMLHttpRequest', () => {
-    expect(sourceContent).not.toMatch(/XMLHttpRequest/);
+    expect(sourceNonComment).not.toMatch(/XMLHttpRequest/);
   });
 
   it('does not use sendBeacon', () => {
-    expect(sourceContent).not.toMatch(/sendBeacon/);
+    expect(sourceNonComment).not.toMatch(/sendBeacon/);
   });
 
   it('does not use telemetry or analytics calls', () => {
-    const nonCommentLines = sourceContent
-      .split('\n')
-      .filter(l => !l.trim().startsWith('*') && !l.trim().startsWith('//'))
-      .join('\n');
-    expect(nonCommentLines).not.toMatch(/telemetry\s*\(|analytics\s*\(/);
+    expect(sourceNonComment).not.toMatch(/telemetry\s*\(|analytics\s*\(/);
   });
 });
 
