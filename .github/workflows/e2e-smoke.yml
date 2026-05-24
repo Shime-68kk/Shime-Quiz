@@ -129,8 +129,11 @@ jobs:
       # Phase 28E validator retained as historical reference; not run as Phase 29A merge-blocking gate.
       # node scripts/validate-phase28e-generated-test-restore-rehearsal-evidence-closure.js
 
-      - name: Validate Phase 29A Local-First Hybrid Readiness Evidence Re-Decision
-        run: node scripts/validate-phase29a-local-first-hybrid-readiness-evidence-redecision.js
+      # Phase 29A validator retained as historical reference; not run as Phase 29B merge-blocking gate.
+      # node scripts/validate-phase29a-local-first-hybrid-readiness-evidence-redecision.js
+
+      - name: Validate Phase 29B Beta Evidence Gate Planning
+        run: node scripts/validate-phase29b-beta-evidence-gate-planning.js
 
       - name: Build app
         run: npm run build
