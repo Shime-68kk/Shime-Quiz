@@ -6,6 +6,8 @@ import EduGenDraftReviewPanel from '../components/edugen/EduGenDraftReviewPanel.
 // Phase 31C — default-off Data Safety Center prototype (hidden unless explicitly enabled in test/dev)
 import DataSafetyCenterPrototype from '../features/dataSafety/DataSafetyCenterPrototype.jsx';
 import { shouldShowDataSafetyCenterPrototype } from '../features/dataSafety/dataSafetyCenterPrototype.js';
+// Phase 31G — internal visibility config derived from env; default-off; no user-visible toggle; no storage writes
+import { createDataSafetyInternalVisibilityConfig } from '../features/dataSafety/dataSafetyInternalVisibility.js';
 import {
   getLearningDataSnapshot,
   getLearningDataMetadataSnapshot,
@@ -74,8 +76,12 @@ function handleEdugenDraftConfirmImport({ items, summary }) {
   };
 }
 
-// Phase 31C — prototype flag default is OFF; never enables itself in production
-const PHASE31C_PROTOTYPE_CONFIG = {};
+// Phase 31G — internal visibility config; default-off; opt-in via internal env flag only
+// With no flag set (default/production): returns { enabled: false, mode: 'default' } — prototype hidden.
+// With VITE_SHIME_DATA_SAFETY_INTERNAL_VISIBILITY=1/true/enabled in dev/test: may render for internal builds only.
+const PHASE31C_PROTOTYPE_CONFIG = createDataSafetyInternalVisibilityConfig(
+  typeof import.meta !== 'undefined' ? import.meta.env : {}
+);
 
 export default function Settings() {
   const onConfirmImport = useCallback(handleEdugenDraftConfirmImport, []);
