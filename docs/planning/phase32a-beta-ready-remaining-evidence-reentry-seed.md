@@ -59,17 +59,17 @@ Phase 31J completes the Data Safety UX internal visibility evidence lane. All ot
 
 Phase 32A must plan and initiate collection of the following evidence lanes:
 
-1. **Restore rehearsal browser lane** — Direct Playwright browser evidence for the Phase 28 restore rehearsal planner behavior. Confirms restore-rehearsal UI/UX, inert actions, no real data modification.
+1. **restore rehearsal browser lane** — Direct Playwright browser evidence for the Phase 28 restore rehearsal planner behavior. Confirms restore-rehearsal UI/UX, inert actions, no real data modification.
 
-2. **Adapter-awareness browser lane** — Direct Playwright browser evidence for the Phase 27 adapter-awareness model. Confirms adapter-awareness display, inert/read-only behavior, no storage driver changes triggered.
+2. **adapter-awareness browser lane** — Direct Playwright browser evidence for the Phase 27 adapter-awareness model. Confirms adapter-awareness display, inert/read-only behavior, no storage driver changes triggered.
 
-3. **Before/after localStorage diff** — Before/after snapshot of localStorage across a study session, import, backup flow, and restore rehearsal. Confirms storage boundaries and no unexpected writes.
+3. **before/after localStorage diff** — Before/after snapshot of localStorage across a study session, import, backup flow, and restore rehearsal. Confirms storage boundaries and no unexpected writes.
 
-4. **Larger generated/test stress evidence** — Evidence run with a larger generated/test data set (multiple decks, hundreds of cards). Confirms performance, quota behavior, and absence of data corruption under load.
+4. **larger generated/test stress evidence** — Evidence run with a larger generated/test data set (multiple decks, hundreds of cards). Confirms performance, quota behavior, and absence of data corruption under load.
 
-5. **Rollback/removal evidence** — Evidence of complete feature removal/rollback for at least one major feature flag (e.g., FSRS flag removal, adapter-awareness flag removal). Confirms rollback path is clean.
+5. **rollback/removal evidence** — Evidence of complete feature removal/rollback for at least one major feature flag (e.g., FSRS flag removal, adapter-awareness flag removal). Confirms rollback path is clean.
 
-6. **Claim/copy cleanup and legacy release notes review** — Review of all user-visible claims in the app for accuracy, Vietnamese-first copy, no overstatement of capabilities. Review legacy release notes for conflicting or outdated claims.
+6. **claim/copy cleanup and legacy release notes review** — Review of all user-visible claims in the app for accuracy, Vietnamese-first copy, no overstatement of capabilities. Review legacy release notes for conflicting or outdated claims.
 
 7. **Data Safety UX internal visibility evidence integration** — Integrate Phase 31J visibility re-decision result into the beta-ready evidence packet. Confirm Data Safety UX prototype is confirmed default-off with internal-only access.
 
