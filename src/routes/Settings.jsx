@@ -3,6 +3,9 @@ import PageHeader from '../components/PageHeader.jsx';
 import FsrsExperimentalSettingsPanel from '../components/settings/FsrsExperimentalSettingsPanel.jsx';
 import EduGenDraftWorkshopPanel from '../components/settings/EduGenDraftWorkshopPanel.jsx';
 import EduGenDraftReviewPanel from '../components/edugen/EduGenDraftReviewPanel.jsx';
+// Phase 31C — default-off Data Safety Center prototype (hidden unless explicitly enabled in test/dev)
+import DataSafetyCenterPrototype from '../features/dataSafety/DataSafetyCenterPrototype.jsx';
+import { shouldShowDataSafetyCenterPrototype } from '../features/dataSafety/dataSafetyCenterPrototype.js';
 import {
   getLearningDataSnapshot,
   getLearningDataMetadataSnapshot,
@@ -71,6 +74,9 @@ function handleEdugenDraftConfirmImport({ items, summary }) {
   };
 }
 
+// Phase 31C — prototype flag default is OFF; never enables itself in production
+const PHASE31C_PROTOTYPE_CONFIG = {};
+
 export default function Settings() {
   const onConfirmImport = useCallback(handleEdugenDraftConfirmImport, []);
 
@@ -80,6 +86,9 @@ export default function Settings() {
       <FsrsExperimentalSettingsPanel />
       <EduGenDraftWorkshopPanel />
       <EduGenDraftReviewPanel onConfirmImport={onConfirmImport} />
+      {shouldShowDataSafetyCenterPrototype(PHASE31C_PROTOTYPE_CONFIG) && (
+        <DataSafetyCenterPrototype />
+      )}
     </div>
   );
 }
