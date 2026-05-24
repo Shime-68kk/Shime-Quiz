@@ -147,8 +147,11 @@ jobs:
       # Phase 29F validator retained as historical reference; not run as Phase 30A merge-blocking gate.
       # node scripts/validate-phase29f-evidence-review-limited-beta-candidate-redecision.js
 
-      - name: Validate Phase 30A Limited Beta Candidate Claim/Copy Boundary Audit
-        run: node scripts/validate-phase30a-limited-beta-candidate-claim-copy-boundary-audit.js
+      # Phase 30A validator retained as historical reference; not run as Phase 30B merge-blocking gate.
+      # node scripts/validate-phase30a-limited-beta-candidate-claim-copy-boundary-audit.js
+
+      - name: Validate Phase 30B Limited Beta Candidate Gate
+        run: node scripts/validate-phase30b-limited-beta-candidate-gate.js
 
       - name: Build app
         run: npm run build
