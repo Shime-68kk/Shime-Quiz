@@ -159,8 +159,11 @@ jobs:
       # Phase 31A validator retained as historical reference; not run as Phase 31B merge-blocking gate.
       # node scripts/validate-phase31a-post-limited-beta-roadmap-data-safety-ux-planning.js
 
-      - name: Validate Phase 31B Data Safety UX Design Gate
-        run: node scripts/validate-phase31b-data-safety-ux-design-gate.js
+      # Phase 31B validator retained as historical reference; not run as Phase 31C merge-blocking gate.
+      # node scripts/validate-phase31b-data-safety-ux-design-gate.js
+
+      - name: Validate Phase 31C Data Safety UX Prototype
+        run: node scripts/validate-phase31c-data-safety-ux-prototype.js
 
       - name: Build app
         run: npm run build
