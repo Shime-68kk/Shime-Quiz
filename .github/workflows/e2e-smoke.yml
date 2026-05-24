@@ -168,8 +168,11 @@ jobs:
       # Phase 31D validator retained as historical reference; not run as Phase 31E merge-blocking gate.
       # node scripts/validate-phase31d-data-safety-ux-evidence-review.js
 
-      - name: Validate Phase 31E Data Safety UX Controlled Visibility Gate
-        run: node scripts/validate-phase31e-data-safety-ux-controlled-visibility-gate.js
+      # Phase 31E validator retained as historical reference; not run as Phase 31F merge-blocking gate.
+      # node scripts/validate-phase31e-data-safety-ux-controlled-visibility-gate.js
+
+      - name: Validate Phase 31F Data Safety UX Internal Visibility Gate
+        run: node scripts/validate-phase31f-data-safety-ux-internal-visibility-gate.js
 
       - name: Build app
         run: npm run build
