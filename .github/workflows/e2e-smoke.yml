@@ -180,8 +180,11 @@ jobs:
       # Phase 31H validator retained as historical reference; not run as Phase 31I merge-blocking gate.
       # node scripts/validate-phase31h-data-safety-ux-internal-visibility-evidence-review.js
 
-      - name: Validate Phase 31I Data Safety UX Internal Browser Evidence
-        run: node scripts/validate-phase31i-data-safety-ux-internal-browser-evidence.js
+      # Phase 31I validator retained as historical reference; not run as Phase 31J merge-blocking gate.
+      # node scripts/validate-phase31i-data-safety-ux-internal-browser-evidence.js
+
+      - name: Validate Phase 31J Data Safety UX Visibility Re-Decision
+        run: node scripts/validate-phase31j-data-safety-ux-visibility-redecision.js
 
       - name: Build app
         run: npm run build
