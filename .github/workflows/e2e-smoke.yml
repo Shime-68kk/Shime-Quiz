@@ -153,8 +153,11 @@ jobs:
       # Phase 30B validator retained as historical reference; not run as Phase 30C merge-blocking gate.
       # node scripts/validate-phase30b-limited-beta-candidate-gate.js
 
-      - name: Validate Phase 30C Beta Ready Decision / Hold
-        run: node scripts/validate-phase30c-beta-ready-decision-hold.js
+      # Phase 30C validator retained as historical reference; not run as Phase 31A merge-blocking gate.
+      # node scripts/validate-phase30c-beta-ready-decision-hold.js
+
+      - name: Validate Phase 31A Post-Limited-Beta Roadmap / Data Safety UX Planning
+        run: node scripts/validate-phase31a-post-limited-beta-roadmap-data-safety-ux-planning.js
 
       - name: Build app
         run: npm run build
