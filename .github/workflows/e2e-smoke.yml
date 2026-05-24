@@ -135,8 +135,11 @@ jobs:
       # Phase 29B validator retained as historical reference; not run as Phase 29C merge-blocking gate.
       # node scripts/validate-phase29b-beta-evidence-gate-planning.js
 
-      - name: Validate Phase 29C Generated/Test Manual Browser Evidence Run
-        run: node scripts/validate-phase29c-generated-test-manual-browser-evidence-run.js
+      # Phase 29C validator retained as historical reference; not run as Phase 29D merge-blocking gate.
+      # node scripts/validate-phase29c-generated-test-manual-browser-evidence-run.js
+
+      - name: Validate Phase 29D Evidence Packet Review and Beta Gate Re-Decision
+        run: node scripts/validate-phase29d-evidence-packet-review-beta-gate-redecision.js
 
       - name: Build app
         run: npm run build
