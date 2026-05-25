@@ -5,6 +5,7 @@ import App from './App.jsx';
 import Home from './routes/Home.jsx';
 import { routes } from './routes/routeConfig.js';
 import './styles/global.css';
+import './styles/phase34b-leader-ui-effects.css';
 
 const routerBase = import.meta.env.BASE_URL === './' ? '/' : import.meta.env.BASE_URL;
 

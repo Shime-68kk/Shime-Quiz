@@ -1,0 +1,107 @@
+/* Phase 34B — Leader UI Effects (E01–E04)
+ * CSS-first decorative effects for the study session interface.
+ * No storage writes. No network calls. No event tracking.
+ * Each effect is independently removable by deleting the relevant block.
+ */
+
+/* E01: CardAnswerRevealEffect
+ * Smooth opacity + scale reveal when the flashcard answer panel appears.
+ * Owner: .flashcard--revealed (FlashcardItem.jsx)
+ * Max duration: 200ms | Animated props: opacity, transform (scale only)
+ */
+@keyframes flashcard-reveal {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.flashcard--revealed {
+  animation: flashcard-reveal 200ms ease forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flashcard--revealed {
+    animation: none;
+  }
+}
+
+/* E02: RatingButtonFeedbackEffect
+ * Brief scale press-down on FSRS rating buttons when activated.
+ * Owner: .memoryBridge__ratingBtn (FsrsProductionMemoryRatingBridge.jsx)
+ * Max duration: 100ms (CSS :active instantaneous) | Animated props: transform (scale only)
+ */
+.memoryBridge__ratingBtn:active:not(:disabled) {
+  transform: scale(0.96);
+  background: rgba(49, 92, 77, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .memoryBridge__ratingBtn:active:not(:disabled) {
+    transform: none;
+    background: rgba(49, 92, 77, 0.12);
+  }
+}
+
+/* E03: SessionCompleteEffect
+ * Restrained pulse/glow on the session-complete score indicator.
+ * Owner: .studyResultHero__score (StudyResultSummary.jsx)
+ * Max duration: 400ms | Animated props: opacity, transform (scale only), box-shadow
+ */
+@keyframes session-complete-accent {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+    box-shadow: 0 0 0 rgba(49, 92, 77, 0);
+  }
+  60% {
+    transform: scale(1.04);
+    box-shadow: 0 4px 24px rgba(49, 92, 77, 0.18);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: none;
+  }
+}
+
+.studyResultHero__score {
+  animation: session-complete-accent 400ms ease forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studyResultHero__score {
+    animation: none;
+  }
+}
+
+/* E04: ProgressTickEffect (CSS defined; activation deferred)
+ * Brief scale tick on the due-count display when the count changes.
+ * Owner: .studyStepper__counter (StudyRoom.jsx — activation deferred to follow-up gate)
+ * Max duration: 150ms | Animated props: transform (scale only)
+ * NOTE: No DOM element uses this class in Phase 34B.
+ *       Activation requires a StudyRoom.jsx change reviewed in a follow-up gate.
+ */
+@keyframes progress-tick {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.studyStepper__counter {
+  display: inline-block;
+  animation: progress-tick 150ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studyStepper__counter {
+    animation: none;
+  }
+}
