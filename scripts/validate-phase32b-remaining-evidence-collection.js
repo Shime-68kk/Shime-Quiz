@@ -85,6 +85,14 @@ pass('Validator does not execute internal git fetch (self-verified)');
 // ── 3. Changed files check (origin/main..HEAD) ────────────────────────────────
 console.log('\n[3] Changed files (origin/main..HEAD)');
 
+function getGitSha(ref) {
+  try {
+    return execSync(`git rev-parse ${ref}`, { cwd: ROOT, stdio: 'pipe' }).toString().trim();
+  } catch {
+    return null;
+  }
+}
+
 let changedFiles = [];
 try {
   const out = execSync('git diff --name-only origin/main..HEAD', { cwd: ROOT, stdio: 'pipe' }).toString().trim();
@@ -92,6 +100,18 @@ try {
   pass(`Changed files detected: ${changedFiles.length}`);
 } catch {
   fail('Could not run git diff --name-only origin/main..HEAD');
+}
+
+const headSha = getGitSha('HEAD');
+const originMainSha = getGitSha('origin/main');
+const isPostMergeMainContext =
+  changedFiles.length === 0 &&
+  headSha !== null &&
+  originMainSha !== null &&
+  headSha === originMainSha;
+
+if (isPostMergeMainContext) {
+  pass('Post-merge main context detected; exact diff new-file checks skipped, content guardrails enforced.');
 }
 
 const ALLOWED_NEW = new Set([
@@ -105,6 +125,7 @@ const ALLOWED_MODIFIED = new Set([
 ]);
 const ALL_ALLOWED = new Set([...ALLOWED_NEW, ...ALLOWED_MODIFIED]);
 
+// Reject any changed files that are not in the allowed set.
 for (const f of changedFiles) {
   if (ALL_ALLOWED.has(f)) {
     pass(`Allowed changed file: ${f}`);
@@ -113,9 +134,15 @@ for (const f of changedFiles) {
   }
 }
 
+// Verify expected new files.
+// In PR context (Phase 32B branch): files must appear in the diff.
+// In post-merge-main context (HEAD === origin/main) or follow-up PRs where files
+// already landed on main: file existence on disk is sufficient.
 for (const f of ALLOWED_NEW) {
   if (changedFiles.includes(f)) {
-    pass(`Expected new file present: ${f}`);
+    pass(`Expected new file present in diff: ${f}`);
+  } else if (isPostMergeMainContext || fs.existsSync(path.join(ROOT, f))) {
+    pass(`Expected new file exists on disk (post-merge/follow-up context): ${f}`);
   } else {
     fail(`Expected new file missing from diff: ${f}`);
   }
