@@ -13,6 +13,19 @@
 > `PHASE32D_RELEASE_NOTES_LEGACY_CLAIM_STATUS: CLEANED_OR_BOUNDED_AS_HISTORICAL_NOT_CURRENT`
 > `PHASE32D_CURRENT_READINESS_STATUS: LIMITED_BETA_CANDIDATE_CONFIRMED_BETA_READY_NOT_APPROVED`
 
+> **Phase 33D — Limited Beta Candidate Release Notes Preparation (2026-05-25):**
+> Phase 33D confirms `LIMITED_BETA_CANDIDATE` as the highest approved readiness status.
+> `BETA_READY` is not approved. Public production readiness is not approved.
+> This release notes entry is for internal controlled limited beta candidate use only.
+> Not for public use. Pre-publication claim boundary review is required before every use
+> with any participant.
+>
+> `PHASE33D_LIMITED_BETA_CANDIDATE_RELEASE_NOTES_REVIEW_STATUS: COMPLETED_RELEASE_NOTES_AND_REVIEW`
+> `PHASE33D_CURRENT_READINESS_STATUS: LIMITED_BETA_CANDIDATE_CONFIRMED_BETA_READY_NOT_APPROVED`
+> `PHASE33D_LIMITED_BETA_CANDIDATE_RELEASE_NOTES_REVIEW_DECISION: PASS_TO_PHASE33E_CONTROLLED_LIMITED_BETA_RELEASE_PACKAGE`
+> `PHASE33D_RELEASE_NOTES_SCOPE: RELEASE_NOTES_AND_REVIEW_ONLY_NO_RUNTIME_BEHAVIOR_CHANGES`
+> `PHASE33D_LIMITATION_DISCLOSURE_STATUS: LIMITATIONS_INCLUDED_AND_REVIEWED`
+
 Bản này phù hợp để đưa cho người dùng nội bộ beta/staging thử nghiệm với phạm vi hạn chế, nhưng **chưa được chứng nhận QA thủ công trên thiết bị thật** và không nên mô tả là đã vượt qua smoke test thủ công đầy đủ. BETA_READY chưa được phê duyệt.
 
 ## Tóm tắt
@@ -66,6 +79,33 @@ Không dùng chế độ tĩnh/offline này như một hệ thống chống gian
 ## Ghi chú chuyển đổi từ v1
 
 v2 là kiến trúc mới. Dữ liệu v1 không tự động chuyển sang v2 trừ khi có luồng import/restore v2 hỗ trợ rõ ràng. Người dùng nên giữ bản sao lưu v1 riêng khi thử nghiệm v2.
+
+## Phase 33D Controlled Limited Beta Candidate
+
+**Status (2026-05-25):** `LIMITED_BETA_CANDIDATE` — highest approved readiness. `BETA_READY` is not approved. Public production readiness is not approved. Phase 30C Beta Ready hold is not lifted.
+
+This release is for **internal controlled limited beta candidate use only**. Not for public use. Pre-publication claim boundary review is required before every use with any participant.
+
+No runtime behavior changes were introduced in Phase 33D. No source changes. No unit test changes. No e2e test changes. No sync/cloud/account/auth/backend. No telemetry/analytics. No ordinary-user Data Safety UX visibility. No BETA_READY approval. No public production readiness approval.
+
+**Data Safety UX:** Internal-only. Ordinary-user visibility is not approved. Any future change requires a dedicated gate.
+
+## Phase 33D Limitation Disclosure
+
+All 10 carried-forward limitations must be disclosed to any controlled beta participant:
+
+1. **Restore rehearsal browser lane:** `BLOCKED_DEFAULT_OFF` — not production restore proof. Restore execution is not approved.
+2. **Adapter-awareness browser lane:** `BLOCKED_DEFAULT_OFF` — not production adapter proof.
+3. **Generated/test stress evidence:** Smoke-level only (3-item fixture) — not production-grade stress evidence.
+4. **Rollback/removal evidence:** Simulation-only — not a guaranteed rollback proof.
+5. **No real learner data evidence:** All testing used generated/synthetic data only.
+6. **No public production readiness evidence:** No real-world production environment testing completed.
+7. **No guaranteed data-loss prevention proof:** Backup is strongly recommended before any import, restore, or data operation. No data-loss guarantee is made.
+8. **Ordinary-user Data Safety UX visibility:** Not approved. Data Safety UX is internal-only. Future change requires a dedicated gate.
+9. **No sync/cloud/account/auth/backend:** No cloud sync, account, auth, backend, BYOC, WebDAV, P2P, or device-transfer is available or approved.
+10. **Phase 30C Beta Ready hold:** Not lifted. BETA_READY remains not approved.
+
+No limitation listed above is described as resolved.
 
 ## Giới hạn còn lại
 
