@@ -2,11 +2,18 @@
 
 ## Trạng thái
 
-**v2.0.0-beta.1** là bản beta ứng viên đã được AI kiểm tra.
+**v2.0.0-beta.1** là bản beta ứng viên đã được AI kiểm tra (trạng thái hiện tại: `LIMITED_BETA_CANDIDATE`).
 
-Kết luận đánh giá cuối: **AI-verified beta candidate: YES — SHIP**.
+> **Ghi chú lịch sử (Phase 32D — 2026-05-25):** Phiên bản ban đầu của mục Trạng thái này
+> ghi nhận kết luận ship từ Phase 30B (legacy wording: "AI-verified beta candidate / YES-SHIP"). Kết luận đó đã
+> được thay thế bởi các đánh giá bằng chứng sau này (Phase 30C, Phase 31, Phase 32). Trạng
+> thái hiện tại là `LIMITED_BETA_CANDIDATE`. `BETA_READY` chưa được phê duyệt. Đây là ghi
+> chú lịch sử; không phản ánh trạng thái sẵn sàng hiện tại.
+>
+> `PHASE32D_RELEASE_NOTES_LEGACY_CLAIM_STATUS: CLEANED_OR_BOUNDED_AS_HISTORICAL_NOT_CURRENT`
+> `PHASE32D_CURRENT_READINESS_STATUS: LIMITED_BETA_CANDIDATE_CONFIRMED_BETA_READY_NOT_APPROVED`
 
-Bản này phù hợp để đưa cho người dùng beta/staging thử nghiệm, nhưng **chưa được chứng nhận QA thủ công trên thiết bị thật** và không nên mô tả là đã vượt qua smoke test thủ công đầy đủ.
+Bản này phù hợp để đưa cho người dùng nội bộ beta/staging thử nghiệm với phạm vi hạn chế, nhưng **chưa được chứng nhận QA thủ công trên thiết bị thật** và không nên mô tả là đã vượt qua smoke test thủ công đầy đủ. BETA_READY chưa được phê duyệt.
 
 ## Tóm tắt
 
@@ -72,7 +79,7 @@ v2 là kiến trúc mới. Dữ liệu v1 không tự động chuyển sang v2 t
 
 ## Trạng thái kiểm thử
 
-Bản này là **AI-verified beta candidate**. Các kiểm tra build và validator tự động phải chạy trước khi phát hành gói:
+Bản này là **AI-verified beta candidate** (trạng thái hiện tại: `LIMITED_BETA_CANDIDATE`; `BETA_READY` chưa được phê duyệt; xem ghi chú lịch sử ở phần Trạng thái). Các kiểm tra build và validator tự động phải chạy trước khi phát hành gói:
 
 ```bash
 npm ci
