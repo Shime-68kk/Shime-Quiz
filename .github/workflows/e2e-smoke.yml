@@ -204,8 +204,11 @@ jobs:
       # Phase 32F validator retained as historical reference; not run as Phase 33A merge-blocking gate.
       # node scripts/validate-phase32f-beta-ready-redecision.js
 
-      - name: Validate Phase 33A Limited Beta Candidate Stabilization
-        run: node scripts/validate-phase33a-limited-beta-candidate-stabilization.js
+      # Phase 33A validator retained as historical reference; not run as Phase 33B merge-blocking gate.
+      # node scripts/validate-phase33a-limited-beta-candidate-stabilization.js
+
+      - name: Validate Phase 33B Controlled Limited Beta Prep
+        run: node scripts/validate-phase33b-controlled-limited-beta-prep.js
 
       - name: Build app
         run: npm run build
