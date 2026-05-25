@@ -3,10 +3,12 @@
 ## Status tokens
 
 ```text
-PHASE34A_LEADER_UI_EFFECTS_DESIGN_GATE_STATUS: COMPLETED_DESIGN_GATE
+PHASE34A_LEADER_UI_EFFECTS_DESIGN_GATE_STATUS: COMPLETED_UI_EFFECTS_DESIGN_GATE
 PHASE34A_CURRENT_READINESS_STATUS: LIMITED_BETA_CANDIDATE_CONFIRMED_BETA_READY_NOT_APPROVED
+PHASE34A_CONTROLLED_LIMITED_BETA_STATUS: GO_CONTROLLED_LIMITED_BETA_WITH_LIMITATIONS_CONFIRMED
 PHASE34A_LEADER_UI_EFFECTS_DESIGN_GATE_DECISION: PASS_TO_PHASE34B_LEADER_UI_EFFECTS_IMPLEMENTATION
-PHASE34A_DESIGN_SCOPE: DESIGN_ONLY_NO_RUNTIME_SOURCE_TEST_E2E_OR_BEHAVIOR_CHANGES
+PHASE34A_DESIGN_SCOPE: DESIGN_GATE_AND_TARGET_AUDIT_ONLY_NO_RUNTIME_BEHAVIOR_CHANGES
+PHASE34A_EFFECTS_BOUNDARY_STATUS: PERFORMANCE_ACCESSIBILITY_ROLLBACK_BOUNDARIES_DEFINED
 PHASE34A_LIMITATION_CARRYFORWARD_STATUS: ALL_10_LIMITATIONS_CARRIED_FORWARD_UNRESOLVED
 PHASE34B_LEADER_UI_EFFECTS_IMPLEMENTATION_SEED_STATUS: PREPARED_PLANNING_SEED
 ```
@@ -85,7 +87,7 @@ None of these limitations is resolved by Phase 34A.
 9. No sync/cloud/account/auth/backend evidence present or intended.
 10. Phase 30C Beta Ready hold not lifted — BETA_READY not approved.
 
-## Design gate review method
+## Design gate method
 
 Phase 34A conducts a static design review using:
 1. Review of all 10 required design surfaces from the Phase 34A seed.
@@ -95,6 +97,21 @@ Phase 34A conducts a static design review using:
    to be resolved by any proposed effect.
 4. Design spec output: `docs/design/phase34a-leader-ui-effects-design-spec.md`
 5. No runtime evidence required for the design gate itself.
+
+## Design gate table
+
+| Design surface | Phase 34A input | Gate finding | Required Phase 34B constraint | Risk | Claim allowed | Claim not allowed |
+|---|---|---|---|---|---|---|
+| effect inventory | Design spec E01-E04 plus target audit inventory | PASS — bounded effects and deferred surfaces identified | Implement only authorized effects unless amended | Medium | Implement E01-E04 in Phase 34B | Add unreviewed effects |
+| target audit | Target audit file from Codex lane | PASS — candidate files, owners, risk, reduced-motion, and evidence status documented | Use audit to keep implementation narrow | Low | Reference candidate ownership | Treat all audited surfaces as approved |
+| performance budget | CSS-only, <= 4 KB, 0 layout shift, bounded duration | PASS — measurable budget defined | Stay within budget and collect evidence | Medium | Claim budget defined | Claim production-grade perf proof |
+| accessibility and reduced-motion | Per-effect reduced-motion and focus rules | PASS — reduced-motion alternatives required | Respect `prefers-reduced-motion` | Medium | Claim reduced-motion requirement | Use motion-only state |
+| evidence plan | EV01-EV07 manual evidence | PASS — screenshots/manual observations defined | Capture evidence in Phase 34B | Medium | Claim evidence plan exists | Claim evidence already executed |
+| rollback/removal plan | Per-effect rollback paths | PASS — independent removal paths documented | Keep effects removable | Low | Claim rollback path defined | Claim guaranteed rollback proof |
+| storage/data safety boundary | No storage/backup/restore dependency | PASS — boundary confirmed | No storage writes or backup/restore behavior changes | Low | Claim no storage dependency | Claim data-loss prevention |
+| no cloud/sync/backend/account/auth claim | Local-only CSS effects | PASS — no network/backend dependency | No network, account, auth, or server dependency | Low | Claim local-only visual design | Claim sync/cloud/backend support |
+| no Beta Ready/public production claim | Readiness ceiling remains LIMITED_BETA_CANDIDATE | PASS — no readiness elevation | Carry forward limitations | Low | Claim Phase 34A design pass | Claim BETA_READY or public production |
+| Phase 34B implementation seed | Phase 34B seed prepared | PASS — separate implementation gate framed | Phase 34B must decide independently | Low | Reference next separate gate | Claim Phase 34B is automatically approved |
 
 ## Design surface review table
 
@@ -130,6 +147,44 @@ All 10 design surfaces reviewed. All 10: PASS. No blocking finding.
 
 No claim boundary violation found.
 
+## Effect inventory review
+
+The effect inventory is complete for Phase 34A and reviewed as PASS. The final implementation
+candidate set is E01-E04 only; broader audited surfaces are deferred unless a later amendment
+changes the boundary.
+
+## Target audit review
+
+The target audit identifies candidate source files through read-only inspection and records
+owner file, proposed effect type, risk rating, reduced-motion requirement, manual evidence
+requirement, and Phase 34B scope status. Target audit review: PASS.
+
+## Performance budget review
+
+Performance budget review: PASS. Phase 34B must keep effects CSS-only, short-duration,
+within the CSS budget, and free of layout-shift impacts.
+
+## Accessibility and reduced-motion review
+
+Accessibility and reduced-motion review: PASS. Every effect requires a reduced-motion
+fallback and must not use motion as the only state signal.
+
+## Evidence plan review
+
+Evidence plan review: PASS. Phase 34B must collect screenshots/manual observations for
+normal motion, reduced motion, performance, and study-flow regression checks.
+
+## Rollback/removal review
+
+Rollback/removal review: PASS. Each effect has an independent removal path and no storage,
+scheduling, backup, restore, or data-layer coupling.
+
+## Storage and data safety boundary review
+
+Storage and data safety boundary review: PASS. Phase 34A does not approve storage writes,
+backup/export/restore behavior changes, data-loss guarantees, or Data Safety UX visibility
+changes.
+
 ## Prohibited wording check
 
 | Prohibited wording | Present in Phase 34A docs | Status |
@@ -154,7 +209,7 @@ All 10 inherited limitations present in:
 
 None of the 10 limitations is described as resolved. ✓
 
-## Chosen decision
+## Chosen design gate decision
 
 All required conditions for `PASS_TO_PHASE34B_LEADER_UI_EFFECTS_IMPLEMENTATION` are met:
 
@@ -189,7 +244,7 @@ All 10 inherited limitations are present and unresolved.
 `PASS_TO_PHASE34B_LEADER_UI_EFFECTS_IMPLEMENTATION` is the appropriate decision given
 that all required preconditions are met and no blocking finding was identified.
 
-## What this decision authorizes
+## What Phase 34A supports
 
 - Phase 34B to implement Leader UI effects E01–E04 within the design boundaries
   defined in `docs/design/phase34a-leader-ui-effects-design-spec.md`.
@@ -197,7 +252,7 @@ that all required preconditions are met and no blocking finding was identified.
 - Phase 34B to add new CSS effect rules and class-toggle activations at the
   declared rendering boundaries only.
 
-## What this decision does not authorize
+## What Phase 34A does not approve
 
 BETA_READY.
 Public production readiness.
@@ -219,6 +274,30 @@ Phase 30C Beta Ready hold lifted.
 Phase 34C or any subsequent phase automatic approval.
 Any effect not in the E01–E04 inventory.
 Any scope expansion beyond the declared rendering boundaries.
+
+## Next recommended phase
+
+Next recommended phase: Phase 34B — Leader UI Effects Implementation
+
+Phase 34B is a separate implementation gate and is not automatically approved.
+Phase 34A confirms LIMITED_BETA_CANDIDATE remains the highest approved readiness status.
+Phase 34A confirms GO_CONTROLLED_LIMITED_BETA_WITH_LIMITATIONS remains controlled-limited-beta-only.
+Phase 34A does not approve BETA_READY.
+Phase 34A does not approve public production readiness.
+Phase 34A does not approve guaranteed data-loss prevention.
+Phase 34A does not approve restore execution.
+Phase 34A does not approve production restore rehearsal.
+Phase 34A does not approve real learner data restore rehearsal.
+Phase 34A does not approve runtime backup/export/restore behavior changes.
+Phase 34A does not approve backup file format changes.
+Phase 34A does not approve restore overwrite behavior changes.
+Phase 34A does not approve storage migration.
+Phase 34A does not approve sync/cloud/account/auth/backend.
+Phase 34A does not approve telemetry/analytics.
+Phase 34A does not approve built-in AI/OCR/API-key/BYOK behavior.
+Phase 34A does not approve BYOC/WebDAV/P2P/device-transfer implementation.
+Phase 34A does not approve limited settings visibility to ordinary users.
+Phase 34A does not implement Leader UI effects.
 
 ## Full design spec reference
 

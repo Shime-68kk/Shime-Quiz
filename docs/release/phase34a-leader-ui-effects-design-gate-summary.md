@@ -3,10 +3,12 @@
 ## Status tokens
 
 ```text
-PHASE34A_LEADER_UI_EFFECTS_DESIGN_GATE_STATUS: COMPLETED_DESIGN_GATE
+PHASE34A_LEADER_UI_EFFECTS_DESIGN_GATE_STATUS: COMPLETED_UI_EFFECTS_DESIGN_GATE
 PHASE34A_CURRENT_READINESS_STATUS: LIMITED_BETA_CANDIDATE_CONFIRMED_BETA_READY_NOT_APPROVED
+PHASE34A_CONTROLLED_LIMITED_BETA_STATUS: GO_CONTROLLED_LIMITED_BETA_WITH_LIMITATIONS_CONFIRMED
 PHASE34A_LEADER_UI_EFFECTS_DESIGN_GATE_DECISION: PASS_TO_PHASE34B_LEADER_UI_EFFECTS_IMPLEMENTATION
-PHASE34A_DESIGN_SCOPE: DESIGN_ONLY_NO_RUNTIME_SOURCE_TEST_E2E_OR_BEHAVIOR_CHANGES
+PHASE34A_DESIGN_SCOPE: DESIGN_GATE_AND_TARGET_AUDIT_ONLY_NO_RUNTIME_BEHAVIOR_CHANGES
+PHASE34A_EFFECTS_BOUNDARY_STATUS: PERFORMANCE_ACCESSIBILITY_ROLLBACK_BOUNDARIES_DEFINED
 PHASE34A_LIMITATION_CARRYFORWARD_STATUS: ALL_10_LIMITATIONS_CARRIED_FORWARD_UNRESOLVED
 PHASE34B_LEADER_UI_EFFECTS_IMPLEMENTATION_SEED_STATUS: PREPARED_PLANNING_SEED
 ```
@@ -52,7 +54,7 @@ PASS_TO_PHASE34B_LEADER_UI_EFFECTS_IMPLEMENTATION does not lift the Phase 30C ho
 PASS_TO_PHASE34B_LEADER_UI_EFFECTS_IMPLEMENTATION does not approve public production
 readiness.
 
-## Design gate result
+## Design result
 
 All 10 required design surfaces reviewed. All 10: PASS. No blocking finding.
 
@@ -101,6 +103,12 @@ Rollback paths are structurally independent. Implementation scope boundaries are
 to effect CSS and owning component files. All 10 inherited limitations are present and
 confirmed unresolved.
 
+## Boundaries defined
+
+Phase 34A defines performance, accessibility, reduced-motion, screenshot/manual evidence,
+rollback/removal, storage/data safety, no cloud/sync/backend/account/auth, no Beta Ready,
+and no public production boundaries for Phase 34B.
+
 ## Effect inventory summary
 
 | Effect ID | Effect name | Rendering boundary | Rollback method |
@@ -128,7 +136,7 @@ All 10 limitations carried forward from Phase 32F through Phase 33F remain unres
 These limitations are not resolved by Phase 34A and must be carried forward to Phase 34B.
 Phase 34B implementation must operate within LIMITED_BETA_CANDIDATE constraints.
 
-## What is authorized by Phase 34A
+## What is supported
 
 - Phase 34B to implement effects E01–E04 within the design boundaries of the Phase 34A
   design spec.
@@ -170,6 +178,26 @@ Evidence type: docs-level static validation only. No runtime production evidence
 ## Next recommended phase
 
 Next recommended phase: Phase 34B — Leader UI Effects Implementation
+
+Phase 34B is a separate implementation gate and is not automatically approved.
+Phase 34A confirms LIMITED_BETA_CANDIDATE remains the highest approved readiness status.
+Phase 34A confirms GO_CONTROLLED_LIMITED_BETA_WITH_LIMITATIONS remains controlled-limited-beta-only.
+Phase 34A does not approve BETA_READY.
+Phase 34A does not approve public production readiness.
+Phase 34A does not approve guaranteed data-loss prevention.
+Phase 34A does not approve restore execution.
+Phase 34A does not approve production restore rehearsal.
+Phase 34A does not approve real learner data restore rehearsal.
+Phase 34A does not approve runtime backup/export/restore behavior changes.
+Phase 34A does not approve backup file format changes.
+Phase 34A does not approve restore overwrite behavior changes.
+Phase 34A does not approve storage migration.
+Phase 34A does not approve sync/cloud/account/auth/backend.
+Phase 34A does not approve telemetry/analytics.
+Phase 34A does not approve built-in AI/OCR/API-key/BYOK behavior.
+Phase 34A does not approve BYOC/WebDAV/P2P/device-transfer implementation.
+Phase 34A does not approve limited settings visibility to ordinary users.
+Phase 34A does not implement Leader UI effects.
 
 Phase 34B must implement effects E01–E04 within the design boundaries defined in Phase 34A.
 Phase 34B must produce manual evidence per EV01–EV07.

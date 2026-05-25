@@ -3,10 +3,12 @@
 ## Status tokens
 
 ```text
-PHASE34A_LEADER_UI_EFFECTS_DESIGN_GATE_STATUS: COMPLETED_DESIGN_GATE
+PHASE34A_LEADER_UI_EFFECTS_DESIGN_GATE_STATUS: COMPLETED_UI_EFFECTS_DESIGN_GATE
 PHASE34A_CURRENT_READINESS_STATUS: LIMITED_BETA_CANDIDATE_CONFIRMED_BETA_READY_NOT_APPROVED
+PHASE34A_CONTROLLED_LIMITED_BETA_STATUS: GO_CONTROLLED_LIMITED_BETA_WITH_LIMITATIONS_CONFIRMED
 PHASE34A_LEADER_UI_EFFECTS_DESIGN_GATE_DECISION: PASS_TO_PHASE34B_LEADER_UI_EFFECTS_IMPLEMENTATION
-PHASE34A_DESIGN_SCOPE: DESIGN_ONLY_NO_RUNTIME_SOURCE_TEST_E2E_OR_BEHAVIOR_CHANGES
+PHASE34A_DESIGN_SCOPE: DESIGN_GATE_AND_TARGET_AUDIT_ONLY_NO_RUNTIME_BEHAVIOR_CHANGES
+PHASE34A_EFFECTS_BOUNDARY_STATUS: PERFORMANCE_ACCESSIBILITY_ROLLBACK_BOUNDARIES_DEFINED
 PHASE34A_LIMITATION_CARRYFORWARD_STATUS: ALL_10_LIMITATIONS_CARRIED_FORWARD_UNRESOLVED
 PHASE34B_LEADER_UI_EFFECTS_IMPLEMENTATION_SEED_STATUS: PREPARED_PLANNING_SEED
 ```
@@ -18,7 +20,7 @@ No production-visible UI changes in Phase 34A itself.
 
 This document is for internal review only. Not for public use.
 
-## Purpose
+## Scope
 
 Phase 34A is the Leader UI Effects Design Gate. It defines the design boundaries, effect
 inventory, performance budget, accessibility requirements, rollback plan, and implementation
@@ -30,6 +32,14 @@ any runtime non-visual behavior.
 
 Phase 34A does not implement any effect. Implementation is deferred to Phase 34B,
 subject to the design boundaries defined here.
+
+## Design method
+
+Phase 34A reviews the effect inventory, ownership model, candidate implementation
+surfaces, performance budget, accessibility and reduced-motion rules, screenshot/manual
+evidence plan, rollback/removal plan, and claim boundaries before issuing a design gate
+decision. This method is static and documentation-only; it does not execute or implement
+Leader UI effects.
 
 ## Inputs from Phase 33F
 
@@ -68,7 +78,7 @@ operate within LIMITED_BETA_CANDIDATE constraints subject to all 10 limitations.
 
 ---
 
-## Design Surface 1 — Effect inventory and ownership
+## Effect inventory
 
 ### Proposed Leader UI effects
 
@@ -83,6 +93,21 @@ loops. No requestAnimationFrame. No Web Animations API.
 | `E03` | `SessionCompleteEffect` | Lightweight CSS keyframe pulse/glow on the session-complete status indicator when all due cards are finished | Session completion screen component | Session complete screen only; removed/hidden on session start |
 | `E04` | `ProgressTickEffect` | Brief CSS `transform: scale(1.1) → 1.0` tick animation on the due-count display when the count decrements | Due-count / progress display component | Dashboard and study session progress area only |
 
+### Required effect inventory alignment
+
+| Required inventory row | Phase 34A mapping |
+|---|---|
+| page/route entrance calm fade or slide | Deferred; target audit identifies shell candidates, but E01-E04 keep Phase 34B narrow. |
+| card hover/press micro-interaction | Partially covered by E02 rating button press feedback; broader card hover is deferred. |
+| quiz answer feedback transition | Covered by E01 CardAnswerRevealEffect. |
+| progress/completion celebration restraint | Covered by E03 SessionCompleteEffect and E04 ProgressTickEffect. |
+| settings/help panel transition | Deferred; settings/help remains out of Phase 34B scope. |
+| skeleton/loading calm placeholder | Deferred; no loading placeholder effect is authorized for Phase 34B. |
+| focus/keyboard-visible state polish | Required as a constraint; no effect may obscure focus-visible states. |
+| reduced-motion fallback | Required for every effect through `prefers-reduced-motion`. |
+
+## Effect ownership model
+
 ### Ownership rules
 
 - Each effect is owned by and contained to a single named component scope (column 4).
@@ -92,9 +117,16 @@ loops. No requestAnimationFrame. No Web Animations API.
 - Effect ownership is established in this design spec. Phase 34B must not expand ownership
   without a dedicated design gate amendment.
 
+## Candidate implementation surfaces
+
+Candidate implementation surfaces are limited to the owner component scopes listed in the
+effect inventory, the effect-specific CSS needed for E01-E04, and any narrowly scoped test
+file created by Phase 34B. The broader target audit identifies additional candidate UI
+surfaces, but those are deferred unless a later design gate amendment approves them.
+
 ---
 
-## Design Surface 2 — Performance budget
+## Performance budget
 
 ### Budget definition
 
@@ -128,7 +160,7 @@ plan in Design Surface 8 documents the required manual screenshots/observations.
 
 ---
 
-## Design Surface 3 — Accessibility and reduced-motion rules
+## Accessibility and reduced-motion rules
 
 ### Reduced-motion requirement
 
@@ -180,9 +212,18 @@ No effect may interfere with keyboard navigation or focus ring visibility.
 The `RatingButtonFeedbackEffect (E02)` scale transform must not obscure or shift the
 button's focus ring.
 
+## Motion and visual language principles
+
+Leader UI effects must be quiet, short-duration, and study-supportive. Motion is decorative
+only and must never be the sole indicator of a state change. Phase 34B must prefer CSS-first
+effects where possible, use short duration effects only, introduce no new dependencies by
+default, and include no animation that blocks quiz interaction. The design permits no
+network calls, no backend/cloud/sync claims, and rollback by removing the effect
+module/styles only.
+
 ---
 
-## Design Surface 4 — No storage/backup/restore behavior changes
+## Storage and data safety boundary
 
 **Confirmation: CONFIRMED — no proposed effect requires or implies any storage, backup,
 export, or restore behavior change.**
@@ -206,7 +247,7 @@ this design spec.
 
 ---
 
-## Design Surface 5 — No cloud/sync/backend/account/auth claims
+## No cloud/sync/backend/account/auth claim boundary
 
 **Confirmation: CONFIRMED — no proposed effect requires or implies cloud sync, account
 system, authentication, or server-side features.**
@@ -226,6 +267,7 @@ Phase 34B implementation, Phase 34B must halt and return a NEEDS_DESIGN_AMENDMEN
 **Confirmation: CONFIRMED — no proposed effect implies a data-loss guarantee.**
 
 The absence-of-data-loss-guarantee limitation (limitation #7) remains in force.
+No data-loss guarantee proof exists in Phase 34A.
 Phase 34A Leader UI effects do not imply, suggest, or depend on any data-loss prevention
 guarantee. Participants must continue to maintain independent backups as required by the
 Phase 30B conditions.
@@ -235,7 +277,7 @@ user data is protected, synced, or guaranteed against loss.
 
 ---
 
-## Design Surface 7 — No Beta Ready/public production claims
+## No Beta Ready or public production claim boundary
 
 **Confirmation: CONFIRMED — no proposed effect implies BETA_READY or public production
 readiness.**
@@ -250,7 +292,7 @@ PASS_TO_PHASE34B_LEADER_UI_EFFECTS_IMPLEMENTATION (Phase 34A) is not BETA_READY.
 
 ---
 
-## Design Surface 8 — Screenshots/manual evidence plan
+## Screenshot and manual evidence plan
 
 ### Purpose
 
@@ -279,7 +321,7 @@ Evidence must be logged in the Phase 34B evidence doc (to be created as
 
 ---
 
-## Design Surface 9 — Rollback/removal plan
+## Rollback and removal plan
 
 ### Per-effect rollback plan
 
@@ -313,7 +355,7 @@ implementation doc.
 
 ---
 
-## Design Surface 10 — Final implementation scope boundaries
+## Phase 34B implementation boundaries
 
 ### Files permitted for Phase 34B modification
 
@@ -351,6 +393,48 @@ Phase 34B must verify the following are unaffected after implementation:
 7. No new JS console errors introduced by effect activation.
 
 ---
+
+## What Phase 34A supports
+
+Phase 34A supports a design-only pass to Phase 34B for E01-E04 within the performance,
+accessibility, reduced-motion, evidence, rollback/removal, storage, and claim boundaries
+defined in this document.
+
+## What Phase 34A does not approve
+
+Data Safety UX remains internal-only.
+
+Phase 34A does not approve BETA_READY, public production readiness, guaranteed data-loss
+prevention, restore execution, production restore rehearsal, real learner data restore
+rehearsal, runtime backup/export/restore behavior changes, backup file format changes,
+restore overwrite behavior changes, storage migration, sync/cloud/account/auth/backend,
+telemetry/analytics, built-in AI/OCR/API-key/BYOK behavior, BYOC/WebDAV/P2P/device-transfer
+implementation, limited settings visibility to ordinary users, or Leader UI effects
+implementation in Phase 34A itself.
+
+## Next recommended phase
+
+Next recommended phase: Phase 34B — Leader UI Effects Implementation
+
+Phase 34B is a separate implementation gate and is not automatically approved.
+Phase 34A confirms LIMITED_BETA_CANDIDATE remains the highest approved readiness status.
+Phase 34A confirms GO_CONTROLLED_LIMITED_BETA_WITH_LIMITATIONS remains controlled-limited-beta-only.
+Phase 34A does not approve BETA_READY.
+Phase 34A does not approve public production readiness.
+Phase 34A does not approve guaranteed data-loss prevention.
+Phase 34A does not approve restore execution.
+Phase 34A does not approve production restore rehearsal.
+Phase 34A does not approve real learner data restore rehearsal.
+Phase 34A does not approve runtime backup/export/restore behavior changes.
+Phase 34A does not approve backup file format changes.
+Phase 34A does not approve restore overwrite behavior changes.
+Phase 34A does not approve storage migration.
+Phase 34A does not approve sync/cloud/account/auth/backend.
+Phase 34A does not approve telemetry/analytics.
+Phase 34A does not approve built-in AI/OCR/API-key/BYOK behavior.
+Phase 34A does not approve BYOC/WebDAV/P2P/device-transfer implementation.
+Phase 34A does not approve limited settings visibility to ordinary users.
+Phase 34A does not implement Leader UI effects.
 
 ## Design gate decision
 

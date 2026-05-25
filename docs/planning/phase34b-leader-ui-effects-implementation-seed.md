@@ -23,10 +23,12 @@ production readiness, or any higher status.
 ## Inputs from Phase 34A
 
 ```text
-PHASE34A_LEADER_UI_EFFECTS_DESIGN_GATE_STATUS: COMPLETED_DESIGN_GATE
+PHASE34A_LEADER_UI_EFFECTS_DESIGN_GATE_STATUS: COMPLETED_UI_EFFECTS_DESIGN_GATE
 PHASE34A_CURRENT_READINESS_STATUS: LIMITED_BETA_CANDIDATE_CONFIRMED_BETA_READY_NOT_APPROVED
+PHASE34A_CONTROLLED_LIMITED_BETA_STATUS: GO_CONTROLLED_LIMITED_BETA_WITH_LIMITATIONS_CONFIRMED
 PHASE34A_LEADER_UI_EFFECTS_DESIGN_GATE_DECISION: PASS_TO_PHASE34B_LEADER_UI_EFFECTS_IMPLEMENTATION
-PHASE34A_DESIGN_SCOPE: DESIGN_ONLY_NO_RUNTIME_SOURCE_TEST_E2E_OR_BEHAVIOR_CHANGES
+PHASE34A_DESIGN_SCOPE: DESIGN_GATE_AND_TARGET_AUDIT_ONLY_NO_RUNTIME_BEHAVIOR_CHANGES
+PHASE34A_EFFECTS_BOUNDARY_STATUS: PERFORMANCE_ACCESSIBILITY_ROLLBACK_BOUNDARIES_DEFINED
 PHASE34A_LIMITATION_CARRYFORWARD_STATUS: ALL_10_LIMITATIONS_CARRIED_FORWARD_UNRESOLVED
 ```
 
@@ -53,7 +55,20 @@ Phase 34B may implement only the following 4 effects as defined in
 No additional effects may be introduced in Phase 34B without a Phase 34A design gate
 amendment.
 
-## Design constraints (inherited from Phase 34A)
+## Implementation constraints
+
+Required Phase 34B constraints:
+- small runtime/UI-only scope
+- no storage/backup/restore behavior changes
+- no route/data model changes
+- no sync/cloud/backend/account/auth
+- no telemetry
+- no new dependencies unless separately justified
+- CSS-first preferred
+- `prefers-reduced-motion` required
+- rollback/removal plan required
+- screenshot/manual evidence required
+- build/unit/static validator required
 
 Phase 34B implementation must comply with all Phase 34A design constraints:
 
@@ -82,7 +97,7 @@ Phase 34B implementation must comply with all Phase 34A design constraints:
 
 8. **No telemetry** — No effect may introduce telemetry or analytics.
 
-## Implementation scope
+## Allowed implementation surfaces
 
 ### Permitted file patterns
 
@@ -124,7 +139,7 @@ Phase 34B must produce all 7 evidence items before reaching a gate decision:
 Evidence must be logged in `docs/testing/phase34b-leader-ui-effects-implementation.md`
 (to be created by Phase 34B).
 
-## Regression test plan
+## Required tests or checks
 
 Phase 34B must verify the following are unaffected:
 
@@ -136,13 +151,13 @@ Phase 34B must verify the following are unaffected:
 6. Existing unit tests: all passing at ≥ 2567 count.
 7. No new JS console errors introduced.
 
-## Decision options for Phase 34B
+## Decision options
 
 Phase 34B must choose one of the following:
 
 ```text
 HOLD_LEADER_UI_EFFECTS_IMPLEMENTATION
-NEEDS_IMPLEMENTATION_REWORK
+NEEDS_UI_EFFECTS_IMPLEMENTATION_REWORK
 PASS_TO_PHASE34C_LEADER_UI_EFFECTS_EVIDENCE_REVIEW
 ```
 
@@ -150,14 +165,14 @@ PASS_TO_PHASE34C_LEADER_UI_EFFECTS_EVIDENCE_REVIEW
 is identified: performance budget exceeded, reduced-motion alternative absent, scope
 boundary violated, rollback path broken, or regression introduced.
 
-**`NEEDS_IMPLEMENTATION_REWORK`** — Use if specific implementation gaps are identified
-that can be addressed without a full re-evaluation.
+**`NEEDS_UI_EFFECTS_IMPLEMENTATION_REWORK`** — Use if specific implementation gaps are
+identified that can be addressed without a full re-evaluation.
 
 **`PASS_TO_PHASE34C_LEADER_UI_EFFECTS_EVIDENCE_REVIEW`** — Use only if all effects
 implemented within design boundaries, all 7 evidence items produced, all regressions
 absent, and all 10 limitations confirmed carried forward.
 
-## Forbidden defaults
+## Forbidden default approvals
 
 Phase 34B must not:
 - Pass automatically on the basis of Phase 34A PASS decision.
@@ -182,7 +197,7 @@ Phase 34B must not:
 9. No sync/cloud/account/auth/backend evidence present or intended.
 10. Phase 30C Beta Ready hold not lifted — BETA_READY not approved.
 
-## Recommended starting point
+## Recommended next step
 
 Phase 34B should begin by reading:
 - `docs/design/phase34a-leader-ui-effects-design-spec.md` — authoritative design spec
