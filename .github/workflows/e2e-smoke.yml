@@ -210,8 +210,11 @@ jobs:
       # Phase 33B validator retained as historical reference; not run as Phase 33C merge-blocking gate.
       # node scripts/validate-phase33b-controlled-limited-beta-prep.js
 
-      - name: Validate Phase 33C Controlled Limited Beta Prep Review
-        run: node scripts/validate-phase33c-controlled-limited-beta-prep-review.js
+      # Phase 33C validator retained as historical reference; not run as Phase 33D merge-blocking gate.
+      # node scripts/validate-phase33c-controlled-limited-beta-prep-review.js
+
+      - name: Validate Phase 33D Limited Beta Candidate Release Notes Review
+        run: node scripts/validate-phase33d-limited-beta-candidate-release-notes-review.js
 
       - name: Build app
         run: npm run build
