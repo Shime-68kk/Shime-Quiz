@@ -222,8 +222,11 @@ jobs:
       # Phase 33F validator retained as historical reference; not run as Phase 34A merge-blocking gate.
       # node scripts/validate-phase33f-controlled-limited-beta-final-go-no-go.js
 
-      - name: Validate Phase 34A Leader UI Effects Design Gate
-        run: node scripts/validate-phase34a-leader-ui-effects-design-gate.js
+      # Phase 34A validator retained as historical reference; not run as Phase 34B merge-blocking gate.
+      # node scripts/validate-phase34a-leader-ui-effects-design-gate.js
+
+      - name: Validate Phase 34B Leader UI Effects Implementation
+        run: node scripts/validate-phase34b-leader-ui-effects-implementation.js
 
       - name: Build app
         run: npm run build
