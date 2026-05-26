@@ -252,6 +252,15 @@ export default function StudyRoom() {
   // itself reads the active-scheduling flag from runtime settings and
   // applies the appropriate copy variant.
   const isActiveSchedulingCopyContextEligible = Boolean(showBridge && bridgeToggleEnabled);
+  const answerFeedbackPolishState = currentItemState.checked
+    ? objectiveCorrect === true
+      ? 'correct'
+      : objectiveCorrect === false
+        ? 'incorrect'
+        : 'checked'
+    : currentItemState.revealed
+      ? 'revealed'
+      : 'neutral';
 
   // Auto-append Again log for wrong/unanswered eligible items.
   useEffect(() => {
@@ -752,18 +761,23 @@ export default function StudyRoom() {
               label={`Tiến độ duyệt item ${currentIndex + 1} trên ${items.length}`}
             />
 
-            <StudyItemRenderer
-              item={currentItem}
-              contextLabel={currentTopic?.title}
-              itemState={currentItemState}
-              actions={{
-                onAnswerChange: updateAnswer,
-                onCheck: checkCurrentAnswer,
-                onResetAnswer: resetCurrentAnswer,
-                onToggleReveal: toggleCurrentFlashcard,
-                onResetReveal: resetCurrentFlashcard
-              }}
-            />
+            <div
+              className={`studyAnswerFeedbackPolish studyAnswerFeedbackPolish--${answerFeedbackPolishState}`}
+              data-phase35n-answer-feedback-state={answerFeedbackPolishState}
+            >
+              <StudyItemRenderer
+                item={currentItem}
+                contextLabel={currentTopic?.title}
+                itemState={currentItemState}
+                actions={{
+                  onAnswerChange: updateAnswer,
+                  onCheck: checkCurrentAnswer,
+                  onResetAnswer: resetCurrentAnswer,
+                  onToggleReveal: toggleCurrentFlashcard,
+                  onResetReveal: resetCurrentFlashcard
+                }}
+              />
+            </div>
 
             {showBridge ? (
               <FsrsProductionMemoryRatingBridge
