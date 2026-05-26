@@ -255,8 +255,11 @@ jobs:
       # Phase 35H validator retained as historical reference; not run as Phase 35I merge-blocking gate.
       # node scripts/validate-phase35h-hybrid-navigation-indicator.js
 
-      - name: Validate Phase 35I Hybrid Navigation Indicator Evidence Review
-        run: node scripts/validate-phase35i-hybrid-navigation-indicator-evidence-review.js
+      # Phase 35I validator retained as historical reference; not run as Phase 35J merge-blocking gate.
+      # node scripts/validate-phase35i-hybrid-navigation-indicator-evidence-review.js
+
+      - name: Validate Phase 35J Next UI Polish Scope
+        run: node scripts/validate-phase35j-next-ui-polish-scope.js
 
       - name: Build app
         run: npm run build
