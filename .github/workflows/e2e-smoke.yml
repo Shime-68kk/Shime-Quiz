@@ -234,8 +234,11 @@ jobs:
       # Phase 35A validator retained as historical reference; not run as Phase 35B merge-blocking gate.
       # node scripts/validate-phase35a-leader-ui-structural-scope-gate.js
 
-      - name: Validate Phase 35B Library Bookshelf
-        run: node scripts/validate-phase35b-library-bookshelf.js
+      # Phase 35B validator retained as historical reference; not run as Phase 35C merge-blocking gate.
+      # node scripts/validate-phase35b-library-bookshelf.js
+
+      - name: Validate Phase 35C Library Bookshelf Evidence Review
+        run: node scripts/validate-phase35c-library-bookshelf-evidence-review.js
 
       - name: Build app
         run: npm run build
