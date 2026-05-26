@@ -57,11 +57,13 @@ jobs:
           test -x node_modules/.bin/vite
           test -x node_modules/.bin/vitest
 
-      # Phase 35J validator retained as historical reference; not run as Phase 35K merge-blocking gate.
-      # node scripts/validate-phase35j-next-ui-polish-scope.js
+      # Phase 35K validator retained as historical reference; not run as Phase 35L merge-blocking gate.
+      # Validate Phase 35K Elastic Button Compression Pilot
+      # node scripts/validate-phase35k-elastic-button-compression-pilot.js
+      # Phase 35J validator retained as historical reference from the Phase 35K gate; not run here.
 
-      - name: Validate Phase 35K Elastic Button Compression Pilot
-        run: node scripts/validate-phase35k-elastic-button-compression-pilot.js
+      - name: Validate Phase 35L Elastic Button Compression Pilot Evidence Review
+        run: node scripts/validate-phase35l-elastic-button-compression-pilot-evidence-review.js
 
       - name: Build app
         run: npm run build
