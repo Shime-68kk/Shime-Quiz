@@ -73,8 +73,12 @@ jobs:
       # node scripts/validate-phase35k-elastic-button-compression-pilot.js
       # Phase 35J validator retained as historical reference from the Phase 35K gate; not run here.
 
-      - name: Validate Phase 36 UI Polish Backlog Review
-        run: node scripts/validate-phase36-ui-polish-backlog-review.js
+      # Phase 36 validator retained as historical reference; not run as Phase 36A merge-blocking gate.
+      # Validate Phase 36 UI Polish Backlog Review
+      # node scripts/validate-phase36-ui-polish-backlog-review.js
+
+      - name: Validate Phase 36A Mobile Touch Polish Scope Gate
+        run: node scripts/validate-phase36a-mobile-touch-polish-scope.js
 
       - name: Build app
         run: npm run build
