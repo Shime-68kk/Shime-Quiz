@@ -54,6 +54,7 @@ const ALLOWED_CHANGED_FILES = new Set([
   'src/styles/global.css',
   'tests/unit/libraryBookshelfTabs.test.jsx',
   'e2e/smoke.spec.js',
+  'e2e/onboarding-smoke.spec.js',
   EVIDENCE_DOC,
   SUMMARY_DOC,
   SEED_35C,
@@ -193,7 +194,7 @@ function isForbiddenChangedFile(file) {
     /^src\/components\/(?!.*Library).*$/,
     /^src\//,
     /^tests\/(?!unit\/libraryBookshelfTabs\.test\.jsx$)/,
-    /^e2e\/(?!smoke\.spec\.js$)/,
+    /^e2e\/(?!smoke\.spec\.js$|onboarding-smoke\.spec\.js$)/,
     /^scripts\/validate-phase(?!35b-library-bookshelf\.js$)/,
     /^docs\/(testing|release|planning|design)\/phase(?!35[bc]-)/,
   ];
