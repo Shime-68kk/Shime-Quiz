@@ -11,6 +11,7 @@ import TodayJourneyCard from '../components/learning/TodayJourneyCard.jsx';
 import ReviewSchedulePanel from '../components/study/ReviewSchedulePanel.jsx';
 import SmartPracticePanel from '../components/study/SmartPracticePanel.jsx';
 import StudyHistoryPanel from '../components/study/StudyHistoryPanel.jsx';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DashboardLearningDataProvider, useDashboardLearningData } from '../dashboard/DashboardLearningDataContext.jsx';
 import { computeMixedSchedulerDueSummary } from '../quiz/reviewSchedulerAdapter.js';
@@ -62,6 +63,7 @@ export default function Dashboard() {
 
 function DashboardContent() {
   const navigate = useNavigate();
+  const [dashboardView, setDashboardView] = useState('today');
   const {
     adapter,
     librarySummary: summary,
@@ -100,95 +102,136 @@ function DashboardContent() {
         actions={<Button type="button" size="lg" onClick={() => navigate('/study-room')}>Học tiếp</Button>}
       />
 
-      <Card title="Nguồn dữ liệu" eyebrow="Trạng thái thư viện" className="dataSourceCard">
-        <div className="dataSourceCard__content">
-          <Badge tone={dataSource.sourceType === 'mock' ? 'neutral' : 'success'}>{sourceLabel}</Badge>
-          <div>
-            <strong>{dataSource.sourceName}</strong>
-            <p className="muted">
-              {dataSource.importedAt
-                ? `Đã lưu cục bộ lúc ${new Intl.DateTimeFormat('vi-VN', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(dataSource.importedAt))}.`
-                : 'Đang dùng dữ liệu mẫu. Nạp JSON/CSV trong Thư viện để lưu dữ liệu cho lần mở sau.'}
-            </p>
-          </div>
-        </div>
-      </Card>
-
-      <DashboardTodayCard />
-
-      {isFirstRunEmptyState ? (
-        <Card title="Chưa có dữ liệu học tập" eyebrow="Bắt đầu an toàn" className="dashboardFirstRunOnboardingCard">
-          <div className="textImportCard__intro">
-            <p className="muted">
-              Mở Thư viện để dùng quiz mẫu, import JSON/CSV, hoặc dán nội dung text/Markdown. Shime không tự nạp và không tự lưu — bạn xem trước và xác nhận trước khi lưu.
-            </p>
-            <p className="muted">
-              Dữ liệu học nằm trên thiết bị này, không cần tài khoản, không gửi đi đâu. Xuất bản sao lưu bất cứ lúc nào từ Thư viện.
-            </p>
-            <p className="muted">
-              Shime không gọi AI/API và không có API key/BYOK. Import tài liệu PDF/DOCX/PPTX/ZIP cần EduGen chạy riêng và được cấu hình.
-            </p>
-          </div>
-          <div className="textImportActions">
-            <Button type="button" variant="secondary" onClick={() => navigate('/library')}>
-              Mở Thư viện
-            </Button>
-            <span className="muted">Không auto-load, không auto-save, không reset dữ liệu.</span>
-          </div>
-        </Card>
-      ) : null}
-
-      <TodayJourneyCard />
-
-      <StudyGoalCard />
-
-      <HistoryAnalyticsPanel />
-
-      <MasteryInsightsPanel />
-
-      <ReviewSchedulePanel />
-
-      <MixedSchedulerDueNote scheduleRecords={scheduleRecords} />
-
-      <SmartPracticePanel />
-
-      <StudyHistoryPanel compact />
-
-      <div className="cardGrid cardGrid--three" aria-label="Tóm tắt học liệu">
-        {summaries.map(item => (
-          <Card key={item.label} title={item.label} eyebrow="Tổng quan" variant="elevated">
-            <Badge tone={item.tone}>{item.badge}</Badge>
-            <strong className="metric">{item.value}</strong>
-            <p className="muted">{item.note}</p>
-            <div className="dashboardProgress">
-              <ProgressBar value={item.progress} label={`${item.label} trong dữ liệu hiện tại`} />
-            </div>
-          </Card>
-        ))}
+      <div role="tablist" className="dashboardCalmTabs" aria-label="Chế độ bảng điều khiển">
+        <button
+          id="dashboard-tab-today"
+          role="tab"
+          type="button"
+          aria-selected={dashboardView === 'today'}
+          aria-controls="dashboard-panel-today"
+          className={`dashboardCalmTab${dashboardView === 'today' ? ' dashboardCalmTab--active' : ''}`}
+          onClick={() => setDashboardView('today')}
+        >
+          Hôm nay
+        </button>
+        <button
+          id="dashboard-tab-progress"
+          role="tab"
+          type="button"
+          aria-selected={dashboardView === 'progress'}
+          aria-controls="dashboard-panel-progress"
+          className={`dashboardCalmTab${dashboardView === 'progress' ? ' dashboardCalmTab--active' : ''}`}
+          onClick={() => setDashboardView('progress')}
+        >
+          Nhật ký tiến độ
+        </button>
       </div>
 
-      <div className="cardGrid cardGrid--two" aria-label="Tóm tắt loại học liệu">
-        <Card title="Loại học liệu" eyebrow="Mô hình dữ liệu">
-          <div className="badgeList" aria-label="Phân bổ loại học liệu">
-            {itemTypeEntries.map(([type, count]) => (
-              <Badge key={type} tone="info">
-                {itemTypeLabels[type] || type}: {count}
-              </Badge>
-            ))}
+      <div
+        id="dashboard-panel-today"
+        role="tabpanel"
+        aria-labelledby="dashboard-tab-today"
+        className="dashboardCalmPanel"
+        hidden={dashboardView !== 'today'}
+      >
+        <DashboardTodayCard />
+
+        {isFirstRunEmptyState ? (
+          <Card title="Chưa có dữ liệu học tập" eyebrow="Bắt đầu an toàn" className="dashboardFirstRunOnboardingCard">
+            <div className="textImportCard__intro">
+              <p className="muted">
+                Mở Thư viện để dùng quiz mẫu, import JSON/CSV, hoặc dán nội dung text/Markdown. Shime không tự nạp và không tự lưu — bạn xem trước và xác nhận trước khi lưu.
+              </p>
+              <p className="muted">
+                Dữ liệu học nằm trên thiết bị này, không cần tài khoản, không gửi đi đâu. Xuất bản sao lưu bất cứ lúc nào từ Thư viện.
+              </p>
+              <p className="muted">
+                Shime không gọi AI/API và không có API key/BYOK. Import tài liệu PDF/DOCX/PPTX/ZIP cần EduGen chạy riêng và được cấu hình.
+              </p>
+            </div>
+            <div className="textImportActions">
+              <Button type="button" variant="secondary" onClick={() => navigate('/library')}>
+                Mở Thư viện
+              </Button>
+              <span className="muted">Không auto-load, không auto-save, không reset dữ liệu.</span>
+            </div>
+          </Card>
+        ) : null}
+
+        <TodayJourneyCard />
+
+        <StudyGoalCard />
+      </div>
+
+      <div
+        id="dashboard-panel-progress"
+        role="tabpanel"
+        aria-labelledby="dashboard-tab-progress"
+        className="dashboardCalmPanel"
+        hidden={dashboardView !== 'progress'}
+      >
+        <Card title="Nguồn dữ liệu" eyebrow="Trạng thái thư viện" className="dataSourceCard">
+          <div className="dataSourceCard__content">
+            <Badge tone={dataSource.sourceType === 'mock' ? 'neutral' : 'success'}>{sourceLabel}</Badge>
+            <div>
+              <strong>{dataSource.sourceName}</strong>
+              <p className="muted">
+                {dataSource.importedAt
+                  ? `Đã lưu cục bộ lúc ${new Intl.DateTimeFormat('vi-VN', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(dataSource.importedAt))}.`
+                  : 'Đang dùng dữ liệu mẫu. Nạp JSON/CSV trong Thư viện để lưu dữ liệu cho lần mở sau.'}
+              </p>
+            </div>
           </div>
-          <p className="muted">Bộ chuyển đổi hiện hỗ trợ trắc nghiệm, trả lời ngắn và thẻ ghi nhớ.</p>
         </Card>
 
-        <Card title="Môn học hiện có" eyebrow="Xem nhanh thư viện">
-          <div className="subjectMiniList">
-            {subjects.map(subject => (
-              <span key={subject.id} className="subjectMiniList__item">
-                {subject.title}
-              </span>
-            ))}
-          </div>
-          <p className="muted">Dữ liệu này đến từ dữ liệu mẫu hoặc dữ liệu nạp cục bộ để chuẩn bị kiến trúc nhiều môn học.</p>
-        </Card>
+        <HistoryAnalyticsPanel />
+
+        <MasteryInsightsPanel />
+
+        <ReviewSchedulePanel />
+
+        <MixedSchedulerDueNote scheduleRecords={scheduleRecords} />
+
+        <SmartPracticePanel />
+
+        <StudyHistoryPanel compact />
+
+        <div className="cardGrid cardGrid--three" aria-label="Tóm tắt học liệu">
+          {summaries.map(item => (
+            <Card key={item.label} title={item.label} eyebrow="Tổng quan" variant="elevated">
+              <Badge tone={item.tone}>{item.badge}</Badge>
+              <strong className="metric">{item.value}</strong>
+              <p className="muted">{item.note}</p>
+              <div className="dashboardProgress">
+                <ProgressBar value={item.progress} label={`${item.label} trong dữ liệu hiện tại`} />
+              </div>
+            </Card>
+          ))}
+        </div>
+
+        <div className="cardGrid cardGrid--two" aria-label="Tóm tắt loại học liệu">
+          <Card title="Loại học liệu" eyebrow="Mô hình dữ liệu">
+            <div className="badgeList" aria-label="Phân bổ loại học liệu">
+              {itemTypeEntries.map(([type, count]) => (
+                <Badge key={type} tone="info">
+                  {itemTypeLabels[type] || type}: {count}
+                </Badge>
+              ))}
+            </div>
+            <p className="muted">Bộ chuyển đổi hiện hỗ trợ trắc nghiệm, trả lời ngắn và thẻ ghi nhớ.</p>
+          </Card>
+
+          <Card title="Môn học hiện có" eyebrow="Xem nhanh thư viện">
+            <div className="subjectMiniList">
+              {subjects.map(subject => (
+                <span key={subject.id} className="subjectMiniList__item">
+                  {subject.title}
+                </span>
+              ))}
+            </div>
+            <p className="muted">Dữ liệu này đến từ dữ liệu mẫu hoặc dữ liệu nạp cục bộ để chuẩn bị kiến trúc nhiều môn học.</p>
+          </Card>
+        </div>
       </div>
     </div>
   );
