@@ -1,9 +1,22 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { navRoutes } from '../routes/routeConfig.js';
 
 export default function BottomNav() {
+  const location = useLocation();
+  const activeIndex = navRoutes.findIndex(item => item.path === location.pathname);
+  const hasActiveItem = activeIndex >= 0;
+
   return (
-    <nav className="bottomNav" aria-label="Điều hướng di động">
+    <nav
+      className="bottomNav primaryNavIndicatorHost"
+      aria-label="Điều hướng di động"
+      data-nav-active={hasActiveItem ? 'true' : 'false'}
+      style={{
+        '--nav-active-index': hasActiveItem ? activeIndex : 0,
+        '--nav-item-count': navRoutes.length
+      }}
+    >
+      <span className="primaryNavSlidingIndicator" aria-hidden="true" />
       {navRoutes.map(item => (
         <NavLink
           key={item.path}
