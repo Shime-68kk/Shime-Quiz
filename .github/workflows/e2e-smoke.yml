@@ -243,8 +243,11 @@ jobs:
       # Phase 35D validator retained as historical reference; not run as Phase 35E merge-blocking gate.
       # node scripts/validate-phase35d-dashboard-deconstruction-research-scope.js
 
-      - name: Validate Phase 35E Dashboard Calm Home
-        run: node scripts/validate-phase35e-dashboard-calm-home.js
+      # Phase 35E validator retained as historical reference; not run as Phase 35F merge-blocking gate.
+      # node scripts/validate-phase35e-dashboard-calm-home.js
+
+      - name: Validate Phase 35F Dashboard Calm Home Evidence Review
+        run: node scripts/validate-phase35f-dashboard-calm-home-evidence-review.js
 
       - name: Build app
         run: npm run build
