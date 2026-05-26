@@ -57,19 +57,18 @@ jobs:
           test -x node_modules/.bin/vite
           test -x node_modules/.bin/vitest
 
-      # Phase 35M validator retained as historical reference; not run as Phase 35N merge-blocking gate.
-      # Validate Phase 35M Next UI Polish Scope Gate
+      # Phase 35N validator retained as historical reference; not run as Phase 35O merge-blocking gate.
+      # Validate Phase 35N Study Room Answer Feedback Polish
+      # node scripts/validate-phase35n-study-room-answer-feedback-polish.js
+      # Phase 35M validator retained as historical reference; not run as Phase 35O merge-blocking gate.
       # node scripts/validate-phase35m-next-ui-polish-scope.js
-      # Phase 35L validator retained as historical reference; not run as Phase 35N merge-blocking gate.
-      # Validate Phase 35L Elastic Button Compression Pilot Evidence Review
-      # node scripts/validate-phase35l-elastic-button-compression-pilot-evidence-review.js
-      # Phase 35K validator retained as historical reference from the Phase 35L gate; not run here.
+      # Phase 35K validator retained as historical reference from earlier UI polish gates; not run here.
       # Validate Phase 35K Elastic Button Compression Pilot
       # node scripts/validate-phase35k-elastic-button-compression-pilot.js
       # Phase 35J validator retained as historical reference from the Phase 35K gate; not run here.
 
-      - name: Validate Phase 35N Study Room Answer Feedback Polish
-        run: node scripts/validate-phase35n-study-room-answer-feedback-polish.js
+      - name: Validate Phase 35O Study Room Answer Feedback Polish Evidence Review
+        run: node scripts/validate-phase35o-study-room-answer-feedback-polish-evidence-review.js
 
       - name: Build app
         run: npm run build
