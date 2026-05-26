@@ -82,6 +82,8 @@ test('Library onboarding surfaces import choices without hiding existing control
     await expect(pageBody).toContainText(/Thư viện của bạn đang trống/);
   }
 
+  await page.getByRole('tab', { name: 'Xưởng nạp tài liệu' }).click();
+
   await expect(pageBody).toContainText(/Dùng quiz mẫu/);
   await expect(pageBody).toContainText(/JSON\/CSV|Nạp JSON\/CSV/);
   await expect(pageBody).toContainText(/text\/Markdown|văn bản\/Markdown/i);
@@ -99,6 +101,7 @@ test('Demo sample quickstart opens preview and does not auto-save before confirm
 
   await page.goto('/library');
   await expect(page.getByRole('heading', { name: 'Thư viện học liệu' })).toBeVisible();
+  await page.getByRole('tab', { name: 'Xưởng nạp tài liệu' }).click();
   await expect(page.getByRole('button', { name: 'Dùng quiz mẫu' })).toBeVisible();
 
   await page.getByRole('button', { name: 'Dùng quiz mẫu' }).click();
