@@ -81,8 +81,12 @@ jobs:
       # Validate Phase 36A Mobile Touch Polish Scope Gate
       # node scripts/validate-phase36a-mobile-touch-polish-scope.js
 
-      - name: Validate Phase 36B Bottom Navigation Touch Comfort and Safe-Area Pilot
-        run: node scripts/validate-phase36b-bottom-nav-touch-comfort-safe-area-pilot.js
+      # Phase 36B validator retained as historical reference; not run as Phase 36C merge-blocking gate.
+      # Validate Phase 36B Bottom Navigation Touch Comfort and Safe-Area Pilot
+      # node scripts/validate-phase36b-bottom-nav-touch-comfort-safe-area-pilot.js
+
+      - name: Validate Phase 36C Bottom Navigation Touch Comfort and Safe-Area Pilot Evidence Review
+        run: node scripts/validate-phase36c-bottom-nav-touch-comfort-safe-area-pilot-evidence-review.js
 
       - name: Build app
         run: npm run build
