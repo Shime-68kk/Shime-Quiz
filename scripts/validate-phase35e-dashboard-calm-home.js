@@ -22,6 +22,8 @@ const OPTIONAL_E2E_FILES = [
   'e2e/onboarding-smoke.spec.js'
 ];
 
+const EXPECTED_PHASE35E_CHANGED_FILES = [...REQUIRED_FILES];
+const VALIDATOR_FILE = 'scripts/validate-phase35e-dashboard-calm-home.js';
 const ALLOWED_FILES = new Set([...REQUIRED_FILES, ...OPTIONAL_E2E_FILES]);
 
 const REQUIRED_TOKENS = [
@@ -140,11 +142,6 @@ for (const file of REQUIRED_FILES) {
 git(['rev-parse', '--verify', 'origin/main']);
 
 const changed = changedFiles();
-if (!changed.includes('src/routes/Dashboard.jsx')) fail('src/routes/Dashboard.jsx must be changed.');
-
-for (const file of changed) {
-  if (!ALLOWED_FILES.has(file)) fail(`Changed file is outside Phase 35E allowlist: ${file}`);
-}
 
 if (changed.includes('src/dashboard/DashboardLearningDataContext.jsx')) {
   fail('DashboardLearningDataContext.jsx must not be changed.');
@@ -154,6 +151,38 @@ for (const file of changed) {
   if (/^package(-lock)?\.json$/.test(file)) fail(`Package file must not change: ${file}`);
   if (/^(src\/)?(storage|.*\/storage|.*\/backup|.*\/restore|.*\/import|.*\/parser|.*\/scheduler|.*\/fsrs|.*\/sync|.*\/auth|.*\/backend|.*\/telemetry)\//.test(file)) {
     fail(`Forbidden system area changed: ${file}`);
+  }
+}
+
+function classifyDiffMode(files) {
+  if (files.length === 0) return 'post-merge-main';
+  if (files.length === 1 && files[0] === VALIDATOR_FILE) return 'validator-hotfix';
+
+  const hasPhase35eImplementationDiff = files.some(file => (
+    EXPECTED_PHASE35E_CHANGED_FILES.includes(file) && file !== VALIDATOR_FILE
+  ));
+  if (hasPhase35eImplementationDiff) return 'pr-diff';
+
+  fail(`Unable to classify Phase 35E validator diff mode for changed files: ${files.join(', ')}`);
+}
+
+const diffMode = classifyDiffMode(changed);
+
+if (diffMode === 'pr-diff') {
+  for (const file of EXPECTED_PHASE35E_CHANGED_FILES) {
+    if (!changed.includes(file)) fail(`Phase 35E PR diff must include expected file: ${file}`);
+  }
+}
+
+if (diffMode === 'validator-hotfix') {
+  for (const file of changed) {
+    if (file !== VALIDATOR_FILE) fail(`Validator hotfix mode may only change ${VALIDATOR_FILE}: ${file}`);
+  }
+}
+
+if (diffMode !== 'post-merge-main') {
+  for (const file of changed) {
+    if (!ALLOWED_FILES.has(file)) fail(`Changed file is outside Phase 35E allowlist: ${file}`);
   }
 }
 
@@ -254,4 +283,4 @@ for (const pattern of forbiddenApprovalPatterns) {
   if (pattern.test(allPhaseDocs)) fail(`Docs contain forbidden approval language: ${pattern}`);
 }
 
-console.log('validate-phase35e-dashboard-calm-home passed.');
+console.log(`validate-phase35e-dashboard-calm-home passed (${diffMode}).`);
