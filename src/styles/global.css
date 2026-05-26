@@ -593,6 +593,47 @@ h1 {
   transform: none;
 }
 
+.pageHeader__actions .button--primary,
+.libraryWorkshopActionsCard .textImportActions .button--secondary,
+.demoSampleQuickstartCard .textImportActions .button--secondary {
+  --elastic-button-compression-scale: 0.975;
+  --elastic-button-compression-shadow: 0 8px 18px rgba(49, 92, 77, 0.16);
+
+  will-change: transform, box-shadow;
+  transition:
+    transform 125ms ease,
+    box-shadow 125ms ease,
+    opacity 125ms ease,
+    background 125ms ease,
+    border-color 125ms ease;
+}
+
+.pageHeader__actions .button--primary:active:not(:disabled):not([aria-busy='true']),
+.libraryWorkshopActionsCard .textImportActions .button--secondary:active:not(:disabled):not([aria-busy='true']),
+.demoSampleQuickstartCard .textImportActions .button--secondary:active:not(:disabled):not([aria-busy='true']) {
+  box-shadow: var(--elastic-button-compression-shadow);
+  transform: scale(var(--elastic-button-compression-scale));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pageHeader__actions .button--primary,
+  .libraryWorkshopActionsCard .textImportActions .button--secondary,
+  .demoSampleQuickstartCard .textImportActions .button--secondary {
+    transition:
+      box-shadow 125ms ease,
+      opacity 125ms ease,
+      background 125ms ease,
+      border-color 125ms ease;
+  }
+
+  .pageHeader__actions .button--primary:active:not(:disabled):not([aria-busy='true']),
+  .libraryWorkshopActionsCard .textImportActions .button--secondary:active:not(:disabled):not([aria-busy='true']),
+  .demoSampleQuickstartCard .textImportActions .button--secondary:active:not(:disabled):not([aria-busy='true']) {
+    opacity: 0.88;
+    transform: none;
+  }
+}
+
 .button__spinner {
   width: 1em;
   height: 1em;
