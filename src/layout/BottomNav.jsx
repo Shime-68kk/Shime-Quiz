@@ -8,7 +8,7 @@ export default function BottomNav() {
 
   return (
     <nav
-      className="bottomNav primaryNavIndicatorHost"
+      className="bottomNav primaryNavIndicatorHost phase36b-bottom-nav-touch-pilot"
       aria-label="Điều hướng di động"
       data-nav-active={hasActiveItem ? 'true' : 'false'}
       style={{

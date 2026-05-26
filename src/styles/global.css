@@ -396,6 +396,7 @@ h1 {
 
 .bottomNav {
   --nav-item-gap: 0px;
+  --phase36b-bottom-nav-safe-area: var(--bottom-nav-safe-area, 0px);
 
   position: fixed;
   right: var(--bottom-nav-edge-gap);
@@ -414,12 +415,28 @@ h1 {
   backdrop-filter: blur(18px);
 }
 
+.bottomNav.phase36b-bottom-nav-touch-pilot {
+  bottom: max(8px, var(--bottom-nav-edge-gap));
+  min-height: calc(var(--bottom-nav-height) - 8px + var(--phase36b-bottom-nav-safe-area));
+  gap: 2px;
+  padding: 10px 10px calc(10px + var(--phase36b-bottom-nav-safe-area));
+  touch-action: manipulation;
+}
+
 .bottomNav .primaryNavSlidingIndicator {
   top: 8px;
   bottom: 8px;
   left: 8px;
   width: calc((100% - 16px) / var(--nav-item-count, 4));
   transform: translate3d(calc(var(--nav-active-index, 0) * 100%), 0, 0);
+}
+
+.bottomNav.phase36b-bottom-nav-touch-pilot .primaryNavSlidingIndicator {
+  top: 10px;
+  bottom: calc(10px + var(--phase36b-bottom-nav-safe-area));
+  left: 10px;
+  width: calc((100% - 20px - (var(--nav-item-gap, 0px) * (var(--nav-item-count, 4) - 1))) / var(--nav-item-count, 4));
+  transform: translate3d(calc(var(--nav-active-index, 0) * (100% + var(--nav-item-gap, 0px))), 0, 0);
 }
 
 .bottomNav__item {
@@ -432,6 +449,16 @@ h1 {
   line-height: 1.15;
   text-align: center;
   touch-action: manipulation;
+}
+
+.bottomNav.phase36b-bottom-nav-touch-pilot .bottomNav__item {
+  min-height: 52px;
+  padding: 7px 4px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bottomNav.phase36b-bottom-nav-touch-pilot .bottomNav__item:focus-visible {
+  outline-offset: 2px;
 }
 
 .bottomNav__item:active {

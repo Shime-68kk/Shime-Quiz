@@ -77,8 +77,12 @@ jobs:
       # Validate Phase 36 UI Polish Backlog Review
       # node scripts/validate-phase36-ui-polish-backlog-review.js
 
-      - name: Validate Phase 36A Mobile Touch Polish Scope Gate
-        run: node scripts/validate-phase36a-mobile-touch-polish-scope.js
+      # Phase 36A validator retained as historical reference; not run as Phase 36B merge-blocking gate.
+      # Validate Phase 36A Mobile Touch Polish Scope Gate
+      # node scripts/validate-phase36a-mobile-touch-polish-scope.js
+
+      - name: Validate Phase 36B Bottom Navigation Touch Comfort and Safe-Area Pilot
+        run: node scripts/validate-phase36b-bottom-nav-touch-comfort-safe-area-pilot.js
 
       - name: Build app
         run: npm run build
