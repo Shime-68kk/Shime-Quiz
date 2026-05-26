@@ -99,6 +99,8 @@ test('mobile viewport renders primary routes without document overflow', async (
 test('import UI accepts valid JSON and blocks invalid import fixtures with Vietnamese feedback', async ({ page }) => {
   const criticalErrors = installCriticalErrorCapture(page);
   await page.goto('/library');
+  await expect(page.getByRole('heading', { name: 'Thư viện học liệu' })).toBeVisible();
+  await page.getByRole('tab', { name: 'Xưởng nạp tài liệu' }).click();
 
   const importInput = page.getByLabel('Chọn file JSON hoặc CSV học liệu');
 
@@ -107,7 +109,9 @@ test('import UI accepts valid JSON and blocks invalid import fixtures with Vietn
   await expect(page.getByText('Sẵn sàng import')).toBeVisible();
   await page.getByRole('button', { name: 'Import và lưu cục bộ' }).click();
   await expect(page.getByText('Đã import và lưu cục bộ')).toBeVisible();
+  await page.getByRole('tab', { name: 'Kệ sách của tôi' }).click();
   await expect(page.getByText('Môn kiểm thử E2E')).toBeVisible();
+  await page.getByRole('tab', { name: 'Xưởng nạp tài liệu' }).click();
 
   await importInput.setInputFiles('tests/fixtures/invalid-import.json');
   await expect(page.getByText('Không thể import file này')).toBeVisible();
@@ -187,6 +191,7 @@ test('backup controls are usable and full backup download can be triggered', asy
   await page.goto('/library');
 
   await expect(page.getByRole('heading', { name: 'Thư viện học liệu' })).toBeVisible();
+  await page.getByRole('tab', { name: 'Xưởng nạp tài liệu' }).click();
   await expect(page.getByRole('heading', { name: 'Sao lưu dữ liệu' })).toBeVisible();
   const backupModeChooser = page.locator('.backupModeChooser');
   await expect(backupModeChooser.getByText('Sao lưu đầy đủ')).toBeVisible();
