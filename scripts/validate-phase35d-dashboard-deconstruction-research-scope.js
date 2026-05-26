@@ -235,16 +235,41 @@ function isGeneratedArtifactPath(file) {
   return GENERATED_ARTIFACTS.some(artifact => file === artifact || file.startsWith(`${artifact}/`));
 }
 
-function getChangedFiles() {
+function getGitLinesOrEmpty(args) {
+  try {
+    return gitLines(args);
+  } catch {
+    return [];
+  }
+}
+
+function getChangedFileContext() {
   try {
     const committed = gitLines(['diff', '--name-only', 'origin/main..HEAD']);
     const worktree = gitLines(['diff', '--name-only']);
     const staged = gitLines(['diff', '--cached', '--name-only']);
     const untracked = gitLines(['ls-files', '--others', '--exclude-standard']).filter(file => !isGeneratedArtifactPath(file));
-    return [...new Set([...committed, ...worktree, ...staged, ...untracked])];
+    const local = [...new Set([...worktree, ...staged, ...untracked])];
+    const active = [...new Set([...committed, ...local])];
+    const headParent = getGitLinesOrEmpty(['diff', '--name-only', 'HEAD^..HEAD']);
+    const headEqualsOriginMain = runGit(['rev-parse', 'HEAD']) === runGit(['rev-parse', 'origin/main']);
+
+    return {
+      committed,
+      local,
+      active,
+      headParent,
+      headEqualsOriginMain
+    };
   } catch {
     fail('Could not determine changed files from origin/main..HEAD plus working tree');
-    return [];
+    return {
+      committed: [],
+      local: [],
+      active: [],
+      headParent: [],
+      headEqualsOriginMain: false
+    };
   }
 }
 
@@ -295,6 +320,68 @@ function isForbiddenChangedFile(file) {
   ];
 
   return forbiddenPatterns.some(pattern => pattern.test(file));
+}
+
+function requireAllowedChangedFiles(files, label) {
+  for (const file of files) {
+    if (ALLOWED_CHANGED_FILES.has(file)) pass(`${label} changed file allowed: ${file}`);
+    else if (isForbiddenChangedFile(file)) fail(`${label} forbidden changed file: ${file}`);
+    else fail(`${label} unexpected changed file outside exact allowlist: ${file}`);
+  }
+}
+
+function includesAllRequiredFiles(files) {
+  return REQUIRED_FILES.every(file => files.includes(file));
+}
+
+function requireChangedFilesGuard() {
+  const context = getChangedFileContext();
+
+  if (includesAllRequiredFiles(context.active)) {
+    console.log('  INFO  Changed files guard mode: PR diff mode');
+    requireAllowedChangedFiles(context.active, 'PR diff mode');
+    for (const file of REQUIRED_FILES) {
+      if (context.active.includes(file)) pass(`Required changed file present: ${file}`);
+      else fail(`Required changed file not detected: ${file}`);
+    }
+    return;
+  }
+
+  if (context.committed.length > 0 || context.local.length > 0) {
+    console.log('  INFO  Changed files guard mode: validator hotfix mode');
+    const hotfixFiles = [...new Set([...context.committed, ...context.local])];
+    requireAllowedChangedFiles(hotfixFiles, 'Validator hotfix mode');
+    if (!hotfixFiles.includes(VALIDATOR)) {
+      fail('Validator hotfix mode requires the Phase 35D validator to be part of the diff');
+    } else {
+      pass('Validator hotfix mode includes the Phase 35D validator');
+    }
+    for (const file of REQUIRED_FILES) {
+      if (fs.existsSync(path.join(ROOT, file))) pass(`Required Phase 35D file exists in HEAD/worktree: ${file}`);
+      else fail(`Required Phase 35D file missing in HEAD/worktree: ${file}`);
+    }
+    return;
+  }
+
+  console.log('  INFO  Changed files guard mode: post-merge main mode');
+  if (context.headParent.length > 0) {
+    requireAllowedChangedFiles(context.headParent, 'Post-merge HEAD^..HEAD mode');
+    if (includesAllRequiredFiles(context.headParent)) {
+      pass('Post-merge HEAD^..HEAD contains all required Phase 35D files');
+    } else {
+      pass('Post-merge HEAD^..HEAD does not contain the full Phase 35D diff; relying on content checks and HEAD file existence');
+    }
+  } else {
+    pass('Post-merge main mode has no usable HEAD^..HEAD diff; relying on content checks and HEAD file existence');
+  }
+
+  if (context.headEqualsOriginMain) pass('Post-merge main mode confirmed: HEAD equals origin/main');
+  else fail('Post-merge main mode requires HEAD to equal origin/main when no PR or local diff is available');
+
+  for (const file of REQUIRED_FILES) {
+    if (fs.existsSync(path.join(ROOT, file))) pass(`Required Phase 35D file exists in HEAD: ${file}`);
+    else fail(`Required Phase 35D file missing in HEAD: ${file}`);
+  }
 }
 
 function requireNoForbiddenPositiveClaims(content, label) {
@@ -406,16 +493,7 @@ if (!validator.includes(forbiddenFetchCommand)) pass('Validator does not execute
 else fail('Validator must not execute internal git fetch');
 
 console.log('\n[7] Changed files guard');
-const changedFiles = getChangedFiles();
-for (const file of changedFiles) {
-  if (ALLOWED_CHANGED_FILES.has(file)) pass(`Changed file allowed: ${file}`);
-  else if (isForbiddenChangedFile(file)) fail(`Forbidden changed file: ${file}`);
-  else fail(`Unexpected changed file outside exact allowlist: ${file}`);
-}
-for (const file of REQUIRED_FILES) {
-  if (changedFiles.includes(file)) pass(`Required changed file present: ${file}`);
-  else fail(`Required changed file not detected: ${file}`);
-}
+requireChangedFilesGuard();
 
 console.log('\n[8] Forbidden approvals scan');
 requireNoForbiddenPositiveClaims(researchDoc, 'Research doc');
