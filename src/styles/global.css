@@ -3670,3 +3670,67 @@ code {
     flex-direction: column;
   }
 }
+
+/* Phase 35B — Library Bookshelf tab system */
+
+.libraryTabList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  border-bottom: 2px solid var(--color-border, #e5e7eb);
+  padding-bottom: 0;
+  margin-bottom: var(--space-4, 1rem);
+}
+
+.libraryTab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  padding: var(--space-2, 0.5rem) var(--space-4, 1rem);
+  font-size: var(--font-size-sm, 0.875rem);
+  font-weight: 500;
+  color: var(--color-text-muted, #6b7280);
+  cursor: pointer;
+  border-radius: var(--radius-sm, 4px) var(--radius-sm, 4px) 0 0;
+  transition: color 120ms ease, background-color 120ms ease, border-color 120ms ease;
+  min-height: 44px;
+  white-space: nowrap;
+}
+
+.libraryTab:hover {
+  color: var(--color-text, #111827);
+  background-color: var(--color-surface-hover, rgba(0, 0, 0, 0.04));
+}
+
+.libraryTab:focus-visible {
+  outline: 2px solid var(--color-focus, #2563eb);
+  outline-offset: 2px;
+}
+
+.libraryTab--active {
+  color: var(--color-text, #111827);
+  border-bottom-color: var(--color-primary, #2563eb);
+  font-weight: 600;
+}
+
+.libraryTabPanel[hidden] {
+  display: none;
+}
+
+@media (max-width: 560px) {
+  .libraryTabList {
+    gap: 0;
+  }
+
+  .libraryTab {
+    flex: 1;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .libraryTab {
+    transition: none;
+  }
+}
