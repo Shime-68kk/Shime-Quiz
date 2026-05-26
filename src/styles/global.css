@@ -706,6 +706,56 @@ h1 {
   margin-top: var(--space-4);
 }
 
+.dashboardCalmTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  border-bottom: 2px solid var(--color-border, #e5e7eb);
+  margin-bottom: var(--space-4);
+}
+
+.dashboardCalmTab {
+  min-height: 44px;
+  margin-bottom: -2px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: var(--radius-sm, 4px) var(--radius-sm, 4px) 0 0;
+  background: transparent;
+  color: var(--color-text-muted, #6b7280);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--font-size-sm, 0.875rem);
+  font-weight: 600;
+  padding: var(--space-2, 0.5rem) var(--space-4, 1rem);
+  transition: color 120ms ease, background-color 120ms ease, border-color 120ms ease;
+  white-space: nowrap;
+}
+
+.dashboardCalmTab:hover {
+  background-color: var(--color-surface-hover, rgba(0, 0, 0, 0.04));
+  color: var(--color-text, #111827);
+}
+
+.dashboardCalmTab:focus-visible {
+  outline: 2px solid var(--color-focus, #2563eb);
+  outline-offset: 2px;
+}
+
+.dashboardCalmTab--active {
+  border-bottom-color: var(--color-primary, #2563eb);
+  color: var(--color-text, #111827);
+  font-weight: 700;
+}
+
+.dashboardCalmPanel {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.dashboardCalmPanel[hidden] {
+  display: none;
+}
+
 .libraryCardBody {
   display: grid;
   gap: var(--space-4);
@@ -733,6 +783,21 @@ h1 {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .dashboardCalmTab {
+    transition: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .dashboardCalmTabs {
+    gap: 0;
+  }
+
+  .dashboardCalmTab {
+    flex: 1 1 100%;
+    text-align: center;
   }
 }
 
