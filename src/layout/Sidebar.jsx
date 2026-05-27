@@ -18,12 +18,13 @@ export default function Sidebar() {
       </div>
 
       <nav
-        className="sideNav primaryNavIndicatorHost"
+        className="sideNav primaryNavIndicatorHost phase37uih-hybrid-sliding-navigation-indicator-pilot phase37uih-hybrid-sliding-navigation-indicator-pilot--desktop"
         aria-label="Khu vực trong ứng dụng"
         data-nav-active={hasActiveItem ? 'true' : 'false'}
         style={{
           '--nav-active-index': hasActiveItem ? activeIndex : 0,
           '--nav-active-offset': `${hasActiveItem ? activeIndex * 58 : 0}px`,
+          '--phase37uih-active-index': hasActiveItem ? activeIndex : 0,
           '--nav-item-count': navRoutes.length
         }}
       >
