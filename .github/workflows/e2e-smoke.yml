@@ -109,12 +109,16 @@ jobs:
       # Validate Phase 36H Core Interactive Focus Visible Consistency Pilot
       # node scripts/validate-phase36h-core-interactive-focus-visible-consistency-pilot.js
 
-      - name: Validate Phase 36I Core Interactive Focus Visible Consistency Pilot Evidence Review
+      # Phase 36I validator retained as historical reference; not run as Phase 36J merge-blocking gate.
+      # Validate Phase 36I Core Interactive Focus Visible Consistency Pilot Evidence Review
+      # node scripts/validate-phase36i-core-interactive-focus-visible-consistency-pilot-evidence-review.js
+
+      - name: Validate Phase 36J Mobile/Accessibility Track Completion Review
         env:
           PHASE36H_HISTORICAL_WORKFLOW_REFERENCE_FOR_LEGACY_STATIC_TEST: |
             run: node scripts/validate-phase36h-core-interactive-focus-visible-consistency-pilot.js
         run: |
-          node scripts/validate-phase36i-core-interactive-focus-visible-consistency-pilot-evidence-review.js
+          node scripts/validate-phase36j-mobile-accessibility-track-completion-review.js
 
       - name: Build app
         run: npm run build
