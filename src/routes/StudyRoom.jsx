@@ -762,8 +762,9 @@ export default function StudyRoom() {
             />
 
             <div
-              className={`studyAnswerFeedbackPolish studyAnswerFeedbackPolish--${answerFeedbackPolishState}`}
+              className={`studyAnswerFeedbackPolish phase37uif-study-room-modern-answer-surface-pilot studyAnswerFeedbackPolish--${answerFeedbackPolishState}`}
               data-phase35n-answer-feedback-state={answerFeedbackPolishState}
+              data-phase37uif-answer-surface-state={answerFeedbackPolishState}
             >
               <StudyItemRenderer
                 item={currentItem}
