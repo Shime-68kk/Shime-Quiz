@@ -4116,6 +4116,156 @@ code {
   }
 }
 
+/* Phase 37-uiD — Library Shelf Modern Collection Cards Pilot */
+.phase37uid-library-shelf-modern-collection-cards-pilot {
+  --phase37uid-shelf-ink: #263b33;
+  --phase37uid-shelf-muted: #68756f;
+  --phase37uid-shelf-moss: rgba(49, 92, 77, 0.14);
+  --phase37uid-shelf-gold: rgba(174, 124, 52, 0.18);
+  --phase37uid-shelf-paper: rgba(255, 253, 247, 0.94);
+  --phase37uid-shelf-panel: linear-gradient(135deg, rgba(255, 253, 247, 0.98), rgba(239, 248, 243, 0.9));
+  --phase37uid-shelf-card: linear-gradient(145deg, rgba(255, 253, 247, 0.98), rgba(248, 244, 232, 0.92) 52%, rgba(235, 247, 241, 0.86));
+  --phase37uid-shelf-border: rgba(49, 92, 77, 0.18);
+  --phase37uid-shelf-glow: 0 26px 74px rgba(31, 61, 53, 0.14);
+  --phase37uid-shelf-hover-glow: 0 34px 92px rgba(31, 61, 53, 0.2);
+  --phase37uid-shelf-focus: 0 0 0 5px rgba(49, 92, 77, 0.18);
+}
+
+.phase37uid-library-shelf-modern-collection-cards-pilot #library-panel-shelf {
+  position: relative;
+  isolation: isolate;
+  border: 1px solid var(--phase37uid-shelf-border);
+  border-radius: var(--radius-xl);
+  padding: clamp(14px, 3vw, 24px);
+  background:
+    radial-gradient(circle at 14% 8%, var(--phase37uid-shelf-gold), transparent 28rem),
+    radial-gradient(circle at 88% 18%, var(--phase37uid-shelf-moss), transparent 24rem),
+    linear-gradient(180deg, rgba(255, 253, 247, 0.72), rgba(240, 248, 243, 0.42));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72), 0 20px 68px rgba(31, 61, 53, 0.1);
+  overflow: hidden;
+}
+
+.phase37uid-library-shelf-modern-collection-cards-pilot #library-panel-shelf::before {
+  content: '';
+  position: absolute;
+  inset: auto 18px 16px;
+  z-index: -1;
+  height: 42%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(82, 117, 100, 0.12), rgba(174, 124, 52, 0.12), rgba(82, 117, 100, 0.08));
+  filter: blur(22px);
+  pointer-events: none;
+}
+
+.phase37uid-library-shelf-modern-collection-cards-pilot .libraryEmptyOnboardingCard {
+  border-color: rgba(174, 124, 52, 0.24);
+  background:
+    linear-gradient(135deg, rgba(255, 253, 247, 0.98), rgba(250, 244, 229, 0.9)),
+    var(--phase37uid-shelf-paper);
+  box-shadow: var(--phase37uid-shelf-glow);
+}
+
+.phase37uid-library-shelf-modern-collection-cards-pilot .librarySubjectGrid {
+  gap: clamp(16px, 2.4vw, 24px);
+}
+
+.phase37uid-library-shelf-modern-collection-cards-pilot .librarySubjectGrid > .card {
+  position: relative;
+  border-color: var(--phase37uid-shelf-border);
+  background: var(--phase37uid-shelf-card);
+  box-shadow: var(--phase37uid-shelf-glow);
+  overflow: hidden;
+}
+
+.phase37uid-library-shelf-modern-collection-cards-pilot .librarySubjectGrid > .card::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 7px;
+  background: linear-gradient(180deg, rgba(49, 92, 77, 0.72), rgba(174, 124, 52, 0.58));
+  opacity: 0.88;
+  pointer-events: none;
+}
+
+.phase37uid-library-shelf-modern-collection-cards-pilot .librarySubjectGrid > .card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(110deg, rgba(255, 255, 255, 0.34), transparent 34%),
+    radial-gradient(circle at 88% 14%, rgba(49, 92, 77, 0.14), transparent 12rem);
+  pointer-events: none;
+}
+
+.phase37uid-library-shelf-modern-collection-cards-pilot .librarySubjectGrid > .card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.phase37uid-library-shelf-modern-collection-cards-pilot .librarySubjectGrid .card__title {
+  color: var(--phase37uid-shelf-ink);
+  font-size: 1.24rem;
+  line-height: 1.16;
+}
+
+.phase37uid-library-shelf-modern-collection-cards-pilot .librarySubjectGrid .eyebrow {
+  color: #6f5730;
+}
+
+.phase37uid-library-shelf-modern-collection-cards-pilot .libraryCardBody {
+  gap: var(--space-4);
+}
+
+.phase37uid-library-shelf-modern-collection-cards-pilot .libraryStats span {
+  border-color: rgba(49, 92, 77, 0.16);
+  background: rgba(255, 255, 255, 0.58);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.phase37uid-library-shelf-modern-collection-cards-pilot .libraryStats strong {
+  color: var(--phase37uid-shelf-ink);
+}
+
+.phase37uid-library-shelf-modern-collection-cards-pilot .topicPill {
+  border-color: rgba(49, 92, 77, 0.18);
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.64);
+}
+
+.phase37uid-library-shelf-modern-collection-cards-pilot .topicPill:focus-visible {
+  box-shadow: var(--phase37uid-shelf-focus);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .phase37uid-library-shelf-modern-collection-cards-pilot .librarySubjectGrid > .card:hover {
+    border-color: rgba(49, 92, 77, 0.3);
+    box-shadow: var(--phase37uid-shelf-hover-glow);
+    transform: translateY(-4px);
+  }
+
+  .phase37uid-library-shelf-modern-collection-cards-pilot .topicPill:hover {
+    border-color: rgba(49, 92, 77, 0.34);
+    background: rgba(239, 248, 243, 0.88);
+  }
+}
+
+@media (max-width: 560px) {
+  .phase37uid-library-shelf-modern-collection-cards-pilot #library-panel-shelf {
+    padding: 12px;
+  }
+
+  .phase37uid-library-shelf-modern-collection-cards-pilot .librarySubjectGrid > .card {
+    border-radius: var(--radius-lg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phase37uid-library-shelf-modern-collection-cards-pilot .librarySubjectGrid > .card,
+  .phase37uid-library-shelf-modern-collection-cards-pilot .topicPill {
+    transition: none;
+  }
+}
+
 /* Phase 36H — Core Interactive Focus Visible Consistency Pilot */
 :root {
   --phase36h-core-focus-visible-outline: 3px solid var(--color-focus, #2563eb);

@@ -720,7 +720,7 @@ export default function Library() {
   }
 
   return (
-    <div className="pageStack">
+    <div className="pageStack phase37uid-library-shelf-modern-collection-cards-pilot">
       <PageHeader
         eyebrow="Thư viện"
         title="Thư viện học liệu"
