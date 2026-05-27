@@ -8,11 +8,12 @@ export default function BottomNav() {
 
   return (
     <nav
-      className="bottomNav primaryNavIndicatorHost phase36b-bottom-nav-touch-pilot"
+      className="bottomNav primaryNavIndicatorHost phase36b-bottom-nav-touch-pilot phase37uih-hybrid-sliding-navigation-indicator-pilot phase37uih-hybrid-sliding-navigation-indicator-pilot--mobile"
       aria-label="Điều hướng di động"
       data-nav-active={hasActiveItem ? 'true' : 'false'}
       style={{
         '--nav-active-index': hasActiveItem ? activeIndex : 0,
+        '--phase37uih-active-index': hasActiveItem ? activeIndex : 0,
         '--nav-item-count': navRoutes.length
       }}
     >

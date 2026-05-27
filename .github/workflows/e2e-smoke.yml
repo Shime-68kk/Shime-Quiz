@@ -153,12 +153,16 @@ jobs:
       # Validate Phase 37-uiF Study Room Modern Answer Surface Pilot
       # node scripts/validate-phase37-uif-study-room-modern-answer-surface-pilot.js
 
-      - name: Validate Phase 37-uiG Study Room Evidence and Hybrid Navigation Scope
+      # Phase 37-uiG validator retained as historical reference; not run as Phase 37-uiH merge-blocking gate.
+      # Validate Phase 37-uiG Study Room Evidence and Hybrid Navigation Scope
+      # node scripts/validate-phase37-uig-study-room-evidence-hybrid-nav-scope.js
+
+      - name: Validate Phase 37-uiH Hybrid Sliding Navigation Indicator Pilot
         env:
           PHASE36H_HISTORICAL_WORKFLOW_REFERENCE_FOR_LEGACY_STATIC_TEST: |
             run: node scripts/validate-phase36h-core-interactive-focus-visible-consistency-pilot.js
         run: |
-          node scripts/validate-phase37-uig-study-room-evidence-hybrid-nav-scope.js
+          node scripts/validate-phase37-uih-hybrid-sliding-navigation-indicator-pilot.js
 
       - name: Build app
         run: npm run build
