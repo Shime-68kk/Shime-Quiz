@@ -169,12 +169,16 @@ jobs:
       # Validate Phase 37-uiJ Premium Elastic Tap Compression Token Pilot
       # node scripts/validate-phase37-uij-premium-elastic-tap-compression-token-pilot.js
 
-      - name: Validate Phase 37-uiK Elastic Tap Evidence and Streak Fire Scope
+      # Phase 37-uiK validator retained as historical reference; not run as Phase 37-uiL merge-blocking gate.
+      # Validate Phase 37-uiK Elastic Tap Evidence and Streak Fire Scope
+      # node scripts/validate-phase37-uik-elastic-tap-evidence-streak-fire-scope.js
+
+      - name: Validate Phase 37-uiL Streak Fire Ignition Micro-Moment Pilot
         env:
           PHASE36H_HISTORICAL_WORKFLOW_REFERENCE_FOR_LEGACY_STATIC_TEST: |
             run: node scripts/validate-phase36h-core-interactive-focus-visible-consistency-pilot.js
         run: |
-          node scripts/validate-phase37-uik-elastic-tap-evidence-streak-fire-scope.js
+          node scripts/validate-phase37-uil-streak-fire-ignition-micro-moment-pilot.js
 
       - name: Build app
         run: npm run build

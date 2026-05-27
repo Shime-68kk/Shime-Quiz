@@ -26,7 +26,11 @@ export default function StudyResultSummary({ summary, persistenceNote = '', hist
 
   return (
     <div className="studyResultStack">
-      <Card className="studyResultHero" variant="elevated">
+      <Card
+        className="studyResultHero phase37uil-streak-fire-ignition-micro-moment-pilot"
+        data-phase37uil-streak-fire-ignition="session-complete-summary"
+        variant="elevated"
+      >
         <div className="studyResultHero__header">
           <div>
             <Badge tone="success">Tổng kết phiên học</Badge>
