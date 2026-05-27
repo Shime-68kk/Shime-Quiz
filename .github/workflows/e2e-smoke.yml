@@ -181,12 +181,16 @@ jobs:
       # Validate Phase 37-uiM Streak Fire Evidence and Collapsible Avatar Header Scope
       # node scripts/validate-phase37-uim-streak-fire-evidence-collapsible-avatar-header-scope.js
 
-      - name: Validate Phase 37-uiN Collapsible Avatar Header Pilot
+      # Phase 37-uiN validator retained as historical reference; not run as Phase 37-uiO merge-blocking gate.
+      # Validate Phase 37-uiN Collapsible Avatar Header Pilot
+      # node scripts/validate-phase37-uin-collapsible-avatar-header-pilot.js
+
+      - name: Validate Phase 37-uiO Collapsible Avatar Header Evidence and UI Coherence Scope
         env:
           PHASE36H_HISTORICAL_WORKFLOW_REFERENCE_FOR_LEGACY_STATIC_TEST: |
             run: node scripts/validate-phase36h-core-interactive-focus-visible-consistency-pilot.js
         run: |
-          node scripts/validate-phase37-uin-collapsible-avatar-header-pilot.js
+          node scripts/validate-phase37-uio-collapsible-avatar-header-evidence-ui-coherence-scope.js
 
       - name: Build app
         run: npm run build
