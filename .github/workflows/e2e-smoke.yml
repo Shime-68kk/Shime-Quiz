@@ -149,12 +149,16 @@ jobs:
       # Validate Phase 37-uiE Library Shelf Evidence and Study Room Scope
       # node scripts/validate-phase37-uie-library-shelf-evidence-study-room-scope.js
 
-      - name: Validate Phase 37-uiF Study Room Modern Answer Surface Pilot
+      # Phase 37-uiF validator retained as historical reference; not run as Phase 37-uiG merge-blocking gate.
+      # Validate Phase 37-uiF Study Room Modern Answer Surface Pilot
+      # node scripts/validate-phase37-uif-study-room-modern-answer-surface-pilot.js
+
+      - name: Validate Phase 37-uiG Study Room Evidence and Hybrid Navigation Scope
         env:
           PHASE36H_HISTORICAL_WORKFLOW_REFERENCE_FOR_LEGACY_STATIC_TEST: |
             run: node scripts/validate-phase36h-core-interactive-focus-visible-consistency-pilot.js
         run: |
-          node scripts/validate-phase37-uif-study-room-modern-answer-surface-pilot.js
+          node scripts/validate-phase37-uig-study-room-evidence-hybrid-nav-scope.js
 
       - name: Build app
         run: npm run build
