@@ -764,7 +764,7 @@ export default function Library() {
         aria-label="Chọn file PDF, DOCX, PPTX hoặc ZIP để tạo bản nháp câu hỏi qua EduGen"
       />
 
-      <div role="tablist" className="libraryTabList" aria-label="Phần thư viện">
+      <div role="tablist" className="libraryTabList phase36e-library-tabs-touch-pilot" aria-label="Phần thư viện">
         <button
           id="library-tab-shelf"
           role="tab"

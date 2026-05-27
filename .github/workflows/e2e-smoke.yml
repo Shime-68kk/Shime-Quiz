@@ -89,8 +89,12 @@ jobs:
       # Validate Phase 36C Bottom Navigation Touch Comfort and Safe-Area Pilot Evidence Review
       # node scripts/validate-phase36c-bottom-nav-touch-comfort-safe-area-pilot-evidence-review.js
 
-      - name: Validate Phase 36D Mobile Touch Follow-up and Library Tabs Touch/Focus Scope Gate
-        run: node scripts/validate-phase36d-mobile-touch-library-tabs-scope.js
+      # Phase 36D validator retained as historical reference; not run as Phase 36E merge-blocking gate.
+      # Validate Phase 36D Mobile Touch Follow-up and Library Tabs Touch/Focus Scope Gate
+      # node scripts/validate-phase36d-mobile-touch-library-tabs-scope.js
+
+      - name: Validate Phase 36E Library Mobile Tabs Touch and Focus Pilot
+        run: node scripts/validate-phase36e-library-mobile-tabs-touch-focus-pilot.js
 
       - name: Build app
         run: npm run build
