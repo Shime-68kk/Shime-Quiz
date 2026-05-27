@@ -101,8 +101,12 @@ jobs:
       # Validate Phase 36F Library Mobile Tabs Touch and Focus Pilot Evidence Review
       # node scripts/validate-phase36f-library-mobile-tabs-touch-focus-pilot-evidence-review.js
 
-      - name: Validate Phase 36G Mobile/Accessibility Track Completion and Focus Scope Gate
-        run: node scripts/validate-phase36g-mobile-accessibility-track-focus-scope.js
+      # Phase 36G validator retained as historical reference; not run as Phase 36H merge-blocking gate.
+      # Validate Phase 36G Mobile/Accessibility Track Completion and Focus Scope Gate
+      # node scripts/validate-phase36g-mobile-accessibility-track-focus-scope.js
+
+      - name: Validate Phase 36H Core Interactive Focus Visible Consistency Pilot
+        run: node scripts/validate-phase36h-core-interactive-focus-visible-consistency-pilot.js
 
       - name: Build app
         run: npm run build

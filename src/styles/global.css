@@ -4026,3 +4026,46 @@ code {
     transition: none;
   }
 }
+
+/* Phase 36H — Core Interactive Focus Visible Consistency Pilot */
+:root {
+  --phase36h-core-focus-visible-outline: 3px solid var(--color-focus, #2563eb);
+  --phase36h-core-focus-visible-offset: 3px;
+  --phase36h-core-focus-visible-shadow: 0 0 0 5px rgba(49, 92, 77, 0.16);
+}
+
+.button:focus-visible,
+.navItem:focus-visible,
+.bottomNav__item:focus-visible,
+.dashboardCalmTab:focus-visible,
+.libraryTab:focus-visible,
+.topicPill:focus-visible,
+.shortAnswerField input:focus-visible,
+.studyGoalField input:focus-visible,
+.studyGoalField select:focus-visible,
+.textImportField textarea:focus-visible,
+.manualAiPromptOptions input:focus-visible,
+.manualAiPromptOptions select:focus-visible,
+.manualAiPromptPreview textarea:focus-visible,
+.memoryBridge__ratingBtn:focus-visible,
+.memoryBridge__skipBtn:focus-visible,
+.settingsToggle:focus-visible,
+.resultDetail summary:focus-visible {
+  outline: var(--phase36h-core-focus-visible-outline);
+  outline-offset: var(--phase36h-core-focus-visible-offset);
+  box-shadow: var(--phase36h-core-focus-visible-shadow);
+}
+
+.bottomNav.phase36b-bottom-nav-touch-pilot .bottomNav__item:focus-visible {
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button:focus-visible,
+  .navItem:focus-visible,
+  .bottomNav__item:focus-visible,
+  .dashboardCalmTab:focus-visible,
+  .libraryTab:focus-visible {
+    transition: none;
+  }
+}
