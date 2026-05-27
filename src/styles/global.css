@@ -120,6 +120,67 @@ h3 {
   font-size: 0.82rem;
 }
 
+/* Phase 37-uiN — Collapsible Avatar Header Pilot */
+.phase37uin-collapsible-avatar-header-pilot {
+  --phase37uin-avatar-cream: rgba(255, 253, 247, 0.94);
+  --phase37uin-avatar-moss: rgba(49, 92, 77, 0.2);
+  --phase37uin-avatar-moss-strong: #244a3e;
+  --phase37uin-avatar-olive: rgba(139, 111, 62, 0.2);
+  --phase37uin-avatar-glow: 0 18px 42px rgba(31, 61, 53, 0.14);
+
+  position: relative;
+  isolation: isolate;
+  margin: -8px -8px 30px;
+  padding: 9px;
+  border: 1px solid rgba(49, 92, 77, 0.14);
+  border-radius: 24px;
+  background:
+    linear-gradient(135deg, var(--phase37uin-avatar-cream), rgba(238, 246, 239, 0.82)),
+    linear-gradient(135deg, var(--phase37uin-avatar-moss), transparent 62%);
+  box-shadow:
+    var(--phase37uin-avatar-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.phase37uin-collapsible-avatar-header-pilot::before {
+  position: absolute;
+  inset: 3px;
+  z-index: -1;
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.72), transparent 34%),
+    radial-gradient(circle at 88% 82%, rgba(49, 92, 77, 0.16), transparent 40%);
+  content: "";
+  pointer-events: none;
+}
+
+.phase37uin-collapsible-avatar-header-pilot .brandMark {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 15px;
+  color: var(--phase37uin-avatar-moss-strong);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(237, 245, 238, 0.92)),
+    linear-gradient(135deg, var(--phase37uin-avatar-moss), var(--phase37uin-avatar-olive));
+  box-shadow:
+    0 10px 24px rgba(31, 61, 53, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.86);
+}
+
+.phase37uin-collapsible-avatar-header-pilot .brandName {
+  color: var(--phase37uin-avatar-moss-strong);
+}
+
+.phase37uin-collapsible-avatar-header-pilot .brandSub {
+  color: color-mix(in srgb, var(--phase37uin-avatar-moss-strong) 62%, var(--muted));
+}
+
 .sideNav {
   --nav-item-step: 58px;
 
@@ -579,6 +640,13 @@ h1 {
 
   .studyShell .button {
     width: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phase37uin-collapsible-avatar-header-pilot {
+    transition: none;
+    transform: none;
   }
 }
 

@@ -9,7 +9,10 @@ export default function Sidebar() {
 
   return (
     <aside className="sidebar" aria-label="Điều hướng chính">
-      <div className="brandBlock">
+      <div
+        className="brandBlock phase37uin-collapsible-avatar-header-pilot"
+        data-phase37uin-collapsible-avatar-header="sidebar-brand-identity"
+      >
         <span className="brandMark" aria-hidden="true">S</span>
         <div>
           <p className="brandName">ShimeChamhoc</p>
