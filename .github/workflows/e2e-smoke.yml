@@ -117,12 +117,16 @@ jobs:
       # Validate Phase 36J Mobile/Accessibility Track Completion Review
       # node scripts/validate-phase36j-mobile-accessibility-track-completion-review.js
 
-      - name: Validate Phase 37 Backlog or Limited Release Readiness Review
+      # Phase 37 validator retained as historical reference; not run as Phase 37A merge-blocking gate.
+      # Validate Phase 37 Backlog or Limited Release Readiness Review
+      # node scripts/validate-phase37-backlog-or-limited-release-readiness-review.js
+
+      - name: Validate Phase 37A Broader Actual Evidence Run
         env:
           PHASE36H_HISTORICAL_WORKFLOW_REFERENCE_FOR_LEGACY_STATIC_TEST: |
             run: node scripts/validate-phase36h-core-interactive-focus-visible-consistency-pilot.js
         run: |
-          node scripts/validate-phase37-backlog-or-limited-release-readiness-review.js
+          node scripts/validate-phase37a-broader-actual-evidence-run.js
 
       - name: Build app
         run: npm run build
