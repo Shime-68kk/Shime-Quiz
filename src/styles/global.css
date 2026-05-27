@@ -3983,8 +3983,46 @@ code {
   }
 }
 
+/* Phase 36E — Library Mobile Tabs Touch and Focus Pilot */
+
+.phase36e-library-tabs-touch-pilot {
+  gap: var(--space-2, 0.5rem);
+  padding-bottom: var(--space-1, 0.25rem);
+}
+
+.phase36e-library-tabs-touch-pilot .libraryTab {
+  min-height: 48px;
+  min-width: 44px;
+  padding: var(--space-3, 0.75rem) var(--space-4, 1rem);
+  touch-action: manipulation;
+}
+
+.phase36e-library-tabs-touch-pilot .libraryTab:focus-visible {
+  outline: 3px solid var(--color-focus, #2563eb);
+  outline-offset: 3px;
+}
+
+@media (max-width: 560px) {
+  .phase36e-library-tabs-touch-pilot {
+    gap: var(--space-2, 0.5rem);
+    align-items: stretch;
+  }
+
+  .phase36e-library-tabs-touch-pilot .libraryTab {
+    flex: 1 1 min(10rem, 100%);
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.25;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .libraryTab {
+    transition: none;
+  }
+
+  .phase36e-library-tabs-touch-pilot .libraryTab {
     transition: none;
   }
 }
