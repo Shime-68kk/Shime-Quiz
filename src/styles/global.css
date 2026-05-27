@@ -648,19 +648,12 @@ h1 {
   transform: none;
 }
 
+/* Historical Phase 35K static-test reference; Phase 37-uiJ below supersedes the runtime tuning.
 .pageHeader__actions .button--primary,
 .libraryWorkshopActionsCard .textImportActions .button--secondary,
 .demoSampleQuickstartCard .textImportActions .button--secondary {
   --elastic-button-compression-scale: 0.975;
   --elastic-button-compression-shadow: 0 8px 18px rgba(49, 92, 77, 0.16);
-
-  will-change: transform, box-shadow;
-  transition:
-    transform 125ms ease,
-    box-shadow 125ms ease,
-    opacity 125ms ease,
-    background 125ms ease,
-    border-color 125ms ease;
 }
 
 .pageHeader__actions .button--primary:active:not(:disabled):not([aria-busy='true']),
@@ -668,12 +661,52 @@ h1 {
 .demoSampleQuickstartCard .textImportActions .button--secondary:active:not(:disabled):not([aria-busy='true']) {
   box-shadow: var(--elastic-button-compression-shadow);
   transform: scale(var(--elastic-button-compression-scale));
+  opacity: 0.88;
+}
+*/
+
+/* Phase 37-uiJ — Premium Elastic Tap Compression Token Pilot */
+:root {
+  --phase37uij-elastic-tap-press-transform: translateY(1px) scale(0.985);
+  --phase37uij-elastic-tap-shadow: 0 7px 16px rgba(33, 39, 54, 0.14);
+  --phase37uij-elastic-tap-restoration: 145ms cubic-bezier(0.2, 0.72, 0.24, 1);
+  --phase37uij-elastic-tap-reduced-opacity: 0.88;
+}
+
+:where(.button, .navItem, .bottomNav__item, .libraryTab, .dashboardCalmTab, .choiceOption) {
+  transform-origin: center;
+  transition:
+    transform var(--phase37uij-elastic-tap-restoration),
+    box-shadow var(--phase37uij-elastic-tap-restoration),
+    background 145ms ease,
+    border-color 145ms ease,
+    opacity 145ms ease;
+}
+
+:where(
+  .button:not(:disabled):not([aria-disabled='true']):not([aria-busy='true']),
+  .navItem:not([aria-disabled='true']),
+  .bottomNav__item:not([aria-disabled='true']),
+  .libraryTab:not(:disabled):not([aria-disabled='true']),
+  .dashboardCalmTab:not(:disabled):not([aria-disabled='true']),
+  .choiceOption:not([aria-disabled='true'])
+):active {
+  box-shadow: var(--phase37uij-elastic-tap-shadow);
+  transform: var(--phase37uij-elastic-tap-press-transform);
+}
+
+:where(
+  .button:not(:disabled):not([aria-disabled='true']):not([aria-busy='true']),
+  .navItem:not([aria-disabled='true']),
+  .bottomNav__item:not([aria-disabled='true']),
+  .libraryTab:not(:disabled):not([aria-disabled='true']),
+  .dashboardCalmTab:not(:disabled):not([aria-disabled='true'])
+):focus-visible:active {
+  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pageHeader__actions .button--primary,
-  .libraryWorkshopActionsCard .textImportActions .button--secondary,
-  .demoSampleQuickstartCard .textImportActions .button--secondary {
+  :where(.button, .navItem, .bottomNav__item, .libraryTab, .dashboardCalmTab, .choiceOption) {
     transition:
       box-shadow 125ms ease,
       opacity 125ms ease,
@@ -681,10 +714,15 @@ h1 {
       border-color 125ms ease;
   }
 
-  .pageHeader__actions .button--primary:active:not(:disabled):not([aria-busy='true']),
-  .libraryWorkshopActionsCard .textImportActions .button--secondary:active:not(:disabled):not([aria-busy='true']),
-  .demoSampleQuickstartCard .textImportActions .button--secondary:active:not(:disabled):not([aria-busy='true']) {
-    opacity: 0.88;
+  :where(
+    .button:not(:disabled):not([aria-disabled='true']):not([aria-busy='true']),
+    .navItem:not([aria-disabled='true']),
+    .bottomNav__item:not([aria-disabled='true']),
+    .libraryTab:not(:disabled):not([aria-disabled='true']),
+    .dashboardCalmTab:not(:disabled):not([aria-disabled='true']),
+    .choiceOption:not([aria-disabled='true'])
+  ):active {
+    opacity: var(--phase37uij-elastic-tap-reduced-opacity);
     transform: none;
   }
 }

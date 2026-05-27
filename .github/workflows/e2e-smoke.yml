@@ -161,12 +161,16 @@ jobs:
       # Validate Phase 37-uiH Hybrid Sliding Navigation Indicator Pilot
       # node scripts/validate-phase37-uih-hybrid-sliding-navigation-indicator-pilot.js
 
-      - name: Validate Phase 37-uiI Hybrid Nav Evidence and Elastic Tap Scope
+      # Phase 37-uiI validator retained as historical reference; not run as Phase 37-uiJ merge-blocking gate.
+      # Validate Phase 37-uiI Hybrid Nav Evidence and Elastic Tap Scope
+      # node scripts/validate-phase37-uii-hybrid-nav-evidence-elastic-tap-scope.js
+
+      - name: Validate Phase 37-uiJ Premium Elastic Tap Compression Token Pilot
         env:
           PHASE36H_HISTORICAL_WORKFLOW_REFERENCE_FOR_LEGACY_STATIC_TEST: |
             run: node scripts/validate-phase36h-core-interactive-focus-visible-consistency-pilot.js
         run: |
-          node scripts/validate-phase37-uii-hybrid-nav-evidence-elastic-tap-scope.js
+          node scripts/validate-phase37-uij-premium-elastic-tap-compression-token-pilot.js
 
       - name: Build app
         run: npm run build
