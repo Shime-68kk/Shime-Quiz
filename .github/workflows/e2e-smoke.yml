@@ -189,12 +189,16 @@ jobs:
       # Validate Phase 37-uiO Collapsible Avatar Header Evidence and UI Coherence Scope
       # node scripts/validate-phase37-uio-collapsible-avatar-header-evidence-ui-coherence-scope.js
 
-      - name: Validate Phase 37-uiP UI Modernization Coherence Pass Pilot
+      # Phase 37-uiP validator retained as historical reference; not run as Phase 37-uiQ merge-blocking gate.
+      # Validate Phase 37-uiP UI Modernization Coherence Pass Pilot
+      # node scripts/validate-phase37-uip-ui-modernization-coherence-pass-pilot.js
+
+      - name: Validate Phase 37-uiQ UI Modernization Coherence Evidence and Backlog Closure Scope
         env:
           PHASE36H_HISTORICAL_WORKFLOW_REFERENCE_FOR_LEGACY_STATIC_TEST: |
             run: node scripts/validate-phase36h-core-interactive-focus-visible-consistency-pilot.js
         run: |
-          node scripts/validate-phase37-uip-ui-modernization-coherence-pass-pilot.js
+          node scripts/validate-phase37-uiq-ui-modernization-coherence-evidence-backlog-closure-scope.js
 
       - name: Build app
         run: npm run build
