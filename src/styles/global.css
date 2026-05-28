@@ -4696,3 +4696,143 @@ code {
     transition: none;
   }
 }
+
+/* Phase 37-uiP — UI Modernization Coherence Pass Pilot */
+.phase37uib-dynamic-canvas-token-preview,
+.phase37uid-library-shelf-modern-collection-cards-pilot,
+.phase37uif-study-room-modern-answer-surface-pilot,
+.phase37uih-hybrid-sliding-navigation-indicator-pilot,
+.phase37uil-streak-fire-ignition-micro-moment-pilot,
+.phase37uin-collapsible-avatar-header-pilot {
+  --phase37uip-coherence-paper: rgba(255, 253, 247, 0.95);
+  --phase37uip-coherence-paper-soft: rgba(241, 248, 243, 0.82);
+  --phase37uip-coherence-border: rgba(49, 92, 77, 0.23);
+  --phase37uip-coherence-border-strong: rgba(49, 92, 77, 0.34);
+  --phase37uip-coherence-moss: rgba(49, 92, 77, 0.14);
+  --phase37uip-coherence-moss-strong: #244a3e;
+  --phase37uip-coherence-amber: rgba(174, 124, 52, 0.16);
+  --phase37uip-coherence-shadow-md: 0 16px 38px rgba(31, 61, 53, 0.12);
+  --phase37uip-coherence-shadow-lg: 0 24px 68px rgba(31, 61, 53, 0.15);
+  --phase37uip-coherence-inner: inset 0 1px 0 rgba(255, 255, 255, 0.78);
+  --phase37uip-coherence-focus: 0 0 0 5px rgba(49, 92, 77, 0.18);
+  --phase37uip-coherence-motion: 180ms cubic-bezier(0.2, 0.72, 0.24, 1);
+}
+
+.phase37uib-dynamic-canvas-token-preview {
+  --phase37uib-panel-border: var(--phase37uip-coherence-border);
+  --phase37uib-panel-shadow: var(--phase37uip-coherence-shadow-lg);
+  --phase37uib-panel-bg: var(--phase37uip-coherence-paper);
+  --phase37uib-accent-ring: rgba(49, 92, 77, 0.19);
+}
+
+.phase37uid-library-shelf-modern-collection-cards-pilot {
+  --phase37uid-shelf-border: var(--phase37uip-coherence-border);
+  --phase37uid-shelf-glow: var(--phase37uip-coherence-shadow-lg);
+  --phase37uid-shelf-hover-glow: 0 28px 78px rgba(31, 61, 53, 0.2);
+  --phase37uid-shelf-focus: var(--phase37uip-coherence-focus);
+  --phase37uid-shelf-moss: var(--phase37uip-coherence-moss);
+  --phase37uid-shelf-gold: var(--phase37uip-coherence-amber);
+}
+
+.phase37uif-study-room-modern-answer-surface-pilot {
+  --phase37uif-answer-border: var(--phase37uip-coherence-border);
+  --phase37uif-answer-border-strong: var(--phase37uip-coherence-border-strong);
+  --phase37uif-answer-glow: var(--phase37uip-coherence-shadow-lg);
+  --phase37uif-answer-inner-glow: var(--phase37uip-coherence-inner);
+  --phase37uif-answer-selected-surface: var(--phase37uip-coherence-moss);
+}
+
+.phase37uih-hybrid-sliding-navigation-indicator-pilot {
+  --phase37uih-nav-cream: var(--phase37uip-coherence-paper);
+  --phase37uih-nav-cream-soft: var(--phase37uip-coherence-paper-soft);
+  --phase37uih-nav-moss: var(--phase37uip-coherence-moss);
+  --phase37uih-nav-moss-strong: var(--phase37uip-coherence-moss-strong);
+  --phase37uih-nav-shadow: var(--phase37uip-coherence-shadow-md);
+  --phase37uih-nav-inner: var(--phase37uip-coherence-inner);
+  --phase37uih-nav-ease: cubic-bezier(0.2, 0.72, 0.24, 1);
+}
+
+.phase37uin-collapsible-avatar-header-pilot {
+  --phase37uin-avatar-cream: var(--phase37uip-coherence-paper);
+  --phase37uin-avatar-moss: rgba(49, 92, 77, 0.18);
+  --phase37uin-avatar-moss-strong: var(--phase37uip-coherence-moss-strong);
+  --phase37uin-avatar-glow: var(--phase37uip-coherence-shadow-md);
+}
+
+.phase37uib-dynamic-canvas-token-preview .pageHeader,
+.phase37uib-dynamic-canvas-token-preview .card,
+.phase37uid-library-shelf-modern-collection-cards-pilot #library-panel-shelf,
+.phase37uid-library-shelf-modern-collection-cards-pilot .librarySubjectGrid > .card,
+.phase37uid-library-shelf-modern-collection-cards-pilot .libraryEmptyOnboardingCard,
+.phase37uif-study-room-modern-answer-surface-pilot .studyItemCard,
+.phase37uif-study-room-modern-answer-surface-pilot .choiceOption,
+.phase37uif-study-room-modern-answer-surface-pilot .shortAnswerField input,
+.phase37uif-study-room-modern-answer-surface-pilot .flashcard,
+.phase37uif-study-room-modern-answer-surface-pilot .studyInteraction > .studyFeedback[role='status'],
+.phase37uil-streak-fire-ignition-micro-moment-pilot,
+.phase37uin-collapsible-avatar-header-pilot {
+  transition:
+    border-color var(--phase37uip-coherence-motion),
+    background var(--phase37uip-coherence-motion),
+    box-shadow var(--phase37uip-coherence-motion),
+    transform var(--phase37uip-coherence-motion);
+}
+
+.phase37uib-dynamic-canvas-token-preview .dashboardCalmTabs,
+.phase37uid-library-shelf-modern-collection-cards-pilot .topicPill,
+.phase37uif-study-room-modern-answer-surface-pilot .choiceOption__marker,
+.phase37uih-hybrid-sliding-navigation-indicator-pilot .primaryNavSlidingIndicator,
+.phase37uin-collapsible-avatar-header-pilot .brandMark {
+  border-color: var(--phase37uip-coherence-border);
+  box-shadow: var(--phase37uip-coherence-inner);
+}
+
+.phase37uib-dynamic-canvas-token-preview .dashboardCalmTab--active,
+.phase37uih-hybrid-sliding-navigation-indicator-pilot .navItem--active,
+.phase37uih-hybrid-sliding-navigation-indicator-pilot .bottomNav__item--active {
+  color: var(--phase37uip-coherence-moss-strong);
+  background: rgba(49, 92, 77, 0.11);
+}
+
+.phase37uib-dynamic-canvas-token-preview .dashboardCalmTab:focus-visible,
+.phase37uid-library-shelf-modern-collection-cards-pilot .topicPill:focus-visible,
+.phase37uif-study-room-modern-answer-surface-pilot .choiceOption:focus-within,
+.phase37uif-study-room-modern-answer-surface-pilot .shortAnswerField input:focus-visible {
+  box-shadow: var(--phase37uip-coherence-focus);
+}
+
+.phase37uil-streak-fire-ignition-micro-moment-pilot {
+  border-color: rgba(174, 124, 52, 0.28);
+  box-shadow:
+    var(--phase37uip-coherence-shadow-lg),
+    0 0 0 1px rgba(174, 124, 52, 0.16),
+    0 0 30px rgba(239, 139, 52, 0.12);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .phase37uib-dynamic-canvas-token-preview .dashboardCalmTab:hover,
+  .phase37uid-library-shelf-modern-collection-cards-pilot .topicPill:hover,
+  .phase37uif-study-room-modern-answer-surface-pilot .choiceOption:hover {
+    border-color: var(--phase37uip-coherence-border-strong);
+    box-shadow: var(--phase37uip-coherence-shadow-md), var(--phase37uip-coherence-inner);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phase37uib-dynamic-canvas-token-preview .pageHeader,
+  .phase37uib-dynamic-canvas-token-preview .card,
+  .phase37uib-dynamic-canvas-token-preview .dashboardCalmTab,
+  .phase37uid-library-shelf-modern-collection-cards-pilot #library-panel-shelf,
+  .phase37uid-library-shelf-modern-collection-cards-pilot .librarySubjectGrid > .card,
+  .phase37uid-library-shelf-modern-collection-cards-pilot .topicPill,
+  .phase37uif-study-room-modern-answer-surface-pilot .studyItemCard,
+  .phase37uif-study-room-modern-answer-surface-pilot .choiceOption,
+  .phase37uif-study-room-modern-answer-surface-pilot .shortAnswerField input,
+  .phase37uif-study-room-modern-answer-surface-pilot .flashcard,
+  .phase37uif-study-room-modern-answer-surface-pilot .studyInteraction > .studyFeedback[role='status'],
+  .phase37uih-hybrid-sliding-navigation-indicator-pilot .primaryNavSlidingIndicator,
+  .phase37uil-streak-fire-ignition-micro-moment-pilot,
+  .phase37uin-collapsible-avatar-header-pilot {
+    transition: none;
+  }
+}
