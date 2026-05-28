@@ -94,7 +94,10 @@ function DashboardContent() {
     && !hasStudyPlanProgress;
 
   return (
-    <div className="pageStack phase37uib-dynamic-canvas-token-preview">
+    <div
+      className="pageStack phase37uib-dynamic-canvas-token-preview phase37uiu-dynamic-canvas-single-surface-preview-pilot"
+      data-phase37uiu-dynamic-canvas-preview="moss-library"
+    >
       <PageHeader
         eyebrow="Bảng điều khiển"
         title="Chào mừng quay lại"
