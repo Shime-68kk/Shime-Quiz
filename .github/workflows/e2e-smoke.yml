@@ -217,12 +217,16 @@ jobs:
       # Validate Phase 37-uiV Dynamic Canvas Single-Surface Evidence and UI Proposal Completion
       # node scripts/validate-phase37-uiv-dynamic-canvas-single-surface-evidence-proposal-completion.js
 
-      - name: Validate Phase 37-uiW UI Proposal Completion and Handoff
+      # Phase 37-uiW validator retained as historical reference; not run as Phase 37C merge-blocking gate.
+      # Validate Phase 37-uiW UI Proposal Completion and Handoff
+      # node scripts/validate-phase37-uiw-ui-proposal-completion-and-handoff.js
+
+      - name: Validate Phase 37C Limited Release Readiness Gap Review Return
         env:
           PHASE36H_HISTORICAL_WORKFLOW_REFERENCE_FOR_LEGACY_STATIC_TEST: |
             run: node scripts/validate-phase36h-core-interactive-focus-visible-consistency-pilot.js
         run: |
-          node scripts/validate-phase37-uiw-ui-proposal-completion-and-handoff.js
+          node scripts/validate-phase37c-limited-release-readiness-gap-review-return.js
 
       - name: Build app
         run: npm run build
