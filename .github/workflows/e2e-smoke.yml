@@ -193,12 +193,16 @@ jobs:
       # Validate Phase 37-uiP UI Modernization Coherence Pass Pilot
       # node scripts/validate-phase37-uip-ui-modernization-coherence-pass-pilot.js
 
-      - name: Validate Phase 37-uiQ UI Modernization Coherence Evidence and Backlog Closure Scope
+      # Phase 37-uiQ validator retained as historical reference; not run as Phase 37-uiR merge-blocking gate.
+      # Validate Phase 37-uiQ UI Modernization Coherence Evidence and Backlog Closure Scope
+      # node scripts/validate-phase37-uiq-ui-modernization-coherence-evidence-backlog-closure-scope.js
+
+      - name: Validate Phase 37-uiR UI Backlog Closure and Dynamic Canvas Design Gate
         env:
           PHASE36H_HISTORICAL_WORKFLOW_REFERENCE_FOR_LEGACY_STATIC_TEST: |
             run: node scripts/validate-phase36h-core-interactive-focus-visible-consistency-pilot.js
         run: |
-          node scripts/validate-phase37-uiq-ui-modernization-coherence-evidence-backlog-closure-scope.js
+          node scripts/validate-phase37-uir-ui-backlog-closure-dynamic-canvas-design-gate.js
 
       - name: Build app
         run: npm run build
