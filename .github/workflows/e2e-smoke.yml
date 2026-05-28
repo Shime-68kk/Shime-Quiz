@@ -221,12 +221,16 @@ jobs:
       # Validate Phase 37-uiW UI Proposal Completion and Handoff
       # node scripts/validate-phase37-uiw-ui-proposal-completion-and-handoff.js
 
-      - name: Validate Phase 37C Limited Release Readiness Gap Review Return
+      # Phase 37C validator retained as historical reference; not run as Phase 37D merge-blocking gate.
+      # Validate Phase 37C Limited Release Readiness Gap Review Return
+      # node scripts/validate-phase37c-limited-release-readiness-gap-review-return.js
+
+      - name: Validate Phase 37D Limited Release Evidence Action Plan
         env:
           PHASE36H_HISTORICAL_WORKFLOW_REFERENCE_FOR_LEGACY_STATIC_TEST: |
             run: node scripts/validate-phase36h-core-interactive-focus-visible-consistency-pilot.js
         run: |
-          node scripts/validate-phase37c-limited-release-readiness-gap-review-return.js
+          node scripts/validate-phase37d-limited-release-evidence-action-plan.js
 
       - name: Build app
         run: npm run build
