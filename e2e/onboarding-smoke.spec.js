@@ -89,8 +89,10 @@ test('Library onboarding surfaces import choices without hiding existing control
   await expect(pageBody).toContainText(/text\/Markdown|văn bản\/Markdown/i);
   await expect(pageBody).toContainText(/copy\/paste|thủ công|dán/i);
   await expect(pageBody).toContainText(/EduGen.*riêng|EduGen File Processor|được cấu hình/i);
-  await expect(page.getByRole('button', { name: 'Nạp JSON/CSV' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Dùng quiz mẫu' })).toBeVisible();
+
+  await page.getByRole('button', { name: /Tải tệp tin/i }).click();
+  await expect(page.getByRole('button', { name: 'Nạp JSON/CSV' })).toBeVisible();
   await expect(page.getByLabel('Chọn file JSON hoặc CSV học liệu')).toBeAttached();
   await expectNoUnsupportedAiOrCloudUi(page);
   await expectNoCriticalErrors(criticalErrors);

@@ -1177,6 +1177,9 @@ export default function Library() {
                 Tải một bộ quiz mẫu an toàn, trung lập và có sẵn trong ứng dụng để thử nhanh luồng import. Bộ mẫu này là dữ liệu cục bộ, không do Shime tạo bằng AI, không gọi AI/API và không dùng EduGen.
               </p>
               <p className="muted">
+                EduGen File Processor là luồng riêng; Shime chỉ nhận JSON/CSV đã được cấu hình hoặc xuất ra an toàn.
+              </p>
+              <p className="muted">
                 Shime chỉ tạo bản xem trước từ bộ mẫu; bạn vẫn cần xem lại, đọc đánh giá chất lượng và bấm xác nhận lưu nếu muốn thêm vào thư viện cục bộ.
               </p>
             </div>
