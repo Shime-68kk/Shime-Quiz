@@ -27,6 +27,29 @@ function formatDuration(seconds) {
   return `${minutes} phút ${remainder} giây`;
 }
 
+function getFriendlyFeedback(percentage) {
+  const pct = Number(percentage) || 0;
+  if (pct >= 85) {
+    return {
+      status: 'Xuất sắc! 🏆',
+      message: 'Bạn đã hoàn thành phiên học với kết quả cực kỳ ấn tượng. Các câu hỏi đã được ghi nhớ rất tốt.',
+      tone: 'success'
+    };
+  } else if (pct >= 60) {
+    return {
+      status: 'Khá tốt! 🌱',
+      message: 'Bạn đang đi đúng hướng. Ôn tập thêm một chút nữa sẽ giúp bạn ghi nhớ sâu sắc hơn.',
+      tone: 'info'
+    };
+  } else {
+    return {
+      status: 'Cố gắng lên! 📚',
+      message: 'Đừng nản chí! Luyện tập thường xuyên là chìa khóa để cải thiện điểm số và trí nhớ.',
+      tone: 'warning'
+    };
+  }
+}
+
 function HistoryMetric({ label, value }) {
   return (
     <span className="historyMetric">
@@ -111,43 +134,89 @@ export default function StudyHistoryPanel({ compact = false }) {
           </div>
 
           {selectedRecord ? (
-            <aside className="historyDetail" aria-label="Chi tiết lịch sử học">
-              <div className="historyDetail__header">
+            <aside className="historyDetail" aria-label="Chi tiết lịch sử học" style={{
+              background: 'var(--glass-bg)',
+              border: '1px solid var(--glass-border)',
+              borderRadius: '16px',
+              padding: '20px',
+              boxShadow: 'var(--glass-shadow)'
+            }}>
+              <div className="historyDetail__header" style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
-                  <Badge tone="success">Chi tiết phiên học</Badge>
-                  <h3>{formatDateTime(selectedRecord.completedAt)}</h3>
-                  <p className="muted">{selectedRecord.totalItems} mục · {formatDuration(selectedRecord.durationSeconds)}</p>
+                  <Badge tone="success">Phiên học hoàn tất</Badge>
+                  <h3 style={{ margin: '8px 0 4px', fontSize: '1.25rem' }}>{formatDateTime(selectedRecord.completedAt)}</h3>
+                  <p className="muted" style={{ margin: 0 }}>
+                    Thời gian học: {formatDuration(selectedRecord.durationSeconds)} · Tổng số {selectedRecord.totalItems} câu hỏi.
+                  </p>
                 </div>
                 <Button type="button" variant="ghost" size="sm" onClick={() => setSelectedId('')}>Đóng</Button>
               </div>
 
-              <div className="historyMetrics historyMetrics--detail">
-                <HistoryMetric label="Đúng" value={selectedRecord.correctCount} />
-                <HistoryMetric label="Sai" value={selectedRecord.wrongCount} />
-                <HistoryMetric label="Chưa trả lời" value={selectedRecord.unansweredCount} />
-                <HistoryMetric label="Không chấm điểm" value={selectedRecord.unscoredCount} />
-                <HistoryMetric label="Thẻ đã xem" value={selectedRecord.flashcardReviewedCount} />
-                <HistoryMetric label="Tỷ lệ đúng" value={`${selectedRecord.percentage}%`} />
+              {/* Friendly Human Summary */}
+              <div className="friendlySummary" style={{
+                padding: '16px',
+                borderRadius: '12px',
+                background: 'var(--color-primary-soft)',
+                border: '1px solid var(--glass-border)',
+                marginBottom: '20px'
+              }}>
+                <h4 style={{ margin: '0 0 6px', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-text)', fontSize: '1.02rem' }}>
+                  Hiệu quả: <strong style={{ color: 'var(--brand-dark)' }}>{getFriendlyFeedback(selectedRecord.percentage).status}</strong>
+                </h4>
+                <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--color-text)', lineHeight: '1.4' }}>
+                  {getFriendlyFeedback(selectedRecord.percentage).message}
+                </p>
               </div>
 
-              <div className="historyItemResults">
-                {selectedDetails.slice(0, 25).map((item, index) => (
-                  <details className="historyItemResult" key={`${item.itemId}-${index}`}>
-                    <summary>
-                      <span>{index + 1}. {item.prompt}</span>
-                      <Badge tone={item.statusTone}>{item.statusLabel}</Badge>
-                    </summary>
-                    <div className="historyItemResult__body">
-                      <p><strong>Loại:</strong> {item.typeLabel}</p>
-                      {item.topicLabel ? <p><strong>Chủ đề:</strong> {item.topicLabel}</p> : null}
-                      {item.itemMissing ? <p className="historyItemResult__warning">{item.missingMessage}</p> : null}
-                      {item.userAnswer ? <p><strong>Câu trả lời của bạn:</strong> {item.userAnswer}</p> : null}
-                      {item.correctAnswer ? <p><strong>Đáp án đúng:</strong> {item.correctAnswer}</p> : null}
-                      <p><strong>Trạng thái:</strong> {item.statusLabel}</p>
-                    </div>
-                  </details>
-                ))}
-              </div>
+              {/* Technical Details Toggle */}
+              <details className="technicalDetails" style={{
+                border: '1px solid var(--glass-border)',
+                borderRadius: '12px',
+                background: 'rgba(0,0,0,0.02)',
+                overflow: 'hidden'
+              }} open>
+                <summary className="technicalDetailsSummary" style={{
+                  padding: '12px 16px',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  userSelect: 'none',
+                  background: 'var(--color-primary-soft)',
+                  borderBottom: '1px solid var(--glass-border)',
+                  color: 'var(--color-text)'
+                }}>
+                  🔍 Xem thông số chi tiết & câu hỏi
+                </summary>
+                
+                <div style={{ padding: '16px' }}>
+                  <div className="historyMetrics historyMetrics--detail" style={{ marginBottom: '16px' }}>
+                    <HistoryMetric label="Đúng" value={selectedRecord.correctCount} />
+                    <HistoryMetric label="Sai" value={selectedRecord.wrongCount} />
+                    <HistoryMetric label="Chưa trả lời" value={selectedRecord.unansweredCount} />
+                    <HistoryMetric label="Không chấm điểm" value={selectedRecord.unscoredCount} />
+                    <HistoryMetric label="Thẻ đã xem" value={selectedRecord.flashcardReviewedCount} />
+                    <HistoryMetric label="Tỷ lệ đúng" value={`${selectedRecord.percentage}%`} />
+                  </div>
+
+                  <div className="historyItemResults">
+                    {selectedDetails.slice(0, 25).map((item, index) => (
+                      <details className="historyItemResult" key={`${item.itemId}-${index}`}>
+                        <summary>
+                          <span>{index + 1}. {item.prompt}</span>
+                          <Badge tone={item.statusTone}>{item.statusLabel}</Badge>
+                        </summary>
+                        <div className="historyItemResult__body">
+                          <p><strong>Loại:</strong> {item.typeLabel}</p>
+                          {item.topicLabel ? <p><strong>Chủ đề:</strong> {item.topicLabel}</p> : null}
+                          {item.itemMissing ? <p className="historyItemResult__warning">{item.missingMessage}</p> : null}
+                          {item.userAnswer ? <p><strong>Câu trả lời của bạn:</strong> {item.userAnswer}</p> : null}
+                          {item.correctAnswer ? <p><strong>Đáp án đúng:</strong> {item.correctAnswer}</p> : null}
+                          <p><strong>Trạng thái:</strong> {item.statusLabel}</p>
+                        </div>
+                      </details>
+                    ))}
+                  </div>
+                </div>
+              </details>
             </aside>
           ) : null}
         </div>

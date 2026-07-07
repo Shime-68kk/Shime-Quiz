@@ -1,0 +1,12 @@
+{
+  "dryRunOnly": true,
+  "missingMappings": [],
+  "overallStatus": "PASS",
+  "policyQualityScore": 100,
+  "reasonCodes": [
+    "shime_policy_quality_audit_completed"
+  ],
+  "recommendedFixes": [],
+  "riskyMappings": [],
+  "sendStatus": "not_sent"
+}

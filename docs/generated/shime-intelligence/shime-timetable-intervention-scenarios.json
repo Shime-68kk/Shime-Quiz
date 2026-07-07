@@ -1,0 +1,102 @@
+[
+  {
+    "mutatesSchedule": false,
+    "routineRecommendation": "short_session_soon",
+    "scenarioId": "routine_001"
+  },
+  {
+    "mutatesSchedule": false,
+    "routineRecommendation": "tiny_review_now",
+    "scenarioId": "routine_002"
+  },
+  {
+    "mutatesSchedule": false,
+    "routineRecommendation": "short_session_soon",
+    "scenarioId": "routine_003"
+  },
+  {
+    "mutatesSchedule": false,
+    "routineRecommendation": "resume_habit",
+    "scenarioId": "routine_004"
+  },
+  {
+    "mutatesSchedule": false,
+    "routineRecommendation": "tiny_review_now",
+    "scenarioId": "routine_005"
+  },
+  {
+    "mutatesSchedule": false,
+    "routineRecommendation": "tiny_review_now",
+    "scenarioId": "routine_006"
+  },
+  {
+    "mutatesSchedule": false,
+    "routineRecommendation": "no_nudge",
+    "scenarioId": "routine_007"
+  },
+  {
+    "mutatesSchedule": false,
+    "routineRecommendation": "short_session_soon",
+    "scenarioId": "routine_008"
+  },
+  {
+    "mutatesSchedule": false,
+    "routineRecommendation": "short_session_soon",
+    "scenarioId": "routine_009"
+  },
+  {
+    "mutatesSchedule": false,
+    "routineRecommendation": "recovery_session_today",
+    "scenarioId": "routine_010"
+  },
+  {
+    "mutatesSchedule": false,
+    "routineRecommendation": "short_session_soon",
+    "scenarioId": "routine_011"
+  },
+  {
+    "mutatesSchedule": false,
+    "routineRecommendation": "short_session_soon",
+    "scenarioId": "routine_012"
+  },
+  {
+    "mutatesSchedule": false,
+    "routineRecommendation": "resume_habit",
+    "scenarioId": "routine_013"
+  },
+  {
+    "mutatesSchedule": false,
+    "routineRecommendation": "no_nudge",
+    "scenarioId": "routine_014"
+  },
+  {
+    "mutatesSchedule": false,
+    "routineRecommendation": "tiny_review_now",
+    "scenarioId": "routine_015"
+  },
+  {
+    "mutatesSchedule": false,
+    "routineRecommendation": "no_nudge",
+    "scenarioId": "routine_016"
+  },
+  {
+    "mutatesSchedule": false,
+    "routineRecommendation": "reconnect_before_study",
+    "scenarioId": "routine_017"
+  },
+  {
+    "mutatesSchedule": false,
+    "routineRecommendation": "short_session_soon",
+    "scenarioId": "routine_018"
+  },
+  {
+    "mutatesSchedule": false,
+    "routineRecommendation": "short_session_soon",
+    "scenarioId": "routine_019"
+  },
+  {
+    "mutatesSchedule": false,
+    "routineRecommendation": "short_session_soon",
+    "scenarioId": "routine_020"
+  }
+]

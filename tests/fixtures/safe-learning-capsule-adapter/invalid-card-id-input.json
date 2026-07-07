@@ -1,0 +1,10 @@
+{
+  "sessionIdBucket": "session_bucket_invalid_card",
+  "correctCount": 1,
+  "incorrectCount": 1,
+  "skippedCount": 0,
+  "totalCount": 2,
+  "monotonicImportId": 206,
+  "nowBucket": "day_bucket_2026_07_07",
+  "cardId": "blocked"
+}

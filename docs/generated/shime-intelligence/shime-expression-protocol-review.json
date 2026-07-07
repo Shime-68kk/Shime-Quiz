@@ -1,0 +1,38 @@
+{
+  "artifactSummary": {
+    "presentCount": 5,
+    "requiredCount": 5
+  },
+  "blockers": [],
+  "compatibilitySummary": {
+    "contractVersion": "shime-robot-expression-contract-v1",
+    "envelopeAndLogAgree": false
+  },
+  "dryRunOnly": true,
+  "motionPolicy": "locked",
+  "overallStatus": "PASS",
+  "privacySummary": {
+    "noSensitiveArtifactClaims": true,
+    "privacyStatus": "redacted_coarse_only"
+  },
+  "protocolSummary": {
+    "attackScenarios": 3000,
+    "benchmarkScenarios": 30000,
+    "messageType": "expression_preview",
+    "protocolVersion": "1.0.0"
+  },
+  "reasonCodes": [
+    "expression_protocol_artifacts_reviewed"
+  ],
+  "recommendation": "READY_FOR_LOG_ONLY_FIRMWARE_PLANNING_REVIEW",
+  "reviewVersion": "shime-expression-protocol-review-v1",
+  "safetySummary": {
+    "dryRunOnly": true,
+    "fakeTranscriptAck": "accepted_dry_run",
+    "logOnlyAccepted": true,
+    "motionPolicy": "locked",
+    "sendStatus": "not_sent"
+  },
+  "sendStatus": "not_sent",
+  "warnings": []
+}

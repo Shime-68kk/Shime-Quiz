@@ -1,0 +1,25 @@
+{
+  "classes": [
+    "spacing",
+    "double_paste",
+    "split_line",
+    "timestamp_prefix",
+    "non_json_text",
+    "smart_quotes",
+    "empty_line",
+    "mixed_valid_invalid_valid",
+    "harmless_extra_field",
+    "dangerous_extra_field",
+    "duplicate_key"
+  ],
+  "dryRunOnly": true,
+  "motionPolicy": "locked",
+  "rawEchoAllowed": false,
+  "realworldTrainingLineCount": 13,
+  "reasonCodes": [
+    "esp32_expression_realworld_serial_training_created"
+  ],
+  "sendStatus": "not_sent",
+  "status": "PASS",
+  "trainingVersion": "shime-esp32-expression-realworld-serial-training-v1"
+}

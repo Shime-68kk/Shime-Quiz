@@ -1,0 +1,7 @@
+{
+  "dryRunOnly": true,
+  "noRawJson": true,
+  "noSensitiveOutput": true,
+  "sendStatus": "not_sent",
+  "status": "PASS"
+}

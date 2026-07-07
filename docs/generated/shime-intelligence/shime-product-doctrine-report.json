@@ -1,0 +1,22 @@
+{
+  "appCanonicalLearningAuthority": true,
+  "dryRunOnly": true,
+  "failures": [],
+  "robotLedPositioning": true,
+  "status": "PASS",
+  "summary": {
+    "appProductName": "Shime Quiz",
+    "appTechnicalRole": "local_first_learning_brain",
+    "capsuleRole": "privacy_safe_bridge",
+    "ecosystemName": "Shime",
+    "fsrsRole": "memory_scheduler_core",
+    "invariantCount": 7,
+    "reasonCodes": [
+      "product_doctrine_summarized"
+    ],
+    "robotProductName": "Shime Robot",
+    "robotPublicRole": "product_face",
+    "robotTechnicalRole": "emotion_body_presence_bridge",
+    "safetyRole": "highest_authority"
+  }
+}

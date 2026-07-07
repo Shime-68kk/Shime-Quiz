@@ -4,8 +4,12 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import App from './App.jsx';
 import Home from './routes/Home.jsx';
 import { routes } from './routes/routeConfig.js';
+import { initTheme } from './ui/theme.js';
 import './styles/global.css';
 import './styles/phase34b-leader-ui-effects.css';
+
+// Khởi tạo theme từ localStorage ngay lập tức để tránh nhấp nháy giao diện khi F5
+initTheme();
 
 const routerBase = import.meta.env.BASE_URL === './' ? '/' : import.meta.env.BASE_URL;
 

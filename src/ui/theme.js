@@ -6,12 +6,12 @@ export function setTheme(theme) {
 }
 
 export function toggleTheme() {
-  const current = document.documentElement.getAttribute("data-theme") || "dark";
-  setTheme(current === "dark" ? "light" : "dark");
+  const current = document.documentElement.getAttribute("data-theme") || "light";
+  setTheme(current === "light" ? "dark" : "light");
 }
 
 export function initTheme(button) {
-  const savedTheme = localStorage.getItem(THEME_KEY) || "dark";
+  const savedTheme = localStorage.getItem(THEME_KEY) || "light";
   setTheme(savedTheme);
   button?.addEventListener("click", toggleTheme);
 }

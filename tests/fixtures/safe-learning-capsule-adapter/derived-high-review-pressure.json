@@ -1,0 +1,17 @@
+{
+  "sessionIdBucket": "session_bucket_gamma_review",
+  "correctCount": 7,
+  "incorrectCount": 2,
+  "skippedCount": 1,
+  "totalCount": 10,
+  "recentAccuracyBucket": "medium",
+  "sessionDurationBucket": "medium",
+  "dueReviewCountBucket": "high",
+  "overdueReviewPressureBucket": "high",
+  "consecutiveErrorsBucket": "low",
+  "hesitationBucket": "medium",
+  "focusNeedSignalBucket": "medium",
+  "userEnergySelfReportBucket": "medium",
+  "monotonicImportId": 103,
+  "nowBucket": "day_bucket_2026_07_07"
+}

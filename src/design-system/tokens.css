@@ -85,6 +85,16 @@
   --bottom-nav-edge-gap: 14px;
   --bottom-nav-safe-area: env(safe-area-inset-bottom, 0px);
   --mobile-content-bottom-padding: calc(var(--bottom-nav-height) + var(--bottom-nav-edge-gap) + var(--bottom-nav-safe-area) + var(--space-6));
+
+  /* Liquid Glassmorphism & Premium shadow tokens */
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-bg-hover: rgba(255, 255, 255, 0.82);
+  --glass-border: rgba(49, 92, 77, 0.12);
+  --glass-border-reflect: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(49, 92, 77, 0.15) 100%);
+  --glass-shadow: 0 8px 32px 0 rgba(36, 45, 62, 0.08);
+  --glass-shadow-hover: 0 16px 40px 0 rgba(36, 45, 62, 0.14);
+  --glass-blur: blur(16px);
+  --elastic-transition: transform 0.26s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 [data-theme='dark'] {
@@ -114,4 +124,164 @@
   --shadow-sm: 0 8px 22px rgba(0, 0, 0, 0.28);
   --shadow-md: 0 18px 50px rgba(0, 0, 0, 0.34);
   --shadow-lg: 0 26px 70px rgba(0, 0, 0, 0.4);
+  
+  --bg: var(--color-background);
+  --surface: var(--color-surface);
+  --surface-strong: var(--color-surface-elevated);
+  --text: var(--color-text);
+  --muted: var(--color-text-muted);
+  --border: var(--color-border);
+  --brand: var(--color-primary);
+  --brand-dark: var(--color-primary-strong);
+  --phase37uih-nav-cream: var(--color-primary);
+  --phase37uih-nav-cream-soft: var(--color-primary);
+  --phase37uih-nav-moss: rgba(143, 199, 173, 0.1);
+  --phase37uih-nav-moss-strong: #17212d;
+
+  /* Dark Theme Liquid Glass */
+  --glass-bg: rgba(17, 24, 33, 0.75);
+  --glass-bg-hover: rgba(17, 24, 33, 0.85);
+  --glass-border: rgba(143, 199, 173, 0.15);
+  --glass-border-reflect: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 50%, rgba(143, 199, 173, 0.2) 100%);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.32);
+  --glass-shadow-hover: 0 16px 40px 0 rgba(0, 0, 0, 0.48), 0 0 20px rgba(143, 199, 173, 0.1);
 }
+
+[data-theme='ocean'] {
+  color-scheme: light;
+  --color-primary: #2f5f9f;
+  --color-primary-strong: #1a3a6b;
+  --color-primary-soft: #e6eefc;
+  --color-secondary: #8b6f3e;
+  --color-secondary-soft: #f2ead7;
+  --color-success: #287a4f;
+  --color-success-soft: #e2f4e9;
+  --color-warning: #a76513;
+  --color-warning-soft: #fff1d6;
+  --color-danger: #b53b3b;
+  --color-danger-soft: #fde7e4;
+  --color-info: #2f5f9f;
+  --color-info-soft: #e6eefc;
+  --color-background: #eef3f8;
+  --color-surface: #f8fafc;
+  --color-surface-elevated: #ffffff;
+  --color-text: #172033;
+  --color-text-muted: #687083;
+  --color-border: rgba(23, 32, 51, 0.1);
+  --color-border-strong: rgba(23, 32, 51, 0.18);
+  --color-focus: rgba(47, 95, 159, 0.35);
+  
+  --bg: var(--color-background);
+  --surface: var(--color-surface);
+  --surface-strong: var(--color-surface-elevated);
+  --text: var(--color-text);
+  --muted: var(--color-text-muted);
+  --border: var(--color-border);
+  --brand: var(--color-primary);
+  --brand-dark: var(--color-primary-strong);
+  --phase37uih-nav-cream: var(--color-primary-soft);
+  --phase37uih-nav-cream-soft: var(--color-primary-soft);
+  --phase37uih-nav-moss: rgba(47, 95, 159, 0.1);
+  --phase37uih-nav-moss-strong: var(--color-primary-strong);
+
+  /* Ocean Theme Liquid Glass */
+  --glass-bg: rgba(238, 243, 248, 0.72);
+  --glass-bg-hover: rgba(238, 243, 248, 0.82);
+  --glass-border: rgba(47, 95, 159, 0.12);
+  --glass-border-reflect: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(47, 95, 159, 0.15) 100%);
+  --glass-shadow: 0 8px 32px 0 rgba(47, 95, 159, 0.08);
+  --glass-shadow-hover: 0 16px 40px 0 rgba(47, 95, 159, 0.14), 0 0 15px rgba(47, 95, 159, 0.1);
+}
+
+[data-theme='sunset'] {
+  color-scheme: light;
+  --color-primary: #a75d13;
+  --color-primary-strong: #7c4106;
+  --color-primary-soft: #faf0e6;
+  --color-secondary: #315c4d;
+  --color-secondary-soft: #e4efe8;
+  --color-success: #287a4f;
+  --color-success-soft: #e2f4e9;
+  --color-warning: #a76513;
+  --color-warning-soft: #fff1d6;
+  --color-danger: #b53b3b;
+  --color-danger-soft: #fde7e4;
+  --color-info: #2f5f9f;
+  --color-info-soft: #e6eefc;
+  --color-background: #faf4ee;
+  --color-surface: #fffcf9;
+  --color-surface-elevated: #ffffff;
+  --color-text: #271a0c;
+  --color-text-muted: #786653;
+  --color-border: rgba(39, 26, 12, 0.1);
+  --color-border-strong: rgba(39, 26, 12, 0.18);
+  --color-focus: rgba(167, 93, 19, 0.35);
+  
+  --bg: var(--color-background);
+  --surface: var(--color-surface);
+  --surface-strong: var(--color-surface-elevated);
+  --text: var(--color-text);
+  --muted: var(--color-text-muted);
+  --border: var(--color-border);
+  --brand: var(--color-primary);
+  --brand-dark: var(--color-primary-strong);
+  --phase37uih-nav-cream: var(--color-primary-soft);
+  --phase37uih-nav-cream-soft: var(--color-primary-soft);
+  --phase37uih-nav-moss: rgba(167, 93, 19, 0.1);
+  --phase37uih-nav-moss-strong: var(--color-primary-strong);
+
+  /* Sunset Theme Liquid Glass */
+  --glass-bg: rgba(250, 244, 238, 0.72);
+  --glass-bg-hover: rgba(250, 244, 238, 0.82);
+  --glass-border: rgba(167, 93, 19, 0.12);
+  --glass-border-reflect: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(167, 93, 19, 0.15) 100%);
+  --glass-shadow: 0 8px 32px 0 rgba(167, 93, 19, 0.08);
+  --glass-shadow-hover: 0 16px 40px 0 rgba(167, 93, 19, 0.14), 0 0 15px rgba(167, 93, 19, 0.1);
+}
+
+[data-theme='lavender'] {
+  color-scheme: light;
+  --color-primary: #6c429c;
+  --color-primary-strong: #4f2e75;
+  --color-primary-soft: #f3eefc;
+  --color-secondary: #315c4d;
+  --color-secondary-soft: #e4efe8;
+  --color-success: #287a4f;
+  --color-success-soft: #e2f4e9;
+  --color-warning: #a76513;
+  --color-warning-soft: #fff1d6;
+  --color-danger: #b53b3b;
+  --color-danger-soft: #fde7e4;
+  --color-info: #2f5f9f;
+  --color-info-soft: #e6eefc;
+  --color-background: #f4edf9;
+  --color-surface: #fdfbfe;
+  --color-surface-elevated: #ffffff;
+  --color-text: #1d0f30;
+  --color-text-muted: #625373;
+  --color-border: rgba(29, 15, 48, 0.1);
+  --color-border-strong: rgba(29, 15, 48, 0.18);
+  --color-focus: rgba(108, 66, 156, 0.35);
+  
+  --bg: var(--color-background);
+  --surface: var(--color-surface);
+  --surface-strong: var(--color-surface-elevated);
+  --text: var(--color-text);
+  --muted: var(--color-text-muted);
+  --border: var(--color-border);
+  --brand: var(--color-primary);
+  --brand-dark: var(--color-primary-strong);
+  --phase37uih-nav-cream: var(--color-primary-soft);
+  --phase37uih-nav-cream-soft: var(--color-primary-soft);
+  --phase37uih-nav-moss: rgba(108, 66, 156, 0.1);
+  --phase37uih-nav-moss-strong: var(--color-primary-strong);
+
+  /* Lavender Theme Liquid Glass */
+  --glass-bg: rgba(244, 237, 249, 0.72);
+  --glass-bg-hover: rgba(244, 237, 249, 0.82);
+  --glass-border: rgba(108, 66, 156, 0.12);
+  --glass-border-reflect: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(108, 66, 156, 0.15) 100%);
+  --glass-shadow: 0 8px 32px 0 rgba(108, 66, 156, 0.08);
+  --glass-shadow-hover: 0 16px 40px 0 rgba(108, 66, 156, 0.14), 0 0 15px rgba(108, 66, 156, 0.1);
+}
+

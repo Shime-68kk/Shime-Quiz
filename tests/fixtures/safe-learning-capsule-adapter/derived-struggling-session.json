@@ -1,0 +1,17 @@
+{
+  "sessionIdBucket": "session_bucket_beta_struggle",
+  "correctCount": 2,
+  "incorrectCount": 6,
+  "skippedCount": 1,
+  "totalCount": 9,
+  "recentAccuracyBucket": "low",
+  "sessionDurationBucket": "medium",
+  "dueReviewCountBucket": "low",
+  "overdueReviewPressureBucket": "low",
+  "consecutiveErrorsBucket": "high",
+  "hesitationBucket": "high",
+  "focusNeedSignalBucket": "high",
+  "userEnergySelfReportBucket": "medium",
+  "monotonicImportId": 102,
+  "nowBucket": "day_bucket_2026_07_07"
+}

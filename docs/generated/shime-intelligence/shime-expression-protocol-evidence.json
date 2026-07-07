@@ -1,0 +1,12 @@
+{
+  "artifactCount": 6,
+  "dryRunOnly": true,
+  "failures": [],
+  "motionPolicy": "locked",
+  "ok": true,
+  "reasonCodes": [
+    "robot_expression_protocol_evidence_review_completed"
+  ],
+  "reviewVersion": "shime-expression-protocol-evidence-review-v1",
+  "sendStatus": "not_sent"
+}

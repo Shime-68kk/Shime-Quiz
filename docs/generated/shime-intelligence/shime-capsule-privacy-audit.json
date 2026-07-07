@@ -1,0 +1,7 @@
+{
+  "attackScenarioCount": 1000,
+  "checkedScenarioCount": 10000,
+  "dryRunOnly": true,
+  "invariantFailureCount": 0,
+  "status": "PASS"
+}

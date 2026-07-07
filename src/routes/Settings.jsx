@@ -83,18 +83,30 @@ const PHASE31C_PROTOTYPE_CONFIG = createDataSafetyInternalVisibilityConfig(
   typeof import.meta !== 'undefined' ? import.meta.env : {}
 );
 
+import ThemeSettingsPanel from '../components/settings/ThemeSettingsPanel.jsx';
+import DeviceBridgeUiConcept from '../components/settings/DeviceBridgeUiConcept.jsx';
+import CompanionDevPanel from '../components/settings/CompanionDevPanel.jsx';
+import { ShimeLanguageProvider } from '../uiI18n/ShimeLanguageProvider.jsx';
+import ShimeLanguageSwitch from '../uiI18n/ShimeLanguageSwitch.jsx';
+
 export default function Settings() {
   const onConfirmImport = useCallback(handleEdugenDraftConfirmImport, []);
 
   return (
     <div className="pageRoot">
-      <PageHeader title="Cài đặt" subtitle="Tuỳ chọn nâng cao" />
-      <FsrsExperimentalSettingsPanel />
-      <EduGenDraftWorkshopPanel />
-      <EduGenDraftReviewPanel onConfirmImport={onConfirmImport} />
-      {shouldShowDataSafetyCenterPrototype(PHASE31C_PROTOTYPE_CONFIG) && (
-        <DataSafetyCenterPrototype />
-      )}
+      <ShimeLanguageProvider>
+        <PageHeader title="Cài đặt" subtitle="Tuỳ chọn nâng cao" />
+        <ShimeLanguageSwitch />
+        <ThemeSettingsPanel />
+        <FsrsExperimentalSettingsPanel />
+        <DeviceBridgeUiConcept />
+        <CompanionDevPanel />
+        <EduGenDraftWorkshopPanel />
+        <EduGenDraftReviewPanel onConfirmImport={onConfirmImport} />
+        {shouldShowDataSafetyCenterPrototype(PHASE31C_PROTOTYPE_CONFIG) && (
+          <DataSafetyCenterPrototype />
+        )}
+      </ShimeLanguageProvider>
     </div>
   );
 }

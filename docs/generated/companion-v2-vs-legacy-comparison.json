@@ -1,0 +1,187 @@
+{
+  "passed": true,
+  "reportVersion": "companion-v2-vs-legacy-1",
+  "rows": [
+    {
+      "comparisonStatus": "equivalent",
+      "legacyCommand": "session_complete",
+      "legacyIntent": "celebrate_small",
+      "recommendation": "safe_for_manual_qa",
+      "scenarioId": "scenario_001",
+      "v2Command": "session_complete",
+      "v2Intent": "celebrate_small",
+      "warnings": []
+    },
+    {
+      "comparisonStatus": "equivalent",
+      "legacyCommand": "focus",
+      "legacyIntent": "celebrate_small",
+      "recommendation": "safe_for_manual_qa",
+      "scenarioId": "scenario_002",
+      "v2Command": "celebrate",
+      "v2Intent": "celebrate_small",
+      "warnings": []
+    },
+    {
+      "comparisonStatus": "equivalent",
+      "legacyCommand": "neutral",
+      "legacyIntent": "neutral_wait",
+      "recommendation": "safe_for_manual_qa",
+      "scenarioId": "scenario_003",
+      "v2Command": "encourage",
+      "v2Intent": "recovery_praise",
+      "warnings": []
+    },
+    {
+      "comparisonStatus": "equivalent",
+      "legacyCommand": "encourage",
+      "legacyIntent": "encourage",
+      "recommendation": "safe_for_manual_qa",
+      "scenarioId": "scenario_004",
+      "v2Command": "encourage",
+      "v2Intent": "suggest_break",
+      "warnings": []
+    },
+    {
+      "comparisonStatus": "equivalent",
+      "legacyCommand": "neutral",
+      "legacyIntent": "neutral_wait",
+      "recommendation": "safe_for_manual_qa",
+      "scenarioId": "scenario_005",
+      "v2Command": "neutral",
+      "v2Intent": "recovery_praise",
+      "warnings": []
+    },
+    {
+      "comparisonStatus": "equivalent",
+      "legacyCommand": "session_complete",
+      "legacyIntent": "celebrate_small",
+      "recommendation": "safe_for_manual_qa",
+      "scenarioId": "scenario_006",
+      "v2Command": "session_complete",
+      "v2Intent": "celebrate_small",
+      "warnings": []
+    },
+    {
+      "comparisonStatus": "equivalent",
+      "legacyCommand": "session_complete",
+      "legacyIntent": "celebrate_small",
+      "recommendation": "safe_for_manual_qa",
+      "scenarioId": "scenario_007",
+      "v2Command": "session_complete",
+      "v2Intent": "celebrate_small",
+      "warnings": []
+    },
+    {
+      "comparisonStatus": "equivalent",
+      "legacyCommand": "due_review",
+      "legacyIntent": "review_reminder",
+      "recommendation": "safe_for_manual_qa",
+      "scenarioId": "scenario_008",
+      "v2Command": "due_review",
+      "v2Intent": "review_reminder",
+      "warnings": []
+    },
+    {
+      "comparisonStatus": "v2_blocked",
+      "legacyCommand": "neutral",
+      "legacyIntent": "reconnect_hint",
+      "recommendation": "safe_for_manual_qa",
+      "scenarioId": "scenario_009",
+      "v2Command": "neutral",
+      "v2Intent": "reconnect_hint",
+      "warnings": []
+    },
+    {
+      "comparisonStatus": "equivalent",
+      "legacyCommand": "focus",
+      "legacyIntent": "focus_gently",
+      "recommendation": "safe_for_manual_qa",
+      "scenarioId": "scenario_010",
+      "v2Command": "focus",
+      "v2Intent": "focus_gently",
+      "warnings": []
+    },
+    {
+      "comparisonStatus": "equivalent",
+      "legacyCommand": "focus",
+      "legacyIntent": "focus_gently",
+      "recommendation": "safe_for_manual_qa",
+      "scenarioId": "scenario_011",
+      "v2Command": "focus",
+      "v2Intent": "focus_gently",
+      "warnings": []
+    },
+    {
+      "comparisonStatus": "equivalent",
+      "legacyCommand": "focus",
+      "legacyIntent": "celebrate_small",
+      "recommendation": "safe_for_manual_qa",
+      "scenarioId": "scenario_012",
+      "v2Command": "celebrate",
+      "v2Intent": "celebrate_small",
+      "warnings": []
+    },
+    {
+      "comparisonStatus": "equivalent",
+      "legacyCommand": "focus",
+      "legacyIntent": "celebrate_small",
+      "recommendation": "safe_for_manual_qa",
+      "scenarioId": "scenario_013",
+      "v2Command": "celebrate",
+      "v2Intent": "celebrate_small",
+      "warnings": []
+    },
+    {
+      "comparisonStatus": "equivalent",
+      "legacyCommand": "focus",
+      "legacyIntent": "focus_gently",
+      "recommendation": "safe_for_manual_qa",
+      "scenarioId": "scenario_014",
+      "v2Command": "neutral",
+      "v2Intent": "focus_gently",
+      "warnings": []
+    },
+    {
+      "comparisonStatus": "v2_blocked",
+      "legacyCommand": "neutral",
+      "legacyIntent": "calm_error",
+      "recommendation": "safe_for_manual_qa",
+      "scenarioId": "scenario_015",
+      "v2Command": "neutral",
+      "v2Intent": "calm_error",
+      "warnings": []
+    },
+    {
+      "comparisonStatus": "v2_blocked",
+      "legacyCommand": "neutral",
+      "legacyIntent": "calm_error",
+      "recommendation": "safe_for_manual_qa",
+      "scenarioId": "scenario_016",
+      "v2Command": "neutral",
+      "v2Intent": "calm_error",
+      "warnings": []
+    },
+    {
+      "comparisonStatus": "v2_blocked",
+      "legacyCommand": "focus",
+      "legacyIntent": "focus_gently",
+      "recommendation": "safe_for_manual_qa",
+      "scenarioId": "scenario_017",
+      "v2Command": "neutral",
+      "v2Intent": "reconnect_hint",
+      "warnings": []
+    },
+    {
+      "comparisonStatus": "equivalent",
+      "legacyCommand": "due_review",
+      "legacyIntent": "review_reminder",
+      "recommendation": "safe_for_manual_qa",
+      "scenarioId": "scenario_018",
+      "v2Command": "neutral",
+      "v2Intent": "review_reminder",
+      "warnings": []
+    }
+  ],
+  "scenarioCount": 18
+}

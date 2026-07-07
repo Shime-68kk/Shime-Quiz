@@ -1,0 +1,17 @@
+{
+  "sessionIdBucket": "session_bucket_alpha_steady",
+  "correctCount": 9,
+  "incorrectCount": 1,
+  "skippedCount": 0,
+  "totalCount": 10,
+  "recentAccuracyBucket": "high",
+  "sessionDurationBucket": "short",
+  "dueReviewCountBucket": "low",
+  "overdueReviewPressureBucket": "none",
+  "consecutiveErrorsBucket": "none",
+  "hesitationBucket": "low",
+  "focusNeedSignalBucket": "low",
+  "userEnergySelfReportBucket": "medium",
+  "monotonicImportId": 101,
+  "nowBucket": "day_bucket_2026_07_07"
+}

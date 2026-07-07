@@ -1,0 +1,10 @@
+{
+  "sessionIdBucket": "session_bucket_invalid_unknown",
+  "correctCount": 1,
+  "incorrectCount": 1,
+  "skippedCount": 0,
+  "totalCount": 2,
+  "monotonicImportId": 209,
+  "nowBucket": "day_bucket_2026_07_07",
+  "unexpectedField": "blocked"
+}

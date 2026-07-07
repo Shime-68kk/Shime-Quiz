@@ -99,6 +99,13 @@ function getTodayCardState({ itemCount, recommendation, dueSummary, smartPractic
   };
 }
 
+function getGreeting() {
+  const hr = new Date().getHours();
+  if (hr < 12) return 'Chào buổi sáng! ☕';
+  if (hr < 18) return 'Chào buổi chiều! ☀️';
+  return 'Chào buổi tối! 🌙';
+}
+
 export default function DashboardTodayCard() {
   const navigate = useNavigate();
   const {
@@ -109,7 +116,10 @@ export default function DashboardTodayCard() {
     weakPracticeSelection,
     todayPlan,
     historyRecords,
-    mastery
+    mastery,
+    planStepProgress,
+    goalProgress,
+    historyAnalytics
   } = useDashboardLearningData();
 
   const itemCount = getSafeItemCount(librarySummary);
@@ -124,6 +134,21 @@ export default function DashboardTodayCard() {
     mastery
   });
 
+  const greeting = getGreeting();
+  const streak = historyAnalytics?.studyStreakDays || 0;
+
+  const completedSteps = planStepProgress?.completedCount || 0;
+  const totalSteps = planStepProgress?.totalSteps || 0;
+  const stepPercent = totalSteps ? Math.round((completedSteps / totalSteps) * 100) : (goalProgress?.hasGoal ? goalProgress.progressPercent : 0);
+
+  const showRing = totalSteps > 0 || goalProgress?.hasGoal;
+  const ringLabel = totalSteps > 0 ? `${completedSteps}/${totalSteps}` : `${stepPercent}%`;
+  const ringSub = totalSteps > 0 ? "bước" : "mục tiêu";
+
+  const radius = 36;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (stepPercent / 100) * circumference;
+
   function handlePrimaryAction() {
     if (state.target?.state) {
       navigate(state.target.route, { state: state.target.state });
@@ -134,7 +159,16 @@ export default function DashboardTodayCard() {
 
   return (
     <Card
-      title="Hôm nay nên học gì?"
+      title={
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', flexWrap: 'wrap', gap: '10px' }}>
+          <span>{greeting}</span>
+          {streak > 0 && (
+            <span className="streakFlame" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '0.95rem', background: 'rgba(255, 159, 67, 0.1)', padding: '4px 10px', borderRadius: '12px', border: '1px solid rgba(255, 159, 67, 0.2)', color: '#ff9f43', fontWeight: 'bold', animation: streak >= 3 ? 'tourPulseStrong 1.5s infinite' : 'none' }}>
+              🔥 {streak} ngày liên tiếp
+            </span>
+          )}
+        </div>
+      }
       eyebrow="Today Card"
       variant="elevated"
       className="dashboardTodayCard"
@@ -150,6 +184,26 @@ export default function DashboardTodayCard() {
           </ul>
         </div>
         <div className="dashboardTodayCard__action">
+          {showRing && (
+            <div className="dashboardTodayRingContainer" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '16px', borderRadius: '16px', background: 'var(--color-primary-soft)', border: '1px solid var(--border)', marginBottom: '12px' }}>
+              <div style={{ position: 'relative', width: '90px', height: '90px' }}>
+                <svg width="90" height="90" viewBox="0 0 90 90" style={{ transform: 'rotate(-90deg)' }}>
+                  <circle cx="45" cy="45" r={radius} stroke="var(--border)" strokeWidth="6" fill="transparent" />
+                  <circle cx="45" cy="45" r={radius} stroke="var(--brand)" strokeWidth="6" fill="transparent"
+                    strokeDasharray={circumference}
+                    strokeDashoffset={strokeDashoffset}
+                    strokeLinecap="round"
+                    style={{ transition: 'stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1)' }}
+                  />
+                </svg>
+                <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+                  <strong style={{ fontSize: '1.25rem', color: 'var(--brand-dark)', fontWeight: '800' }}>{ringLabel}</strong>
+                  <span style={{ fontSize: '0.68rem', color: 'var(--muted)' }}>{ringSub}</span>
+                </div>
+              </div>
+              <span style={{ fontSize: '0.78rem', fontWeight: '800', color: 'var(--brand-dark)' }}>Hành trình ngày</span>
+            </div>
+          )}
           <Button type="button" size="lg" onClick={handlePrimaryAction}>
             {state.actionLabel}
           </Button>

@@ -1,0 +1,8 @@
+{
+  "createdAtBucket": "2026-07-07",
+  "monotonicImportId": 15,
+  "correctCount": 1,
+  "incorrectCount": 1,
+  "totalCount": 2,
+  "sourceMetadata": { "filename": "blocked_source" }
+}

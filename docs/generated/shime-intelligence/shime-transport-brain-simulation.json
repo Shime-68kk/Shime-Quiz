@@ -1,0 +1,44 @@
+[
+  {
+    "dryRunOnly": true,
+    "opensConnection": false,
+    "recommendation": "wifi_websocket_lan",
+    "scenarioId": "transport_wifi_lan_001"
+  },
+  {
+    "dryRunOnly": true,
+    "opensConnection": false,
+    "recommendation": "ble_provisioning",
+    "scenarioId": "transport_ble_pairing_001"
+  },
+  {
+    "dryRunOnly": true,
+    "opensConnection": false,
+    "recommendation": "ble_presence",
+    "scenarioId": "transport_ble_presence_001"
+  },
+  {
+    "dryRunOnly": true,
+    "opensConnection": false,
+    "recommendation": "softap_setup",
+    "scenarioId": "transport_softap_setup_001"
+  },
+  {
+    "dryRunOnly": true,
+    "opensConnection": false,
+    "recommendation": "usb_serial_dev",
+    "scenarioId": "transport_usb_dev_001"
+  },
+  {
+    "dryRunOnly": true,
+    "opensConnection": false,
+    "recommendation": "app_local_only",
+    "scenarioId": "transport_local_only_001"
+  },
+  {
+    "dryRunOnly": true,
+    "opensConnection": false,
+    "recommendation": "no_transport_safe",
+    "scenarioId": "transport_privacy_block_001"
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "compatibilityStatus": "compatible",
+  "compatibleVersions": {
+    "capsuleProtocolVersion": "shime-learning-state-capsule-v1",
+    "esp32LogOnlyContractVersion": "1.0.0",
+    "expressionContractVersion": "shime-robot-expression-contract-v1",
+    "expressionEnvelopeVersion": "1.0.0",
+    "firmwareParserVersion": "host-log-only-0.1.0"
+  },
+  "downgradePolicy": "downgrade_never_unlocks_features",
+  "dryRunOnly": true,
+  "incompatibleVersions": [],
+  "migrationWarnings": [],
+  "motionPolicy": "locked",
+  "reasonCodes": [
+    "expression_protocol_compatibility_matrix_created"
+  ],
+  "rejectPolicy": "unknown_major_or_missing_version_rejected",
+  "sendStatus": "not_sent"
+}

@@ -1,0 +1,9 @@
+{
+  "appIsMemoryBrain": true,
+  "dryRunOnly": true,
+  "fsrsCanonical": true,
+  "robotIsExpressionEndpoint": true,
+  "robotSchedulerMutation": false,
+  "scenarioCount": 10000,
+  "status": "PASS"
+}

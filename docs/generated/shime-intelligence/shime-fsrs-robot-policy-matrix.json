@@ -1,0 +1,116 @@
+{
+  "dryRunOnly": true,
+  "matrixVersion": "shime-fsrs-robot-policy-matrix-v1",
+  "ruleCount": 9,
+  "selections": [
+    {
+      "robot": {
+        "intensityPolicy": "normal",
+        "reasonCodes": [
+          "stable_due_pressure"
+        ],
+        "robotPolicy": "review_due_nudge",
+        "ruleId": "stable_due_pressure"
+      },
+      "scenarioId": "high_due_pressure",
+      "timetable": {
+        "dryRunOnly": true,
+        "reasonCodes": [
+          "stable_due_pressure",
+          "timetable_policy_suggestion_only"
+        ],
+        "ruleId": "stable_due_pressure",
+        "scheduleMutationAllowed": false,
+        "timetablePolicy": "short_session_soon"
+      }
+    },
+    {
+      "robot": {
+        "intensityPolicy": "normal",
+        "reasonCodes": [
+          "struggle_due_pressure"
+        ],
+        "robotPolicy": "focus_ritual",
+        "ruleId": "struggle_due_pressure"
+      },
+      "scenarioId": "struggle_due_pressure",
+      "timetable": {
+        "dryRunOnly": true,
+        "reasonCodes": [
+          "struggle_due_pressure",
+          "timetable_policy_suggestion_only"
+        ],
+        "ruleId": "struggle_due_pressure",
+        "scheduleMutationAllowed": false,
+        "timetablePolicy": "recovery_session_today"
+      }
+    },
+    {
+      "robot": {
+        "intensityPolicy": "normal",
+        "reasonCodes": [
+          "memory_risk_detected"
+        ],
+        "robotPolicy": "memory_risk_nudge",
+        "ruleId": "memory_risk"
+      },
+      "scenarioId": "memory_risk",
+      "timetable": {
+        "dryRunOnly": true,
+        "reasonCodes": [
+          "memory_risk_detected",
+          "timetable_policy_suggestion_only"
+        ],
+        "ruleId": "memory_risk",
+        "scheduleMutationAllowed": false,
+        "timetablePolicy": "tiny_review_now"
+      }
+    },
+    {
+      "robot": {
+        "intensityPolicy": "normal",
+        "reasonCodes": [
+          "no_intervention_needed",
+          "quiet_mode_blocks_interruption"
+        ],
+        "robotPolicy": "do_nothing",
+        "ruleId": "neutral",
+        "timetablePolicy": "protect_rest"
+      },
+      "scenarioId": "protect_rest",
+      "timetable": {
+        "dryRunOnly": true,
+        "reasonCodes": [
+          "no_intervention_needed",
+          "quiet_mode_blocks_interruption",
+          "timetable_policy_suggestion_only"
+        ],
+        "ruleId": "neutral",
+        "scheduleMutationAllowed": false,
+        "timetablePolicy": "protect_rest"
+      }
+    },
+    {
+      "robot": {
+        "intensityPolicy": "normal",
+        "reasonCodes": [
+          "privacy_unsafe_blocks_policy"
+        ],
+        "robotPolicy": "calm_error",
+        "ruleId": "privacy_unsafe"
+      },
+      "scenarioId": "privacy_unsafe",
+      "timetable": {
+        "dryRunOnly": true,
+        "reasonCodes": [
+          "privacy_unsafe_blocks_policy",
+          "timetable_policy_suggestion_only"
+        ],
+        "ruleId": "privacy_unsafe",
+        "scheduleMutationAllowed": false,
+        "timetablePolicy": "no_nudge"
+      }
+    }
+  ],
+  "status": "PASS"
+}

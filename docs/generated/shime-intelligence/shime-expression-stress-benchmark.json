@@ -1,0 +1,19 @@
+{
+  "allDryRun": true,
+  "allNotSent": true,
+  "attackScenarioCount": 2000,
+  "dryRunOnly": true,
+  "invalidNeutralized": true,
+  "motionLocked": true,
+  "noForbiddenChannel": true,
+  "noNotificationCalendar": true,
+  "noScheduleMutation": true,
+  "noSensitiveOutput": true,
+  "noTransportConnect": true,
+  "reasonCodes": true,
+  "safetyFailureCount": 0,
+  "scenarioCount": 22000,
+  "sendStatus": "not_sent",
+  "status": "PASS",
+  "validScenarioCount": 20000
+}

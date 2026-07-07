@@ -1,0 +1,28 @@
+{
+  "allowedPhase42Files": [
+    "firmware/esp32-shime-robot/include/ShimeProtocol.h",
+    "firmware/esp32-shime-robot/src/ShimeProtocol.cpp",
+    "firmware/esp32-shime-robot/src/main.cpp",
+    "firmware/esp32-shime-robot/protocol.md"
+  ],
+  "blockers": [],
+  "dryRunOnly": true,
+  "forbiddenPhase42Files": [
+    "src/routes/StudyRoom.jsx",
+    "src/deviceBridge/**",
+    "package.json",
+    "lockfiles",
+    "app_storage_or_scheduler_files"
+  ],
+  "motionPolicy": "locked",
+  "readinessStatus": "PASS_WITH_WARNINGS",
+  "reasonCodes": [
+    "esp32_expression_phase42_readiness_gate_created"
+  ],
+  "recommendation": "SAFE_FOR_LOG_ONLY_FIRMWARE_IMPLEMENTATION_AFTER_MANUAL_QA_ACK",
+  "recommendedPhase42PromptSummary": "Implement isolated log-only expression envelope parser; no motion, no radio transport, no app runtime mutation.",
+  "sendStatus": "not_sent",
+  "warnings": [
+    "phase38_manual_qa_pending_or_ack_required"
+  ]
+}

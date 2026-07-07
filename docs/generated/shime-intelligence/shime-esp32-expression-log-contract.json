@@ -1,0 +1,27 @@
+{
+  "accepted": true,
+  "displayExpression": "soft_idle_face",
+  "dryRunOnly": true,
+  "expressionFamily": "neutral_presence",
+  "ledPattern": "neutral_presence_soft_led",
+  "logProtocol": "shime_esp32_expression_log",
+  "motionPolicy": "locked",
+  "privacyStatus": "redacted_coarse_only",
+  "protocolVersion": "1.0.0",
+  "reasonCodes": [
+    "robot_plan_created",
+    "fsrs_signal_extracted",
+    "due_items_present",
+    "overdue_items_present",
+    "esp32_log_contract_fixture",
+    "learning_capsule_redacted",
+    "robot_expression_mapped",
+    "robot_expression_contract_created",
+    "robot_expression_envelope_created",
+    "esp32_expression_log_preview_accepted"
+  ],
+  "rejectedReason": "none",
+  "safetyStatus": "allowed_dry_run",
+  "sendStatus": "not_sent",
+  "soundCue": "none"
+}
