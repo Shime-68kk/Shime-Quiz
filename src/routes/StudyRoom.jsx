@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { computeMasteryModel } from '../analytics/masteryModel.js';
 import Badge from '../components/Badge.jsx';
 import Button from '../components/Button.jsx';
 import Card from '../components/Card.jsx';
@@ -25,6 +26,7 @@ import {
 import { createStudyAttemptSummary, getIncompleteStudyItemCount } from '../study/studyAttemptSummary.js';
 import { normalizeAnswerText } from '../utils/text.js';
 import { shouldShowFsrsTwoStepBridge } from '../quiz/reviewSchedulerAdapter.js';
+import { createStudyRoomBridgeAdapter } from '../deviceBridge/studyRoomBridgeAdapter.js';
 
 function getStudyMode(selection) {
   if (selection?.mode === 'due-review') return 'due-review';
@@ -177,6 +179,38 @@ function formatSavedTime(value) {
   }
 }
 
+function createDeviceBridgeSessionId() {
+  return `studyroom_session_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+}
+
+function getCountBucket(count) {
+  if (count <= 0) return '0';
+  if (count <= 5) return '1_5';
+  if (count <= 10) return '6_10';
+  if (count <= 25) return '11_25';
+  return '26_plus';
+}
+
+function getAccuracyBucket(value) {
+  const accuracy = Number(value);
+  if (!Number.isFinite(accuracy)) return 'unscored';
+  if (accuracy < 50) return '0_49';
+  if (accuracy < 60) return '50_59';
+  if (accuracy < 70) return '60_69';
+  if (accuracy < 80) return '70_79';
+  return '80_100';
+}
+
+function getCompletedProgressCount(items = [], state = {}) {
+  return items.reduce((count, item) => {
+    const itemId = item?.id;
+    if (!itemId) return count;
+    return state.checkedByItemId?.[itemId] || state.flashcardRevealedByItemId?.[itemId]
+      ? count + 1
+      : count;
+  }, 0);
+}
+
 // Focus-mode shell only. It reuses the same item renderer for standard study
 // and due-review mode. Future mastery, recommendations, and weighted selection
 // should stay behind services instead of living inside route components.
@@ -211,8 +245,17 @@ export default function StudyRoom() {
   const [pendingSessionAction, setPendingSessionAction] = useState('');
   // Phase 14N: per-item bridge state — {phase:'auto-again'|'rated'|'skipped', rating} or undefined.
   const [bridgeStateByItemId, setBridgeStateByItemId] = useState({});
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
   const draftReadyRef = useRef(false);
   const saveTimerRef = useRef(null);
+  const deviceBridgeAdapterRef = useRef(null);
+  const deviceBridgeSessionIdRef = useRef('');
+  const deviceBridgeSessionKeyRef = useRef('');
+  const deviceBridgeQuestionKeyRef = useRef('');
+
+  if (!deviceBridgeAdapterRef.current) deviceBridgeAdapterRef.current = createStudyRoomBridgeAdapter();
+  if (!deviceBridgeSessionIdRef.current) deviceBridgeSessionIdRef.current = createDeviceBridgeSessionId();
 
   const currentItem = items[currentIndex] || null;
   const currentTopic = currentItem ? topicLookup.get(currentItem.topicId) : null;
@@ -262,6 +305,16 @@ export default function StudyRoom() {
       ? 'revealed'
       : 'neutral';
 
+  const masteryModel = useMemo(() => {
+    const history = readStudyHistory();
+    const schedule = readReviewSchedule();
+    return computeMasteryModel({
+      items: items,
+      historyRecords: history?.records || [],
+      scheduleRecords: schedule?.records || []
+    });
+  }, [items]);
+
   // Auto-append Again log for wrong/unanswered eligible items.
   useEffect(() => {
     if (!showBridge || !currentItemId || objectiveCorrect !== false || currentBridgeState) return;
@@ -309,6 +362,7 @@ export default function StudyRoom() {
     }
 
     const result = readStudyDraftForItems(items, { mode: studyMode });
+    const restoredIndex = result.restored && result.draft ? result.draft.currentItemIndex : 0;
     if (result.restored && result.draft) {
       setCurrentIndex(result.draft.currentItemIndex);
       setAnswersByItemId(result.draft.answersByItemId || {});
@@ -328,6 +382,24 @@ export default function StudyRoom() {
       setFlashcardRevealedByItemId({});
       setStartedAt(nowIso());
       setStatusMessage(result.discarded ? 'Phiên học cũ không khớp chế độ hiện tại nên đã được bỏ qua.' : '');
+    }
+
+    const deviceBridgeSessionKey = `${deviceBridgeSessionIdRef.current}:${itemSetFingerprint}`;
+    if (deviceBridgeSessionKeyRef.current !== deviceBridgeSessionKey) {
+      deviceBridgeSessionKeyRef.current = deviceBridgeSessionKey;
+      deviceBridgeQuestionKeyRef.current = '';
+      emitDeviceBridge('sessionStarted', {
+        sessionId: deviceBridgeSessionIdRef.current,
+        progressCount: Math.max(0, Number(restoredIndex) || 0),
+        totalCount: items.length
+      });
+      if (isDueReviewMode) {
+        emitDeviceBridge('reviewDue', {
+          sessionId: deviceBridgeSessionIdRef.current,
+          dueCountBucket: getCountBucket(items.length),
+          totalCount: items.length
+        });
+      }
     }
 
     window.requestAnimationFrame(() => {
@@ -365,6 +437,20 @@ export default function StudyRoom() {
     };
   }, [answersByItemId, checkedByItemId, completedAttempt, currentIndex, flashcardRevealedByItemId, itemSetFingerprint, items, startedAt, studyMode]);
 
+  useEffect(() => {
+    if (!items.length || completedAttempt || !currentItem) return;
+    const questionKey = `${deviceBridgeSessionKeyRef.current}:${currentIndex}:${currentItem.type || 'unknown'}`;
+    if (deviceBridgeQuestionKeyRef.current === questionKey) return;
+    deviceBridgeQuestionKeyRef.current = questionKey;
+    emitDeviceBridge('questionPresented', {
+      sessionId: deviceBridgeSessionIdRef.current,
+      itemIndex: currentIndex,
+      itemType: currentItem.type || 'unknown',
+      progressCount: currentIndex + 1,
+      totalCount: items.length
+    });
+  }, [completedAttempt, currentIndex, currentItem, items.length]);
+
   function getCurrentAttemptState() {
     return {
       answersByItemId,
@@ -385,6 +471,14 @@ export default function StudyRoom() {
     setPendingSessionAction('');
   }
 
+  function emitDeviceBridge(methodName, input) {
+    try {
+      deviceBridgeAdapterRef.current?.[methodName]?.(input);
+    } catch {
+      // Device Bridge is optional; failures must never affect StudyRoom.
+    }
+  }
+
   function updateAnswer(value) {
     if (!currentItemId || completedAttempt) return;
     clearSessionConfirmation();
@@ -401,7 +495,30 @@ export default function StudyRoom() {
     if (!currentItemId || completedAttempt) return;
     clearSessionConfirmation();
     const nextItemState = { ...currentItemState, checked: true };
+    const correctness = isDisplayOnlyAnswerCorrect(currentItem, nextItemState);
+    const nextAttemptState = {
+      answersByItemId,
+      checkedByItemId: { ...checkedByItemId, [currentItemId]: true },
+      flashcardRevealedByItemId
+    };
     setCheckedByItemId(current => ({ ...current, [currentItemId]: true }));
+    if (correctness === true) {
+      emitDeviceBridge('answerCorrect', {
+        sessionId: deviceBridgeSessionIdRef.current,
+        itemIndex: currentIndex,
+        itemType: currentItem?.type || 'unknown',
+        progressCount: getCompletedProgressCount(items, nextAttemptState),
+        totalCount: items.length
+      });
+    } else if (correctness === false) {
+      emitDeviceBridge('answerWrong', {
+        sessionId: deviceBridgeSessionIdRef.current,
+        itemIndex: currentIndex,
+        itemType: currentItem?.type || 'unknown',
+        progressCount: getCompletedProgressCount(items, nextAttemptState),
+        totalCount: items.length
+      });
+    }
     showMicroFeedback(getCheckedAnswerFeedback(currentItem, nextItemState));
   }
 
@@ -454,6 +571,33 @@ export default function StudyRoom() {
     if (completedAttempt) return;
     clearSessionConfirmation();
     setCurrentIndex(index => Math.min(items.length - 1, index + 1));
+  }
+
+  // Touch swipe support for smartphone touch screens
+  function handleTouchStart(e) {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  }
+
+  function handleTouchMove(e) {
+    setTouchEnd(e.targetTouches[0].clientX);
+  }
+
+  function handleTouchEnd() {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50; // swipe left -> next
+    const isRightSwipe = distance < -50; // swipe right -> prev
+    
+    if (isLeftSwipe) {
+      if (currentIndex < items.length - 1) {
+        goToNext();
+      }
+    } else if (isRightSwipe) {
+      if (currentIndex > 0) {
+        goToPrevious();
+      }
+    }
   }
 
   function resetSessionState(message = 'Đã làm lại phiên học. Thư viện dữ liệu không bị thay đổi.') {
@@ -521,6 +665,13 @@ export default function StudyRoom() {
     if (saveTimerRef.current) window.clearTimeout(saveTimerRef.current);
     const completedAt = nowIso();
     const summary = createStudyAttemptSummary(items, getCurrentAttemptState());
+    emitDeviceBridge('sessionComplete', {
+      sessionId: deviceBridgeSessionIdRef.current,
+      progressCount: summary.answeredCount,
+      totalCount: summary.totalItems,
+      scoreBucket: getAccuracyBucket(summary.accuracy),
+      accuracyBucket: getAccuracyBucket(summary.accuracy)
+    });
     const historyRecord = createStudyHistoryRecord({
       startedAt,
       completedAt,
@@ -657,6 +808,56 @@ export default function StudyRoom() {
     navigate('/dashboard');
   }
 
+  const mascotReaction = useMemo(() => {
+    if (completedAttempt) return 'completed';
+    if (currentItemState.checked) {
+      return objectiveCorrect === true ? 'correct' : 'incorrect';
+    }
+    if (currentItemState.revealed) {
+      return 'revealed';
+    }
+    return 'neutral';
+  }, [completedAttempt, currentItemState.checked, currentItemState.revealed, objectiveCorrect]);
+
+  const mascotMessage = useMemo(() => {
+    if (completedAttempt) {
+      const acc = completedAttempt.summary?.accuracy ?? 0;
+      if (acc >= 90) return 'Xuất sắc quá đi! 🏆 Bạn đạt điểm tuyệt đối kìa! Tự hào về bạn lắm!';
+      if (acc >= 75) return 'Quá tuyệt vời! 🌟 Bạn nắm bài rất vững rồi, hãy tiếp tục duy trì phong độ nhé!';
+      if (acc >= 50) return 'Khá tốt! 🌱 Có một vài câu cần lưu ý ôn lại, cùng rèn luyện thêm nha!';
+      return 'Cố gắng lên nào! 📚 Mỗi lần sai là một cơ hội để giỏi hơn. Cùng làm lại nhé!';
+    }
+    if (currentItemState.checked) {
+      if (objectiveCorrect === true) {
+        const correctMsgs = [
+          'Bạn thông minh thật đấy! 💡 Đúng hoàn toàn rồi!',
+          'Xuất sắc! 🎉 Chinh phục câu này dễ dàng quá!',
+          'Quá chuẩn! 🚀 Tiếp tục tiến bước nào!',
+          'Tuyệt cú mèo! 👍 Trí nhớ của bạn rất đáng nể!'
+        ];
+        return correctMsgs[currentIndex % correctMsgs.length];
+      } else {
+        const incorrectMsgs = [
+          'Đừng nản lòng nhé! 💪 Sai lầm là người thầy tốt nhất!',
+          'Tiếc quá đi! Hãy xem lại giải thích và thử lại nha!',
+          'Không sao đâu! 🧠 Lần tới chắc chắn bạn sẽ làm được!',
+          'Vấp ngã ở đâu đứng lên ở đó, tiếp tục cố gắng nào!'
+        ];
+        return incorrectMsgs[currentIndex % incorrectMsgs.length];
+      }
+    }
+    if (currentItemState.revealed) {
+      return 'A ha! Ra là vậy! 🧠 Ghi nhớ thông tin này để lần sau phản xạ nhanh nhé!';
+    }
+    const neutralMsgs = [
+      'Đọc kỹ câu hỏi nhé, mình luôn ở đây đồng hành! 🤖',
+      'Học tập là hành trình vui vẻ, cứ bình tĩnh trả lời nha!',
+      'Bạn đã sẵn sàng chinh phục câu hỏi này chưa nào?',
+      'Thử sức mình đi, tin ở bản thân nhé! ✨'
+    ];
+    return neutralMsgs[currentIndex % neutralMsgs.length];
+  }, [completedAttempt, currentItemState.checked, currentItemState.revealed, objectiveCorrect, currentIndex]);
+
   const draftStatusText = completedAttempt
     ? resultPersistenceNote || 'Phiên học đã hoàn thành. Kết quả học tập được xử lý cục bộ trên trình duyệt này.'
     : saveStatus === 'saving'
@@ -745,15 +946,18 @@ export default function StudyRoom() {
                 : 'Thư viện hiện tại không có item hợp lệ cho lựa chọn này. Hãy quay lại Library để chọn subject/topic khác hoặc import dữ liệu v2 hợp lệ.'}
           />
         ) : completedAttempt ? (
-          <StudyResultSummary
-            summary={completedAttempt.summary}
-            persistenceNote={resultPersistenceNote}
-            historyMessage={[historySaveMessage, reviewScheduleMessage, planProgressMessage].filter(Boolean).join(' ')}
-            onRestart={requestRestartSession}
-            onContinue={continueStudy}
-            onGoToLibrary={goToLibrary}
-            onGoToDashboard={goToDashboard}
-          />
+          <>
+            <StudyMascot reaction={mascotReaction} message={mascotMessage} />
+            <StudyResultSummary
+              summary={completedAttempt.summary}
+              persistenceNote={resultPersistenceNote}
+              historyMessage={[historySaveMessage, reviewScheduleMessage, planProgressMessage].filter(Boolean).join(' ')}
+              onRestart={requestRestartSession}
+              onContinue={continueStudy}
+              onGoToLibrary={goToLibrary}
+              onGoToDashboard={goToDashboard}
+            />
+          </>
         ) : (
           <div className="studySessionStack">
             <ProgressBar
@@ -761,10 +965,16 @@ export default function StudyRoom() {
               label={`Tiến độ duyệt item ${currentIndex + 1} trên ${items.length}`}
             />
 
+            <StudyMascot reaction={mascotReaction} message={mascotMessage} />
+
             <div
-              className={`studyAnswerFeedbackPolish phase37uif-study-room-modern-answer-surface-pilot studyAnswerFeedbackPolish--${answerFeedbackPolishState}`}
+              key={currentItem?.id || currentIndex}
+              className={`studyAnswerFeedbackPolish phase37uif-study-room-modern-answer-surface-pilot studyAnswerFeedbackPolish--${answerFeedbackPolishState} study-question-slide-in`}
               data-phase35n-answer-feedback-state={answerFeedbackPolishState}
               data-phase37uif-answer-surface-state={answerFeedbackPolishState}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
             >
               <StudyItemRenderer
                 item={currentItem}
@@ -790,6 +1000,103 @@ export default function StudyRoom() {
               />
             ) : null}
 
+            <div className="studyQuestionGrid" style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'center', margin: '24px 0 16px', padding: '12px', borderRadius: '12px', background: 'var(--color-primary-soft)', border: '1px solid var(--border)' }} aria-label="Bản đồ câu hỏi">
+              {items.map((item, idx) => {
+                const itemState = {
+                  answer: answersByItemId[item.id],
+                  checked: checkedByItemId[item.id],
+                  revealed: flashcardRevealedByItemId[item.id]
+                };
+
+                const isCurrent = idx === currentIndex;
+                const isChecked = Boolean(itemState.checked);
+                const isCorrect = isDisplayOnlyAnswerCorrect(item, itemState);
+                const isAnswered = itemState.answer !== undefined && itemState.answer !== '';
+                const isRevealed = Boolean(itemState.revealed);
+
+                // Mastery score lookup
+                const itemMastery = masteryModel?.itemMastery?.find(m => m.itemId === item.id);
+                const score = itemMastery?.score ?? 50;
+                const hasEvidence = itemMastery?.hasEvidence ?? false;
+
+                let dotColor = 'rgba(148, 163, 184, 0.4)'; // Gray
+                if (hasEvidence) {
+                  if (score < 60) dotColor = '#ef4444'; // Red
+                  else if (score < 80) dotColor = '#eab308'; // Yellow
+                  else dotColor = '#10b981'; // Green
+                }
+
+                let bg = 'var(--surface)';
+                let borderColor = 'var(--border)';
+                let textColor = 'var(--color-text)';
+
+                if (isChecked) {
+                  if (isCorrect === true) {
+                    bg = 'var(--color-success-soft)';
+                    borderColor = 'var(--color-success)';
+                    textColor = 'var(--color-success)';
+                  } else if (isCorrect === false) {
+                    bg = 'var(--color-danger-soft)';
+                    borderColor = 'var(--color-danger)';
+                    textColor = 'var(--color-danger)';
+                  }
+                } else if (isAnswered || isRevealed) {
+                  bg = 'var(--color-info-soft)';
+                  borderColor = 'var(--color-info)';
+                  textColor = 'var(--color-info)';
+                }
+
+                if (isCurrent) {
+                  borderColor = 'var(--brand)';
+                  textColor = 'var(--brand-dark)';
+                }
+
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => {
+                      clearSessionConfirmation();
+                      setCurrentIndex(idx);
+                    }}
+                    style={{
+                      position: 'relative',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: '8px',
+                      border: isCurrent ? '2.5px solid var(--brand)' : `1px solid ${borderColor}`,
+                      background: bg,
+                      color: textColor,
+                      fontWeight: isCurrent ? '800' : '600',
+                      fontSize: '0.9rem',
+                      cursor: 'pointer',
+                      transform: isCurrent ? 'scale(1.1)' : 'none',
+                      boxShadow: isCurrent ? '0 4px 12px var(--color-primary-soft)' : 'none',
+                      transition: 'all 0.2s ease',
+                      padding: 0
+                    }}
+                    title={`Câu ${idx + 1} - Độ nắm vững: ${hasEvidence ? `${score}%` : 'Chưa luyện'}`}
+                  >
+                    <span>{idx + 1}</span>
+                    {/* Mastery Dot indicator */}
+                    <span style={{
+                      position: 'absolute',
+                      bottom: '4px',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      width: '5px',
+                      height: '5px',
+                      borderRadius: '50%',
+                      background: dotColor
+                    }} />
+                  </button>
+                );
+              })}
+            </div>
+
             <nav className="studyStepper" aria-label="Điều hướng mục học tập">
               <Button type="button" variant="secondary" onClick={goToPrevious} disabled={currentIndex === 0}>
                 Câu trước
@@ -805,5 +1112,31 @@ export default function StudyRoom() {
         )}
       </Card>
     </section>
+  );
+}
+
+function StudyMascot({ reaction, message }) {
+  return (
+    <div className="studyMascotContainer" aria-label="Mascot đồng hành Shime">
+      <div className={`mascotBot mascotBot--${reaction}`}>
+        <div className="mascotBody">
+          <div className="mascotFace">
+            <span className={`mascotEye ${
+              reaction === 'correct' ? 'mascotEye--happy' :
+              reaction === 'incorrect' ? 'mascotEye--sad' :
+              reaction === 'revealed' ? 'mascotEye--excited' : ''
+            }`} />
+            <span className={`mascotEye ${
+              reaction === 'correct' ? 'mascotEye--happy' :
+              reaction === 'incorrect' ? 'mascotEye--sad' :
+              reaction === 'revealed' ? 'mascotEye--excited' : ''
+            }`} />
+          </div>
+        </div>
+      </div>
+      <div className="mascotBubble">
+        <p>{message}</p>
+      </div>
+    </div>
   );
 }

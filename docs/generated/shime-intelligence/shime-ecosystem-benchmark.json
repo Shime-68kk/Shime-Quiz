@@ -1,0 +1,11 @@
+{
+  "attackScenarioCount": 1000,
+  "invariantFailureCount": 0,
+  "mixedScenarioCount": 1000,
+  "passed": true,
+  "scenarioCount": 10000,
+  "timetableScenarioCount": 1000,
+  "transportScenarioCount": 2000,
+  "validLearningScenarioCount": 5000,
+  "validScenarioCount": 9000
+}

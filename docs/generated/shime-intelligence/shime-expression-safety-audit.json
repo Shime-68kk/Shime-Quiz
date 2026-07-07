@@ -1,0 +1,10 @@
+{
+  "allDryRun": true,
+  "allNotSent": true,
+  "dryRunOnly": true,
+  "motionLocked": true,
+  "noForbiddenChannel": true,
+  "noSensitiveOutput": true,
+  "sendStatus": "not_sent",
+  "status": "PASS"
+}

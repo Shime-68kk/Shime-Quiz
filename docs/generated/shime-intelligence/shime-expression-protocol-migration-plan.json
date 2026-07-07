@@ -1,0 +1,183 @@
+{
+  "dryRunOnly": true,
+  "globalRollbackPlan": "disable_current_phase_and_return_to_host_side_evidence",
+  "migrationPlanVersion": "shime-expression-protocol-migration-plan-v1",
+  "motionPolicy": "locked",
+  "reasonCodes": [
+    "expression_protocol_migration_plan_created"
+  ],
+  "sendStatus": "not_sent",
+  "stepCount": 10,
+  "steps": [
+    {
+      "allowedChanges": [
+        "host_side_review_reports"
+      ],
+      "forbiddenChanges": [
+        "raw_learning_content",
+        "app_data_mutation",
+        "motion_unlock",
+        "external_robot_send_without_gate",
+        "required_cloud_runtime"
+      ],
+      "goal": "protocol review",
+      "manualQaGate": "protocol_review_manual_qa",
+      "rollbackPlan": "return_to_previous_dry_run_artifact_gate",
+      "safetyStatus": "dry_run_or_log_only_required",
+      "testGate": "protocol_review_pass"
+    },
+    {
+      "allowedChanges": [
+        "host_side_log_only_simulator"
+      ],
+      "forbiddenChanges": [
+        "raw_learning_content",
+        "app_data_mutation",
+        "motion_unlock",
+        "external_robot_send_without_gate",
+        "required_cloud_runtime"
+      ],
+      "goal": "host simulator",
+      "manualQaGate": "host_simulator_manual_qa",
+      "rollbackPlan": "return_to_previous_dry_run_artifact_gate",
+      "safetyStatus": "dry_run_or_log_only_required",
+      "testGate": "host_simulator_pass"
+    },
+    {
+      "allowedChanges": [
+        "isolated_parser_firmware"
+      ],
+      "forbiddenChanges": [
+        "raw_learning_content",
+        "app_data_mutation",
+        "motion_unlock",
+        "external_robot_send_without_gate",
+        "required_cloud_runtime"
+      ],
+      "goal": "firmware parser log only",
+      "manualQaGate": "firmware_parser_log_only_manual_qa",
+      "rollbackPlan": "return_to_previous_dry_run_artifact_gate",
+      "safetyStatus": "dry_run_or_log_only_required",
+      "testGate": "firmware_log_only_tests_pass"
+    },
+    {
+      "allowedChanges": [
+        "manual_log_monitor_validation"
+      ],
+      "forbiddenChanges": [
+        "raw_learning_content",
+        "app_data_mutation",
+        "motion_unlock",
+        "external_robot_send_without_gate",
+        "required_cloud_runtime"
+      ],
+      "goal": "serial hardware qa",
+      "manualQaGate": "serial_hardware_qa_manual_qa",
+      "rollbackPlan": "return_to_previous_dry_run_artifact_gate",
+      "safetyStatus": "dry_run_or_log_only_required",
+      "testGate": "hardware_qa_pass"
+    },
+    {
+      "allowedChanges": [
+        "local_fake_bridge_only"
+      ],
+      "forbiddenChanges": [
+        "raw_learning_content",
+        "app_data_mutation",
+        "motion_unlock",
+        "external_robot_send_without_gate",
+        "required_cloud_runtime"
+      ],
+      "goal": "fake server bridge",
+      "manualQaGate": "fake_server_bridge_manual_qa",
+      "rollbackPlan": "return_to_previous_dry_run_artifact_gate",
+      "safetyStatus": "dry_run_or_log_only_required",
+      "testGate": "fake_bridge_no_send_pass"
+    },
+    {
+      "allowedChanges": [
+        "display_led_expression_only"
+      ],
+      "forbiddenChanges": [
+        "raw_learning_content",
+        "app_data_mutation",
+        "motion_unlock",
+        "external_robot_send_without_gate",
+        "required_cloud_runtime"
+      ],
+      "goal": "expression only display led",
+      "manualQaGate": "expression_only_display_led_manual_qa",
+      "rollbackPlan": "return_to_previous_dry_run_artifact_gate",
+      "safetyStatus": "dry_run_or_log_only_required",
+      "testGate": "expression_only_no_motion_pass"
+    },
+    {
+      "allowedChanges": [
+        "explicit_local_transport_gate"
+      ],
+      "forbiddenChanges": [
+        "raw_learning_content",
+        "app_data_mutation",
+        "motion_unlock",
+        "external_robot_send_without_gate",
+        "required_cloud_runtime"
+      ],
+      "goal": "lan expression only",
+      "manualQaGate": "lan_expression_only_manual_qa",
+      "rollbackPlan": "return_to_previous_dry_run_artifact_gate",
+      "safetyStatus": "dry_run_or_log_only_required",
+      "testGate": "local_transport_privacy_pass"
+    },
+    {
+      "allowedChanges": [
+        "explicit_pairing_prototype"
+      ],
+      "forbiddenChanges": [
+        "raw_learning_content",
+        "app_data_mutation",
+        "motion_unlock",
+        "external_robot_send_without_gate",
+        "required_cloud_runtime"
+      ],
+      "goal": "ble provisioning",
+      "manualQaGate": "ble_provisioning_manual_qa",
+      "rollbackPlan": "return_to_previous_dry_run_artifact_gate",
+      "safetyStatus": "dry_run_or_log_only_required",
+      "testGate": "pairing_no_payload_leak_pass"
+    },
+    {
+      "allowedChanges": [
+        "coarse_presence_signal_only"
+      ],
+      "forbiddenChanges": [
+        "raw_learning_content",
+        "app_data_mutation",
+        "motion_unlock",
+        "external_robot_send_without_gate",
+        "required_cloud_runtime"
+      ],
+      "goal": "presence sensor",
+      "manualQaGate": "presence_sensor_manual_qa",
+      "rollbackPlan": "return_to_previous_dry_run_artifact_gate",
+      "safetyStatus": "dry_run_or_log_only_required",
+      "testGate": "presence_privacy_pass"
+    },
+    {
+      "allowedChanges": [
+        "planning_only_until_new_gate"
+      ],
+      "forbiddenChanges": [
+        "raw_learning_content",
+        "app_data_mutation",
+        "motion_unlock",
+        "external_robot_send_without_gate",
+        "required_cloud_runtime"
+      ],
+      "goal": "motion future safety phase",
+      "manualQaGate": "motion_future_safety_phase_manual_qa",
+      "rollbackPlan": "return_to_previous_dry_run_artifact_gate",
+      "safetyStatus": "dry_run_or_log_only_required",
+      "testGate": "motion_safety_review_required"
+    }
+  ]
+}

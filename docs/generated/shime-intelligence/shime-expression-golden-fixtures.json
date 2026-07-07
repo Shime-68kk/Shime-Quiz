@@ -1,0 +1,872 @@
+{
+  "allInvalidFixturesReject": true,
+  "allValidFixturesPass": true,
+  "dryRunOnly": true,
+  "fixtureSetVersion": "shime-expression-golden-fixtures-v1",
+  "fixtures": [
+    {
+      "description": "Valid neutral_presence expression envelope",
+      "envelope": {
+        "allowedChannels": [
+          "display_expression"
+        ],
+        "capsuleProtocolVersion": "shime-learning-state-capsule-v1",
+        "displayExpression": "neutral_presence_display",
+        "dryRunOnly": true,
+        "envelopeId": "golden_valid_neutral_presence",
+        "expressionContractVersion": "shime-robot-expression-contract-v1",
+        "expressionFamily": "neutral_presence",
+        "intensityBucket": "low",
+        "ledPattern": "neutral_presence_soft_led",
+        "messageType": "expression_preview",
+        "motionPolicy": "locked",
+        "privacyStatus": "redacted_coarse_only",
+        "protocol": "shime_robot_expression",
+        "protocolVersion": "1.0.0",
+        "reasonCodes": [
+          "golden_valid_0",
+          "robot_expression_envelope_created"
+        ],
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent",
+        "soundCue": "none",
+        "source": "shime_quiz",
+        "target": "shime_robot"
+      },
+      "expectedLogOnlyOutcome": {
+        "accepted": true,
+        "dryRunOnly": true,
+        "logLine": "ACCEPT expression=neutral_presence display=neutral_presence_display led=neutral_presence_soft_led sound=none",
+        "motionPolicy": "locked",
+        "parsedDisplayExpression": "neutral_presence_display",
+        "parsedExpressionFamily": "neutral_presence",
+        "parsedLedPattern": "neutral_presence_soft_led",
+        "parsedSoundCue": "none",
+        "privacyStatus": "redacted_coarse_only",
+        "reasonCodes": [
+          "golden_valid_0",
+          "robot_expression_envelope_created",
+          "host_expression_simulation_accepted"
+        ],
+        "rejectedReason": "none",
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "fixtureId": "valid_neutral_presence",
+      "reasonCodes": [
+        "golden_valid_fixture_created"
+      ],
+      "serialized": "{\"allowedChannels\":[\"display_expression\"],\"capsuleProtocolVersion\":\"shime-learning-state-capsule-v1\",\"displayExpression\":\"neutral_presence_display\",\"dryRunOnly\":true,\"envelopeId\":\"golden_valid_neutral_presence\",\"expressionContractVersion\":\"shime-robot-expression-contract-v1\",\"expressionFamily\":\"neutral_presence\",\"intensityBucket\":\"low\",\"ledPattern\":\"neutral_presence_soft_led\",\"messageType\":\"expression_preview\",\"motionPolicy\":\"locked\",\"privacyStatus\":\"redacted_coarse_only\",\"protocol\":\"shime_robot_expression\",\"protocolVersion\":\"1.0.0\",\"reasonCodes\":[\"golden_valid_0\",\"robot_expression_envelope_created\"],\"safetyStatus\":\"allowed_dry_run\",\"sendStatus\":\"not_sent\",\"soundCue\":\"none\",\"source\":\"shime_quiz\",\"target\":\"shime_robot\"}",
+      "validExpected": true
+    },
+    {
+      "description": "Valid focus_ritual expression envelope",
+      "envelope": {
+        "allowedChannels": [
+          "display_expression"
+        ],
+        "capsuleProtocolVersion": "shime-learning-state-capsule-v1",
+        "displayExpression": "focus_ritual_display",
+        "dryRunOnly": true,
+        "envelopeId": "golden_valid_focus_ritual",
+        "expressionContractVersion": "shime-robot-expression-contract-v1",
+        "expressionFamily": "focus_ritual",
+        "intensityBucket": "medium",
+        "ledPattern": "focus_ritual_soft_led",
+        "messageType": "expression_preview",
+        "motionPolicy": "locked",
+        "privacyStatus": "redacted_coarse_only",
+        "protocol": "shime_robot_expression",
+        "protocolVersion": "1.0.0",
+        "reasonCodes": [
+          "golden_valid_1",
+          "robot_expression_envelope_created"
+        ],
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent",
+        "soundCue": "none",
+        "source": "shime_quiz",
+        "target": "shime_robot"
+      },
+      "expectedLogOnlyOutcome": {
+        "accepted": true,
+        "dryRunOnly": true,
+        "logLine": "ACCEPT expression=focus_ritual display=focus_ritual_display led=focus_ritual_soft_led sound=none",
+        "motionPolicy": "locked",
+        "parsedDisplayExpression": "focus_ritual_display",
+        "parsedExpressionFamily": "focus_ritual",
+        "parsedLedPattern": "focus_ritual_soft_led",
+        "parsedSoundCue": "none",
+        "privacyStatus": "redacted_coarse_only",
+        "reasonCodes": [
+          "golden_valid_1",
+          "robot_expression_envelope_created",
+          "host_expression_simulation_accepted"
+        ],
+        "rejectedReason": "none",
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "fixtureId": "valid_focus_ritual",
+      "reasonCodes": [
+        "golden_valid_fixture_created"
+      ],
+      "serialized": "{\"allowedChannels\":[\"display_expression\"],\"capsuleProtocolVersion\":\"shime-learning-state-capsule-v1\",\"displayExpression\":\"focus_ritual_display\",\"dryRunOnly\":true,\"envelopeId\":\"golden_valid_focus_ritual\",\"expressionContractVersion\":\"shime-robot-expression-contract-v1\",\"expressionFamily\":\"focus_ritual\",\"intensityBucket\":\"medium\",\"ledPattern\":\"focus_ritual_soft_led\",\"messageType\":\"expression_preview\",\"motionPolicy\":\"locked\",\"privacyStatus\":\"redacted_coarse_only\",\"protocol\":\"shime_robot_expression\",\"protocolVersion\":\"1.0.0\",\"reasonCodes\":[\"golden_valid_1\",\"robot_expression_envelope_created\"],\"safetyStatus\":\"allowed_dry_run\",\"sendStatus\":\"not_sent\",\"soundCue\":\"none\",\"source\":\"shime_quiz\",\"target\":\"shime_robot\"}",
+      "validExpected": true
+    },
+    {
+      "description": "Valid review_due_nudge expression envelope",
+      "envelope": {
+        "allowedChannels": [
+          "display_expression"
+        ],
+        "capsuleProtocolVersion": "shime-learning-state-capsule-v1",
+        "displayExpression": "review_due_nudge_display",
+        "dryRunOnly": true,
+        "envelopeId": "golden_valid_review_due_nudge",
+        "expressionContractVersion": "shime-robot-expression-contract-v1",
+        "expressionFamily": "review_due_nudge",
+        "intensityBucket": "low",
+        "ledPattern": "review_due_nudge_soft_led",
+        "messageType": "expression_preview",
+        "motionPolicy": "locked",
+        "privacyStatus": "redacted_coarse_only",
+        "protocol": "shime_robot_expression",
+        "protocolVersion": "1.0.0",
+        "reasonCodes": [
+          "golden_valid_2",
+          "robot_expression_envelope_created"
+        ],
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent",
+        "soundCue": "none",
+        "source": "shime_quiz",
+        "target": "shime_robot"
+      },
+      "expectedLogOnlyOutcome": {
+        "accepted": true,
+        "dryRunOnly": true,
+        "logLine": "ACCEPT expression=review_due_nudge display=review_due_nudge_display led=review_due_nudge_soft_led sound=none",
+        "motionPolicy": "locked",
+        "parsedDisplayExpression": "review_due_nudge_display",
+        "parsedExpressionFamily": "review_due_nudge",
+        "parsedLedPattern": "review_due_nudge_soft_led",
+        "parsedSoundCue": "none",
+        "privacyStatus": "redacted_coarse_only",
+        "reasonCodes": [
+          "golden_valid_2",
+          "robot_expression_envelope_created",
+          "host_expression_simulation_accepted"
+        ],
+        "rejectedReason": "none",
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "fixtureId": "valid_review_due_nudge",
+      "reasonCodes": [
+        "golden_valid_fixture_created"
+      ],
+      "serialized": "{\"allowedChannels\":[\"display_expression\"],\"capsuleProtocolVersion\":\"shime-learning-state-capsule-v1\",\"displayExpression\":\"review_due_nudge_display\",\"dryRunOnly\":true,\"envelopeId\":\"golden_valid_review_due_nudge\",\"expressionContractVersion\":\"shime-robot-expression-contract-v1\",\"expressionFamily\":\"review_due_nudge\",\"intensityBucket\":\"low\",\"ledPattern\":\"review_due_nudge_soft_led\",\"messageType\":\"expression_preview\",\"motionPolicy\":\"locked\",\"privacyStatus\":\"redacted_coarse_only\",\"protocol\":\"shime_robot_expression\",\"protocolVersion\":\"1.0.0\",\"reasonCodes\":[\"golden_valid_2\",\"robot_expression_envelope_created\"],\"safetyStatus\":\"allowed_dry_run\",\"sendStatus\":\"not_sent\",\"soundCue\":\"none\",\"source\":\"shime_quiz\",\"target\":\"shime_robot\"}",
+      "validExpected": true
+    },
+    {
+      "description": "Valid memory_risk_nudge expression envelope",
+      "envelope": {
+        "allowedChannels": [
+          "display_expression"
+        ],
+        "capsuleProtocolVersion": "shime-learning-state-capsule-v1",
+        "displayExpression": "memory_risk_nudge_display",
+        "dryRunOnly": true,
+        "envelopeId": "golden_valid_memory_risk_nudge",
+        "expressionContractVersion": "shime-robot-expression-contract-v1",
+        "expressionFamily": "memory_risk_nudge",
+        "intensityBucket": "medium",
+        "ledPattern": "memory_risk_nudge_soft_led",
+        "messageType": "expression_preview",
+        "motionPolicy": "locked",
+        "privacyStatus": "redacted_coarse_only",
+        "protocol": "shime_robot_expression",
+        "protocolVersion": "1.0.0",
+        "reasonCodes": [
+          "golden_valid_3",
+          "robot_expression_envelope_created"
+        ],
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent",
+        "soundCue": "none",
+        "source": "shime_quiz",
+        "target": "shime_robot"
+      },
+      "expectedLogOnlyOutcome": {
+        "accepted": true,
+        "dryRunOnly": true,
+        "logLine": "ACCEPT expression=memory_risk_nudge display=memory_risk_nudge_display led=memory_risk_nudge_soft_led sound=none",
+        "motionPolicy": "locked",
+        "parsedDisplayExpression": "memory_risk_nudge_display",
+        "parsedExpressionFamily": "memory_risk_nudge",
+        "parsedLedPattern": "memory_risk_nudge_soft_led",
+        "parsedSoundCue": "none",
+        "privacyStatus": "redacted_coarse_only",
+        "reasonCodes": [
+          "golden_valid_3",
+          "robot_expression_envelope_created",
+          "host_expression_simulation_accepted"
+        ],
+        "rejectedReason": "none",
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "fixtureId": "valid_memory_risk_nudge",
+      "reasonCodes": [
+        "golden_valid_fixture_created"
+      ],
+      "serialized": "{\"allowedChannels\":[\"display_expression\"],\"capsuleProtocolVersion\":\"shime-learning-state-capsule-v1\",\"displayExpression\":\"memory_risk_nudge_display\",\"dryRunOnly\":true,\"envelopeId\":\"golden_valid_memory_risk_nudge\",\"expressionContractVersion\":\"shime-robot-expression-contract-v1\",\"expressionFamily\":\"memory_risk_nudge\",\"intensityBucket\":\"medium\",\"ledPattern\":\"memory_risk_nudge_soft_led\",\"messageType\":\"expression_preview\",\"motionPolicy\":\"locked\",\"privacyStatus\":\"redacted_coarse_only\",\"protocol\":\"shime_robot_expression\",\"protocolVersion\":\"1.0.0\",\"reasonCodes\":[\"golden_valid_3\",\"robot_expression_envelope_created\"],\"safetyStatus\":\"allowed_dry_run\",\"sendStatus\":\"not_sent\",\"soundCue\":\"none\",\"source\":\"shime_quiz\",\"target\":\"shime_robot\"}",
+      "validExpected": true
+    },
+    {
+      "description": "Valid gentle_encourage expression envelope",
+      "envelope": {
+        "allowedChannels": [
+          "display_expression"
+        ],
+        "capsuleProtocolVersion": "shime-learning-state-capsule-v1",
+        "displayExpression": "gentle_encourage_display",
+        "dryRunOnly": true,
+        "envelopeId": "golden_valid_gentle_encourage",
+        "expressionContractVersion": "shime-robot-expression-contract-v1",
+        "expressionFamily": "gentle_encourage",
+        "intensityBucket": "low",
+        "ledPattern": "gentle_encourage_soft_led",
+        "messageType": "expression_preview",
+        "motionPolicy": "locked",
+        "privacyStatus": "redacted_coarse_only",
+        "protocol": "shime_robot_expression",
+        "protocolVersion": "1.0.0",
+        "reasonCodes": [
+          "golden_valid_4",
+          "robot_expression_envelope_created"
+        ],
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent",
+        "soundCue": "none",
+        "source": "shime_quiz",
+        "target": "shime_robot"
+      },
+      "expectedLogOnlyOutcome": {
+        "accepted": true,
+        "dryRunOnly": true,
+        "logLine": "ACCEPT expression=gentle_encourage display=gentle_encourage_display led=gentle_encourage_soft_led sound=none",
+        "motionPolicy": "locked",
+        "parsedDisplayExpression": "gentle_encourage_display",
+        "parsedExpressionFamily": "gentle_encourage",
+        "parsedLedPattern": "gentle_encourage_soft_led",
+        "parsedSoundCue": "none",
+        "privacyStatus": "redacted_coarse_only",
+        "reasonCodes": [
+          "golden_valid_4",
+          "robot_expression_envelope_created",
+          "host_expression_simulation_accepted"
+        ],
+        "rejectedReason": "none",
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "fixtureId": "valid_gentle_encourage",
+      "reasonCodes": [
+        "golden_valid_fixture_created"
+      ],
+      "serialized": "{\"allowedChannels\":[\"display_expression\"],\"capsuleProtocolVersion\":\"shime-learning-state-capsule-v1\",\"displayExpression\":\"gentle_encourage_display\",\"dryRunOnly\":true,\"envelopeId\":\"golden_valid_gentle_encourage\",\"expressionContractVersion\":\"shime-robot-expression-contract-v1\",\"expressionFamily\":\"gentle_encourage\",\"intensityBucket\":\"low\",\"ledPattern\":\"gentle_encourage_soft_led\",\"messageType\":\"expression_preview\",\"motionPolicy\":\"locked\",\"privacyStatus\":\"redacted_coarse_only\",\"protocol\":\"shime_robot_expression\",\"protocolVersion\":\"1.0.0\",\"reasonCodes\":[\"golden_valid_4\",\"robot_expression_envelope_created\"],\"safetyStatus\":\"allowed_dry_run\",\"sendStatus\":\"not_sent\",\"soundCue\":\"none\",\"source\":\"shime_quiz\",\"target\":\"shime_robot\"}",
+      "validExpected": true
+    },
+    {
+      "description": "Valid recovery_praise expression envelope",
+      "envelope": {
+        "allowedChannels": [
+          "display_expression"
+        ],
+        "capsuleProtocolVersion": "shime-learning-state-capsule-v1",
+        "displayExpression": "recovery_praise_display",
+        "dryRunOnly": true,
+        "envelopeId": "golden_valid_recovery_praise",
+        "expressionContractVersion": "shime-robot-expression-contract-v1",
+        "expressionFamily": "recovery_praise",
+        "intensityBucket": "medium",
+        "ledPattern": "recovery_praise_soft_led",
+        "messageType": "expression_preview",
+        "motionPolicy": "locked",
+        "privacyStatus": "redacted_coarse_only",
+        "protocol": "shime_robot_expression",
+        "protocolVersion": "1.0.0",
+        "reasonCodes": [
+          "golden_valid_5",
+          "robot_expression_envelope_created"
+        ],
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent",
+        "soundCue": "none",
+        "source": "shime_quiz",
+        "target": "shime_robot"
+      },
+      "expectedLogOnlyOutcome": {
+        "accepted": true,
+        "dryRunOnly": true,
+        "logLine": "ACCEPT expression=recovery_praise display=recovery_praise_display led=recovery_praise_soft_led sound=none",
+        "motionPolicy": "locked",
+        "parsedDisplayExpression": "recovery_praise_display",
+        "parsedExpressionFamily": "recovery_praise",
+        "parsedLedPattern": "recovery_praise_soft_led",
+        "parsedSoundCue": "none",
+        "privacyStatus": "redacted_coarse_only",
+        "reasonCodes": [
+          "golden_valid_5",
+          "robot_expression_envelope_created",
+          "host_expression_simulation_accepted"
+        ],
+        "rejectedReason": "none",
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "fixtureId": "valid_recovery_praise",
+      "reasonCodes": [
+        "golden_valid_fixture_created"
+      ],
+      "serialized": "{\"allowedChannels\":[\"display_expression\"],\"capsuleProtocolVersion\":\"shime-learning-state-capsule-v1\",\"displayExpression\":\"recovery_praise_display\",\"dryRunOnly\":true,\"envelopeId\":\"golden_valid_recovery_praise\",\"expressionContractVersion\":\"shime-robot-expression-contract-v1\",\"expressionFamily\":\"recovery_praise\",\"intensityBucket\":\"medium\",\"ledPattern\":\"recovery_praise_soft_led\",\"messageType\":\"expression_preview\",\"motionPolicy\":\"locked\",\"privacyStatus\":\"redacted_coarse_only\",\"protocol\":\"shime_robot_expression\",\"protocolVersion\":\"1.0.0\",\"reasonCodes\":[\"golden_valid_5\",\"robot_expression_envelope_created\"],\"safetyStatus\":\"allowed_dry_run\",\"sendStatus\":\"not_sent\",\"soundCue\":\"none\",\"source\":\"shime_quiz\",\"target\":\"shime_robot\"}",
+      "validExpected": true
+    },
+    {
+      "description": "Valid celebrate_stability_gain expression envelope",
+      "envelope": {
+        "allowedChannels": [
+          "display_expression"
+        ],
+        "capsuleProtocolVersion": "shime-learning-state-capsule-v1",
+        "displayExpression": "celebrate_stability_gain_display",
+        "dryRunOnly": true,
+        "envelopeId": "golden_valid_celebrate_stability_gain",
+        "expressionContractVersion": "shime-robot-expression-contract-v1",
+        "expressionFamily": "celebrate_stability_gain",
+        "intensityBucket": "low",
+        "ledPattern": "celebrate_stability_gain_soft_led",
+        "messageType": "expression_preview",
+        "motionPolicy": "locked",
+        "privacyStatus": "redacted_coarse_only",
+        "protocol": "shime_robot_expression",
+        "protocolVersion": "1.0.0",
+        "reasonCodes": [
+          "golden_valid_6",
+          "robot_expression_envelope_created"
+        ],
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent",
+        "soundCue": "none",
+        "source": "shime_quiz",
+        "target": "shime_robot"
+      },
+      "expectedLogOnlyOutcome": {
+        "accepted": true,
+        "dryRunOnly": true,
+        "logLine": "ACCEPT expression=celebrate_stability_gain display=celebrate_stability_gain_display led=celebrate_stability_gain_soft_led sound=none",
+        "motionPolicy": "locked",
+        "parsedDisplayExpression": "celebrate_stability_gain_display",
+        "parsedExpressionFamily": "celebrate_stability_gain",
+        "parsedLedPattern": "celebrate_stability_gain_soft_led",
+        "parsedSoundCue": "none",
+        "privacyStatus": "redacted_coarse_only",
+        "reasonCodes": [
+          "golden_valid_6",
+          "robot_expression_envelope_created",
+          "host_expression_simulation_accepted"
+        ],
+        "rejectedReason": "none",
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "fixtureId": "valid_celebrate_stability_gain",
+      "reasonCodes": [
+        "golden_valid_fixture_created"
+      ],
+      "serialized": "{\"allowedChannels\":[\"display_expression\"],\"capsuleProtocolVersion\":\"shime-learning-state-capsule-v1\",\"displayExpression\":\"celebrate_stability_gain_display\",\"dryRunOnly\":true,\"envelopeId\":\"golden_valid_celebrate_stability_gain\",\"expressionContractVersion\":\"shime-robot-expression-contract-v1\",\"expressionFamily\":\"celebrate_stability_gain\",\"intensityBucket\":\"low\",\"ledPattern\":\"celebrate_stability_gain_soft_led\",\"messageType\":\"expression_preview\",\"motionPolicy\":\"locked\",\"privacyStatus\":\"redacted_coarse_only\",\"protocol\":\"shime_robot_expression\",\"protocolVersion\":\"1.0.0\",\"reasonCodes\":[\"golden_valid_6\",\"robot_expression_envelope_created\"],\"safetyStatus\":\"allowed_dry_run\",\"sendStatus\":\"not_sent\",\"soundCue\":\"none\",\"source\":\"shime_quiz\",\"target\":\"shime_robot\"}",
+      "validExpected": true
+    },
+    {
+      "description": "Valid celebrate_session_complete expression envelope",
+      "envelope": {
+        "allowedChannels": [
+          "display_expression"
+        ],
+        "capsuleProtocolVersion": "shime-learning-state-capsule-v1",
+        "displayExpression": "celebrate_session_complete_display",
+        "dryRunOnly": true,
+        "envelopeId": "golden_valid_celebrate_session_complete",
+        "expressionContractVersion": "shime-robot-expression-contract-v1",
+        "expressionFamily": "celebrate_session_complete",
+        "intensityBucket": "medium",
+        "ledPattern": "celebrate_session_complete_soft_led",
+        "messageType": "expression_preview",
+        "motionPolicy": "locked",
+        "privacyStatus": "redacted_coarse_only",
+        "protocol": "shime_robot_expression",
+        "protocolVersion": "1.0.0",
+        "reasonCodes": [
+          "golden_valid_7",
+          "robot_expression_envelope_created"
+        ],
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent",
+        "soundCue": "none",
+        "source": "shime_quiz",
+        "target": "shime_robot"
+      },
+      "expectedLogOnlyOutcome": {
+        "accepted": true,
+        "dryRunOnly": true,
+        "logLine": "ACCEPT expression=celebrate_session_complete display=celebrate_session_complete_display led=celebrate_session_complete_soft_led sound=none",
+        "motionPolicy": "locked",
+        "parsedDisplayExpression": "celebrate_session_complete_display",
+        "parsedExpressionFamily": "celebrate_session_complete",
+        "parsedLedPattern": "celebrate_session_complete_soft_led",
+        "parsedSoundCue": "none",
+        "privacyStatus": "redacted_coarse_only",
+        "reasonCodes": [
+          "golden_valid_7",
+          "robot_expression_envelope_created",
+          "host_expression_simulation_accepted"
+        ],
+        "rejectedReason": "none",
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "fixtureId": "valid_celebrate_session_complete",
+      "reasonCodes": [
+        "golden_valid_fixture_created"
+      ],
+      "serialized": "{\"allowedChannels\":[\"display_expression\"],\"capsuleProtocolVersion\":\"shime-learning-state-capsule-v1\",\"displayExpression\":\"celebrate_session_complete_display\",\"dryRunOnly\":true,\"envelopeId\":\"golden_valid_celebrate_session_complete\",\"expressionContractVersion\":\"shime-robot-expression-contract-v1\",\"expressionFamily\":\"celebrate_session_complete\",\"intensityBucket\":\"medium\",\"ledPattern\":\"celebrate_session_complete_soft_led\",\"messageType\":\"expression_preview\",\"motionPolicy\":\"locked\",\"privacyStatus\":\"redacted_coarse_only\",\"protocol\":\"shime_robot_expression\",\"protocolVersion\":\"1.0.0\",\"reasonCodes\":[\"golden_valid_7\",\"robot_expression_envelope_created\"],\"safetyStatus\":\"allowed_dry_run\",\"sendStatus\":\"not_sent\",\"soundCue\":\"none\",\"source\":\"shime_quiz\",\"target\":\"shime_robot\"}",
+      "validExpected": true
+    },
+    {
+      "description": "Valid suggest_break_soft expression envelope",
+      "envelope": {
+        "allowedChannels": [
+          "display_expression"
+        ],
+        "capsuleProtocolVersion": "shime-learning-state-capsule-v1",
+        "displayExpression": "suggest_break_soft_display",
+        "dryRunOnly": true,
+        "envelopeId": "golden_valid_suggest_break_soft",
+        "expressionContractVersion": "shime-robot-expression-contract-v1",
+        "expressionFamily": "suggest_break_soft",
+        "intensityBucket": "low",
+        "ledPattern": "suggest_break_soft_soft_led",
+        "messageType": "expression_preview",
+        "motionPolicy": "locked",
+        "privacyStatus": "redacted_coarse_only",
+        "protocol": "shime_robot_expression",
+        "protocolVersion": "1.0.0",
+        "reasonCodes": [
+          "golden_valid_8",
+          "robot_expression_envelope_created"
+        ],
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent",
+        "soundCue": "none",
+        "source": "shime_quiz",
+        "target": "shime_robot"
+      },
+      "expectedLogOnlyOutcome": {
+        "accepted": true,
+        "dryRunOnly": true,
+        "logLine": "ACCEPT expression=suggest_break_soft display=suggest_break_soft_display led=suggest_break_soft_soft_led sound=none",
+        "motionPolicy": "locked",
+        "parsedDisplayExpression": "suggest_break_soft_display",
+        "parsedExpressionFamily": "suggest_break_soft",
+        "parsedLedPattern": "suggest_break_soft_soft_led",
+        "parsedSoundCue": "none",
+        "privacyStatus": "redacted_coarse_only",
+        "reasonCodes": [
+          "golden_valid_8",
+          "robot_expression_envelope_created",
+          "host_expression_simulation_accepted"
+        ],
+        "rejectedReason": "none",
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "fixtureId": "valid_suggest_break_soft",
+      "reasonCodes": [
+        "golden_valid_fixture_created"
+      ],
+      "serialized": "{\"allowedChannels\":[\"display_expression\"],\"capsuleProtocolVersion\":\"shime-learning-state-capsule-v1\",\"displayExpression\":\"suggest_break_soft_display\",\"dryRunOnly\":true,\"envelopeId\":\"golden_valid_suggest_break_soft\",\"expressionContractVersion\":\"shime-robot-expression-contract-v1\",\"expressionFamily\":\"suggest_break_soft\",\"intensityBucket\":\"low\",\"ledPattern\":\"suggest_break_soft_soft_led\",\"messageType\":\"expression_preview\",\"motionPolicy\":\"locked\",\"privacyStatus\":\"redacted_coarse_only\",\"protocol\":\"shime_robot_expression\",\"protocolVersion\":\"1.0.0\",\"reasonCodes\":[\"golden_valid_8\",\"robot_expression_envelope_created\"],\"safetyStatus\":\"allowed_dry_run\",\"sendStatus\":\"not_sent\",\"soundCue\":\"none\",\"source\":\"shime_quiz\",\"target\":\"shime_robot\"}",
+      "validExpected": true
+    },
+    {
+      "description": "Valid reconnect_hint expression envelope",
+      "envelope": {
+        "allowedChannels": [
+          "display_expression"
+        ],
+        "capsuleProtocolVersion": "shime-learning-state-capsule-v1",
+        "displayExpression": "reconnect_hint_display",
+        "dryRunOnly": true,
+        "envelopeId": "golden_valid_reconnect_hint",
+        "expressionContractVersion": "shime-robot-expression-contract-v1",
+        "expressionFamily": "reconnect_hint",
+        "intensityBucket": "medium",
+        "ledPattern": "reconnect_hint_soft_led",
+        "messageType": "expression_preview",
+        "motionPolicy": "locked",
+        "privacyStatus": "redacted_coarse_only",
+        "protocol": "shime_robot_expression",
+        "protocolVersion": "1.0.0",
+        "reasonCodes": [
+          "golden_valid_9",
+          "robot_expression_envelope_created"
+        ],
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent",
+        "soundCue": "none",
+        "source": "shime_quiz",
+        "target": "shime_robot"
+      },
+      "expectedLogOnlyOutcome": {
+        "accepted": true,
+        "dryRunOnly": true,
+        "logLine": "ACCEPT expression=reconnect_hint display=reconnect_hint_display led=reconnect_hint_soft_led sound=none",
+        "motionPolicy": "locked",
+        "parsedDisplayExpression": "reconnect_hint_display",
+        "parsedExpressionFamily": "reconnect_hint",
+        "parsedLedPattern": "reconnect_hint_soft_led",
+        "parsedSoundCue": "none",
+        "privacyStatus": "redacted_coarse_only",
+        "reasonCodes": [
+          "golden_valid_9",
+          "robot_expression_envelope_created",
+          "host_expression_simulation_accepted"
+        ],
+        "rejectedReason": "none",
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "fixtureId": "valid_reconnect_hint",
+      "reasonCodes": [
+        "golden_valid_fixture_created"
+      ],
+      "serialized": "{\"allowedChannels\":[\"display_expression\"],\"capsuleProtocolVersion\":\"shime-learning-state-capsule-v1\",\"displayExpression\":\"reconnect_hint_display\",\"dryRunOnly\":true,\"envelopeId\":\"golden_valid_reconnect_hint\",\"expressionContractVersion\":\"shime-robot-expression-contract-v1\",\"expressionFamily\":\"reconnect_hint\",\"intensityBucket\":\"medium\",\"ledPattern\":\"reconnect_hint_soft_led\",\"messageType\":\"expression_preview\",\"motionPolicy\":\"locked\",\"privacyStatus\":\"redacted_coarse_only\",\"protocol\":\"shime_robot_expression\",\"protocolVersion\":\"1.0.0\",\"reasonCodes\":[\"golden_valid_9\",\"robot_expression_envelope_created\"],\"safetyStatus\":\"allowed_dry_run\",\"sendStatus\":\"not_sent\",\"soundCue\":\"none\",\"source\":\"shime_quiz\",\"target\":\"shime_robot\"}",
+      "validExpected": true
+    },
+    {
+      "description": "Valid calm_error expression envelope",
+      "envelope": {
+        "allowedChannels": [
+          "display_expression"
+        ],
+        "capsuleProtocolVersion": "shime-learning-state-capsule-v1",
+        "displayExpression": "calm_error_display",
+        "dryRunOnly": true,
+        "envelopeId": "golden_valid_calm_error",
+        "expressionContractVersion": "shime-robot-expression-contract-v1",
+        "expressionFamily": "calm_error",
+        "intensityBucket": "low",
+        "ledPattern": "calm_error_soft_led",
+        "messageType": "expression_preview",
+        "motionPolicy": "locked",
+        "privacyStatus": "redacted_coarse_only",
+        "protocol": "shime_robot_expression",
+        "protocolVersion": "1.0.0",
+        "reasonCodes": [
+          "golden_valid_10",
+          "robot_expression_envelope_created"
+        ],
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent",
+        "soundCue": "none",
+        "source": "shime_quiz",
+        "target": "shime_robot"
+      },
+      "expectedLogOnlyOutcome": {
+        "accepted": true,
+        "dryRunOnly": true,
+        "logLine": "ACCEPT expression=calm_error display=calm_error_display led=calm_error_soft_led sound=none",
+        "motionPolicy": "locked",
+        "parsedDisplayExpression": "calm_error_display",
+        "parsedExpressionFamily": "calm_error",
+        "parsedLedPattern": "calm_error_soft_led",
+        "parsedSoundCue": "none",
+        "privacyStatus": "redacted_coarse_only",
+        "reasonCodes": [
+          "golden_valid_10",
+          "robot_expression_envelope_created",
+          "host_expression_simulation_accepted"
+        ],
+        "rejectedReason": "none",
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "fixtureId": "valid_calm_error",
+      "reasonCodes": [
+        "golden_valid_fixture_created"
+      ],
+      "serialized": "{\"allowedChannels\":[\"display_expression\"],\"capsuleProtocolVersion\":\"shime-learning-state-capsule-v1\",\"displayExpression\":\"calm_error_display\",\"dryRunOnly\":true,\"envelopeId\":\"golden_valid_calm_error\",\"expressionContractVersion\":\"shime-robot-expression-contract-v1\",\"expressionFamily\":\"calm_error\",\"intensityBucket\":\"low\",\"ledPattern\":\"calm_error_soft_led\",\"messageType\":\"expression_preview\",\"motionPolicy\":\"locked\",\"privacyStatus\":\"redacted_coarse_only\",\"protocol\":\"shime_robot_expression\",\"protocolVersion\":\"1.0.0\",\"reasonCodes\":[\"golden_valid_10\",\"robot_expression_envelope_created\"],\"safetyStatus\":\"allowed_dry_run\",\"sendStatus\":\"not_sent\",\"soundCue\":\"none\",\"source\":\"shime_quiz\",\"target\":\"shime_robot\"}",
+      "validExpected": true
+    },
+    {
+      "description": "Valid do_nothing expression envelope",
+      "envelope": {
+        "allowedChannels": [
+          "no_op"
+        ],
+        "capsuleProtocolVersion": "shime-learning-state-capsule-v1",
+        "displayExpression": "none",
+        "dryRunOnly": true,
+        "envelopeId": "golden_valid_do_nothing",
+        "expressionContractVersion": "shime-robot-expression-contract-v1",
+        "expressionFamily": "do_nothing",
+        "intensityBucket": "medium",
+        "ledPattern": "none",
+        "messageType": "expression_preview",
+        "motionPolicy": "locked",
+        "privacyStatus": "redacted_coarse_only",
+        "protocol": "shime_robot_expression",
+        "protocolVersion": "1.0.0",
+        "reasonCodes": [
+          "golden_valid_11",
+          "robot_expression_envelope_created"
+        ],
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent",
+        "soundCue": "none",
+        "source": "shime_quiz",
+        "target": "shime_robot"
+      },
+      "expectedLogOnlyOutcome": {
+        "accepted": true,
+        "dryRunOnly": true,
+        "logLine": "ACCEPT expression=do_nothing display=none led=none sound=none",
+        "motionPolicy": "locked",
+        "parsedDisplayExpression": "none",
+        "parsedExpressionFamily": "do_nothing",
+        "parsedLedPattern": "none",
+        "parsedSoundCue": "none",
+        "privacyStatus": "redacted_coarse_only",
+        "reasonCodes": [
+          "golden_valid_11",
+          "robot_expression_envelope_created",
+          "host_expression_simulation_accepted"
+        ],
+        "rejectedReason": "none",
+        "safetyStatus": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "fixtureId": "valid_do_nothing",
+      "reasonCodes": [
+        "golden_valid_fixture_created"
+      ],
+      "serialized": "{\"allowedChannels\":[\"no_op\"],\"capsuleProtocolVersion\":\"shime-learning-state-capsule-v1\",\"displayExpression\":\"none\",\"dryRunOnly\":true,\"envelopeId\":\"golden_valid_do_nothing\",\"expressionContractVersion\":\"shime-robot-expression-contract-v1\",\"expressionFamily\":\"do_nothing\",\"intensityBucket\":\"medium\",\"ledPattern\":\"none\",\"messageType\":\"expression_preview\",\"motionPolicy\":\"locked\",\"privacyStatus\":\"redacted_coarse_only\",\"protocol\":\"shime_robot_expression\",\"protocolVersion\":\"1.0.0\",\"reasonCodes\":[\"golden_valid_11\",\"robot_expression_envelope_created\"],\"safetyStatus\":\"allowed_dry_run\",\"sendStatus\":\"not_sent\",\"soundCue\":\"none\",\"source\":\"shime_quiz\",\"target\":\"shime_robot\"}",
+      "validExpected": true
+    },
+    {
+      "description": "Reject secret-like field",
+      "expectedLogOnlyOutcome": {
+        "accepted": false,
+        "dryRunOnly": true,
+        "logLine": "REJECT secret_material_key:$.secretMaterial",
+        "motionPolicy": "locked",
+        "parsedDisplayExpression": "none",
+        "parsedExpressionFamily": "calm_error",
+        "parsedLedPattern": "none",
+        "parsedSoundCue": "none",
+        "privacyStatus": "blocked",
+        "reasonCodes": [
+          "host_expression_simulation_rejected",
+          "secret_material_key:$.secretMaterial",
+          "secret_material_key:$.secretMaterial"
+        ],
+        "rejectedReason": "secret_material_key:$.secretMaterial",
+        "safetyStatus": "blocked",
+        "sendStatus": "not_sent"
+      },
+      "fixtureId": "invalid_secret_material",
+      "reasonCodes": [
+        "golden_invalid_fixture_created"
+      ],
+      "serialized": "{\"protocol\":\"shime_robot_expression\",\"protocolVersion\":\"1.0.0\",\"envelopeId\":\"golden_valid_neutral_presence\",\"source\":\"shime_quiz\",\"target\":\"shime_robot\",\"messageType\":\"expression_preview\",\"expressionContractVersion\":\"shime-robot-expression-contract-v1\",\"capsuleProtocolVersion\":\"shime-learning-state-capsule-v1\",\"expressionFamily\":\"neutral_presence\",\"allowedChannels\":[\"display_expression\"],\"displayExpression\":\"neutral_presence_display\",\"ledPattern\":\"neutral_presence_soft_led\",\"soundCue\":\"none\",\"motionPolicy\":\"locked\",\"intensityBucket\":\"low\",\"safetyStatus\":\"allowed_dry_run\",\"privacyStatus\":\"redacted_coarse_only\",\"dryRunOnly\":true,\"sendStatus\":\"not_sent\",\"reasonCodes\":[\"golden_valid_0\",\"robot_expression_envelope_created\"],\"secretMaterial\":\"blocked_fixture\"}",
+      "validExpected": false
+    },
+    {
+      "description": "Reject unlocked motion policy",
+      "expectedLogOnlyOutcome": {
+        "accepted": false,
+        "dryRunOnly": true,
+        "logLine": "REJECT motion_not_locked",
+        "motionPolicy": "locked",
+        "parsedDisplayExpression": "none",
+        "parsedExpressionFamily": "calm_error",
+        "parsedLedPattern": "none",
+        "parsedSoundCue": "none",
+        "privacyStatus": "blocked",
+        "reasonCodes": [
+          "host_expression_simulation_rejected",
+          "motion_not_locked",
+          "motion_not_locked"
+        ],
+        "rejectedReason": "motion_not_locked",
+        "safetyStatus": "blocked",
+        "sendStatus": "not_sent"
+      },
+      "fixtureId": "invalid_motion_unlocked",
+      "reasonCodes": [
+        "golden_invalid_fixture_created"
+      ],
+      "serialized": "{\"protocol\":\"shime_robot_expression\",\"protocolVersion\":\"1.0.0\",\"envelopeId\":\"golden_valid_neutral_presence\",\"source\":\"shime_quiz\",\"target\":\"shime_robot\",\"messageType\":\"expression_preview\",\"expressionContractVersion\":\"shime-robot-expression-contract-v1\",\"capsuleProtocolVersion\":\"shime-learning-state-capsule-v1\",\"expressionFamily\":\"neutral_presence\",\"allowedChannels\":[\"display_expression\"],\"displayExpression\":\"neutral_presence_display\",\"ledPattern\":\"neutral_presence_soft_led\",\"soundCue\":\"none\",\"motionPolicy\":\"unlocked\",\"intensityBucket\":\"low\",\"safetyStatus\":\"allowed_dry_run\",\"privacyStatus\":\"redacted_coarse_only\",\"dryRunOnly\":true,\"sendStatus\":\"not_sent\",\"reasonCodes\":[\"golden_valid_0\",\"robot_expression_envelope_created\"]}",
+      "validExpected": false
+    },
+    {
+      "description": "Reject unsafe send status",
+      "expectedLogOnlyOutcome": {
+        "accepted": false,
+        "dryRunOnly": true,
+        "logLine": "REJECT send_status_not_safe",
+        "motionPolicy": "locked",
+        "parsedDisplayExpression": "none",
+        "parsedExpressionFamily": "calm_error",
+        "parsedLedPattern": "none",
+        "parsedSoundCue": "none",
+        "privacyStatus": "blocked",
+        "reasonCodes": [
+          "host_expression_simulation_rejected",
+          "send_status_not_safe",
+          "send_status_not_safe"
+        ],
+        "rejectedReason": "send_status_not_safe",
+        "safetyStatus": "blocked",
+        "sendStatus": "not_sent"
+      },
+      "fixtureId": "invalid_send_status_sent",
+      "reasonCodes": [
+        "golden_invalid_fixture_created"
+      ],
+      "serialized": "{\"protocol\":\"shime_robot_expression\",\"protocolVersion\":\"1.0.0\",\"envelopeId\":\"golden_valid_neutral_presence\",\"source\":\"shime_quiz\",\"target\":\"shime_robot\",\"messageType\":\"expression_preview\",\"expressionContractVersion\":\"shime-robot-expression-contract-v1\",\"capsuleProtocolVersion\":\"shime-learning-state-capsule-v1\",\"expressionFamily\":\"neutral_presence\",\"allowedChannels\":[\"display_expression\"],\"displayExpression\":\"neutral_presence_display\",\"ledPattern\":\"neutral_presence_soft_led\",\"soundCue\":\"none\",\"motionPolicy\":\"locked\",\"intensityBucket\":\"low\",\"safetyStatus\":\"allowed_dry_run\",\"privacyStatus\":\"redacted_coarse_only\",\"dryRunOnly\":true,\"sendStatus\":\"sent\",\"reasonCodes\":[\"golden_valid_0\",\"robot_expression_envelope_created\"]}",
+      "validExpected": false
+    },
+    {
+      "description": "Reject non dry-run envelope",
+      "expectedLogOnlyOutcome": {
+        "accepted": false,
+        "dryRunOnly": true,
+        "logLine": "REJECT not_dry_run",
+        "motionPolicy": "locked",
+        "parsedDisplayExpression": "none",
+        "parsedExpressionFamily": "calm_error",
+        "parsedLedPattern": "none",
+        "parsedSoundCue": "none",
+        "privacyStatus": "blocked",
+        "reasonCodes": [
+          "host_expression_simulation_rejected",
+          "not_dry_run",
+          "not_dry_run"
+        ],
+        "rejectedReason": "not_dry_run",
+        "safetyStatus": "blocked",
+        "sendStatus": "not_sent"
+      },
+      "fixtureId": "invalid_dry_run_false",
+      "reasonCodes": [
+        "golden_invalid_fixture_created"
+      ],
+      "serialized": "{\"protocol\":\"shime_robot_expression\",\"protocolVersion\":\"1.0.0\",\"envelopeId\":\"golden_valid_neutral_presence\",\"source\":\"shime_quiz\",\"target\":\"shime_robot\",\"messageType\":\"expression_preview\",\"expressionContractVersion\":\"shime-robot-expression-contract-v1\",\"capsuleProtocolVersion\":\"shime-learning-state-capsule-v1\",\"expressionFamily\":\"neutral_presence\",\"allowedChannels\":[\"display_expression\"],\"displayExpression\":\"neutral_presence_display\",\"ledPattern\":\"neutral_presence_soft_led\",\"soundCue\":\"none\",\"motionPolicy\":\"locked\",\"intensityBucket\":\"low\",\"safetyStatus\":\"allowed_dry_run\",\"privacyStatus\":\"redacted_coarse_only\",\"dryRunOnly\":false,\"sendStatus\":\"not_sent\",\"reasonCodes\":[\"golden_valid_0\",\"robot_expression_envelope_created\"]}",
+      "validExpected": false
+    },
+    {
+      "description": "Reject unsupported protocol version",
+      "expectedLogOnlyOutcome": {
+        "accepted": false,
+        "dryRunOnly": true,
+        "logLine": "REJECT unsupported_protocol_version",
+        "motionPolicy": "locked",
+        "parsedDisplayExpression": "none",
+        "parsedExpressionFamily": "calm_error",
+        "parsedLedPattern": "none",
+        "parsedSoundCue": "none",
+        "privacyStatus": "blocked",
+        "reasonCodes": [
+          "host_expression_simulation_rejected",
+          "unsupported_protocol_version",
+          "unsupported_protocol_version"
+        ],
+        "rejectedReason": "unsupported_protocol_version",
+        "safetyStatus": "blocked",
+        "sendStatus": "not_sent"
+      },
+      "fixtureId": "invalid_unknown_protocol",
+      "reasonCodes": [
+        "golden_invalid_fixture_created"
+      ],
+      "serialized": "{\"protocol\":\"shime_robot_expression\",\"protocolVersion\":\"9.0.0\",\"envelopeId\":\"golden_valid_neutral_presence\",\"source\":\"shime_quiz\",\"target\":\"shime_robot\",\"messageType\":\"expression_preview\",\"expressionContractVersion\":\"shime-robot-expression-contract-v1\",\"capsuleProtocolVersion\":\"shime-learning-state-capsule-v1\",\"expressionFamily\":\"neutral_presence\",\"allowedChannels\":[\"display_expression\"],\"displayExpression\":\"neutral_presence_display\",\"ledPattern\":\"neutral_presence_soft_led\",\"soundCue\":\"none\",\"motionPolicy\":\"locked\",\"intensityBucket\":\"low\",\"safetyStatus\":\"allowed_dry_run\",\"privacyStatus\":\"redacted_coarse_only\",\"dryRunOnly\":true,\"sendStatus\":\"not_sent\",\"reasonCodes\":[\"golden_valid_0\",\"robot_expression_envelope_created\"]}",
+      "validExpected": false
+    },
+    {
+      "description": "Reject malformed JSON",
+      "expectedLogOnlyOutcome": {
+        "accepted": false,
+        "dryRunOnly": true,
+        "logLine": "REJECT malformed_json",
+        "motionPolicy": "locked",
+        "parsedDisplayExpression": "none",
+        "parsedExpressionFamily": "calm_error",
+        "parsedLedPattern": "none",
+        "parsedSoundCue": "none",
+        "privacyStatus": "blocked",
+        "reasonCodes": [
+          "host_expression_simulation_rejected",
+          "malformed_json",
+          "malformed_json"
+        ],
+        "rejectedReason": "malformed_json",
+        "safetyStatus": "blocked",
+        "sendStatus": "not_sent"
+      },
+      "fixtureId": "invalid_malformed_json",
+      "reasonCodes": [
+        "golden_invalid_fixture_created"
+      ],
+      "serialized": "{",
+      "validExpected": false
+    },
+    {
+      "description": "Reject physical channel",
+      "expectedLogOnlyOutcome": {
+        "accepted": false,
+        "dryRunOnly": true,
+        "logLine": "REJECT channel_not_allowed:motor_motion",
+        "motionPolicy": "locked",
+        "parsedDisplayExpression": "none",
+        "parsedExpressionFamily": "calm_error",
+        "parsedLedPattern": "none",
+        "parsedSoundCue": "none",
+        "privacyStatus": "blocked",
+        "reasonCodes": [
+          "host_expression_simulation_rejected",
+          "channel_not_allowed:motor_motion",
+          "channel_not_allowed:motor_motion",
+          "forbidden_channel:motor_motion"
+        ],
+        "rejectedReason": "channel_not_allowed:motor_motion",
+        "safetyStatus": "blocked",
+        "sendStatus": "not_sent"
+      },
+      "fixtureId": "invalid_forbidden_channel",
+      "reasonCodes": [
+        "golden_invalid_fixture_created"
+      ],
+      "serialized": "{\"protocol\":\"shime_robot_expression\",\"protocolVersion\":\"1.0.0\",\"envelopeId\":\"golden_valid_neutral_presence\",\"source\":\"shime_quiz\",\"target\":\"shime_robot\",\"messageType\":\"expression_preview\",\"expressionContractVersion\":\"shime-robot-expression-contract-v1\",\"capsuleProtocolVersion\":\"shime-learning-state-capsule-v1\",\"expressionFamily\":\"neutral_presence\",\"allowedChannels\":[\"motor_motion\"],\"displayExpression\":\"neutral_presence_display\",\"ledPattern\":\"neutral_presence_soft_led\",\"soundCue\":\"none\",\"motionPolicy\":\"locked\",\"intensityBucket\":\"low\",\"safetyStatus\":\"allowed_dry_run\",\"privacyStatus\":\"redacted_coarse_only\",\"dryRunOnly\":true,\"sendStatus\":\"not_sent\",\"reasonCodes\":[\"golden_valid_0\",\"robot_expression_envelope_created\"]}",
+      "validExpected": false
+    }
+  ],
+  "invalidFixtureCount": 7,
+  "motionPolicy": "locked",
+  "reasonCodes": [
+    "expression_protocol_golden_fixtures_created"
+  ],
+  "sendStatus": "not_sent",
+  "validFixtureCount": 12
+}

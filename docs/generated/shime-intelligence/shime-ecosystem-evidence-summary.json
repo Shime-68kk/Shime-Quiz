@@ -1,0 +1,12 @@
+{
+  "attackScenarioCount": 1000,
+  "dryRunOnly": true,
+  "invariantFailureCount": 0,
+  "motionLocked": true,
+  "recommendation": "SAFE_FOR_PHASE_35_SHIME_ECOSYSTEM_FUSION_REVIEW",
+  "scenarioCount": 10000,
+  "status": "PASS",
+  "timetableSuggestionOnly": true,
+  "transportRecommendationOnly": true,
+  "validScenarioCount": 9000
+}

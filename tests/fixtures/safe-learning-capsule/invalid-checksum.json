@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "shime-safe-learning-capsule-v1",
+  "capsuleId": "capsule_app_h1_bad_sum",
+  "sourceType": "mock_import",
+  "createdAtBucket": "2026-07-07",
+  "monotonicImportId": 6,
+  "learningStateBucket": "steady",
+  "studyLoadBucket": "normal",
+  "reviewUrgencyBucket": "medium",
+  "sessionMoodBucket": "calm",
+  "sessionEnergyBucket": "medium",
+  "focusNeedBucket": "low",
+  "recommendedCompanionAction": "review_due",
+  "companionTone": "focused",
+  "safeSummaryCode": "REVIEW_SOON",
+  "expirationBucket": "same_day",
+  "privacyClass": "redacted_coarse_only",
+  "checksum": "ffffffff"
+}

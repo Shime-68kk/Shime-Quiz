@@ -1,0 +1,64 @@
+{
+  "dryRunOnly": true,
+  "handshakeCount": 3,
+  "sendStatus": "not_sent",
+  "status": "PASS",
+  "summaries": [
+    {
+      "bridgeCapabilities": [
+        "wifi"
+      ],
+      "capsuleProtocolVersion": "shime-learning-state-capsule-v1",
+      "dryRunOnly": true,
+      "expressionChannels": [
+        "display",
+        "led"
+      ],
+      "expressionContractVersion": "shime-robot-expression-contract-v1",
+      "failures": [],
+      "handshakeVersion": "shime-robot-capability-handshake-v1",
+      "motionLocked": true,
+      "reasonCodes": [
+        "robot_capability_handshake_summarized"
+      ],
+      "sendStatus": "not_sent",
+      "status": "accepted_schema_only"
+    },
+    {
+      "bridgeCapabilities": [
+        "ble"
+      ],
+      "capsuleProtocolVersion": "shime-learning-state-capsule-v1",
+      "dryRunOnly": true,
+      "expressionChannels": [
+        "display"
+      ],
+      "expressionContractVersion": "shime-robot-expression-contract-v1",
+      "failures": [],
+      "handshakeVersion": "shime-robot-capability-handshake-v1",
+      "motionLocked": true,
+      "reasonCodes": [
+        "robot_capability_handshake_summarized"
+      ],
+      "sendStatus": "not_sent",
+      "status": "accepted_schema_only"
+    },
+    {
+      "bridgeCapabilities": [],
+      "capsuleProtocolVersion": "shime-learning-state-capsule-v1",
+      "dryRunOnly": true,
+      "expressionChannels": [
+        "display"
+      ],
+      "expressionContractVersion": "shime-robot-expression-contract-v1",
+      "failures": [],
+      "handshakeVersion": "shime-robot-capability-handshake-v1",
+      "motionLocked": true,
+      "reasonCodes": [
+        "robot_capability_handshake_summarized"
+      ],
+      "sendStatus": "not_sent",
+      "status": "accepted_schema_only"
+    }
+  ]
+}

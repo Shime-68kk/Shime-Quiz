@@ -1,0 +1,185 @@
+{
+  "acceptCount": 12,
+  "dryRunOnly": true,
+  "expectedLogsVersion": "shime-esp32-expression-expected-logs-v1",
+  "logs": [
+    {
+      "dryRunOnly": true,
+      "expectedStatus": "ACCEPT",
+      "fixtureId": "valid_neutral_presence",
+      "logLine": "ACCEPT expression=neutral_presence display=neutral_presence_display led=neutral_presence_soft_led sound=none",
+      "motionPolicy": "locked",
+      "rejectedReason": "none",
+      "sendStatus": "not_sent"
+    },
+    {
+      "dryRunOnly": true,
+      "expectedStatus": "ACCEPT",
+      "fixtureId": "valid_focus_ritual",
+      "logLine": "ACCEPT expression=focus_ritual display=focus_ritual_display led=focus_ritual_soft_led sound=none",
+      "motionPolicy": "locked",
+      "rejectedReason": "none",
+      "sendStatus": "not_sent"
+    },
+    {
+      "dryRunOnly": true,
+      "expectedStatus": "ACCEPT",
+      "fixtureId": "valid_review_due_nudge",
+      "logLine": "ACCEPT expression=review_due_nudge display=review_due_nudge_display led=review_due_nudge_soft_led sound=none",
+      "motionPolicy": "locked",
+      "rejectedReason": "none",
+      "sendStatus": "not_sent"
+    },
+    {
+      "dryRunOnly": true,
+      "expectedStatus": "ACCEPT",
+      "fixtureId": "valid_memory_risk_nudge",
+      "logLine": "ACCEPT expression=memory_risk_nudge display=memory_risk_nudge_display led=memory_risk_nudge_soft_led sound=none",
+      "motionPolicy": "locked",
+      "rejectedReason": "none",
+      "sendStatus": "not_sent"
+    },
+    {
+      "dryRunOnly": true,
+      "expectedStatus": "ACCEPT",
+      "fixtureId": "valid_gentle_encourage",
+      "logLine": "ACCEPT expression=gentle_encourage display=gentle_encourage_display led=gentle_encourage_soft_led sound=none",
+      "motionPolicy": "locked",
+      "rejectedReason": "none",
+      "sendStatus": "not_sent"
+    },
+    {
+      "dryRunOnly": true,
+      "expectedStatus": "ACCEPT",
+      "fixtureId": "valid_recovery_praise",
+      "logLine": "ACCEPT expression=recovery_praise display=recovery_praise_display led=recovery_praise_soft_led sound=none",
+      "motionPolicy": "locked",
+      "rejectedReason": "none",
+      "sendStatus": "not_sent"
+    },
+    {
+      "dryRunOnly": true,
+      "expectedStatus": "ACCEPT",
+      "fixtureId": "valid_celebrate_stability_gain",
+      "logLine": "ACCEPT expression=celebrate_stability_gain display=celebrate_stability_gain_display led=celebrate_stability_gain_soft_led sound=none",
+      "motionPolicy": "locked",
+      "rejectedReason": "none",
+      "sendStatus": "not_sent"
+    },
+    {
+      "dryRunOnly": true,
+      "expectedStatus": "ACCEPT",
+      "fixtureId": "valid_celebrate_session_complete",
+      "logLine": "ACCEPT expression=celebrate_session_complete display=celebrate_session_complete_display led=celebrate_session_complete_soft_led sound=none",
+      "motionPolicy": "locked",
+      "rejectedReason": "none",
+      "sendStatus": "not_sent"
+    },
+    {
+      "dryRunOnly": true,
+      "expectedStatus": "ACCEPT",
+      "fixtureId": "valid_suggest_break_soft",
+      "logLine": "ACCEPT expression=suggest_break_soft display=suggest_break_soft_display led=suggest_break_soft_soft_led sound=none",
+      "motionPolicy": "locked",
+      "rejectedReason": "none",
+      "sendStatus": "not_sent"
+    },
+    {
+      "dryRunOnly": true,
+      "expectedStatus": "ACCEPT",
+      "fixtureId": "valid_reconnect_hint",
+      "logLine": "ACCEPT expression=reconnect_hint display=reconnect_hint_display led=reconnect_hint_soft_led sound=none",
+      "motionPolicy": "locked",
+      "rejectedReason": "none",
+      "sendStatus": "not_sent"
+    },
+    {
+      "dryRunOnly": true,
+      "expectedStatus": "ACCEPT",
+      "fixtureId": "valid_calm_error",
+      "logLine": "ACCEPT expression=calm_error display=calm_error_display led=calm_error_soft_led sound=none",
+      "motionPolicy": "locked",
+      "rejectedReason": "none",
+      "sendStatus": "not_sent"
+    },
+    {
+      "dryRunOnly": true,
+      "expectedStatus": "ACCEPT",
+      "fixtureId": "valid_do_nothing",
+      "logLine": "ACCEPT expression=do_nothing display=none led=none sound=none",
+      "motionPolicy": "locked",
+      "rejectedReason": "none",
+      "sendStatus": "not_sent"
+    },
+    {
+      "dryRunOnly": true,
+      "expectedStatus": "REJECT",
+      "fixtureId": "invalid_secret_material",
+      "logLine": "REJECT secret_material_key:$.secretMaterial",
+      "motionPolicy": "locked",
+      "rejectedReason": "secret_material_key:$.secretMaterial",
+      "sendStatus": "not_sent"
+    },
+    {
+      "dryRunOnly": true,
+      "expectedStatus": "REJECT",
+      "fixtureId": "invalid_motion_unlocked",
+      "logLine": "REJECT motion_not_locked",
+      "motionPolicy": "locked",
+      "rejectedReason": "motion_not_locked",
+      "sendStatus": "not_sent"
+    },
+    {
+      "dryRunOnly": true,
+      "expectedStatus": "REJECT",
+      "fixtureId": "invalid_send_status_sent",
+      "logLine": "REJECT send_status_not_safe",
+      "motionPolicy": "locked",
+      "rejectedReason": "send_status_not_safe",
+      "sendStatus": "not_sent"
+    },
+    {
+      "dryRunOnly": true,
+      "expectedStatus": "REJECT",
+      "fixtureId": "invalid_dry_run_false",
+      "logLine": "REJECT not_dry_run",
+      "motionPolicy": "locked",
+      "rejectedReason": "not_dry_run",
+      "sendStatus": "not_sent"
+    },
+    {
+      "dryRunOnly": true,
+      "expectedStatus": "REJECT",
+      "fixtureId": "invalid_unknown_protocol",
+      "logLine": "REJECT unsupported_protocol_version",
+      "motionPolicy": "locked",
+      "rejectedReason": "unsupported_protocol_version",
+      "sendStatus": "not_sent"
+    },
+    {
+      "dryRunOnly": true,
+      "expectedStatus": "REJECT",
+      "fixtureId": "invalid_malformed_json",
+      "logLine": "REJECT malformed_json",
+      "motionPolicy": "locked",
+      "rejectedReason": "malformed_json",
+      "sendStatus": "not_sent"
+    },
+    {
+      "dryRunOnly": true,
+      "expectedStatus": "REJECT",
+      "fixtureId": "invalid_forbidden_channel",
+      "logLine": "REJECT channel_not_allowed:motor_motion",
+      "motionPolicy": "locked",
+      "rejectedReason": "channel_not_allowed:motor_motion",
+      "sendStatus": "not_sent"
+    }
+  ],
+  "motionPolicy": "locked",
+  "reasonCodes": [
+    "esp32_expression_expected_logs_created"
+  ],
+  "rejectCount": 7,
+  "safetyLog": "motion locked / no motion",
+  "sendStatus": "not_sent"
+}

@@ -1,0 +1,61 @@
+{
+  "auditStatus": "PASS",
+  "currentCapabilities": {
+    "actionStubsOnly": true,
+    "arduinoEsp32Project": true,
+    "legacyCommandPath": true,
+    "legacyEventPath": true,
+    "legacyProtocolVersion": false,
+    "maxLineLength2048": true,
+    "noPinWriteDetected": true,
+    "noServoDetected": true,
+    "noWifiDependency": true,
+    "propertyNamePrivacyPolicy": true,
+    "serialLineParser": true
+  },
+  "dryRunOnly": true,
+  "firmwareFilesFound": [
+    "firmware/esp32-shime-robot/platformio.ini",
+    "firmware/esp32-shime-robot/src/main.cpp",
+    "firmware/esp32-shime-robot/include/ShimeProtocol.h",
+    "firmware/esp32-shime-robot/src/ShimeProtocol.cpp",
+    "firmware/esp32-shime-robot/include/ShimeRobotActions.h",
+    "firmware/esp32-shime-robot/src/ShimeRobotActions.cpp",
+    "firmware/esp32-shime-robot/protocol.md"
+  ],
+  "forbiddenPhase42Scope": [
+    "motor_or_servo_behavior",
+    "radio_transport",
+    "secret_material_storage",
+    "app_runtime_dependency",
+    "learning_data_mutation"
+  ],
+  "missingForExpressionProtocol": [
+    "expression_envelope_message_type",
+    "protocol_version_1_0_0",
+    "expression_family_validation",
+    "allowed_channel_validation",
+    "dry_run_and_not_sent_validation",
+    "locked_motion_validation",
+    "log_only_accept_reject_format"
+  ],
+  "motionPolicy": "locked",
+  "privacyFindings": [
+    "property_name_privacy_policy_present"
+  ],
+  "reasonCodes": [
+    "esp32_firmware_readonly_audit_completed"
+  ],
+  "recommendedPhase42Scope": [
+    "add_expression_envelope_parser",
+    "add_log_only_accept_reject_output",
+    "keep_action_stubs_unmoved",
+    "keep_motion_locked"
+  ],
+  "safetyFindings": [
+    "no_pin_write_detected",
+    "no_servo_detected",
+    "actions_are_log_stubs"
+  ],
+  "sendStatus": "not_sent"
+}

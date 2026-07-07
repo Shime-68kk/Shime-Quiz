@@ -1,0 +1,22 @@
+{
+  "acceptLogImplemented": true,
+  "activeUnsafeHits": [],
+  "boundedPayload": true,
+  "dryRunOnly": true,
+  "expectedLogCount": 37,
+  "expectedRejectEchoesRaw": false,
+  "invalidFixtureCount": 25,
+  "motionPolicy": "locked",
+  "parserImplemented": true,
+  "rawPayloadEchoPrevented": true,
+  "realworldTrainingLineCount": 13,
+  "reasonCodes": [
+    "esp32_expression_firmware_implementation_report_created"
+  ],
+  "rejectLogImplemented": true,
+  "reportVersion": "shime-esp32-expression-log-only-firmware-implementation-v1",
+  "sendStatus": "not_sent",
+  "status": "PASS",
+  "validContainsForbidden": false,
+  "validFixtureCount": 12
+}

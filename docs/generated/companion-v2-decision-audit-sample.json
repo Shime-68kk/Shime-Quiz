@@ -1,0 +1,46 @@
+[
+  {
+    "accepted": true,
+    "dryRunOnly": true,
+    "finalRobotIntent": "focus",
+    "policyIntent": "focus_gently",
+    "privacyStatus": "redacted_coarse_only",
+    "reasonCodeCount": 1,
+    "rejectedReason": null,
+    "safetyDecision": "allowed",
+    "step": 1
+  },
+  {
+    "accepted": true,
+    "dryRunOnly": true,
+    "finalRobotIntent": "focus",
+    "policyIntent": "focus_gently",
+    "privacyStatus": "redacted_coarse_only",
+    "reasonCodeCount": 1,
+    "rejectedReason": null,
+    "safetyDecision": "allowed",
+    "step": 2
+  },
+  {
+    "accepted": true,
+    "dryRunOnly": true,
+    "finalRobotIntent": "neutral",
+    "policyIntent": "idle_presence",
+    "privacyStatus": "redacted_coarse_only",
+    "reasonCodeCount": 2,
+    "rejectedReason": null,
+    "safetyDecision": "allowed",
+    "step": 3
+  },
+  {
+    "accepted": true,
+    "dryRunOnly": true,
+    "finalRobotIntent": "session_complete",
+    "policyIntent": "celebrate_small",
+    "privacyStatus": "redacted_coarse_only",
+    "reasonCodeCount": 3,
+    "rejectedReason": null,
+    "safetyDecision": "allowed",
+    "step": 4
+  }
+]

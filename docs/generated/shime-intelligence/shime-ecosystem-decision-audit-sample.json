@@ -1,0 +1,913 @@
+[
+  {
+    "capsuleSummary": {
+      "dryRunOnly": true,
+      "privacyStatus": "redacted_coarse_only"
+    },
+    "companionIntent": "focus_gently",
+    "dryRunOnly": true,
+    "fsrsSignalSummary": {
+      "forgettingRiskBucket": "high",
+      "memoryPressureBucket": "high",
+      "recoveryNeedBucket": "none"
+    },
+    "invariantStatus": "pass",
+    "privacyStatus": "redacted_coarse_only",
+    "productDoctrineSummary": {
+      "appProductName": "Shime Quiz",
+      "appTechnicalRole": "local_first_learning_brain",
+      "capsuleRole": "privacy_safe_bridge",
+      "ecosystemName": "Shime",
+      "fsrsRole": "memory_scheduler_core",
+      "invariantCount": 7,
+      "reasonCodes": [
+        "product_doctrine_summarized"
+      ],
+      "robotProductName": "Shime Robot",
+      "robotPublicRole": "product_face",
+      "robotTechnicalRole": "emotion_body_presence_bridge",
+      "safetyRole": "highest_authority"
+    },
+    "reasonCodes": [
+      "fusion_completed",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "overdue_items_present",
+      "memory_risk_detected",
+      "learning_capsule_redacted",
+      "safety_governor_applied",
+      "due_pressure_high"
+    ],
+    "robotInterventionFamily": "review_due_nudge",
+    "safetyOutcome": "allowed_dry_run",
+    "scenarioId": "scenario_00001",
+    "step": 1,
+    "timetableRecommendation": "short_session_soon",
+    "transportRecommendation": "app_local_only"
+  },
+  {
+    "capsuleSummary": {
+      "dryRunOnly": true,
+      "privacyStatus": "redacted_coarse_only"
+    },
+    "companionIntent": "focus_gently",
+    "dryRunOnly": true,
+    "fsrsSignalSummary": {
+      "forgettingRiskBucket": "unknown",
+      "memoryPressureBucket": "medium",
+      "recoveryNeedBucket": "none"
+    },
+    "invariantStatus": "pass",
+    "privacyStatus": "redacted_coarse_only",
+    "productDoctrineSummary": {
+      "appProductName": "Shime Quiz",
+      "appTechnicalRole": "local_first_learning_brain",
+      "capsuleRole": "privacy_safe_bridge",
+      "ecosystemName": "Shime",
+      "fsrsRole": "memory_scheduler_core",
+      "invariantCount": 7,
+      "reasonCodes": [
+        "product_doctrine_summarized"
+      ],
+      "robotProductName": "Shime Robot",
+      "robotPublicRole": "product_face",
+      "robotTechnicalRole": "emotion_body_presence_bridge",
+      "safetyRole": "highest_authority"
+    },
+    "reasonCodes": [
+      "fusion_completed",
+      "fsrs_signal_extracted",
+      "overdue_items_present",
+      "learning_capsule_redacted",
+      "safety_governor_applied",
+      "robot_plan_created"
+    ],
+    "robotInterventionFamily": "neutral_presence",
+    "safetyOutcome": "allowed_dry_run",
+    "scenarioId": "scenario_00002",
+    "step": 2,
+    "timetableRecommendation": "tiny_review_now",
+    "transportRecommendation": "app_local_only"
+  },
+  {
+    "capsuleSummary": {
+      "dryRunOnly": true,
+      "privacyStatus": "redacted_coarse_only"
+    },
+    "companionIntent": "focus_gently",
+    "dryRunOnly": true,
+    "fsrsSignalSummary": {
+      "forgettingRiskBucket": "medium",
+      "memoryPressureBucket": "high",
+      "recoveryNeedBucket": "none"
+    },
+    "invariantStatus": "pass",
+    "privacyStatus": "redacted_coarse_only",
+    "productDoctrineSummary": {
+      "appProductName": "Shime Quiz",
+      "appTechnicalRole": "local_first_learning_brain",
+      "capsuleRole": "privacy_safe_bridge",
+      "ecosystemName": "Shime",
+      "fsrsRole": "memory_scheduler_core",
+      "invariantCount": 7,
+      "reasonCodes": [
+        "product_doctrine_summarized"
+      ],
+      "robotProductName": "Shime Robot",
+      "robotPublicRole": "product_face",
+      "robotTechnicalRole": "emotion_body_presence_bridge",
+      "safetyRole": "highest_authority"
+    },
+    "reasonCodes": [
+      "fusion_completed",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "learning_capsule_redacted",
+      "safety_governor_applied",
+      "due_pressure_high"
+    ],
+    "robotInterventionFamily": "review_due_nudge",
+    "safetyOutcome": "allowed_dry_run",
+    "scenarioId": "scenario_00003",
+    "step": 3,
+    "timetableRecommendation": "short_session_soon",
+    "transportRecommendation": "app_local_only"
+  },
+  {
+    "capsuleSummary": {
+      "dryRunOnly": true,
+      "privacyStatus": "redacted_coarse_only"
+    },
+    "companionIntent": "recovery_praise",
+    "dryRunOnly": true,
+    "fsrsSignalSummary": {
+      "forgettingRiskBucket": "high",
+      "memoryPressureBucket": "high",
+      "recoveryNeedBucket": "none"
+    },
+    "invariantStatus": "pass",
+    "privacyStatus": "redacted_coarse_only",
+    "productDoctrineSummary": {
+      "appProductName": "Shime Quiz",
+      "appTechnicalRole": "local_first_learning_brain",
+      "capsuleRole": "privacy_safe_bridge",
+      "ecosystemName": "Shime",
+      "fsrsRole": "memory_scheduler_core",
+      "invariantCount": 7,
+      "reasonCodes": [
+        "product_doctrine_summarized"
+      ],
+      "robotProductName": "Shime Robot",
+      "robotPublicRole": "product_face",
+      "robotTechnicalRole": "emotion_body_presence_bridge",
+      "safetyRole": "highest_authority"
+    },
+    "reasonCodes": [
+      "fusion_completed",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "overdue_items_present",
+      "memory_risk_detected",
+      "learning_capsule_redacted",
+      "safety_governor_applied",
+      "due_pressure_high"
+    ],
+    "robotInterventionFamily": "review_due_nudge",
+    "safetyOutcome": "allowed_dry_run",
+    "scenarioId": "scenario_00004",
+    "step": 4,
+    "timetableRecommendation": "resume_habit",
+    "transportRecommendation": "app_local_only"
+  },
+  {
+    "capsuleSummary": {
+      "dryRunOnly": true,
+      "privacyStatus": "redacted_coarse_only"
+    },
+    "companionIntent": "focus_gently",
+    "dryRunOnly": true,
+    "fsrsSignalSummary": {
+      "forgettingRiskBucket": "very_high",
+      "memoryPressureBucket": "high",
+      "recoveryNeedBucket": "none"
+    },
+    "invariantStatus": "pass",
+    "privacyStatus": "redacted_coarse_only",
+    "productDoctrineSummary": {
+      "appProductName": "Shime Quiz",
+      "appTechnicalRole": "local_first_learning_brain",
+      "capsuleRole": "privacy_safe_bridge",
+      "ecosystemName": "Shime",
+      "fsrsRole": "memory_scheduler_core",
+      "invariantCount": 7,
+      "reasonCodes": [
+        "product_doctrine_summarized"
+      ],
+      "robotProductName": "Shime Robot",
+      "robotPublicRole": "product_face",
+      "robotTechnicalRole": "emotion_body_presence_bridge",
+      "safetyRole": "highest_authority"
+    },
+    "reasonCodes": [
+      "fusion_completed",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "overdue_items_present",
+      "memory_risk_detected",
+      "learning_capsule_redacted",
+      "safety_governor_applied",
+      "forgetting_risk_high"
+    ],
+    "robotInterventionFamily": "memory_risk_nudge",
+    "safetyOutcome": "allowed_dry_run",
+    "scenarioId": "scenario_00005",
+    "step": 5,
+    "timetableRecommendation": "tiny_review_now",
+    "transportRecommendation": "app_local_only"
+  },
+  {
+    "capsuleSummary": {
+      "dryRunOnly": true,
+      "privacyStatus": "redacted_coarse_only"
+    },
+    "companionIntent": "focus_gently",
+    "dryRunOnly": true,
+    "fsrsSignalSummary": {
+      "forgettingRiskBucket": "very_high",
+      "memoryPressureBucket": "high",
+      "recoveryNeedBucket": "none"
+    },
+    "invariantStatus": "pass",
+    "privacyStatus": "redacted_coarse_only",
+    "productDoctrineSummary": {
+      "appProductName": "Shime Quiz",
+      "appTechnicalRole": "local_first_learning_brain",
+      "capsuleRole": "privacy_safe_bridge",
+      "ecosystemName": "Shime",
+      "fsrsRole": "memory_scheduler_core",
+      "invariantCount": 7,
+      "reasonCodes": [
+        "product_doctrine_summarized"
+      ],
+      "robotProductName": "Shime Robot",
+      "robotPublicRole": "product_face",
+      "robotTechnicalRole": "emotion_body_presence_bridge",
+      "safetyRole": "highest_authority"
+    },
+    "reasonCodes": [
+      "fusion_completed",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "memory_risk_detected",
+      "learning_capsule_redacted",
+      "safety_governor_applied",
+      "forgetting_risk_high"
+    ],
+    "robotInterventionFamily": "memory_risk_nudge",
+    "safetyOutcome": "allowed_dry_run",
+    "scenarioId": "scenario_00006",
+    "step": 6,
+    "timetableRecommendation": "tiny_review_now",
+    "transportRecommendation": "app_local_only"
+  },
+  {
+    "capsuleSummary": {
+      "dryRunOnly": true,
+      "privacyStatus": "redacted_coarse_only"
+    },
+    "companionIntent": "focus_gently",
+    "dryRunOnly": true,
+    "fsrsSignalSummary": {
+      "forgettingRiskBucket": "very_high",
+      "memoryPressureBucket": "high",
+      "recoveryNeedBucket": "none"
+    },
+    "invariantStatus": "pass",
+    "privacyStatus": "redacted_coarse_only",
+    "productDoctrineSummary": {
+      "appProductName": "Shime Quiz",
+      "appTechnicalRole": "local_first_learning_brain",
+      "capsuleRole": "privacy_safe_bridge",
+      "ecosystemName": "Shime",
+      "fsrsRole": "memory_scheduler_core",
+      "invariantCount": 7,
+      "reasonCodes": [
+        "product_doctrine_summarized"
+      ],
+      "robotProductName": "Shime Robot",
+      "robotPublicRole": "product_face",
+      "robotTechnicalRole": "emotion_body_presence_bridge",
+      "safetyRole": "highest_authority"
+    },
+    "reasonCodes": [
+      "fusion_completed",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "overdue_items_present",
+      "memory_risk_detected",
+      "learning_capsule_redacted",
+      "safety_governor_applied",
+      "forgetting_risk_high"
+    ],
+    "robotInterventionFamily": "memory_risk_nudge",
+    "safetyOutcome": "allowed_dry_run",
+    "scenarioId": "scenario_00007",
+    "step": 7,
+    "timetableRecommendation": "no_nudge",
+    "transportRecommendation": "app_local_only"
+  },
+  {
+    "capsuleSummary": {
+      "dryRunOnly": true,
+      "privacyStatus": "redacted_coarse_only"
+    },
+    "companionIntent": "focus_gently",
+    "dryRunOnly": true,
+    "fsrsSignalSummary": {
+      "forgettingRiskBucket": "very_high",
+      "memoryPressureBucket": "high",
+      "recoveryNeedBucket": "medium"
+    },
+    "invariantStatus": "pass",
+    "privacyStatus": "redacted_coarse_only",
+    "productDoctrineSummary": {
+      "appProductName": "Shime Quiz",
+      "appTechnicalRole": "local_first_learning_brain",
+      "capsuleRole": "privacy_safe_bridge",
+      "ecosystemName": "Shime",
+      "fsrsRole": "memory_scheduler_core",
+      "invariantCount": 7,
+      "reasonCodes": [
+        "product_doctrine_summarized"
+      ],
+      "robotProductName": "Shime Robot",
+      "robotPublicRole": "product_face",
+      "robotTechnicalRole": "emotion_body_presence_bridge",
+      "safetyRole": "highest_authority"
+    },
+    "reasonCodes": [
+      "fusion_completed",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "overdue_items_present",
+      "memory_risk_detected",
+      "learning_capsule_redacted",
+      "safety_governor_applied",
+      "due_pressure_high"
+    ],
+    "robotInterventionFamily": "review_due_nudge",
+    "safetyOutcome": "allowed_dry_run",
+    "scenarioId": "scenario_00008",
+    "step": 8,
+    "timetableRecommendation": "short_session_soon",
+    "transportRecommendation": "app_local_only"
+  },
+  {
+    "capsuleSummary": {
+      "dryRunOnly": true,
+      "privacyStatus": "redacted_coarse_only"
+    },
+    "companionIntent": "recovery_praise",
+    "dryRunOnly": true,
+    "fsrsSignalSummary": {
+      "forgettingRiskBucket": "high",
+      "memoryPressureBucket": "high",
+      "recoveryNeedBucket": "none"
+    },
+    "invariantStatus": "pass",
+    "privacyStatus": "redacted_coarse_only",
+    "productDoctrineSummary": {
+      "appProductName": "Shime Quiz",
+      "appTechnicalRole": "local_first_learning_brain",
+      "capsuleRole": "privacy_safe_bridge",
+      "ecosystemName": "Shime",
+      "fsrsRole": "memory_scheduler_core",
+      "invariantCount": 7,
+      "reasonCodes": [
+        "product_doctrine_summarized"
+      ],
+      "robotProductName": "Shime Robot",
+      "robotPublicRole": "product_face",
+      "robotTechnicalRole": "emotion_body_presence_bridge",
+      "safetyRole": "highest_authority"
+    },
+    "reasonCodes": [
+      "fusion_completed",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "memory_risk_detected",
+      "learning_capsule_redacted",
+      "safety_governor_applied",
+      "due_pressure_high"
+    ],
+    "robotInterventionFamily": "review_due_nudge",
+    "safetyOutcome": "allowed_dry_run",
+    "scenarioId": "scenario_00009",
+    "step": 9,
+    "timetableRecommendation": "short_session_soon",
+    "transportRecommendation": "app_local_only"
+  },
+  {
+    "capsuleSummary": {
+      "dryRunOnly": true,
+      "privacyStatus": "redacted_coarse_only"
+    },
+    "companionIntent": "focus_gently",
+    "dryRunOnly": true,
+    "fsrsSignalSummary": {
+      "forgettingRiskBucket": "high",
+      "memoryPressureBucket": "high",
+      "recoveryNeedBucket": "high"
+    },
+    "invariantStatus": "pass",
+    "privacyStatus": "redacted_coarse_only",
+    "productDoctrineSummary": {
+      "appProductName": "Shime Quiz",
+      "appTechnicalRole": "local_first_learning_brain",
+      "capsuleRole": "privacy_safe_bridge",
+      "ecosystemName": "Shime",
+      "fsrsRole": "memory_scheduler_core",
+      "invariantCount": 7,
+      "reasonCodes": [
+        "product_doctrine_summarized"
+      ],
+      "robotProductName": "Shime Robot",
+      "robotPublicRole": "product_face",
+      "robotTechnicalRole": "emotion_body_presence_bridge",
+      "safetyRole": "highest_authority"
+    },
+    "reasonCodes": [
+      "fusion_completed",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "overdue_items_present",
+      "memory_risk_detected",
+      "learning_capsule_redacted",
+      "safety_governor_applied",
+      "recovery_need_high"
+    ],
+    "robotInterventionFamily": "gentle_encourage",
+    "safetyOutcome": "allowed_dry_run",
+    "scenarioId": "scenario_00010",
+    "step": 10,
+    "timetableRecommendation": "recovery_session_today",
+    "transportRecommendation": "app_local_only"
+  },
+  {
+    "capsuleSummary": {
+      "dryRunOnly": true,
+      "privacyStatus": "redacted_coarse_only"
+    },
+    "companionIntent": "focus_gently",
+    "dryRunOnly": true,
+    "fsrsSignalSummary": {
+      "forgettingRiskBucket": "very_high",
+      "memoryPressureBucket": "high",
+      "recoveryNeedBucket": "none"
+    },
+    "invariantStatus": "pass",
+    "privacyStatus": "redacted_coarse_only",
+    "productDoctrineSummary": {
+      "appProductName": "Shime Quiz",
+      "appTechnicalRole": "local_first_learning_brain",
+      "capsuleRole": "privacy_safe_bridge",
+      "ecosystemName": "Shime",
+      "fsrsRole": "memory_scheduler_core",
+      "invariantCount": 7,
+      "reasonCodes": [
+        "product_doctrine_summarized"
+      ],
+      "robotProductName": "Shime Robot",
+      "robotPublicRole": "product_face",
+      "robotTechnicalRole": "emotion_body_presence_bridge",
+      "safetyRole": "highest_authority"
+    },
+    "reasonCodes": [
+      "fusion_completed",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "overdue_items_present",
+      "memory_risk_detected",
+      "learning_capsule_redacted",
+      "safety_governor_applied",
+      "due_pressure_high"
+    ],
+    "robotInterventionFamily": "review_due_nudge",
+    "safetyOutcome": "allowed_dry_run",
+    "scenarioId": "scenario_00011",
+    "step": 11,
+    "timetableRecommendation": "short_session_soon",
+    "transportRecommendation": "app_local_only"
+  },
+  {
+    "capsuleSummary": {
+      "dryRunOnly": true,
+      "privacyStatus": "redacted_coarse_only"
+    },
+    "companionIntent": "focus_gently",
+    "dryRunOnly": true,
+    "fsrsSignalSummary": {
+      "forgettingRiskBucket": "very_high",
+      "memoryPressureBucket": "high",
+      "recoveryNeedBucket": "none"
+    },
+    "invariantStatus": "pass",
+    "privacyStatus": "redacted_coarse_only",
+    "productDoctrineSummary": {
+      "appProductName": "Shime Quiz",
+      "appTechnicalRole": "local_first_learning_brain",
+      "capsuleRole": "privacy_safe_bridge",
+      "ecosystemName": "Shime",
+      "fsrsRole": "memory_scheduler_core",
+      "invariantCount": 7,
+      "reasonCodes": [
+        "product_doctrine_summarized"
+      ],
+      "robotProductName": "Shime Robot",
+      "robotPublicRole": "product_face",
+      "robotTechnicalRole": "emotion_body_presence_bridge",
+      "safetyRole": "highest_authority"
+    },
+    "reasonCodes": [
+      "fusion_completed",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "overdue_items_present",
+      "memory_risk_detected",
+      "learning_capsule_redacted",
+      "safety_governor_applied",
+      "due_pressure_high"
+    ],
+    "robotInterventionFamily": "review_due_nudge",
+    "safetyOutcome": "allowed_dry_run",
+    "scenarioId": "scenario_00012",
+    "step": 12,
+    "timetableRecommendation": "short_session_soon",
+    "transportRecommendation": "app_local_only"
+  },
+  {
+    "capsuleSummary": {
+      "dryRunOnly": true,
+      "privacyStatus": "redacted_coarse_only"
+    },
+    "companionIntent": "focus_gently",
+    "dryRunOnly": true,
+    "fsrsSignalSummary": {
+      "forgettingRiskBucket": "high",
+      "memoryPressureBucket": "high",
+      "recoveryNeedBucket": "none"
+    },
+    "invariantStatus": "pass",
+    "privacyStatus": "redacted_coarse_only",
+    "productDoctrineSummary": {
+      "appProductName": "Shime Quiz",
+      "appTechnicalRole": "local_first_learning_brain",
+      "capsuleRole": "privacy_safe_bridge",
+      "ecosystemName": "Shime",
+      "fsrsRole": "memory_scheduler_core",
+      "invariantCount": 7,
+      "reasonCodes": [
+        "product_doctrine_summarized"
+      ],
+      "robotProductName": "Shime Robot",
+      "robotPublicRole": "product_face",
+      "robotTechnicalRole": "emotion_body_presence_bridge",
+      "safetyRole": "highest_authority"
+    },
+    "reasonCodes": [
+      "fusion_completed",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "overdue_items_present",
+      "memory_risk_detected",
+      "learning_capsule_redacted",
+      "safety_governor_applied",
+      "due_pressure_high"
+    ],
+    "robotInterventionFamily": "review_due_nudge",
+    "safetyOutcome": "allowed_dry_run",
+    "scenarioId": "scenario_00013",
+    "step": 13,
+    "timetableRecommendation": "resume_habit",
+    "transportRecommendation": "app_local_only"
+  },
+  {
+    "capsuleSummary": {
+      "dryRunOnly": true,
+      "privacyStatus": "redacted_coarse_only"
+    },
+    "companionIntent": "recovery_praise",
+    "dryRunOnly": true,
+    "fsrsSignalSummary": {
+      "forgettingRiskBucket": "very_high",
+      "memoryPressureBucket": "high",
+      "recoveryNeedBucket": "none"
+    },
+    "invariantStatus": "pass",
+    "privacyStatus": "redacted_coarse_only",
+    "productDoctrineSummary": {
+      "appProductName": "Shime Quiz",
+      "appTechnicalRole": "local_first_learning_brain",
+      "capsuleRole": "privacy_safe_bridge",
+      "ecosystemName": "Shime",
+      "fsrsRole": "memory_scheduler_core",
+      "invariantCount": 7,
+      "reasonCodes": [
+        "product_doctrine_summarized"
+      ],
+      "robotProductName": "Shime Robot",
+      "robotPublicRole": "product_face",
+      "robotTechnicalRole": "emotion_body_presence_bridge",
+      "safetyRole": "highest_authority"
+    },
+    "reasonCodes": [
+      "fusion_completed",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "overdue_items_present",
+      "memory_risk_detected",
+      "learning_capsule_redacted",
+      "safety_governor_applied",
+      "forgetting_risk_high"
+    ],
+    "robotInterventionFamily": "memory_risk_nudge",
+    "safetyOutcome": "allowed_dry_run",
+    "scenarioId": "scenario_00014",
+    "step": 14,
+    "timetableRecommendation": "no_nudge",
+    "transportRecommendation": "app_local_only"
+  },
+  {
+    "capsuleSummary": {
+      "dryRunOnly": true,
+      "privacyStatus": "redacted_coarse_only"
+    },
+    "companionIntent": "focus_gently",
+    "dryRunOnly": true,
+    "fsrsSignalSummary": {
+      "forgettingRiskBucket": "very_high",
+      "memoryPressureBucket": "high",
+      "recoveryNeedBucket": "none"
+    },
+    "invariantStatus": "pass",
+    "privacyStatus": "redacted_coarse_only",
+    "productDoctrineSummary": {
+      "appProductName": "Shime Quiz",
+      "appTechnicalRole": "local_first_learning_brain",
+      "capsuleRole": "privacy_safe_bridge",
+      "ecosystemName": "Shime",
+      "fsrsRole": "memory_scheduler_core",
+      "invariantCount": 7,
+      "reasonCodes": [
+        "product_doctrine_summarized"
+      ],
+      "robotProductName": "Shime Robot",
+      "robotPublicRole": "product_face",
+      "robotTechnicalRole": "emotion_body_presence_bridge",
+      "safetyRole": "highest_authority"
+    },
+    "reasonCodes": [
+      "fusion_completed",
+      "fsrs_signal_extracted",
+      "overdue_items_present",
+      "memory_risk_detected",
+      "learning_capsule_redacted",
+      "safety_governor_applied",
+      "forgetting_risk_high"
+    ],
+    "robotInterventionFamily": "memory_risk_nudge",
+    "safetyOutcome": "allowed_dry_run",
+    "scenarioId": "scenario_00015",
+    "step": 15,
+    "timetableRecommendation": "tiny_review_now",
+    "transportRecommendation": "app_local_only"
+  },
+  {
+    "capsuleSummary": {
+      "dryRunOnly": true,
+      "privacyStatus": "redacted_coarse_only"
+    },
+    "companionIntent": "focus_gently",
+    "dryRunOnly": true,
+    "fsrsSignalSummary": {
+      "forgettingRiskBucket": "very_high",
+      "memoryPressureBucket": "high",
+      "recoveryNeedBucket": "none"
+    },
+    "invariantStatus": "pass",
+    "privacyStatus": "redacted_coarse_only",
+    "productDoctrineSummary": {
+      "appProductName": "Shime Quiz",
+      "appTechnicalRole": "local_first_learning_brain",
+      "capsuleRole": "privacy_safe_bridge",
+      "ecosystemName": "Shime",
+      "fsrsRole": "memory_scheduler_core",
+      "invariantCount": 7,
+      "reasonCodes": [
+        "product_doctrine_summarized"
+      ],
+      "robotProductName": "Shime Robot",
+      "robotPublicRole": "product_face",
+      "robotTechnicalRole": "emotion_body_presence_bridge",
+      "safetyRole": "highest_authority"
+    },
+    "reasonCodes": [
+      "fusion_completed",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "overdue_items_present",
+      "memory_risk_detected",
+      "learning_capsule_redacted",
+      "safety_governor_applied",
+      "forgetting_risk_high",
+      "classroom_safe_reduced"
+    ],
+    "robotInterventionFamily": "memory_risk_nudge",
+    "safetyOutcome": "allowed_dry_run",
+    "scenarioId": "scenario_00016",
+    "step": 16,
+    "timetableRecommendation": "no_nudge",
+    "transportRecommendation": "app_local_only"
+  },
+  {
+    "capsuleSummary": {
+      "dryRunOnly": true,
+      "privacyStatus": "redacted_coarse_only"
+    },
+    "companionIntent": "focus_gently",
+    "dryRunOnly": true,
+    "fsrsSignalSummary": {
+      "forgettingRiskBucket": "high",
+      "memoryPressureBucket": "high",
+      "recoveryNeedBucket": "none"
+    },
+    "invariantStatus": "pass",
+    "privacyStatus": "redacted_coarse_only",
+    "productDoctrineSummary": {
+      "appProductName": "Shime Quiz",
+      "appTechnicalRole": "local_first_learning_brain",
+      "capsuleRole": "privacy_safe_bridge",
+      "ecosystemName": "Shime",
+      "fsrsRole": "memory_scheduler_core",
+      "invariantCount": 7,
+      "reasonCodes": [
+        "product_doctrine_summarized"
+      ],
+      "robotProductName": "Shime Robot",
+      "robotPublicRole": "product_face",
+      "robotTechnicalRole": "emotion_body_presence_bridge",
+      "safetyRole": "highest_authority"
+    },
+    "reasonCodes": [
+      "fusion_completed",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "memory_risk_detected",
+      "learning_capsule_redacted",
+      "safety_governor_applied",
+      "transport_not_safe"
+    ],
+    "robotInterventionFamily": "reconnect_hint",
+    "safetyOutcome": "allowed_dry_run",
+    "scenarioId": "scenario_00017",
+    "step": 17,
+    "timetableRecommendation": "reconnect_before_study",
+    "transportRecommendation": "app_local_only"
+  },
+  {
+    "capsuleSummary": {
+      "dryRunOnly": true,
+      "privacyStatus": "redacted_coarse_only"
+    },
+    "companionIntent": "focus_gently",
+    "dryRunOnly": true,
+    "fsrsSignalSummary": {
+      "forgettingRiskBucket": "very_high",
+      "memoryPressureBucket": "high",
+      "recoveryNeedBucket": "none"
+    },
+    "invariantStatus": "pass",
+    "privacyStatus": "redacted_coarse_only",
+    "productDoctrineSummary": {
+      "appProductName": "Shime Quiz",
+      "appTechnicalRole": "local_first_learning_brain",
+      "capsuleRole": "privacy_safe_bridge",
+      "ecosystemName": "Shime",
+      "fsrsRole": "memory_scheduler_core",
+      "invariantCount": 7,
+      "reasonCodes": [
+        "product_doctrine_summarized"
+      ],
+      "robotProductName": "Shime Robot",
+      "robotPublicRole": "product_face",
+      "robotTechnicalRole": "emotion_body_presence_bridge",
+      "safetyRole": "highest_authority"
+    },
+    "reasonCodes": [
+      "fusion_completed",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "overdue_items_present",
+      "memory_risk_detected",
+      "learning_capsule_redacted",
+      "safety_governor_applied",
+      "due_pressure_high"
+    ],
+    "robotInterventionFamily": "review_due_nudge",
+    "safetyOutcome": "allowed_dry_run",
+    "scenarioId": "scenario_00018",
+    "step": 18,
+    "timetableRecommendation": "short_session_soon",
+    "transportRecommendation": "app_local_only"
+  },
+  {
+    "capsuleSummary": {
+      "dryRunOnly": true,
+      "privacyStatus": "redacted_coarse_only"
+    },
+    "companionIntent": "focus_gently",
+    "dryRunOnly": true,
+    "fsrsSignalSummary": {
+      "forgettingRiskBucket": "high",
+      "memoryPressureBucket": "high",
+      "recoveryNeedBucket": "none"
+    },
+    "invariantStatus": "pass",
+    "privacyStatus": "redacted_coarse_only",
+    "productDoctrineSummary": {
+      "appProductName": "Shime Quiz",
+      "appTechnicalRole": "local_first_learning_brain",
+      "capsuleRole": "privacy_safe_bridge",
+      "ecosystemName": "Shime",
+      "fsrsRole": "memory_scheduler_core",
+      "invariantCount": 7,
+      "reasonCodes": [
+        "product_doctrine_summarized"
+      ],
+      "robotProductName": "Shime Robot",
+      "robotPublicRole": "product_face",
+      "robotTechnicalRole": "emotion_body_presence_bridge",
+      "safetyRole": "highest_authority"
+    },
+    "reasonCodes": [
+      "fusion_completed",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "overdue_items_present",
+      "memory_risk_detected",
+      "learning_capsule_redacted",
+      "safety_governor_applied",
+      "due_pressure_high"
+    ],
+    "robotInterventionFamily": "review_due_nudge",
+    "safetyOutcome": "allowed_dry_run",
+    "scenarioId": "scenario_00019",
+    "step": 19,
+    "timetableRecommendation": "short_session_soon",
+    "transportRecommendation": "app_local_only"
+  },
+  {
+    "capsuleSummary": {
+      "dryRunOnly": true,
+      "privacyStatus": "redacted_coarse_only"
+    },
+    "companionIntent": "focus_gently",
+    "dryRunOnly": true,
+    "fsrsSignalSummary": {
+      "forgettingRiskBucket": "medium",
+      "memoryPressureBucket": "high",
+      "recoveryNeedBucket": "none"
+    },
+    "invariantStatus": "pass",
+    "privacyStatus": "redacted_coarse_only",
+    "productDoctrineSummary": {
+      "appProductName": "Shime Quiz",
+      "appTechnicalRole": "local_first_learning_brain",
+      "capsuleRole": "privacy_safe_bridge",
+      "ecosystemName": "Shime",
+      "fsrsRole": "memory_scheduler_core",
+      "invariantCount": 7,
+      "reasonCodes": [
+        "product_doctrine_summarized"
+      ],
+      "robotProductName": "Shime Robot",
+      "robotPublicRole": "product_face",
+      "robotTechnicalRole": "emotion_body_presence_bridge",
+      "safetyRole": "highest_authority"
+    },
+    "reasonCodes": [
+      "fusion_completed",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "learning_capsule_redacted",
+      "safety_governor_applied",
+      "due_pressure_high"
+    ],
+    "robotInterventionFamily": "review_due_nudge",
+    "safetyOutcome": "allowed_dry_run",
+    "scenarioId": "scenario_00020",
+    "step": 20,
+    "timetableRecommendation": "short_session_soon",
+    "transportRecommendation": "app_local_only"
+  }
+]

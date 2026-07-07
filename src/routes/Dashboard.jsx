@@ -161,9 +161,10 @@ function DashboardContent() {
           </Card>
         ) : null}
 
-        <TodayJourneyCard />
-
-        <StudyGoalCard />
+        <div className="dashboardTodayGrid">
+          <TodayJourneyCard />
+          <StudyGoalCard />
+        </div>
       </div>
 
       <div

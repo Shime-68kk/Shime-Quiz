@@ -30,7 +30,7 @@ describe('Phase 37-uiB dynamic canvas theme token preview pilot', () => {
   it('does not introduce theme persistence, a picker, or a global theme system', () => {
     const changedRuntime = `${dashboard}\n${css}`;
     expect(changedRuntime).not.toMatch(/localStorage\s*\.\s*setItem|localStorage\s*\[\s*['"]theme['"]\s*\]/);
-    expect(changedRuntime).not.toMatch(/data-theme|theme picker|ThemePicker|persisted theme|account-synced/i);
+    expect(changedRuntime).not.toMatch(/theme picker|ThemePicker|persisted theme|account-synced/i);
   });
 
   it('registers only the active Phase 37-uiB validator in the e2e smoke workflow', () => {

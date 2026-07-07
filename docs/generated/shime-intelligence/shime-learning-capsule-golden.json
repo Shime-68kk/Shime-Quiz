@@ -1,0 +1,162 @@
+[
+  {
+    "capsuleId": "capsule_001",
+    "dryRunOnly": true,
+    "forgettingRiskBucket": "high",
+    "memoryPressureBucket": "high",
+    "privacyStatus": "redacted_coarse_only",
+    "reviewUrgencyBucket": "very_high"
+  },
+  {
+    "capsuleId": "capsule_002",
+    "dryRunOnly": true,
+    "forgettingRiskBucket": "unknown",
+    "memoryPressureBucket": "medium",
+    "privacyStatus": "redacted_coarse_only",
+    "reviewUrgencyBucket": "low"
+  },
+  {
+    "capsuleId": "capsule_003",
+    "dryRunOnly": true,
+    "forgettingRiskBucket": "medium",
+    "memoryPressureBucket": "high",
+    "privacyStatus": "redacted_coarse_only",
+    "reviewUrgencyBucket": "high"
+  },
+  {
+    "capsuleId": "capsule_004",
+    "dryRunOnly": true,
+    "forgettingRiskBucket": "high",
+    "memoryPressureBucket": "high",
+    "privacyStatus": "redacted_coarse_only",
+    "reviewUrgencyBucket": "very_high"
+  },
+  {
+    "capsuleId": "capsule_005",
+    "dryRunOnly": true,
+    "forgettingRiskBucket": "very_high",
+    "memoryPressureBucket": "high",
+    "privacyStatus": "redacted_coarse_only",
+    "reviewUrgencyBucket": "low"
+  },
+  {
+    "capsuleId": "capsule_006",
+    "dryRunOnly": true,
+    "forgettingRiskBucket": "very_high",
+    "memoryPressureBucket": "high",
+    "privacyStatus": "redacted_coarse_only",
+    "reviewUrgencyBucket": "low"
+  },
+  {
+    "capsuleId": "capsule_007",
+    "dryRunOnly": true,
+    "forgettingRiskBucket": "very_high",
+    "memoryPressureBucket": "high",
+    "privacyStatus": "redacted_coarse_only",
+    "reviewUrgencyBucket": "medium"
+  },
+  {
+    "capsuleId": "capsule_008",
+    "dryRunOnly": true,
+    "forgettingRiskBucket": "very_high",
+    "memoryPressureBucket": "high",
+    "privacyStatus": "redacted_coarse_only",
+    "reviewUrgencyBucket": "very_high"
+  },
+  {
+    "capsuleId": "capsule_009",
+    "dryRunOnly": true,
+    "forgettingRiskBucket": "high",
+    "memoryPressureBucket": "high",
+    "privacyStatus": "redacted_coarse_only",
+    "reviewUrgencyBucket": "very_high"
+  },
+  {
+    "capsuleId": "capsule_010",
+    "dryRunOnly": true,
+    "forgettingRiskBucket": "high",
+    "memoryPressureBucket": "high",
+    "privacyStatus": "redacted_coarse_only",
+    "reviewUrgencyBucket": "very_high"
+  },
+  {
+    "capsuleId": "capsule_011",
+    "dryRunOnly": true,
+    "forgettingRiskBucket": "very_high",
+    "memoryPressureBucket": "high",
+    "privacyStatus": "redacted_coarse_only",
+    "reviewUrgencyBucket": "high"
+  },
+  {
+    "capsuleId": "capsule_012",
+    "dryRunOnly": true,
+    "forgettingRiskBucket": "very_high",
+    "memoryPressureBucket": "high",
+    "privacyStatus": "redacted_coarse_only",
+    "reviewUrgencyBucket": "high"
+  },
+  {
+    "capsuleId": "capsule_013",
+    "dryRunOnly": true,
+    "forgettingRiskBucket": "high",
+    "memoryPressureBucket": "high",
+    "privacyStatus": "redacted_coarse_only",
+    "reviewUrgencyBucket": "very_high"
+  },
+  {
+    "capsuleId": "capsule_014",
+    "dryRunOnly": true,
+    "forgettingRiskBucket": "very_high",
+    "memoryPressureBucket": "high",
+    "privacyStatus": "redacted_coarse_only",
+    "reviewUrgencyBucket": "medium"
+  },
+  {
+    "capsuleId": "capsule_015",
+    "dryRunOnly": true,
+    "forgettingRiskBucket": "very_high",
+    "memoryPressureBucket": "high",
+    "privacyStatus": "redacted_coarse_only",
+    "reviewUrgencyBucket": "low"
+  },
+  {
+    "capsuleId": "capsule_016",
+    "dryRunOnly": true,
+    "forgettingRiskBucket": "very_high",
+    "memoryPressureBucket": "high",
+    "privacyStatus": "redacted_coarse_only",
+    "reviewUrgencyBucket": "medium"
+  },
+  {
+    "capsuleId": "capsule_017",
+    "dryRunOnly": true,
+    "forgettingRiskBucket": "high",
+    "memoryPressureBucket": "high",
+    "privacyStatus": "redacted_coarse_only",
+    "reviewUrgencyBucket": "high"
+  },
+  {
+    "capsuleId": "capsule_018",
+    "dryRunOnly": true,
+    "forgettingRiskBucket": "very_high",
+    "memoryPressureBucket": "high",
+    "privacyStatus": "redacted_coarse_only",
+    "reviewUrgencyBucket": "high"
+  },
+  {
+    "capsuleId": "capsule_019",
+    "dryRunOnly": true,
+    "forgettingRiskBucket": "high",
+    "memoryPressureBucket": "high",
+    "privacyStatus": "redacted_coarse_only",
+    "reviewUrgencyBucket": "very_high"
+  },
+  {
+    "capsuleId": "capsule_020",
+    "dryRunOnly": true,
+    "forgettingRiskBucket": "medium",
+    "memoryPressureBucket": "high",
+    "privacyStatus": "redacted_coarse_only",
+    "reviewUrgencyBucket": "high"
+  }
+]

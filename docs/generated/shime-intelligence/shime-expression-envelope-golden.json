@@ -1,0 +1,38 @@
+{
+  "allowedChannels": [
+    "display_expression",
+    "led_expression",
+    "sound_cue",
+    "attention_hint"
+  ],
+  "capsuleProtocolVersion": "shime-learning-state-capsule-v1",
+  "displayExpression": "review_due_badge",
+  "dryRunOnly": true,
+  "envelopeId": "expr_pipeline_golden",
+  "expressionContractVersion": "shime-robot-expression-contract-v1",
+  "expressionFamily": "review_due_nudge",
+  "intensityBucket": "low",
+  "ledPattern": "review_due_nudge_soft_led",
+  "messageType": "expression_preview",
+  "motionPolicy": "locked",
+  "privacyStatus": "redacted_coarse_only",
+  "protocol": "shime_robot_expression",
+  "protocolVersion": "1.0.0",
+  "reasonCodes": [
+    "due_pressure_high",
+    "fsrs_signal_extracted",
+    "due_items_present",
+    "overdue_items_present",
+    "memory_risk_detected",
+    "protocol_pipeline_report_fixture",
+    "learning_capsule_redacted",
+    "robot_expression_mapped",
+    "robot_expression_contract_created",
+    "robot_expression_envelope_created"
+  ],
+  "safetyStatus": "allowed_dry_run",
+  "sendStatus": "not_sent",
+  "soundCue": "review_due_nudge_soft_chime",
+  "source": "shime_quiz",
+  "target": "shime_robot"
+}

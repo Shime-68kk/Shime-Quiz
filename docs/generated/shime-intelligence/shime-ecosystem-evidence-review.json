@@ -1,0 +1,40 @@
+{
+  "artifactSummary": {
+    "missingArtifacts": [],
+    "presentCount": 12,
+    "requiredCount": 12
+  },
+  "blockers": [],
+  "dryRunOnly": true,
+  "manualReviewNotes": [
+    "Verify Section D remains explicit-click only.",
+    "Verify generated evidence remains summary-only and coarse.",
+    "Transport distribution warning is acceptable for a dry-run planning phase if no real transport is mounted."
+  ],
+  "overallStatus": "PASS",
+  "policyMatrixSummary": {
+    "ruleCount": 9,
+    "selectionCount": 5,
+    "status": "PASS"
+  },
+  "privacySummary": {
+    "dryRunOnly": true,
+    "invariantFailureCount": 0,
+    "privacyAuditStatus": "PASS"
+  },
+  "reasonCodes": [
+    "shime_evidence_review_completed"
+  ],
+  "recommendation": "SAFE_FOR_PHASE_37_SHIME_FUSION_CONTROL_CENTER_MANUAL_QA",
+  "scenarioCoverageSummary": {
+    "attackScenarioCount": 1000,
+    "mixedScenarioCount": 1000,
+    "scenarioCount": 10000,
+    "timetableScenarioCount": 1000,
+    "transportScenarioCount": 2000,
+    "validLearningScenarioCount": 5000,
+    "validScenarioCount": 9000
+  },
+  "sendStatus": "not_sent",
+  "warnings": []
+}

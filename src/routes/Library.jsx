@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Badge from '../components/Badge.jsx';
 import Button from '../components/Button.jsx';
@@ -45,6 +45,19 @@ function countEdugenDraftItems(items) {
     }
   }
   return count;
+}
+
+function getChoiceText(choice) {
+  if (typeof choice === 'string') return choice;
+  return choice?.text ?? choice?.label ?? choice?.value ?? '';
+}
+
+function isChoiceCorrect(choice, correctAnswer) {
+  if (!correctAnswer) return false;
+  const choiceText = getChoiceText(choice);
+  const cleanChoice = String(typeof choice === 'string' ? choice : (choice?.id ?? choiceText ?? '')).toLowerCase().trim();
+  const cleanExpected = String(correctAnswer).toLowerCase().trim();
+  return cleanChoice === cleanExpected || String(choiceText).toLowerCase().trim() === cleanExpected;
 }
 
 function buildSubjectCards(adapter) {
@@ -264,6 +277,7 @@ export default function Library() {
   const textFileInputRef = useRef(null);
   const documentFileInputRef = useRef(null);
   const [libraryTab, setLibraryTab] = useState('shelf');
+  const [workshopMethod, setWorkshopMethod] = useState('demo');
   const [preview, setPreview] = useState(null);
   const [importStatus, setImportStatus] = useState(null);
   const [isReadingFile, setIsReadingFile] = useState(false);
@@ -282,7 +296,37 @@ export default function Library() {
   const [aiPromptResult, setAiPromptResult] = useState(null);
   const [aiPromptStatus, setAiPromptStatus] = useState(null);
   const [aiOutputReview, setAiOutputReview] = useState(null);
+  const [selectedSubjectId, setSelectedSubjectId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTopicIdFilter, setSelectedTopicIdFilter] = useState(null);
+
   const subjectCards = buildSubjectCards(adapter);
+  const selectedSubjectCard = selectedSubjectId ? subjectCards.find(sc => sc.subject.id === selectedSubjectId) : null;
+  if (selectedSubjectId && !selectedSubjectCard) {
+    // Reset if it no longer exists
+    setSelectedSubjectId(null);
+  }
+
+  const filteredItems = useMemo(() => {
+    if (!selectedSubjectCard) return [];
+    return selectedSubjectCard.items.filter(item => {
+      if (selectedTopicIdFilter && item.topicId !== selectedTopicIdFilter) {
+        return false;
+      }
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase().trim();
+        const promptMatch = String(item.prompt || '').toLowerCase().includes(query);
+        const answerMatch = String(item.correctAnswer || item.answer || '').toLowerCase().includes(query);
+        const topic = selectedSubjectCard.topics.find(t => t.id === item.topicId);
+        const topicMatch = String(topic?.title || '').toLowerCase().includes(query);
+        const tagsMatch = Array.isArray(item.tags)
+          ? item.tags.some(t => String(t).toLowerCase().includes(query))
+          : String(item.tags || '').toLowerCase().includes(query);
+        return promptMatch || answerMatch || topicMatch || tagsMatch;
+      }
+      return true;
+    });
+  }, [selectedSubjectCard, selectedTopicIdFilter, searchQuery]);
   const sourceLabel = dataSource.sourceType === 'mock'
     ? 'Dữ liệu mẫu'
     : dataSource.sourceType === 'csv'
@@ -796,91 +840,241 @@ export default function Library() {
         className="libraryTabPanel"
         hidden={libraryTab !== 'shelf'}
       >
-        {subjectCards.length === 0 ? (
-          <Card title="Thư viện của bạn đang trống" eyebrow="Bắt đầu nhanh" className="libraryEmptyOnboardingCard">
-            <div className="textImportCard__intro">
-              <p className="muted">
-                Bắt đầu nhanh bằng quiz mẫu, import JSON/CSV, hoặc dán nội dung text/Markdown. Phần này chỉ hướng dẫn bạn đến các luồng hiện có và không tự nạp hay tự lưu dữ liệu.
-              </p>
-              <p className="muted">
-                Quiz mẫu chỉ mở phần xem trước/kiểm tra chất lượng. Bạn vẫn cần xác nhận trước khi lưu vào thư viện cục bộ.
-              </p>
-              <p className="muted">
-                AI trong Shime hiện là quy trình thủ công: tạo prompt, copy sang công cụ bên ngoài, rồi dán kết quả lại để kiểm tra. Shime không gọi AI/API và không có API key/BYOK.
-              </p>
-              <p className="muted">
-                Import tài liệu PDF/DOCX/PPTX/ZIP cần EduGen chạy riêng và được cấu hình; EduGen không được bundle vào Shime và chỉ trích xuất chữ khi service hỗ trợ.
-              </p>
+        {selectedSubjectId && selectedSubjectCard ? (
+          <div className="subjectDetailContainer">
+            {/* Header */}
+            <div className="subjectDetailHeader">
+              <Button type="button" variant="ghost" size="sm" onClick={() => setSelectedSubjectId(null)} className="backToShelfBtn">
+                ← Quay lại kệ sách
+              </Button>
+              <div className="subjectDetailTitleArea">
+                <h1 className="subjectDetailTitle">{selectedSubjectCard.subject.title}</h1>
+                <p className="muted">{selectedSubjectCard.subject.description || "Chưa có mô tả môn học."}</p>
+              </div>
+              <div className="subjectDetailActions">
+                <Button type="button" variant="ghost" size="sm" onClick={() => openStudyPlaceholder(selectedSubjectCard.subject)}>
+                  Học trong Phòng học
+                </Button>
+                <Button type="button" variant="secondary" size="sm" onClick={() => openSmartPractice(selectedSubjectCard.subject)} disabled={!selectedSubjectCard.items.length}>
+                  Luyện tập thông minh
+                </Button>
+              </div>
             </div>
-            <div className="textImportHelp" aria-label="Cách bắt đầu khi thư viện trống">
-              <Badge tone="info">Dùng quiz mẫu</Badge>
-              <Badge tone="info">Nạp JSON/CSV</Badge>
-              <Badge tone="info">Dán text/Markdown</Badge>
-              <Badge tone="neutral">AI thủ công copy/paste</Badge>
-              <Badge tone="neutral">EduGen riêng khi cần tài liệu</Badge>
+
+            {/* Search bar & filter status */}
+            <div className="subjectDetailSearchBox">
+              <div className="searchBarWrapper">
+                <span className="searchIcon">🔍</span>
+                <input
+                  type="search"
+                  placeholder="Tìm câu hỏi, câu trả lời, chủ đề hoặc từ khóa..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="subjectDetailSearchInput"
+                />
+                {searchQuery ? (
+                  <button type="button" className="clearSearchBtn" onClick={() => setSearchQuery('')}>×</button>
+                ) : null}
+              </div>
             </div>
-          </Card>
-        ) : null}
 
-        {subjectCards.length === 0 ? (
-          <EmptyState
-            icon="＋"
-            title="Chưa có dữ liệu học liệu"
-            description="Thư viện đang trống. Mở Xưởng nạp tài liệu để dùng quiz mẫu, nạp JSON/CSV, dán text/Markdown, hoặc tạo bản nháp từ tài liệu."
-            action={<Button type="button" variant="secondary" size="sm" onClick={() => setLibraryTab('workshop')}>Mở xưởng nạp</Button>}
-          />
-        ) : null}
-
-        <div className="librarySubjectGrid" aria-label="Danh sách môn học">
-          {subjectCards.map(({ subject, topics, items, itemTypeCounts, edugenDraftCount }) => (
-            <Card key={subject.id} title={subject.title} eyebrow="Môn học" variant="elevated" interactive>
-              <div className="libraryCardBody">
-                <p className="muted">{subject.description}</p>
-                <div className="libraryStats" aria-label={`Thống kê ${subject.title}`}>
-                  <span><strong>{topics.length}</strong> chủ đề</span>
-                  <span><strong>{items.length}</strong> mục học</span>
-                </div>
-                <div className="badgeList" aria-label="Loại học liệu">
-                  {Object.entries(itemTypeCounts).map(([type, count]) => (
-                    <Badge key={type} tone="info">
-                      {itemTypeLabels[type] || type}: {count}
-                    </Badge>
-                  ))}
-                  {edugenDraftCount > 0 ? (
-                    <>
-                      <Badge tone="warning">Bản nháp cần xem lại: {edugenDraftCount}</Badge>
-                      <Badge tone="neutral">Nguồn: EduGen</Badge>
-                    </>
-                  ) : null}
-                </div>
-                <div className="topicList" aria-label={`Chủ đề trong ${subject.title}`}>
-                  {topics.map(topic => {
-                    const topicItemCount = adapter.getItemsByTopic(topic.id).length;
+            {/* Main grid */}
+            <div className="subjectDetailGrid">
+              {/* Left Column: Topics */}
+              <div className="subjectDetailSidebar">
+                <h3>Chủ đề ({selectedSubjectCard.topics.length})</h3>
+                <div className="subjectDetailTopicsList">
+                  <button
+                    type="button"
+                    className={`topicFilterTab ${!selectedTopicIdFilter ? 'topicFilterTab--active' : ''}`}
+                    onClick={() => setSelectedTopicIdFilter(null)}
+                  >
+                    <span>Tất cả câu hỏi</span>
+                    <Badge tone="neutral">{selectedSubjectCard.items.length}</Badge>
+                  </button>
+                  {selectedSubjectCard.topics.map(topic => {
+                    const topicItems = selectedSubjectCard.items.filter(item => item.topicId === topic.id);
+                    const isActive = selectedTopicIdFilter === topic.id;
                     return (
                       <button
                         key={topic.id}
                         type="button"
-                        className="topicPill"
-                        onClick={() => openStudyPlaceholder(subject, topic)}
+                        className={`topicFilterTab ${isActive ? 'topicFilterTab--active' : ''}`}
+                        onClick={() => setSelectedTopicIdFilter(isActive ? null : topic.id)}
                       >
                         <span>{topic.title}</span>
-                        <small>{topicItemCount} mục</small>
+                        <Badge tone={isActive ? 'success' : 'neutral'}>{topicItems.length}</Badge>
                       </button>
                     );
                   })}
                 </div>
-                <div className="libraryCardActions">
-                  <Button type="button" variant="ghost" size="sm" onClick={() => openStudyPlaceholder(subject)}>
-                    Xem trong Phòng học
-                  </Button>
-                  <Button type="button" variant="secondary" size="sm" onClick={() => openSmartPractice(subject)} disabled={!items.length}>
-                    Luyện tập thông minh
-                  </Button>
-                </div>
               </div>
-            </Card>
-          ))}
-        </div>
+
+              {/* Right Column: Items */}
+              <div className="subjectDetailContent">
+                <div className="subjectDetailContentHeader">
+                  <h3>Danh sách câu hỏi ({filteredItems.length})</h3>
+                  {(selectedTopicIdFilter || searchQuery) && (
+                    <button type="button" className="resetFiltersBtn" onClick={() => {
+                      setSelectedTopicIdFilter(null);
+                      setSearchQuery('');
+                    }}>
+                      Xóa bộ lọc
+                    </button>
+                  )}
+                </div>
+
+                {filteredItems.length === 0 ? (
+                  <EmptyState
+                    icon="🔍"
+                    title="Không tìm thấy câu hỏi"
+                    description="Thử tìm kiếm với từ khóa khác hoặc chọn chủ đề khác."
+                  />
+                ) : (
+                  <div className="subjectDetailItemsList">
+                    {filteredItems.map((item, idx) => {
+                      const itemTopic = selectedSubjectCard.topics.find(t => t.id === item.topicId);
+                      const itemChoices = Array.isArray(item.choices) ? item.choices : [];
+                      return (
+                        <div key={item.id || idx} className="subjectDetailItemCard">
+                          <div className="itemCardHeader">
+                            <Badge tone="info">{itemTypeLabels[item.type] || item.type}</Badge>
+                            {itemTopic ? (
+                              <Badge tone="neutral" className="itemTopicBadge">
+                                📂 {itemTopic.title}
+                              </Badge>
+                            ) : null}
+                          </div>
+                          
+                          <div className="itemCardPrompt">
+                            <strong>Câu hỏi:</strong>
+                            <p>{item.prompt}</p>
+                          </div>
+
+                          {itemChoices.length > 0 ? (
+                            <div className="itemCardChoices">
+                              <strong>Các lựa chọn:</strong>
+                              <ul>
+                                {itemChoices.map((choice, cIdx) => {
+                                  const text = getChoiceText(choice);
+                                  const isCorrect = isChoiceCorrect(choice, item.correctAnswer);
+                                  return (
+                                    <li key={cIdx} className={isCorrect ? 'correctChoiceText' : ''}>
+                                      <span className="choiceMarker">{String.fromCharCode(65 + cIdx)}.</span> {text}
+                                      {isCorrect ? ' ✓' : ''}
+                                    </li>
+                                  );
+                                })}
+                              </ul>
+                            </div>
+                          ) : null}
+
+                          <div className="itemCardAnswer">
+                            <strong>Đáp án đúng:</strong>
+                            <p>{item.correctAnswer || item.answer || 'Chưa cấu hình'}</p>
+                          </div>
+
+                          {/* Tags/Keywords */}
+                          {item.tags && (Array.isArray(item.tags) ? item.tags.length > 0 : String(item.tags).trim()) && (
+                            <div className="itemCardTags">
+                              <strong>Từ khóa:</strong>
+                              <div className="tagList">
+                                {(Array.isArray(item.tags) ? item.tags : String(item.tags).split(',')).map((tag, tIdx) => (
+                                  <span key={tIdx} className="itemTag">#{tag.trim()}</span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <>
+            {subjectCards.length === 0 ? (
+              <Card title="Thư viện của bạn đang trống" eyebrow="Bắt đầu nhanh" className="libraryEmptyOnboardingCard">
+                <div className="textImportCard__intro">
+                  <p className="muted">
+                    Bắt đầu nhanh bằng quiz mẫu, import JSON/CSV, hoặc dán nội dung text/Markdown. Phần này chỉ hướng dẫn bạn đến các luồng hiện có và không tự nạp hay tự lưu dữ liệu.
+                  </p>
+                  <p className="muted">
+                    Quiz mẫu chỉ mở phần xem trước/kiểm tra chất lượng. Bạn vẫn cần xác nhận trước khi lưu vào thư viện cục bộ.
+                  </p>
+                  <p className="muted">
+                    AI trong Shime hiện là quy trình thủ công: tạo prompt, copy sang công cụ bên ngoài, rồi dán kết quả lại để kiểm tra. Shime không gọi AI/API và không có API key/BYOK.
+                  </p>
+                  <p className="muted">
+                    Import tài liệu PDF/DOCX/PPTX/ZIP cần EduGen chạy riêng và được cấu hình; EduGen không được bundle vào Shime và chỉ trích xuất chữ khi service hỗ trợ.
+                  </p>
+                </div>
+                <div className="textImportHelp" aria-label="Cách bắt đầu khi thư viện trống">
+                  <Badge tone="info">Dùng quiz mẫu</Badge>
+                  <Badge tone="info">Nạp JSON/CSV</Badge>
+                  <Badge tone="info">Dán text/Markdown</Badge>
+                  <Badge tone="neutral">AI thủ công copy/paste</Badge>
+                  <Badge tone="neutral">EduGen riêng khi cần tài liệu</Badge>
+                </div>
+              </Card>
+            ) : null}
+
+            {subjectCards.length === 0 ? (
+              <EmptyState
+                icon="＋"
+                title="Chưa có dữ liệu học liệu"
+                description="Thư viện đang trống. Mở Xưởng nạp tài liệu để dùng quiz mẫu, nạp JSON/CSV, dán text/Markdown, hoặc tạo bản nháp từ tài liệu."
+                action={<Button type="button" variant="secondary" size="sm" onClick={() => setLibraryTab('workshop')}>Mở xưởng nạp</Button>}
+              />
+            ) : null}
+
+            <div className="librarySubjectGrid" aria-label="Danh sách môn học">
+              {subjectCards.map(({ subject, topics, items, edugenDraftCount }) => (
+                <Card
+                  key={subject.id}
+                  title={subject.title}
+                  eyebrow="Sách môn học"
+                  variant="elevated"
+                  interactive
+                  onClick={() => {
+                    setSelectedSubjectId(subject.id);
+                    setSearchQuery('');
+                    setSelectedTopicIdFilter(null);
+                  }}
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setSelectedSubjectId(subject.id);
+                      setSearchQuery('');
+                      setSelectedTopicIdFilter(null);
+                    }
+                  }}
+                >
+                  <div className="libraryCardBody">
+                    <p className="muted" style={{ minHeight: '4.5rem', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                      {subject.description || "Chưa có mô tả môn học."}
+                    </p>
+                    <div className="badgeList" style={{ marginBlock: 'var(--space-2)', display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                      {edugenDraftCount > 0 ? (
+                        <>
+                          <Badge tone="warning">Bản nháp cần xem lại: {edugenDraftCount}</Badge>
+                          <Badge tone="neutral">Nguồn: EduGen</Badge>
+                        </>
+                      ) : null}
+                    </div>
+                    <div className="libraryStats" aria-label={`Thống kê ${subject.title}`} style={{ borderTop: '1px dashed var(--border)', paddingTop: 'var(--space-2)', marginTop: 'auto' }}>
+                      <span><strong>{topics.length}</strong> chủ đề</span>
+                      <span><strong>{items.length}</strong> câu hỏi</span>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       <div
@@ -890,237 +1084,299 @@ export default function Library() {
         className="libraryTabPanel"
         hidden={libraryTab !== 'workshop'}
       >
-        <Card title="Công cụ nạp và quản lý thư viện" eyebrow="Xưởng nạp tài liệu" className="libraryWorkshopActionsCard">
-          <div className="textImportActions">
-            <Button type="button" variant="secondary" loading={isReadingFile} onClick={openFilePicker}>
-              Nạp JSON/CSV
-            </Button>
-            <Button type="button" variant="ghost" loading={isExportingLibrary} onClick={exportCurrentLibrary}>
-              Xuất thư viện
-            </Button>
-            {dataSource.sourceType !== 'mock' ? (
-              <Button type="button" variant="ghost" onClick={resetImportedLibrary}>
-                Xóa dữ liệu import
+        {/* Method selector for clean workspace */}
+        <div className="workshopMethodSelector">
+          <button
+            type="button"
+            className={`workshopMethodTab ${workshopMethod === 'demo' ? 'workshopMethodTab--active' : ''}`}
+            onClick={() => setWorkshopMethod('demo')}
+          >
+            <span className="icon">⚡</span>
+            <div>
+              <strong>Thử Quiz Mẫu</strong>
+              <p>Trải nghiệm nhanh</p>
+            </div>
+          </button>
+          <button
+            type="button"
+            className={`workshopMethodTab ${workshopMethod === 'text' ? 'workshopMethodTab--active' : ''}`}
+            onClick={() => setWorkshopMethod('text')}
+          >
+            <span className="icon">✍️</span>
+            <div>
+              <strong>Nhập văn bản</strong>
+              <p>Dán text / Markdown</p>
+            </div>
+          </button>
+          <button
+            type="button"
+            className={`workshopMethodTab ${workshopMethod === 'file' ? 'workshopMethodTab--active' : ''}`}
+            onClick={() => setWorkshopMethod('file')}
+          >
+            <span className="icon">📁</span>
+            <div>
+              <strong>Tải tệp tin</strong>
+              <p>JSON / CSV / Tài liệu</p>
+            </div>
+          </button>
+          <button
+            type="button"
+            className={`workshopMethodTab ${workshopMethod === 'prompt' ? 'workshopMethodTab--active' : ''}`}
+            onClick={() => setWorkshopMethod('prompt')}
+          >
+            <span className="icon">🤖</span>
+            <div>
+              <strong>Trợ lý Prompt</strong>
+              <p>Tạo mẫu câu lệnh AI</p>
+            </div>
+          </button>
+        </div>
+
+        {workshopMethod === 'file' && (
+          <>
+            <Card title="Công cụ nạp và quản lý thư viện" eyebrow="Xưởng nạp tài liệu" className="libraryWorkshopActionsCard">
+              <div className="textImportActions">
+                <Button type="button" variant="secondary" loading={isReadingFile} onClick={openFilePicker}>
+                  Nạp JSON/CSV
+                </Button>
+                <Button type="button" variant="ghost" loading={isExportingLibrary} onClick={exportCurrentLibrary}>
+                  Xuất thư viện
+                </Button>
+                {dataSource.sourceType !== 'mock' ? (
+                  <Button type="button" variant="ghost" onClick={resetImportedLibrary}>
+                    Xóa dữ liệu import
+                  </Button>
+                ) : null}
+              </div>
+            </Card>
+
+            <Card title="Tạo quiz từ tài liệu" eyebrow="EduGen" className="documentImportCard">
+              <div className="textImportCard__intro">
+                <p className="muted">
+                  Chọn file PDF, DOCX, PPTX hoặc ZIP để trích xuất chữ bằng EduGen rồi tạo bản nháp câu hỏi. Cần chạy EduGen File Processor trước khi dùng tính năng này; bản deploy online cũng cần URL EduGen có thể truy cập từ trình duyệt. Mặc định dùng <code>VITE_FILE_PROCESSOR_URL</code> hoặc <code>{getFileProcessorBaseUrl()}</code>.
+                </p>
+              </div>
+              <div className="textFileImportActions">
+                <Button type="button" variant="secondary" loading={isExtractingDocument} onClick={openDocumentFilePicker}>
+                  Chọn file tài liệu
+                </Button>
+                <span className="muted">EduGen chỉ trích xuất chữ; Shime luôn yêu cầu xem trước bản nháp trước khi lưu.</span>
+              </div>
+            </Card>
+          </>
+        )}
+
+        {workshopMethod === 'demo' && (
+          <Card title="Thử nhanh với quiz mẫu" eyebrow="Demo cục bộ" className="demoSampleQuickstartCard">
+            <div className="textImportCard__intro">
+              <div className="manualAiPromptWarning" role="note">
+                <strong>Mới dùng Shime?</strong>
+                <span>Bấm "Dùng quiz mẫu" để thử nhanh quy trình tạo quiz. Quiz mẫu chỉ mở phần xem trước/kiểm tra chất lượng; bạn vẫn cần xác nhận trước khi lưu. Không dùng AI/API và không cần EduGen.</span>
+              </div>
+              <p className="muted">
+                Tải một bộ quiz mẫu an toàn, trung lập và có sẵn trong ứng dụng để thử nhanh luồng import. Bộ mẫu này là dữ liệu cục bộ, không do Shime tạo bằng AI, không gọi AI/API và không dùng EduGen.
+              </p>
+              <p className="muted">
+                Shime chỉ tạo bản xem trước từ bộ mẫu; bạn vẫn cần xem lại, đọc đánh giá chất lượng và bấm xác nhận lưu nếu muốn thêm vào thư viện cục bộ.
+              </p>
+            </div>
+            <div className="textImportActions">
+              <Button type="button" variant="secondary" onClick={loadDemoSampleQuickstart}>
+                Dùng quiz mẫu
               </Button>
-            ) : null}
-          </div>
-        </Card>
-
-        <Card title="Thử nhanh với quiz mẫu" eyebrow="Demo cục bộ" className="demoSampleQuickstartCard">
-          <div className="textImportCard__intro">
-            <div className="manualAiPromptWarning" role="note">
-              <strong>Mới dùng Shime?</strong>
-              <span>Bấm "Dùng quiz mẫu" để thử nhanh quy trình tạo quiz. Quiz mẫu chỉ mở phần xem trước/kiểm tra chất lượng; bạn vẫn cần xác nhận trước khi lưu. Không dùng AI/API và không cần EduGen.</span>
+              <span className="muted">Không tự lưu, không reset dữ liệu hiện có.</span>
             </div>
-            <p className="muted">
-              Tải một bộ quiz mẫu an toàn, trung lập và có sẵn trong ứng dụng để thử nhanh luồng import. Bộ mẫu này là dữ liệu cục bộ, không do Shime tạo bằng AI, không gọi AI/API và không dùng EduGen.
-            </p>
-            <p className="muted">
-              Shime chỉ tạo bản xem trước từ bộ mẫu; bạn vẫn cần xem lại, đọc đánh giá chất lượng và bấm xác nhận lưu nếu muốn thêm vào thư viện cục bộ.
-            </p>
-          </div>
-          <div className="textImportActions">
-            <Button type="button" variant="secondary" onClick={loadDemoSampleQuickstart}>
-              Dùng quiz mẫu
-            </Button>
-            <span className="muted">Không tự lưu, không reset dữ liệu hiện có.</span>
-          </div>
-        </Card>
+          </Card>
+        )}
 
-        <Card title="Chọn cách nhập phù hợp" eyebrow="Hướng dẫn nhanh" className="importMethodGuideCard">
-          <div className="importMethodGuide" aria-label="Gợi ý chọn cách nhập học liệu">
-            <div>
-              <strong>Dán văn bản/Markdown</strong>
-              <p className="muted">Dùng khi bạn đã có nội dung dạng câu hỏi, flashcard hoặc ghi chú có cấu trúc.</p>
-            </div>
-            <div>
-              <strong>Tải .txt/.md</strong>
-              <p className="muted">Dùng khi nội dung đã nằm trong file văn bản cục bộ.</p>
-            </div>
-            <div>
-              <strong>Tải PDF/DOCX/PPTX/ZIP</strong>
-              <p className="muted">Dùng khi bạn đang chạy EduGen File Processor. EduGen chỉ trích xuất chữ; Shime vẫn tạo bản nháp, kiểm tra và yêu cầu xem trước trước khi lưu.</p>
-            </div>
-          </div>
-          <p className="muted">Nếu dùng bản deploy online, trình duyệt cần truy cập được EduGen service đã cấu hình qua <code>VITE_FILE_PROCESSOR_URL</code>. Một số định dạng tài liệu cũ hoặc tài liệu quét có thể không dùng được trong bước này.</p>
-        </Card>
-
-        <Card title="Tạo prompt AI thủ công" eyebrow="Không gửi dữ liệu tự động" className="manualAiPromptCard">
-          <div className="manualAiPromptCard__intro">
-            <p className="muted">
-              Shime chỉ tạo prompt trong trình duyệt. Shime không tự gửi dữ liệu cho AI, không dùng API key và không tự import kết quả AI. Bạn tự sao chép prompt sang công cụ AI bên ngoài rồi dán kết quả vào ô văn bản/Markdown để xem trước.
-            </p>
-            <div className="manualAiPromptWarning" role="note">
-              <strong>Lưu ý quyền riêng tư:</strong>
-              <span>Nội dung bạn sao chép sang công cụ AI bên ngoài có thể rời khỏi thiết bị. Hãy kiểm tra chính sách bảo mật của công cụ AI bạn dùng. AI có thể tạo sai nội dung, cần xem lại trước khi lưu.</span>
-            </div>
-          </div>
-
-          <label className="textImportField" htmlFor="manual-ai-source-input">
-            <span>Nội dung nguồn để tạo prompt</span>
-            <textarea
-              id="manual-ai-source-input"
-              value={aiPromptSource}
-              onChange={event => {
-                setAiPromptSource(event.target.value);
-                setAiPromptResult(null);
-                setAiPromptStatus(null);
-              }}
-              placeholder="Dán nội dung bài học hoặc phần chữ đã trích xuất. Shime sẽ tạo prompt để bạn tự dùng với công cụ AI bên ngoài."
-              rows={7}
-            />
-          </label>
-
-          <div className="manualAiPromptOptions" aria-label="Tùy chọn prompt AI thủ công">
-            <label>
-              <span>Trắc nghiệm</span>
-              <input
-                type="number"
-                min="0"
-                max="20"
-                value={aiPromptOptions.multipleChoiceCount}
-                onChange={event => updateAiPromptOption('multipleChoiceCount', event.target.value)}
-              />
-            </label>
-            <label>
-              <span>Flashcard</span>
-              <input
-                type="number"
-                min="0"
-                max="20"
-                value={aiPromptOptions.flashcardCount}
-                onChange={event => updateAiPromptOption('flashcardCount', event.target.value)}
-              />
-            </label>
-            <label>
-              <span>Câu hỏi ngắn</span>
-              <input
-                type="number"
-                min="0"
-                max="20"
-                value={aiPromptOptions.shortAnswerCount}
-                onChange={event => updateAiPromptOption('shortAnswerCount', event.target.value)}
-              />
-            </label>
-            <label>
-              <span>Ngôn ngữ</span>
-              <select
-                value={aiPromptOptions.languageMode}
-                onChange={event => updateAiPromptOption('languageMode', event.target.value)}
-              >
-                <option value="keep_source">Giữ ngôn ngữ nguồn</option>
-                <option value="vi">Tiếng Việt</option>
-              </select>
-            </label>
-          </div>
-
-          <div className="textImportActions">
-            <Button type="button" variant="secondary" onClick={generateManualAiPrompt} disabled={!aiPromptSource.trim()}>
-              Tạo prompt
-            </Button>
-            <Button type="button" onClick={copyManualAiPrompt} disabled={!aiPromptResult?.ok}>
-              Sao chép prompt
-            </Button>
-          </div>
-
-          {aiPromptStatus ? <Toast tone={aiPromptStatus.tone} title={aiPromptStatus.title} description={aiPromptStatus.description} /> : null}
-
-          {aiPromptResult?.warnings?.length ? (
-            <div className="importIssues importIssues--warning">
-              <strong>Gợi ý trước khi dùng prompt</strong>
-              <ul>
-                {aiPromptResult.warnings.map(warning => <li key={warning.code}>{warning.message}</li>)}
-              </ul>
-            </div>
-          ) : null}
-
-          {aiPromptResult?.prompt ? (
-            <label className="manualAiPromptPreview" htmlFor="manual-ai-prompt-preview">
-              <span>Prompt đã tạo</span>
-              <textarea id="manual-ai-prompt-preview" value={aiPromptResult.prompt} readOnly rows={12} />
-              <small>Dán kết quả AI vào ô nhập văn bản/Markdown bên dưới để chạy kiểm tra, xem trước và đánh giá chất lượng trước khi lưu.</small>
-            </label>
-          ) : null}
-        </Card>
-
-        <Card title="Tạo quiz từ văn bản/Markdown" eyebrow="Bản nháp thân thiện" className="textImportCard">
-          <div className="textImportCard__intro">
-            <p className="muted">
-              Dán nội dung bài học hoặc ghi chú của bạn. Bạn có thể dùng tiêu đề <code>#</code> / <code>##</code> hoặc ghi rõ <code>Môn</code>, <code>Chủ đề</code>. Ứng dụng sẽ tạo bản nháp câu hỏi để bạn xem lại trước khi lưu.
-            </p>
-          </div>
-          <label className="textImportField" htmlFor="text-quiz-draft-input">
-            <span>Nội dung bài học</span>
-            <textarea
-              id="text-quiz-draft-input"
-              value={textDraft}
-              onChange={event => {
-                setTextDraft(event.target.value);
-                setAiOutputReview(null);
-              }}
-              placeholder={`Môn: Mạng máy tính
+        {workshopMethod === 'text' && (
+          <>
+            <Card title="Tạo quiz từ văn bản/Markdown" eyebrow="Bản nháp thân thiện" className="textImportCard">
+              <div className="textImportCard__intro">
+                <p className="muted">
+                  Dán nội dung bài học hoặc ghi chú của bạn. Bạn có thể dùng tiêu đề <code>#</code> / <code>##</code> hoặc ghi rõ <code>Môn</code>, <code>Chủ đề</code>. Ứng dụng sẽ tạo bản nháp câu hỏi để bạn xem lại trước khi lưu.
+                </p>
+              </div>
+              <label className="textImportField" htmlFor="text-quiz-draft-input">
+                <span>Nội dung bài học</span>
+                <textarea
+                  id="text-quiz-draft-input"
+                  value={textDraft}
+                  onChange={event => {
+                    setTextDraft(event.target.value);
+                    setAiOutputReview(null);
+                  }}
+                  placeholder={`Môn: Mạng máy tính
 Chủ đề: OSI
 
 Câu hỏi: Application layer thuộc mô hình nào?
 A. OSI
 B. TCP/IP
 Đáp án: A`}
-              rows={10}
-            />
-          </label>
-          <div className="textImportHelp" aria-label="Gợi ý định dạng văn bản">
-            <Badge tone="info">Trắc nghiệm A, B, C, D</Badge>
-            <Badge tone="info">Flashcard Mặt trước/Mặt sau</Badge>
-            <Badge tone="info">Câu hỏi ngắn + Đáp án</Badge>
-            <Badge tone="neutral">Markdown # / ##</Badge>
-          </div>
-          <div className="textImportActions">
-            <Button type="button" loading={isParsingText} onClick={parseTextDraft} disabled={!textDraft.trim()}>
-              Tạo bản nháp câu hỏi
-            </Button>
-            <Button type="button" variant="secondary" onClick={reviewManualAiPasteBack} disabled={!textDraft.trim()}>
-              Kiểm tra kết quả AI thủ công
-            </Button>
-            {textDraft.trim() ? (
-              <Button type="button" variant="ghost" onClick={resetTextDraftPreview}>
-                Xóa nội dung dán
-              </Button>
-            ) : null}
-          </div>
-          <div className="manualAiPasteBackHint" role="note">
-            <strong>Dán kết quả AI thủ công?</strong>
-            <span>Shime không tự gọi AI. Nếu bạn dán kết quả từ công cụ AI bên ngoài, hãy kiểm tra định dạng, tạo bản nháp, xem cảnh báo chất lượng rồi mới lưu.</span>
-          </div>
-          <AiOutputReviewPanel review={aiOutputReview} />
-        </Card>
+                  rows={10}
+                />
+              </label>
+              <div className="textImportHelp" aria-label="Gợi ý định dạng văn bản">
+                <Badge tone="info">Trắc nghiệm A, B, C, D</Badge>
+                <Badge tone="info">Flashcard Mặt trước/Mặt sau</Badge>
+                <Badge tone="info">Câu hỏi ngắn + Đáp án</Badge>
+                <Badge tone="neutral">Markdown # / ##</Badge>
+              </div>
+              <div className="textImportActions">
+                <Button type="button" loading={isParsingText} onClick={parseTextDraft} disabled={!textDraft.trim()}>
+                  Tạo bản nháp câu hỏi
+                </Button>
+                <Button type="button" variant="secondary" onClick={reviewManualAiPasteBack} disabled={!textDraft.trim()}>
+                  Kiểm tra kết quả AI thủ công
+                </Button>
+                {textDraft.trim() ? (
+                  <Button type="button" variant="ghost" onClick={resetTextDraftPreview}>
+                    Xóa nội dung dán
+                  </Button>
+                ) : null}
+              </div>
+              <div className="manualAiPasteBackHint" role="note">
+                <strong>Dán kết quả AI thủ công?</strong>
+                <span>Shime không tự gọi AI. Nếu bạn dán kết quả từ công cụ AI bên ngoài, hãy kiểm tra định dạng, tạo bản nháp, xem cảnh báo chất lượng rồi mới lưu.</span>
+              </div>
+              <AiOutputReviewPanel review={aiOutputReview} />
+            </Card>
 
-        <Card title="Tạo quiz từ file văn bản/Markdown" eyebrow="File cục bộ" className="textFileImportCard">
-          <div className="textImportCard__intro">
-            <p className="muted">
-              Chọn file <code>.txt</code> hoặc <code>.md</code> để đọc nội dung ngay trong trình duyệt và tạo bản nháp câu hỏi. File không được tải lên máy chủ và bản nháp luôn cần xem trước trước khi lưu.
-            </p>
-          </div>
-          <div className="textFileImportActions">
-            <Button type="button" variant="secondary" loading={isReadingTextFile} onClick={openTextFilePicker}>
-              Chọn file .txt hoặc .md
-            </Button>
-            <span className="muted">Hỗ trợ ghi chú văn bản, Markdown # / ##, trắc nghiệm, flashcard và câu hỏi ngắn.</span>
-          </div>
-        </Card>
+            <Card title="Tạo quiz từ file văn bản/Markdown" eyebrow="File cục bộ" className="textFileImportCard">
+              <div className="textImportCard__intro">
+                <p className="muted">
+                  Chọn file <code>.txt</code> hoặc <code>.md</code> để đọc nội dung ngay trong trình duyệt và tạo bản nháp câu hỏi. File không được tải lên máy chủ và bản nháp luôn cần xem trước trước khi lưu.
+                </p>
+              </div>
+              <div className="textFileImportActions">
+                <Button type="button" variant="secondary" loading={isReadingTextFile} onClick={openTextFilePicker}>
+                  Chọn file .txt hoặc .md
+                </Button>
+                <span className="muted">Hỗ trợ ghi chú văn bản, Markdown # / ##, trắc nghiệm, flashcard và câu hỏi ngắn.</span>
+              </div>
+            </Card>
+          </>
+        )}
 
-        <Card title="Tạo quiz từ tài liệu" eyebrow="EduGen" className="documentImportCard">
-          <div className="textImportCard__intro">
-            <p className="muted">
-              Chọn file PDF, DOCX, PPTX hoặc ZIP để trích xuất chữ bằng EduGen rồi tạo bản nháp câu hỏi. Cần chạy EduGen File Processor trước khi dùng tính năng này; bản deploy online cũng cần URL EduGen có thể truy cập từ trình duyệt. Mặc định dùng <code>VITE_FILE_PROCESSOR_URL</code> hoặc <code>{getFileProcessorBaseUrl()}</code>.
-            </p>
-          </div>
-          <div className="textFileImportActions">
-            <Button type="button" variant="secondary" loading={isExtractingDocument} onClick={openDocumentFilePicker}>
-              Chọn file tài liệu
-            </Button>
-            <span className="muted">EduGen chỉ trích xuất chữ; Shime luôn yêu cầu xem trước bản nháp trước khi lưu.</span>
-          </div>
-        </Card>
+        {workshopMethod === 'prompt' && (
+          <>
+            <Card title="Tạo prompt AI thủ công" eyebrow="Không gửi dữ liệu tự động" className="manualAiPromptCard">
+              <div className="manualAiPromptCard__intro">
+                <p className="muted">
+                  Shime chỉ tạo prompt trong trình duyệt. Shime không tự gửi dữ liệu cho AI, không dùng API key và không tự import kết quả AI. Bạn tự sao chép prompt sang công cụ AI bên ngoài rồi dán kết quả vào ô văn bản/Markdown để xem trước.
+                </p>
+                <div className="manualAiPromptWarning" role="note">
+                  <strong>Lưu ý quyền riêng tư:</strong>
+                  <span>Nội dung bạn sao chép sang công cụ AI bên ngoài có thể rời khỏi thiết bị. Hãy kiểm tra chính sách bảo mật của công cụ AI bạn dùng. AI có thể tạo sai nội dung, cần xem lại trước khi lưu.</span>
+                </div>
+              </div>
+
+              <label className="textImportField" htmlFor="manual-ai-source-input">
+                <span>Nội dung nguồn để tạo prompt</span>
+                <textarea
+                  id="manual-ai-source-input"
+                  value={aiPromptSource}
+                  onChange={event => {
+                    setAiPromptSource(event.target.value);
+                    setAiPromptResult(null);
+                    setAiPromptStatus(null);
+                  }}
+                  placeholder="Dán nội dung bài học hoặc phần chữ đã trích xuất. Shime sẽ tạo prompt để bạn tự dùng với công cụ AI bên ngoài."
+                  rows={7}
+                />
+              </label>
+
+              <div className="manualAiPromptOptions" aria-label="Tùy chọn prompt AI thủ công">
+                <label>
+                  <span>Trắc nghiệm</span>
+                  <input
+                    type="number"
+                    min="0"
+                    max="20"
+                    value={aiPromptOptions.multipleChoiceCount}
+                    onChange={event => updateAiPromptOption('multipleChoiceCount', event.target.value)}
+                  />
+                </label>
+                <label>
+                  <span>Flashcard</span>
+                  <input
+                    type="number"
+                    min="0"
+                    max="20"
+                    value={aiPromptOptions.flashcardCount}
+                    onChange={event => updateAiPromptOption('flashcardCount', event.target.value)}
+                  />
+                </label>
+                <label>
+                  <span>Câu hỏi ngắn</span>
+                  <input
+                    type="number"
+                    min="0"
+                    max="20"
+                    value={aiPromptOptions.shortAnswerCount}
+                    onChange={event => updateAiPromptOption('shortAnswerCount', event.target.value)}
+                  />
+                </label>
+                <label>
+                  <span>Ngôn ngữ</span>
+                  <select
+                    value={aiPromptOptions.languageMode}
+                    onChange={event => updateAiPromptOption('languageMode', event.target.value)}
+                  >
+                    <option value="keep_source">Giữ ngôn ngữ nguồn</option>
+                    <option value="vi">Tiếng Việt</option>
+                  </select>
+                </label>
+              </div>
+
+              <div className="textImportActions">
+                <Button type="button" variant="secondary" onClick={generateManualAiPrompt} disabled={!aiPromptSource.trim()}>
+                  Tạo prompt
+                </Button>
+                <Button type="button" onClick={copyManualAiPrompt} disabled={!aiPromptResult?.ok}>
+                  Sao chép prompt
+                </Button>
+              </div>
+
+              {aiPromptStatus ? <Toast tone={aiPromptStatus.tone} title={aiPromptStatus.title} description={aiPromptStatus.description} /> : null}
+
+              {aiPromptResult?.warnings?.length ? (
+                <div className="importIssues importIssues--warning">
+                  <strong>Gợi ý trước khi dùng prompt</strong>
+                  <ul>
+                    {aiPromptResult.warnings.map(warning => <li key={warning.code}>{warning.message}</li>)}
+                  </ul>
+                </div>
+              ) : null}
+
+              {aiPromptResult?.prompt ? (
+                <label className="manualAiPromptPreview" htmlFor="manual-ai-prompt-preview">
+                  <span>Prompt đã tạo</span>
+                  <textarea id="manual-ai-prompt-preview" value={aiPromptResult.prompt} readOnly rows={12} />
+                  <small>Dán kết quả AI vào ô nhập văn bản/Markdown bên dưới để chạy kiểm tra, xem trước và đánh giá chất lượng trước khi lưu.</small>
+                </label>
+              ) : null}
+            </Card>
+
+            <Card title="Chọn cách nhập phù hợp" eyebrow="Hướng dẫn nhanh" className="importMethodGuideCard">
+              <div className="importMethodGuide" aria-label="Gợi ý chọn cách nhập học liệu">
+                <div>
+                  <strong>Dán văn bản/Markdown</strong>
+                  <p className="muted">Dùng khi bạn đã có nội dung dạng câu hỏi, flashcard hoặc ghi chú có cấu trúc.</p>
+                </div>
+                <div>
+                  <strong>Tải .txt/.md</strong>
+                  <p className="muted">Dùng khi nội dung đã nằm trong file văn bản cục bộ.</p>
+                </div>
+                <div>
+                  <strong>Tải PDF/DOCX/PPTX/ZIP</strong>
+                  <p className="muted">Dùng khi bạn đang chạy EduGen File Processor. EduGen chỉ trích xuất chữ; Shime vẫn tạo bản nháp, kiểm tra và yêu cầu xem trước trước khi lưu.</p>
+                </div>
+              </div>
+              <p className="muted">Nếu dùng bản deploy online, trình duyệt cần truy cập được EduGen service đã cấu hình qua <code>VITE_FILE_PROCESSOR_URL</code>. Một số định dạng tài liệu cũ hoặc tài liệu quét có thể không dùng được trong bước này.</p>
+            </Card>
+          </>
+        )}
 
         <Card title="Nguồn dữ liệu thư viện" eyebrow="Lưu cục bộ" className="dataSourceCard">
           <div className="dataSourceCard__content">

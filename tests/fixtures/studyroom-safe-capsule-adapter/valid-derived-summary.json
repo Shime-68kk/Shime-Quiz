@@ -1,0 +1,14 @@
+{
+  "capsuleId": "studyroom_capsule_valid_0001",
+  "sourceType": "shime_quiz_app",
+  "createdAtBucket": "2026-07-07",
+  "monotonicImportId": 11,
+  "correctCount": 8,
+  "incorrectCount": 2,
+  "totalCount": 10,
+  "dueReviewCount": 7,
+  "durationMs": 720000,
+  "recentAccuracyBucket": "high",
+  "userEnergySelfReportBucket": "medium",
+  "focusNeedSignalBucket": "low"
+}

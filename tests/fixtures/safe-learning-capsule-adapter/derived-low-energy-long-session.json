@@ -1,0 +1,17 @@
+{
+  "sessionIdBucket": "session_bucket_delta_low_energy",
+  "correctCount": 10,
+  "incorrectCount": 5,
+  "skippedCount": 0,
+  "totalCount": 15,
+  "recentAccuracyBucket": "medium",
+  "sessionDurationBucket": "long",
+  "dueReviewCountBucket": "medium",
+  "overdueReviewPressureBucket": "medium",
+  "consecutiveErrorsBucket": "medium",
+  "hesitationBucket": "high",
+  "focusNeedSignalBucket": "rest_or_light_review",
+  "userEnergySelfReportBucket": "low",
+  "monotonicImportId": 104,
+  "nowBucket": "day_bucket_2026_07_07"
+}

@@ -1,0 +1,52 @@
+{
+  "blockers": [],
+  "dryRunOnly": true,
+  "forbiddenFirmwareScope": [
+    "motor_or_servo_control",
+    "network_connection",
+    "app_data_mutation",
+    "external_command_send",
+    "secret_material_storage"
+  ],
+  "gateStatus": "PASS",
+  "gates": {
+    "envelopeSchemaStable": true,
+    "firmwareScopeIsolated": true,
+    "goldenFixturesGenerated": true,
+    "hardwareManualQaChecklistExists": true,
+    "hostSimulatorPasses": true,
+    "motionLocked": true,
+    "noMotorServoCommands": true,
+    "noRadioImplementationRequired": true,
+    "noRealRobotSendFromApp": true,
+    "rollbackPlanExists": true,
+    "secretMaterialRejected": true,
+    "sensitiveAttacksRejected": true,
+    "serialQaPlanExists": true,
+    "serializerRoundTripPasses": true,
+    "validatorPasses": true
+  },
+  "manualQaRequirements": [
+    "flash_log_only_parser_later",
+    "send_valid_golden_fixture",
+    "send_invalid_golden_fixtures",
+    "confirm_accept_reject_logs",
+    "confirm_no_motion"
+  ],
+  "motionPolicy": "locked",
+  "readinessVersion": "shime-esp32-expression-readiness-v1",
+  "reasonCodes": [
+    "esp32_expression_readiness_contract_created"
+  ],
+  "recommendation": "READY_FOR_LOG_ONLY_FIRMWARE_PLANNING_REVIEW",
+  "requiredFirmwareScope": [
+    "parse_expression_envelope",
+    "validate_required_fields",
+    "print_accept_or_reject_log",
+    "keep_motion_locked"
+  ],
+  "sendStatus": "not_sent",
+  "warnings": [
+    "phase38_manual_qa_may_still_be_pending"
+  ]
+}

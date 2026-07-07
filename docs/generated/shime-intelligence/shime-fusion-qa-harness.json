@@ -1,0 +1,766 @@
+{
+  "caseCount": 17,
+  "cases": [
+    {
+      "caseId": "empty_state",
+      "dryRunOnly": true,
+      "expectedBlockedOrSafeStatus": "safe_empty",
+      "expectedLabels": [
+        "empty_state"
+      ],
+      "expressionPreview": {
+        "displayExpressionLabel": "soft_idle_face",
+        "dryRunLabel": "dry-run / không gửi",
+        "expressionFamily": "neutral_presence",
+        "expressionFamilyLabel": "Hiện diện trung lập",
+        "intensityLabel": "low",
+        "ledPatternLabel": "neutral_presence_soft_led",
+        "motionPolicyLabel": "motion locked",
+        "privacyLabel": "đã làm mờ/rút gọn",
+        "reasonLabels": [
+          "robot_plan_created",
+          "fsrs_signal_extracted",
+          "due_items_present",
+          "learning_capsule_redacted",
+          "robot_expression_mapped",
+          "robot_expression_contract_created"
+        ],
+        "safetyLabel": "an toàn dry-run",
+        "scenarioId": "empty_state",
+        "soundCueLabel": "không"
+      },
+      "fusionOutput": {
+        "dryRunOnly": true,
+        "invariantStatus": "pass",
+        "safetyOutcome": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "inputSummary": {
+        "duePressureBucket": "low",
+        "forgettingRiskBucket": "unknown",
+        "privacyStatus": "redacted_coarse_only",
+        "recoveryNeedBucket": "none",
+        "safetyMode": "motion_disabled"
+      },
+      "manualQaNote": "Verify empty_state remains expression-only, dry-run, and label-only.",
+      "sendStatus": "not_sent"
+    },
+    {
+      "caseId": "normal_review_day",
+      "dryRunOnly": true,
+      "expectedBlockedOrSafeStatus": "safe",
+      "expectedLabels": [
+        "dry_run"
+      ],
+      "expressionPreview": {
+        "displayExpressionLabel": "soft_idle_face",
+        "dryRunLabel": "dry-run / không gửi",
+        "expressionFamily": "neutral_presence",
+        "expressionFamilyLabel": "Hiện diện trung lập",
+        "intensityLabel": "low",
+        "ledPatternLabel": "neutral_presence_soft_led",
+        "motionPolicyLabel": "motion locked",
+        "privacyLabel": "đã làm mờ/rút gọn",
+        "reasonLabels": [
+          "robot_plan_created",
+          "fsrs_signal_extracted",
+          "due_items_present",
+          "learning_capsule_redacted",
+          "robot_expression_mapped",
+          "robot_expression_contract_created"
+        ],
+        "safetyLabel": "an toàn dry-run",
+        "scenarioId": "normal_review_day",
+        "soundCueLabel": "không"
+      },
+      "fusionOutput": {
+        "dryRunOnly": true,
+        "invariantStatus": "pass",
+        "safetyOutcome": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "inputSummary": {
+        "duePressureBucket": "low",
+        "forgettingRiskBucket": "unknown",
+        "privacyStatus": "redacted_coarse_only",
+        "recoveryNeedBucket": "none",
+        "safetyMode": "motion_disabled"
+      },
+      "manualQaNote": "Verify normal_review_day remains expression-only, dry-run, and label-only.",
+      "sendStatus": "not_sent"
+    },
+    {
+      "caseId": "high_due_pressure",
+      "dryRunOnly": true,
+      "expectedBlockedOrSafeStatus": "safe",
+      "expectedLabels": [
+        "review_due_nudge"
+      ],
+      "expressionPreview": {
+        "displayExpressionLabel": "review_due_badge",
+        "dryRunLabel": "dry-run / không gửi",
+        "expressionFamily": "review_due_nudge",
+        "expressionFamilyLabel": "Nhắc ôn tập nhẹ",
+        "intensityLabel": "low",
+        "ledPatternLabel": "review_due_nudge_soft_led",
+        "motionPolicyLabel": "motion locked",
+        "privacyLabel": "đã làm mờ/rút gọn",
+        "reasonLabels": [
+          "due_pressure_high",
+          "fsrs_signal_extracted",
+          "due_items_present",
+          "overdue_items_present",
+          "memory_risk_detected",
+          "learning_capsule_redacted"
+        ],
+        "safetyLabel": "an toàn dry-run",
+        "scenarioId": "high_due_pressure",
+        "soundCueLabel": "không"
+      },
+      "fusionOutput": {
+        "dryRunOnly": true,
+        "invariantStatus": "pass",
+        "safetyOutcome": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "inputSummary": {
+        "duePressureBucket": "very_high",
+        "forgettingRiskBucket": "high",
+        "privacyStatus": "redacted_coarse_only",
+        "recoveryNeedBucket": "none",
+        "safetyMode": "motion_disabled"
+      },
+      "manualQaNote": "Verify high_due_pressure remains expression-only, dry-run, and label-only.",
+      "sendStatus": "not_sent"
+    },
+    {
+      "caseId": "low_retrievability",
+      "dryRunOnly": true,
+      "expectedBlockedOrSafeStatus": "safe",
+      "expectedLabels": [
+        "memory_risk_nudge"
+      ],
+      "expressionPreview": {
+        "displayExpressionLabel": "memory_risk_soft_hint",
+        "dryRunLabel": "dry-run / không gửi",
+        "expressionFamily": "memory_risk_nudge",
+        "expressionFamilyLabel": "Hỗ trợ nguy cơ quên",
+        "intensityLabel": "low",
+        "ledPatternLabel": "memory_risk_nudge_soft_led",
+        "motionPolicyLabel": "motion locked",
+        "privacyLabel": "đã làm mờ/rút gọn",
+        "reasonLabels": [
+          "forgetting_risk_high",
+          "fsrs_signal_extracted",
+          "due_items_present",
+          "memory_risk_detected",
+          "learning_capsule_redacted",
+          "robot_expression_mapped"
+        ],
+        "safetyLabel": "an toàn dry-run",
+        "scenarioId": "low_retrievability",
+        "soundCueLabel": "không"
+      },
+      "fusionOutput": {
+        "dryRunOnly": true,
+        "invariantStatus": "pass",
+        "safetyOutcome": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "inputSummary": {
+        "duePressureBucket": "low",
+        "forgettingRiskBucket": "very_high",
+        "privacyStatus": "redacted_coarse_only",
+        "recoveryNeedBucket": "none",
+        "safetyMode": "motion_disabled"
+      },
+      "manualQaNote": "Verify low_retrievability remains expression-only, dry-run, and label-only.",
+      "sendStatus": "not_sent"
+    },
+    {
+      "caseId": "repeated_lapse",
+      "dryRunOnly": true,
+      "expectedBlockedOrSafeStatus": "safe",
+      "expectedLabels": [
+        "gentle_encourage"
+      ],
+      "expressionPreview": {
+        "displayExpressionLabel": "supportive_smile",
+        "dryRunLabel": "dry-run / không gửi",
+        "expressionFamily": "gentle_encourage",
+        "expressionFamilyLabel": "Động viên nhẹ",
+        "intensityLabel": "low",
+        "ledPatternLabel": "gentle_encourage_soft_led",
+        "motionPolicyLabel": "motion locked",
+        "privacyLabel": "đã làm mờ/rút gọn",
+        "reasonLabels": [
+          "recovery_need_high",
+          "fsrs_signal_extracted",
+          "due_items_present",
+          "learning_capsule_redacted",
+          "robot_expression_mapped",
+          "robot_expression_contract_created"
+        ],
+        "safetyLabel": "an toàn dry-run",
+        "scenarioId": "repeated_lapse",
+        "soundCueLabel": "không"
+      },
+      "fusionOutput": {
+        "dryRunOnly": true,
+        "invariantStatus": "pass",
+        "safetyOutcome": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "inputSummary": {
+        "duePressureBucket": "low",
+        "forgettingRiskBucket": "unknown",
+        "privacyStatus": "redacted_coarse_only",
+        "recoveryNeedBucket": "high",
+        "safetyMode": "motion_disabled"
+      },
+      "manualQaNote": "Verify repeated_lapse remains expression-only, dry-run, and label-only.",
+      "sendStatus": "not_sent"
+    },
+    {
+      "caseId": "recovery_after_struggle",
+      "dryRunOnly": true,
+      "expectedBlockedOrSafeStatus": "safe",
+      "expectedLabels": [
+        "dry_run"
+      ],
+      "expressionPreview": {
+        "displayExpressionLabel": "recovery_progress_badge",
+        "dryRunLabel": "dry-run / không gửi",
+        "expressionFamily": "recovery_praise",
+        "expressionFamilyLabel": "Khen phục hồi",
+        "intensityLabel": "low",
+        "ledPatternLabel": "recovery_praise_soft_led",
+        "motionPolicyLabel": "motion locked",
+        "privacyLabel": "đã làm mờ/rút gọn",
+        "reasonLabels": [
+          "recovery_detected",
+          "fsrs_signal_extracted",
+          "due_items_present",
+          "learning_capsule_redacted",
+          "robot_expression_mapped",
+          "robot_expression_contract_created"
+        ],
+        "safetyLabel": "an toàn dry-run",
+        "scenarioId": "recovery_after_struggle",
+        "soundCueLabel": "không"
+      },
+      "fusionOutput": {
+        "dryRunOnly": true,
+        "invariantStatus": "pass",
+        "safetyOutcome": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "inputSummary": {
+        "duePressureBucket": "low",
+        "forgettingRiskBucket": "unknown",
+        "privacyStatus": "redacted_coarse_only",
+        "recoveryNeedBucket": "medium",
+        "safetyMode": "motion_disabled"
+      },
+      "manualQaNote": "Verify recovery_after_struggle remains expression-only, dry-run, and label-only.",
+      "sendStatus": "not_sent"
+    },
+    {
+      "caseId": "high_stability_gain",
+      "dryRunOnly": true,
+      "expectedBlockedOrSafeStatus": "safe",
+      "expectedLabels": [
+        "celebrate_stability_gain"
+      ],
+      "expressionPreview": {
+        "displayExpressionLabel": "stability_gain_celebration",
+        "dryRunLabel": "dry-run / không gửi",
+        "expressionFamily": "celebrate_stability_gain",
+        "expressionFamilyLabel": "Mừng trí nhớ ổn định hơn",
+        "intensityLabel": "low",
+        "ledPatternLabel": "celebrate_stability_gain_soft_led",
+        "motionPolicyLabel": "motion locked",
+        "privacyLabel": "đã làm mờ/rút gọn",
+        "reasonLabels": [
+          "stability_gain",
+          "fsrs_signal_extracted",
+          "due_items_present",
+          "learning_capsule_redacted",
+          "robot_expression_mapped",
+          "robot_expression_contract_created"
+        ],
+        "safetyLabel": "an toàn dry-run",
+        "scenarioId": "high_stability_gain",
+        "soundCueLabel": "không"
+      },
+      "fusionOutput": {
+        "dryRunOnly": true,
+        "invariantStatus": "pass",
+        "safetyOutcome": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "inputSummary": {
+        "duePressureBucket": "low",
+        "forgettingRiskBucket": "unknown",
+        "privacyStatus": "redacted_coarse_only",
+        "recoveryNeedBucket": "none",
+        "safetyMode": "motion_disabled"
+      },
+      "manualQaNote": "Verify high_stability_gain remains expression-only, dry-run, and label-only.",
+      "sendStatus": "not_sent"
+    },
+    {
+      "caseId": "session_complete",
+      "dryRunOnly": true,
+      "expectedBlockedOrSafeStatus": "safe",
+      "expectedLabels": [
+        "dry_run"
+      ],
+      "expressionPreview": {
+        "displayExpressionLabel": "session_complete_smile",
+        "dryRunLabel": "dry-run / không gửi",
+        "expressionFamily": "celebrate_session_complete",
+        "expressionFamilyLabel": "Mừng hoàn thành buổi học",
+        "intensityLabel": "low",
+        "ledPatternLabel": "celebrate_session_complete_soft_led",
+        "motionPolicyLabel": "motion locked",
+        "privacyLabel": "đã làm mờ/rút gọn",
+        "reasonLabels": [
+          "session_complete",
+          "fsrs_signal_extracted",
+          "due_items_present",
+          "learning_capsule_redacted",
+          "robot_expression_mapped",
+          "robot_expression_contract_created"
+        ],
+        "safetyLabel": "an toàn dry-run",
+        "scenarioId": "session_complete",
+        "soundCueLabel": "không"
+      },
+      "fusionOutput": {
+        "dryRunOnly": true,
+        "invariantStatus": "pass",
+        "safetyOutcome": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "inputSummary": {
+        "duePressureBucket": "low",
+        "forgettingRiskBucket": "unknown",
+        "privacyStatus": "redacted_coarse_only",
+        "recoveryNeedBucket": "none",
+        "safetyMode": "motion_disabled"
+      },
+      "manualQaNote": "Verify session_complete remains expression-only, dry-run, and label-only.",
+      "sendStatus": "not_sent"
+    },
+    {
+      "caseId": "privacy_attack",
+      "dryRunOnly": true,
+      "expectedBlockedOrSafeStatus": "blocked",
+      "expectedLabels": [
+        "calm_error"
+      ],
+      "expressionPreview": {
+        "displayExpressionLabel": "calm_error_notice",
+        "dryRunLabel": "dry-run / không gửi",
+        "expressionFamily": "calm_error",
+        "expressionFamilyLabel": "Bình tĩnh khi lỗi",
+        "intensityLabel": "low",
+        "ledPatternLabel": "calm_error_soft_led",
+        "motionPolicyLabel": "motion locked",
+        "privacyLabel": "đã chặn",
+        "reasonLabels": [
+          "privacy_not_safe",
+          "sensitive_input_blocked",
+          "learning_capsule_blocked",
+          "robot_expression_mapped",
+          "robot_expression_contract_created"
+        ],
+        "safetyLabel": "an toàn dry-run",
+        "scenarioId": "privacy_attack",
+        "soundCueLabel": "không"
+      },
+      "fusionOutput": {
+        "dryRunOnly": true,
+        "invariantStatus": "pass",
+        "safetyOutcome": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "inputSummary": {
+        "duePressureBucket": "unknown",
+        "forgettingRiskBucket": "unknown",
+        "privacyStatus": "blocked",
+        "recoveryNeedBucket": "unknown",
+        "safetyMode": "motion_disabled"
+      },
+      "manualQaNote": "Verify privacy_attack remains expression-only, dry-run, and label-only.",
+      "sendStatus": "not_sent"
+    },
+    {
+      "caseId": "transport_unsafe",
+      "dryRunOnly": true,
+      "expectedBlockedOrSafeStatus": "safe",
+      "expectedLabels": [
+        "reconnect_hint"
+      ],
+      "expressionPreview": {
+        "displayExpressionLabel": "connection_check_hint",
+        "dryRunLabel": "dry-run / không gửi",
+        "expressionFamily": "reconnect_hint",
+        "expressionFamilyLabel": "Gợi ý kiểm tra kết nối",
+        "intensityLabel": "low",
+        "ledPatternLabel": "reconnect_hint_soft_led",
+        "motionPolicyLabel": "motion locked",
+        "privacyLabel": "đã làm mờ/rút gọn",
+        "reasonLabels": [
+          "transport_not_safe",
+          "fsrs_signal_extracted",
+          "due_items_present",
+          "learning_capsule_redacted",
+          "robot_expression_mapped",
+          "robot_expression_contract_created"
+        ],
+        "safetyLabel": "an toàn dry-run",
+        "scenarioId": "transport_unsafe",
+        "soundCueLabel": "không"
+      },
+      "fusionOutput": {
+        "dryRunOnly": true,
+        "invariantStatus": "pass",
+        "safetyOutcome": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "inputSummary": {
+        "duePressureBucket": "low",
+        "forgettingRiskBucket": "unknown",
+        "privacyStatus": "redacted_coarse_only",
+        "recoveryNeedBucket": "none",
+        "safetyMode": "motion_disabled"
+      },
+      "manualQaNote": "Verify transport_unsafe remains expression-only, dry-run, and label-only.",
+      "sendStatus": "not_sent"
+    },
+    {
+      "caseId": "robot_unavailable",
+      "dryRunOnly": true,
+      "expectedBlockedOrSafeStatus": "safe",
+      "expectedLabels": [
+        "do_nothing"
+      ],
+      "expressionPreview": {
+        "displayExpressionLabel": "idle_blank",
+        "dryRunLabel": "dry-run / không gửi",
+        "expressionFamily": "do_nothing",
+        "expressionFamilyLabel": "Không can thiệp",
+        "intensityLabel": "low",
+        "ledPatternLabel": "do_nothing_soft_led",
+        "motionPolicyLabel": "motion locked",
+        "privacyLabel": "đã làm mờ/rút gọn",
+        "reasonLabels": [
+          "robot_unavailable",
+          "fsrs_signal_extracted",
+          "due_items_present",
+          "learning_capsule_redacted",
+          "robot_expression_mapped",
+          "robot_expression_contract_created"
+        ],
+        "safetyLabel": "an toàn dry-run",
+        "scenarioId": "robot_unavailable",
+        "soundCueLabel": "không"
+      },
+      "fusionOutput": {
+        "dryRunOnly": true,
+        "invariantStatus": "pass",
+        "safetyOutcome": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "inputSummary": {
+        "duePressureBucket": "low",
+        "forgettingRiskBucket": "unknown",
+        "privacyStatus": "redacted_coarse_only",
+        "recoveryNeedBucket": "none",
+        "safetyMode": "motion_disabled"
+      },
+      "manualQaNote": "Verify robot_unavailable remains expression-only, dry-run, and label-only.",
+      "sendStatus": "not_sent"
+    },
+    {
+      "caseId": "classroom_safe",
+      "dryRunOnly": true,
+      "expectedBlockedOrSafeStatus": "safe",
+      "expectedLabels": [
+        "classroom_safe"
+      ],
+      "expressionPreview": {
+        "displayExpressionLabel": "soft_idle_face",
+        "dryRunLabel": "dry-run / không gửi",
+        "expressionFamily": "neutral_presence",
+        "expressionFamilyLabel": "Hiện diện trung lập",
+        "intensityLabel": "low",
+        "ledPatternLabel": "neutral_presence_soft_led",
+        "motionPolicyLabel": "motion locked",
+        "privacyLabel": "đã làm mờ/rút gọn",
+        "reasonLabels": [
+          "robot_plan_created",
+          "classroom_safe_reduced",
+          "fsrs_signal_extracted",
+          "due_items_present",
+          "learning_capsule_redacted",
+          "robot_expression_mapped"
+        ],
+        "safetyLabel": "an toàn dry-run",
+        "scenarioId": "classroom_safe",
+        "soundCueLabel": "không"
+      },
+      "fusionOutput": {
+        "dryRunOnly": true,
+        "invariantStatus": "pass",
+        "safetyOutcome": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "inputSummary": {
+        "duePressureBucket": "low",
+        "forgettingRiskBucket": "unknown",
+        "privacyStatus": "redacted_coarse_only",
+        "recoveryNeedBucket": "none",
+        "safetyMode": "classroom_safe"
+      },
+      "manualQaNote": "Verify classroom_safe remains expression-only, dry-run, and label-only.",
+      "sendStatus": "not_sent"
+    },
+    {
+      "caseId": "quiet_mode",
+      "dryRunOnly": true,
+      "expectedBlockedOrSafeStatus": "safe",
+      "expectedLabels": [
+        "do_nothing"
+      ],
+      "expressionPreview": {
+        "displayExpressionLabel": "idle_blank",
+        "dryRunLabel": "dry-run / không gửi",
+        "expressionFamily": "do_nothing",
+        "expressionFamilyLabel": "Không can thiệp",
+        "intensityLabel": "low",
+        "ledPatternLabel": "do_nothing_soft_led",
+        "motionPolicyLabel": "motion locked",
+        "privacyLabel": "đã làm mờ/rút gọn",
+        "reasonLabels": [
+          "robot_plan_created",
+          "fsrs_signal_extracted",
+          "due_items_present",
+          "learning_capsule_redacted",
+          "robot_expression_mapped",
+          "robot_expression_contract_created"
+        ],
+        "safetyLabel": "an toàn dry-run",
+        "scenarioId": "quiet_mode",
+        "soundCueLabel": "không"
+      },
+      "fusionOutput": {
+        "dryRunOnly": true,
+        "invariantStatus": "pass",
+        "safetyOutcome": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "inputSummary": {
+        "duePressureBucket": "low",
+        "forgettingRiskBucket": "unknown",
+        "privacyStatus": "redacted_coarse_only",
+        "recoveryNeedBucket": "none",
+        "safetyMode": "quiet_mode"
+      },
+      "manualQaNote": "Verify quiet_mode remains expression-only, dry-run, and label-only.",
+      "sendStatus": "not_sent"
+    },
+    {
+      "caseId": "phone_desktop_robot",
+      "dryRunOnly": true,
+      "expectedBlockedOrSafeStatus": "safe",
+      "expectedLabels": [
+        "dry_run"
+      ],
+      "expressionPreview": {
+        "displayExpressionLabel": "soft_idle_face",
+        "dryRunLabel": "dry-run / không gửi",
+        "expressionFamily": "neutral_presence",
+        "expressionFamilyLabel": "Hiện diện trung lập",
+        "intensityLabel": "low",
+        "ledPatternLabel": "neutral_presence_soft_led",
+        "motionPolicyLabel": "motion locked",
+        "privacyLabel": "đã làm mờ/rút gọn",
+        "reasonLabels": [
+          "robot_plan_created",
+          "fsrs_signal_extracted",
+          "due_items_present",
+          "learning_capsule_redacted",
+          "robot_expression_mapped",
+          "robot_expression_contract_created"
+        ],
+        "safetyLabel": "an toàn dry-run",
+        "scenarioId": "phone_desktop_robot",
+        "soundCueLabel": "không"
+      },
+      "fusionOutput": {
+        "dryRunOnly": true,
+        "invariantStatus": "pass",
+        "safetyOutcome": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "inputSummary": {
+        "duePressureBucket": "low",
+        "forgettingRiskBucket": "unknown",
+        "privacyStatus": "redacted_coarse_only",
+        "recoveryNeedBucket": "none",
+        "safetyMode": "motion_disabled"
+      },
+      "manualQaNote": "Verify phone_desktop_robot remains expression-only, dry-run, and label-only.",
+      "sendStatus": "not_sent"
+    },
+    {
+      "caseId": "display_only_robot",
+      "dryRunOnly": true,
+      "expectedBlockedOrSafeStatus": "safe",
+      "expectedLabels": [
+        "display_expression"
+      ],
+      "expressionPreview": {
+        "displayExpressionLabel": "soft_idle_face",
+        "dryRunLabel": "dry-run / không gửi",
+        "expressionFamily": "neutral_presence",
+        "expressionFamilyLabel": "Hiện diện trung lập",
+        "intensityLabel": "low",
+        "ledPatternLabel": "không",
+        "motionPolicyLabel": "motion locked",
+        "privacyLabel": "đã làm mờ/rút gọn",
+        "reasonLabels": [
+          "robot_plan_created",
+          "fsrs_signal_extracted",
+          "due_items_present",
+          "learning_capsule_redacted",
+          "robot_expression_mapped",
+          "robot_expression_contract_created"
+        ],
+        "safetyLabel": "an toàn dry-run",
+        "scenarioId": "display_only_robot",
+        "soundCueLabel": "không"
+      },
+      "fusionOutput": {
+        "dryRunOnly": true,
+        "invariantStatus": "pass",
+        "safetyOutcome": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "inputSummary": {
+        "duePressureBucket": "low",
+        "forgettingRiskBucket": "unknown",
+        "privacyStatus": "redacted_coarse_only",
+        "recoveryNeedBucket": "none",
+        "safetyMode": "motion_disabled"
+      },
+      "manualQaNote": "Verify display_only_robot remains expression-only, dry-run, and label-only.",
+      "sendStatus": "not_sent"
+    },
+    {
+      "caseId": "led_only_robot",
+      "dryRunOnly": true,
+      "expectedBlockedOrSafeStatus": "safe",
+      "expectedLabels": [
+        "led_expression"
+      ],
+      "expressionPreview": {
+        "displayExpressionLabel": "không",
+        "dryRunLabel": "dry-run / không gửi",
+        "expressionFamily": "neutral_presence",
+        "expressionFamilyLabel": "Hiện diện trung lập",
+        "intensityLabel": "low",
+        "ledPatternLabel": "neutral_presence_soft_led",
+        "motionPolicyLabel": "motion locked",
+        "privacyLabel": "đã làm mờ/rút gọn",
+        "reasonLabels": [
+          "robot_plan_created",
+          "fsrs_signal_extracted",
+          "due_items_present",
+          "learning_capsule_redacted",
+          "robot_expression_mapped",
+          "robot_expression_contract_created"
+        ],
+        "safetyLabel": "an toàn dry-run",
+        "scenarioId": "led_only_robot",
+        "soundCueLabel": "không"
+      },
+      "fusionOutput": {
+        "dryRunOnly": true,
+        "invariantStatus": "pass",
+        "safetyOutcome": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "inputSummary": {
+        "duePressureBucket": "low",
+        "forgettingRiskBucket": "unknown",
+        "privacyStatus": "redacted_coarse_only",
+        "recoveryNeedBucket": "none",
+        "safetyMode": "motion_disabled"
+      },
+      "manualQaNote": "Verify led_only_robot remains expression-only, dry-run, and label-only.",
+      "sendStatus": "not_sent"
+    },
+    {
+      "caseId": "motion_capable_locked",
+      "dryRunOnly": true,
+      "expectedBlockedOrSafeStatus": "safe",
+      "expectedLabels": [
+        "motion_locked"
+      ],
+      "expressionPreview": {
+        "displayExpressionLabel": "soft_idle_face",
+        "dryRunLabel": "dry-run / không gửi",
+        "expressionFamily": "neutral_presence",
+        "expressionFamilyLabel": "Hiện diện trung lập",
+        "intensityLabel": "low",
+        "ledPatternLabel": "neutral_presence_soft_led",
+        "motionPolicyLabel": "motion locked",
+        "privacyLabel": "đã làm mờ/rút gọn",
+        "reasonLabels": [
+          "robot_plan_created",
+          "fsrs_signal_extracted",
+          "due_items_present",
+          "learning_capsule_redacted",
+          "robot_expression_mapped",
+          "robot_expression_contract_created"
+        ],
+        "safetyLabel": "an toàn dry-run",
+        "scenarioId": "motion_capable_locked",
+        "soundCueLabel": "không"
+      },
+      "fusionOutput": {
+        "dryRunOnly": true,
+        "invariantStatus": "pass",
+        "safetyOutcome": "allowed_dry_run",
+        "sendStatus": "not_sent"
+      },
+      "inputSummary": {
+        "duePressureBucket": "low",
+        "forgettingRiskBucket": "unknown",
+        "privacyStatus": "redacted_coarse_only",
+        "recoveryNeedBucket": "none",
+        "safetyMode": "motion_disabled"
+      },
+      "manualQaNote": "Verify motion_capable_locked remains expression-only, dry-run, and label-only.",
+      "sendStatus": "not_sent"
+    }
+  ],
+  "dryRunOnly": true,
+  "manualQaSummary": {
+    "checklistVersion": "shime-fusion-manual-qa-v1",
+    "dryRunOnly": true,
+    "itemCount": 17,
+    "productionClaim": "no_production_claim",
+    "reasonCodes": [
+      "shime_fusion_manual_qa_checklist_summarized"
+    ],
+    "sectionDTitleVi": "D. Hệ sinh thái Shime — chạy thử khớp nối",
+    "sendStatus": "not_sent"
+  },
+  "sendStatus": "not_sent",
+  "status": "PASS"
+}

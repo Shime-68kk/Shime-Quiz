@@ -1,0 +1,16 @@
+{
+  "attackScenarioCount": 214,
+  "benchmarkStatus": "PASS",
+  "coveragePercent": 100,
+  "dryRunFailures": 0,
+  "generatedAt": "static-phase-33-evidence",
+  "goldenSnapshotCount": 150,
+  "invariantFailures": 0,
+  "passed": true,
+  "privacyFailures": 0,
+  "readinessStatus": "PASS",
+  "recommendation": "SAFE_FOR_PHASE_34_V2_CONTROL_CENTER_MANUAL_QA",
+  "scenarioCount": 1138,
+  "sendStatusFailures": 0,
+  "validScenarioCount": 830
+}

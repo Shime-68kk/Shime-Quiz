@@ -1,0 +1,47 @@
+{
+  "allowedChannels": [
+    "display_expression",
+    "led_expression",
+    "sound_cue",
+    "idle_presence",
+    "attention_hint",
+    "no_op"
+  ],
+  "allowedFamiliesSource": "app_expression_protocol_v1",
+  "dryRunOnly": true,
+  "dynamicBehaviorPolicy": "no_dynamic_action_dispatch_beyond_log_labels",
+  "forbiddenFieldPolicy": "nested_private_key_and_secret_material_scan",
+  "heapPolicy": "bounded_line_buffer_preferred_over_unbounded_string_growth",
+  "inputFormat": "newline_delimited_json",
+  "maxMessageBytes": 2048,
+  "motionPolicy": "locked",
+  "parserDesignVersion": "shime-esp32-expression-parser-design-v1",
+  "platformioTestPlan": [
+    "compile",
+    "monitor_valid_vectors",
+    "monitor_invalid_vectors",
+    "verify_no_motion"
+  ],
+  "reasonCodes": [
+    "esp32_expression_parser_design_created"
+  ],
+  "requiredFields": [
+    "protocol",
+    "protocolVersion",
+    "envelopeId",
+    "messageType",
+    "expressionFamily",
+    "allowedChannels",
+    "displayExpression",
+    "ledPattern",
+    "soundCue",
+    "motionPolicy",
+    "dryRunOnly",
+    "sendStatus",
+    "reasonCodes"
+  ],
+  "responseEnvelopeFormat": "log_only_accept_or_reject_line_plus_json_response",
+  "safeLogOnlyBehavior": true,
+  "sendStatus": "not_sent",
+  "unsupportedVersionHandling": "reject_unknown_major_or_missing_version"
+}

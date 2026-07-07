@@ -1,0 +1,42 @@
+{
+  "allAttacksRejected": true,
+  "allValidScenariosPass": true,
+  "attackRejectedCount": 3000,
+  "attackScenarioCount": 3000,
+  "benchmarkVersion": "shime-expression-protocol-benchmark-v1",
+  "channelCoverage": [
+    "attention_hint",
+    "display_expression",
+    "idle_presence",
+    "led_expression",
+    "no_op",
+    "sound_cue"
+  ],
+  "familyCoverage": [
+    "calm_error",
+    "celebrate_session_complete",
+    "celebrate_stability_gain",
+    "do_nothing",
+    "focus_ritual",
+    "gentle_encourage",
+    "memory_risk_nudge",
+    "neutral_presence",
+    "reconnect_hint",
+    "recovery_praise",
+    "review_due_nudge",
+    "suggest_break_soft"
+  ],
+  "noMotionUnlock": true,
+  "noNotificationCalMutation": true,
+  "noRealTransport": true,
+  "noRobotSend": true,
+  "noScheduleMutation": true,
+  "noSensitiveOutput": true,
+  "passed": true,
+  "protocolScenarioCount": 30000,
+  "reasonCodes": [
+    "robot_expression_protocol_benchmark_completed"
+  ],
+  "reasonCodesPresent": true,
+  "validPassed": 30000
+}

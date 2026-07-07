@@ -1,0 +1,59 @@
+{
+  "benchmarkSummary": {
+    "failedCount": 204,
+    "passed": true,
+    "passedCount": 934,
+    "scenarioCount": 1138
+  },
+  "blockers": [],
+  "coverageSummary": {
+    "coveragePercent": 100,
+    "missing": []
+  },
+  "dimensions": [
+    {
+      "name": "privacy",
+      "status": "PASS"
+    },
+    {
+      "name": "safety",
+      "status": "PASS"
+    },
+    {
+      "name": "determinism",
+      "status": "PASS"
+    },
+    {
+      "name": "nonSpam",
+      "status": "PASS"
+    },
+    {
+      "name": "behaviorCoverage",
+      "status": "PASS"
+    },
+    {
+      "name": "robotCommandSafety",
+      "status": "PASS"
+    },
+    {
+      "name": "classroomSafety",
+      "status": "PASS"
+    },
+    {
+      "name": "disconnectedSafety",
+      "status": "PASS"
+    },
+    {
+      "name": "sensitiveAttackHandling",
+      "status": "PASS"
+    },
+    {
+      "name": "integrationReadiness",
+      "status": "PASS"
+    }
+  ],
+  "overall": "PASS",
+  "passed": true,
+  "recommendedNextPhase": "SAFE_FOR_PHASE_33_V2_CONTROL_CENTER_DRY_RUN_INTEGRATION",
+  "warnings": []
+}

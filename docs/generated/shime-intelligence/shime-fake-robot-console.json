@@ -1,0 +1,74 @@
+{
+  "currentExpressionFamily": "calm_error",
+  "displayExpression": "calm_error_notice",
+  "dryRunOnly": true,
+  "ledPattern": "none",
+  "motionPolicy": "locked",
+  "privacyStatus": "blocked",
+  "reasonCodes": [
+    "fake_console_report",
+    "robot_expression_mapped",
+    "robot_expression_contract_created",
+    "fake_robot_expression_applied"
+  ],
+  "recentPreviewRows": [
+    {
+      "displayExpressionLabel": "soft_idle_face",
+      "dryRunLabel": "dry-run / không gửi",
+      "expressionFamily": "neutral_presence",
+      "expressionFamilyLabel": "Hiện diện trung lập",
+      "intensityLabel": "medium",
+      "ledPatternLabel": "không",
+      "motionPolicyLabel": "motion locked",
+      "privacyLabel": "đã làm mờ/rút gọn",
+      "reasonLabels": [
+        "fake_console_report",
+        "robot_expression_mapped",
+        "robot_expression_contract_created"
+      ],
+      "safetyLabel": "an toàn dry-run",
+      "scenarioId": "normal_review_day",
+      "soundCueLabel": "không"
+    },
+    {
+      "displayExpressionLabel": "review_due_badge",
+      "dryRunLabel": "dry-run / không gửi",
+      "expressionFamily": "review_due_nudge",
+      "expressionFamilyLabel": "Nhắc ôn tập nhẹ",
+      "intensityLabel": "medium",
+      "ledPatternLabel": "không",
+      "motionPolicyLabel": "motion locked",
+      "privacyLabel": "đã làm mờ/rút gọn",
+      "reasonLabels": [
+        "fake_console_report",
+        "robot_expression_mapped",
+        "robot_expression_contract_created"
+      ],
+      "safetyLabel": "an toàn dry-run",
+      "scenarioId": "high_due_pressure",
+      "soundCueLabel": "không"
+    },
+    {
+      "displayExpressionLabel": "calm_error_notice",
+      "dryRunLabel": "dry-run / không gửi",
+      "expressionFamily": "calm_error",
+      "expressionFamilyLabel": "Bình tĩnh khi lỗi",
+      "intensityLabel": "medium",
+      "ledPatternLabel": "không",
+      "motionPolicyLabel": "motion locked",
+      "privacyLabel": "đã chặn",
+      "reasonLabels": [
+        "fake_console_report",
+        "robot_expression_mapped",
+        "robot_expression_contract_created"
+      ],
+      "safetyLabel": "an toàn dry-run",
+      "scenarioId": "privacy_attack",
+      "soundCueLabel": "không"
+    }
+  ],
+  "safetyStatus": "allowed_dry_run",
+  "sendStatus": "not_sent",
+  "soundCue": "none",
+  "status": "PASS"
+}

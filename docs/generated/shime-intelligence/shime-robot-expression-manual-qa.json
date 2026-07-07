@@ -1,0 +1,21 @@
+{
+  "dryRunOnly": true,
+  "itemCount": 12,
+  "items": [
+    "Section D hiển thị.",
+    "Expression preview không tự chạy.",
+    "Chạy expression preview khi chưa có Shime fusion sẽ hiện empty state.",
+    "Chạy Shime fusion rồi chạy expression preview sẽ hiện biểu cảm dự kiến.",
+    "Fake robot console hiển thị trạng thái giả lập.",
+    "Capability preview không hiển thị bí mật kết nối.",
+    "Không có nút gửi.",
+    "Không có nút kết nối.",
+    "Không có raw JSON.",
+    "Không có nội dung học thô.",
+    "V2 section vẫn hoạt động.",
+    "Language switch vẫn hoạt động."
+  ],
+  "sendStatus": "not_sent",
+  "status": "PASS",
+  "titleVi": "QA Robot Shime expression preview"
+}

@@ -1,0 +1,41 @@
+{
+  "dryRunOnly": true,
+  "goldenAccepted": true,
+  "invalidFixtureCount": 7,
+  "invalidRejectedCount": 7,
+  "motionPolicy": "locked",
+  "reasonCodes": [
+    "esp32_expression_host_simulator_report_created"
+  ],
+  "sampleAccepted": {
+    "accepted": true,
+    "dryRunOnly": true,
+    "logLine": "ACCEPT expression=review_due_nudge display=review_due_badge led=review_due_nudge_soft_led sound=review_due_nudge_soft_chime",
+    "motionPolicy": "locked",
+    "parsedDisplayExpression": "review_due_badge",
+    "parsedExpressionFamily": "review_due_nudge",
+    "parsedLedPattern": "review_due_nudge_soft_led",
+    "parsedSoundCue": "review_due_nudge_soft_chime",
+    "privacyStatus": "redacted_coarse_only",
+    "reasonCodes": [
+      "due_pressure_high",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "overdue_items_present",
+      "memory_risk_detected",
+      "protocol_pipeline_report_fixture",
+      "learning_capsule_redacted",
+      "robot_expression_mapped",
+      "robot_expression_contract_created",
+      "robot_expression_envelope_created",
+      "host_expression_simulation_accepted"
+    ],
+    "rejectedReason": "none",
+    "safetyStatus": "allowed_dry_run",
+    "sendStatus": "not_sent"
+  },
+  "sendStatus": "not_sent",
+  "simulatorReportVersion": "shime-esp32-expression-host-simulator-report-v1",
+  "validAcceptedCount": 12,
+  "validFixtureCount": 12
+}

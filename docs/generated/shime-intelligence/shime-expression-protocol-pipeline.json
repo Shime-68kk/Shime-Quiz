@@ -1,0 +1,300 @@
+{
+  "dryRunOnly": true,
+  "esp32LogPreview": {
+    "accepted": true,
+    "displayExpression": "review_due_badge",
+    "dryRunOnly": true,
+    "expressionFamily": "review_due_nudge",
+    "ledPattern": "review_due_nudge_soft_led",
+    "logProtocol": "shime_esp32_expression_log",
+    "motionPolicy": "locked",
+    "privacyStatus": "redacted_coarse_only",
+    "protocolVersion": "1.0.0",
+    "reasonCodes": [
+      "due_pressure_high",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "overdue_items_present",
+      "memory_risk_detected",
+      "protocol_pipeline_report_fixture",
+      "learning_capsule_redacted",
+      "robot_expression_mapped",
+      "robot_expression_contract_created",
+      "robot_expression_envelope_created",
+      "esp32_expression_log_preview_accepted"
+    ],
+    "rejectedReason": "none",
+    "safetyStatus": "allowed_dry_run",
+    "sendStatus": "not_sent",
+    "soundCue": "review_due_nudge_soft_chime"
+  },
+  "evidenceSummary": {
+    "envelope": {
+      "channelCount": 4,
+      "dryRunOnly": true,
+      "envelopeId": "expr_pipeline_golden",
+      "expressionFamily": "review_due_nudge",
+      "messageType": "expression_preview",
+      "motionPolicy": "locked",
+      "privacyStatus": "redacted_coarse_only",
+      "protocol": "shime_robot_expression",
+      "protocolVersion": "1.0.0",
+      "reasonCodes": [
+        "due_pressure_high",
+        "fsrs_signal_extracted",
+        "due_items_present",
+        "overdue_items_present",
+        "memory_risk_detected",
+        "protocol_pipeline_report_fixture",
+        "learning_capsule_redacted",
+        "robot_expression_mapped",
+        "robot_expression_contract_created",
+        "robot_expression_envelope_created"
+      ],
+      "safetyStatus": "allowed_dry_run",
+      "sendStatus": "not_sent",
+      "validationStatus": "accepted"
+    },
+    "esp32LogPreview": {
+      "accepted": true,
+      "dryRunOnly": true,
+      "expressionFamily": "review_due_nudge",
+      "logProtocol": "shime_esp32_expression_log",
+      "motionPolicy": "locked",
+      "reasonCodes": [
+        "due_pressure_high",
+        "fsrs_signal_extracted",
+        "due_items_present",
+        "overdue_items_present",
+        "memory_risk_detected",
+        "protocol_pipeline_report_fixture",
+        "learning_capsule_redacted",
+        "robot_expression_mapped",
+        "robot_expression_contract_created",
+        "robot_expression_envelope_created",
+        "esp32_expression_log_preview_accepted"
+      ],
+      "rejectedReason": "none",
+      "sendStatus": "not_sent",
+      "validationStatus": "pass"
+    },
+    "fakeTranscript": {
+      "acceptedCount": 1,
+      "dryRunOnly": true,
+      "lastAckStatus": "accepted_dry_run",
+      "reasonCodes": [
+        "fake_expression_transcript_created",
+        "fake_expression_transcript_appended"
+      ],
+      "rejectedCount": 0,
+      "rowCount": 2,
+      "sendStatus": "not_sent",
+      "transcriptProtocol": "shime_fake_expression_transcript"
+    }
+  },
+  "expressionEnvelope": {
+    "allowedChannels": [
+      "display_expression",
+      "led_expression",
+      "sound_cue",
+      "attention_hint"
+    ],
+    "capsuleProtocolVersion": "shime-learning-state-capsule-v1",
+    "displayExpression": "review_due_badge",
+    "dryRunOnly": true,
+    "envelopeId": "expr_pipeline_golden",
+    "expressionContractVersion": "shime-robot-expression-contract-v1",
+    "expressionFamily": "review_due_nudge",
+    "intensityBucket": "low",
+    "ledPattern": "review_due_nudge_soft_led",
+    "messageType": "expression_preview",
+    "motionPolicy": "locked",
+    "privacyStatus": "redacted_coarse_only",
+    "protocol": "shime_robot_expression",
+    "protocolVersion": "1.0.0",
+    "reasonCodes": [
+      "due_pressure_high",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "overdue_items_present",
+      "memory_risk_detected",
+      "protocol_pipeline_report_fixture",
+      "learning_capsule_redacted",
+      "robot_expression_mapped",
+      "robot_expression_contract_created",
+      "robot_expression_envelope_created"
+    ],
+    "safetyStatus": "allowed_dry_run",
+    "sendStatus": "not_sent",
+    "soundCue": "review_due_nudge_soft_chime",
+    "source": "shime_quiz",
+    "target": "shime_robot"
+  },
+  "expressionPlan": {
+    "allowedChannels": [
+      "display_expression",
+      "led_expression",
+      "sound_cue",
+      "attention_hint"
+    ],
+    "calendarMutationAllowed": false,
+    "displayExpression": "review_due_badge",
+    "dryRunOnly": true,
+    "expressionFamily": "review_due_nudge",
+    "forbiddenChannels": [
+      "motor_motion",
+      "wheel_motion",
+      "servo_motion",
+      "physical_push",
+      "autonomous_navigation",
+      "camera_capture",
+      "microphone_capture",
+      "raw_data_display",
+      "speech_from_raw_content",
+      "schedule_mutation",
+      "notification_send",
+      "robot_command_send"
+    ],
+    "intensityBucket": "low",
+    "ledPattern": "review_due_nudge_soft_led",
+    "motionPolicy": "locked",
+    "notificationAllowed": false,
+    "opensConnection": false,
+    "privacyStatus": "redacted_coarse_only",
+    "reasonCodes": [
+      "due_pressure_high",
+      "fsrs_signal_extracted",
+      "due_items_present",
+      "overdue_items_present",
+      "memory_risk_detected",
+      "protocol_pipeline_report_fixture",
+      "learning_capsule_redacted",
+      "robot_expression_mapped",
+      "robot_expression_contract_created"
+    ],
+    "safetyStatus": "allowed_dry_run",
+    "scheduleMutationAllowed": false,
+    "sendStatus": "not_sent",
+    "shouldInterrupt": false,
+    "shouldWait": false,
+    "soundCue": "review_due_nudge_soft_chime"
+  },
+  "fakeTransportTranscript": {
+    "dryRunOnly": true,
+    "maxRows": 12,
+    "reasonCodes": [
+      "fake_expression_transcript_created",
+      "fake_expression_transcript_appended"
+    ],
+    "rows": [
+      {
+        "ackStatus": "pending",
+        "direction": "app_to_fake_robot",
+        "dryRunOnly": true,
+        "envelopeSummary": {
+          "channelCount": 4,
+          "dryRunOnly": true,
+          "envelopeId": "expr_pipeline_golden",
+          "expressionFamily": "review_due_nudge",
+          "messageType": "expression_preview",
+          "motionPolicy": "locked",
+          "privacyStatus": "redacted_coarse_only",
+          "protocol": "shime_robot_expression",
+          "protocolVersion": "1.0.0",
+          "reasonCodes": [
+            "due_pressure_high",
+            "fsrs_signal_extracted",
+            "due_items_present",
+            "overdue_items_present",
+            "memory_risk_detected",
+            "protocol_pipeline_report_fixture",
+            "learning_capsule_redacted",
+            "robot_expression_mapped",
+            "robot_expression_contract_created",
+            "robot_expression_envelope_created"
+          ],
+          "safetyStatus": "allowed_dry_run",
+          "sendStatus": "not_sent",
+          "validationStatus": "accepted"
+        },
+        "reasonCodes": [
+          "fake_expression_transcript_app_row"
+        ],
+        "sendStatus": "not_sent",
+        "step": 1,
+        "validationStatus": "accepted"
+      },
+      {
+        "ackStatus": "accepted_dry_run",
+        "direction": "fake_robot_ack",
+        "dryRunOnly": true,
+        "envelopeSummary": {
+          "channelCount": 4,
+          "dryRunOnly": true,
+          "envelopeId": "expr_pipeline_golden",
+          "expressionFamily": "review_due_nudge",
+          "messageType": "expression_preview",
+          "motionPolicy": "locked",
+          "privacyStatus": "redacted_coarse_only",
+          "protocol": "shime_robot_expression",
+          "protocolVersion": "1.0.0",
+          "reasonCodes": [
+            "due_pressure_high",
+            "fsrs_signal_extracted",
+            "due_items_present",
+            "overdue_items_present",
+            "memory_risk_detected",
+            "protocol_pipeline_report_fixture",
+            "learning_capsule_redacted",
+            "robot_expression_mapped",
+            "robot_expression_contract_created",
+            "robot_expression_envelope_created"
+          ],
+          "safetyStatus": "allowed_dry_run",
+          "sendStatus": "not_sent",
+          "validationStatus": "accepted"
+        },
+        "reasonCodes": [
+          "fake_expression_ack_accepted"
+        ],
+        "sendStatus": "not_sent",
+        "step": 2,
+        "validationStatus": "accepted"
+      }
+    ],
+    "sendStatus": "not_sent",
+    "transcriptProtocol": "shime_fake_expression_transcript",
+    "transcriptVersion": "1.0.0"
+  },
+  "fusionSummary": {
+    "dryRunOnly": true,
+    "forgettingRiskBucket": "high",
+    "invariantStatus": "pass",
+    "memoryPressureBucket": "high",
+    "recoveryNeedBucket": "none",
+    "robotInterventionFamily": "review_due_nudge",
+    "safetyOutcome": "allowed_dry_run",
+    "sendStatus": "not_sent",
+    "timetableRecommendation": "short_session_soon",
+    "transportRecommendation": "no_transport_safe"
+  },
+  "pipelineVersion": "shime-expression-protocol-pipeline-v1",
+  "privacyResult": {
+    "ok": true,
+    "privacyStatus": "redacted_coarse_only",
+    "reasonCodes": [
+      "robot_expression_protocol_privacy_checked"
+    ]
+  },
+  "reasonCodes": [
+    "robot_expression_protocol_pipeline_completed"
+  ],
+  "safetyResult": {
+    "failures": [],
+    "ok": true,
+    "reasonCodes": [
+      "robot_expression_protocol_safety_checked"
+    ]
+  },
+  "sendStatus": "not_sent"
+}
