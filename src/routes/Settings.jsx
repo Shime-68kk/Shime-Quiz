@@ -88,6 +88,7 @@ import DeviceBridgeUiConcept from '../components/settings/DeviceBridgeUiConcept.
 import CompanionDevPanel from '../components/settings/CompanionDevPanel.jsx';
 import SafeCapsuleControlCenter from '../components/settings/SafeCapsuleControlCenter.jsx';
 import SafeCapsuleRehearsalLab from '../components/settings/SafeCapsuleRehearsalLab.jsx';
+import SafeCapsuleExportVault from '../components/settings/SafeCapsuleExportVault.jsx';
 import { ShimeLanguageProvider } from '../uiI18n/ShimeLanguageProvider.jsx';
 import ShimeLanguageSwitch from '../uiI18n/ShimeLanguageSwitch.jsx';
 
@@ -105,6 +106,7 @@ export default function Settings() {
         <CompanionDevPanel />
         <SafeCapsuleControlCenter />
         <SafeCapsuleRehearsalLab />
+        <SafeCapsuleExportVault />
         <EduGenDraftWorkshopPanel />
         <EduGenDraftReviewPanel onConfirmImport={onConfirmImport} />
         {shouldShowDataSafetyCenterPrototype(PHASE31C_PROTOTYPE_CONFIG) && (

@@ -13,6 +13,7 @@
     "test:e2e:onboarding": "playwright test e2e/onboarding-smoke.spec.js --project=chromium",
     "test:e2e:safe-capsule": "playwright test e2e/safe-capsule-control-center.spec.js --project=chromium",
     "test:e2e:safe-capsule-rehearsal": "playwright test e2e/safe-capsule-rehearsal-lab.spec.js --project=chromium",
+    "test:e2e:safe-capsule-export": "playwright test e2e/safe-capsule-export-vault.spec.js --project=chromium",
     "create:safe-capsule-mock-import": "node scripts/create-safe-capsule-mock-import-package.js",
     "test:unit": "vitest run tests/unit"
   },
