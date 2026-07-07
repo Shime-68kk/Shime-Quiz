@@ -14,7 +14,9 @@
     "test:e2e:safe-capsule": "playwright test e2e/safe-capsule-control-center.spec.js --project=chromium",
     "test:e2e:safe-capsule-rehearsal": "playwright test e2e/safe-capsule-rehearsal-lab.spec.js --project=chromium",
     "test:e2e:safe-capsule-export": "playwright test e2e/safe-capsule-export-vault.spec.js --project=chromium",
+    "test:e2e:safe-capsule-e2e-verify": "playwright test e2e/safe-capsule-end-to-end-verification.spec.js --project=chromium",
     "create:safe-capsule-mock-import": "node scripts/create-safe-capsule-mock-import-package.js",
+    "verify:safe-capsule-mock-handoff": "node scripts/verify-safe-capsule-mock-handoff.js",
     "test:unit": "vitest run tests/unit"
   },
   "dependencies": {
