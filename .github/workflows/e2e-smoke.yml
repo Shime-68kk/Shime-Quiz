@@ -225,12 +225,20 @@ jobs:
       # Validate Phase 37C Limited Release Readiness Gap Review Return
       # node scripts/validate-phase37c-limited-release-readiness-gap-review-return.js
 
-      - name: Validate Phase 37D Limited Release Evidence Action Plan
+      # Phase 37D validator retained as commented historical reference only; not run as Phase 37E merge-blocking gate.
+      # Validate Phase 37D Limited Release Evidence Action Plan
+      # node scripts/validate-phase37d-limited-release-evidence-action-plan.js
+
+      # Phase 37E validator retained as commented historical reference only; not run as Phase 37F merge-blocking gate.
+      # Validate Phase 37E Manual Readiness Evidence Collection
+      # node scripts/validate-phase37e-manual-readiness-evidence-collection.js
+
+      - name: Validate Phase 37F Limited Release Evidence Review
         env:
           PHASE36H_HISTORICAL_WORKFLOW_REFERENCE_FOR_LEGACY_STATIC_TEST: |
             run: node scripts/validate-phase36h-core-interactive-focus-visible-consistency-pilot.js
         run: |
-          node scripts/validate-phase37d-limited-release-evidence-action-plan.js
+          node scripts/validate-phase37f-limited-release-evidence-review.js
 
       - name: Build app
         run: npm run build
