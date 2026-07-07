@@ -11,6 +11,7 @@
     "test:e2e:smoke": "playwright test e2e/smoke.spec.js --project=chromium",
     "validate:import": "node scripts/validate-import-validation.js",
     "test:e2e:onboarding": "playwright test e2e/onboarding-smoke.spec.js --project=chromium",
+    "test:e2e:safe-capsule": "playwright test e2e/safe-capsule-control-center.spec.js --project=chromium",
     "test:unit": "vitest run tests/unit"
   },
   "dependencies": {

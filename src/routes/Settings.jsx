@@ -86,6 +86,7 @@ const PHASE31C_PROTOTYPE_CONFIG = createDataSafetyInternalVisibilityConfig(
 import ThemeSettingsPanel from '../components/settings/ThemeSettingsPanel.jsx';
 import DeviceBridgeUiConcept from '../components/settings/DeviceBridgeUiConcept.jsx';
 import CompanionDevPanel from '../components/settings/CompanionDevPanel.jsx';
+import SafeCapsuleControlCenter from '../components/settings/SafeCapsuleControlCenter.jsx';
 import { ShimeLanguageProvider } from '../uiI18n/ShimeLanguageProvider.jsx';
 import ShimeLanguageSwitch from '../uiI18n/ShimeLanguageSwitch.jsx';
 
@@ -101,6 +102,7 @@ export default function Settings() {
         <FsrsExperimentalSettingsPanel />
         <DeviceBridgeUiConcept />
         <CompanionDevPanel />
+        <SafeCapsuleControlCenter />
         <EduGenDraftWorkshopPanel />
         <EduGenDraftReviewPanel onConfirmImport={onConfirmImport} />
         {shouldShowDataSafetyCenterPrototype(PHASE31C_PROTOTYPE_CONFIG) && (
