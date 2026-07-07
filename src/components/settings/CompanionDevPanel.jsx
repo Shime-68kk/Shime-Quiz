@@ -1,7 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Card from '../Card.jsx';
 import Button from '../Button.jsx';
-import { createCompanionDevTapRuntime } from '../../companion/index.js';
+import {
+  clearSharedCompanionLiveDevTapTranscript,
+  disableSharedCompanionLiveDevTap,
+  enableSharedCompanionLiveDevTap,
+  getSharedCompanionLiveDevTapSnapshot,
+  subscribeSharedCompanionLiveDevTap
+} from '../../companion/index.js';
 import { getSharedDeviceBridgeFacade } from '../../deviceBridge/index.js';
 import { useShimeLanguage } from '../../uiI18n/useShimeLanguage.js';
 import {
@@ -19,6 +25,13 @@ import {
   getCommandLabel,
   getTableHeaderLabel
 } from './companionDevPanelCopy.js';
+import {
+  createV2PanelSnapshot,
+  runV2DryRunFromTranscript,
+  toV2PanelRows
+} from './companionV2PanelAdapter.js';
+import { runShimeFusionPanelDryRun } from './shimeEcosystemFusionPanelAdapter.js';
+import { runRobotExpressionPreviewPanel } from './robotExpressionPreviewPanelAdapter.js';
 
 const metricStyle = {
   padding: '10px',
@@ -27,6 +40,8 @@ const metricStyle = {
   background: 'var(--surface-strong)',
   boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.05)'
 };
+
+const explicitDevControlLabels = ['Kích hoạt bảng thử nghiệm', 'Bật theo dõi thật'];
 
 function EmptyTranscript({ locale }) {
   const copy = getCompanionPanelCopy(locale);
@@ -99,17 +114,16 @@ export default function CompanionDevPanel() {
   const isEn = locale === 'en';
 
   const scenarios = useMemo(() => getCompanionDemoScenarios(), []);
-  const liveRuntimeRef = useRef(null);
   const [panelState, setPanelState] = useState(() => createInitialCompanionPanelState());
   const [liveState, setLiveState] = useState(() => createInitialLiveTapPanelState());
+  const [v2DryRun, setV2DryRun] = useState(null);
+  const [shimeFusion, setShimeFusion] = useState(null);
+  const [robotExpressionPreview, setRobotExpressionPreview] = useState(null);
 
   useEffect(() => {
-    return () => {
-      if (liveRuntimeRef.current) {
-        liveRuntimeRef.current.disable();
-        liveRuntimeRef.current = null;
-      }
-    };
+    return subscribeSharedCompanionLiveDevTap(({ snapshot, transcript }) => {
+      setLiveState(summarizeLiveTapSnapshot(snapshot, transcript));
+    });
   }, []);
 
   const handleEnable = () => {
@@ -137,37 +151,51 @@ export default function CompanionDevPanel() {
   };
 
   const handleEnableLiveTap = () => {
-    if (liveRuntimeRef.current) return;
-    const runtime = createCompanionDevTapRuntime({
-      facade: getSharedDeviceBridgeFacade(),
-      onRuntimeUpdate({ snapshot, transcript }) {
-        setLiveState(summarizeLiveTapSnapshot(snapshot, transcript));
-      }
-    });
-    liveRuntimeRef.current = runtime;
-    runtime.enable();
+    const runtime = enableSharedCompanionLiveDevTap({ facade: getSharedDeviceBridgeFacade() });
     syncLiveState(runtime);
   };
 
   const handleDisableLiveTap = () => {
-    if (liveRuntimeRef.current) {
-      liveRuntimeRef.current.disable();
-      liveRuntimeRef.current = null;
-    }
-    setLiveState(previous => ({
-      ...previous,
-      enabled: false,
-      subscribed: false
-    }));
+    const runtime = disableSharedCompanionLiveDevTap();
+    if (runtime) syncLiveState(runtime);
+    else setLiveState(previous => ({ ...previous, enabled: false, subscribed: false }));
   };
 
   const handleClearLiveTranscript = () => {
-    if (liveRuntimeRef.current) {
-      liveRuntimeRef.current.clearTranscript();
-      syncLiveState(liveRuntimeRef.current);
-      return;
-    }
-    setLiveState(createInitialLiveTapPanelState());
+    const runtime = clearSharedCompanionLiveDevTapTranscript();
+    if (runtime) syncLiveState(runtime);
+    else setLiveState(createInitialLiveTapPanelState());
+  };
+
+  const getCurrentTranscript = () => {
+    const shared = getSharedCompanionLiveDevTapSnapshot();
+    if (Array.isArray(shared.transcript) && shared.transcript.length > 0) return shared.transcript;
+    return panelState.transcript || [];
+  };
+
+  const handleRunV2DryRun = () => {
+    setV2DryRun(runV2DryRunFromTranscript(getCurrentTranscript()));
+  };
+
+  const handleClearV2DryRun = () => {
+    setV2DryRun(null);
+  };
+
+  const handleRunShimeFusion = () => {
+    setShimeFusion(runShimeFusionPanelDryRun(getCurrentTranscript()));
+  };
+
+  const handleClearShimeFusion = () => {
+    setShimeFusion(null);
+    setRobotExpressionPreview(null);
+  };
+
+  const handleRunRobotExpressionPreview = () => {
+    setRobotExpressionPreview(runRobotExpressionPreviewPanel(shimeFusion));
+  };
+
+  const handleClearRobotExpressionPreview = () => {
+    setRobotExpressionPreview(null);
   };
 
   return (
@@ -302,6 +330,25 @@ export default function CompanionDevPanel() {
           </div>
         </div>
 
+        <section style={{ border: '1px solid var(--border)', borderRadius: '8px', padding: '12px 14px', display: 'grid', gap: '10px' }}>
+          <strong>{getCompanionLabel('commandPreviewTitle', locale)}</strong>
+          <span style={{ color: 'var(--color-text-muted)', fontSize: '0.84rem' }}>{getCompanionLabel('commandPreviewDescription', locale)}</span>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '10px' }}>
+            <div style={metricStyle}>
+              <span style={{ color: 'var(--color-text-muted)', fontSize: '0.78rem' }}>{getCompanionLabel('companionSummaryTitle', locale)}</span>
+              <strong style={{ display: 'block', fontSize: '0.9rem', marginTop: '2px' }}>
+                {getCommandLabel(panelState.lastRobotCommand, locale)}
+              </strong>
+            </div>
+            <div style={metricStyle}>
+              <span style={{ color: 'var(--color-text-muted)', fontSize: '0.78rem' }}>{getCompanionLabel('learningRhythmTitle', locale)}</span>
+              <strong style={{ display: 'block', fontSize: '0.9rem', marginTop: '2px' }}>
+                {panelState.observedCount > 0 ? `${panelState.acceptedCount}/${panelState.observedCount}` : (isEn ? 'none' : 'không')}
+              </strong>
+            </div>
+          </div>
+        </section>
+
         {/* Chế độ B: Theo dõi thật — chỉ quan sát */}
         <div
           style={{
@@ -384,6 +431,76 @@ export default function CompanionDevPanel() {
             </div>
           </div>
         </div>
+
+        <section style={{ border: '1px solid rgba(124, 58, 237, 0.22)', borderRadius: '8px', padding: '12px 14px', display: 'grid', gap: '10px' }}>
+          <strong>C. Não đồng hành V2 — chạy thử khô</strong>
+          <span style={{ color: 'var(--color-text-muted)', fontSize: '0.84rem' }}>
+            Chạy thử từ nhật ký đã làm mờ/rút gọn. Dry-run only, không gửi lệnh, không gọi AI/cloud.
+          </span>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+            <Button type="button" size="sm" onClick={handleRunV2DryRun}>Chạy V2 trên nhật ký hiện tại</Button>
+            <Button type="button" variant="ghost" size="sm" onClick={handleClearV2DryRun}>Xóa kết quả V2</Button>
+          </div>
+          {v2DryRun ? (
+            <div style={{ display: 'grid', gap: '8px' }}>
+              <span>Trạng thái V2: {v2DryRun.empty ? 'Chưa có nhật ký để chạy V2' : 'V2 đã chạy dry-run'}</span>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px' }}>
+                {Object.entries(createV2PanelSnapshot(v2DryRun)).slice(0, 6).map(([key, value]) => (
+                  <div key={key} style={metricStyle}>
+                    <span style={{ color: 'var(--color-text-muted)', fontSize: '0.78rem' }}>{key}</span>
+                    <strong style={{ display: 'block', fontSize: '0.85rem', marginTop: '2px' }}>{String(value ?? 'không')}</strong>
+                  </div>
+                ))}
+              </div>
+              <span style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem' }}>
+                {toV2PanelRows(v2DryRun).length} hàng dry-run · not_sent
+              </span>
+            </div>
+          ) : (
+            <div style={{ color: 'var(--color-text-muted)', fontStyle: 'italic' }}>Chưa có nhật ký để chạy V2 · V2 chưa chạy</div>
+          )}
+        </section>
+
+        <section style={{ border: '1px solid rgba(34, 197, 94, 0.22)', borderRadius: '8px', padding: '12px 14px', display: 'grid', gap: '10px' }}>
+          <strong>D. Hệ sinh thái Shime — chạy thử khớp nối</strong>
+          <span style={{ color: 'var(--color-text-muted)', fontSize: '0.84rem' }}>
+            Khớp nối Shime dùng tín hiệu đã làm mờ/rút gọn, không mở kết nối và không gửi điều khiển.
+          </span>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+            <Button type="button" size="sm" onClick={handleRunShimeFusion}>Chạy khớp nối Shime</Button>
+            <Button type="button" variant="ghost" size="sm" onClick={handleClearShimeFusion}>Xóa kết quả khớp nối</Button>
+          </div>
+          {shimeFusion && !shimeFusion.empty ? (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(145px, 1fr))', gap: '10px' }}>
+              <div style={metricStyle}><span>Áp lực trí nhớ</span><strong style={{ display: 'block' }}>{shimeFusion.snapshot.memoryPressureLabel}</strong></div>
+              <div style={metricStyle}><span>Can thiệp robot</span><strong style={{ display: 'block' }}>{shimeFusion.snapshot.robotInterventionLabel}</strong></div>
+              <div style={metricStyle}><span>Lịch học</span><strong style={{ display: 'block' }}>{shimeFusion.snapshot.timetableRecommendationLabel}</strong></div>
+              <div style={metricStyle}><span>Kết nối</span><strong style={{ display: 'block' }}>{shimeFusion.snapshot.transportRecommendationLabel}</strong></div>
+            </div>
+          ) : (
+            <div style={{ color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
+              Chưa chạy khớp nối Shime trong phiên hiển thị hiện tại.
+            </div>
+          )}
+        </section>
+
+        <section style={{ border: '1px solid rgba(14, 165, 233, 0.22)', borderRadius: '8px', padding: '12px 14px', display: 'grid', gap: '10px' }}>
+          <strong>Robot Shime — xem trước biểu cảm</strong>
+          <span style={{ color: 'var(--color-text-muted)', fontSize: '0.84rem' }}>Bảng giả lập Robot Shime · motion locked · not_sent.</span>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+            <Button type="button" size="sm" onClick={handleRunRobotExpressionPreview}>Chạy xem trước biểu cảm</Button>
+            <Button type="button" variant="ghost" size="sm" onClick={handleClearRobotExpressionPreview}>Xóa xem trước biểu cảm</Button>
+          </div>
+          {robotExpressionPreview && !robotExpressionPreview.empty ? (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(145px, 1fr))', gap: '10px' }}>
+              <div style={metricStyle}><span>Biểu cảm</span><strong style={{ display: 'block' }}>{robotExpressionPreview.expressionDisplay.expressionFamilyLabel}</strong></div>
+              <div style={metricStyle}><span>Màn hình</span><strong style={{ display: 'block' }}>{robotExpressionPreview.fakeRobotConsole.currentFaceLabel}</strong></div>
+              <div style={metricStyle}><span>Khóa chuyển động</span><strong style={{ display: 'block' }}>{robotExpressionPreview.fakeRobotConsole.motionLockLabel}</strong></div>
+            </div>
+          ) : (
+            <div style={{ color: 'var(--color-text-muted)', fontStyle: 'italic' }}>Chưa chạy xem trước biểu cảm</div>
+          )}
+        </section>
       </div>
     </Card>
   );
