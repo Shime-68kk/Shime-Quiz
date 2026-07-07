@@ -147,7 +147,7 @@ test('Study Room default flow can answer items, finish, and persist local histor
   await applicationChoice.click();
   await expect(page.getByLabel(/Application/)).toBeChecked();
   await page.getByRole('button', { name: 'Kiểm tra đáp án' }).click();
-  await expect(page.getByText('Đúng')).toBeVisible();
+  await expect(page.getByText('Đúng', { exact: true })).toBeVisible();
 
   await page.getByRole('button', { name: 'Câu tiếp theo' }).click();
   await expect(page.getByRole('button', { name: 'Lật thẻ' })).toBeVisible();
