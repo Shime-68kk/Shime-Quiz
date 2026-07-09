@@ -58,7 +58,10 @@ describe('StudyRoom mobile layout polish', () => {
     expect(globalCss).toContain('width: min(100%, 100vw)');
     expect(globalCss).toContain('font-size: clamp(1.05rem, 4.8vw, 1.42rem)');
     expect(globalCss).toContain('min-height: 50px');
-    expect(globalCss).toContain('scroll-snap-type: x mandatory');
+    expect(globalCss).toMatch(/scroll-snap-type:\s*x proximity/u);
+    expect(globalCss).not.toMatch(/scroll-snap-type:\s*x mandatory/u);
+    expect(globalCss).toContain('touch-action: pan-y');
+    expect(globalCss).toContain('studyQuestionSoftIn 0.18s ease-out both');
     expect(globalCss).toContain('@media (prefers-reduced-motion: reduce)');
   });
 });
