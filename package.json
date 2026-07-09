@@ -23,6 +23,7 @@
     "validate:studyroom-subject-spaces": "node scripts/validate-big-update-6-studyroom-subject-spaces.js",
     "validate:mobile-wireless-handoff": "node scripts/validate-big-update-7-mobile-wireless-handoff.js",
     "validate:mobile-gesture-tuning": "node scripts/validate-big-update-8-mobile-gesture-tuning.js",
+    "validate:architecture-foundation": "node scripts/validate-big-update-9-architecture-foundation.js",
     "test:unit": "vitest run tests/unit"
   },
   "dependencies": {
