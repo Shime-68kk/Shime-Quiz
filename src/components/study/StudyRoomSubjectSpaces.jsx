@@ -13,7 +13,7 @@ export default function StudyRoomSubjectSpaces({
   const activeAlert = alerts.find(alert => alert.subjectId === activeSpace.subjectId);
 
   return (
-    <section className="studySubjectSpaces" aria-label="Phòng học theo môn">
+    <section className="studySubjectSpaces mobileStudyRoomPolish" aria-label="Phòng học theo môn" data-mobile-studyroom-polish="true">
       <div className="studySubjectSpaces__header">
         <div>
           <strong>Phòng học theo môn</strong>
@@ -50,6 +50,7 @@ export default function StudyRoomSubjectSpaces({
               type="button"
               role="tab"
               aria-selected={selected}
+              tabIndex={selected ? 0 : -1}
               className={`studySubjectChip ${selected ? 'studySubjectChip--active' : ''}`}
               onClick={() => onSelectSubject?.(space.subjectId)}
             >
