@@ -17,6 +17,7 @@
     "test:e2e:safe-capsule-e2e-verify": "playwright test e2e/safe-capsule-end-to-end-verification.spec.js --project=chromium",
     "create:safe-capsule-mock-import": "node scripts/create-safe-capsule-mock-import-package.js",
     "verify:safe-capsule-mock-handoff": "node scripts/verify-safe-capsule-mock-handoff.js",
+    "test:robot-sensing-sim": "node scripts/run-radar-tof-sensing-scenarios.js --all",
     "test:unit": "vitest run tests/unit"
   },
   "dependencies": {

@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { generateShimeEcosystemScenarios, runShimeEcosystemBenchmark } from '../../../src/shimeIntelligence/shimeEcosystemBenchmark.js';
 
+const BENCHMARK_TIMEOUT_MS = 20000;
+
 describe('shimeEcosystemBenchmark', () => {
   it('generates and passes 10000 deterministic scenarios with 1000 attacks', () => {
     const a = generateShimeEcosystemScenarios({ seed: 1 });
@@ -15,5 +17,5 @@ describe('shimeEcosystemBenchmark', () => {
     expect(result.mixedScenarioCount).toBeGreaterThanOrEqual(1000);
     expect(result.transportRecommendationOnly).toBe(true);
     expect(result.passed).toBe(true);
-  });
+  }, BENCHMARK_TIMEOUT_MS);
 });

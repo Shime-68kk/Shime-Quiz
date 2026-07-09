@@ -50,13 +50,18 @@ test.beforeEach(async ({ page }) => {
 
 test('routes render without critical uncaught errors', async ({ page }) => {
   const criticalErrors = installCriticalErrorCapture(page);
+  const routeReadyHeadings = {
+    '/': /Học quiz cục bộ, rõ ràng, không cần tài khoản\./,
+    '/dashboard': /Chào mừng quay lại/,
+    '/library': /Thư viện học liệu/,
+    '/study-room': /Phòng học tập trung/
+  };
 
-  for (const route of ['/', '/dashboard', '/library', '/study-room']) {
-    await page.goto(route);
-    await expect(page.locator('#root')).toBeVisible();
+  for (const [route, heading] of Object.entries(routeReadyHeadings)) {
+    await page.goto(route, { waitUntil: 'domcontentloaded' });
+    await expect(page.getByRole('heading', { name: heading })).toBeVisible({ timeout: 15000 });
   }
 
-  await expect(page.getByRole('heading', { name: /Chào mừng quay lại|Thư viện học liệu|Phòng học tập trung/ })).toBeVisible();
   await expectNoCriticalErrors(criticalErrors);
 });
 

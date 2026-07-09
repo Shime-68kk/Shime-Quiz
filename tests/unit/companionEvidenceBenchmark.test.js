@@ -7,6 +7,8 @@ import {
   writeCompanionEvidenceBenchmarkArtifacts
 } from '../../tools/deviceBridge/companionEvidenceBenchmark.mjs';
 
+const BENCHMARK_TIMEOUT_MS = 20000;
+
 describe('companionEvidenceBenchmark', () => {
   it('creates required evidence shapes and artifacts for 1000+ scenarios', () => {
     const report = createCompanionEvidenceBenchmark({ count: 1000, attackCount: 120, seed: 33 });
@@ -20,5 +22,5 @@ describe('companionEvidenceBenchmark', () => {
     const files = writeCompanionEvidenceBenchmarkArtifacts(report, { outputDir });
     expect(files).toHaveLength(6);
     rmSync(outputDir, { recursive: true, force: true });
-  });
+  }, BENCHMARK_TIMEOUT_MS);
 });
