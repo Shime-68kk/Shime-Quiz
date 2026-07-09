@@ -31,6 +31,7 @@ import { createStudyRoomBridgeAdapter } from '../deviceBridge/studyRoomBridgeAda
 import { createStudySubjectSpaces } from '../studyRoom/studySubjectSpaceModel.js';
 import { createSubjectForgettingAlerts } from '../studyRoom/subjectForgettingAlertModel.js';
 import { resolveStudyRoomSubjectNavigation } from '../studyRoom/studyRoomSubjectNavigationModel.js';
+import { resolveStudyRoomSwipeGesture } from '../studyRoom/studyRoomSwipeGesture.js';
 
 function getStudyMode(selection) {
   if (selection?.mode === 'due-review') return 'due-review';
@@ -635,24 +636,36 @@ export default function StudyRoom() {
   // Touch swipe support for smartphone touch screens
   function handleTouchStart(e) {
     setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
+    const touch = e.targetTouches[0];
+    setTouchStart({ x: touch.clientX, y: touch.clientY, time: Date.now() });
   }
 
   function handleTouchMove(e) {
-    setTouchEnd(e.targetTouches[0].clientX);
+    const touch = e.targetTouches[0];
+    setTouchEnd({ x: touch.clientX, y: touch.clientY, time: Date.now() });
   }
 
   function handleTouchEnd() {
     if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50; // swipe left -> next
-    const isRightSwipe = distance < -50; // swipe right -> prev
-    
-    if (isLeftSwipe) {
+    const gesture = resolveStudyRoomSwipeGesture({
+      startX: touchStart.x,
+      startY: touchStart.y,
+      endX: touchEnd.x,
+      endY: touchEnd.y,
+      elapsedMs: Math.max(0, (touchEnd.time || Date.now()) - (touchStart.time || Date.now())),
+      pointerType: 'touch',
+      viewportWidth: typeof window !== 'undefined' ? window.innerWidth : 390,
+      currentInteraction: 'question_navigation'
+    });
+
+    setTouchStart(null);
+    setTouchEnd(null);
+
+    if (gesture === 'next') {
       if (currentIndex < items.length - 1) {
         goToNext();
       }
-    } else if (isRightSwipe) {
+    } else if (gesture === 'previous') {
       if (currentIndex > 0) {
         goToPrevious();
       }
