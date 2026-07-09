@@ -9,6 +9,7 @@ import PageHeader from '../components/PageHeader.jsx';
 import ProgressBar from '../components/ProgressBar.jsx';
 import StudyItemRenderer from '../components/study/StudyItemRenderer.jsx';
 import StudyResultSummary from '../components/study/StudyResultSummary.jsx';
+import StudyRoomSubjectSpaces from '../components/study/StudyRoomSubjectSpaces.jsx';
 import FsrsProductionMemoryRatingBridge from '../components/study/FsrsProductionMemoryRatingBridge.jsx';
 import { createStudyHistoryRecord, saveStudyHistoryRecord } from '../state/studyHistoryStorage.js';
 import { readReviewSchedule, updateReviewScheduleFromHistoryRecord, appendFsrsReviewLog, getBridgeToggleEnabled } from '../state/reviewScheduleStorage.js';
@@ -27,6 +28,9 @@ import { createStudyAttemptSummary, getIncompleteStudyItemCount } from '../study
 import { normalizeAnswerText } from '../utils/text.js';
 import { shouldShowFsrsTwoStepBridge } from '../quiz/reviewSchedulerAdapter.js';
 import { createStudyRoomBridgeAdapter } from '../deviceBridge/studyRoomBridgeAdapter.js';
+import { createStudySubjectSpaces } from '../studyRoom/studySubjectSpaceModel.js';
+import { createSubjectForgettingAlerts } from '../studyRoom/subjectForgettingAlertModel.js';
+import { resolveStudyRoomSubjectNavigation } from '../studyRoom/studyRoomSubjectNavigationModel.js';
 
 function getStudyMode(selection) {
   if (selection?.mode === 'due-review') return 'due-review';
@@ -82,6 +86,12 @@ function getStudyItems(adapter, selection) {
 
 function getTopicLookup(adapter) {
   return new Map(adapter.data.topics.map(topic => [topic.id, topic]));
+}
+
+function getItemSubjectSpaceId(item, subjectSpaces = []) {
+  const subjectId = item?.subjectId ? String(item.subjectId) : '';
+  if (subjectId && subjectSpaces.some(space => space.subjectId === subjectId)) return subjectId;
+  return subjectSpaces[0]?.subjectId || '';
 }
 
 function nowIso() {
@@ -243,6 +253,7 @@ export default function StudyRoom() {
   const [resultPersistenceNote, setResultPersistenceNote] = useState('');
   const [microFeedback, setMicroFeedback] = useState({ tone: 'info', title: '', message: '' });
   const [pendingSessionAction, setPendingSessionAction] = useState('');
+  const [activeSubjectSpaceId, setActiveSubjectSpaceId] = useState('');
   // Phase 14N: per-item bridge state — {phase:'auto-again'|'rated'|'skipped', rating} or undefined.
   const [bridgeStateByItemId, setBridgeStateByItemId] = useState({});
   const [touchStart, setTouchStart] = useState(null);
@@ -258,6 +269,26 @@ export default function StudyRoom() {
   if (!deviceBridgeSessionIdRef.current) deviceBridgeSessionIdRef.current = createDeviceBridgeSessionId();
 
   const currentItem = items[currentIndex] || null;
+  const subjectSpaces = useMemo(() => {
+    const schedule = readReviewSchedule();
+    return createStudySubjectSpaces({
+      subjects: adapter.data.subjects,
+      topics: adapter.data.topics,
+      items,
+      scheduleRecords: schedule.records || [],
+      sourceType: selection?.mode || 'studyroom',
+      now: new Date()
+    });
+  }, [adapter, completedAttempt, itemSetFingerprint, items, selection?.mode]);
+  const currentSubjectSpaceId = getItemSubjectSpaceId(currentItem, subjectSpaces);
+  const visibleSubjectSpaceId = activeSubjectSpaceId || currentSubjectSpaceId;
+  const subjectNavigation = useMemo(() => resolveStudyRoomSubjectNavigation({
+    subjectSpaces,
+    activeSubjectId: visibleSubjectSpaceId,
+    gesture: 'none',
+    prefersReducedMotion: false
+  }), [subjectSpaces, visibleSubjectSpaceId]);
+  const subjectAlerts = useMemo(() => createSubjectForgettingAlerts(subjectSpaces), [subjectSpaces]);
   const currentTopic = currentItem ? topicLookup.get(currentItem.topicId) : null;
   const currentItemId = currentItem?.id ? String(currentItem.id) : '';
   const progressValue = items.length ? ((currentIndex + 1) / items.length) * 100 : 0;
@@ -343,6 +374,7 @@ export default function StudyRoom() {
     setMicroFeedback({ tone: 'info', title: '', message: '' });
     setPendingSessionAction('');
     setBridgeStateByItemId({});
+    setActiveSubjectSpaceId('');
 
     if (!items.length) {
       setCurrentIndex(0);
@@ -358,6 +390,7 @@ export default function StudyRoom() {
       setMicroFeedback({ tone: 'info', title: '', message: '' });
       setPendingSessionAction('');
       setBridgeStateByItemId({});
+      setActiveSubjectSpaceId('');
       return;
     }
 
@@ -406,6 +439,12 @@ export default function StudyRoom() {
       draftReadyRef.current = true;
     });
   }, [isDueReviewMode, isSmartPracticeMode, itemSetFingerprint, items, studyMode]);
+
+  useEffect(() => {
+    if (currentSubjectSpaceId && activeSubjectSpaceId !== currentSubjectSpaceId) {
+      setActiveSubjectSpaceId(currentSubjectSpaceId);
+    }
+  }, [activeSubjectSpaceId, currentSubjectSpaceId]);
 
   useEffect(() => {
     if (!draftReadyRef.current || !items.length || completedAttempt) return undefined;
@@ -571,6 +610,26 @@ export default function StudyRoom() {
     if (completedAttempt) return;
     clearSessionConfirmation();
     setCurrentIndex(index => Math.min(items.length - 1, index + 1));
+  }
+
+  function goToSubjectSpace(subjectId) {
+    if (!subjectId || completedAttempt) return;
+    const nextIndex = items.findIndex(item => String(item?.subjectId || '') === String(subjectId));
+    if (nextIndex >= 0) {
+      clearSessionConfirmation();
+      setActiveSubjectSpaceId(subjectId);
+      setCurrentIndex(nextIndex);
+    }
+  }
+
+  function navigateSubjectSpace(gesture) {
+    const next = resolveStudyRoomSubjectNavigation({
+      subjectSpaces,
+      activeSubjectId: visibleSubjectSpaceId,
+      gesture,
+      prefersReducedMotion: false
+    });
+    if (next.activeSubjectId) goToSubjectSpace(next.activeSubjectId);
   }
 
   // Touch swipe support for smartphone touch screens
@@ -903,6 +962,17 @@ export default function StudyRoom() {
           <strong>{selectionLabel}</strong>
           <span>{isDueReviewMode ? `${items.length} câu đến hạn` : isSmartPracticeMode ? `${items.length} câu được chọn` : `${items.length} item`}</span>
         </div>
+
+        {items.length ? (
+          <StudyRoomSubjectSpaces
+            subjectSpaces={subjectSpaces}
+            activeSubjectId={visibleSubjectSpaceId}
+            navigation={subjectNavigation}
+            alerts={subjectAlerts}
+            onSelectSubject={goToSubjectSpace}
+            onNavigateSubject={navigateSubjectSpace}
+          />
+        ) : null}
 
         {items.length ? (
           <div className="studyDraftStatus" role="status" aria-live="polite">
