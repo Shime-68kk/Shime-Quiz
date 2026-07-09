@@ -90,6 +90,7 @@ import SafeCapsuleControlCenter from '../components/settings/SafeCapsuleControlC
 import SafeCapsuleRehearsalLab from '../components/settings/SafeCapsuleRehearsalLab.jsx';
 import SafeCapsuleExportVault from '../components/settings/SafeCapsuleExportVault.jsx';
 import SafeCapsuleEndToEndVerificationPanel from '../components/settings/SafeCapsuleEndToEndVerificationPanel.jsx';
+import SchedulerEvidencePanel from '../components/settings/SchedulerEvidencePanel.jsx';
 import { ShimeLanguageProvider } from '../uiI18n/ShimeLanguageProvider.jsx';
 import ShimeLanguageSwitch from '../uiI18n/ShimeLanguageSwitch.jsx';
 
@@ -109,6 +110,7 @@ export default function Settings() {
         <SafeCapsuleRehearsalLab />
         <SafeCapsuleExportVault />
         <SafeCapsuleEndToEndVerificationPanel />
+        <SchedulerEvidencePanel />
         <EduGenDraftWorkshopPanel />
         <EduGenDraftReviewPanel onConfirmImport={onConfirmImport} />
         {shouldShowDataSafetyCenterPrototype(PHASE31C_PROTOTYPE_CONFIG) && (

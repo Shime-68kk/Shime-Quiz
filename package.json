@@ -18,6 +18,8 @@
     "create:safe-capsule-mock-import": "node scripts/create-safe-capsule-mock-import-package.js",
     "verify:safe-capsule-mock-handoff": "node scripts/verify-safe-capsule-mock-handoff.js",
     "test:robot-sensing-sim": "node scripts/run-radar-tof-sensing-scenarios.js --all",
+    "validate:scheduler-engine": "node scripts/validate-big-update-5-scheduler-engine.js",
+    "test:scheduler-lab": "vitest run tests/unit/schedulerComparisonLab.test.js tests/unit/fsrsReadinessGate.test.js",
     "test:unit": "vitest run tests/unit"
   },
   "dependencies": {
