@@ -524,7 +524,10 @@ phase19bAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.
 phase19bAllowedChangedFiles.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
 phase19bAllowedChangedFiles.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
 phase19bAllowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
-
+phase19bAllowedChangedFiles.add(`docs/research/phase24d-hf1-validator-forward-compat-maintenance.md`);
+phase19bAllowedChangedFiles.add(`docs/release/phase24d-hf1-validator-forward-compat-summary.md`);
+phase19bAllowedChangedFiles.add(`scripts/register-phase-forward-compat.js`);
+phase19bAllowedChangedFiles.add(`scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`);
 const fsrsRuntimeFiles = [
   `src/scheduler/fsrsAdapter.js`,
   `src/scheduler/fsrsScheduler.js`,

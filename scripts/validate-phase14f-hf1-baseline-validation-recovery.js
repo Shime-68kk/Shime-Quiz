@@ -336,7 +336,10 @@ hf1AllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.js`);
 hf1AllowedChangedFiles.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
 hf1AllowedChangedFiles.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
 hf1AllowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
-
+hf1AllowedChangedFiles.add(`docs/research/phase24d-hf1-validator-forward-compat-maintenance.md`);
+hf1AllowedChangedFiles.add(`docs/release/phase24d-hf1-validator-forward-compat-summary.md`);
+hf1AllowedChangedFiles.add(`scripts/register-phase-forward-compat.js`);
+hf1AllowedChangedFiles.add(`scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`);
 const generatedArtifacts = [
   'node_modules', 'dist', 'test-results', 'playwright-report',
   'coverage', 'FETCH_HEAD', '.env', '.env.local', '.git'

@@ -343,7 +343,10 @@ phase16kAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.
 phase16kAllowedChangedFiles.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
 phase16kAllowedChangedFiles.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
 phase16kAllowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
-
+phase16kAllowedChangedFiles.add(`docs/research/phase24d-hf1-validator-forward-compat-maintenance.md`);
+phase16kAllowedChangedFiles.add(`docs/release/phase24d-hf1-validator-forward-compat-summary.md`);
+phase16kAllowedChangedFiles.add(`scripts/register-phase-forward-compat.js`);
+phase16kAllowedChangedFiles.add(`scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`);
 // Hard-forbidden scheduler/storage/EduGen runtime files.
 const forbiddenRuntimeFiles = [
   'src/quiz/reviewSchedulerAdapter.js',

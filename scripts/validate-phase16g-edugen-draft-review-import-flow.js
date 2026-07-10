@@ -463,7 +463,10 @@ phase16gAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.
 phase16gAllowedChangedFiles.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
 phase16gAllowedChangedFiles.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
 phase16gAllowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
-
+phase16gAllowedChangedFiles.add(`docs/research/phase24d-hf1-validator-forward-compat-maintenance.md`);
+phase16gAllowedChangedFiles.add(`docs/release/phase24d-hf1-validator-forward-compat-summary.md`);
+phase16gAllowedChangedFiles.add(`scripts/register-phase-forward-compat.js`);
+phase16gAllowedChangedFiles.add(`scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`);
 // Hard-forbidden scheduler/storage files. Phase 16G must not touch these.
 const forbiddenRuntimeFiles = [
   'src/quiz/reviewSchedulerAdapter.js',

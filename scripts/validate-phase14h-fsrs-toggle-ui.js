@@ -637,7 +637,10 @@ phase14hAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.
 phase14hAllowedChangedFiles.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
 phase14hAllowedChangedFiles.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
 phase14hAllowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
-
+phase14hAllowedChangedFiles.add(`docs/research/phase24d-hf1-validator-forward-compat-maintenance.md`);
+phase14hAllowedChangedFiles.add(`docs/release/phase24d-hf1-validator-forward-compat-summary.md`);
+phase14hAllowedChangedFiles.add(`scripts/register-phase-forward-compat.js`);
+phase14hAllowedChangedFiles.add(`scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`);
 const generatedArtifacts = [
   'node_modules',
   'dist',

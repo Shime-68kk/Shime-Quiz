@@ -263,6 +263,9 @@ jobs:
       # node scripts/validate-phase16g-edugen-draft-review-import-flow.js
       # node scripts/validate-phase16h-edugen-draft-quality-review-source-aware-library.js
 
+      - name: Validate Phase 24D-HF1 Validator Forward-Compat Maintenance
+        run: node scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 

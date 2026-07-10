@@ -650,6 +650,10 @@ allowedChangedFiles.add(`docs/research/phase24d-backup-export-restore-adapter-aw
 allowedChangedFiles.add(`docs/release/phase24d-backup-export-restore-adapter-awareness-summary.md`);
 allowedChangedFiles.add(`scripts/validate-phase24d-backup-export-restore-adapter-awareness-design.js`);
 const generatedArtifacts = ['node_modules', 'dist', 'test-results', 'playwright-report', 'coverage', 'FETCH_HEAD'];
+allowedChangedFiles.add(`docs/research/phase24d-hf1-validator-forward-compat-maintenance.md`);
+allowedChangedFiles.add(`docs/release/phase24d-hf1-validator-forward-compat-summary.md`);
+allowedChangedFiles.add(`scripts/register-phase-forward-compat.js`);
+allowedChangedFiles.add(`scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`);
 const publicClaimFiles = [
   'README.md',
   'RELEASE_QA_V2.md',

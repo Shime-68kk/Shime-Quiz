@@ -869,6 +869,10 @@ allowedChangedFiles.add(`scripts/validate-phase24c-help-tour-storage-adapter-sca
 allowedChangedFiles.add(`docs/research/phase24d-backup-export-restore-adapter-awareness-design.md`);
 allowedChangedFiles.add(`docs/release/phase24d-backup-export-restore-adapter-awareness-summary.md`);
 allowedChangedFiles.add(`scripts/validate-phase24d-backup-export-restore-adapter-awareness-design.js`);
+allowedChangedFiles.add(`docs/research/phase24d-hf1-validator-forward-compat-maintenance.md`);
+allowedChangedFiles.add(`docs/release/phase24d-hf1-validator-forward-compat-summary.md`);
+allowedChangedFiles.add(`scripts/register-phase-forward-compat.js`);
+allowedChangedFiles.add(`scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`);
   for (const file of changedFiles()) {
     if ([`docs/testing/phase21e-manual-evidence-first-run-pack.md`, `docs/testing/phase21e-fillable-evidence-session-template.md`, `docs/release/phase21e-first-run-safety-and-claim-checklist.md`, `scripts/validate-phase21e-manual-evidence-first-run-pack.js`, `docs/testing/phase21f-first-manual-evidence-run-capture.md`, `docs/release/phase21f-first-manual-evidence-run-summary.md`, `scripts/validate-phase21f-first-manual-evidence-run-capture.js`,
   `docs/adr/phase21g-evidence-track-closure-phase22-readiness.md`,

@@ -548,7 +548,10 @@ phase15gAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.
 phase15gAllowedChangedFiles.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
 phase15gAllowedChangedFiles.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
 phase15gAllowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
-
+phase15gAllowedChangedFiles.add(`docs/research/phase24d-hf1-validator-forward-compat-maintenance.md`);
+phase15gAllowedChangedFiles.add(`docs/release/phase24d-hf1-validator-forward-compat-summary.md`);
+phase15gAllowedChangedFiles.add(`scripts/register-phase-forward-compat.js`);
+phase15gAllowedChangedFiles.add(`scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`);
 const bindingPackage = '@open-spaced-repetition/' + 'binding';
 
 const internalRegistryTerms = [

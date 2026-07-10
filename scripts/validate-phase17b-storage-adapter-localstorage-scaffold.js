@@ -320,7 +320,10 @@ phase17bAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.
 phase17bAllowedChangedFiles.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
 phase17bAllowedChangedFiles.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
 phase17bAllowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
-
+phase17bAllowedChangedFiles.add(`docs/research/phase24d-hf1-validator-forward-compat-maintenance.md`);
+phase17bAllowedChangedFiles.add(`docs/release/phase24d-hf1-validator-forward-compat-summary.md`);
+phase17bAllowedChangedFiles.add(`scripts/register-phase-forward-compat.js`);
+phase17bAllowedChangedFiles.add(`scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`);
 // Files that absolutely must not change.
 const forbiddenChangedFiles = [
   'package.json',

@@ -556,7 +556,10 @@ phase16cAllowedChangedFiles.add(`scripts/validate-phase23c-backup-health-design.
 phase16cAllowedChangedFiles.add(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
 phase16cAllowedChangedFiles.add(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
 phase16cAllowedChangedFiles.add(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
-
+phase16cAllowedChangedFiles.add(`docs/research/phase24d-hf1-validator-forward-compat-maintenance.md`);
+phase16cAllowedChangedFiles.add(`docs/release/phase24d-hf1-validator-forward-compat-summary.md`);
+phase16cAllowedChangedFiles.add(`scripts/register-phase-forward-compat.js`);
+phase16cAllowedChangedFiles.add(`scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`);
 const bindingPackage = '@open-spaced-repetition/' + 'binding';
 
 const internalRegistryTerms = [

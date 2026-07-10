@@ -37,7 +37,7 @@ phase21fPaths.push(`scripts/validate-phase23c-backup-health-design.js`);
 phase21fPaths.push(`docs/research/phase23d-backup-reminder-risk-friction-design.md`);
 phase21fPaths.push(`docs/release/phase23d-backup-reminder-risk-friction-summary.md`);
 phase21fPaths.push(`scripts/validate-phase23d-backup-reminder-risk-friction-design.js`);
-
+const phase24dHf1ForwardCompatPaths = [`docs/research/phase24d-hf1-validator-forward-compat-maintenance.md`, `docs/release/phase24d-hf1-validator-forward-compat-summary.md`, `scripts/register-phase-forward-compat.js`, `scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`];
 const requiredCaptureHeadings = [
   `# Phase 21F — First Manual Evidence Run Capture`,
   `## Purpose`,
@@ -170,6 +170,7 @@ const forbiddenClaims = [
 
 const allowedChanged = new Set([WORKFLOW, ...phase21fPaths]);
 for (const path of phase24dForwardCompatPaths) allowedChanged.add(path);
+for (const path of phase24dHf1ForwardCompatPaths) allowedChanged.add(path);
 allowedChanged.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 allowedChanged.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
 allowedChanged.add(`scripts/validate-phase23b-data-survival-ux-copy.js`);
@@ -360,7 +361,7 @@ function validateNoExecutedClaimWithoutEvidence() {
 }
 
 function validateHistoricalForwardCompat() {
-  const changedValidators = changedFiles().filter(file => file.startsWith(`scripts/validate-`) && file.endsWith(`.js`) && file !== VALIDATOR && file !== `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`);
+  const changedValidators = changedFiles().filter(file => file.startsWith(`scripts/validate-`) && file.endsWith(`.js`) && file !== VALIDATOR && file !== `scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js` && file !== `scripts/validate-phase22d-beta-readiness-redecision-actual-evidence.js`);
   for (const file of changedValidators) {
     if (file === `scripts/validate-phase23e-data-survival-comprehension-plan.js`) continue;
     if (file === `scripts/validate-phase23f-phase23-decision-gate.js`) continue;
@@ -378,19 +379,21 @@ function validateHistoricalForwardCompat() {
       if (line.includes(`phase24bForwardCompatPaths`)) continue;
       if (line.includes(`phase24cForwardCompatPaths`)) continue;
       if (line.includes(`phase24dForwardCompatPaths`)) continue;
+      if (line.includes(`phase24dHf1ForwardCompatPaths`)) continue;
       if (line.includes(`Phase 24D forward-compat entries`)) continue;
       if (line.includes(`Phase 24C forward-compat entries`)) continue;
       if (line.includes(`allowedChanged.has(file)`)) continue;
       if (line.includes(`AllowedChangedFiles.has(file)`)) continue;
       if (line.includes(`allowedChangedFiles.has(file)`)) continue;
+      if (line.includes(`forwardCompatPath`)) continue;
       if (line.includes(`isPhase23f`)) continue;
       if (line.includes(`isPhase24a`)) continue;
       if (line.includes(`isPhase24b`)) continue;
       if (line.includes(`isPhase24c`)) continue;
-      if (![...phase21fPaths, ...phase23eForwardCompatPaths, ...phase23fForwardCompatPaths, ...phase24aForwardCompatPaths, ...phase24bForwardCompatPaths, ...phase24cForwardCompatPaths, ...phase24dForwardCompatPaths].some(path => line.includes(path))) {
+      if (![...phase21fPaths, ...phase23eForwardCompatPaths, ...phase23fForwardCompatPaths, ...phase24aForwardCompatPaths, ...phase24bForwardCompatPaths, ...phase24cForwardCompatPaths, ...phase24dForwardCompatPaths, ...phase24dHf1ForwardCompatPaths].some(path => line.includes(path))) {
         fail(`${file} has non-Phase-21F forward-compat addition: ${line}`);
       }
-      for (const path of [...phase21fPaths, ...phase23eForwardCompatPaths, ...phase23fForwardCompatPaths, ...phase24aForwardCompatPaths, ...phase24bForwardCompatPaths, ...phase24cForwardCompatPaths, ...phase24dForwardCompatPaths]) {
+      for (const path of [...phase21fPaths, ...phase23eForwardCompatPaths, ...phase23fForwardCompatPaths, ...phase24aForwardCompatPaths, ...phase24bForwardCompatPaths, ...phase24cForwardCompatPaths, ...phase24dForwardCompatPaths, ...phase24dHf1ForwardCompatPaths]) {
         if (line.includes(path) && !line.includes(`\`${path}\``) && !line.includes(`'${path}'`) && !line.includes(`"${path}"`)) {
           fail(`${file} must add exact Phase 21F path only: ${line}`);
         }

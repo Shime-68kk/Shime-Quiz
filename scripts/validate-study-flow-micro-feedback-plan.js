@@ -774,7 +774,10 @@ allowedChangedFiles.add(`scripts/validate-phase24c-help-tour-storage-adapter-sca
 allowedChangedFiles.add(`docs/research/phase24d-backup-export-restore-adapter-awareness-design.md`);
 allowedChangedFiles.add(`docs/release/phase24d-backup-export-restore-adapter-awareness-summary.md`);
 allowedChangedFiles.add(`scripts/validate-phase24d-backup-export-restore-adapter-awareness-design.js`);
-
+allowedChangedFiles.add(`docs/research/phase24d-hf1-validator-forward-compat-maintenance.md`);
+allowedChangedFiles.add(`docs/release/phase24d-hf1-validator-forward-compat-summary.md`);
+allowedChangedFiles.add(`scripts/register-phase-forward-compat.js`);
+allowedChangedFiles.add(`scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`);
 const forbiddenChangedFiles = [
   'package.json',
   'package-lock.json',

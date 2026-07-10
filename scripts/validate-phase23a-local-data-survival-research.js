@@ -19,8 +19,10 @@ const phase24bForwardCompatPaths = [`docs/research/phase24b-storage-adapter-cove
 const phase24cForwardCompatPaths = [`src/ui/helpTourStorage.js`, `src/ui/helpTour.js`, `tests/unit/helpTourStorageAdapterScaffold.test.js`, `docs/research/phase24c-help-tour-storage-adapter-scaffold.md`, `docs/release/phase24c-help-tour-storage-adapter-scaffold-summary.md`, `scripts/validate-phase24c-help-tour-storage-adapter-scaffold.js`];
 // Phase 24D forward-compat entries (Backup/Export/Restore Adapter-Awareness Design)
 const phase24dForwardCompatPaths = [`docs/research/phase24d-backup-export-restore-adapter-awareness-design.md`, `docs/release/phase24d-backup-export-restore-adapter-awareness-summary.md`, `scripts/validate-phase24d-backup-export-restore-adapter-awareness-design.js`];
+const phase24dHf1ForwardCompatPaths = [`docs/research/phase24d-hf1-validator-forward-compat-maintenance.md`, `docs/release/phase24d-hf1-validator-forward-compat-summary.md`, `scripts/register-phase-forward-compat.js`, `scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`];
 const allowedChanged = new Set([WORKFLOW, ...phase23aPaths]);
 for (const path of phase24dForwardCompatPaths) allowedChanged.add(path);
+for (const path of phase24dHf1ForwardCompatPaths) allowedChanged.add(path);
 const phase23aForwardCompatPaths = new Set(phase23aPaths);
 phase23aForwardCompatPaths.add(`docs/research/phase23b-data-survival-ux-copy-decision.md`);
 phase23aForwardCompatPaths.add(`docs/release/phase23b-data-survival-ux-copy-summary.md`);
@@ -277,13 +279,13 @@ function validateChangedScope() {
     if (allowedChanged.has(file)) continue;
     if (forbiddenPrefixes.some(prefix => file.startsWith(prefix))) fail(`Forbidden path changed: ${file}`);
     if (forbiddenPathPatterns.some(pattern => pattern.test(file))) fail(`Forbidden runtime area changed: ${file}`);
-    if (file.startsWith(`scripts/validate-`) && file.endsWith(`.js`) && file !== VALIDATOR) continue;
+    if (file.startsWith(`scripts/validate-`) && file.endsWith(`.js`) && file !== VALIDATOR && file !== `scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`) continue;
     if (!allowedChanged.has(file)) fail(`Unexpected changed file: ${file}`);
   }
 }
 
 function validateHistoricalForwardCompat() {
-  const changedValidators = changedFiles().filter(file => file.startsWith(`scripts/validate-`) && file.endsWith(`.js`) && file !== VALIDATOR);
+  const changedValidators = changedFiles().filter(file => file.startsWith(`scripts/validate-`) && file.endsWith(`.js`) && file !== VALIDATOR && file !== `scripts/validate-phase24d-hf1-validator-forward-compat-maintenance.js`);
   for (const file of changedValidators) {
     if (file === `scripts/validate-phase23e-data-survival-comprehension-plan.js`) continue;
     if (file === `scripts/validate-phase23f-phase23-decision-gate.js`) continue;
@@ -303,11 +305,13 @@ function validateHistoricalForwardCompat() {
       if (line.includes(`phase24bForwardCompatPaths`)) continue;
       if (line.includes(`phase24cForwardCompatPaths`)) continue;
       if (line.includes(`phase24dForwardCompatPaths`)) continue;
+      if (line.includes(`phase24dHf1ForwardCompatPaths`)) continue;
       if (line.includes(`Phase 24D forward-compat entries`)) continue;
       if (line.includes(`Phase 24C forward-compat entries`)) continue;
       if (line.includes(`allowedChanged.has(file)`)) continue;
       if (line.includes(`AllowedChangedFiles.has(file)`)) continue;
       if (line.includes(`allowedChangedFiles.has(file)`)) continue;
+      if (line.includes(`forwardCompatPath`)) continue;
       if (line.includes(`isPhase23f`)) continue;
       if (line.includes(`isPhase24a`)) continue;
       if (line.includes(`isPhase24b`)) continue;
@@ -321,10 +325,10 @@ function validateHistoricalForwardCompat() {
         removed.replace(/,\]\.includes\(file\)\) continue;$/, `,`) === added
       ));
       if (commaOnly) continue;
-      if (![...phase23aForwardCompatPaths, ...phase23eForwardCompatPaths, ...phase23fForwardCompatPaths, ...phase24aForwardCompatPaths, ...phase24bForwardCompatPaths, ...phase24cForwardCompatPaths, ...phase24dForwardCompatPaths].some(path => line.includes(path))) {
+      if (![...phase23aForwardCompatPaths, ...phase23eForwardCompatPaths, ...phase23fForwardCompatPaths, ...phase24aForwardCompatPaths, ...phase24bForwardCompatPaths, ...phase24cForwardCompatPaths, ...phase24dForwardCompatPaths, ...phase24dHf1ForwardCompatPaths].some(path => line.includes(path))) {
         fail(`${file} has non-Phase-23A forward-compat addition: ${line}`);
       }
-      for (const path of [...phase23aForwardCompatPaths, ...phase23eForwardCompatPaths, ...phase23fForwardCompatPaths, ...phase24aForwardCompatPaths, ...phase24bForwardCompatPaths, ...phase24cForwardCompatPaths, ...phase24dForwardCompatPaths]) {
+      for (const path of [...phase23aForwardCompatPaths, ...phase23eForwardCompatPaths, ...phase23fForwardCompatPaths, ...phase24aForwardCompatPaths, ...phase24bForwardCompatPaths, ...phase24cForwardCompatPaths, ...phase24dForwardCompatPaths, ...phase24dHf1ForwardCompatPaths]) {
         if (line.includes(path) && !line.includes(`\`${path}\``) && !line.includes(`'${path}'`) && !line.includes(`"${path}"`)) {
           fail(`${file} must add exact Phase 23A path only: ${line}`);
         }
