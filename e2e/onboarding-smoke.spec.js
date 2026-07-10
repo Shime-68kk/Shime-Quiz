@@ -26,6 +26,9 @@ async function resetBrowserStorage(page) {
     window.localStorage.clear();
     window.sessionStorage.clear();
   });
+  await page.reload();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'vi');
+  await expect.poll(() => page.evaluate(() => window.localStorage.getItem('shime.ui.locale.v1'))).toBeNull();
 }
 
 async function expectNoCriticalErrors(criticalErrors) {
@@ -50,19 +53,15 @@ test('Dashboard first-run onboarding points to safe Library start options', asyn
 
   await page.goto('/dashboard');
   await expect(page.getByRole('heading', { name: 'Chào mừng quay lại' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Chưa có dữ liệu học tập' })).toBeVisible();
 
   const onboarding = page.locator('.dashboardFirstRunOnboardingCard');
   await expect(onboarding).toBeVisible();
-  await expect(onboarding).toContainText(/Thư viện/);
-  await expect(onboarding).toContainText(/quiz mẫu|Dùng quiz mẫu/i);
-  await expect(onboarding).toContainText(/JSON\/CSV/);
-  await expect(onboarding).toContainText(/text\/Markdown/);
-  await expect(onboarding).toContainText(/copy\/paste|thủ công|dán/i);
-  await expect(onboarding).toContainText(/Shime không gọi AI\/API/);
-  await expect(onboarding).toContainText(/EduGen chạy riêng|được cấu hình/i);
+  await expect(onboarding.getByText('Lần đầu dùng Shime')).toBeVisible();
+  await expect(onboarding.getByRole('heading', { name: 'Bắt đầu với một bộ quiz rõ ràng' })).toBeVisible();
+  await expect(onboarding).toContainText('Thư viện đang dùng dữ liệu mẫu cục bộ');
+  await expect(onboarding).toContainText('Dữ liệu học được giữ trên thiết bị của bạn');
 
-  await page.getByRole('button', { name: 'Mở Thư viện' }).click();
+  await onboarding.getByRole('button', { name: 'Mở Thư viện' }).click();
   await expect(page).toHaveURL(/\/library$/);
   await expect(page.getByRole('heading', { name: 'Thư viện học liệu' })).toBeVisible();
   await expectNoUnsupportedAiOrCloudUi(page);
@@ -82,16 +81,19 @@ test('Library onboarding surfaces import choices without hiding existing control
     await expect(pageBody).toContainText(/Thư viện của bạn đang trống/);
   }
 
-  await page.getByRole('tab', { name: 'Xưởng nạp tài liệu' }).click();
+  await page.getByRole('tab', { name: 'Thêm học liệu' }).click();
 
-  await expect(pageBody).toContainText(/Dùng quiz mẫu/);
-  await expect(pageBody).toContainText(/JSON\/CSV|Nạp JSON\/CSV/);
-  await expect(pageBody).toContainText(/text\/Markdown|văn bản\/Markdown/i);
-  await expect(pageBody).toContainText(/copy\/paste|thủ công|dán/i);
-  await expect(pageBody).toContainText(/EduGen.*riêng|EduGen File Processor|được cấu hình/i);
-  await expect(page.getByRole('button', { name: 'Dùng quiz mẫu' })).toBeVisible();
+  const methods = page.locator('.workshopMethodSelector');
+  await expect(methods.getByRole('button', { name: /^Dùng quiz mẫu/ })).toBeVisible();
+  await expect(methods.getByRole('button', { name: /^Dán nội dung/ })).toBeVisible();
+  const fileMethod = methods.getByRole('button', { name: /^Tải file/ });
+  await expect(fileMethod).toBeVisible();
+  const templateMethod = methods.getByRole('button', { name: /^Mẫu tạo câu hỏi/ });
+  await expect(templateMethod).toBeVisible();
+  await expect(templateMethod).toHaveClass(/workshopMethodTab--secondary/);
+  await expect(templateMethod).toContainText('Hướng dẫn dùng công cụ ngoài');
 
-  await page.getByRole('button', { name: /Tải tệp tin/i }).click();
+  await fileMethod.click();
   await expect(page.getByRole('button', { name: 'Nạp JSON/CSV' })).toBeVisible();
   await expect(page.getByLabel('Chọn file JSON hoặc CSV học liệu')).toBeAttached();
   await expectNoUnsupportedAiOrCloudUi(page);
@@ -103,10 +105,14 @@ test('Demo sample quickstart opens preview and does not auto-save before confirm
 
   await page.goto('/library');
   await expect(page.getByRole('heading', { name: 'Thư viện học liệu' })).toBeVisible();
-  await page.getByRole('tab', { name: 'Xưởng nạp tài liệu' }).click();
-  await expect(page.getByRole('button', { name: 'Dùng quiz mẫu' })).toBeVisible();
+  await page.getByRole('tab', { name: 'Thêm học liệu' }).click();
+  const sampleButton = page.getByRole('button', { name: 'Dùng quiz mẫu', exact: true });
+  await expect(sampleButton).toBeVisible();
 
-  await page.getByRole('button', { name: 'Dùng quiz mẫu' }).click();
+  const libraryStorageBeforePreview = await page.evaluate(() => window.localStorage.getItem('shimeV2LibraryDataV1'));
+  expect(libraryStorageBeforePreview).toBeNull();
+
+  await sampleButton.click();
 
   const preview = page.locator('.importPreview');
   await expect(preview).toBeVisible();
@@ -117,8 +123,8 @@ test('Demo sample quickstart opens preview and does not auto-save before confirm
   await expect(preview.getByRole('button', { name: 'Import và lưu cục bộ' })).toBeVisible();
 
   await expect(page.getByText('Đã import và lưu cục bộ')).toHaveCount(0);
-  const storageKeysBeforeSave = await page.evaluate(() => Object.keys(window.localStorage));
-  expect(storageKeysBeforeSave.some(key => /library/i.test(key))).toBe(false);
+  const libraryStorageAfterPreview = await page.evaluate(() => window.localStorage.getItem('shimeV2LibraryDataV1'));
+  expect(libraryStorageAfterPreview).toBeNull();
 
   await expectNoUnsupportedAiOrCloudUi(page);
   await expect(page.getByText(/EduGen.*required|phải chạy EduGen để dùng quiz mẫu/i)).toHaveCount(0);
