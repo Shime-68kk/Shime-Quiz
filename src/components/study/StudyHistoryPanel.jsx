@@ -174,7 +174,7 @@ export default function StudyHistoryPanel({ compact = false }) {
                 borderRadius: '12px',
                 background: 'rgba(0,0,0,0.02)',
                 overflow: 'hidden'
-              }} open>
+              }}>
                 <summary className="technicalDetailsSummary" style={{
                   padding: '12px 16px',
                   fontWeight: 'bold',
@@ -184,7 +184,7 @@ export default function StudyHistoryPanel({ compact = false }) {
                   borderBottom: '1px solid var(--glass-border)',
                   color: 'var(--color-text)'
                 }}>
-                  🔍 Xem thông số chi tiết & câu hỏi
+                  Xem thông số và nội dung câu hỏi
                 </summary>
                 
                 <div style={{ padding: '16px' }}>

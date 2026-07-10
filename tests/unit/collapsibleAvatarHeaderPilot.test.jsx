@@ -26,7 +26,8 @@ describe('Phase 37-uiN — collapsible avatar header pilot', () => {
   it('attaches one passive marker to the existing sidebar brand identity surface', () => {
     expect(sidebar).toContain('phase37uin-collapsible-avatar-header-pilot');
     expect(sidebar).toContain('data-phase37uin-collapsible-avatar-header="sidebar-brand-identity"');
-    expect(sidebar).toContain('<span className="brandMark" aria-hidden="true">S</span>');
+    expect(sidebar).toContain('<span className="brandMark" aria-hidden="true"><ShimeBrandMark size="sm" /></span>');
+    expect(sidebar).not.toContain('aria-hidden="true">S</span>');
     expect(sidebar).toContain('APP_VERSION_LABEL');
     expect(bottomNav).not.toContain('phase37uin-collapsible-avatar-header-pilot');
   });

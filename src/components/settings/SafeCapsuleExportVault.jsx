@@ -5,9 +5,10 @@ import {
   SAFE_CAPSULE_EXPORT_VAULT_ACTIONS
 } from './safeCapsuleExportVaultModel.js';
 import { serializeManualHandoffJsonl } from '../../deviceBridge/safeCapsuleManualExportPackage.js';
+import { useShimeLanguage } from '../../uiI18n/useShimeLanguage.js';
 
-function Manifest({ manifest }) {
-  if (!manifest) return <p className="muted">Chưa có manifest. Hãy tạo gói JSONL bàn giao.</p>;
+function Manifest({ manifest, t }) {
+  if (!manifest) return <p className="muted">{t('developer.noManifest')}</p>;
   return (
     <dl className="settingsCompactList" aria-label="Manual handoff manifest">
       <div><dt>package count</dt><dd>{manifest.packageCount}</dd></div>
@@ -22,6 +23,7 @@ function Manifest({ manifest }) {
 }
 
 export default function SafeCapsuleExportVault() {
+  const { t } = useShimeLanguage();
   const [state, setState] = useState(() => createInitialSafeCapsuleExportVaultState());
   const run = action => setState(current => applySafeCapsuleExportVaultAction(current, action));
 
@@ -42,29 +44,29 @@ export default function SafeCapsuleExportVault() {
   };
 
   return (
-    <section className="settingsPanel safeCapsuleExportVault" aria-label="Safe Capsule Export Vault — gói bàn giao thủ công">
+    <section className="settingsPanel safeCapsuleExportVault" aria-label={t('developer.exportLabel')}>
       <div className="sectionHeader">
         <p className="eyebrow">Manual handoff · Mock only</p>
-        <h2>Safe Capsule Export Vault — gói bàn giao thủ công</h2>
+        <h2>{t('developer.exportLabel')}</h2>
       </div>
       <div className="settingsNotice" role="note">
-        <strong>Bàn giao thủ công, không kết nối robot thật</strong>
-        <p>Tạo JSONL mock import để người dùng tự chép sang thư mục mock. Không Serial/WebSocket/BLE/Wi-Fi. Không xuất câu hỏi/đáp án/lịch sử học. Không lưu tự động trong trình duyệt. Chỉ tải xuống khi người dùng bấm rõ ràng.</p>
-        <p>Tải file JSONL rồi tự chép sang thẻ nhớ/mock import folder.</p>
+        <strong>{t('developer.exportTitle')}</strong>
+        <p>{t('developer.exportBody')}</p>
+        <p>{t('developer.exportInstruction')}</p>
       </div>
 
       <div className="settingsActions" aria-label="Safe capsule export vault controls">
-        <button type="button" onClick={() => run({ type: SAFE_CAPSULE_EXPORT_VAULT_ACTIONS.ADD_SCENARIO, scenarioId: 'steady_progress' })}>Thêm capsule ổn định</button>
-        <button type="button" onClick={() => run({ type: SAFE_CAPSULE_EXPORT_VAULT_ACTIONS.ADD_SCENARIO, scenarioId: 'struggling_streak' })}>Thêm capsule đang gặp khó</button>
-        <button type="button" onClick={() => run({ type: SAFE_CAPSULE_EXPORT_VAULT_ACTIONS.ADD_SCENARIO, scenarioId: 'review_pressure_high' })}>Thêm capsule áp lực ôn tập</button>
-        <button type="button" onClick={() => run({ type: SAFE_CAPSULE_EXPORT_VAULT_ACTIONS.ADD_SCENARIO, scenarioId: 'low_energy_focus' })}>Thêm capsule năng lượng thấp</button>
-        <button type="button" onClick={() => run(SAFE_CAPSULE_EXPORT_VAULT_ACTIONS.ADD_ALL_SAFE)}>Thêm tất cả mẫu an toàn</button>
-        <button type="button" onClick={() => run(SAFE_CAPSULE_EXPORT_VAULT_ACTIONS.REJECT_ADVERSARIAL)}>Kiểm tra tấn công dữ liệu thô</button>
-        <button type="button" onClick={() => run(SAFE_CAPSULE_EXPORT_VAULT_ACTIONS.BUILD_HANDOFF)} disabled={!state.packageCount}>Tạo gói JSONL bàn giao</button>
-        <button type="button" onClick={() => run(SAFE_CAPSULE_EXPORT_VAULT_ACTIONS.VERIFY_HANDOFF)} disabled={!state.handoffPack}>Xác minh gói bàn giao</button>
-        <button type="button" onClick={copyJsonl} disabled={!state.copyReady}>Sao chép JSONL</button>
-        <button type="button" onClick={downloadJsonl} disabled={!state.downloadReady}>Tải JSONL</button>
-        <button type="button" onClick={() => run(SAFE_CAPSULE_EXPORT_VAULT_ACTIONS.CLEAR)}>Xóa vault</button>
+        <button type="button" onClick={() => run({ type: SAFE_CAPSULE_EXPORT_VAULT_ACTIONS.ADD_SCENARIO, scenarioId: 'steady_progress' })}>{t('developer.addSteady')}</button>
+        <button type="button" onClick={() => run({ type: SAFE_CAPSULE_EXPORT_VAULT_ACTIONS.ADD_SCENARIO, scenarioId: 'struggling_streak' })}>{t('developer.addStruggling')}</button>
+        <button type="button" onClick={() => run({ type: SAFE_CAPSULE_EXPORT_VAULT_ACTIONS.ADD_SCENARIO, scenarioId: 'review_pressure_high' })}>{t('developer.addPressure')}</button>
+        <button type="button" onClick={() => run({ type: SAFE_CAPSULE_EXPORT_VAULT_ACTIONS.ADD_SCENARIO, scenarioId: 'low_energy_focus' })}>{t('developer.addLowEnergy')}</button>
+        <button type="button" onClick={() => run(SAFE_CAPSULE_EXPORT_VAULT_ACTIONS.ADD_ALL_SAFE)}>{t('developer.addAllSafe')}</button>
+        <button type="button" onClick={() => run(SAFE_CAPSULE_EXPORT_VAULT_ACTIONS.REJECT_ADVERSARIAL)}>{t('developer.testRawAttack')}</button>
+        <button type="button" onClick={() => run(SAFE_CAPSULE_EXPORT_VAULT_ACTIONS.BUILD_HANDOFF)} disabled={!state.packageCount}>{t('developer.buildHandoff')}</button>
+        <button type="button" onClick={() => run(SAFE_CAPSULE_EXPORT_VAULT_ACTIONS.VERIFY_HANDOFF)} disabled={!state.handoffPack}>{t('developer.verifyHandoff')}</button>
+        <button type="button" onClick={copyJsonl} disabled={!state.copyReady}>{t('developer.copyJsonl')}</button>
+        <button type="button" onClick={downloadJsonl} disabled={!state.downloadReady}>{t('developer.downloadJsonl')}</button>
+        <button type="button" onClick={() => run(SAFE_CAPSULE_EXPORT_VAULT_ACTIONS.CLEAR)}>{t('developer.clearVault')}</button>
       </div>
 
       <dl className="settingsCompactList" aria-label="Manual export vault status">
@@ -79,7 +81,7 @@ export default function SafeCapsuleExportVault() {
         <div><dt>no-connection status</dt><dd>{state.noConnectionStatus}</dd></div>
       </dl>
 
-      <Manifest manifest={state.manifestPreview} />
+      <Manifest manifest={state.manifestPreview} t={t} />
 
       <ul className="settingsChecklist" aria-label="Manual export privacy checklist">
         <li><strong>OK</strong><span>R5X19.2 compatibility preserved</span></li>

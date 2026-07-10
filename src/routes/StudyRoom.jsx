@@ -32,6 +32,8 @@ import { createStudySubjectSpaces } from '../studyRoom/studySubjectSpaceModel.js
 import { createSubjectForgettingAlerts } from '../studyRoom/subjectForgettingAlertModel.js';
 import { resolveStudyRoomSubjectNavigation } from '../studyRoom/studyRoomSubjectNavigationModel.js';
 import { resolveStudyRoomSwipeGesture } from '../studyRoom/studyRoomSwipeGesture.js';
+import { useShimeLanguage } from '../uiI18n/useShimeLanguage.js';
+import ShimeRobotPresence from '../components/brand/ShimeRobotPresence.jsx';
 
 function getStudyMode(selection) {
   if (selection?.mode === 'due-review') return 'due-review';
@@ -39,11 +41,11 @@ function getStudyMode(selection) {
   return 'standard';
 }
 
-function getSelectionLabel(selection) {
+function getSelectionLabel(selection, t) {
   const mode = getStudyMode(selection);
-  if (mode === 'due-review') return 'Ôn tập hôm nay';
-  if (mode === 'smart-practice') return 'Luyện tập thông minh';
-  if (!selection?.subjectTitle) return 'Toàn bộ thư viện';
+  if (mode === 'due-review') return t('study.dueReview');
+  if (mode === 'smart-practice') return t('study.smartPractice');
+  if (!selection?.subjectTitle) return t('study.fullLibrary');
   if (selection.topicTitle) return `${selection.subjectTitle} · ${selection.topicTitle}`;
   return selection.subjectTitle;
 }
@@ -133,53 +135,53 @@ function isDisplayOnlyAnswerCorrect(item, itemState = {}) {
   return null;
 }
 
-function getCheckedAnswerFeedback(item, itemState = {}) {
+function getCheckedAnswerFeedback(item, itemState = {}, t) {
   const isCorrect = isDisplayOnlyAnswerCorrect(item, itemState);
   if (isCorrect === true) {
     return {
       tone: 'success',
-      title: 'Chính xác — tiếp tục nhé.',
-      message: 'Bạn có thể chuyển sang item tiếp theo khi sẵn sàng.'
+      title: t('study.correctTitle'),
+      message: t('study.correctBody')
     };
   }
   if (isCorrect === false) {
     return {
       tone: 'warning',
-      title: 'Chưa đúng — xem lại đáp án rồi thử câu tiếp theo.',
-      message: 'Feedback này chỉ hỗ trợ luồng học; cách chấm điểm và lịch ôn tập không thay đổi.'
+      title: t('study.incorrectTitle'),
+      message: t('study.incorrectBody')
     };
   }
   return {
     tone: 'info',
-    title: 'Đã ghi nhận thao tác học.',
-    message: 'Tiếp tục giữ nhịp học hiện tại nhé.'
+    title: t('study.actionRecorded'),
+    message: t('study.keepRhythm')
   };
 }
 
-function getCompletionFeedback(summary, mode) {
+function getCompletionFeedback(summary, mode, t) {
   if (!summary) {
     return {
       tone: 'info',
-      title: 'Phiên học đã hoàn tất.',
-      message: 'Kết quả phiên học được xử lý cục bộ trên trình duyệt này.'
+      title: t('study.completed'),
+      message: t('study.completedLocal')
     };
   }
   const prefix = mode === 'due-review'
-    ? 'Hoàn thành phiên ôn tập ngắn.'
+    ? t('study.completedReview')
     : mode === 'smart-practice'
-      ? 'Hoàn thành phiên luyện tập thông minh.'
-      : 'Hoàn thành phiên học ngắn.';
+      ? t('study.completedPractice')
+      : t('study.completedStandard');
   return {
     tone: 'success',
     title: prefix,
-    message: `${summary.answeredCount}/${summary.totalItems} mục đã được trả lời. Bạn có thể xem tổng kết, học tiếp hoặc quay lại thư viện.`
+    message: t('study.answeredSummary', { answered: summary.answeredCount, total: summary.totalItems })
   };
 }
 
-function formatSavedTime(value) {
+function formatSavedTime(value, locale) {
   if (!value) return '';
   try {
-    return new Intl.DateTimeFormat('vi-VN', {
+    return new Intl.DateTimeFormat(locale === 'en' ? 'en-US' : 'vi-VN', {
       hour: '2-digit',
       minute: '2-digit',
       day: '2-digit',
@@ -228,6 +230,7 @@ function getCompletedProgressCount(items = [], state = {}) {
 export default function StudyRoom() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { locale, t } = useShimeLanguage();
   const adapter = useLearningDataAdapter();
   const selection = location.state?.selection;
   const planStepId = selection?.planStepId || '';
@@ -235,7 +238,7 @@ export default function StudyRoom() {
   const studyMode = getStudyMode(selection);
   const isDueReviewMode = studyMode === 'due-review';
   const isSmartPracticeMode = studyMode === 'smart-practice';
-  const selectionLabel = getSelectionLabel(selection);
+  const selectionLabel = getSelectionLabel(selection, t);
   const items = useMemo(() => getStudyItems(adapter, selection), [adapter, selection]);
   const itemSetFingerprint = useMemo(() => createItemSetFingerprint(items, studyMode), [items, studyMode]);
   const topicLookup = useMemo(() => getTopicLookup(adapter), [adapter]);
@@ -405,17 +408,17 @@ export default function StudyRoom() {
       setStartedAt(result.draft.startedAt || nowIso());
       setLastSavedAt(result.draft.updatedAt || '');
       setStatusMessage(isDueReviewMode
-        ? 'Đã khôi phục phiên ôn tập gần nhất.'
+        ? t('study.restoredReview')
         : isSmartPracticeMode
-          ? 'Đã khôi phục phiên luyện tập thông minh gần nhất.'
-          : 'Đã khôi phục phiên học gần nhất.');
+          ? t('study.restoredPractice')
+          : t('study.restoredStandard'));
     } else {
       setCurrentIndex(0);
       setAnswersByItemId({});
       setCheckedByItemId({});
       setFlashcardRevealedByItemId({});
       setStartedAt(nowIso());
-      setStatusMessage(result.discarded ? 'Phiên học cũ không khớp chế độ hiện tại nên đã được bỏ qua.' : '');
+      setStatusMessage(result.discarded ? t('study.discardedDraft') : '');
     }
 
     const deviceBridgeSessionKey = `${deviceBridgeSessionIdRef.current}:${itemSetFingerprint}`;
@@ -468,7 +471,7 @@ export default function StudyRoom() {
         setSaveStatus('saved');
       } else {
         setSaveStatus('error');
-        setStatusMessage('Không thể lưu phiên học cục bộ. Bạn vẫn có thể tiếp tục trong phiên hiện tại.');
+        setStatusMessage(t('study.saveFailedContinue'));
       }
     }, 350);
 
@@ -526,8 +529,8 @@ export default function StudyRoom() {
     setCheckedByItemId(current => ({ ...current, [currentItemId]: false }));
     showMicroFeedback({
       tone: 'info',
-      title: 'Đã cập nhật câu trả lời.',
-      message: 'Khi sẵn sàng, hãy kiểm tra đáp án để nhận phản hồi.'
+      title: t('study.answerUpdated'),
+      message: t('study.answerUpdatedBody')
     });
   }
 
@@ -559,7 +562,7 @@ export default function StudyRoom() {
         totalCount: items.length
       });
     }
-    showMicroFeedback(getCheckedAnswerFeedback(currentItem, nextItemState));
+    showMicroFeedback(getCheckedAnswerFeedback(currentItem, nextItemState, t));
   }
 
   function resetCurrentAnswer() {
@@ -573,8 +576,8 @@ export default function StudyRoom() {
     clearSessionConfirmation();
     showMicroFeedback({
       tone: 'info',
-      title: 'Đã xóa câu trả lời hiện tại.',
-      message: 'Bạn có thể thử lại mà không ảnh hưởng thư viện hoặc lịch ôn tập.'
+      title: t('study.answerCleared'),
+      message: t('study.answerClearedBody')
     });
   }
 
@@ -585,8 +588,8 @@ export default function StudyRoom() {
     setFlashcardRevealedByItemId(current => ({ ...current, [currentItemId]: !current[currentItemId] }));
     showMicroFeedback({
       tone: willReveal ? 'success' : 'info',
-      title: willReveal ? 'Đã lật thẻ — đọc chậm lại một nhịp nhé.' : 'Đã úp lại thẻ.',
-      message: 'Thao tác flashcard không thay đổi điểm số hoặc lịch ôn tập cho đến khi bạn hoàn thành phiên.'
+      title: willReveal ? t('study.cardRevealed') : t('study.cardHidden'),
+      message: t('study.cardBody')
     });
   }
 
@@ -596,8 +599,8 @@ export default function StudyRoom() {
     setFlashcardRevealedByItemId(current => ({ ...current, [currentItemId]: false }));
     showMicroFeedback({
       tone: 'info',
-      title: 'Đã đặt lại flashcard.',
-      message: 'Bạn có thể lật lại thẻ khi muốn ôn lại nội dung.'
+      title: t('study.cardReset'),
+      message: t('study.cardResetBody')
     });
   }
 
@@ -672,7 +675,7 @@ export default function StudyRoom() {
     }
   }
 
-  function resetSessionState(message = 'Đã làm lại phiên học. Thư viện dữ liệu không bị thay đổi.') {
+  function resetSessionState(message = t('study.restartBody')) {
     clearStudyDraft();
     draftReadyRef.current = false;
     setCurrentIndex(0);
@@ -691,16 +694,10 @@ export default function StudyRoom() {
     setBridgeStateByItemId({});
     showMicroFeedback({
       tone: 'info',
-      title: 'Đã làm lại phiên học.',
-      message: 'Tiến trình nháp trong Phòng học đã được đặt lại; thư viện dữ liệu không bị thay đổi.'
+      title: t('study.restartDone'),
+      message: t('study.restartBody')
     });
-    setStatusMessage(message === 'Đã làm lại phiên học. Thư viện dữ liệu không bị thay đổi.'
-      ? isDueReviewMode
-        ? 'Đã làm lại phiên ôn tập. Thư viện dữ liệu không bị thay đổi.'
-        : isSmartPracticeMode
-          ? 'Đã làm lại phiên luyện tập thông minh. Thư viện dữ liệu không bị thay đổi.'
-          : message
-      : message);
+    setStatusMessage(message);
     window.requestAnimationFrame(() => {
       draftReadyRef.current = true;
     });
@@ -711,18 +708,18 @@ export default function StudyRoom() {
     setPendingSessionAction('restart');
     showMicroFeedback({
       tone: 'warning',
-      title: 'Xác nhận làm lại phiên học?',
-      message: 'Thao tác này chỉ xóa tiến trình nháp trong Phòng học, không xóa thư viện đã nạp.'
+      title: t('study.restartConfirm'),
+      message: t('study.restartConfirmBody')
     });
   }
 
   function finishSession({ allowIncomplete = false } = {}) {
     if (!items.length || !currentItem) {
       setStatusMessage(isDueReviewMode
-        ? 'Không có câu cần ôn hôm nay.'
+        ? t('study.noDueTitle')
         : isSmartPracticeMode
-          ? 'Không có câu phù hợp để luyện lúc này.'
-          : 'Chưa có mục học hợp lệ để hoàn thành phiên học.');
+          ? t('study.noPracticeTitle')
+          : t('study.noItemsTitle'));
       return;
     }
 
@@ -759,11 +756,11 @@ export default function StudyRoom() {
       : null;
     const persistenceNote = historyResult.ok
       ? historyResult.duplicate
-        ? 'Phiên học này đã có trong lịch sử cục bộ. Lịch ôn tập không cập nhật lại để tránh ghi trùng.'
+        ? t('study.duplicateSession')
         : reviewScheduleResult?.ok
-          ? 'Kết quả học tập đã được lưu cục bộ. Lịch sử học và lịch ôn tập đã được cập nhật trên trình duyệt này.'
-          : 'Kết quả học tập đã được lưu vào lịch sử cục bộ, nhưng lịch ôn tập chưa cập nhật thành công.'
-      : 'Kết quả chỉ hiển thị trong phiên hiện tại vì không thể lưu lịch sử học cục bộ.';
+          ? t('study.persistenceComplete')
+          : t('study.persistencePartial')
+      : t('study.persistenceFailed');
 
     draftReadyRef.current = false;
     clearStudyDraft();
@@ -774,32 +771,32 @@ export default function StudyRoom() {
       summary
     });
     setPendingSessionAction('');
-    showMicroFeedback(getCompletionFeedback(summary, studyMode));
+    showMicroFeedback(getCompletionFeedback(summary, studyMode, t));
     setSaveStatus('idle');
     setLastSavedAt('');
     setHistorySaveMessage(historyResult.ok
       ? historyResult.duplicate
-        ? 'Phiên học này đã có trong lịch sử.'
-        : 'Đã lưu vào lịch sử học cục bộ.'
-      : 'Không thể lưu lịch sử học cục bộ. Kết quả vẫn hiển thị trong phiên hiện tại.');
+        ? t('study.historyDuplicate')
+        : t('study.historySaved')
+      : t('study.historyFailed'));
     setReviewScheduleMessage(reviewScheduleResult
       ? reviewScheduleResult.ok
-        ? `Đã cập nhật lịch ôn tập cục bộ cho ${reviewScheduleResult.updatedCount} câu.`
-        : 'Không thể cập nhật lịch ôn tập cục bộ. Kết quả phiên học vẫn được giữ.'
+        ? t('study.scheduleUpdated', { count: reviewScheduleResult.updatedCount })
+        : t('study.scheduleFailed')
       : historyResult.duplicate
-        ? 'Lịch ôn tập không cập nhật lại để tránh trùng phiên học.'
-        : 'Lịch ôn tập chưa được cập nhật.');
+        ? t('study.scheduleSkipped')
+        : t('study.schedulePending'));
     setResultPersistenceNote(persistenceNote);
     setPlanProgressMessage(planProgressResult
       ? planProgressResult.ok
-        ? 'Đã cập nhật tiến trình kế hoạch hôm nay.'
-        : 'Không thể cập nhật tiến trình kế hoạch hôm nay.'
+        ? t('study.planUpdated')
+        : t('study.planFailed')
       : '');
     setStatusMessage(isDueReviewMode
-      ? 'Đã hoàn thành phiên ôn tập. Bản nháp cục bộ đã được xóa.'
+      ? t('study.draftClearedReview')
       : isSmartPracticeMode
-        ? 'Đã hoàn thành phiên luyện tập thông minh. Bản nháp cục bộ đã được xóa.'
-        : 'Đã hoàn thành phiên học. Bản nháp cục bộ đã được xóa.');
+        ? t('study.draftClearedPractice')
+        : t('study.draftClearedStandard'));
   }
 
   function requestFinishSession() {
@@ -821,8 +818,8 @@ export default function StudyRoom() {
     setPendingSessionAction('');
     showMicroFeedback({
       tone: 'info',
-      title: wasFinish ? 'Tiếp tục phiên học hiện tại.' : 'Đã giữ nguyên phiên học.',
-      message: wasFinish ? 'Bạn có thể hoàn thành sau khi kiểm tra thêm câu.' : 'Tiến trình nháp hiện tại vẫn được giữ lại.'
+      title: wasFinish ? t('study.continueSession') : t('study.sessionKept'),
+      message: wasFinish ? t('study.resumeBody') : t('study.sessionKeptBody')
     });
   }
 
@@ -859,14 +856,14 @@ export default function StudyRoom() {
     setPendingSessionAction('');
     showMicroFeedback({
       tone: 'info',
-      title: 'Tiếp tục phiên học.',
-      message: 'Bạn có thể quay lại câu hiện tại mà không thay đổi kết quả đã lưu.'
+      title: t('study.resumeTitle'),
+      message: t('study.resumeBody')
     });
     setStatusMessage(isDueReviewMode
-      ? 'Bạn có thể tiếp tục ôn tập từ câu hiện tại.'
+      ? t('study.resumeReview')
       : isSmartPracticeMode
-        ? 'Bạn có thể tiếp tục luyện tập thông minh từ câu hiện tại.'
-        : 'Bạn có thể tiếp tục học từ item hiện tại.');
+        ? t('study.resumePractice')
+        : t('study.resumeStandard'));
     window.requestAnimationFrame(() => {
       draftReadyRef.current = true;
     });
@@ -894,86 +891,64 @@ export default function StudyRoom() {
   const mascotMessage = useMemo(() => {
     if (completedAttempt) {
       const acc = completedAttempt.summary?.accuracy ?? 0;
-      if (acc >= 90) return 'Xuất sắc quá đi! 🏆 Bạn đạt điểm tuyệt đối kìa! Tự hào về bạn lắm!';
-      if (acc >= 75) return 'Quá tuyệt vời! 🌟 Bạn nắm bài rất vững rồi, hãy tiếp tục duy trì phong độ nhé!';
-      if (acc >= 50) return 'Khá tốt! 🌱 Có một vài câu cần lưu ý ôn lại, cùng rèn luyện thêm nha!';
-      return 'Cố gắng lên nào! 📚 Mỗi lần sai là một cơ hội để giỏi hơn. Cùng làm lại nhé!';
+      if (acc >= 90) return t('study.companionExcellent');
+      if (acc >= 75) return t('study.companionGood');
+      if (acc >= 50) return t('study.companionReview');
+      return t('study.companionRetry');
     }
     if (currentItemState.checked) {
-      if (objectiveCorrect === true) {
-        const correctMsgs = [
-          'Bạn thông minh thật đấy! 💡 Đúng hoàn toàn rồi!',
-          'Xuất sắc! 🎉 Chinh phục câu này dễ dàng quá!',
-          'Quá chuẩn! 🚀 Tiếp tục tiến bước nào!',
-          'Tuyệt cú mèo! 👍 Trí nhớ của bạn rất đáng nể!'
-        ];
-        return correctMsgs[currentIndex % correctMsgs.length];
-      } else {
-        const incorrectMsgs = [
-          'Đừng nản lòng nhé! 💪 Sai lầm là người thầy tốt nhất!',
-          'Tiếc quá đi! Hãy xem lại giải thích và thử lại nha!',
-          'Không sao đâu! 🧠 Lần tới chắc chắn bạn sẽ làm được!',
-          'Vấp ngã ở đâu đứng lên ở đó, tiếp tục cố gắng nào!'
-        ];
-        return incorrectMsgs[currentIndex % incorrectMsgs.length];
-      }
+      return objectiveCorrect === true ? t('study.companionCorrect') : t('study.companionIncorrect');
     }
     if (currentItemState.revealed) {
-      return 'A ha! Ra là vậy! 🧠 Ghi nhớ thông tin này để lần sau phản xạ nhanh nhé!';
+      return t('study.companionRevealed');
     }
-    const neutralMsgs = [
-      'Đọc kỹ câu hỏi nhé, mình luôn ở đây đồng hành! 🤖',
-      'Học tập là hành trình vui vẻ, cứ bình tĩnh trả lời nha!',
-      'Bạn đã sẵn sàng chinh phục câu hỏi này chưa nào?',
-      'Thử sức mình đi, tin ở bản thân nhé! ✨'
-    ];
-    return neutralMsgs[currentIndex % neutralMsgs.length];
-  }, [completedAttempt, currentItemState.checked, currentItemState.revealed, objectiveCorrect, currentIndex]);
+    return t('study.companionNeutral');
+  }, [completedAttempt, currentItemState.checked, currentItemState.revealed, objectiveCorrect, t]);
 
   const draftStatusText = completedAttempt
-    ? resultPersistenceNote || 'Phiên học đã hoàn thành. Kết quả học tập được xử lý cục bộ trên trình duyệt này.'
+    ? resultPersistenceNote || t('study.completedLocal')
     : saveStatus === 'saving'
-      ? 'Đang lưu tiến trình cục bộ...'
+      ? t('study.saving')
       : saveStatus === 'saved'
-        ? `Đã lưu tiến trình cục bộ${formatSavedTime(lastSavedAt) ? ` lúc ${formatSavedTime(lastSavedAt)}` : ''}.`
+        ? t('study.savedAt', { time: formatSavedTime(lastSavedAt, locale) })
         : saveStatus === 'error'
-          ? 'Không thể lưu tiến trình cục bộ.'
+          ? t('study.saveError')
           : lastSavedAt
-            ? `Phiên học đã lưu${formatSavedTime(lastSavedAt) ? ` lúc ${formatSavedTime(lastSavedAt)}` : ''}.`
-            : 'Tiến trình phiên học sẽ được lưu cục bộ trên thiết bị này.';
+            ? t('study.savedSessionAt', { time: formatSavedTime(lastSavedAt, locale) })
+            : t('study.willSave');
 
   return (
     <section className="studyRoom">
-      <Card className="studyRoom__card" eyebrow="Phòng học tập trung" variant="elevated">
+      <Card className="studyRoom__card" eyebrow={t('study.title')} variant="elevated">
         <PageHeader
           compact
-          eyebrow={isDueReviewMode ? 'Chế độ ôn tập' : isSmartPracticeMode ? 'Luyện tập thông minh' : 'Phòng học'}
-          title={completedAttempt ? 'Tổng kết phiên học' : isDueReviewMode ? 'Chế độ ôn tập' : isSmartPracticeMode ? 'Luyện tập thông minh' : 'Phòng học tập trung'}
+          eyebrow={isDueReviewMode ? t('study.reviewMode') : isSmartPracticeMode ? t('study.smartPractice') : t('study.eyebrow')}
+          title={completedAttempt ? t('study.resultTitle') : isDueReviewMode ? t('study.reviewMode') : isSmartPracticeMode ? t('study.smartPractice') : t('study.title')}
           subtitle={isDueReviewMode
-            ? 'Chỉ hiển thị các câu đã đến hạn theo lịch ôn tập cục bộ. Kết quả vẫn dùng cùng luồng tổng kết, lịch sử và cập nhật lịch ôn.'
+            ? t('study.dueSubtitle')
             : isSmartPracticeMode
-              ? 'Ưu tiên câu đến hạn, câu từng sai và câu chưa luyện. Đây là lựa chọn có trọng số đơn giản, không phải AI.'
-              : 'Renderer v2 hiển thị item từ thư viện hiện tại. Kết quả phiên học xử lý cục bộ trong lịch sử và lịch ôn tập v2.'}
+              ? t('study.practiceSubtitle')
+              : t('study.standardSubtitle')}
           actions={items.length ? (
             <div className="studyHeaderActions">
               {!completedAttempt ? (
                 <Button type="button" variant="secondary" size="sm" onClick={requestFinishSession}>
-                  Hoàn thành phiên học
+                  {t('study.finish')}
                 </Button>
               ) : null}
               <Button type="button" variant="ghost" size="sm" onClick={requestRestartSession}>
-                Làm lại phiên học
+                {t('study.restart')}
               </Button>
             </div>
           ) : null}
         />
 
-        <div className="studySourceBar" aria-label="Nguồn mục đang học">
-          <Badge tone={isDueReviewMode ? 'warning' : isSmartPracticeMode ? 'success' : selection?.subjectTitle ? 'success' : 'info'}>
-            {isDueReviewMode ? 'Chế độ ôn tập' : isSmartPracticeMode ? 'Luyện tập thông minh' : selection?.subjectTitle ? 'Lựa chọn từ Thư viện' : 'Toàn bộ thư viện'}
+        <div className="studySourceBar" aria-label={t('study.sourceLabel')}>
+          <Badge tone={isDueReviewMode ? 'warning' : 'info'}>
+            {isDueReviewMode ? t('study.reviewMode') : isSmartPracticeMode ? t('study.smartPractice') : selection?.subjectTitle ? t('study.librarySelection') : t('study.fullLibrary')}
           </Badge>
           <strong>{selectionLabel}</strong>
-          <span>{isDueReviewMode ? `${items.length} câu đến hạn` : isSmartPracticeMode ? `${items.length} câu được chọn` : `${items.length} item`}</span>
+          <span>{isDueReviewMode ? t('study.dueCount', { count: items.length }) : isSmartPracticeMode ? t('study.selectedCount', { count: items.length }) : t('study.itemCount', { count: items.length })}</span>
         </div>
 
         {items.length ? (
@@ -1003,16 +978,16 @@ export default function StudyRoom() {
 
         {pendingSessionAction ? (
           <div className="studyFeedback studyFeedback--warning" role="status" aria-live="polite">
-            <strong>{pendingSessionAction === 'finish' ? 'Xác nhận hoàn thành phiên học?' : 'Xác nhận làm lại phiên học?'}</strong>
+            <strong>{pendingSessionAction === 'finish' ? t('study.finishConfirm') : t('study.restartConfirm')}</strong>
             <p>{pendingSessionAction === 'finish'
-              ? 'Bạn có thể hoàn thành ngay hoặc tiếp tục học thêm. Thao tác này không thay đổi cách chấm điểm.'
-              : 'Làm lại chỉ đặt lại tiến trình nháp trong Phòng học; thư viện dữ liệu không bị xóa.'}</p>
+              ? t('study.finishConfirmBody')
+              : t('study.restartConfirmBody')}</p>
             <div className="studyActions studyActions--compact">
               <Button type="button" onClick={confirmPendingSessionAction}>
-                {pendingSessionAction === 'finish' ? 'Xác nhận hoàn thành' : 'Xác nhận làm lại'}
+                {pendingSessionAction === 'finish' ? t('study.confirmFinish') : t('study.confirmRestart')}
               </Button>
               <Button type="button" variant="ghost" onClick={cancelPendingSessionAction}>
-                Tiếp tục phiên học
+                {t('study.continueSession')}
               </Button>
             </div>
           </div>
@@ -1021,12 +996,12 @@ export default function StudyRoom() {
         {items.length === 0 ? (
           <EmptyState
             icon="◇"
-            title={isDueReviewMode ? 'Không có câu cần ôn hôm nay' : isSmartPracticeMode ? 'Không có câu phù hợp để luyện' : 'Chưa có mục học để học'}
+            title={isDueReviewMode ? t('study.noDueTitle') : isSmartPracticeMode ? t('study.noPracticeTitle') : t('study.noItemsTitle')}
             description={isDueReviewMode
-              ? 'Lịch ôn tập hiện chưa có câu đến hạn khớp với thư viện hiện tại. Hãy hoàn thành thêm phiên học hoặc quay lại Dashboard.'
+              ? t('study.noDueBody')
               : isSmartPracticeMode
-                ? 'Thư viện, lịch sử hoặc lịch ôn hiện tại không tạo được phiên luyện tập thông minh. Hãy import thêm học liệu hoặc hoàn thành một phiên học thường.'
-                : 'Thư viện hiện tại không có item hợp lệ cho lựa chọn này. Hãy quay lại Library để chọn subject/topic khác hoặc import dữ liệu v2 hợp lệ.'}
+                ? t('study.noPracticeBody')
+                : t('study.noItemsBody')}
           />
         ) : completedAttempt ? (
           <>
@@ -1045,7 +1020,7 @@ export default function StudyRoom() {
           <div className="studySessionStack">
             <ProgressBar
               value={progressValue}
-              label={`Tiến độ duyệt item ${currentIndex + 1} trên ${items.length}`}
+              label={t('study.itemProgress', { current: currentIndex + 1, total: items.length })}
             />
 
             <StudyMascot reaction={mascotReaction} message={mascotMessage} />
@@ -1083,7 +1058,7 @@ export default function StudyRoom() {
               />
             ) : null}
 
-            <div className="studyQuestionGrid" style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'center', margin: '24px 0 16px', padding: '12px', borderRadius: '12px', background: 'var(--color-primary-soft)', border: '1px solid var(--border)' }} aria-label="Bản đồ câu hỏi">
+            <div className="studyQuestionGrid" aria-label={t('study.questionMap')}>
               {items.map((item, idx) => {
                 const itemState = {
                   answer: answersByItemId[item.id],
@@ -1102,11 +1077,11 @@ export default function StudyRoom() {
                 const score = itemMastery?.score ?? 50;
                 const hasEvidence = itemMastery?.hasEvidence ?? false;
 
-                let dotColor = 'rgba(148, 163, 184, 0.4)'; // Gray
+                let dotColor = 'var(--theme-text-muted)';
                 if (hasEvidence) {
-                  if (score < 60) dotColor = '#ef4444'; // Red
-                  else if (score < 80) dotColor = '#eab308'; // Yellow
-                  else dotColor = '#10b981'; // Green
+                  if (score < 60) dotColor = 'var(--theme-status-danger)';
+                  else if (score < 80) dotColor = 'var(--theme-status-warning)';
+                  else dotColor = 'var(--theme-status-safe)';
                 }
 
                 let bg = 'var(--surface)';
@@ -1156,12 +1131,12 @@ export default function StudyRoom() {
                       fontWeight: isCurrent ? '800' : '600',
                       fontSize: '0.9rem',
                       cursor: 'pointer',
-                      transform: isCurrent ? 'scale(1.1)' : 'none',
-                      boxShadow: isCurrent ? '0 4px 12px var(--color-primary-soft)' : 'none',
-                      transition: 'all 0.2s ease',
+                      transform: isCurrent ? 'translateY(-1px)' : 'none',
+                      boxShadow: isCurrent ? 'var(--shadow-xs)' : 'none',
+                      transition: 'transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease',
                       padding: 0
                     }}
-                    title={`Câu ${idx + 1} - Độ nắm vững: ${hasEvidence ? `${score}%` : 'Chưa luyện'}`}
+                    title={t('study.masteryTitle', { number: idx + 1, mastery: hasEvidence ? `${score}%` : t('study.notPracticed') })}
                   >
                     <span>{idx + 1}</span>
                     {/* Mastery Dot indicator */}
@@ -1180,15 +1155,15 @@ export default function StudyRoom() {
               })}
             </div>
 
-            <nav className="studyStepper" aria-label="Điều hướng mục học tập">
+            <nav className="studyStepper" aria-label={t('study.itemNavigation')}>
               <Button type="button" variant="secondary" onClick={goToPrevious} disabled={currentIndex === 0}>
-                Câu trước
+                {t('study.previous')}
               </Button>
               <span aria-live="polite">
                 {currentIndex + 1} / {items.length}
               </span>
               <Button type="button" onClick={goToNext} disabled={currentIndex >= items.length - 1}>
-                Câu tiếp theo
+                {t('study.next')}
               </Button>
             </nav>
           </div>
@@ -1199,24 +1174,17 @@ export default function StudyRoom() {
 }
 
 function StudyMascot({ reaction, message }) {
+  const { t } = useShimeLanguage();
+  const robotState = reaction === 'correct' || reaction === 'completed'
+    ? 'success'
+    : reaction === 'incorrect'
+      ? 'warning'
+      : reaction === 'revealed'
+        ? 'focus'
+        : 'idle';
   return (
-    <div className="studyMascotContainer" aria-label="Mascot đồng hành Shime">
-      <div className={`mascotBot mascotBot--${reaction}`}>
-        <div className="mascotBody">
-          <div className="mascotFace">
-            <span className={`mascotEye ${
-              reaction === 'correct' ? 'mascotEye--happy' :
-              reaction === 'incorrect' ? 'mascotEye--sad' :
-              reaction === 'revealed' ? 'mascotEye--excited' : ''
-            }`} />
-            <span className={`mascotEye ${
-              reaction === 'correct' ? 'mascotEye--happy' :
-              reaction === 'incorrect' ? 'mascotEye--sad' :
-              reaction === 'revealed' ? 'mascotEye--excited' : ''
-            }`} />
-          </div>
-        </div>
-      </div>
+    <div className="studyMascotContainer" aria-label={t('study.companionLabel')}>
+      <ShimeRobotPresence state={robotState} size="sm" decorative />
       <div className="mascotBubble">
         <p>{message}</p>
       </div>

@@ -18,6 +18,7 @@ const runtimeFiles = [
 ];
 const runtimeSource = runtimeFiles.map(file => fs.readFileSync(resolve(PROJECT_ROOT, file), 'utf8')).join('\n');
 const settingsSource = fs.readFileSync(resolve(PROJECT_ROOT, 'src/routes/Settings.jsx'), 'utf8');
+const mainSource = fs.readFileSync(resolve(PROJECT_ROOT, 'src/main.jsx'), 'utf8');
 
 function renderSwitch(initialLocale) {
   return renderToStaticMarkup(
@@ -33,20 +34,20 @@ describe('UI-I18N-1 visible language runtime', () => {
     expect(html).toContain('Ngôn ngữ');
     expect(html).toContain('Tiếng Việt');
     expect(html).toContain('English');
-    expect(html).toContain('Tải lại trang sẽ quay về Tiếng Việt');
+    expect(html).toContain('Lựa chọn được lưu trên thiết bị này');
   });
 
-  it('renders English preview when in-memory locale is English', () => {
+  it('renders the complete English language control', () => {
     const html = renderSwitch('en');
     expect(html).toContain('Language');
     expect(html).toContain('Vietnamese');
     expect(html).toContain('English');
-    expect(html).toContain('Reloading the page resets to Vietnamese');
+    expect(html).toContain('This preference is stored on this device');
   });
 
-  it('wires visible switch buttons to in-memory Vietnamese and English locales', () => {
-    expect(runtimeSource).toContain('onClick={() => setLocale(SHIME_LOCALES.VI)}');
-    expect(runtimeSource).toContain('onClick={() => setLocale(SHIME_LOCALES.EN)}');
+  it('wires visible switch buttons to canonical Vietnamese and English locales', () => {
+    expect(runtimeSource).toContain('onClick={() => setLocale(UI_LOCALES.VI)}');
+    expect(runtimeSource).toContain('onClick={() => setLocale(UI_LOCALES.EN)}');
   });
 
   it('falls back unknown locales to Vietnamese', () => {
@@ -55,8 +56,9 @@ describe('UI-I18N-1 visible language runtime', () => {
     expect(renderSwitch('fr')).toContain('Ngôn ngữ');
   });
 
-  it('is mounted in Settings and not in StudyRoom or DeviceBridge runtime', () => {
-    expect(settingsSource).toContain("import { ShimeLanguageProvider } from '../uiI18n/ShimeLanguageProvider.jsx';");
+  it('mounts one provider above all routes and keeps the visible control in Settings', () => {
+    expect(mainSource).toContain("import { ShimeLanguageProvider } from './uiI18n/ShimeLanguageProvider.jsx';");
+    expect(mainSource).toContain('<ShimeLanguageProvider>');
     expect(settingsSource).toContain("import ShimeLanguageSwitch from '../uiI18n/ShimeLanguageSwitch.jsx';");
     expect(settingsSource).toContain('<ShimeLanguageSwitch />');
     expect(runtimeSource).not.toContain('StudyRoom');
@@ -64,9 +66,8 @@ describe('UI-I18N-1 visible language runtime', () => {
     expect(runtimeSource).not.toMatch(/from ['"].*DeviceBridge/);
   });
 
-  it('does not use persistence, browser language detection, network, AI, or robot-send APIs', () => {
+  it('does not use browser detection, network, AI, or robot-send APIs', () => {
     [
-      'localStorage',
       'sessionStorage',
       'indexedDB',
       'navigator.language',

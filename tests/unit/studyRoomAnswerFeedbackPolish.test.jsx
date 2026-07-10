@@ -29,7 +29,7 @@ describe('Phase 35N Study Room Answer Feedback Polish', () => {
   it('keeps answer handlers and queue progression behavior untouched', () => {
     expect(studyRoom).toContain('function checkCurrentAnswer()');
     expect(studyRoom).toContain('setCheckedByItemId(current => ({ ...current, [currentItemId]: true }))');
-    expect(studyRoom).toContain('showMicroFeedback(getCheckedAnswerFeedback(currentItem, nextItemState))');
+    expect(studyRoom).toContain('showMicroFeedback(getCheckedAnswerFeedback(currentItem, nextItemState, t))');
     expect(studyRoom).toContain('function goToNext()');
     expect(studyRoom).toContain('setCurrentIndex(index => Math.min(items.length - 1, index + 1))');
     expect(studyRoom).not.toMatch(/setCurrentIndex\s*\([^)]*checkCurrentAnswer/);

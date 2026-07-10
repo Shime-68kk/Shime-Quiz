@@ -77,7 +77,7 @@ describe('Phase 15F — default/inactive bridge copy', () => {
   it('default rendering says study schedule is not changed by this rating yet', () => {
     const tree = renderBridge({ isActiveSchedulingCopyEnabled: false, isActiveSchedulingCopyContextEligible: false });
     const text = collectText(tree);
-    expect(text).toContain('Your study schedule is not changed by this rating yet.');
+    expect(text).toContain('Lịch học hiện tại chưa bị thay đổi.');
   });
 
   it('auto-again copy in default mode says schedule is not changed', () => {
@@ -87,8 +87,8 @@ describe('Phase 15F — default/inactive bridge copy', () => {
       isActiveSchedulingCopyEnabled: false, isActiveSchedulingCopyContextEligible: false
     });
     const text = collectText(tree);
-    expect(text).toContain('Needs another review.');
-    expect(text).toContain('Your study schedule is not changed by this rating yet.');
+    expect(text).toContain('Cần ôn lại.');
+    expect(text).toContain('Lịch học hiện tại chưa bị thay đổi.');
   });
 
   it('rated copy in default mode says schedule is not affected', () => {
@@ -97,14 +97,14 @@ describe('Phase 15F — default/inactive bridge copy', () => {
       isActiveSchedulingCopyEnabled: false, isActiveSchedulingCopyContextEligible: false
     });
     const text = collectText(tree);
-    expect(text).toContain('Recorded');
-    expect(text).toContain('Your schedule is not affected.');
+    expect(text).toContain('Đã ghi nhận Hard.');
+    expect(text).toContain('Lịch học của bạn không bị thay đổi.');
   });
 
   it('omitting the active prop defaults to inert default copy', () => {
     const tree = renderBridge({});
     const text = collectText(tree);
-    expect(text).toContain('Your study schedule is not changed by this rating yet.');
+    expect(text).toContain('Lịch học hiện tại chưa bị thay đổi.');
     expect(text).not.toContain('may adjust when you next see this card');
   });
 });
@@ -115,7 +115,7 @@ describe('Phase 15F — active-capable bridge copy', () => {
   it('active mode header uses "may adjust when you next see this card"', () => {
     const tree = renderBridge({ isActiveSchedulingCopyEnabled: true });
     const text = collectText(tree);
-    expect(text).toContain('This rating may adjust when you next see this card.');
+    expect(text).toContain('Đánh giá này có thể điều chỉnh lần gặp thẻ tiếp theo.');
   });
 
   it('active mode auto-again says recorded as Again with may-adjust wording', () => {
@@ -125,8 +125,8 @@ describe('Phase 15F — active-capable bridge copy', () => {
       isActiveSchedulingCopyEnabled: true
     });
     const text = collectText(tree);
-    expect(text).toContain('recorded as Again');
-    expect(text).toContain('may adjust when you next see this card');
+    expect(text).toContain('Chưa nhớ — đã ghi nhận.');
+    expect(text).toContain('Lần gặp thẻ tiếp theo có thể được điều chỉnh.');
   });
 
   it('active mode rated copy uses may-adjust wording', () => {
@@ -135,8 +135,8 @@ describe('Phase 15F — active-capable bridge copy', () => {
       isActiveSchedulingCopyEnabled: true
     });
     const text = collectText(tree);
-    expect(text).toContain('Recorded');
-    expect(text).toContain('may adjust when you next see this card');
+    expect(text).toContain('Đã ghi nhận Good.');
+    expect(text).toContain('Lần gặp thẻ tiếp theo có thể được điều chỉnh.');
   });
 
   it('active mode rated copy still shows the chosen rating label', () => {
@@ -206,21 +206,21 @@ describe('Phase 15F — Continue without rating copy', () => {
     const buttons = findAll(tree, el => el?.type === 'button');
     // Phase 16A: button now renders Vietnamese-first label alongside the English
     // helper text, so we match on substring inclusion instead of strict equality.
-    const skipButton = buttons.find(b => collectText(b).includes('Continue without rating'));
+    const skipButton = buttons.find(b => collectText(b).includes('Tiếp tục không đánh giá'));
     expect(skipButton).toBeDefined();
   });
 
   it('Continue without rating button label remains visible in active mode', () => {
     const tree = renderBridge({ isActiveSchedulingCopyEnabled: true });
     const buttons = findAll(tree, el => el?.type === 'button');
-    const skipButton = buttons.find(b => collectText(b).includes('Continue without rating'));
+    const skipButton = buttons.find(b => collectText(b).includes('Tiếp tục không đánh giá'));
     expect(skipButton).toBeDefined();
   });
 
   it('active mode skip help text says normal review update continues', () => {
     const tree = renderBridge({ isActiveSchedulingCopyEnabled: true });
     const text = collectText(tree);
-    expect(text).toContain('Continue without rating keeps the normal review update for this answer.');
+    expect(text).toContain('Bỏ qua đánh giá vẫn giữ cập nhật ôn tập bình thường cho câu này.');
   });
 
   it('skipped phase renders nothing (no copy leaks)', () => {
@@ -252,7 +252,7 @@ describe('Phase 15F — Wrong/unanswered Again copy', () => {
       isActiveSchedulingCopyEnabled: false, isActiveSchedulingCopyContextEligible: false
     });
     const text = collectText(tree);
-    expect(text).toContain('Needs another review.');
+    expect(text).toContain('Cần ôn lại.');
     expect(text).not.toContain('guaranteed');
   });
 
@@ -263,7 +263,7 @@ describe('Phase 15F — Wrong/unanswered Again copy', () => {
       isActiveSchedulingCopyEnabled: true
     });
     const text = collectText(tree);
-    expect(text).toContain('recorded as Again');
+    expect(text).toContain('Chưa nhớ — đã ghi nhận.');
     expect(text).not.toContain('guaranteed');
   });
 });
@@ -282,9 +282,9 @@ describe('Phase 15F — Hard/Good/Easy effort labels', () => {
   it('rating descriptions remain effort-based, not schedule-guarantee', () => {
     const tree = renderBridge({ isActiveSchedulingCopyEnabled: true });
     const text = collectText(tree);
-    expect(text).toContain('Recalled with serious effort.');
-    expect(text).toContain('Recalled with normal effort.');
-    expect(text).toContain('Instant recall.');
+    expect(text).toContain('Nhớ lại với nhiều nỗ lực.');
+    expect(text).toContain('Nhớ lại với mức nỗ lực bình thường.');
+    expect(text).toContain('Nhớ lại gần như ngay lập tức.');
     expect(text).not.toMatch(/guarantee/i);
   });
 
@@ -422,16 +422,15 @@ describe('Phase 15F — Phase 14N regression checks', () => {
     expect(source.includes('role="region"') || source.includes("role='region'")).toBe(true);
   });
 
-  it('bridge still renders Continue without rating button', () => {
+  it('bridge still renders the canonical continue-without-rating key', () => {
     const source = readProjectFile('src/components/study/FsrsProductionMemoryRatingBridge.jsx');
-    expect(source).toContain('Continue without rating');
+    expect(source).toContain("t('study.memorySkip')");
   });
 
-  it('bridge source still includes scheduling-not-affected copy for default mode', () => {
+  it('bridge source still uses canonical inert scheduling copy', () => {
     const source = readProjectFile('src/components/study/FsrsProductionMemoryRatingBridge.jsx');
-    expect(source.toLowerCase()).toContain('schedule');
-    expect(source.toLowerCase()).toContain('not changed');
-    expect(source).toContain('Your schedule is not affected');
+    expect(source).toContain("t('study.memoryNoChange')");
+    expect(source).toContain("t('study.memoryRecordedInactive'");
   });
 });
 

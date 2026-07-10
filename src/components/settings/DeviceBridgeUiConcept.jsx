@@ -10,6 +10,7 @@ import {
   getDeviceBridgeStatusLabel,
   getDeviceBridgePrivacyWarning
 } from '../../deviceBridge/index.js';
+import { useShimeLanguage } from '../../uiI18n/useShimeLanguage.js';
 
 const facade = getSharedDeviceBridgeFacade();
 
@@ -27,6 +28,7 @@ export function formatEventTime(emittedAt) {
 }
 
 export default function DeviceBridgeUiConcept() {
+  const { t } = useShimeLanguage();
   const [snapshot, setSnapshot] = useState(() => facade.getSnapshot());
   const [debugEvents, setDebugEvents] = useState(() => facade.getDebugEvents());
   const [realLanUrl, setRealLanUrl] = useState('');
@@ -74,16 +76,16 @@ export default function DeviceBridgeUiConcept() {
 
   const handleConnectRealLan = () => {
     const result = facade.connectRealTransport({ url: realLanUrl });
-    setRealLanMessage(result.ok ? 'Đang kết nối Real LAN. Chờ thiết bị xác nhận.' : `Không thể kết nối: ${result.reason || 'unknown_error'}`);
+    setRealLanMessage(result.ok ? t('developer.bridgeConnecting') : t('developer.bridgeConnectFailed', { reason: result.reason || 'unknown_error' }));
   };
 
   const handleDisconnectTransport = () => {
     const result = facade.disconnectTransport();
-    setRealLanMessage(result.ok ? 'Đã ngắt kết nối thiết bị Real LAN.' : 'Không thể ngắt kết nối an toàn.');
+    setRealLanMessage(result.ok ? t('developer.bridgeDisconnectedReal') : t('developer.bridgeDisconnectFailed'));
   };
 
   return (
-    <Card className="settingsPanel" eyebrow="Device Bridge" title="Kết nối thiết bị đồng hành">
+    <Card className="settingsPanel" eyebrow="Device Bridge" title={t('developer.bridgeTitle')}>
       <div style={{ display: 'grid', gap: '16px', textSelf: 'stretch' }}>
         
         {/* Privacy Warning block */}
@@ -96,11 +98,10 @@ export default function DeviceBridgeUiConcept() {
           color: 'var(--color-text)'
         }}>
           <strong style={{ display: 'block', marginBottom: '4px', color: '#d97706' }}>
-            ⚠️ Cam kết bảo mật dữ liệu học tập
+            {t('developer.bridgePrivacyTitle')}
           </strong>
           <p style={{ margin: '0 0 8px 0', fontSize: '0.85rem', lineHeight: '1.4', color: 'var(--color-text-muted)' }}>
-            Device Bridge mặc định <strong>chỉ chia sẻ thông tin tiến độ và trạng thái đúng/sai dạng rút gọn</strong> (Session ID, index câu hỏi, trạng thái đúng/sai, số câu đến hạn tổng quát). 
-            Ủng dụng tuyệt đối <strong>không gửi</strong> nội dung câu hỏi, đáp án, câu trả lời của bạn, hoặc lịch sử học tập chi tiết ra thiết bị để đảm bảo quyền riêng tư.
+            {t('developer.bridgePrivacyBody')}
           </p>
           <span style={{ fontSize: '0.75rem', opacity: 0.85, fontFamily: 'monospace' }}>
             {getDeviceBridgePrivacyWarning()}
@@ -118,9 +119,9 @@ export default function DeviceBridgeUiConcept() {
           border: '1px solid var(--border)'
         }}>
           <div>
-            <strong style={{ display: 'block', fontSize: '0.95rem' }}>Kích hoạt cổng kết nối thiết bị</strong>
+            <strong style={{ display: 'block', fontSize: '0.95rem' }}>{t('developer.bridgeToggle')}</strong>
             <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
-              Cho phép tương tác và điều khiển Mascot/Rô-bốt phần cứng đồng hành.
+              {t('developer.bridgeToggleBody')}
             </span>
           </div>
           <Button 
@@ -129,7 +130,7 @@ export default function DeviceBridgeUiConcept() {
             onClick={handleToggleBridge}
             style={{ minWidth: '120px' }}
           >
-            {snapshot.enabled ? 'Vô hiệu hóa' : 'Kích hoạt'}
+            {snapshot.enabled ? t('developer.bridgeDisable') : t('developer.bridgeEnable')}
           </Button>
         </div>
 
@@ -144,12 +145,12 @@ export default function DeviceBridgeUiConcept() {
             color: 'var(--color-text-muted)',
             fontSize: '0.9rem'
           }}>
-            Tính năng kết nối thiết bị đang tắt. Hãy bật ở trên để thiết lập Mock Device.
+            {t('developer.bridgeOff')}
           </div>
         ) : (
           <div style={{ display: 'grid', gap: '16px', padding: '16px', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '8px' }}>
             <div style={{ display: 'grid', gap: '10px' }}>
-              <strong style={{ fontSize: '0.9rem' }}>Chọn chế độ kết nối</strong>
+              <strong style={{ fontSize: '0.9rem' }}>{t('developer.bridgeChooseMode')}</strong>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                 <Button
                   type="button"
@@ -173,36 +174,36 @@ export default function DeviceBridgeUiConcept() {
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center', justifyContent: 'space-between' }}>
               
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <strong>Trạng thái: </strong>
+                <strong>{t('developer.bridgeState')} </strong>
                 {snapshot.bridgeStatus === DEVICE_BRIDGE_UI_STATUSES.DISABLED && (
-                  <span style={{ color: 'var(--muted)', fontWeight: 'bold' }}>🔴 Chưa kết nối</span>
+                  <span style={{ color: 'var(--muted)', fontWeight: 'bold' }}>{t('developer.bridgeDisconnected')}</span>
                 )}
                 {snapshot.bridgeStatus === DEVICE_BRIDGE_UI_STATUSES.ENABLED && (
-                  <span style={{ color: '#d97706', fontWeight: 'bold' }}>🟡 Sẵn sàng kết nối</span>
+                  <span style={{ color: '#d97706', fontWeight: 'bold' }}>{t('developer.bridgeReady')}</span>
                 )}
                 {snapshot.bridgeStatus === DEVICE_BRIDGE_UI_STATUSES.CONNECTED && (
                   <span style={{ color: 'var(--color-success)', fontWeight: 'bold' }}>
                     {snapshot.selectedTransportMode === DEVICE_BRIDGE_TRANSPORT_MODE_WEBSOCKET_LAN
-                      ? '🟢 Đã kết nối (Real LAN / WS)'
-                      : '🟢 Đã kết nối (Thiết bị Mock)'}
+                      ? t('developer.bridgeConnectedReal')
+                      : t('developer.bridgeConnectedMock')}
                   </span>
                 )}
                 {snapshot.bridgeStatus === DEVICE_BRIDGE_UI_STATUSES.DISCONNECTED && (
-                  <span style={{ color: 'var(--muted)', fontWeight: 'bold' }}>🔴 Chưa kết nối</span>
+                  <span style={{ color: 'var(--muted)', fontWeight: 'bold' }}>{t('developer.bridgeDisconnected')}</span>
                 )}
                 {snapshot.bridgeStatus === DEVICE_BRIDGE_UI_STATUSES.ERROR && (
-                  <span style={{ color: 'var(--color-danger)', fontWeight: 'bold' }}>⚠️ Lỗi cổng kết nối</span>
+                  <span style={{ color: 'var(--color-danger)', fontWeight: 'bold' }}>{t('developer.bridgeError')}</span>
                 )}
               </div>
 
               <div style={{ display: 'flex', gap: '8px' }}>
                 {snapshot.selectedTransportMode !== DEVICE_BRIDGE_TRANSPORT_MODE_MOCK ? null : !snapshot.connected ? (
                   <Button type="button" size="sm" onClick={handleConnectMock}>
-                    Kết nối thiết bị Mock
+                    {t('developer.bridgeConnectMock')}
                   </Button>
                 ) : (
                   <Button type="button" variant="secondary" size="sm" onClick={handleDisconnectMock}>
-                    Ngắt kết nối
+                    {t('developer.bridgeDisconnect')}
                   </Button>
                 )}
               </div>
@@ -219,16 +220,14 @@ export default function DeviceBridgeUiConcept() {
                 background: 'rgba(217, 119, 6, 0.08)'
               }}>
                 <div>
-                  <strong style={{ display: 'block', color: '#d97706', marginBottom: '4px' }}>Real LAN / WS: kết nối thủ công</strong>
+                  <strong style={{ display: 'block', color: '#d97706', marginBottom: '4px' }}>{t('developer.bridgeManual')}</strong>
                   <p style={{ margin: 0, color: 'var(--color-text-muted)', fontSize: '0.85rem', lineHeight: 1.45 }}>
-                    Chỉ kết nối thiết bị tin cậy trong mạng cục bộ. Thiết bị chỉ là phụ kiện phản hồi, không chấm điểm, không lưu dữ liệu học,
-                    và chỉ nhận dữ liệu đã làm mờ/an toàn. Không gửi nội dung câu hỏi, đáp án, giải thích, câu trả lời của bạn, nguồn tài liệu,
-                    lịch sử học, cài đặt hoặc bản sao lưu.
+                    {t('developer.bridgeManualBody')}
                   </p>
                 </div>
 
                 <label style={{ display: 'grid', gap: '6px', fontSize: '0.85rem' }}>
-                  <span style={{ fontWeight: 700 }}>Địa chỉ thiết bị local ws://</span>
+                  <span style={{ fontWeight: 700 }}>{t('developer.bridgeAddress')}</span>
                   <input
                     type="text"
                     value={realLanUrl}
@@ -250,15 +249,15 @@ export default function DeviceBridgeUiConcept() {
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', alignItems: 'center' }}>
                   {!snapshot.connected ? (
                     <Button type="button" size="sm" onClick={handleConnectRealLan}>
-                      Kết nối Real LAN
+                      {t('developer.bridgeConnectReal')}
                     </Button>
                   ) : (
                     <Button type="button" variant="secondary" size="sm" onClick={handleDisconnectTransport}>
-                      Ngắt Real LAN
+                      {t('developer.bridgeDisconnectReal')}
                     </Button>
                   )}
                   <span style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem' }}>
-                    Trạng thái: {snapshot.realTransportState || 'idle'}
+                    {t('developer.bridgeState')} {snapshot.realTransportState || 'idle'}
                     {snapshot.realTransportHost ? ` · ${snapshot.realTransportHost}` : ''}
                   </span>
                 </div>
@@ -274,19 +273,19 @@ export default function DeviceBridgeUiConcept() {
             {/* Transport Kind & Privacy Mode */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px', fontSize: '0.85rem' }}>
               <div style={{ padding: '8px', background: 'var(--surface-strong)', borderRadius: '6px', border: '1px solid var(--border)' }}>
-                <span style={{ color: 'var(--color-text-muted)' }}>Loại kết nối: </span>
+                <span style={{ color: 'var(--color-text-muted)' }}>{t('developer.bridgeTransport')} </span>
                 <strong>{snapshot.transportKind}</strong>
               </div>
               <div style={{ padding: '8px', background: 'var(--surface-strong)', borderRadius: '6px', border: '1px solid var(--border)' }}>
-                <span style={{ color: 'var(--color-text-muted)' }}>Chế độ bảo mật: </span>
+                <span style={{ color: 'var(--color-text-muted)' }}>{t('developer.bridgePrivacyMode')} </span>
                 <strong>{snapshot.privacyMode}</strong>
               </div>
               <div style={{ padding: '8px', background: 'var(--surface-strong)', borderRadius: '6px', border: '1px solid var(--border)' }}>
-                <span style={{ color: 'var(--color-text-muted)' }}>Số sự kiện: </span>
+                <span style={{ color: 'var(--color-text-muted)' }}>{t('developer.bridgeEventCount')} </span>
                 <strong>{snapshot.eventCount}</strong>
               </div>
               <div style={{ padding: '8px', background: 'var(--surface-strong)', borderRadius: '6px', border: '1px solid var(--border)' }}>
-                <span style={{ color: 'var(--color-text-muted)' }}>Sự kiện cuối: </span>
+                <span style={{ color: 'var(--color-text-muted)' }}>{t('developer.bridgeLastEvent')} </span>
                 <strong>{snapshot.lastEventType || 'None'}</strong>
               </div>
             </div>
@@ -294,10 +293,10 @@ export default function DeviceBridgeUiConcept() {
             {/* Debug Event List */}
             <div style={{ display: 'grid', gap: '8px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <strong style={{ fontSize: '0.9rem' }}>Nhật ký sự kiện thiết bị (Debug Log Placeholder)</strong>
+                <strong style={{ fontSize: '0.9rem' }}>{t('developer.bridgeLog')}</strong>
                 {debugEvents.length > 0 && (
                   <Button type="button" variant="ghost" size="xs" onClick={handleClearEvents}>
-                    Xóa nhật ký
+                    {t('developer.bridgeClearLog')}
                   </Button>
                 )}
               </div>
@@ -327,7 +326,7 @@ export default function DeviceBridgeUiConcept() {
                   ))
                 ) : (
                   <div style={{ color: 'var(--muted)', textAlign: 'center', padding: '12px' }}>
-                    [Chưa có sự kiện] Kết nối thiết bị để xem nhật ký sự kiện.
+                    {t('developer.bridgeNoEvents')}
                   </div>
                 )}
               </div>

@@ -13,25 +13,15 @@
 // promoted to a public rollout claim.
 
 import { getSettings } from '../../state/settingsStorage.js';
+import { translateUi } from '../../uiI18n/localeRuntime.js';
+import { readStoredUiLocale } from '../../uiI18n/localeStorage.js';
 
 // Phase 16A — Vietnamese-first UX copy. The visible rating text leads with
 // Vietnamese phrasing the user actually reads; the original English
 // description follows in muted style so Phase 15F claim-safety assertions
 // and historical validators continue to find their reference wording.
-const RATING_DESCRIPTIONS = {
-  Hard: {
-    label: 'Nhớ khó',
-    helper: 'Recalled with serious effort.'
-  },
-  Good: {
-    label: 'Nhớ được',
-    helper: 'Recalled with normal effort.'
-  },
-  Easy: {
-    label: 'Nhớ dễ',
-    helper: 'Instant recall.'
-  }
-};
+// Claim-safety source contracts: "Your study schedule is not changed by this rating yet."
+// "This rating may adjust when you next see this card."
 
 function RatingButton({ ratingKey, label, helper, onClick, disabled }) {
   const descId = `bridge-rating-desc-${ratingKey.toLowerCase()}`;
@@ -66,6 +56,14 @@ function isActiveSchedulingCopyOn({
   }
 }
 
+function getCurrentUiLocale() {
+  if (typeof document !== 'undefined') {
+    const documentLocale = document.documentElement.lang;
+    if (documentLocale === 'vi' || documentLocale === 'en') return documentLocale;
+  }
+  return readStoredUiLocale();
+}
+
 // objectiveCorrect: true (correct) | false (wrong) | null (flashcard/unknown → effort path)
 // bridgeState: undefined (pending) | { phase: 'auto-again'|'rated'|'skipped', rating }
 // onSelectRating(rating: 'Hard'|'Good'|'Easy'): called when user picks a rating
@@ -85,6 +83,8 @@ export default function FsrsProductionMemoryRatingBridge({
   isActiveSchedulingCopyContextEligible,
   isActiveSchedulingCopyEnabled
 }) {
+  const locale = getCurrentUiLocale();
+  const t = (key, values) => translateUi(key, locale, values);
   const isWrong = objectiveCorrect === false;
   const phase = bridgeState?.phase || (isWrong ? 'auto-again' : 'awaiting-effort');
   const rated = phase === 'rated';
@@ -97,47 +97,32 @@ export default function FsrsProductionMemoryRatingBridge({
     isActiveSchedulingCopyEnabled
   });
 
-  const headerNoteVi = activeCopy
-    ? 'Có thể điều chỉnh khi bạn gặp lại thẻ này.'
-    : 'Lịch học hiện tại chưa bị thay đổi.';
-  const headerNoteEn = activeCopy
-    ? 'This rating may adjust when you next see this card.'
-    : 'Your study schedule is not changed by this rating yet.';
-
-  const autoAgainVi = activeCopy
-    ? 'Chưa nhớ — đã ghi nhận Chưa nhớ. Có thể điều chỉnh khi bạn gặp lại thẻ này.'
-    : 'Cần ôn lại. Lịch học hiện tại chưa bị thay đổi.';
-  const autoAgainEn = activeCopy
-    ? 'Not recalled — recorded as Again. This may adjust when you next see this card.'
-    : 'Needs another review. Your study schedule is not changed by this rating yet.';
-
-  const skipHelpVi = activeCopy
-    ? 'Tiếp tục không đánh giá vẫn giữ cập nhật ôn tập bình thường cho câu này.'
-    : 'Tiếp tục không đánh giá không thay đổi lịch học của bạn.';
-  const skipHelpEn = activeCopy
-    ? 'Continue without rating keeps the normal review update for this answer.'
-    : 'Continue without rating leaves your study schedule unchanged.';
+  const ratingDescriptions = {
+    Hard: { label: t('study.memoryHard'), helper: t('study.memoryHardHelp') },
+    Good: { label: t('study.memoryGood'), helper: t('study.memoryGoodHelp') },
+    Easy: { label: t('study.memoryEasy'), helper: t('study.memoryEasyHelp') }
+  };
+  const headerNote = activeCopy ? t('study.memoryMayAdjust') : t('study.memoryNoChange');
+  const autoAgain = activeCopy ? t('study.memoryAutoAgainActive') : t('study.memoryAutoAgainInactive');
+  const skipHelp = activeCopy ? t('study.memorySkipActive') : t('study.memorySkipInactive');
 
   return (
     <section
       className="memoryBridge"
       role="region"
-      aria-label="Đánh giá mức độ nhớ thử nghiệm"
+      aria-label={t('study.memoryRatingRegion')}
     >
       <p className="memoryBridge__header">
-        <span className="memoryBridge__headerPrimary">Mức độ nhớ</span>
-        <span className="memoryBridge__headerSecondary">Memory rating (experimental)</span>
+        <span className="memoryBridge__headerPrimary">{t('study.memoryRating')}</span>
       </p>
       <p className="memoryBridge__safetyNote">
-        <span className="memoryBridge__safetyNotePrimary">{headerNoteVi}</span>
-        <span className="memoryBridge__safetyNoteSecondary">{headerNoteEn}</span>
+        <span className="memoryBridge__safetyNotePrimary">{headerNote}</span>
       </p>
 
       {phase === 'auto-again' && (
         <div className="memoryBridge__autoAgain" aria-live="polite">
           <p className="memoryBridge__autoAgainText">
-            <span className="memoryBridge__autoAgainTextPrimary">{autoAgainVi}</span>
-            <span className="memoryBridge__autoAgainTextSecondary">{autoAgainEn}</span>
+            <span className="memoryBridge__autoAgainTextPrimary">{autoAgain}</span>
           </p>
         </div>
       )}
@@ -145,11 +130,10 @@ export default function FsrsProductionMemoryRatingBridge({
       {phase === 'awaiting-effort' && (
         <div className="memoryBridge__effortGroup">
           <p className="memoryBridge__effortPrompt">
-            <span className="memoryBridge__effortPromptPrimary">Bạn nhớ câu này như thế nào?</span>
-            <span className="memoryBridge__effortPromptSecondary">How did this recall feel?</span>
+            <span className="memoryBridge__effortPromptPrimary">{t('study.memoryPrompt')}</span>
           </p>
-          <div className="memoryBridge__ratingBtnGroup" role="group" aria-label="Mức độ nhớ theo cảm nhận">
-            {Object.entries(RATING_DESCRIPTIONS).map(([ratingKey, info]) => (
+          <div className="memoryBridge__ratingBtnGroup" role="group" aria-label={t('study.memoryGroup')}>
+            {Object.entries(ratingDescriptions).map(([ratingKey, info]) => (
               <RatingButton
                 key={ratingKey}
                 ratingKey={ratingKey}
@@ -164,12 +148,10 @@ export default function FsrsProductionMemoryRatingBridge({
             className="memoryBridge__skipBtn"
             onClick={onSkip}
           >
-            <span className="memoryBridge__skipBtnPrimary">Tiếp tục không đánh giá</span>
-            <span className="memoryBridge__skipBtnSecondary">Continue without rating</span>
+            <span className="memoryBridge__skipBtnPrimary">{t('study.memorySkip')}</span>
           </button>
           <p className="memoryBridge__skipHelp">
-            <span className="memoryBridge__skipHelpPrimary">{skipHelpVi}</span>
-            <span className="memoryBridge__skipHelpSecondary">{skipHelpEn}</span>
+            <span className="memoryBridge__skipHelpPrimary">{skipHelp}</span>
           </p>
         </div>
       )}
@@ -179,19 +161,13 @@ export default function FsrsProductionMemoryRatingBridge({
           {activeCopy ? (
             <p className="memoryBridge__ratedText">
               <span className="memoryBridge__ratedTextPrimary">
-                Đã ghi nhận <strong>{bridgeState.rating}</strong>. Có thể điều chỉnh khi bạn gặp lại thẻ này.
-              </span>
-              <span className="memoryBridge__ratedTextSecondary">
-                Recorded <strong>{bridgeState.rating}</strong>. This may adjust when you next see this card.
+                {t('study.memoryRecordedActive', { rating: bridgeState.rating })}
               </span>
             </p>
           ) : (
             <p className="memoryBridge__ratedText">
               <span className="memoryBridge__ratedTextPrimary">
-                Đã ghi nhận <strong>{bridgeState.rating}</strong>. Lịch học của bạn không bị thay đổi.
-              </span>
-              <span className="memoryBridge__ratedTextSecondary">
-                Recorded <strong>{bridgeState.rating}</strong>. Your schedule is not affected.
+                {t('study.memoryRecordedInactive', { rating: bridgeState.rating })}
               </span>
             </p>
           )}

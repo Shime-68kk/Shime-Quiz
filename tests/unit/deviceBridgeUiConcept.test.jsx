@@ -9,32 +9,29 @@ const PROJECT_ROOT = resolve(__dirname, '../..');
 describe('DeviceBridgeUiConcept static check', () => {
   const panelPath = resolve(PROJECT_ROOT, 'src/components/settings/DeviceBridgeUiConcept.jsx');
   const source = fs.readFileSync(panelPath, 'utf8');
+  const viCopy = fs.readFileSync(resolve(PROJECT_ROOT, 'src/uiI18n/translations/vi.js'), 'utf8');
 
   it('contains the UI title and description', () => {
     expect(source).toContain('Device Bridge');
-    expect(source).toContain('Kết nối thiết bị đồng hành');
+    expect(source).toContain("t('developer.bridgeTitle')");
+    expect(viCopy).toContain('Kết nối thiết bị đồng hành');
   });
 
   it('contains clear privacy warnings minimizing data exposure', () => {
-    expect(source).toContain('⚠️ Cam kết bảo mật dữ liệu học tập');
-    expect(source).toContain('chỉ chia sẻ thông tin tiến độ và trạng thái đúng/sai dạng rút gọn');
-    expect(source).toMatch(/tuyệt đối[\s\S]*không gửi[\s\S]*nội dung câu hỏi, đáp án/);
+    expect(source).toContain("t('developer.bridgePrivacyTitle')");
+    expect(source).toContain("t('developer.bridgePrivacyBody')");
+    expect(viCopy).toContain('không gửi nội dung câu hỏi, đáp án');
     expect(source).toContain('getDeviceBridgePrivacyWarning');
   });
 
   it('contains a disabled state message', () => {
-    expect(source).toContain('Tính năng kết nối thiết bị đang tắt');
+    expect(source).toContain("t('developer.bridgeOff')");
   });
 
   it('contains the state controls', () => {
-    expect(source).toContain('Trạng thái:');
-    expect(source).toContain('Chưa kết nối');
-    expect(source).toContain('Đã kết nối (Real LAN / WS)');
-    expect(source).toContain('Đã kết nối (Thiết bị Mock)');
-    expect(source).toContain('Kết nối thiết bị Mock');
-    expect(source).toContain('Ngắt kết nối');
-    expect(source).toContain('Xóa nhật ký');
-    expect(source).toContain('[Chưa có sự kiện] Kết nối thiết bị để xem nhật ký sự kiện.');
+    for (const key of ['bridgeState', 'bridgeDisconnected', 'bridgeConnectedReal', 'bridgeConnectedMock', 'bridgeConnectMock', 'bridgeDisconnect', 'bridgeClearLog', 'bridgeNoEvents']) {
+      expect(source).toContain(`t('developer.${key}')`);
+    }
   });
 
   it('verifies that no demo emit buttons or triggers exist', () => {

@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import Button from '../Button.jsx';
 import { normalizeAnswerText } from '../../utils/text.js';
+import { useShimeLanguage } from '../../uiI18n/useShimeLanguage.js';
 
 
 function getAcceptableAnswers(item) {
@@ -12,6 +13,7 @@ function getAcceptableAnswers(item) {
 }
 
 export default function ShortAnswerItem({ item, response = '', checked = false, onResponseChange, onCheck, onReset }) {
+  const { t } = useShimeLanguage();
   const acceptableAnswers = useMemo(() => getAcceptableAnswers(item), [item]);
   const normalizedResponse = normalizeAnswerText(response);
   const isCorrect = checked && normalizedResponse && acceptableAnswers.some(answer => normalizeAnswerText(answer) === normalizedResponse);
@@ -19,7 +21,7 @@ export default function ShortAnswerItem({ item, response = '', checked = false, 
   return (
     <div className="studyInteraction">
       <label className="shortAnswerField">
-        <span>Câu trả lời của bạn</span>
+        <span>{t('study.yourAnswer')}</span>
         <input
           type="text"
           value={response}
@@ -27,17 +29,17 @@ export default function ShortAnswerItem({ item, response = '', checked = false, 
           onKeyDown={event => {
             if (event.key === 'Enter' && response.trim()) onCheck?.();
           }}
-          placeholder="Nhập câu trả lời ngắn..."
+          placeholder={t('study.shortPlaceholder')}
           aria-describedby={checked ? `feedback-${item.id}` : undefined}
         />
       </label>
 
       <div className="studyActions studyActions--compact">
         <Button type="button" onClick={() => onCheck?.()} disabled={!response.trim()}>
-          Kiểm tra đáp án
+          {t('study.check')}
         </Button>
         <Button type="button" variant="ghost" onClick={() => onReset?.()}>
-          Xóa câu trả lời
+          {t('study.clearAnswer')}
         </Button>
       </div>
 
@@ -47,8 +49,8 @@ export default function ShortAnswerItem({ item, response = '', checked = false, 
           className={`studyFeedback ${isCorrect ? 'studyFeedback--success' : 'studyFeedback--danger'}`}
           role="status"
         >
-          <strong>{isCorrect ? 'Chính xác.' : 'Chưa đúng.'}</strong>
-          {!isCorrect && acceptableAnswers.length ? <p>Đáp án gợi ý: {acceptableAnswers[0]}</p> : null}
+          <strong>{isCorrect ? t('study.correctSentence') : t('study.incorrectSentence')}</strong>
+          {!isCorrect && acceptableAnswers.length ? <p>{t('study.suggestedAnswer', { answer: acceptableAnswers[0] })}</p> : null}
           {item.explanation ? <p>{item.explanation}</p> : null}
         </div>
       ) : null}

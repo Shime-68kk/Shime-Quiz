@@ -15,21 +15,22 @@ import {
   markStudyPlanStepComplete,
   resetStudyPlanProgressForDate
 } from '../../state/studyPlanProgressStorage.js';
+import { useShimeLanguage } from '../../uiI18n/useShimeLanguage.js';
 
-function getRecommendationBadgeText(type) {
+function getRecommendationBadgeText(type, t) {
   switch (type) {
     case RECOMMENDATION_TYPES.LIBRARY_EMPTY:
-      return 'Cần dữ liệu';
+      return t('journey.needData');
     case RECOMMENDATION_TYPES.DUE_REVIEW:
-      return 'Đến hạn';
+      return t('journey.due');
     case RECOMMENDATION_TYPES.WEAK_MASTERY:
-      return 'Cần củng cố';
+      return t('journey.reinforce');
     case RECOMMENDATION_TYPES.FIRST_SESSION:
-      return 'Bước đầu';
+      return t('journey.firstStep');
     case RECOMMENDATION_TYPES.SMART_PRACTICE:
-      return 'Ưu tiên';
+      return t('journey.priority');
     default:
-      return 'Gợi ý';
+      return t('journey.suggestion');
   }
 }
 
@@ -38,14 +39,15 @@ function getStepTone(tone) {
   return 'neutral';
 }
 
-function formatGoalSummary(progress) {
-  if (!progress?.hasGoal) return 'Chưa thiết lập mục tiêu hôm nay.';
-  if (progress.remainingToday === 0) return 'Bạn đã đạt mục tiêu hôm nay.';
-  return `Đã luyện ${progress.itemsPracticedToday} mục, còn ${progress.remainingToday} mục.`;
+function formatGoalSummary(progress, t) {
+  if (!progress?.hasGoal) return t('journey.goalUnset');
+  if (progress.remainingToday === 0) return t('journey.goalComplete');
+  return t('journey.goalProgress', { practiced: progress.itemsPracticedToday, remaining: progress.remainingToday });
 }
 
 export default function TodayJourneyCard() {
   const navigate = useNavigate();
+  const { t } = useShimeLanguage();
   const {
     recommendation,
     smartPracticeSelection,
@@ -61,7 +63,7 @@ export default function TodayJourneyCard() {
   const [feedbackStatus, setFeedbackStatus] = useState(null);
   const [planStatus, setPlanStatus] = useState(null);
 
-  function startSmartPractice(selection, label = 'Luyện tập thông minh') {
+  function startSmartPractice(selection, label = t('study.smartPractice')) {
     if (!selection?.selectedCount) return;
     navigate('/study-room', {
       state: {
@@ -87,14 +89,14 @@ export default function TodayJourneyCard() {
             selection: {
               mode: 'due-review',
               source: 'daily-journey',
-              label: 'Ôn tập hôm nay',
+              label: t('study.dueReview'),
               dueCount: recommendation.dueCount
             }
           }
         });
         return;
       case RECOMMENDATION_TYPES.WEAK_MASTERY:
-        startSmartPractice(weakPracticeSelection?.selectedCount ? weakPracticeSelection : smartPracticeSelection, 'Luyện phần yếu');
+        startSmartPractice(weakPracticeSelection?.selectedCount ? weakPracticeSelection : smartPracticeSelection, t('overview.practiceWeak'));
         return;
       case RECOMMENDATION_TYPES.FIRST_SESSION:
         navigate('/study-room');
@@ -127,7 +129,7 @@ export default function TodayJourneyCard() {
     if (status === 'completed') {
       setPlanStatus({
         tone: 'success',
-        text: 'Bước này đã hoàn thành và sẽ không tự bỏ đánh dấu khi bấm lại.'
+        text: t('journey.stepCompleteNote')
       });
       return;
     }
@@ -135,28 +137,28 @@ export default function TodayJourneyCard() {
     const result = markStudyPlanStepComplete(step.id, planProgressState?.dateKey);
 
     if (!result.ok) {
-      setPlanStatus({ tone: 'danger', text: 'Không thể lưu tiến trình kế hoạch cục bộ.' });
+      setPlanStatus({ tone: 'danger', text: t('journey.saveFailed') });
       return;
     }
 
-    setPlanStatus({ tone: 'success', text: 'Đã đánh dấu hoàn thành.' });
+    setPlanStatus({ tone: 'success', text: t('journey.markedComplete') });
   }
 
   function resetTodayProgress() {
-    if (!window.confirm('Đặt lại tiến trình hôm nay? Thao tác này chỉ xóa trạng thái các bước trong kế hoạch hôm nay.')) return;
+    if (!window.confirm(t('journey.resetConfirm'))) return;
     const result = resetStudyPlanProgressForDate(planProgressState?.dateKey);
     if (!result.ok) {
-      setPlanStatus({ tone: 'danger', text: 'Không thể đặt lại tiến trình kế hoạch cục bộ.' });
+      setPlanStatus({ tone: 'danger', text: t('journey.resetFailed') });
       return;
     }
-    setPlanStatus({ tone: 'success', text: 'Đã đặt lại tiến trình hôm nay.' });
+    setPlanStatus({ tone: 'success', text: t('journey.resetDone') });
   }
 
   function getVisibleStepStatus(step) {
     const status = planStepProgress.getStatus(step?.id);
-    if (status === 'completed') return { label: 'Đã hoàn thành', tone: 'success' };
-    if (status === 'active') return { label: 'Đang làm', tone: 'warning' };
-    return { label: 'Chưa làm', tone: 'neutral' };
+    if (status === 'completed') return { label: t('journey.completed'), tone: 'success' };
+    if (status === 'active') return { label: t('journey.active'), tone: 'warning' };
+    return { label: t('journey.pending'), tone: 'neutral' };
   }
 
   function handleFeedback(feedbackType) {
@@ -168,15 +170,15 @@ export default function TodayJourneyCard() {
     });
 
     if (!result.ok) {
-      setFeedbackStatus({ tone: 'danger', text: 'Không thể lưu phản hồi cục bộ. Bạn vẫn có thể tiếp tục học.' });
+      setFeedbackStatus({ tone: 'danger', text: t('journey.feedbackFailed') });
       return;
     }
 
     setFeedbackStatus({
       tone: 'success',
       text: feedbackType === RECOMMENDATION_FEEDBACK_TYPES.HIDDEN_TODAY
-        ? 'Đã ẩn gợi ý này trong hôm nay.'
-        : 'Đã ghi nhận phản hồi.'
+        ? t('journey.hiddenToday')
+        : t('journey.feedbackSaved')
     });
   }
 
@@ -188,84 +190,84 @@ export default function TodayJourneyCard() {
       : smartPracticeSelection.selectedCount > 0);
 
   return (
-    <Card title="Hành trình hôm nay" eyebrow="Lộ trình hằng ngày" variant="elevated" className="dailyJourneyCard">
+    <Card title={t('journey.title')} eyebrow={t('journey.eyebrow')} variant="elevated" className="dailyJourneyCard">
       <div className="dailyJourneyGrid">
         <section className="dailyJourneyPrimary" aria-labelledby="dailyJourneyRecommendationTitle">
           <div className="dailyJourneySectionHeader">
-            <span>Gợi ý chính</span>
-            <Badge tone={recommendation.tone}>{getRecommendationBadgeText(recommendation.type)}</Badge>
+            <span>{t('journey.mainSuggestion')}</span>
+            <Badge tone={recommendation.tone}>{getRecommendationBadgeText(recommendation.type, t)}</Badge>
           </div>
-          <h3 id="dailyJourneyRecommendationTitle">{recommendation.title}</h3>
-          <p className="muted">{recommendation.reason}</p>
+          <h3 id="dailyJourneyRecommendationTitle">{t('journey.stepTitle')}</h3>
+          <p className="muted">{t('journey.stepBody')}</p>
           <p className="recommendationCard__explain">
-            Dựa trên lịch sử học cục bộ, lịch ôn, mức độ nắm vững cơ bản và mục tiêu học tập nếu có.
+            {t('journey.basis')}
           </p>
           <div className="dailyJourneyActions">
             <Button type="button" size="sm" onClick={runRecommendation} disabled={!canRunRecommendation}>
-              {recommendation.actionLabel}
+              {recommendation.type === RECOMMENDATION_TYPES.LIBRARY_EMPTY ? t('home.openLibrary') : recommendation.type === RECOMMENDATION_TYPES.DUE_REVIEW ? t('today.studyToday') : t('today.startStudy')}
             </Button>
             {recommendation.type === RECOMMENDATION_TYPES.WEAK_MASTERY && smartPracticeSelection.selectedCount > 0 ? (
               <Button type="button" size="sm" variant="ghost" onClick={() => startSmartPractice(smartPracticeSelection)}>
-                Luyện tập thông minh
+                {t('study.smartPractice')}
               </Button>
             ) : null}
           </div>
         </section>
 
-        <section className="dailyJourneyGoal" aria-label="Mục tiêu hôm nay">
+        <section className="dailyJourneyGoal" aria-label={t('journey.todayGoal')}>
           <div className="dailyJourneySectionHeader">
-            <span>Mục tiêu hôm nay</span>
-            {goalProgress.hasGoal ? <Badge tone={goalProgress.remainingToday === 0 ? 'success' : 'info'}>{goalProgress.progressPercent}%</Badge> : <Badge tone="neutral">Chưa đặt</Badge>}
+            <span>{t('journey.todayGoal')}</span>
+            {goalProgress.hasGoal ? <Badge tone={goalProgress.remainingToday === 0 ? 'success' : 'info'}>{goalProgress.progressPercent}%</Badge> : <Badge tone="neutral">{t('goal.unset')}</Badge>}
           </div>
-          <p>{formatGoalSummary(goalProgress)}</p>
+          <p>{formatGoalSummary(goalProgress, t)}</p>
           {goalProgress.hasGoal ? (
-            <ProgressBar value={goalProgress.progressPercent} label="Tiến độ mục tiêu hôm nay" />
+            <ProgressBar value={goalProgress.progressPercent} label={t('goal.progressLabel')} />
           ) : null}
-          <div className="dailyJourneyMeta" aria-label="Tóm tắt hành trình hôm nay">
-            <span>Câu đến hạn: <strong>{dueSummary.dueCount}</strong></span>
-            <span>Mục cần củng cố: <strong>{mastery?.weakItemCount || 0}</strong></span>
+          <div className="dailyJourneyMeta" aria-label={t('journey.summary')}>
+            <span>{t('journey.dueCount', { count: dueSummary.dueCount })}</span>
+            <span>{t('journey.weakCount', { count: mastery?.weakItemCount || 0 })}</span>
           </div>
         </section>
       </div>
 
       <section className="dailyJourneyPlan" aria-labelledby="dailyJourneyPlanTitle">
         <div className="dailyJourneySectionHeader">
-          <span id="dailyJourneyPlanTitle">Kế hoạch hôm nay</span>
+          <span id="dailyJourneyPlanTitle">{t('journey.planTitle')}</span>
           {planStepProgress.totalSteps > 0 ? (
             <Badge tone={planStepProgress.allCompleted ? 'success' : 'info'}>
-              Đã hoàn thành {planStepProgress.completedCount}/{planStepProgress.totalSteps} bước
+              {t('journey.completedSteps', { completed: planStepProgress.completedCount, total: planStepProgress.totalSteps })}
             </Badge>
-          ) : todayPlan.goalCompleted ? <Badge tone="success">Bạn đã đạt mục tiêu hôm nay</Badge> : <Badge tone="info">Đề xuất</Badge>}
+          ) : todayPlan.goalCompleted ? <Badge tone="success">{t('journey.goalComplete')}</Badge> : <Badge tone="info">{t('journey.proposed')}</Badge>}
         </div>
 
         {planStepProgress.allCompleted ? (
-          <p className="studyPlanNotice" role="status">Bạn đã hoàn thành kế hoạch hôm nay.</p>
+          <p className="studyPlanNotice" role="status">{t('journey.planComplete')}</p>
         ) : null}
 
         {!todayPlan.hasPlan ? (
-          <p className="muted">Không có kế hoạch phù hợp.</p>
+          <p className="muted">{t('journey.noPlan')}</p>
         ) : (
-          <div className="studyPlanList" aria-label="Các bước trong hành trình hôm nay">
+          <div className="studyPlanList" aria-label={t('journey.stepsLabel')}>
             {todayPlan.steps.map((step, index) => {
               const visibleStatus = getVisibleStepStatus(step);
-              const isCompleted = visibleStatus.label === 'Đã hoàn thành';
+              const isCompleted = planStepProgress.getStatus(step?.id) === 'completed';
               return (
                 <article className={`studyPlanStep ${isCompleted ? 'studyPlanStep--completed' : ''}`} key={step.id || `${step.type}-${index}`}>
                   <div className="studyPlanStep__marker" aria-hidden="true">{index + 1}</div>
                   <div className="studyPlanStep__body">
                     <div className="studyPlanStep__topline">
-                      <span className="studyPlanStep__label">Bước {index + 1}</span>
+                      <span className="studyPlanStep__label">{t('journey.stepLabel', { number: index + 1 })}</span>
                       <Badge tone={visibleStatus.tone}>{visibleStatus.label}</Badge>
-                      <Badge tone={getStepTone(step.tone)}>{step.status}</Badge>
+                      <Badge tone={getStepTone(step.tone)}>{getRecommendationBadgeText(recommendation.type, t)}</Badge>
                     </div>
-                    <strong>{step.title}</strong>
-                    <p className="muted">{step.reason}</p>
-                    {step.estimatedItemCount > 0 ? <span className="studyPlanStep__count">Khoảng {step.estimatedItemCount} mục</span> : null}
+                    <strong>{t('journey.stepTitle')}</strong>
+                    <p className="muted">{t('journey.stepBody')}</p>
+                    {step.estimatedItemCount > 0 ? <span className="studyPlanStep__count">{t('today.approxItems', { count: step.estimatedItemCount })}</span> : null}
                   </div>
                   <div className="studyPlanStep__action">
-                    <Button type="button" size="sm" onClick={() => runStep(step)}>{step.actionLabel}</Button>
+                    <Button type="button" size="sm" onClick={() => runStep(step)}>{step.type === 'import_data' ? t('home.openLibrary') : t('today.startStudy')}</Button>
                     <Button type="button" size="sm" variant="ghost" onClick={() => toggleStepComplete(step)}>
-                      {isCompleted ? 'Đã hoàn thành' : 'Đánh dấu hoàn thành'}
+                      {isCompleted ? t('journey.completed') : t('journey.markComplete')}
                     </Button>
                   </div>
                 </article>
@@ -276,7 +278,7 @@ export default function TodayJourneyCard() {
         {todayPlan.hasPlan ? (
           <div className="studyPlanProgressActions">
             <Button type="button" size="sm" variant="ghost" onClick={resetTodayProgress}>
-              Đặt lại tiến trình hôm nay
+              {t('journey.reset')}
             </Button>
           </div>
         ) : null}
@@ -288,11 +290,11 @@ export default function TodayJourneyCard() {
         </p>
       ) : null}
 
-      <div className="recommendationFeedback" aria-label="Phản hồi gợi ý">
-        <span>Phản hồi:</span>
-        <Button type="button" size="sm" variant="ghost" onClick={() => handleFeedback(RECOMMENDATION_FEEDBACK_TYPES.HELPFUL)}>Hữu ích</Button>
-        <Button type="button" size="sm" variant="ghost" onClick={() => handleFeedback(RECOMMENDATION_FEEDBACK_TYPES.NOT_RELEVANT)}>Không phù hợp</Button>
-        <Button type="button" size="sm" variant="ghost" onClick={() => handleFeedback(RECOMMENDATION_FEEDBACK_TYPES.HIDDEN_TODAY)}>Ẩn hôm nay</Button>
+      <div className="recommendationFeedback" aria-label={t('journey.feedbackLabel')}>
+        <span>{t('journey.feedback')}</span>
+        <Button type="button" size="sm" variant="ghost" onClick={() => handleFeedback(RECOMMENDATION_FEEDBACK_TYPES.HELPFUL)}>{t('journey.helpful')}</Button>
+        <Button type="button" size="sm" variant="ghost" onClick={() => handleFeedback(RECOMMENDATION_FEEDBACK_TYPES.NOT_RELEVANT)}>{t('journey.notRelevant')}</Button>
+        <Button type="button" size="sm" variant="ghost" onClick={() => handleFeedback(RECOMMENDATION_FEEDBACK_TYPES.HIDDEN_TODAY)}>{t('journey.hideToday')}</Button>
       </div>
 
       {feedbackStatus ? (
@@ -303,13 +305,13 @@ export default function TodayJourneyCard() {
 
       {recommendation.hiddenFallback ? (
         <p className="historyPanelMessage" role="status">
-          Một số gợi ý đã ẩn hôm nay, nên hệ thống hiển thị lựa chọn an toàn khác.
+          {t('journey.hiddenNotice')}
         </p>
       ) : null}
 
       {notices.hasDiscardedLocalData ? (
         <p className="historyPanelMessage" role="status">
-          Một phần dữ liệu cũ bị lỗi nên đã được bỏ qua an toàn khi tạo hành trình hôm nay.
+          {t('journey.legacyNotice')}
         </p>
       ) : null}
     </Card>

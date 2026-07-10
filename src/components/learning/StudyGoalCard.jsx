@@ -11,19 +11,14 @@ import {
   clearStudyGoal,
   saveStudyGoal
 } from '../../state/studyGoalStorage.js';
+import { useShimeLanguage } from '../../uiI18n/useShimeLanguage.js';
 
-const focusModeLabels = {
-  [STUDY_GOAL_FOCUS_MODES.BALANCED]: 'Cân bằng',
-  [STUDY_GOAL_FOCUS_MODES.DUE_REVIEW_FIRST]: 'Ưu tiên ôn tập',
-  [STUDY_GOAL_FOCUS_MODES.WEAK_AREAS_FIRST]: 'Ưu tiên phần yếu'
-};
-
-function formatDate(value) {
-  if (!value) return 'Chưa đặt';
+function formatDate(value, locale, fallback) {
+  if (!value) return fallback;
   try {
-    return new Intl.DateTimeFormat('vi-VN', { dateStyle: 'medium' }).format(new Date(`${value}T00:00:00`));
+    return new Intl.DateTimeFormat(locale === 'en' ? 'en-US' : 'vi-VN', { dateStyle: 'medium' }).format(new Date(`${value}T00:00:00`));
   } catch {
-    return 'Chưa đặt';
+    return fallback;
   }
 }
 
@@ -37,6 +32,12 @@ function getInitialForm(goal) {
 
 export default function StudyGoalCard() {
   const navigate = useNavigate();
+  const { locale, t } = useShimeLanguage();
+  const focusModeLabels = {
+    [STUDY_GOAL_FOCUS_MODES.BALANCED]: t('goal.balanced'),
+    [STUDY_GOAL_FOCUS_MODES.DUE_REVIEW_FIRST]: t('goal.dueFirst'),
+    [STUDY_GOAL_FOCUS_MODES.WEAK_AREAS_FIRST]: t('goal.weakFirst')
+  };
   const { goalState, historyState, goalProgress: progress } = useDashboardLearningData();
   const goal = goalState.goal;
   const [isEditing, setIsEditing] = useState(false);
@@ -68,22 +69,22 @@ export default function StudyGoalCard() {
     });
 
     if (!result.ok) {
-      setStatus({ tone: 'danger', text: 'Không thể lưu mục tiêu cục bộ. Bạn vẫn có thể tiếp tục học.' });
+      setStatus({ tone: 'danger', text: t('goal.saveFailed') });
       return;
     }
 
-    setStatus({ tone: 'success', text: 'Đã lưu mục tiêu học tập.' });
+    setStatus({ tone: 'success', text: t('goal.saved') });
     setIsEditing(false);
   }
 
   function handleClear() {
-    if (!window.confirm('Xóa mục tiêu học tập? Thao tác này không xóa thư viện hoặc lịch sử học.')) return;
+    if (!window.confirm(t('goal.clearConfirm'))) return;
     const result = clearStudyGoal();
     if (!result.ok) {
-      setStatus({ tone: 'danger', text: 'Không thể xóa mục tiêu cục bộ.' });
+      setStatus({ tone: 'danger', text: t('goal.clearFailed') });
       return;
     }
-    setStatus({ tone: 'success', text: 'Đã xóa mục tiêu học tập.' });
+    setStatus({ tone: 'success', text: t('goal.cleared') });
     setIsEditing(false);
   }
 
@@ -92,21 +93,21 @@ export default function StudyGoalCard() {
   }
 
   return (
-    <Card title="Mục tiêu học tập" eyebrow="Mục tiêu cục bộ" variant="elevated" className="studyGoalCard">
+    <Card title={t('goal.title')} eyebrow={t('goal.eyebrow')} variant="elevated" className="studyGoalCard">
       {isEditing ? (
         <form className="studyGoalForm" onSubmit={handleSubmit}>
           <label className="studyGoalField">
-            <span>Mục tiêu hôm nay</span>
+            <span>{t('goal.today')}</span>
             <select
               value={form.dailyItemTarget}
               onChange={event => setForm(current => ({ ...current, dailyItemTarget: Number(event.target.value) }))}
             >
-              {[10, 20, 30].map(value => <option key={value} value={value}>{value} mục/ngày</option>)}
+              {[10, 20, 30].map(value => <option key={value} value={value}>{t('goal.itemsPerDay', { count: value })}</option>)}
             </select>
           </label>
 
           <label className="studyGoalField">
-            <span>Ngày mục tiêu</span>
+            <span>{t('goal.targetDate')}</span>
             <input
               type="date"
               value={form.targetDate}
@@ -115,83 +116,83 @@ export default function StudyGoalCard() {
           </label>
 
           <label className="studyGoalField">
-            <span>Chế độ ưu tiên</span>
+            <span>{t('goal.focusMode')}</span>
             <select
               value={form.focusMode}
               onChange={event => setForm(current => ({ ...current, focusMode: event.target.value }))}
             >
-              <option value={STUDY_GOAL_FOCUS_MODES.BALANCED}>Cân bằng</option>
-              <option value={STUDY_GOAL_FOCUS_MODES.DUE_REVIEW_FIRST}>Ưu tiên ôn tập</option>
-              <option value={STUDY_GOAL_FOCUS_MODES.WEAK_AREAS_FIRST}>Ưu tiên phần yếu</option>
+              <option value={STUDY_GOAL_FOCUS_MODES.BALANCED}>{t('goal.balanced')}</option>
+              <option value={STUDY_GOAL_FOCUS_MODES.DUE_REVIEW_FIRST}>{t('goal.dueFirst')}</option>
+              <option value={STUDY_GOAL_FOCUS_MODES.WEAK_AREAS_FIRST}>{t('goal.weakFirst')}</option>
             </select>
           </label>
 
           <div className="studyGoalActions">
-            <Button type="submit" size="sm">Lưu mục tiêu</Button>
-            <Button type="button" size="sm" variant="ghost" onClick={cancelEditing}>Hủy</Button>
+            <Button type="submit" size="sm">{t('goal.save')}</Button>
+            <Button type="button" size="sm" variant="ghost" onClick={cancelEditing}>{t('common.cancel')}</Button>
           </div>
         </form>
       ) : goal ? (
         <div className="studyGoalPanel">
           <div className="studyGoalSummary">
-            <Badge tone="info">{focusModeLabels[goal.focusMode] || 'Cân bằng'}</Badge>
+            <Badge tone="info">{focusModeLabels[goal.focusMode] || t('goal.balanced')}</Badge>
             <div>
-              <strong>Mục tiêu hôm nay: {goal.dailyItemTarget} mục</strong>
+              <strong>{t('goal.todayValue', { count: goal.dailyItemTarget })}</strong>
               <p className="muted">
-                Đã luyện hôm nay: {progress.itemsPracticedToday}. Còn lại: {progress.remainingToday}.
+                {t('goal.progressValue', { practiced: progress.itemsPracticedToday, remaining: progress.remainingToday })}
               </p>
             </div>
           </div>
 
-          <ProgressBar value={progress.progressPercent} label="Tiến độ mục tiêu hôm nay" />
+          <ProgressBar value={progress.progressPercent} label={t('goal.progressLabel')} />
 
-          <div className="studyGoalMetrics" aria-label="Tóm tắt mục tiêu học tập">
+          <div className="studyGoalMetrics" aria-label={t('goal.summary')}>
             <div className="reviewScheduleMetric">
-              <span>Đã luyện hôm nay</span>
+              <span>{t('goal.practiced')}</span>
               <strong>{progress.itemsPracticedToday}</strong>
             </div>
             <div className="reviewScheduleMetric">
-              <span>Còn lại</span>
+              <span>{t('goal.remaining')}</span>
               <strong>{progress.remainingToday}</strong>
             </div>
             <div className="reviewScheduleMetric">
-              <span>Phiên hôm nay</span>
+              <span>{t('goal.sessions')}</span>
               <strong>{progress.sessionsToday}</strong>
             </div>
           </div>
 
           <div className="studyGoalMeta">
-            <span>Ngày mục tiêu: <strong>{formatDate(goal.targetDate)}</strong></span>
+            <span>{t('goal.targetDateValue', { date: formatDate(goal.targetDate, locale, t('goal.unset')) })}</span>
             {goal.targetDate ? (
               <span>
                 {progress.daysRemaining >= 0
-                  ? `Còn ${progress.daysRemaining} ngày`
-                  : 'Ngày mục tiêu đã qua'}
+                  ? t('goal.daysRemaining', { count: progress.daysRemaining })
+                  : t('goal.datePassed')}
               </span>
             ) : null}
-            <span>Chế độ ưu tiên: <strong>{focusModeLabels[goal.focusMode] || 'Cân bằng'}</strong></span>
+            <span>{t('goal.focusValue', { mode: focusModeLabels[goal.focusMode] || t('goal.balanced') })}</span>
           </div>
 
           {progress.targetDateWarning ? (
-            <p className="historyPanelMessage" role="status">{progress.targetDateWarning}</p>
+            <p className="historyPanelMessage" role="status">{t('goal.datePassed')}</p>
           ) : null}
 
           <div className="studyGoalActions">
-            <Button type="button" size="sm" onClick={startStudy}>Bắt đầu học</Button>
-            <Button type="button" size="sm" variant="ghost" onClick={startEditing}>Chỉnh sửa</Button>
-            <Button type="button" size="sm" variant="danger" onClick={handleClear}>Xóa mục tiêu</Button>
+            <Button type="button" size="sm" onClick={startStudy}>{t('today.startStudy')}</Button>
+            <Button type="button" size="sm" variant="ghost" onClick={startEditing}>{t('goal.edit')}</Button>
+            <Button type="button" size="sm" variant="danger" onClick={handleClear}>{t('goal.clear')}</Button>
           </div>
         </div>
       ) : (
         <div className="studyGoalEmpty">
-          <p className="muted">Đặt mục tiêu đơn giản để theo dõi số mục luyện mỗi ngày.</p>
-          <Button type="button" size="sm" onClick={startEditing}>Thiết lập mục tiêu</Button>
+          <p className="muted">{t('goal.emptyBody')}</p>
+          <Button type="button" size="sm" onClick={startEditing}>{t('goal.setup')}</Button>
         </div>
       )}
 
       {(goalState.discarded || historyState.discarded) ? (
         <p className="historyPanelMessage" role="status">
-          Một phần dữ liệu cũ bị lỗi nên đã được bỏ qua an toàn.
+          {t('goal.legacyNotice')}
         </p>
       ) : null}
 

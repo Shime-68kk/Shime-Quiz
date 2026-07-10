@@ -105,7 +105,7 @@ test('import UI accepts valid JSON and blocks invalid import fixtures with Vietn
   const criticalErrors = installCriticalErrorCapture(page);
   await page.goto('/library');
   await expect(page.getByRole('heading', { name: 'Thư viện học liệu' })).toBeVisible();
-  await page.getByRole('tab', { name: 'Xưởng nạp tài liệu' }).click();
+  await page.getByRole('tab', { name: 'Thêm học liệu' }).click();
 
   const importInput = page.getByLabel('Chọn file JSON hoặc CSV học liệu');
 
@@ -114,9 +114,9 @@ test('import UI accepts valid JSON and blocks invalid import fixtures with Vietn
   await expect(page.getByText('Sẵn sàng import')).toBeVisible();
   await page.getByRole('button', { name: 'Import và lưu cục bộ' }).click();
   await expect(page.getByText('Đã import và lưu cục bộ')).toBeVisible();
-  await page.getByRole('tab', { name: 'Kệ sách của tôi' }).click();
+  await page.getByRole('tab', { name: 'Học liệu của tôi' }).click();
   await expect(page.getByText('Môn kiểm thử E2E')).toBeVisible();
-  await page.getByRole('tab', { name: 'Xưởng nạp tài liệu' }).click();
+  await page.getByRole('tab', { name: 'Thêm học liệu' }).click();
 
   await importInput.setInputFiles('tests/fixtures/invalid-import.json');
   await expect(page.getByText('Không thể import file này')).toBeVisible();
@@ -174,7 +174,7 @@ test('Study Room default flow can answer items, finish, and persist local histor
   const resultSummary = page.locator('.studyResultHero');
   await expect(resultSummary).toBeVisible();
   await expect(resultSummary.getByRole('heading', { level: 2, name: 'Tổng kết phiên học' })).toBeVisible();
-  await expect(resultSummary.getByText('Kết quả học tập đã được lưu cục bộ')).toBeVisible();
+  await expect(resultSummary.getByText('Kết quả đã được lưu cục bộ; lịch sử và lịch ôn đã được cập nhật.')).toBeVisible();
   await expect(resultSummary.locator('.studyHistorySaveMessage')).toContainText(/lịch sử học|lịch ôn tập/i);
 
   const storageState = await page.evaluate(() => ({
@@ -196,7 +196,8 @@ test('backup controls are usable and full backup download can be triggered', asy
   await page.goto('/library');
 
   await expect(page.getByRole('heading', { name: 'Thư viện học liệu' })).toBeVisible();
-  await page.getByRole('tab', { name: 'Xưởng nạp tài liệu' }).click();
+  await page.getByRole('tab', { name: 'Thêm học liệu' }).click();
+  await page.getByText('Sao lưu, khôi phục và chuyển dữ liệu thủ công').click();
   await expect(page.getByRole('heading', { name: 'Sao lưu dữ liệu' })).toBeVisible();
   const backupModeChooser = page.locator('.backupModeChooser');
   await expect(backupModeChooser.getByText('Sao lưu đầy đủ')).toBeVisible();

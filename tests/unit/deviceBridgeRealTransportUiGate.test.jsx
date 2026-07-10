@@ -219,21 +219,23 @@ describe('Device Bridge real transport facade gate', () => {
 
 describe('Device Bridge real transport UI gate source checks', () => {
   const source = read('src/components/settings/DeviceBridgeUiConcept.jsx');
+  const viCopy = read('src/uiI18n/translations/vi.js');
 
   it('renders the real transport section and warning text', () => {
     expect(source).toContain('Real LAN / WS');
-    expect(source).toContain('Đã kết nối (Real LAN / WS)');
-    expect(source).toContain('kết nối thủ công');
-    expect(source).toContain('Chỉ kết nối thiết bị tin cậy trong mạng cục bộ');
-    expect(source).toContain('dữ liệu đã làm mờ/an toàn');
+    expect(source).toContain("t('developer.bridgeConnectedReal')");
+    expect(source).toContain("t('developer.bridgeManual')");
+    expect(source).toContain("t('developer.bridgeManualBody')");
+    expect(viCopy).toContain('Chỉ kết nối thiết bị tin cậy trong mạng cục bộ');
   });
 
   it('keeps connected mock wording for mock mode', () => {
-    expect(source).toContain('Đã kết nối (Thiết bị Mock)');
+    expect(source).toContain("t('developer.bridgeConnectedMock')");
   });
 
   it('uses a generic empty debug placeholder instead of mock-specific copy', () => {
-    expect(source).toContain('[Chưa có sự kiện] Kết nối thiết bị để xem nhật ký sự kiện.');
+    expect(source).toContain("t('developer.bridgeNoEvents')");
+    expect(viCopy).toContain('[Chưa có sự kiện] Kết nối thiết bị để xem nhật ký sự kiện.');
     expect(source).not.toContain('[Chưa có sự kiện] Nhấn "Kết nối thiết bị Mock" để xem nhật ký sự kiện.');
   });
 

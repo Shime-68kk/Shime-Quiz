@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import Badge from '../Badge.jsx';
 import Button from '../Button.jsx';
 import { normalizeAnswerText } from '../../utils/text.js';
+import { useShimeLanguage } from '../../uiI18n/useShimeLanguage.js';
 
 
 function getChoiceText(choice) {
@@ -16,6 +17,7 @@ function isChoiceCorrect(choice, correctAnswer) {
 }
 
 export default function MultipleChoiceItem({ item, selectedChoiceId = '', checked = false, onSelectChoice, onCheck, onReset }) {
+  const { t } = useShimeLanguage();
   const choices = Array.isArray(item?.choices) ? item.choices : [];
   const selectedChoice = choices.find(choice => String(choice.id) === selectedChoiceId);
   const isCorrect = checked && selectedChoice ? isChoiceCorrect(selectedChoice, item.correctAnswer) : false;
@@ -31,7 +33,7 @@ export default function MultipleChoiceItem({ item, selectedChoiceId = '', checke
   if (!choices.length) {
     return (
       <div className="studyFeedback studyFeedback--warning" role="status">
-        Item trắc nghiệm này chưa có lựa chọn hợp lệ.
+        {t('study.noChoices')}
       </div>
     );
   }
@@ -39,7 +41,7 @@ export default function MultipleChoiceItem({ item, selectedChoiceId = '', checke
   return (
     <div className="studyInteraction">
       <fieldset className="choiceList" aria-describedby={checked ? `feedback-${item.id}` : undefined}>
-        <legend className="srOnly">Chọn một đáp án</legend>
+        <legend className="srOnly">{t('study.chooseAnswer')}</legend>
         {choices.map((choice, index) => {
           const choiceId = String(choice.id ?? index + 1);
           const isSelected = selectedChoiceId === choiceId;
@@ -65,8 +67,8 @@ export default function MultipleChoiceItem({ item, selectedChoiceId = '', checke
               />
               <span className="choiceOption__marker" aria-hidden="true">{index + 1}</span>
               <span className="choiceOption__text">{getChoiceText(choice)}</span>
-              {showCorrect ? <Badge tone="success">Đúng</Badge> : null}
-              {showWrong ? <Badge tone="danger">Sai</Badge> : null}
+              {showCorrect ? <Badge tone="success">{t('study.correct')}</Badge> : null}
+              {showWrong ? <Badge tone="danger">{t('study.wrong')}</Badge> : null}
             </label>
           );
         })}
@@ -74,10 +76,10 @@ export default function MultipleChoiceItem({ item, selectedChoiceId = '', checke
 
       <div className="studyActions studyActions--compact">
         <Button type="button" onClick={() => onCheck?.()} disabled={!selectedChoiceId}>
-          Kiểm tra đáp án
+          {t('study.check')}
         </Button>
         <Button type="button" variant="ghost" onClick={() => onReset?.()}>
-          Làm lại
+          {t('study.reset')}
         </Button>
       </div>
 
@@ -87,8 +89,8 @@ export default function MultipleChoiceItem({ item, selectedChoiceId = '', checke
           className={`studyFeedback ${isCorrect ? 'studyFeedback--success' : 'studyFeedback--danger'}`}
           role="status"
         >
-          <strong>{isCorrect ? 'Chính xác.' : 'Chưa đúng.'}</strong>
-          {!isCorrect && correctChoice ? <p>Đáp án đúng: {getChoiceText(correctChoice)}</p> : null}
+          <strong>{isCorrect ? t('study.correctSentence') : t('study.incorrectSentence')}</strong>
+          {!isCorrect && correctChoice ? <p>{t('study.correctAnswer', { answer: getChoiceText(correctChoice) })}</p> : null}
           {item.explanation ? <p>{item.explanation}</p> : null}
         </div>
       ) : null}

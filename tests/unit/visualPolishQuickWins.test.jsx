@@ -21,6 +21,9 @@ function read(relativePath) {
   return fs.readFileSync(fullPath, 'utf8');
 }
 
+const viCopy = read('src/uiI18n/translations/vi.js');
+const enCopy = read('src/uiI18n/translations/en.js');
+
 // ── 1. Required Phase 16E files exist ────────────────────────────────────────
 
 describe('Phase 16E — required files exist', () => {
@@ -85,7 +88,8 @@ describe('Phase 16E — Home.jsx keeps Vietnamese-first labels', () => {
   const home = read('src/routes/Home.jsx');
 
   it('contains Tổng quan', () => {
-    expect(home).toContain('Tổng quan');
+    expect(home).toContain("t('home.openOverview')");
+    expect(viCopy).toContain("'nav.overview': 'Tổng quan'");
   });
 
   it('contains Phòng học', () => {
@@ -93,11 +97,13 @@ describe('Phase 16E — Home.jsx keeps Vietnamese-first labels', () => {
   });
 
   it('contains Thư viện', () => {
-    expect(home).toContain('Thư viện');
+    expect(home).toContain("t('nav.library')");
+    expect(viCopy).toContain("'nav.library': 'Thư viện'");
   });
 
   it('contains Mở Thư viện CTA', () => {
-    expect(home).toContain('Mở Thư viện');
+    expect(home).toContain("t('home.openLibrary')");
+    expect(viCopy).toContain("'home.openLibrary': 'Mở Thư viện'");
   });
 
   it('contains Phase 16E identity tagline class', () => {
@@ -111,7 +117,8 @@ describe('Phase 16E — Dashboard.jsx keeps Vietnamese-first labels', () => {
   const dashboard = read('src/routes/Dashboard.jsx');
 
   it('contains Lộ trình hôm nay', () => {
-    expect(dashboard).toContain('Lộ trình hôm nay');
+    expect(dashboard).toContain("subtitle={t('overview.subtitle')}");
+    expect(viCopy).toContain('Lộ trình hôm nay');
   });
 
   it('contains Tổng quan', () => {
@@ -119,7 +126,8 @@ describe('Phase 16E — Dashboard.jsx keeps Vietnamese-first labels', () => {
   });
 
   it('keeps Vietnamese mixed-scheduler note', () => {
-    expect(dashboard).toContain('thẻ dùng lịch học bộ nhớ thử nghiệm');
+    expect(dashboard).toContain("t('overview.mixedScheduler'");
+    expect(viCopy).toContain('thẻ dùng lịch học bộ nhớ thử nghiệm');
   });
 
   it('does not revert to English-only mixed-scheduler note', () => {
@@ -133,15 +141,18 @@ describe('Phase 16E — StudyRoom.jsx keeps Vietnamese-first labels', () => {
   const room = read('src/routes/StudyRoom.jsx');
 
   it('contains Câu trước', () => {
-    expect(room).toContain('Câu trước');
+    expect(room).toContain("t('study.previous')");
+    expect(viCopy).toContain("'study.previous': 'Câu trước'");
   });
 
   it('contains Câu tiếp theo', () => {
-    expect(room).toContain('Câu tiếp theo');
+    expect(room).toContain("t('study.next')");
+    expect(viCopy).toContain("'study.next': 'Câu tiếp theo'");
   });
 
   it('contains Lựa chọn từ Thư viện', () => {
-    expect(room).toContain('Lựa chọn từ Thư viện');
+    expect(room).toContain("t('study.librarySelection')");
+    expect(viCopy).toContain("'study.librarySelection': 'Lựa chọn từ Thư viện'");
   });
 });
 
@@ -151,31 +162,37 @@ describe('Phase 16E — FsrsProductionMemoryRatingBridge keeps memory rating lab
   const bridge = read('src/components/study/FsrsProductionMemoryRatingBridge.jsx');
 
   it('contains Mức độ nhớ', () => {
-    expect(bridge).toContain('Mức độ nhớ');
+    expect(bridge).toContain("t('study.memoryRating')");
+    expect(viCopy).toContain("'study.memoryRating': 'Mức độ nhớ'");
   });
 
   it('contains Nhớ khó', () => {
-    expect(bridge).toContain('Nhớ khó');
+    expect(bridge).toContain("t('study.memoryHard')");
+    expect(viCopy).toContain("'study.memoryHard': 'Nhớ khó'");
   });
 
   it('contains Nhớ được', () => {
-    expect(bridge).toContain('Nhớ được');
+    expect(bridge).toContain("t('study.memoryGood')");
+    expect(viCopy).toContain("'study.memoryGood': 'Nhớ được'");
   });
 
   it('contains Nhớ dễ', () => {
-    expect(bridge).toContain('Nhớ dễ');
+    expect(bridge).toContain("t('study.memoryEasy')");
+    expect(viCopy).toContain("'study.memoryEasy': 'Nhớ dễ'");
   });
 
   it('contains Chưa nhớ', () => {
-    expect(bridge).toContain('Chưa nhớ');
+    expect(bridge).toContain("t('study.memoryAutoAgainActive')");
+    expect(viCopy).toContain('Chưa nhớ');
   });
 
   it('contains Tiếp tục không đánh giá', () => {
-    expect(bridge).toContain('Tiếp tục không đánh giá');
+    expect(bridge).toContain("t('study.memorySkip')");
+    expect(viCopy).toContain("'study.memorySkip': 'Tiếp tục không đánh giá'");
   });
 
   it('contains Continue without rating for claim-safety assertions', () => {
-    expect(bridge).toContain('Continue without rating');
+    expect(enCopy).toContain("'study.memorySkip': 'Continue without rating'");
   });
 });
 
@@ -301,15 +318,18 @@ describe('Phase 16E — FsrsExperimentalSettingsPanel keeps required safety copy
   const panel = read('src/components/settings/FsrsExperimentalSettingsPanel.jsx');
 
   it('contains Enable FSRS Memory Model (Experimental)', () => {
-    expect(panel).toContain('Enable FSRS Memory Model (Experimental)');
+    expect(panel).toContain("t('settings.fsrsTitle')");
+    expect(enCopy).toContain("'settings.fsrsTitle': 'Experimental memory scheduling'");
   });
 
   it('contains Preparation Phase Only', () => {
-    expect(panel).toContain('Preparation Phase Only');
+    expect(panel).toContain("t('settings.fsrsPreparation')");
+    expect(enCopy).toContain("'settings.fsrsPreparation': 'Preparation stage only'");
   });
 
   it('contains Bật xếp lịch ghi nhớ thử nghiệm', () => {
-    expect(panel).toContain('Bật xếp lịch ghi nhớ thử nghiệm');
+    expect(panel).toContain("t('settings.fsrsEnable')");
+    expect(viCopy).toContain('Bật xếp lịch ghi nhớ thử nghiệm');
   });
 
   it('does not expose fsrsActiveSchedulingEnabled', () => {

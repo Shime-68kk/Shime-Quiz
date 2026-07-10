@@ -24,6 +24,8 @@
     "validate:mobile-wireless-handoff": "node scripts/validate-big-update-7-mobile-wireless-handoff.js",
     "validate:mobile-gesture-tuning": "node scripts/validate-big-update-8-mobile-gesture-tuning.js",
     "validate:architecture-foundation": "node scripts/validate-big-update-9-architecture-foundation.js",
+    "validate:premium-ui": "node scripts/validate-big-update-10-premium-ui.js",
+    "validate:experience-system": "node scripts/validate-big-update-12-experience-system.js",
     "test:unit": "vitest run tests/unit"
   },
   "dependencies": {

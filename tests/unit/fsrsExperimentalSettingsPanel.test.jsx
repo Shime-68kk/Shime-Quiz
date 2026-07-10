@@ -288,41 +288,45 @@ describe('FsrsExperimentalSettingsPanel storage — initial render does not writ
 describe('FsrsExperimentalSettingsPanel source — required safe copy', () => {
   const panelPath = resolve(PROJECT_ROOT, 'src/components/settings/FsrsExperimentalSettingsPanel.jsx');
   const source = fs.readFileSync(panelPath, 'utf8');
+  const enCopy = fs.readFileSync(resolve(PROJECT_ROOT, 'src/uiI18n/translations/en.js'), 'utf8');
 
-  it('contains toggle label: Enable FSRS Memory Model (Experimental)', () => {
-    expect(source).toContain('Enable FSRS Memory Model (Experimental)');
+  it('uses the canonical translated experimental title', () => {
+    expect(source).toContain("t('settings.fsrsTitle')");
+    expect(enCopy).toContain("'settings.fsrsTitle': 'Experimental memory scheduling'");
   });
 
-  it('contains Preparation Phase Only copy', () => {
-    expect(source).toContain('Preparation Phase Only');
+  it('contains preparation-stage copy in the English dictionary', () => {
+    expect(enCopy).toContain('Preparation stage only');
   });
 
   it('contains "does not migrate existing cards"', () => {
-    expect(source).toContain('does not migrate existing cards');
+    expect(enCopy).toContain('does not migrate existing cards');
   });
 
   it('contains "does not change your current due dates"', () => {
-    expect(source).toContain('does not change your current due dates');
+    expect(enCopy).toContain('change current due dates');
   });
 
   it('contains Study Room four-rating UI unavailability notice', () => {
-    expect(source).toContain('Study Room four-rating FSRS review UI is not available yet');
+    expect(enCopy).toContain('four-rating Study Room interface');
   });
 
   it('contains Dormant / Awaiting future update ON status', () => {
-    expect(source).toContain('Status: Dormant (Awaiting future update)');
+    expect(enCopy).toContain('Status: Dormant, awaiting a future update');
   });
 
   it('contains disabling pauses copy', () => {
-    expect(source).toContain('Disabling this pauses FSRS preparation');
+    expect(enCopy).toContain('Turning this off only pauses preparation');
   });
 
-  it('contains modal body: You are enabling the scaffold for the experimental FSRS memory model', () => {
-    expect(source).toContain('You are enabling the scaffold for the experimental FSRS memory model');
+  it('contains a translated confirmation body that preserves current scheduling', () => {
+    expect(source).toContain("t('settings.fsrsConfirmBody')");
+    expect(enCopy).toContain('Your reviews will continue using the current scheduler');
   });
 
   it('contains confirm button: Enable preparation', () => {
-    expect(source).toContain('Enable preparation');
+    expect(source).toContain("t('settings.fsrsConfirm')");
+    expect(enCopy).toContain('Enable preparation');
   });
 });
 

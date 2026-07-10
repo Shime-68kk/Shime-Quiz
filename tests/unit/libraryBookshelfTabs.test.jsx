@@ -79,12 +79,12 @@ describe('Phase 35B — tab switcher accessibility', () => {
     expect(matches.length).toBeGreaterThanOrEqual(2);
   });
 
-  it('shelf tab label is exactly "Kệ sách của tôi"', () => {
-    expect(librarySrc).toMatch(/Kệ sách của tôi/);
+  it('shelf tab uses the canonical learner-facing label key', () => {
+    expect(librarySrc).toContain("t('library.shelfTab')");
   });
 
-  it('workshop tab label is exactly "Xưởng nạp tài liệu"', () => {
-    expect(librarySrc).toMatch(/Xưởng nạp tài liệu/);
+  it('add-materials tab uses the canonical calm label key', () => {
+    expect(librarySrc).toContain("t('library.addTab')");
   });
 
   it('tab buttons have aria-selected', () => {

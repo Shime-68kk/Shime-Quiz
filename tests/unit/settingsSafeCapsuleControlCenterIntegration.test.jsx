@@ -23,8 +23,10 @@ describe('Settings Safe Capsule Control Center integration', () => {
 
   it('requires explicit controls and has no send button', () => {
     const source = panelSource();
+    const viCopy = fs.readFileSync(path.join(process.cwd(), 'src/uiI18n/translations/vi.js'), 'utf8');
 
-    expect(source).toMatch(/Tạo capsule mẫu ổn định/);
+    expect(source).toContain("t('developer.createSteady')");
+    expect(viCopy).toContain('Tạo capsule mẫu ổn định');
     expect(source).toMatch(/onClick=\{\(\) => runAction/);
     expect(source).not.toMatch(/Send to robot|Gửi robot|<button[^>]*>\s*Kết nối robot thật/i);
   });

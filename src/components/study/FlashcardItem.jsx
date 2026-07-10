@@ -1,25 +1,27 @@
 import Badge from '../Badge.jsx';
 import Button from '../Button.jsx';
+import { useShimeLanguage } from '../../uiI18n/useShimeLanguage.js';
 
 export default function FlashcardItem({ item, revealed = false, onToggleReveal, onResetReveal }) {
-  const answer = item?.answer || item?.correctAnswer || 'Chưa có mặt sau hợp lệ.';
+  const { t } = useShimeLanguage();
+  const answer = item?.answer || item?.correctAnswer || t('study.invalidBack');
 
   return (
     <div className="studyInteraction">
       <div className={`flashcard ${revealed ? 'flashcard--revealed' : ''}`}>
         <div>
-          <Badge tone={revealed ? 'success' : 'info'}>{revealed ? 'Mặt sau' : 'Mặt trước'}</Badge>
+          <Badge tone={revealed ? 'success' : 'info'}>{revealed ? t('study.back') : t('study.front')}</Badge>
           <p>{revealed ? answer : item.prompt}</p>
         </div>
       </div>
 
       <div className="studyActions studyActions--compact">
         <Button type="button" onClick={() => onToggleReveal?.()}>
-          {revealed ? 'Ẩn đáp án' : 'Lật thẻ'}
+          {revealed ? t('study.hideAnswer') : t('study.flip')}
         </Button>
         {revealed ? (
           <Button type="button" variant="ghost" onClick={() => onResetReveal?.()}>
-            Xem lại mặt trước
+            {t('study.reviewFront')}
           </Button>
         ) : null}
       </div>

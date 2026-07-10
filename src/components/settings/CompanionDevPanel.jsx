@@ -109,7 +109,7 @@ function TranscriptTable({ entries, emptyMessage, locale }) {
 }
 
 export default function CompanionDevPanel() {
-  const { locale } = useShimeLanguage();
+  const { locale, t } = useShimeLanguage();
   const copy = getCompanionPanelCopy(locale);
   const isEn = locale === 'en';
 
@@ -433,72 +433,72 @@ export default function CompanionDevPanel() {
         </div>
 
         <section style={{ border: '1px solid rgba(124, 58, 237, 0.22)', borderRadius: '8px', padding: '12px 14px', display: 'grid', gap: '10px' }}>
-          <strong>C. Não đồng hành V2 — chạy thử khô</strong>
+          <strong>{t('developer.v2Title')}</strong>
           <span style={{ color: 'var(--color-text-muted)', fontSize: '0.84rem' }}>
-            Chạy thử từ nhật ký đã làm mờ/rút gọn. Dry-run only, không gửi lệnh, không gọi AI/cloud.
+            {t('developer.v2Body')}
           </span>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-            <Button type="button" size="sm" onClick={handleRunV2DryRun}>Chạy V2 trên nhật ký hiện tại</Button>
-            <Button type="button" variant="ghost" size="sm" onClick={handleClearV2DryRun}>Xóa kết quả V2</Button>
+            <Button type="button" size="sm" onClick={handleRunV2DryRun}>{t('developer.v2Run')}</Button>
+            <Button type="button" variant="ghost" size="sm" onClick={handleClearV2DryRun}>{t('developer.v2Clear')}</Button>
           </div>
           {v2DryRun ? (
             <div style={{ display: 'grid', gap: '8px' }}>
-              <span>Trạng thái V2: {v2DryRun.empty ? 'Chưa có nhật ký để chạy V2' : 'V2 đã chạy dry-run'}</span>
+              <span>{t('developer.v2Status')} {v2DryRun.empty ? t('developer.v2Empty') : t('developer.v2Ran')}</span>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px' }}>
                 {Object.entries(createV2PanelSnapshot(v2DryRun)).slice(0, 6).map(([key, value]) => (
                   <div key={key} style={metricStyle}>
                     <span style={{ color: 'var(--color-text-muted)', fontSize: '0.78rem' }}>{key}</span>
-                    <strong style={{ display: 'block', fontSize: '0.85rem', marginTop: '2px' }}>{String(value ?? 'không')}</strong>
+                    <strong style={{ display: 'block', fontSize: '0.85rem', marginTop: '2px' }}>{String(value ?? (locale === 'en' ? 'none' : 'không'))}</strong>
                   </div>
                 ))}
               </div>
               <span style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem' }}>
-                {toV2PanelRows(v2DryRun).length} hàng dry-run · not_sent
+                {t('developer.v2Rows', { count: toV2PanelRows(v2DryRun).length })}
               </span>
             </div>
           ) : (
-            <div style={{ color: 'var(--color-text-muted)', fontStyle: 'italic' }}>Chưa có nhật ký để chạy V2 · V2 chưa chạy</div>
+            <div style={{ color: 'var(--color-text-muted)', fontStyle: 'italic' }}>{t('developer.v2NotRun')}</div>
           )}
         </section>
 
         <section style={{ border: '1px solid rgba(34, 197, 94, 0.22)', borderRadius: '8px', padding: '12px 14px', display: 'grid', gap: '10px' }}>
-          <strong>D. Hệ sinh thái Shime — chạy thử khớp nối</strong>
+          <strong>{t('developer.fusionTitle')}</strong>
           <span style={{ color: 'var(--color-text-muted)', fontSize: '0.84rem' }}>
-            Khớp nối Shime dùng tín hiệu đã làm mờ/rút gọn, không mở kết nối và không gửi điều khiển.
+            {t('developer.fusionBody')}
           </span>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-            <Button type="button" size="sm" onClick={handleRunShimeFusion}>Chạy khớp nối Shime</Button>
-            <Button type="button" variant="ghost" size="sm" onClick={handleClearShimeFusion}>Xóa kết quả khớp nối</Button>
+            <Button type="button" size="sm" onClick={handleRunShimeFusion}>{t('developer.fusionRun')}</Button>
+            <Button type="button" variant="ghost" size="sm" onClick={handleClearShimeFusion}>{t('developer.fusionClear')}</Button>
           </div>
           {shimeFusion && !shimeFusion.empty ? (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(145px, 1fr))', gap: '10px' }}>
-              <div style={metricStyle}><span>Áp lực trí nhớ</span><strong style={{ display: 'block' }}>{shimeFusion.snapshot.memoryPressureLabel}</strong></div>
-              <div style={metricStyle}><span>Can thiệp robot</span><strong style={{ display: 'block' }}>{shimeFusion.snapshot.robotInterventionLabel}</strong></div>
-              <div style={metricStyle}><span>Lịch học</span><strong style={{ display: 'block' }}>{shimeFusion.snapshot.timetableRecommendationLabel}</strong></div>
-              <div style={metricStyle}><span>Kết nối</span><strong style={{ display: 'block' }}>{shimeFusion.snapshot.transportRecommendationLabel}</strong></div>
+              <div style={metricStyle}><span>{t('developer.fusionMemory')}</span><strong style={{ display: 'block' }}>{shimeFusion.snapshot.memoryPressureLabel}</strong></div>
+              <div style={metricStyle}><span>{t('developer.fusionRobot')}</span><strong style={{ display: 'block' }}>{shimeFusion.snapshot.robotInterventionLabel}</strong></div>
+              <div style={metricStyle}><span>{t('developer.fusionSchedule')}</span><strong style={{ display: 'block' }}>{shimeFusion.snapshot.timetableRecommendationLabel}</strong></div>
+              <div style={metricStyle}><span>{t('developer.fusionTransport')}</span><strong style={{ display: 'block' }}>{shimeFusion.snapshot.transportRecommendationLabel}</strong></div>
             </div>
           ) : (
             <div style={{ color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
-              Chưa chạy khớp nối Shime trong phiên hiển thị hiện tại.
+              {t('developer.fusionNotRun')}
             </div>
           )}
         </section>
 
         <section style={{ border: '1px solid rgba(14, 165, 233, 0.22)', borderRadius: '8px', padding: '12px 14px', display: 'grid', gap: '10px' }}>
-          <strong>Robot Shime — xem trước biểu cảm</strong>
-          <span style={{ color: 'var(--color-text-muted)', fontSize: '0.84rem' }}>Bảng giả lập Robot Shime · motion locked · not_sent.</span>
+          <strong>{t('developer.expressionTitle')}</strong>
+          <span style={{ color: 'var(--color-text-muted)', fontSize: '0.84rem' }}>{t('developer.expressionBody')}</span>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-            <Button type="button" size="sm" onClick={handleRunRobotExpressionPreview}>Chạy xem trước biểu cảm</Button>
-            <Button type="button" variant="ghost" size="sm" onClick={handleClearRobotExpressionPreview}>Xóa xem trước biểu cảm</Button>
+            <Button type="button" size="sm" onClick={handleRunRobotExpressionPreview}>{t('developer.expressionRun')}</Button>
+            <Button type="button" variant="ghost" size="sm" onClick={handleClearRobotExpressionPreview}>{t('developer.expressionClear')}</Button>
           </div>
           {robotExpressionPreview && !robotExpressionPreview.empty ? (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(145px, 1fr))', gap: '10px' }}>
-              <div style={metricStyle}><span>Biểu cảm</span><strong style={{ display: 'block' }}>{robotExpressionPreview.expressionDisplay.expressionFamilyLabel}</strong></div>
-              <div style={metricStyle}><span>Màn hình</span><strong style={{ display: 'block' }}>{robotExpressionPreview.fakeRobotConsole.currentFaceLabel}</strong></div>
-              <div style={metricStyle}><span>Khóa chuyển động</span><strong style={{ display: 'block' }}>{robotExpressionPreview.fakeRobotConsole.motionLockLabel}</strong></div>
+              <div style={metricStyle}><span>{t('developer.expression')}</span><strong style={{ display: 'block' }}>{robotExpressionPreview.expressionDisplay.expressionFamilyLabel}</strong></div>
+              <div style={metricStyle}><span>{t('developer.expressionScreen')}</span><strong style={{ display: 'block' }}>{robotExpressionPreview.fakeRobotConsole.currentFaceLabel}</strong></div>
+              <div style={metricStyle}><span>{t('developer.expressionMotion')}</span><strong style={{ display: 'block' }}>{robotExpressionPreview.fakeRobotConsole.motionLockLabel}</strong></div>
             </div>
           ) : (
-            <div style={{ color: 'var(--color-text-muted)', fontStyle: 'italic' }}>Chưa chạy xem trước biểu cảm</div>
+            <div style={{ color: 'var(--color-text-muted)', fontStyle: 'italic' }}>{t('developer.expressionNotRun')}</div>
           )}
         </section>
       </div>

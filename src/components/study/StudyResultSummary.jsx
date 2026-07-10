@@ -6,6 +6,7 @@ import ProgressBar from '../ProgressBar.jsx';
 import { readStudyHistory } from '../../state/studyHistoryStorage.js';
 import { computeHistoryAnalytics } from '../../analytics/historyAnalytics.js';
 import { readReviewSchedule } from '../../state/reviewScheduleStorage.js';
+import { useShimeLanguage } from '../../uiI18n/useShimeLanguage.js';
 
 const statusTone = {
   correct: 'success',
@@ -26,7 +27,21 @@ function SummaryMetric({ label, value, hint }) {
 }
 
 export default function StudyResultSummary({ summary, persistenceNote = '', historyMessage = '', onRestart, onContinue, onGoToLibrary, onGoToDashboard }) {
+  const { t } = useShimeLanguage();
   if (!summary) return null;
+
+  const statusLabels = {
+    correct: t('study.correct'),
+    wrong: t('study.wrong'),
+    unanswered: t('study.unanswered'),
+    reviewed_flashcard: t('study.reviewedFlashcards'),
+    unscored: t('study.unscored')
+  };
+  const typeLabels = {
+    multiple_choice: t('library.multipleChoice'),
+    short_answer: t('library.shortAnswer'),
+    flashcard: t('library.flashcard')
+  };
 
   const history = readStudyHistory();
   const analytics = computeHistoryAnalytics(history?.records || []);
@@ -49,78 +64,78 @@ export default function StudyResultSummary({ summary, persistenceNote = '', hist
       >
         <div className="studyResultHero__header">
           <div>
-            <Badge tone="success">Tổng kết phiên học</Badge>
-            <h2>Tổng kết phiên học</h2>
+            <Badge tone="success">{t('study.resultTitle')}</Badge>
+            <h2>{t('study.resultTitle')}</h2>
             <p>
-              {persistenceNote || 'Kết quả học tập được xử lý cục bộ trên trình duyệt này. Lịch sử học và lịch ôn tập sẽ được cập nhật khi phiên học hoàn tất thành công.'}
+              {persistenceNote || t('study.resultLocalBody')}
             </p>
           </div>
-          <div className="studyResultHero__score" aria-label={`Tỷ lệ đúng ${summary.accuracy}%`}>
+          <div className="studyResultHero__score" aria-label={t('study.accuracyLabel', { value: summary.accuracy })}>
             <strong>{summary.accuracy}%</strong>
-            <span>Tỷ lệ đúng</span>
+            <span>{t('study.accuracy')}</span>
           </div>
         </div>
 
-        <div className="resultDelightRow" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '20px' }}>
+        <div className="resultDelightRow">
           {streak > 0 && (
-            <div className="delightBadge delightBadge--streak" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', borderRadius: '999px', background: 'linear-gradient(135deg, #ff9f43, #ff5252)', color: '#fff', fontWeight: 'bold', boxShadow: '0 8px 20px rgba(255, 82, 82, 0.25)', animation: 'tourPulseStrong 1.5s infinite' }}>
-              <span style={{ fontSize: '1.2rem' }}>🔥</span> Chuỗi học tập: {streak} ngày liên tiếp
+            <div className="delightBadge delightBadge--streak">
+              {t('study.streakResult', { count: streak })}
             </div>
           )}
           {nextDueCount > 0 ? (
-            <div className="delightBadge delightBadge--calendar" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', borderRadius: '999px', background: 'linear-gradient(135deg, #475569, #1e293b)', border: '1px solid rgba(255,255,255,0.08)', color: '#dbe7ff', fontWeight: '600', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-              <span>📅</span> {nextDueCount} câu tiếp theo đến hạn trong 24 giờ tới
+            <div className="delightBadge delightBadge--calendar">
+              {t('study.nextDue', { count: nextDueCount })}
             </div>
           ) : (
-            <div className="delightBadge delightBadge--calendar" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', borderRadius: '999px', background: 'linear-gradient(135deg, #10b981, #059669)', color: '#fff', fontWeight: '600', boxShadow: '0 4px 12px rgba(16, 185, 129, 0.15)' }}>
-              <span>✓</span> Tuyệt vời! Bạn không còn câu nào đến hạn trong 24 giờ tới
+            <div className="delightBadge delightBadge--safe">
+              {t('study.noNextDue')}
             </div>
           )}
         </div>
 
         {historyMessage ? <p className="studyHistorySaveMessage" role="status">{historyMessage}</p> : null}
 
-        <ProgressBar value={summary.accuracy} label={`Tỷ lệ đúng ${summary.accuracy}%`} />
+        <ProgressBar value={summary.accuracy} label={t('study.accuracyLabel', { value: summary.accuracy })} />
 
-        <div className="resultMetricGrid" aria-label="Thống kê phiên học">
-          <SummaryMetric label="Tổng số mục" value={summary.totalItems} />
-          <SummaryMetric label="Đã trả lời" value={summary.answeredCount} />
-          <SummaryMetric label="Đúng" value={summary.correctCount} />
-          <SummaryMetric label="Sai" value={summary.wrongCount} />
-          <SummaryMetric label="Chưa trả lời" value={summary.unansweredCount} />
-          <SummaryMetric label="Tỷ lệ đúng" value={`${summary.accuracy}%`} hint={summary.scoredTotal ? `${summary.scoredTotal} mục có chấm điểm` : 'Chưa có mục được chấm'} />
-          <SummaryMetric label="Thẻ ghi nhớ đã xem" value={summary.flashcardReviewedCount} />
-          <SummaryMetric label="Không chấm điểm" value={summary.unscoredCount} />
+        <div className="resultMetricGrid" aria-label={t('study.sessionStats')}>
+          <SummaryMetric label={t('study.totalItems')} value={summary.totalItems} />
+          <SummaryMetric label={t('study.answered')} value={summary.answeredCount} />
+          <SummaryMetric label={t('study.correct')} value={summary.correctCount} />
+          <SummaryMetric label={t('study.wrong')} value={summary.wrongCount} />
+          <SummaryMetric label={t('study.unanswered')} value={summary.unansweredCount} />
+          <SummaryMetric label={t('study.accuracy')} value={`${summary.accuracy}%`} hint={summary.scoredTotal ? t('study.scoredItems', { count: summary.scoredTotal }) : t('study.noScoredItems')} />
+          <SummaryMetric label={t('study.reviewedFlashcards')} value={summary.flashcardReviewedCount} />
+          <SummaryMetric label={t('study.unscored')} value={summary.unscoredCount} />
         </div>
 
         <div className="studyActions studyActions--result">
-          <Button type="button" onClick={onRestart}>Làm lại phiên học</Button>
-          <Button type="button" variant="secondary" onClick={onContinue}>Tiếp tục học</Button>
-          <Button type="button" variant="ghost" onClick={onGoToLibrary}>Quay về thư viện</Button>
-          <Button type="button" variant="ghost" onClick={onGoToDashboard}>Về tổng quan</Button>
+          <Button type="button" onClick={onRestart}>{t('study.restart')}</Button>
+          <Button type="button" variant="secondary" onClick={onContinue}>{t('study.continueStudy')}</Button>
+          <Button type="button" variant="ghost" onClick={onGoToLibrary}>{t('study.backLibrary')}</Button>
+          <Button type="button" variant="ghost" onClick={onGoToDashboard}>{t('study.backOverview')}</Button>
         </div>
       </Card>
 
-      <Card title="Chi tiết từng mục" variant="elevated">
+      <Card title={t('study.itemDetails')} variant="elevated">
         <div className="resultDetailList">
           {summary.visibleDetails.map(detail => (
             <details className="resultDetail" key={detail.id}>
               <summary>
                 <span>{detail.index + 1}. {detail.prompt}</span>
-                <Badge tone={statusTone[detail.status] || 'neutral'}>{detail.statusLabel}</Badge>
+                <Badge tone={statusTone[detail.status] || 'neutral'}>{statusLabels[detail.status] || detail.statusLabel}</Badge>
               </summary>
               <div className="resultDetail__body">
-                <p><strong>Loại:</strong> {detail.typeLabel}</p>
-                {detail.userAnswer ? <p><strong>Câu trả lời của bạn:</strong> {detail.userAnswer}</p> : null}
-                {detail.correctAnswer ? <p><strong>Đáp án đúng:</strong> {detail.correctAnswer}</p> : null}
-                <p><strong>Trạng thái:</strong> {detail.statusLabel}</p>
-                {detail.explanation ? <p><strong>Giải thích:</strong> {detail.explanation}</p> : null}
+                <p><strong>{t('study.type')}</strong> {typeLabels[detail.type] || detail.typeLabel}</p>
+                {detail.userAnswer ? <p><strong>{t('study.yourAnswer')}:</strong> {detail.userAnswer}</p> : null}
+                {detail.correctAnswer ? <p><strong>{t('library.correctAnswerLabel')}</strong> {detail.correctAnswer}</p> : null}
+                <p><strong>{t('study.status')}</strong> {statusLabels[detail.status] || detail.statusLabel}</p>
+                {detail.explanation ? <p><strong>{t('study.explanation')}</strong> {detail.explanation}</p> : null}
               </div>
             </details>
           ))}
         </div>
         {summary.hiddenDetailCount ? (
-          <p className="muted">Đã ẩn {summary.hiddenDetailCount} mục còn lại để giữ màn hình gọn gàng.</p>
+          <p className="muted">{t('study.hiddenDetails', { count: summary.hiddenDetailCount })}</p>
         ) : null}
       </Card>
     </div>

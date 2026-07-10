@@ -25,6 +25,8 @@ function exists(relativePath) {
   return fs.existsSync(resolve(PROJECT_ROOT, relativePath));
 }
 
+const viCopy = read('src/uiI18n/translations/vi.js');
+
 // ── 1. Main navigation labels stay Vietnamese ────────────────────────────────
 
 describe('Phase 16A — main navigation uses Vietnamese labels', () => {
@@ -53,19 +55,22 @@ describe('Phase 16A — Home landing CTAs are Vietnamese-first', () => {
   const home = read('src/routes/Home.jsx');
 
   it('hero CTA reads Mở Tổng quan (not Mở Dashboard)', () => {
-    expect(home).toContain('Mở Tổng quan');
+    expect(home).toContain("t('home.openOverview')");
+    expect(viCopy).toContain("'home.openOverview': 'Mở Tổng quan'");
     expect(home).not.toContain('Mở Dashboard');
   });
 
   it('hero CTA reads Mở Thư viện (not Mở Library)', () => {
-    expect(home).toContain('Mở Thư viện');
+    expect(home).toContain("t('home.openLibrary')");
+    expect(viCopy).toContain("'home.openLibrary': 'Mở Thư viện'");
     expect(home).not.toContain('Mở Library');
   });
 
   it('navigation footer references Phòng học / Thư viện / Tổng quan', () => {
-    expect(home).toContain('Phòng học');
-    expect(home).toContain('Thư viện');
-    expect(home).toContain('Tổng quan');
+    expect(home).toContain("t('home.openStudyRoom')");
+    expect(home).toContain("t('nav.library')");
+    expect(home).toContain("t('home.openOverview')");
+    expect(viCopy).toContain("'nav.studyRoom': 'Phòng học'");
   });
 
   it('keeps Dùng quiz mẫu demo CTA', () => {
@@ -79,17 +84,22 @@ describe('Phase 16A — memory-rating bridge uses Vietnamese terms', () => {
   const bridge = read('src/components/study/FsrsProductionMemoryRatingBridge.jsx');
 
   it('renders the Vietnamese header term Mức độ nhớ', () => {
-    expect(bridge).toContain('Mức độ nhớ');
+    expect(bridge).toContain("t('study.memoryRating')");
+    expect(viCopy).toContain("'study.memoryRating': 'Mức độ nhớ'");
   });
 
   it('renders Vietnamese effort labels Nhớ khó / Nhớ được / Nhớ dễ', () => {
-    expect(bridge).toContain('Nhớ khó');
-    expect(bridge).toContain('Nhớ được');
-    expect(bridge).toContain('Nhớ dễ');
+    expect(bridge).toContain("t('study.memoryHard')");
+    expect(bridge).toContain("t('study.memoryGood')");
+    expect(bridge).toContain("t('study.memoryEasy')");
+    expect(viCopy).toContain("'study.memoryHard': 'Nhớ khó'");
+    expect(viCopy).toContain("'study.memoryGood': 'Nhớ được'");
+    expect(viCopy).toContain("'study.memoryEasy': 'Nhớ dễ'");
   });
 
   it('renders Vietnamese skip button label Tiếp tục không đánh giá', () => {
-    expect(bridge).toContain('Tiếp tục không đánh giá');
+    expect(bridge).toContain("t('study.memorySkip')");
+    expect(viCopy).toContain("'study.memorySkip': 'Tiếp tục không đánh giá'");
   });
 
   it('does not render forbidden internal identifier fsrsActiveSchedulingEnabled as JSX text', () => {
@@ -109,11 +119,13 @@ describe('Phase 16A — settings panel is Vietnamese-first', () => {
   const panel = read('src/components/settings/FsrsExperimentalSettingsPanel.jsx');
 
   it('panel title uses Vietnamese xếp lịch ghi nhớ thử nghiệm', () => {
-    expect(panel).toContain('Bật xếp lịch ghi nhớ thử nghiệm');
+    expect(panel).toContain("t('settings.fsrsEnable')");
+    expect(viCopy).toContain("'settings.fsrsEnable': 'Bật xếp lịch ghi nhớ thử nghiệm'");
   });
 
   it('panel preparation badge uses Vietnamese Chỉ là giai đoạn chuẩn bị', () => {
-    expect(panel).toContain('Chỉ là giai đoạn chuẩn bị');
+    expect(panel).toContain("t('settings.fsrsPreparation')");
+    expect(viCopy).toContain("'settings.fsrsPreparation': 'Chỉ là giai đoạn chuẩn bị'");
   });
 
   it('does not expose fsrsActiveSchedulingEnabled in user-facing UI', () => {
@@ -133,14 +145,16 @@ describe('Phase 16A — Study Room uses Vietnamese-first action labels', () => {
   const room = read('src/routes/StudyRoom.jsx');
 
   it('replaces stepper labels with Vietnamese Câu trước / Câu tiếp theo', () => {
-    expect(room).toContain('Câu trước');
-    expect(room).toContain('Câu tiếp theo');
+    expect(room).toContain("t('study.previous')");
+    expect(room).toContain("t('study.next')");
+    expect(viCopy).toContain("'study.previous': 'Câu trước'");
     expect(room).not.toContain('Item trước');
     expect(room).not.toContain('Item tiếp theo');
   });
 
   it('replaces Lựa chọn từ Library with Lựa chọn từ Thư viện', () => {
-    expect(room).toContain('Lựa chọn từ Thư viện');
+    expect(room).toContain("t('study.librarySelection')");
+    expect(viCopy).toContain("'study.librarySelection': 'Lựa chọn từ Thư viện'");
     expect(room).not.toContain('Lựa chọn từ Library');
   });
 
@@ -159,8 +173,8 @@ describe('Phase 16A — Dashboard mixed-scheduler note is Vietnamese-only', () =
   });
 
   it('keeps the Vietnamese mixed-scheduler note', () => {
-    expect(dashboard).toContain('Bao gồm');
-    expect(dashboard).toContain('thẻ dùng lịch học bộ nhớ thử nghiệm');
+    expect(dashboard).toContain("t('overview.mixedScheduler'");
+    expect(viCopy).toContain('thẻ dùng lịch học bộ nhớ thử nghiệm');
   });
 });
 

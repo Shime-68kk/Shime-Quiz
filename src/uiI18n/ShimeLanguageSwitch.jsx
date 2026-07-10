@@ -1,41 +1,36 @@
 import Card from '../components/Card.jsx';
-import Button from '../components/Button.jsx';
-import { SHIME_LOCALES } from './shimeUiCopyProposal.js';
+import { UI_LOCALES } from './localeRuntime.js';
 import { useShimeLanguage } from './useShimeLanguage.js';
 
 export default function ShimeLanguageSwitch() {
   const { locale, setLocale, t } = useShimeLanguage();
-  const isEnglish = locale === SHIME_LOCALES.EN;
 
   return (
-    <Card className="settingsPanel" eyebrow={t('settingsLanguage')} title={isEnglish ? 'Language' : 'Ngôn ngữ'}>
-      <div style={{ display: 'grid', gap: '12px' }}>
-        <p style={{ margin: 0, color: 'var(--color-text-muted)', fontSize: '0.88rem', lineHeight: 1.45 }}>
-          {t('previewOnlyNote')}
-        </p>
-        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
-          <span style={{ fontWeight: 700 }}>{isEnglish ? 'Language' : 'Ngôn ngữ'}</span>
-          <Button
-            type="button"
-            size="sm"
-            variant={locale === SHIME_LOCALES.VI ? 'primary' : 'secondary'}
-            onClick={() => setLocale(SHIME_LOCALES.VI)}
-          >
-            {isEnglish ? 'Vietnamese' : 'Tiếng Việt'}
-          </Button>
-          <Button
-            type="button"
-            size="sm"
-            variant={locale === SHIME_LOCALES.EN ? 'primary' : 'secondary'}
-            onClick={() => setLocale(SHIME_LOCALES.EN)}
-          >
-            English
-          </Button>
-        </div>
-        <div style={{ color: 'var(--color-text-muted)', fontSize: '0.82rem' }}>
-          {isEnglish ? 'Preview only. Reloading the page resets to Vietnamese.' : 'Chỉ là bản xem trước. Tải lại trang sẽ quay về Tiếng Việt.'}
-        </div>
+    <Card
+      className="settingsPanel uiPreferenceCard"
+      eyebrow={t('settings.languageEyebrow')}
+      title={t('settings.languageTitle')}
+    >
+      <p className="uiPreferenceCard__description">{t('settings.languageBody')}</p>
+      <div className="uiSegmentedControl" role="group" aria-label={t('settings.chooseLanguage')}>
+        <button
+          type="button"
+          className={locale === UI_LOCALES.VI ? 'uiSegmentedControl__item uiSegmentedControl__item--active' : 'uiSegmentedControl__item'}
+          aria-pressed={locale === UI_LOCALES.VI}
+          onClick={() => setLocale(UI_LOCALES.VI)}
+        >
+          {t('settings.vietnamese')}
+        </button>
+        <button
+          type="button"
+          className={locale === UI_LOCALES.EN ? 'uiSegmentedControl__item uiSegmentedControl__item--active' : 'uiSegmentedControl__item'}
+          aria-pressed={locale === UI_LOCALES.EN}
+          onClick={() => setLocale(UI_LOCALES.EN)}
+        >
+          {t('settings.english')}
+        </button>
       </div>
+      <p className="uiPreferenceCard__note">{t('settings.languageSaved')}</p>
     </Card>
   );
 }

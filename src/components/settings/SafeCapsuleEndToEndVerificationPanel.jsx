@@ -4,29 +4,31 @@ import {
   createInitialSafeCapsuleEndToEndVerificationState,
   SAFE_CAPSULE_E2E_ACTIONS
 } from './safeCapsuleEndToEndVerificationModel.js';
+import { useShimeLanguage } from '../../uiI18n/useShimeLanguage.js';
 
 export default function SafeCapsuleEndToEndVerificationPanel() {
+  const { t } = useShimeLanguage();
   const [state, setState] = useState(() => createInitialSafeCapsuleEndToEndVerificationState());
   const run = action => setState(current => applySafeCapsuleEndToEndVerificationAction(current, action));
 
   return (
-    <section className="settingsPanel safeCapsuleEndToEndVerificationPanel" aria-label="Xác minh App → Robot Mock — chưa kết nối thật">
+    <section className="settingsPanel safeCapsuleEndToEndVerificationPanel" aria-label={t('developer.verifyLabel')}>
       <div className="sectionHeader">
         <p className="eyebrow">Mock verification only</p>
-        <h2>Xác minh App → Robot Mock — chưa kết nối thật</h2>
+        <h2>{t('developer.verifyLabel')}</h2>
       </div>
       <div className="settingsNotice" role="note">
-        <strong>Luồng này chỉ xác minh gói mock đã được robot mock import chấp nhận</strong>
-        <p>Không kết nối robot thật. Không Serial/WebSocket/BLE/Wi-Fi. Không gửi tự động. Không xuất câu hỏi/đáp án/lịch sử học. Bridge thật vẫn bị khóa.</p>
+        <strong>{t('developer.verifyTitle')}</strong>
+        <p>{t('developer.verifyBody')}</p>
       </div>
 
       <div className="settingsActions" aria-label="End-to-end mock verification controls">
-        <button type="button" onClick={() => run(SAFE_CAPSULE_E2E_ACTIONS.CREATE_SAMPLE_HANDOFF)}>Tạo gói bàn giao mẫu</button>
-        <button type="button" onClick={() => run(SAFE_CAPSULE_E2E_ACTIONS.CREATE_MATCHING_REPORT)} disabled={!state.handoffPack}>Tạo report mock khớp</button>
-        <button type="button" onClick={() => run(SAFE_CAPSULE_E2E_ACTIONS.CREATE_FAILING_CHECKSUM_REPORT)} disabled={!state.handoffPack}>Tạo report lỗi checksum</button>
-        <button type="button" onClick={() => run(SAFE_CAPSULE_E2E_ACTIONS.CREATE_PRIVACY_ATTACK_REPORT)} disabled={!state.handoffPack}>Tạo report tấn công quyền riêng tư</button>
-        <button type="button" onClick={() => run(SAFE_CAPSULE_E2E_ACTIONS.VERIFY)} disabled={!state.robotReport}>Xác minh end-to-end</button>
-        <button type="button" onClick={() => run(SAFE_CAPSULE_E2E_ACTIONS.CLEAR)}>Xóa xác minh</button>
+        <button type="button" onClick={() => run(SAFE_CAPSULE_E2E_ACTIONS.CREATE_SAMPLE_HANDOFF)}>{t('developer.createHandoffSample')}</button>
+        <button type="button" onClick={() => run(SAFE_CAPSULE_E2E_ACTIONS.CREATE_MATCHING_REPORT)} disabled={!state.handoffPack}>{t('developer.createMatchingReport')}</button>
+        <button type="button" onClick={() => run(SAFE_CAPSULE_E2E_ACTIONS.CREATE_FAILING_CHECKSUM_REPORT)} disabled={!state.handoffPack}>{t('developer.createChecksumReport')}</button>
+        <button type="button" onClick={() => run(SAFE_CAPSULE_E2E_ACTIONS.CREATE_PRIVACY_ATTACK_REPORT)} disabled={!state.handoffPack}>{t('developer.createPrivacyReport')}</button>
+        <button type="button" onClick={() => run(SAFE_CAPSULE_E2E_ACTIONS.VERIFY)} disabled={!state.robotReport}>{t('developer.verifyEndToEnd')}</button>
+        <button type="button" onClick={() => run(SAFE_CAPSULE_E2E_ACTIONS.CLEAR)}>{t('developer.clearVerification')}</button>
       </div>
 
       <dl className="settingsCompactList" aria-label="End-to-end mock verification status">

@@ -4,19 +4,20 @@ import {
   createInitialSafeCapsuleRehearsalLabState,
   SAFE_CAPSULE_REHEARSAL_ACTIONS
 } from './safeCapsuleRehearsalLabModel.js';
+import { useShimeLanguage } from '../../uiI18n/useShimeLanguage.js';
 
 const BUTTONS = [
-  ['steady_progress', 'Chạy diễn tập ổn định'],
-  ['struggling_streak', 'Chạy diễn tập đang gặp khó'],
-  ['review_pressure_high', 'Chạy diễn tập áp lực ôn tập cao'],
-  ['low_energy_focus', 'Chạy diễn tập năng lượng thấp'],
-  ['privacy_attack_raw_quiz', 'Chạy kiểm tra tấn công dữ liệu quiz'],
-  ['privacy_attack_raw_rf', 'Chạy kiểm tra tấn công RF'],
-  ['privacy_attack_secret', 'Chạy kiểm tra secret']
+  ['steady_progress', 'developer.runSteady'],
+  ['struggling_streak', 'developer.runStruggling'],
+  ['review_pressure_high', 'developer.runPressure'],
+  ['low_energy_focus', 'developer.runLowEnergy'],
+  ['privacy_attack_raw_quiz', 'developer.runQuizAttack'],
+  ['privacy_attack_raw_rf', 'developer.runRfAttack'],
+  ['privacy_attack_secret', 'developer.runSecretAttack']
 ];
 
-function ResultTable({ results }) {
-  if (!results.length) return <p className="muted">Chưa có kết quả diễn tập. Mỗi lượt chạy cần bấm nút rõ ràng.</p>;
+function ResultTable({ results, t }) {
+  if (!results.length) return <p className="muted">{t('developer.noRehearsal')}</p>;
 
   return (
     <div className="settingsTableWrap">
@@ -60,8 +61,8 @@ function ResultTable({ results }) {
   );
 }
 
-function EvidenceCodes({ result }) {
-  if (!result) return <p className="muted">Chưa có evidence summary codes.</p>;
+function EvidenceCodes({ result, t }) {
+  if (!result) return <p className="muted">{t('developer.noEvidence')}</p>;
   const codes = [
     ...result.qualityScore.explanationCodes,
     ...result.privacyEvidenceSummary.summaryCodes
@@ -79,6 +80,7 @@ function EvidenceCodes({ result }) {
 }
 
 export default function SafeCapsuleRehearsalLab() {
+  const { t } = useShimeLanguage();
   const [state, setState] = useState(() => createInitialSafeCapsuleRehearsalLabState());
 
   const runScenario = scenarioId => {
@@ -97,25 +99,25 @@ export default function SafeCapsuleRehearsalLab() {
   };
 
   return (
-    <section className="settingsPanel safeCapsuleRehearsalLab" aria-label="Safe Capsule Rehearsal Lab — diễn tập mock">
+    <section className="settingsPanel safeCapsuleRehearsalLab" aria-label={t('developer.rehearsalLabel')}>
       <div className="sectionHeader">
         <p className="eyebrow">Mock-only rehearsal</p>
-        <h2>Safe Capsule Rehearsal Lab — diễn tập mock</h2>
+        <h2>{t('developer.rehearsalLabel')}</h2>
       </div>
 
       <div className="settingsNotice" role="note">
-        <strong>Diễn tập nhiều trạng thái học mà không gửi robot thật</strong>
-        <p>Không Serial/WebSocket/BLE/Wi-Fi. Không xuất câu hỏi/đáp án/lịch sử học. Chỉ sinh bằng chứng quyền riêng tư và gói mock import.</p>
+        <strong>{t('developer.rehearsalTitle')}</strong>
+        <p>{t('developer.rehearsalBody')}</p>
       </div>
 
       <div className="settingsActions" aria-label="Safe capsule rehearsal controls">
-        {BUTTONS.map(([scenarioId, label]) => (
+        {BUTTONS.map(([scenarioId, labelKey]) => (
           <button key={scenarioId} type="button" onClick={() => runScenario(scenarioId)}>
-            {label}
+            {t(labelKey)}
           </button>
         ))}
-        <button type="button" onClick={runAll}>Chạy toàn bộ diễn tập</button>
-        <button type="button" onClick={clear}>Xóa kết quả diễn tập</button>
+        <button type="button" onClick={runAll}>{t('developer.runAll')}</button>
+        <button type="button" onClick={clear}>{t('developer.clearRehearsal')}</button>
       </div>
 
       <dl className="settingsCompactList" aria-label="Safe capsule rehearsal safety status">
@@ -125,11 +127,11 @@ export default function SafeCapsuleRehearsalLab() {
         <div><dt>transportEnabled</dt><dd>{String(state.transportEnabled)}</dd></div>
       </dl>
 
-      <ResultTable results={state.results} />
+      <ResultTable results={state.results} t={t} />
 
       <div>
         <h3>Evidence summary codes</h3>
-        <EvidenceCodes result={state.latestResult} />
+        <EvidenceCodes result={state.latestResult} t={t} />
       </div>
     </section>
   );

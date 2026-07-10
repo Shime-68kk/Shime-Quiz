@@ -22,7 +22,7 @@ import { prepareEdugenDraftLibraryImport } from '../edugen/edugenDraftImport.js'
  * with duplicate detection so existing study progress is never silently
  * overwritten. No scheduler/FSRS call is added; no network is added.
  */
-function handleEdugenDraftConfirmImport({ items, summary }) {
+function handleEdugenDraftConfirmImport({ items, summary }, t) {
   const currentRawData = getLearningDataSnapshot();
   const currentMetadata = getLearningDataMetadataSnapshot();
 
@@ -38,15 +38,14 @@ function handleEdugenDraftConfirmImport({ items, summary }) {
         persisted: false,
         addedCount: 0,
         duplicateCount: prepared.summary.duplicateCount,
-        message:
-          'Tất cả thẻ EduGen vừa xác nhận đã có sẵn trong thư viện (trùng câu hỏi/đáp án). Không có thẻ nào được lưu để tránh ghi đè.'
+        message: t('edugen.allDuplicates')
       };
     }
     return {
       persisted: false,
       addedCount: 0,
       duplicateCount: prepared.summary.duplicateCount,
-      message: 'Không có thẻ EduGen hợp lệ nào để lưu vào thư viện.'
+      message: t('edugen.noValidCards')
     };
   }
 
@@ -62,8 +61,8 @@ function handleEdugenDraftConfirmImport({ items, summary }) {
       duplicateCount: prepared.summary.duplicateCount,
       message:
         result.error === 'storage_write_failed'
-          ? 'Đã ghép thẻ EduGen vào phiên hiện tại nhưng không lưu được cục bộ. Hãy kiểm tra dung lượng/quyền lưu trữ của trình duyệt.'
-          : 'Không thể lưu thẻ EduGen vào thư viện vì dữ liệu chưa hợp lệ.'
+          ? t('edugen.storageFailed')
+          : t('edugen.libraryInvalid')
     };
   }
 
@@ -91,32 +90,67 @@ import SafeCapsuleRehearsalLab from '../components/settings/SafeCapsuleRehearsal
 import SafeCapsuleExportVault from '../components/settings/SafeCapsuleExportVault.jsx';
 import SafeCapsuleEndToEndVerificationPanel from '../components/settings/SafeCapsuleEndToEndVerificationPanel.jsx';
 import SchedulerEvidencePanel from '../components/settings/SchedulerEvidencePanel.jsx';
-import { ShimeLanguageProvider } from '../uiI18n/ShimeLanguageProvider.jsx';
 import ShimeLanguageSwitch from '../uiI18n/ShimeLanguageSwitch.jsx';
+import { useShimeLanguage } from '../uiI18n/useShimeLanguage.js';
+import SettingsDisclosure from '../components/settings/SettingsDisclosure.jsx';
 
 export default function Settings() {
-  const onConfirmImport = useCallback(handleEdugenDraftConfirmImport, []);
+  const { t } = useShimeLanguage();
+  const onConfirmImport = useCallback(payload => handleEdugenDraftConfirmImport(payload, t), [t]);
 
   return (
-    <div className="pageRoot">
-      <ShimeLanguageProvider>
-        <PageHeader title="Cài đặt" subtitle="Tuỳ chọn nâng cao" />
+    <div className="pageRoot settingsPage">
+        <PageHeader eyebrow={t('settings.eyebrow')} title={t('settings.title')} subtitle={t('settings.subtitle')} />
+
+        <section className="settingsSection" aria-labelledby="settings-appearance-title">
+          <div className="settingsSection__heading">
+            <p className="eyebrow">{t('settings.appearance')}</p>
+            <h2 id="settings-appearance-title">{t('settings.appearance')}</h2>
+            <p>{t('settings.appearanceBody')}</p>
+          </div>
+          <div className="settingsPreferenceGrid">
         <ShimeLanguageSwitch />
         <ThemeSettingsPanel />
+          </div>
+          <p className="settingsMotionNote">{t('settings.reducedMotionNote')}</p>
+        </section>
+
+        <section className="settingsSection settingsSection--experimental" aria-labelledby="settings-experimental-title">
+          <div className="settingsSection__heading">
+            <p className="eyebrow">{t('status.beta')}</p>
+            <h2 id="settings-experimental-title">{t('settings.experimental')}</h2>
+            <p>{t('settings.experimentalBody')}</p>
+          </div>
         <FsrsExperimentalSettingsPanel />
-        <DeviceBridgeUiConcept />
-        <CompanionDevPanel />
-        <SafeCapsuleControlCenter />
-        <SafeCapsuleRehearsalLab />
-        <SafeCapsuleExportVault />
-        <SafeCapsuleEndToEndVerificationPanel />
-        <SchedulerEvidencePanel />
-        <EduGenDraftWorkshopPanel />
-        <EduGenDraftReviewPanel onConfirmImport={onConfirmImport} />
-        {shouldShowDataSafetyCenterPrototype(PHASE31C_PROTOTYPE_CONFIG) && (
-          <DataSafetyCenterPrototype />
-        )}
-      </ShimeLanguageProvider>
+          <p className="settingsBoundaryNote">{t('settings.noScheduleChange')} {t('settings.noCardMigration')}</p>
+        </section>
+
+        <SettingsDisclosure
+          title={t('settings.advanced')}
+          description={t('settings.advancedBody')}
+          tone="advanced"
+        >
+          <EduGenDraftWorkshopPanel />
+          <EduGenDraftReviewPanel onConfirmImport={onConfirmImport} />
+        </SettingsDisclosure>
+
+        <SettingsDisclosure
+          title={t('settings.developer')}
+          description={t('settings.developerBody')}
+          tone="developer"
+        >
+          <p className="settingsBoundaryNote">{t('settings.safeCapsuleOnly')}</p>
+          <DeviceBridgeUiConcept />
+          <CompanionDevPanel />
+          <SafeCapsuleControlCenter />
+          <SafeCapsuleRehearsalLab />
+          <SafeCapsuleExportVault />
+          <SafeCapsuleEndToEndVerificationPanel />
+          <SchedulerEvidencePanel />
+          {shouldShowDataSafetyCenterPrototype(PHASE31C_PROTOTYPE_CONFIG) && (
+            <DataSafetyCenterPrototype />
+          )}
+        </SettingsDisclosure>
     </div>
   );
 }

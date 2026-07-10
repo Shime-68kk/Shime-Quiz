@@ -28,8 +28,8 @@ describe('Phase 36E — Library tab pilot scope', () => {
 
   it('preserves tab roles, labels, aria-selected, and aria-controls', () => {
     expect(librarySrc.match(/role="tab"/g)).toHaveLength(2);
-    expect(librarySrc).toContain('Kệ sách của tôi');
-    expect(librarySrc).toContain('Xưởng nạp tài liệu');
+    expect(librarySrc).toContain("t('library.shelfTab')");
+    expect(librarySrc).toContain("t('library.addTab')");
     expect(librarySrc).toContain("aria-selected={libraryTab === 'shelf'}");
     expect(librarySrc).toContain("aria-selected={libraryTab === 'workshop'}");
     expect(librarySrc).toContain('aria-controls="library-panel-shelf"');

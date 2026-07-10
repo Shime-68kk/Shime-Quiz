@@ -286,22 +286,24 @@ describe('Phase 16G — parser source safety', () => {
 
 describe('Phase 16G — EduGenDraftReviewPanel source', () => {
   const panel = read('src/components/edugen/EduGenDraftReviewPanel.jsx');
+  const viCopy = read('src/uiI18n/translations/vi.js');
 
   it('uses Xưởng bản nháp framing', () => {
-    expect(panel).toContain('Xưởng bản nháp EduGen');
+    expect(panel).toContain("t('edugen.title')");
+    expect(viCopy).toContain('Xưởng bản nháp EduGen');
   });
 
   it('mentions review-before-save copy', () => {
-    expect(panel).toContain('Bản nháp cần xem lại trước khi lưu');
-    expect(panel).toContain('Shime không tự gọi AI/OCR');
-    expect(panel).toContain('EduGen chạy riêng và tùy chọn');
-    expect(panel).toContain('Không có thẻ nào được lưu cho đến khi bạn xác nhận');
-    expect(panel).toContain('Kết quả có thể sai hoặc thiếu ý');
+    expect(panel).toContain("t('edugen.reviewBody')");
+    expect(panel).toContain("t('edugen.reviewCaution')");
+    expect(panel).toContain("t('edugen.notPreviewedBody')");
+    expect(viCopy).toContain('Shime không tự gọi AI/OCR');
+    expect(viCopy).toContain('Kết quả có thể sai hoặc thiếu ý');
   });
 
   it('requires an explicit confirm action', () => {
-    expect(panel).toContain('Xác nhận lưu bản nháp');
-    expect(panel).toContain('Xem lại trước khi lưu');
+    expect(panel).toContain("t('edugen.confirm')");
+    expect(panel).toContain("t('edugen.preview')");
   });
 
   it('does not include a document upload UI', () => {

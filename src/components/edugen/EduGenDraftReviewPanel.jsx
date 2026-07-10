@@ -9,24 +9,11 @@ import {
   describeEdugenDraftInvalidReason,
   parseEdugenDraftJson
 } from '../../edugen/edugenDraftParser.js';
+import { useShimeLanguage } from '../../uiI18n/useShimeLanguage.js';
 
 const STATUS_IDLE = 'idle';
 const STATUS_PREVIEW = 'preview';
 const STATUS_SAVED = 'saved';
-
-const SAMPLE_TEMPLATE = JSON.stringify(
-  {
-    items: [
-      {
-        question: 'Câu hỏi mẫu (sửa lại trước khi lưu)',
-        answer: 'Đáp án mẫu (sửa lại trước khi lưu)',
-        source: 'Tên tài liệu của bạn'
-      }
-    ]
-  },
-  null,
-  2
-);
 
 function clip(text, max = 240) {
   if (typeof text !== 'string') return '';
@@ -50,6 +37,7 @@ export default function EduGenDraftReviewPanel({
   onCancel,
   defaultSourceName = ''
 } = {}) {
+  const { locale, t } = useShimeLanguage();
   const [draftText, setDraftText] = useState('');
   const [sourceName, setSourceName] = useState(defaultSourceName);
   const [status, setStatus] = useState(STATUS_IDLE);
@@ -97,7 +85,13 @@ export default function EduGenDraftReviewPanel({
   }
 
   function handleLoadSample() {
-    setDraftText(SAMPLE_TEMPLATE);
+    setDraftText(JSON.stringify({
+      items: [{
+        question: t('edugen.sampleQuestion'),
+        answer: t('edugen.sampleAnswer'),
+        source: t('edugen.sampleSource')
+      }]
+    }, null, 2));
     setStatus(STATUS_IDLE);
     setResult(null);
     setSavedSummary(null);
@@ -135,68 +129,67 @@ export default function EduGenDraftReviewPanel({
 
   function renderStatusBadge() {
     if (isSaved) {
-      return <Badge tone="success">Đã xác nhận lưu</Badge>;
+      return <Badge tone="success">{t('edugen.saved')}</Badge>;
     }
     if (!result) {
-      return <Badge tone="neutral">Chưa xem trước</Badge>;
+      return <Badge tone="neutral">{t('edugen.notPreviewed')}</Badge>;
     }
     if (result.ok) {
       const allValid = result.invalid.length === 0;
       return (
         <Badge tone={allValid ? 'success' : 'warning'}>
           {allValid
-            ? `Bản nháp hợp lệ (${result.summary.validCount} mục)`
-            : `Hợp lệ ${result.summary.validCount}/${result.summary.totalSubmitted} mục`}
+            ? t('edugen.valid', { count: result.summary.validCount })
+            : t('edugen.partlyValid', { valid: result.summary.validCount, total: result.summary.totalSubmitted })}
         </Badge>
       );
     }
-    return <Badge tone="warning">Bản nháp chưa hợp lệ</Badge>;
+    return <Badge tone="warning">{t('edugen.invalid')}</Badge>;
   }
 
   function renderErrorOrSummary() {
     if (isSaved && savedSummary) {
       if (savedSummary.persisted) {
         const dupeNote = savedSummary.duplicateCount > 0
-          ? ` Đã bỏ qua ${savedSummary.duplicateCount} thẻ trùng câu hỏi/đáp án để tránh ghi đè tiến độ học cũ.`
+          ? t('edugen.duplicatesSkipped', { count: savedSummary.duplicateCount })
           : '';
         return (
           <p className="settingsPanel__helper" role="status">
-            Xác nhận lưu vào thư viện thành công: đã thêm {savedSummary.count} thẻ vào{' '}
-            <strong>Bản nháp EduGen → Bản nháp cần xem lại</strong>.
-            {dupeNote} Shime không tự kích hoạt xếp lịch ghi nhớ FSRS cho các thẻ mới này.
+            {t('edugen.savedSuccess', { count: savedSummary.count })}{' '}
+            {dupeNote} {t('edugen.schedulerUnchanged')}
           </p>
         );
       }
       return (
         <p className="settingsPanel__helper" role="status">
           {savedSummary.message ||
-            `Đã ghi nhận ${savedSummary.count} bản nháp để xem lại. Shime chưa tự lưu vào học — các thẻ sẽ chỉ vào Thư viện khi luồng nhập của bạn xác nhận lần cuối.`}
+            t('edugen.recordedOnly', { count: savedSummary.count })}
         </p>
       );
     }
     if (!result) {
       return (
         <p className="settingsPanel__helperSecondary">
-          Hãy dán JSON xuất từ EduGen rồi bấm <strong>Xem lại trước khi lưu</strong>.
-          Không có thẻ nào được lưu cho đến khi bạn xác nhận.
+          {t('edugen.notPreviewedBody')}
         </p>
       );
     }
     if (!result.ok) {
       return (
         <p className="edugenDraftReview__error" role="alert">
-          {describeEdugenDraftError(result.error)}
+          {locale === 'en' ? t('edugen.parseError', { code: result.error }) : describeEdugenDraftError(result.error)}
         </p>
       );
     }
     const { summary } = result;
     return (
       <p className="settingsPanel__helper">
-        Đã đọc {summary.totalSubmitted} mục bản nháp.
-        Hợp lệ: {summary.validCount}.
-        Cần sửa: {summary.invalidCount}.
-        Tổng ký tự: {summary.totalCharacters}.
-        Kết quả có thể sai hoặc thiếu ý — hãy đọc kỹ trước khi xác nhận.
+        {t('edugen.summary', {
+          total: summary.totalSubmitted,
+          valid: summary.validCount,
+          invalid: summary.invalidCount,
+          characters: summary.totalCharacters
+        })}
       </p>
     );
   }
@@ -204,20 +197,20 @@ export default function EduGenDraftReviewPanel({
   function renderPreviewItems() {
     if (!result || !result.ok || previewItems.length === 0) return null;
     return (
-      <div className="edugenDraftReview__preview" aria-label="Xem trước bản nháp EduGen">
-        <h3 className="edugenDraftReview__previewTitle">Xem trước (tối đa 5 mục đầu)</h3>
+      <div className="edugenDraftReview__preview" aria-label={t('edugen.previewLabel')}>
+        <h3 className="edugenDraftReview__previewTitle">{t('edugen.previewTitle')}</h3>
         <ol className="edugenDraftReview__list">
           {previewItems.map(item => (
             <li key={item.id} className="edugenDraftReview__item">
               <p className="edugenDraftReview__question">
-                <strong>Câu hỏi:</strong> {clip(item.question)}
+                <strong>{t('edugen.question')}</strong> {clip(item.question)}
               </p>
               <p className="edugenDraftReview__answer">
-                <strong>Đáp án:</strong> {clip(item.answer)}
+                <strong>{t('edugen.answer')}</strong> {clip(item.answer)}
               </p>
               {item.sourceMetadata.sourceName && (
                 <p className="edugenDraftReview__source">
-                  Nguồn: {clip(item.sourceMetadata.sourceName, 80)}
+                  {t('edugen.source')} {clip(item.sourceMetadata.sourceName, 80)}
                 </p>
               )}
             </li>
@@ -225,7 +218,7 @@ export default function EduGenDraftReviewPanel({
         </ol>
         {result.items.length > previewItems.length && (
           <p className="settingsPanel__helperSecondary">
-            …và {result.items.length - previewItems.length} mục khác sẽ vào danh sách xác nhận lưu.
+            {t('edugen.moreItems', { count: result.items.length - previewItems.length })}
           </p>
         )}
       </div>
@@ -235,18 +228,21 @@ export default function EduGenDraftReviewPanel({
   function renderInvalidList() {
     if (!result || result.invalid.length === 0) return null;
     return (
-      <div className="edugenDraftReview__invalid" aria-label="Mục cần sửa trước khi lưu">
-        <h3 className="edugenDraftReview__previewTitle">Mục cần sửa ({result.invalid.length})</h3>
+      <div className="edugenDraftReview__invalid" aria-label={t('edugen.invalidLabel')}>
+        <h3 className="edugenDraftReview__previewTitle">{t('edugen.invalidTitle', { count: result.invalid.length })}</h3>
         <ul className="edugenDraftReview__list">
           {result.invalid.slice(0, 5).map(entry => (
             <li key={`invalid-${entry.index}`} className="edugenDraftReview__itemInvalid">
-              Mục #{entry.index + 1}: {describeEdugenDraftInvalidReason(entry.reason)}
+              {t('edugen.invalidItem', {
+                index: entry.index + 1,
+                reason: locale === 'en' ? t('edugen.invalidReason', { code: entry.reason }) : describeEdugenDraftInvalidReason(entry.reason)
+              })}
             </li>
           ))}
         </ul>
         {result.invalid.length > 5 && (
           <p className="settingsPanel__helperSecondary">
-            …và {result.invalid.length - 5} mục không hợp lệ khác.
+            {t('edugen.moreInvalid', { count: result.invalid.length - 5 })}
           </p>
         )}
       </div>
@@ -256,25 +252,23 @@ export default function EduGenDraftReviewPanel({
   return (
     <div
       className="settingsPanel edugenDraftReview"
-      aria-label="Xưởng bản nháp EduGen — xem lại trước khi lưu"
+      aria-label={t('edugen.reviewLabel')}
     >
       <Card
-        eyebrow="Tuỳ chọn · Xem lại trước khi lưu"
-        title="Xưởng bản nháp EduGen"
+        eyebrow={t('edugen.reviewEyebrow')}
+        title={t('edugen.title')}
         variant="default"
       >
         <div className="settingsPanel__section">
           <p className="settingsPanel__helper">
-            Dán JSON xuất từ EduGen vào ô bên dưới để xem trước bản nháp.
-            Bản nháp cần xem lại trước khi lưu vào Thư viện.
-            Shime không tự gọi AI/OCR và không tự lưu thẻ khi bạn chưa xác nhận.
+            {t('edugen.reviewBody')}
           </p>
           <p className="settingsPanel__helperSecondary">
-            EduGen chạy riêng và tùy chọn. Kết quả có thể sai hoặc thiếu ý.
+            {t('edugen.reviewCaution')}
           </p>
 
           <label className="edugenWorkshopPanel__fieldLabel" htmlFor={sourceId}>
-            Tên nguồn (tuỳ chọn)
+            {t('edugen.sourceName')}
           </label>
           <input
             id={sourceId}
@@ -290,7 +284,7 @@ export default function EduGenDraftReviewPanel({
           />
 
           <label className="edugenWorkshopPanel__fieldLabel" htmlFor={textareaId}>
-            Dán JSON bản nháp từ EduGen
+            {t('edugen.pasteJson')}
           </label>
           <textarea
             id={textareaId}
@@ -303,8 +297,7 @@ export default function EduGenDraftReviewPanel({
             aria-describedby={helperId}
           />
           <p id={helperId} className="settingsPanel__helperSecondary">
-            Hỗ trợ tối đa {MAX_DRAFT_ITEMS} mục, mỗi trường tối đa {MAX_FIELD_LENGTH} ký tự.
-            Không có tài liệu nào được tải lên — Shime chỉ đọc văn bản bạn dán.
+            {t('edugen.limits', { items: MAX_DRAFT_ITEMS, length: MAX_FIELD_LENGTH })}
           </p>
 
           <div className="edugenWorkshopPanel__actions">
@@ -314,7 +307,7 @@ export default function EduGenDraftReviewPanel({
               onClick={handlePreview}
               disabled={!draftText.trim()}
             >
-              Xem lại trước khi lưu
+              {t('edugen.preview')}
             </Button>
             <Button
               type="button"
@@ -322,13 +315,13 @@ export default function EduGenDraftReviewPanel({
               onClick={handleConfirm}
               disabled={!isPreviewing || !result || !result.ok}
             >
-              Xác nhận lưu bản nháp
+              {t('edugen.confirm')}
             </Button>
             <Button type="button" variant="ghost" onClick={handleLoadSample}>
-              Dán mẫu
+              {t('edugen.loadSample')}
             </Button>
             <Button type="button" variant="ghost" onClick={handleReset}>
-              Xoá nội dung
+              {t('edugen.clear')}
             </Button>
           </div>
 
@@ -341,12 +334,12 @@ export default function EduGenDraftReviewPanel({
           {renderInvalidList()}
 
           <ul className="edugenWorkshopPanel__guardrails">
-            <li>Bản nháp cần xem lại trước khi lưu — Shime không tự lưu vào học.</li>
-            <li>Tạo bản sao lưu trước khi nhập nhiều thẻ để có thể quay lại nếu cần.</li>
-            <li>Shime không tự gọi AI/OCR và không tự xử lý tài liệu PDF/DOCX trên trình duyệt.</li>
-            <li>EduGen chạy riêng và tùy chọn; không có cloud sync, không có tài khoản.</li>
-            <li>Shime không tự bật xếp lịch ghi nhớ FSRS khi bạn nhập bản nháp EduGen.</li>
-            <li>Thẻ trùng câu hỏi/đáp án sẽ bị bỏ qua để không ghi đè tiến độ học cũ.</li>
+            <li>{t('edugen.reviewGuard1')}</li>
+            <li>{t('edugen.reviewGuard2')}</li>
+            <li>{t('edugen.reviewGuard3')}</li>
+            <li>{t('edugen.reviewGuard4')}</li>
+            <li>{t('edugen.reviewGuard5')}</li>
+            <li>{t('edugen.reviewGuard6')}</li>
           </ul>
         </div>
       </Card>

@@ -15,19 +15,23 @@ import { parseCsvImport } from '../data/csvImportParser.js';
 import { parseLearningDataJson } from '../data/importValidator.js';
 import { reviewQuizDraftQuality } from '../data/quizDraftQuality.js';
 import { isSupportedTextQuizFileName, parseTextQuizDraft } from '../data/textQuizParser.js';
-import { extractSingleFile, getFileProcessorBaseUrl, isSupportedEduGenDocumentFileName } from '../services/fileProcessorClient.js';
+import { extractSingleFile, isSupportedEduGenDocumentFileName } from '../services/fileProcessorClient.js';
 import { createLibraryBackupFileName, createLibraryExportPayload, downloadJsonFile } from '../data/libraryExport.js';
 import { resetLearningDataToMock, setLearningData, useLearningDataAdapter, useLearningDataSource, useLearningDataSummary } from '../data/learningDataStore.js';
 import { isSafeEdugenSourceMetadata } from '../edugen/edugenDraftImport.js';
 import { selectWeightedPracticeItems } from '../learning/weightedPracticeSelector.js';
 import { readReviewSchedule } from '../state/reviewScheduleStorage.js';
 import { readStudyHistory } from '../state/studyHistoryStorage.js';
+import LibraryMethodIcon from '../components/library/LibraryMethodIcon.jsx';
+import { useShimeLanguage } from '../uiI18n/useShimeLanguage.js';
 
-const itemTypeLabels = {
-  multiple_choice: 'Trắc nghiệm',
-  short_answer: 'Trả lời ngắn',
-  flashcard: 'Flashcard'
-};
+function getItemTypeLabels(t) {
+  return {
+    multiple_choice: t('library.multipleChoice'),
+    short_answer: t('library.shortAnswer'),
+    flashcard: t('library.flashcard')
+  };
+}
 
 function getItemTypeCounts(items) {
   return items.reduce((counts, item) => {
@@ -76,6 +80,7 @@ function buildSubjectCards(adapter) {
 }
 
 function IssueList({ title, issues, tone }) {
+  const { t } = useShimeLanguage();
   if (!issues.length) return null;
 
   return (
@@ -89,7 +94,7 @@ function IssueList({ title, issues, tone }) {
           </li>
         ))}
       </ul>
-      {issues.length > 8 ? <p className="muted">Còn {issues.length - 8} mục khác. Hãy sửa file rồi thử lại.</p> : null}
+      {issues.length > 8 ? <p className="muted">{t('library.moreIssues', { count: issues.length - 8 })}</p> : null}
     </div>
   );
 }
@@ -101,36 +106,38 @@ const qualityToneByLevel = {
 };
 
 function AiOutputReviewPanel({ review }) {
+  const { t } = useShimeLanguage();
   if (!review) return null;
 
   const warnings = review.warnings || [];
 
   return (
-    <div className="aiOutputReview" aria-label="Kiểm tra kết quả AI thủ công">
+    <div className="aiOutputReview" aria-label={t('library.externalReviewTitle')}>
       <div>
-        <strong>Kiểm tra kết quả AI thủ công</strong>
-        <p className="muted">Shime chỉ kiểm tra định dạng và chất lượng cơ bản. Bạn vẫn cần tự kiểm chứng nội dung.</p>
+        <strong>{t('library.externalReviewTitle')}</strong>
+        <p className="muted">{t('library.externalReviewBody')}</p>
       </div>
       {warnings.length ? (
         <ul className="aiOutputReview__list">
           {warnings.slice(0, 8).map((warning, index) => (
             <li key={`${warning.code}-${index}`} className={`aiOutputReview__item aiOutputReview__item--${qualityToneByLevel[warning.level] || 'warning'}`}>
               <Badge tone={qualityToneByLevel[warning.level] || 'warning'}>
-                {warning.level === 'info' ? 'Gợi ý' : warning.level === 'error' ? 'Cần xem lại' : 'Cảnh báo'}
+                {warning.level === 'info' ? t('library.suggestion') : warning.level === 'error' ? t('library.needsReview') : t('library.warning')}
               </Badge>
               <span>{warning.message}</span>
             </li>
           ))}
         </ul>
       ) : (
-        <p className="muted">Không thấy vấn đề định dạng AI phổ biến. Hãy tiếp tục xem trước, kiểm tra chất lượng và xác nhận lưu nếu nội dung phù hợp.</p>
+        <p className="muted">{t('library.externalReviewClear')}</p>
       )}
-      <p className="muted">Nếu AI trả JSON hoặc thêm lời bình, hãy yêu cầu AI trả lại đúng định dạng văn bản/Markdown của Shime. Nếu AI trả bảng, hãy chuyển bảng thành câu hỏi rõ ràng.</p>
+      <p className="muted">{t('library.externalPasteBody')}</p>
     </div>
   );
 }
 
 function QualityReviewPanel({ review }) {
+  const { t } = useShimeLanguage();
   if (!review) return null;
 
   const warnings = review.warnings || [];
@@ -139,21 +146,21 @@ function QualityReviewPanel({ review }) {
   const advisoryInfo = warnings.filter(warning => warning.level === 'info');
 
   return (
-    <div className="qualityReview" aria-label="Đánh giá chất lượng bản nháp">
+    <div className="qualityReview" aria-label={t('library.qualityTitle')}>
       <div className="qualityReview__header">
         <div>
-          <strong>Đánh giá chất lượng bản nháp</strong>
+          <strong>{t('library.qualityTitle')}</strong>
           <p className="muted">
             {warnings.length
-              ? 'Bản nháp có một số điểm nên xem lại trước khi lưu.'
-              : 'Không có cảnh báo chất lượng nghiêm trọng.'}
+              ? t('library.qualityNeedsReview')
+              : t('library.qualityClear')}
           </p>
         </div>
-        <div className="qualityReview__badges" aria-label="Tóm tắt cảnh báo chất lượng">
+        <div className="qualityReview__badges" aria-label={t('library.qualitySummary')}>
           <Badge tone={summary.errorCount ? 'danger' : warnings.length ? 'warning' : 'success'}>
-            {warnings.length ? `${warnings.length} cảnh báo` : 'Ổn để xem lại'}
+            {warnings.length ? t('library.warningCount', { count: warnings.length }) : t('library.reviewReady')}
           </Badge>
-          {summary.itemWarningCount ? <Badge tone="neutral">{summary.itemWarningCount} mục cần xem</Badge> : null}
+          {summary.itemWarningCount ? <Badge tone="neutral">{t('library.itemReviewCount', { count: summary.itemWarningCount })}</Badge> : null}
         </div>
       </div>
 
@@ -162,7 +169,7 @@ function QualityReviewPanel({ review }) {
           {[...seriousWarnings, ...advisoryInfo].slice(0, 10).map((warning, index) => (
             <li key={`${warning.code}-${warning.path}-${index}`} className={`qualityReview__item qualityReview__item--${qualityToneByLevel[warning.level] || 'warning'}`}>
               <Badge tone={qualityToneByLevel[warning.level] || 'warning'}>
-                {warning.level === 'info' ? 'Gợi ý' : warning.level === 'error' ? 'Cần xem lại' : 'Cảnh báo'}
+                {warning.level === 'info' ? t('library.suggestion') : warning.level === 'error' ? t('library.needsReview') : t('library.warning')}
               </Badge>
               <span>{warning.message}</span>
               {warning.path ? <small>{warning.path}</small> : null}
@@ -171,74 +178,76 @@ function QualityReviewPanel({ review }) {
         </ul>
       ) : null}
 
-      {warnings.length > 10 ? <p className="muted">Còn {warnings.length - 10} cảnh báo khác. Hãy xem kỹ bản nháp sau khi lưu.</p> : null}
-      <p className="muted">Đây chỉ là gợi ý kiểm tra chất lượng. Vẫn có thể lưu sau khi xem lại nếu nội dung phù hợp.</p>
+      {warnings.length > 10 ? <p className="muted">{t('library.moreIssues', { count: warnings.length - 10 })}</p> : null}
+      <p className="muted">{t('library.qualityNote')}</p>
     </div>
   );
 }
 
 function ImportPreview({ preview, fileName, onConfirm, onCancel }) {
+  const { t } = useShimeLanguage();
   if (!preview) return null;
 
   const { validation } = preview;
   const { summary, errors, warnings, canImport } = validation;
   const itemTypeEntries = Object.entries(summary.itemTypeCounts);
+  const itemTypeLabels = getItemTypeLabels(t);
   const formatLabel = preview.format === 'csv'
     ? 'CSV'
     : preview.format === 'text'
-      ? 'Văn bản'
+      ? t('library.formatText')
       : preview.format === 'document'
-        ? 'Tài liệu qua EduGen'
+        ? t('library.formatDocument')
         : 'JSON';
 
   return (
-    <Card title="Xem trước file nạp" eyebrow="Xem trước dữ liệu nạp" variant="elevated" className="importPreview">
+    <Card title={t('library.previewTitle')} eyebrow={t('library.previewEyebrow')} variant="elevated" className="importPreview">
       <div className="importPreview__header">
         <div>
-          <p className="muted">File đã chọn</p>
+          <p className="muted">{t('library.selectedFile')}</p>
           <strong>{fileName}</strong>
         </div>
-        <div className="importPreview__badges" aria-label="Thông tin file nạp">
+        <div className="importPreview__badges" aria-label={t('library.importInfo')}>
           <Badge tone="info">{formatLabel}</Badge>
           <Badge tone={errors.length ? 'danger' : warnings.length ? 'warning' : 'success'}>
-            {errors.length ? 'Có lỗi' : warnings.length ? 'Có cảnh báo' : 'Sẵn sàng import'}
+            {errors.length ? t('library.hasErrors') : warnings.length ? t('library.hasWarnings') : t('library.readyImport')}
           </Badge>
         </div>
       </div>
 
-      <div className="importSummaryGrid" aria-label="Tóm tắt dữ liệu nạp">
-        {preview.format === 'csv' ? <span><strong>{preview.rowsParsed}</strong> dòng CSV</span> : null}
-        {preview.format === 'text' ? <span><strong>{preview.linesParsed}</strong> dòng nội dung</span> : null}
-        <span><strong>{summary.subjectCount}</strong> môn học</span>
-        <span><strong>{summary.topicCount}</strong> chủ đề</span>
-        <span><strong>{summary.itemCount}</strong> mục học</span>
-        <span><strong>{summary.validItems}</strong> mục hợp lệ</span>
+      <div className="importSummaryGrid" aria-label={t('library.importSummary')}>
+        {preview.format === 'csv' ? <span>{t('library.csvRows', { count: preview.rowsParsed })}</span> : null}
+        {preview.format === 'text' ? <span>{t('library.contentLines', { count: preview.linesParsed })}</span> : null}
+        <span>{t('library.subjectCount', { count: summary.subjectCount })}</span>
+        <span>{t('library.topicCount', { count: summary.topicCount })}</span>
+        <span>{t('library.itemCount', { count: summary.itemCount })}</span>
+        <span>{t('library.validItems', { count: summary.validItems })}</span>
       </div>
 
       {preview.sourceMetadata ? (
-        <div className="importSourceMeta" aria-label="Thông tin nguồn trích xuất">
-          <span><strong>File nguồn:</strong> {preview.sourceMetadata.originalName || fileName}</span>
-          {preview.sourceMetadata.fileType ? <span><strong>Loại:</strong> {preview.sourceMetadata.fileType}</span> : null}
-          {Number.isFinite(preview.sourceMetadata.wordCount) ? <span><strong>Số từ:</strong> {preview.sourceMetadata.wordCount}</span> : null}
-          {Number.isFinite(preview.sourceMetadata.lineCount) ? <span><strong>Số dòng:</strong> {preview.sourceMetadata.lineCount}</span> : null}
-          {preview.sourceMetadata.extractionMethod ? <span><strong>Cách trích xuất:</strong> {preview.sourceMetadata.extractionMethod}</span> : null}
+        <div className="importSourceMeta" aria-label={t('library.sourceMetadata')}>
+          <span><strong>{t('library.sourceFile')}</strong> {preview.sourceMetadata.originalName || fileName}</span>
+          {preview.sourceMetadata.fileType ? <span><strong>{t('library.fileType')}</strong> {preview.sourceMetadata.fileType}</span> : null}
+          {Number.isFinite(preview.sourceMetadata.wordCount) ? <span><strong>{t('library.wordCount')}</strong> {preview.sourceMetadata.wordCount}</span> : null}
+          {Number.isFinite(preview.sourceMetadata.lineCount) ? <span><strong>{t('library.lineCount')}</strong> {preview.sourceMetadata.lineCount}</span> : null}
+          {preview.sourceMetadata.extractionMethod ? <span><strong>{t('library.extractionMethod')}</strong> {preview.sourceMetadata.extractionMethod}</span> : null}
         </div>
       ) : null}
 
-      <div className="badgeList" aria-label="Phân bổ loại mục hợp lệ">
+      <div className="badgeList" aria-label={t('library.validTypeDistribution')}>
         {itemTypeEntries.length ? itemTypeEntries.map(([type, count]) => (
           <Badge key={type} tone="info">
             {itemTypeLabels[type] || type}: {count}
           </Badge>
-        )) : <Badge tone="neutral">Chưa có mục học hợp lệ</Badge>}
+        )) : <Badge tone="neutral">{t('library.noValidItems')}</Badge>}
       </div>
 
-      <IssueList title="Lỗi cần sửa" issues={errors} tone="danger" />
-      <IssueList title="Cảnh báo" issues={warnings} tone="warning" />
+      <IssueList title={t('library.errorsToFix')} issues={errors} tone="danger" />
+      <IssueList title={t('library.warning')} issues={warnings} tone="warning" />
       <QualityReviewPanel review={preview.qualityReview} />
 
-      <div className="sampleItems" aria-label="Mục học mẫu đã phân tích">
-        <strong>Mục học mẫu</strong>
+      <div className="sampleItems" aria-label={t('library.sampleItemsLabel')}>
+        <strong>{t('library.sampleItems')}</strong>
         {summary.sampleItems.length ? (
           <div className="sampleItemList">
             {summary.sampleItems.map(item => (
@@ -250,7 +259,7 @@ function ImportPreview({ preview, fileName, onConfirm, onCancel }) {
             ))}
           </div>
         ) : (
-          <p className="muted">Không có mục học hợp lệ để hiển thị mẫu.</p>
+          <p className="muted">{t('library.noSampleItems')}</p>
         )}
       </div>
 
@@ -258,10 +267,10 @@ function ImportPreview({ preview, fileName, onConfirm, onCancel }) {
 
       <div className="importPreview__actions">
         <Button type="button" onClick={onConfirm} disabled={!canImport}>
-          Import và lưu cục bộ
+          {t('library.confirmImport')}
         </Button>
         <Button type="button" variant="ghost" onClick={onCancel}>
-          Hủy xem trước
+          {t('library.cancelPreview')}
         </Button>
       </div>
     </Card>
@@ -270,6 +279,8 @@ function ImportPreview({ preview, fileName, onConfirm, onCancel }) {
 
 export default function Library() {
   const navigate = useNavigate();
+  const { locale, t } = useShimeLanguage();
+  const itemTypeLabels = getItemTypeLabels(t);
   const adapter = useLearningDataAdapter();
   const dataSource = useLearningDataSource();
   const summary = useLearningDataSummary();
@@ -328,14 +339,14 @@ export default function Library() {
     });
   }, [selectedSubjectCard, selectedTopicIdFilter, searchQuery]);
   const sourceLabel = dataSource.sourceType === 'mock'
-    ? 'Dữ liệu mẫu'
+    ? t('overview.sourceSample')
     : dataSource.sourceType === 'csv'
-      ? 'Đã nạp CSV'
+      ? t('overview.sourceCsv')
       : dataSource.sourceType === 'json'
-        ? 'Đã nạp JSON'
-         : 'Dữ liệu đã nạp';
+        ? t('overview.sourceJson')
+         : t('overview.sourceImported');
   const importedTime = dataSource.importedAt
-    ? new Intl.DateTimeFormat('vi-VN', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(dataSource.importedAt))
+    ? new Intl.DateTimeFormat(locale === 'en' ? 'en-US' : 'vi-VN', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(dataSource.importedAt))
     : null;
 
   function openStudyPlaceholder(subject, topic) {
@@ -365,8 +376,8 @@ export default function Library() {
     if (!selection.selectedCount) {
       setImportStatus({
         tone: 'warning',
-        title: 'Chưa có câu phù hợp',
-        description: 'Không tạo được phiên luyện tập thông minh từ lựa chọn hiện tại.'
+        title: t('library.noPracticeTitle'),
+        description: t('library.noPracticeBody')
       });
       return;
     }
@@ -376,7 +387,7 @@ export default function Library() {
         selection: {
           mode: 'smart-practice',
           source: 'weighted-practice',
-          label: 'Luyện tập thông minh',
+          label: t('library.smartPracticeLabel'),
           subjectId: subject?.id,
           subjectTitle: subject?.title,
           topicId: topic?.id,
@@ -422,18 +433,18 @@ export default function Library() {
     setAiOutputReview(review);
     setImportStatus({
       tone: review.summary.errorCount ? 'warning' : review.summary.warningCount ? 'warning' : 'success',
-      title: 'Đã kiểm tra kết quả AI thủ công',
+      title: t('library.externalChecked'),
       description: review.summary.warningCount
-        ? 'Hãy xem các gợi ý định dạng trước khi tạo bản nháp import.'
-        : 'Chưa thấy vấn đề định dạng AI phổ biến. Bạn vẫn cần tự kiểm chứng nội dung trước khi lưu.'
+        ? t('library.externalHasHints')
+        : t('library.externalNoHints')
     });
   }
 
   function createTextDraftPreview(sourceText, sourceName, options = {}) {
     const {
       format = 'text',
-      successTitle = 'Đã tạo bản nháp câu hỏi',
-      successDescription = 'Hãy xem lại bản nháp câu hỏi trước khi lưu vào thư viện cục bộ.',
+      successTitle = t('library.draftCreated'),
+      successDescription = t('library.draftReview'),
       sourceMetadata = null
     } = typeof options === 'string' ? { successDescription: options } : options;
     const result = parseTextQuizDraft(sourceText);
@@ -449,9 +460,9 @@ export default function Library() {
     });
     setImportStatus({
       tone: result.validation.errors.length ? 'danger' : result.validation.warnings.length ? 'warning' : 'success',
-      title: result.validation.errors.length ? 'Không tạo được bản nháp import' : successTitle,
+      title: result.validation.errors.length ? t('library.draftFailed') : successTitle,
       description: result.validation.errors.length
-        ? 'Nội dung chưa đủ rõ để import. Hãy xem lỗi/cảnh báo và chỉnh lại mẫu nhập.'
+        ? t('library.draftUnclear')
         : successDescription
     });
     return result;
@@ -463,13 +474,13 @@ export default function Library() {
 
     try {
       setAiOutputReview(reviewManualAiOutputText(textDraft));
-      createTextDraftPreview(textDraft, 'Nội dung đã dán');
+      createTextDraftPreview(textDraft, t('library.pastedContent'));
     } catch (error) {
       setPreview(null);
       setImportStatus({
         tone: 'danger',
-        title: 'Không phân tích được nội dung',
-        description: error.message || 'Nội dung đã dán không thể chuyển thành bản nháp câu hỏi.'
+        title: t('library.parseFailed'),
+        description: error.message || t('library.parseFailedBody')
       });
     } finally {
       setIsParsingText(false);
@@ -488,8 +499,8 @@ export default function Library() {
         setPreview(null);
         setImportStatus({
           tone: 'danger',
-          title: 'Định dạng file chưa hỗ trợ',
-          description: 'Chỉ hỗ trợ file .txt hoặc .md trong bước này.'
+          title: t('library.unsupportedFormat'),
+          description: t('library.textFormatsOnly')
         });
         return;
       }
@@ -499,21 +510,21 @@ export default function Library() {
         setPreview(null);
         setImportStatus({
           tone: 'warning',
-          title: 'File trống',
-          description: 'File không có nội dung văn bản.'
+          title: t('library.emptyFile'),
+          description: t('library.emptyFileBody')
         });
         return;
       }
 
       createTextDraftPreview(text, file.name, {
-        successDescription: 'Đã đọc file. Hãy xem lại bản nháp trước khi lưu.'
+        successDescription: t('library.fileReadSuccess')
       });
     } catch (error) {
       setPreview(null);
       setImportStatus({
         tone: 'danger',
-        title: 'Không đọc được file văn bản',
-        description: error.message || 'Không đọc được file văn bản.'
+        title: t('library.textReadFailed'),
+        description: error.message || t('library.textReadFailed')
       });
     } finally {
       setIsReadingTextFile(false);
@@ -534,8 +545,8 @@ export default function Library() {
         setPreview(null);
         setImportStatus({
           tone: 'danger',
-          title: 'Định dạng file chưa hỗ trợ',
-          description: 'Chỉ hỗ trợ file PDF, DOCX, PPTX hoặc ZIP trong bước này.'
+          title: t('library.unsupportedFormat'),
+          description: t('library.documentFormatsOnly')
         });
         return;
       }
@@ -546,8 +557,8 @@ export default function Library() {
         setPreview(null);
         setImportStatus({
           tone: 'danger',
-          title: isConnectionError ? 'Không kết nối được EduGen' : 'Không trích xuất được tài liệu',
-          description: extractionResult.message || 'Không trích xuất được nội dung tài liệu.'
+          title: isConnectionError ? t('library.edugenUnavailable') : t('library.documentExtractFailed'),
+          description: extractionResult.message || t('library.documentExtractFailedBody')
         });
         return;
       }
@@ -563,16 +574,16 @@ export default function Library() {
 
       createTextDraftPreview(extractionResult.cleanedText, file.name, {
         format: 'document',
-        successTitle: 'Đã trích xuất tài liệu',
-        successDescription: 'Đã trích xuất tài liệu. Hãy xem lại bản nháp trước khi lưu.',
+        successTitle: t('library.documentExtracted'),
+        successDescription: t('library.documentExtractedBody'),
         sourceMetadata
       });
     } catch (error) {
       setPreview(null);
       setImportStatus({
         tone: 'danger',
-        title: 'Không trích xuất được tài liệu',
-        description: error.message || 'Không trích xuất được nội dung tài liệu.'
+        title: t('library.documentExtractFailed'),
+        description: error.message || t('library.documentExtractFailedBody')
       });
     } finally {
       setIsExtractingDocument(false);
@@ -593,10 +604,10 @@ export default function Library() {
     setAiPromptResult(result);
     setAiPromptStatus({
       tone: result.ok ? (result.warnings.length ? 'warning' : 'success') : 'warning',
-      title: result.ok ? 'Đã tạo prompt thủ công' : 'Chưa thể tạo prompt',
+      title: result.ok ? t('library.templateCreated') : t('library.templateUnavailable'),
       description: result.ok
-        ? 'Hãy sao chép prompt và tự dán vào công cụ AI bên ngoài nếu bạn đồng ý chia sẻ nội dung đó.'
-        : (result.warnings[0]?.message || 'Hãy kiểm tra nội dung nguồn và số lượng câu hỏi mong muốn.')
+        ? t('library.templateCreatedBody')
+        : (result.warnings[0]?.message || t('library.templateCheckBody'))
     });
   }
 
@@ -607,14 +618,14 @@ export default function Library() {
       await navigator.clipboard.writeText(aiPromptResult.prompt);
       setAiPromptStatus({
         tone: 'success',
-        title: 'Đã sao chép prompt',
-        description: 'Hãy tự dán prompt vào công cụ AI bên ngoài, rồi dán kết quả AI vào ô văn bản/Markdown của Shime để xem trước.'
+        title: t('library.templateCopied'),
+        description: t('library.templateCopiedBody')
       });
     } catch (error) {
       setAiPromptStatus({
         tone: 'warning',
-        title: 'Không tự động sao chép được',
-        description: 'Trình duyệt không cho phép sao chép tự động. Hãy bôi đen prompt và sao chép thủ công.'
+        title: t('library.copyFailed'),
+        description: t('library.copyFailedBody')
       });
     }
   }
@@ -633,7 +644,7 @@ export default function Library() {
       const result = parseLearningDataJson(JSON.stringify(demoSampleQuiz));
       const qualityReview = result.rawData ? reviewQuizDraftQuality(result.rawData) : null;
       setPreview({
-        fileName: 'Bộ quiz mẫu cục bộ',
+        fileName: t('library.sampleFileName'),
         format: 'json',
         rawData: result.rawData,
         validation: result.validation,
@@ -641,17 +652,17 @@ export default function Library() {
       });
       setImportStatus({
         tone: result.validation.errors.length ? 'danger' : result.validation.warnings.length ? 'warning' : 'success',
-        title: result.validation.errors.length ? 'Không thể tải bộ mẫu' : 'Đã tải bộ quiz mẫu',
+        title: result.validation.errors.length ? t('library.sampleLoadFailed') : t('library.sampleLoaded'),
         description: result.validation.errors.length
-          ? 'Bộ mẫu chưa qua được kiểm tra import. Hãy xem lỗi trong bản xem trước.'
-          : 'Đây là bộ mẫu cục bộ, không do Shime tạo bằng AI và không gọi AI/API. Hãy xem trước, đọc đánh giá chất lượng rồi tự xác nhận lưu nếu muốn.'
+          ? t('library.sampleInvalid')
+          : t('library.sampleLoadedBody')
       });
     } catch (error) {
       setPreview(null);
       setImportStatus({
         tone: 'danger',
-        title: 'Không tải được bộ mẫu',
-        description: error.message || 'Không thể tạo bản xem trước từ bộ mẫu cục bộ.'
+        title: t('library.sampleLoadFailed'),
+        description: error.message || t('library.samplePreviewFailed')
       });
     }
   }
@@ -678,17 +689,17 @@ export default function Library() {
       });
       setImportStatus({
         tone: result.validation.errors.length ? 'danger' : result.validation.warnings.length ? 'warning' : 'success',
-        title: result.validation.errors.length ? 'Không thể import file này' : `Đã đọc file ${format.toUpperCase()}`,
+        title: result.validation.errors.length ? t('library.importFailed') : t('library.fileRead', { format: format.toUpperCase() }),
         description: result.validation.errors.length
-          ? 'File có lỗi cấu trúc. Hãy xem trước để sửa trước khi nạp.'
-          : 'Hãy kiểm tra tóm tắt trước khi import vào phiên hiện tại.'
+          ? t('library.fileStructureError')
+          : t('library.fileReview')
       });
     } catch (error) {
       setPreview(null);
       setImportStatus({
         tone: 'danger',
-        title: 'Không đọc được file',
-        description: error.message || 'File không thể đọc trong trình duyệt.'
+        title: t('library.fileReadFailed'),
+        description: error.message || t('library.fileReadFailedBody')
       });
     } finally {
       setIsReadingFile(false);
@@ -704,14 +715,14 @@ export default function Library() {
 
     setImportStatus({
       tone: result.ok ? (preview.validation.warnings.length ? 'warning' : 'success') : 'warning',
-      title: result.ok ? 'Đã import và lưu cục bộ' : 'Đã import nhưng chưa lưu được',
+      title: result.ok ? t('library.importSaved') : t('library.importUnsaved'),
       description: result.ok
         ? preview.validation.warnings.length
-          ? 'Nạp thành công và đã lưu cục bộ, nhưng có cảnh báo. Hãy xem lại các mục đã tạo từ nội dung nguồn.'
+          ? t('library.importSavedWarning')
           : preview.format === 'text'
-            ? 'Thư viện đã lưu bản nháp câu hỏi từ văn bản/Markdown cho lần mở sau.'
-            : `Thư viện đã lưu dữ liệu ${preview.format?.toUpperCase() || 'nạp'} vừa chọn cho lần mở sau.`
-        : 'Dữ liệu đã cập nhật cho phiên hiện tại, nhưng localStorage không lưu được. Hãy kiểm tra dung lượng/quyền lưu trữ của trình duyệt.'
+            ? t('library.textSaved')
+            : t('library.formatSaved', { format: preview.format?.toUpperCase() || t('common.local') })
+        : t('library.localStorageFailed')
     });
     setPreview(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
@@ -729,8 +740,8 @@ export default function Library() {
       if (!result.ok) {
         setImportStatus({
           tone: 'danger',
-          title: 'Không thể xuất thư viện',
-          description: 'Dữ liệu thư viện hiện tại chưa hợp lệ nên export đã bị chặn. Hãy reset hoặc import lại file hợp lệ.'
+          title: t('library.exportBlocked'),
+          description: t('library.exportBlockedBody')
         });
         return;
       }
@@ -740,10 +751,10 @@ export default function Library() {
 
       setImportStatus({
         tone: downloadResult.ok ? 'success' : 'danger',
-        title: downloadResult.ok ? 'Đã xuất thư viện' : 'Không thể tải file export',
+        title: downloadResult.ok ? t('library.exported') : t('library.exportFailed'),
         description: downloadResult.ok
-          ? `Đã tạo file ${filename}. File này có thể import lại qua luồng JSON hiện tại.`
-          : downloadResult.message || 'Trình duyệt không cho phép tạo file tải xuống lúc này.'
+          ? t('library.exportedBody', { filename })
+          : downloadResult.message || t('library.downloadBlocked')
       });
     } finally {
       setIsExportingLibrary(false);
@@ -751,28 +762,28 @@ export default function Library() {
   }
 
   function resetImportedLibrary() {
-    const confirmed = window.confirm('Xóa dữ liệu import v2 đã lưu và quay về dữ liệu mẫu? Thao tác này không ảnh hưởng dữ liệu app khác.');
+    const confirmed = window.confirm(t('library.resetConfirm'));
     if (!confirmed) return;
 
     resetLearningDataToMock();
     resetPreview();
     setImportStatus({
       tone: 'success',
-      title: 'Đã reset thư viện v2',
-      description: 'Dữ liệu đã nạp đã lưu trong localStorage đã được xóa. App đang dùng lại mock data.'
+      title: t('library.resetDone'),
+      description: t('library.resetDoneBody')
     });
   }
 
   return (
     <div className="pageStack phase37uid-library-shelf-modern-collection-cards-pilot">
       <PageHeader
-        eyebrow="Thư viện"
-        title="Thư viện học liệu"
-        subtitle="Dữ liệu nhiều môn học được chuẩn hóa qua bộ chuyển đổi v2. Dữ liệu JSON/CSV sau khi nạp sẽ được lưu cục bộ trong trình duyệt."
+        eyebrow={t('library.eyebrow')}
+        title={t('library.title')}
+        subtitle={t('library.subtitle')}
         actions={(
           <>
             <Button type="button" variant="secondary" onClick={() => openSmartPractice()} disabled={summary.itemCount === 0}>
-              Luyện tập thông minh
+              {t('library.smartPractice')}
             </Button>
           </>
         )}
@@ -785,7 +796,7 @@ export default function Library() {
         className="srOnly"
         tabIndex={-1}
         onChange={handleImportFile}
-        aria-label="Chọn file JSON hoặc CSV học liệu"
+        aria-label={t('library.chooseJsonCsv')}
       />
 
       <input
@@ -795,7 +806,7 @@ export default function Library() {
         className="srOnly"
         tabIndex={-1}
         onChange={handleTextQuizFile}
-        aria-label="Chọn file .txt hoặc .md để tạo bản nháp câu hỏi"
+        aria-label={t('library.chooseTextFile')}
       />
 
       <input
@@ -805,10 +816,10 @@ export default function Library() {
         className="srOnly"
         tabIndex={-1}
         onChange={handleDocumentDraftFile}
-        aria-label="Chọn file PDF, DOCX, PPTX hoặc ZIP để tạo bản nháp câu hỏi qua EduGen"
+        aria-label={t('library.chooseDocument')}
       />
 
-      <div role="tablist" className="libraryTabList phase36e-library-tabs-touch-pilot" aria-label="Phần thư viện">
+      <div role="tablist" className="libraryTabList phase36e-library-tabs-touch-pilot" aria-label={t('library.sections')}>
         <button
           id="library-tab-shelf"
           role="tab"
@@ -818,7 +829,7 @@ export default function Library() {
           className={`libraryTab${libraryTab === 'shelf' ? ' libraryTab--active' : ''}`}
           onClick={() => setLibraryTab('shelf')}
         >
-          Kệ sách của tôi
+          {t('library.shelfTab')}
         </button>
         <button
           id="library-tab-workshop"
@@ -829,7 +840,7 @@ export default function Library() {
           className={`libraryTab${libraryTab === 'workshop' ? ' libraryTab--active' : ''}`}
           onClick={() => setLibraryTab('workshop')}
         >
-          Xưởng nạp tài liệu
+          {t('library.addTab')}
         </button>
       </div>
 
@@ -845,18 +856,18 @@ export default function Library() {
             {/* Header */}
             <div className="subjectDetailHeader">
               <Button type="button" variant="ghost" size="sm" onClick={() => setSelectedSubjectId(null)} className="backToShelfBtn">
-                ← Quay lại kệ sách
+                ← {t('library.backToShelf')}
               </Button>
               <div className="subjectDetailTitleArea">
                 <h1 className="subjectDetailTitle">{selectedSubjectCard.subject.title}</h1>
-                <p className="muted">{selectedSubjectCard.subject.description || "Chưa có mô tả môn học."}</p>
+                <p className="muted">{selectedSubjectCard.subject.description || t('library.noSubjectDescription')}</p>
               </div>
               <div className="subjectDetailActions">
                 <Button type="button" variant="ghost" size="sm" onClick={() => openStudyPlaceholder(selectedSubjectCard.subject)}>
-                  Học trong Phòng học
+                  {t('library.studyInRoom')}
                 </Button>
                 <Button type="button" variant="secondary" size="sm" onClick={() => openSmartPractice(selectedSubjectCard.subject)} disabled={!selectedSubjectCard.items.length}>
-                  Luyện tập thông minh
+                  {t('library.smartPractice')}
                 </Button>
               </div>
             </div>
@@ -864,10 +875,10 @@ export default function Library() {
             {/* Search bar & filter status */}
             <div className="subjectDetailSearchBox">
               <div className="searchBarWrapper">
-                <span className="searchIcon">🔍</span>
+                <span className="searchIcon"><LibraryMethodIcon type="search" /></span>
                 <input
                   type="search"
-                  placeholder="Tìm câu hỏi, câu trả lời, chủ đề hoặc từ khóa..."
+                  placeholder={t('library.searchPlaceholder')}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="subjectDetailSearchInput"
@@ -882,14 +893,14 @@ export default function Library() {
             <div className="subjectDetailGrid">
               {/* Left Column: Topics */}
               <div className="subjectDetailSidebar">
-                <h3>Chủ đề ({selectedSubjectCard.topics.length})</h3>
+                <h3>{t('library.topics', { count: selectedSubjectCard.topics.length })}</h3>
                 <div className="subjectDetailTopicsList">
                   <button
                     type="button"
                     className={`topicFilterTab ${!selectedTopicIdFilter ? 'topicFilterTab--active' : ''}`}
                     onClick={() => setSelectedTopicIdFilter(null)}
                   >
-                    <span>Tất cả câu hỏi</span>
+                    <span>{t('library.allQuestions')}</span>
                     <Badge tone="neutral">{selectedSubjectCard.items.length}</Badge>
                   </button>
                   {selectedSubjectCard.topics.map(topic => {
@@ -913,22 +924,22 @@ export default function Library() {
               {/* Right Column: Items */}
               <div className="subjectDetailContent">
                 <div className="subjectDetailContentHeader">
-                  <h3>Danh sách câu hỏi ({filteredItems.length})</h3>
+                  <h3>{t('library.questionList', { count: filteredItems.length })}</h3>
                   {(selectedTopicIdFilter || searchQuery) && (
                     <button type="button" className="resetFiltersBtn" onClick={() => {
                       setSelectedTopicIdFilter(null);
                       setSearchQuery('');
                     }}>
-                      Xóa bộ lọc
+                      {t('library.clearFilters')}
                     </button>
                   )}
                 </div>
 
                 {filteredItems.length === 0 ? (
                   <EmptyState
-                    icon="🔍"
-                    title="Không tìm thấy câu hỏi"
-                    description="Thử tìm kiếm với từ khóa khác hoặc chọn chủ đề khác."
+                    icon={<LibraryMethodIcon type="search" />}
+                    title={t('library.noSearchTitle')}
+                    description={t('library.noSearchBody')}
                   />
                 ) : (
                   <div className="subjectDetailItemsList">
@@ -941,19 +952,19 @@ export default function Library() {
                             <Badge tone="info">{itemTypeLabels[item.type] || item.type}</Badge>
                             {itemTopic ? (
                               <Badge tone="neutral" className="itemTopicBadge">
-                                📂 {itemTopic.title}
+                                {itemTopic.title}
                               </Badge>
                             ) : null}
                           </div>
                           
                           <div className="itemCardPrompt">
-                            <strong>Câu hỏi:</strong>
+                            <strong>{t('library.questionLabel')}</strong>
                             <p>{item.prompt}</p>
                           </div>
 
                           {itemChoices.length > 0 ? (
                             <div className="itemCardChoices">
-                              <strong>Các lựa chọn:</strong>
+                              <strong>{t('library.choicesLabel')}</strong>
                               <ul>
                                 {itemChoices.map((choice, cIdx) => {
                                   const text = getChoiceText(choice);
@@ -970,14 +981,14 @@ export default function Library() {
                           ) : null}
 
                           <div className="itemCardAnswer">
-                            <strong>Đáp án đúng:</strong>
-                            <p>{item.correctAnswer || item.answer || 'Chưa cấu hình'}</p>
+                            <strong>{t('library.correctAnswerLabel')}</strong>
+                            <p>{item.correctAnswer || item.answer || t('library.notConfigured')}</p>
                           </div>
 
                           {/* Tags/Keywords */}
                           {item.tags && (Array.isArray(item.tags) ? item.tags.length > 0 : String(item.tags).trim()) && (
                             <div className="itemCardTags">
-                              <strong>Từ khóa:</strong>
+                              <strong>{t('library.tagsLabel')}</strong>
                               <div className="tagList">
                                 {(Array.isArray(item.tags) ? item.tags : String(item.tags).split(',')).map((tag, tIdx) => (
                                   <span key={tIdx} className="itemTag">#{tag.trim()}</span>
@@ -996,27 +1007,16 @@ export default function Library() {
         ) : (
           <>
             {subjectCards.length === 0 ? (
-              <Card title="Thư viện của bạn đang trống" eyebrow="Bắt đầu nhanh" className="libraryEmptyOnboardingCard">
+              <Card title={t('library.emptyTitle')} eyebrow={t('library.emptyEyebrow')} className="libraryEmptyOnboardingCard">
                 <div className="textImportCard__intro">
                   <p className="muted">
-                    Bắt đầu nhanh bằng quiz mẫu, import JSON/CSV, hoặc dán nội dung text/Markdown. Phần này chỉ hướng dẫn bạn đến các luồng hiện có và không tự nạp hay tự lưu dữ liệu.
-                  </p>
-                  <p className="muted">
-                    Quiz mẫu chỉ mở phần xem trước/kiểm tra chất lượng. Bạn vẫn cần xác nhận trước khi lưu vào thư viện cục bộ.
-                  </p>
-                  <p className="muted">
-                    AI trong Shime hiện là quy trình thủ công: tạo prompt, copy sang công cụ bên ngoài, rồi dán kết quả lại để kiểm tra. Shime không gọi AI/API và không có API key/BYOK.
-                  </p>
-                  <p className="muted">
-                    Import tài liệu PDF/DOCX/PPTX/ZIP cần EduGen chạy riêng và được cấu hình; EduGen không được bundle vào Shime và chỉ trích xuất chữ khi service hỗ trợ.
+                    {t('library.emptyBody')}
                   </p>
                 </div>
-                <div className="textImportHelp" aria-label="Cách bắt đầu khi thư viện trống">
-                  <Badge tone="info">Dùng quiz mẫu</Badge>
-                  <Badge tone="info">Nạp JSON/CSV</Badge>
-                  <Badge tone="info">Dán text/Markdown</Badge>
-                  <Badge tone="neutral">AI thủ công copy/paste</Badge>
-                  <Badge tone="neutral">EduGen riêng khi cần tài liệu</Badge>
+                <div className="textImportHelp" aria-label={t('library.emptyStartLabel')}>
+                  <Badge tone="info">{t('library.methodSample')}</Badge>
+                  <Badge tone="info">{t('library.importJsonCsv')}</Badge>
+                  <Badge tone="info">{t('library.methodPaste')}</Badge>
                 </div>
               </Card>
             ) : null}
@@ -1024,18 +1024,18 @@ export default function Library() {
             {subjectCards.length === 0 ? (
               <EmptyState
                 icon="＋"
-                title="Chưa có dữ liệu học liệu"
-                description="Thư viện đang trống. Mở Xưởng nạp tài liệu để dùng quiz mẫu, nạp JSON/CSV, dán text/Markdown, hoặc tạo bản nháp từ tài liệu."
-                action={<Button type="button" variant="secondary" size="sm" onClick={() => setLibraryTab('workshop')}>Mở xưởng nạp</Button>}
+                title={t('library.emptyTitle')}
+                description={t('library.emptyBody')}
+                action={<Button type="button" variant="secondary" size="sm" onClick={() => setLibraryTab('workshop')}>{t('library.emptyAction')}</Button>}
               />
             ) : null}
 
-            <div className="librarySubjectGrid" aria-label="Danh sách môn học">
+            <div className="librarySubjectGrid" aria-label={t('library.subjectList')}>
               {subjectCards.map(({ subject, topics, items, edugenDraftCount }) => (
                 <Card
                   key={subject.id}
                   title={subject.title}
-                  eyebrow="Sách môn học"
+                  eyebrow={t('library.subjectBook')}
                   variant="elevated"
                   interactive
                   onClick={() => {
@@ -1055,19 +1055,19 @@ export default function Library() {
                 >
                   <div className="libraryCardBody">
                     <p className="muted" style={{ minHeight: '4.5rem', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                      {subject.description || "Chưa có mô tả môn học."}
+                      {subject.description || t('library.noSubjectDescription')}
                     </p>
                     <div className="badgeList" style={{ marginBlock: 'var(--space-2)', display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
                       {edugenDraftCount > 0 ? (
                         <>
-                          <Badge tone="warning">Bản nháp cần xem lại: {edugenDraftCount}</Badge>
-                          <Badge tone="neutral">Nguồn: EduGen</Badge>
+                          <Badge tone="warning">{t('library.draftNeedsReview', { count: edugenDraftCount })}</Badge>
+                          <Badge tone="neutral">{t('library.sourceEduGen')}</Badge>
                         </>
                       ) : null}
                     </div>
-                    <div className="libraryStats" aria-label={`Thống kê ${subject.title}`} style={{ borderTop: '1px dashed var(--border)', paddingTop: 'var(--space-2)', marginTop: 'auto' }}>
-                      <span><strong>{topics.length}</strong> chủ đề</span>
-                      <span><strong>{items.length}</strong> câu hỏi</span>
+                    <div className="libraryStats" aria-label={t('library.subjectStats', { subject: subject.title })} style={{ borderTop: '1px dashed var(--border)', paddingTop: 'var(--space-2)', marginTop: 'auto' }}>
+                      <span>{t('library.topicCount', { count: topics.length })}</span>
+                      <span>{t('library.itemCount', { count: items.length })}</span>
                     </div>
                   </div>
                 </Card>
@@ -1084,17 +1084,21 @@ export default function Library() {
         className="libraryTabPanel"
         hidden={libraryTab !== 'workshop'}
       >
-        {/* Method selector for clean workspace */}
-        <div className="workshopMethodSelector">
+        <header className="libraryWorkshopHeader">
+          <p className="eyebrow">{t('library.addEyebrow')}</p>
+          <h2>{t('library.addTitle')}</h2>
+          <p>{t('library.addLead')}</p>
+        </header>
+        <div className="workshopMethodSelector" aria-label={t('library.addTitle')}>
           <button
             type="button"
             className={`workshopMethodTab ${workshopMethod === 'demo' ? 'workshopMethodTab--active' : ''}`}
             onClick={() => setWorkshopMethod('demo')}
           >
-            <span className="icon">⚡</span>
+            <span className="icon"><LibraryMethodIcon type="sample" /></span>
             <div>
-              <strong>Thử Quiz Mẫu</strong>
-              <p>Trải nghiệm nhanh</p>
+              <strong>{t('library.methodSample')}</strong>
+              <p>{t('library.methodSampleHint')}</p>
             </div>
           </button>
           <button
@@ -1102,10 +1106,10 @@ export default function Library() {
             className={`workshopMethodTab ${workshopMethod === 'text' ? 'workshopMethodTab--active' : ''}`}
             onClick={() => setWorkshopMethod('text')}
           >
-            <span className="icon">✍️</span>
+            <span className="icon"><LibraryMethodIcon type="paste" /></span>
             <div>
-              <strong>Nhập văn bản</strong>
-              <p>Dán text / Markdown</p>
+              <strong>{t('library.methodPaste')}</strong>
+              <p>{t('library.methodPasteHint')}</p>
             </div>
           </button>
           <button
@@ -1113,95 +1117,88 @@ export default function Library() {
             className={`workshopMethodTab ${workshopMethod === 'file' ? 'workshopMethodTab--active' : ''}`}
             onClick={() => setWorkshopMethod('file')}
           >
-            <span className="icon">📁</span>
+            <span className="icon"><LibraryMethodIcon type="file" /></span>
             <div>
-              <strong>Tải tệp tin</strong>
-              <p>JSON / CSV / Tài liệu</p>
+              <strong>{t('library.methodFile')}</strong>
+              <p>{t('library.methodFileHint')}</p>
             </div>
           </button>
           <button
             type="button"
-            className={`workshopMethodTab ${workshopMethod === 'prompt' ? 'workshopMethodTab--active' : ''}`}
+            className={`workshopMethodTab workshopMethodTab--secondary ${workshopMethod === 'prompt' ? 'workshopMethodTab--active' : ''}`}
             onClick={() => setWorkshopMethod('prompt')}
           >
-            <span className="icon">🤖</span>
+            <span className="icon"><LibraryMethodIcon type="template" /></span>
             <div>
-              <strong>Trợ lý Prompt</strong>
-              <p>Tạo mẫu câu lệnh AI</p>
+              <strong>{t('library.methodTemplate')}</strong>
+              <p>{t('library.methodTemplateHint')}</p>
             </div>
           </button>
         </div>
 
         {workshopMethod === 'file' && (
           <>
-            <Card title="Công cụ nạp và quản lý thư viện" eyebrow="Xưởng nạp tài liệu" className="libraryWorkshopActionsCard">
+            <Card title={t('library.manageTitle')} eyebrow={t('library.manageEyebrow')} className="libraryWorkshopActionsCard">
               <div className="textImportActions">
                 <Button type="button" variant="secondary" loading={isReadingFile} onClick={openFilePicker}>
-                  Nạp JSON/CSV
+                  {t('library.importJsonCsv')}
                 </Button>
                 <Button type="button" variant="ghost" loading={isExportingLibrary} onClick={exportCurrentLibrary}>
-                  Xuất thư viện
+                  {t('library.export')}
                 </Button>
                 {dataSource.sourceType !== 'mock' ? (
                   <Button type="button" variant="ghost" onClick={resetImportedLibrary}>
-                    Xóa dữ liệu import
+                    {t('library.removeImport')}
                   </Button>
                 ) : null}
               </div>
             </Card>
 
-            <Card title="Tạo quiz từ tài liệu" eyebrow="EduGen" className="documentImportCard">
+            <Card title={t('library.documentTitle')} eyebrow={t('library.documentEyebrow')} className="documentImportCard">
               <div className="textImportCard__intro">
-                <p className="muted">
-                  Chọn file PDF, DOCX, PPTX hoặc ZIP để trích xuất chữ bằng EduGen rồi tạo bản nháp câu hỏi. Cần chạy EduGen File Processor trước khi dùng tính năng này; bản deploy online cũng cần URL EduGen có thể truy cập từ trình duyệt. Mặc định dùng <code>VITE_FILE_PROCESSOR_URL</code> hoặc <code>{getFileProcessorBaseUrl()}</code>.
-                </p>
+                <p className="muted">{t('library.documentDetail')}</p>
               </div>
               <div className="textFileImportActions">
                 <Button type="button" variant="secondary" loading={isExtractingDocument} onClick={openDocumentFilePicker}>
-                  Chọn file tài liệu
+                  {t('library.chooseDocumentButton')}
                 </Button>
-                <span className="muted">EduGen chỉ trích xuất chữ; Shime luôn yêu cầu xem trước bản nháp trước khi lưu.</span>
+                <span className="muted">{t('library.documentSafety')}</span>
               </div>
             </Card>
           </>
         )}
 
         {workshopMethod === 'demo' && (
-          <Card title="Thử nhanh với quiz mẫu" eyebrow="Demo cục bộ" className="demoSampleQuickstartCard">
+          <Card title={t('library.sampleTitle')} eyebrow={t('library.sampleEyebrow')} className="demoSampleQuickstartCard">
             <div className="textImportCard__intro">
               <div className="manualAiPromptWarning" role="note">
-                <strong>Mới dùng Shime?</strong>
-                <span>Bấm "Dùng quiz mẫu" để thử nhanh quy trình tạo quiz. Quiz mẫu chỉ mở phần xem trước/kiểm tra chất lượng; bạn vẫn cần xác nhận trước khi lưu. Không dùng AI/API và không cần EduGen.</span>
+                <strong>{t('library.newUser')}</strong>
+                <span>{t('library.sampleBody')}</span>
               </div>
-              <p className="muted">
-                Tải một bộ quiz mẫu an toàn, trung lập và có sẵn trong ứng dụng để thử nhanh luồng import. Bộ mẫu này là dữ liệu cục bộ, không do Shime tạo bằng AI, không gọi AI/API và không dùng EduGen.
-              </p>
-              <p className="muted">
-                EduGen File Processor là luồng riêng; Shime chỉ nhận JSON/CSV đã được cấu hình hoặc xuất ra an toàn.
-              </p>
-              <p className="muted">
-                Shime chỉ tạo bản xem trước từ bộ mẫu; bạn vẫn cần xem lại, đọc đánh giá chất lượng và bấm xác nhận lưu nếu muốn thêm vào thư viện cục bộ.
-              </p>
+              <details className="libraryInlineDetails">
+                <summary>{t('library.howItWorks')}</summary>
+                <p className="muted">{t('library.sampleDetail1')}</p>
+                <p className="muted">{t('library.sampleDetail2')}</p>
+                <p className="muted">{t('library.sampleDetail3')}</p>
+              </details>
             </div>
             <div className="textImportActions">
               <Button type="button" variant="secondary" onClick={loadDemoSampleQuickstart}>
-                Dùng quiz mẫu
+                {t('home.useSample')}
               </Button>
-              <span className="muted">Không tự lưu, không reset dữ liệu hiện có.</span>
+              <span className="muted">{t('library.sampleNoSave')}</span>
             </div>
           </Card>
         )}
 
         {workshopMethod === 'text' && (
           <>
-            <Card title="Tạo quiz từ văn bản/Markdown" eyebrow="Bản nháp thân thiện" className="textImportCard">
+            <Card title={t('library.pasteTitle')} eyebrow={t('library.pasteEyebrow')} className="textImportCard">
               <div className="textImportCard__intro">
-                <p className="muted">
-                  Dán nội dung bài học hoặc ghi chú của bạn. Bạn có thể dùng tiêu đề <code>#</code> / <code>##</code> hoặc ghi rõ <code>Môn</code>, <code>Chủ đề</code>. Ứng dụng sẽ tạo bản nháp câu hỏi để bạn xem lại trước khi lưu.
-                </p>
+                <p className="muted">{t('library.pasteIntro')}</p>
               </div>
               <label className="textImportField" htmlFor="text-quiz-draft-input">
-                <span>Nội dung bài học</span>
+                <span>{t('library.lessonContent')}</span>
                 <textarea
                   id="text-quiz-draft-input"
                   value={textDraft}
@@ -1209,53 +1206,47 @@ export default function Library() {
                     setTextDraft(event.target.value);
                     setAiOutputReview(null);
                   }}
-                  placeholder={`Môn: Mạng máy tính
-Chủ đề: OSI
-
-Câu hỏi: Application layer thuộc mô hình nào?
-A. OSI
-B. TCP/IP
-Đáp án: A`}
+                  placeholder={locale === 'en'
+                    ? 'Subject: Networking\nTopic: OSI\n\nQuestion: Which model includes the Application layer?\nA. OSI\nB. TCP/IP\nAnswer: A'
+                    : 'Môn: Mạng máy tính\nChủ đề: OSI\n\nCâu hỏi: Application layer thuộc mô hình nào?\nA. OSI\nB. TCP/IP\nĐáp án: A'}
                   rows={10}
                 />
               </label>
-              <div className="textImportHelp" aria-label="Gợi ý định dạng văn bản">
-                <Badge tone="info">Trắc nghiệm A, B, C, D</Badge>
-                <Badge tone="info">Flashcard Mặt trước/Mặt sau</Badge>
-                <Badge tone="info">Câu hỏi ngắn + Đáp án</Badge>
+              <div className="textImportHelp" aria-label={t('library.formatHints')}>
+                <Badge tone="info">{t('library.multipleChoice')} A, B, C, D</Badge>
+                <Badge tone="info">{t('library.flashcard')}</Badge>
+                <Badge tone="info">{t('library.shortAnswer')}</Badge>
                 <Badge tone="neutral">Markdown # / ##</Badge>
               </div>
               <div className="textImportActions">
                 <Button type="button" loading={isParsingText} onClick={parseTextDraft} disabled={!textDraft.trim()}>
-                  Tạo bản nháp câu hỏi
+                  {t('library.createDraft')}
                 </Button>
                 <Button type="button" variant="secondary" onClick={reviewManualAiPasteBack} disabled={!textDraft.trim()}>
-                  Kiểm tra kết quả AI thủ công
+                  {t('library.checkExternalOutput')}
                 </Button>
                 {textDraft.trim() ? (
                   <Button type="button" variant="ghost" onClick={resetTextDraftPreview}>
-                    Xóa nội dung dán
+                    {t('library.clearPaste')}
                   </Button>
                 ) : null}
               </div>
               <div className="manualAiPasteBackHint" role="note">
-                <strong>Dán kết quả AI thủ công?</strong>
-                <span>Shime không tự gọi AI. Nếu bạn dán kết quả từ công cụ AI bên ngoài, hãy kiểm tra định dạng, tạo bản nháp, xem cảnh báo chất lượng rồi mới lưu.</span>
+                <strong>{t('library.externalPasteTitle')}</strong>
+                <span>{t('library.externalPasteBody')}</span>
               </div>
               <AiOutputReviewPanel review={aiOutputReview} />
             </Card>
 
-            <Card title="Tạo quiz từ file văn bản/Markdown" eyebrow="File cục bộ" className="textFileImportCard">
+            <Card title={t('library.textFileTitle')} eyebrow={t('library.textFileEyebrow')} className="textFileImportCard">
               <div className="textImportCard__intro">
-                <p className="muted">
-                  Chọn file <code>.txt</code> hoặc <code>.md</code> để đọc nội dung ngay trong trình duyệt và tạo bản nháp câu hỏi. File không được tải lên máy chủ và bản nháp luôn cần xem trước trước khi lưu.
-                </p>
+                <p className="muted">{t('library.textFileIntro')}</p>
               </div>
               <div className="textFileImportActions">
                 <Button type="button" variant="secondary" loading={isReadingTextFile} onClick={openTextFilePicker}>
-                  Chọn file .txt hoặc .md
+                  {t('library.chooseTextButton')}
                 </Button>
-                <span className="muted">Hỗ trợ ghi chú văn bản, Markdown # / ##, trắc nghiệm, flashcard và câu hỏi ngắn.</span>
+                <span className="muted">{t('library.textFileSupport')}</span>
               </div>
             </Card>
           </>
@@ -1263,19 +1254,19 @@ B. TCP/IP
 
         {workshopMethod === 'prompt' && (
           <>
-            <Card title="Tạo prompt AI thủ công" eyebrow="Không gửi dữ liệu tự động" className="manualAiPromptCard">
+            <Card title={t('library.templateTitle')} eyebrow={t('library.templateEyebrow')} className="manualAiPromptCard">
               <div className="manualAiPromptCard__intro">
                 <p className="muted">
-                  Shime chỉ tạo prompt trong trình duyệt. Shime không tự gửi dữ liệu cho AI, không dùng API key và không tự import kết quả AI. Bạn tự sao chép prompt sang công cụ AI bên ngoài rồi dán kết quả vào ô văn bản/Markdown để xem trước.
+                  {t('library.templateBody')}
                 </p>
                 <div className="manualAiPromptWarning" role="note">
-                  <strong>Lưu ý quyền riêng tư:</strong>
-                  <span>Nội dung bạn sao chép sang công cụ AI bên ngoài có thể rời khỏi thiết bị. Hãy kiểm tra chính sách bảo mật của công cụ AI bạn dùng. AI có thể tạo sai nội dung, cần xem lại trước khi lưu.</span>
+                  <strong>{t('library.privacyNote')}</strong>
+                  <span>{t('library.privacyExternal')}</span>
                 </div>
               </div>
 
               <label className="textImportField" htmlFor="manual-ai-source-input">
-                <span>Nội dung nguồn để tạo prompt</span>
+                <span>{t('library.sourceForTemplate')}</span>
                 <textarea
                   id="manual-ai-source-input"
                   value={aiPromptSource}
@@ -1284,14 +1275,14 @@ B. TCP/IP
                     setAiPromptResult(null);
                     setAiPromptStatus(null);
                   }}
-                  placeholder="Dán nội dung bài học hoặc phần chữ đã trích xuất. Shime sẽ tạo prompt để bạn tự dùng với công cụ AI bên ngoài."
+                  placeholder={t('library.templateSourcePlaceholder')}
                   rows={7}
                 />
               </label>
 
-              <div className="manualAiPromptOptions" aria-label="Tùy chọn prompt AI thủ công">
+              <div className="manualAiPromptOptions" aria-label={t('library.templateOptions')}>
                 <label>
-                  <span>Trắc nghiệm</span>
+                  <span>{t('library.multipleChoice')}</span>
                   <input
                     type="number"
                     min="0"
@@ -1301,7 +1292,7 @@ B. TCP/IP
                   />
                 </label>
                 <label>
-                  <span>Flashcard</span>
+                  <span>{t('library.flashcard')}</span>
                   <input
                     type="number"
                     min="0"
@@ -1311,7 +1302,7 @@ B. TCP/IP
                   />
                 </label>
                 <label>
-                  <span>Câu hỏi ngắn</span>
+                  <span>{t('library.shortAnswer')}</span>
                   <input
                     type="number"
                     min="0"
@@ -1321,23 +1312,23 @@ B. TCP/IP
                   />
                 </label>
                 <label>
-                  <span>Ngôn ngữ</span>
+                  <span>{t('library.language')}</span>
                   <select
                     value={aiPromptOptions.languageMode}
                     onChange={event => updateAiPromptOption('languageMode', event.target.value)}
                   >
-                    <option value="keep_source">Giữ ngôn ngữ nguồn</option>
-                    <option value="vi">Tiếng Việt</option>
+                    <option value="keep_source">{t('library.keepSourceLanguage')}</option>
+                    <option value="vi">{t('settings.vietnamese')}</option>
                   </select>
                 </label>
               </div>
 
               <div className="textImportActions">
                 <Button type="button" variant="secondary" onClick={generateManualAiPrompt} disabled={!aiPromptSource.trim()}>
-                  Tạo prompt
+                  {t('library.createTemplate')}
                 </Button>
                 <Button type="button" onClick={copyManualAiPrompt} disabled={!aiPromptResult?.ok}>
-                  Sao chép prompt
+                  {t('library.copyTemplate')}
                 </Button>
               </div>
 
@@ -1345,7 +1336,7 @@ B. TCP/IP
 
               {aiPromptResult?.warnings?.length ? (
                 <div className="importIssues importIssues--warning">
-                  <strong>Gợi ý trước khi dùng prompt</strong>
+                  <strong>{t('library.templateHints')}</strong>
                   <ul>
                     {aiPromptResult.warnings.map(warning => <li key={warning.code}>{warning.message}</li>)}
                   </ul>
@@ -1354,65 +1345,71 @@ B. TCP/IP
 
               {aiPromptResult?.prompt ? (
                 <label className="manualAiPromptPreview" htmlFor="manual-ai-prompt-preview">
-                  <span>Prompt đã tạo</span>
+                  <span>{t('library.createdTemplate')}</span>
                   <textarea id="manual-ai-prompt-preview" value={aiPromptResult.prompt} readOnly rows={12} />
-                  <small>Dán kết quả AI vào ô nhập văn bản/Markdown bên dưới để chạy kiểm tra, xem trước và đánh giá chất lượng trước khi lưu.</small>
+                  <small>{t('library.templatePasteBack')}</small>
                 </label>
               ) : null}
             </Card>
 
-            <Card title="Chọn cách nhập phù hợp" eyebrow="Hướng dẫn nhanh" className="importMethodGuideCard">
-              <div className="importMethodGuide" aria-label="Gợi ý chọn cách nhập học liệu">
+            <Card title={t('library.chooseImport')} eyebrow={t('library.quickGuide')} className="importMethodGuideCard">
+              <div className="importMethodGuide" aria-label={t('library.importGuideLabel')}>
                 <div>
-                  <strong>Dán văn bản/Markdown</strong>
-                  <p className="muted">Dùng khi bạn đã có nội dung dạng câu hỏi, flashcard hoặc ghi chú có cấu trúc.</p>
+                  <strong>{t('library.pasteMethod')}</strong>
+                  <p className="muted">{t('library.pasteMethodBody')}</p>
                 </div>
                 <div>
-                  <strong>Tải .txt/.md</strong>
-                  <p className="muted">Dùng khi nội dung đã nằm trong file văn bản cục bộ.</p>
+                  <strong>{t('library.textMethod')}</strong>
+                  <p className="muted">{t('library.textMethodBody')}</p>
                 </div>
                 <div>
-                  <strong>Tải PDF/DOCX/PPTX/ZIP</strong>
-                  <p className="muted">Dùng khi bạn đang chạy EduGen File Processor. EduGen chỉ trích xuất chữ; Shime vẫn tạo bản nháp, kiểm tra và yêu cầu xem trước trước khi lưu.</p>
+                  <strong>{t('library.documentMethod')}</strong>
+                  <p className="muted">{t('library.documentMethodBody')}</p>
                 </div>
               </div>
-              <p className="muted">Nếu dùng bản deploy online, trình duyệt cần truy cập được EduGen service đã cấu hình qua <code>VITE_FILE_PROCESSOR_URL</code>. Một số định dạng tài liệu cũ hoặc tài liệu quét có thể không dùng được trong bước này.</p>
+              <p className="muted">{t('library.documentMethodNote')}</p>
             </Card>
           </>
         )}
 
-        <Card title="Nguồn dữ liệu thư viện" eyebrow="Lưu cục bộ" className="dataSourceCard">
+        <Card title={t('library.sourceTitle')} eyebrow={t('library.sourceEyebrow')} className="dataSourceCard">
           <div className="dataSourceCard__content">
             <Badge tone={dataSource.sourceType === 'mock' ? 'neutral' : 'success'}>{sourceLabel}</Badge>
             <div>
-              <strong>{dataSource.sourceName}</strong>
+              <strong>{dataSource.sourceType === 'mock' ? sourceLabel : dataSource.sourceName}</strong>
               <p className="muted">
-                {importedTime ? `Import lần cuối: ${importedTime}` : 'Đang dùng dữ liệu mẫu cục bộ. Import thành công sẽ được lưu trong trình duyệt.'}
+                {importedTime ? t('library.lastImport', { time: importedTime }) : t('library.usingSample')}
               </p>
             </div>
           </div>
-          <div className="sourceSummaryGrid" aria-label="Tóm tắt dữ liệu có thể xuất">
-            <span><strong>{summary.subjectCount}</strong> môn học</span>
-            <span><strong>{summary.topicCount}</strong> chủ đề</span>
-            <span><strong>{summary.itemCount}</strong> mục học</span>
+          <div className="sourceSummaryGrid" aria-label={t('library.exportSummary')}>
+            <span>{t('library.subjectCount', { count: summary.subjectCount })}</span>
+            <span>{t('library.topicCount', { count: summary.topicCount })}</span>
+            <span>{t('library.itemCount', { count: summary.itemCount })}</span>
           </div>
         </Card>
 
         {dataSource.notice ? (
-          <Toast tone="warning" title="Thông báo dữ liệu thư viện" description={dataSource.notice} />
+          <Toast tone="warning" title={t('library.dataNotice')} description={dataSource.notice} />
         ) : null}
 
-        <V2BackupRestorePanel
-          libraryData={adapter.data}
-          librarySource={dataSource}
-          librarySummary={summary}
-        />
+        <details className="libraryTechnicalDisclosure libraryBackupDisclosure">
+          <summary>{t('library.backupTools')}</summary>
+          <V2BackupRestorePanel
+            libraryData={adapter.data}
+            librarySource={dataSource}
+            librarySummary={summary}
+          />
+        </details>
 
-        <Card title="Schema import mong đợi" eyebrow="Mô hình dữ liệu v2">
-          <p className="muted">
-            Người dùng có thể dán văn bản/Markdown để tạo bản nháp câu hỏi mà không cần biết schema. File JSON nâng cao vẫn nên chứa <code>subjects</code>, <code>topics</code> và <code>items</code>. File export từ nút <code>Xuất thư viện</code> cũng dùng cấu trúc này và có thêm metadata. CSV nên có cột <code>subject</code>, <code>topic</code>, <code>type</code>, <code>prompt</code>, <code>choices</code>, <code>correctAnswer</code>/<code>answer</code>. Mục học hỗ trợ <code>multiple_choice</code>, <code>short_answer</code> và <code>flashcard</code>.
-          </p>
-        </Card>
+        <details className="libraryTechnicalDisclosure">
+          <summary>{t('library.technicalImport')}</summary>
+          <Card title={t('library.schemaTitle')} eyebrow={t('library.schemaEyebrow')}>
+            <p className="muted">
+            {t('library.schemaBody')}
+            </p>
+          </Card>
+        </details>
 
         <ImportPreview
           preview={preview}

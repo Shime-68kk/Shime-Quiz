@@ -4,21 +4,22 @@ import {
   createInitialSafeCapsuleControlCenterState,
   SAFE_CAPSULE_CONTROL_CENTER_ACTIONS
 } from './safeCapsuleControlCenterModel.js';
+import { useShimeLanguage } from '../../uiI18n/useShimeLanguage.js';
 
 const PRIVACY_AUDIT_LABELS = [
-  ['rawQuizFieldsDetected', 'Không phát hiện câu hỏi/prompt thô'],
-  ['rawAnswerFieldsDetected', 'Không phát hiện đáp án hoặc câu trả lời người dùng'],
-  ['rawHistoryDetected', 'Không phát hiện lịch sử học thô'],
-  ['rawDocumentTextDetected', 'Không phát hiện nội dung tài liệu thô'],
-  ['rawSourceMetadataDetected', 'Không phát hiện source metadata thô'],
-  ['rawCardDeckIdsDetected', 'Không phát hiện card/deck ID thô'],
-  ['rawRfIdentifiersDetected', 'Không phát hiện SSID/BSSID/MAC/AP thô'],
-  ['secretsDetected', 'Không phát hiện token/secret/password'],
-  ['unknownUnsafeFieldsDetected', 'Không phát hiện trường không an toàn']
+  ['rawQuizFieldsDetected', 'developer.auditQuiz'],
+  ['rawAnswerFieldsDetected', 'developer.auditAnswers'],
+  ['rawHistoryDetected', 'developer.auditHistory'],
+  ['rawDocumentTextDetected', 'developer.auditDocument'],
+  ['rawSourceMetadataDetected', 'developer.auditSource'],
+  ['rawCardDeckIdsDetected', 'developer.auditIds'],
+  ['rawRfIdentifiersDetected', 'developer.auditRf'],
+  ['secretsDetected', 'developer.auditSecrets'],
+  ['unknownUnsafeFieldsDetected', 'developer.auditUnknown']
 ];
 
-function BucketList({ capsule }) {
-  if (!capsule) return <p className="muted">Chưa có capsule preview. Hãy tạo một capsule mẫu để kiểm tra.</p>;
+function BucketList({ capsule, t }) {
+  if (!capsule) return <p className="muted">{t('developer.noCapsule')}</p>;
 
   return (
     <dl className="settingsCompactList" aria-label="Safe capsule buckets">
@@ -35,23 +36,23 @@ function BucketList({ capsule }) {
   );
 }
 
-function PrivacyAudit({ audit }) {
-  if (!audit) return <p className="muted">Chưa chạy kiểm tra quyền riêng tư.</p>;
+function PrivacyAudit({ audit, t }) {
+  if (!audit) return <p className="muted">{t('developer.noPrivacyAudit')}</p>;
 
   return (
     <ul className="settingsChecklist" aria-label="Privacy audit checklist">
-      {PRIVACY_AUDIT_LABELS.map(([key, label]) => (
+      {PRIVACY_AUDIT_LABELS.map(([key, labelKey]) => (
         <li key={key}>
-          <strong>{audit[key] === false ? 'OK' : 'Cần kiểm tra'}</strong>
-          <span>{label}</span>
+          <strong>{audit[key] === false ? t('developer.auditOk') : t('developer.auditReview')}</strong>
+          <span>{t(labelKey)}</span>
         </li>
       ))}
     </ul>
   );
 }
 
-function MockPackageSummary({ summary }) {
-  if (!summary) return <p className="muted">Chưa tạo gói mock robot import.</p>;
+function MockPackageSummary({ summary, t }) {
+  if (!summary) return <p className="muted">{t('developer.noMockPackage')}</p>;
 
   return (
     <dl className="settingsCompactList" aria-label="Mock robot import package summary">
@@ -65,6 +66,7 @@ function MockPackageSummary({ summary }) {
 }
 
 export default function SafeCapsuleControlCenter() {
+  const { t } = useShimeLanguage();
   const [state, setState] = useState(() => createInitialSafeCapsuleControlCenterState());
   const runAction = action => {
     setState(current => applySafeCapsuleControlCenterAction(current, action));
@@ -79,48 +81,48 @@ export default function SafeCapsuleControlCenter() {
   ]), [state]);
 
   return (
-    <section className="settingsPanel safeCapsuleControlCenter" aria-label="Trung tâm Safe Capsule — chỉ mô phỏng">
+    <section className="settingsPanel safeCapsuleControlCenter" aria-label={t('developer.capsuleControlLabel')}>
       <div className="sectionHeader">
         <p className="eyebrow">Dev-only · Mock only</p>
-        <h2>Safe Capsule Control Center — Mock Only</h2>
+        <h2>{t('developer.capsuleControlTitle')}</h2>
       </div>
 
       <div className="settingsNotice" role="note">
-        <strong>Trung tâm Safe Capsule — chỉ mô phỏng</strong>
-        <p>Không kết nối robot thật. Không gửi Serial/WebSocket/BLE/Wi-Fi. Không xuất câu hỏi/đáp án/lịch sử học. Chỉ tạo capsule rút gọn để kiểm tra mock import.</p>
+        <strong>{t('developer.capsuleControlLabel')}</strong>
+        <p>{t('developer.capsuleControlBody')}</p>
       </div>
 
       <div className="settingsActions" aria-label="Safe capsule sample controls">
         <button type="button" onClick={() => runAction(SAFE_CAPSULE_CONTROL_CENTER_ACTIONS.CREATE_SAMPLE_STEADY)}>
-          Tạo capsule mẫu ổn định
+          {t('developer.createSteady')}
         </button>
         <button type="button" onClick={() => runAction(SAFE_CAPSULE_CONTROL_CENTER_ACTIONS.CREATE_SAMPLE_STRUGGLING)}>
-          Tạo capsule mẫu đang gặp khó
+          {t('developer.createStruggling')}
         </button>
         <button type="button" onClick={() => runAction(SAFE_CAPSULE_CONTROL_CENTER_ACTIONS.CREATE_SAMPLE_HIGH_REVIEW_PRESSURE)}>
-          Tạo capsule áp lực ôn tập cao
+          {t('developer.createPressure')}
         </button>
         <button type="button" onClick={() => runAction(SAFE_CAPSULE_CONTROL_CENTER_ACTIONS.CREATE_SAMPLE_LOW_ENERGY)}>
-          Tạo capsule năng lượng thấp
+          {t('developer.createLowEnergy')}
         </button>
         <button type="button" onClick={() => runAction(SAFE_CAPSULE_CONTROL_CENTER_ACTIONS.RUN_PRIVACY_AUDIT)} disabled={!state.capsule}>
-          Chạy kiểm tra quyền riêng tư
+          {t('developer.runPrivacy')}
         </button>
         <button type="button" onClick={() => runAction(SAFE_CAPSULE_CONTROL_CENTER_ACTIONS.CREATE_MOCK_ROBOT_IMPORT_PACKAGE)} disabled={!state.capsule}>
-          Tạo gói mock robot import
+          {t('developer.createMockPackage')}
         </button>
         <button type="button" onClick={() => runAction(SAFE_CAPSULE_CONTROL_CENTER_ACTIONS.CLEAR_PREVIEW)}>
-          Xóa preview
+          {t('developer.clearPreview')}
         </button>
       </div>
 
       <div className="settingsGrid">
         <div>
           <h3>Capsule preview</h3>
-          <BucketList capsule={state.capsule} />
+          <BucketList capsule={state.capsule} t={t} />
         </div>
         <div>
-          <h3>Trạng thái bridge</h3>
+          <h3>{t('developer.bridgeStatus')}</h3>
           <dl className="settingsCompactList" aria-label="Mock bridge status">
             {bridgeFlags.map(([label, value]) => (
               <div key={label}><dt>{label}</dt><dd>{value}</dd></div>
@@ -130,11 +132,11 @@ export default function SafeCapsuleControlCenter() {
         </div>
         <div>
           <h3>Privacy audit</h3>
-          <PrivacyAudit audit={state.privacyAudit} />
+          <PrivacyAudit audit={state.privacyAudit} t={t} />
         </div>
         <div>
           <h3>Mock export envelope</h3>
-          <MockPackageSummary summary={state.mockPackageSummary} />
+          <MockPackageSummary summary={state.mockPackageSummary} t={t} />
         </div>
       </div>
     </section>

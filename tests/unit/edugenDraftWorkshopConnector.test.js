@@ -385,16 +385,18 @@ describe('Phase 16F — connector source safety', () => {
 
 describe('Phase 16F — EduGenDraftWorkshopPanel source', () => {
   const panel = read('src/components/settings/EduGenDraftWorkshopPanel.jsx');
+  const viCopy = read('src/uiI18n/translations/vi.js');
 
   it('uses Xưởng bản nháp framing', () => {
-    expect(panel).toContain('Xưởng bản nháp EduGen');
+    expect(panel).toContain("t('edugen.title')");
+    expect(viCopy).toContain('Xưởng bản nháp EduGen');
   });
 
   it('contains required Vietnamese-first wording', () => {
-    expect(panel).toContain('URL dịch vụ EduGen');
-    expect(panel).toContain('Tùy chọn');
-    expect(panel).toContain('Shime không tự xử lý PDF/DOCX nếu không có dịch vụ EduGen đang chạy.');
-    expect(panel).toContain('Kết quả chỉ là bản nháp, bạn cần xem lại trước khi học.');
+    expect(panel).toContain("t('edugen.serviceUrl')");
+    expect(panel).toContain("t('edugen.workshopBody')");
+    expect(viCopy).toContain('URL dịch vụ EduGen');
+    expect(viCopy).toContain('Kết quả chỉ là bản nháp, bạn cần xem lại trước khi học.');
   });
 
   it('does not frame EduGen as an AI generator', () => {
@@ -418,7 +420,8 @@ describe('Phase 16F — EduGenDraftWorkshopPanel source', () => {
   });
 
   it('mentions health check copy', () => {
-    expect(panel).toContain('Kiểm tra kết nối');
+    expect(panel).toContain("t('edugen.check')");
+    expect(viCopy).toContain('Kiểm tra kết nối');
   });
 
   it('does not include a document upload UI', () => {
@@ -450,17 +453,19 @@ describe('Phase 16F — Settings.jsx mounts EduGen Draft Workshop panel', () => 
 
 describe('Phase 16F — Home.jsx mentions Draft Workshop framing', () => {
   const home = read('src/routes/Home.jsx');
+  const viCopy = read('src/uiI18n/translations/vi.js');
 
   it('uses Xưởng bản nháp wording', () => {
-    expect(home).toContain('Xưởng bản nháp');
+    expect(home).toContain("t('home.technicalServiceBody')");
+    expect(viCopy).toContain('Xưởng bản nháp');
   });
 
   it('still mentions optional companion / not bundled context', () => {
-    expect(home).toContain('không được bundle');
+    expect(viCopy).toContain('không được bundle');
   });
 
   it('keeps the existing review-required draft framing', () => {
-    expect(home).toContain('Kết quả chỉ là bản nháp, bạn cần xem lại trước khi học.');
+    expect(viCopy).toContain('Kết quả chỉ là bản nháp, bạn cần xem lại trước khi học.');
   });
 });
 

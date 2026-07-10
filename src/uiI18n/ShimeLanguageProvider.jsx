@@ -1,23 +1,32 @@
-import { createContext, useMemo, useState } from 'react';
-import { SHIME_DEFAULT_LOCALE, SHIME_LOCALES, getUiString } from './shimeUiCopyProposal.js';
+import { createContext, useEffect, useMemo, useState } from 'react';
+import { DEFAULT_UI_LOCALE, translateUi, normalizeUiLocale } from './localeRuntime.js';
+import { readStoredUiLocale, writeStoredUiLocale } from './localeStorage.js';
 
 export const ShimeLanguageContext = createContext({
-  locale: SHIME_DEFAULT_LOCALE,
+  locale: DEFAULT_UI_LOCALE,
   setLocale: () => {},
-  t: key => getUiString(key, SHIME_DEFAULT_LOCALE)
+  t: (key, values) => translateUi(key, DEFAULT_UI_LOCALE, values)
 });
 
-function normalizeLocale(locale) {
-  return locale === SHIME_LOCALES.EN ? SHIME_LOCALES.EN : SHIME_LOCALES.VI;
-}
+const normalizeLocale = normalizeUiLocale;
 
-export function ShimeLanguageProvider({ children, initialLocale = SHIME_DEFAULT_LOCALE }) {
-  const [locale, setLocaleState] = useState(() => normalizeLocale(initialLocale));
+export function ShimeLanguageProvider({ children, initialLocale }) {
+  const [locale, setLocaleState] = useState(() => (
+    initialLocale === undefined ? readStoredUiLocale() : normalizeLocale(initialLocale)
+  ));
   const value = useMemo(() => ({
     locale,
-    setLocale: nextLocale => setLocaleState(normalizeLocale(nextLocale)),
-    t: key => getUiString(key, locale)
+    setLocale: nextLocale => {
+      const normalized = writeStoredUiLocale(nextLocale);
+      if (typeof document !== 'undefined') document.documentElement.lang = normalized;
+      setLocaleState(normalized);
+    },
+    t: (key, values) => translateUi(key, locale, values)
   }), [locale]);
+
+  useEffect(() => {
+    if (typeof document !== 'undefined') document.documentElement.lang = locale;
+  }, [locale]);
 
   return (
     <ShimeLanguageContext.Provider value={value}>

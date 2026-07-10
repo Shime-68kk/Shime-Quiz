@@ -406,21 +406,24 @@ describe('Phase 16H — Settings.jsx wiring', () => {
 
 describe('Phase 16H — EduGenDraftReviewPanel copy', () => {
   const panel = read('src/components/edugen/EduGenDraftReviewPanel.jsx');
+  const viCopy = read('src/uiI18n/translations/vi.js');
 
   it('keeps the Phase 16G claim-safe phrases', () => {
-    expect(panel).toContain('Xưởng bản nháp EduGen');
-    expect(panel).toContain('Xem lại trước khi lưu');
-    expect(panel).toContain('Xác nhận lưu bản nháp');
-    expect(panel).toContain('Không có thẻ nào được lưu cho đến khi bạn xác nhận');
-    expect(panel).toContain('Kết quả có thể sai hoặc thiếu ý');
+    expect(panel).toContain("t('edugen.title')");
+    expect(panel).toContain("t('edugen.preview')");
+    expect(panel).toContain("t('edugen.confirm')");
+    expect(viCopy).toContain('Không có thẻ nào được lưu cho đến khi bạn xác nhận');
+    expect(viCopy).toContain('Kết quả có thể sai hoặc thiếu ý');
   });
 
   it('shows the Phase 16H backup-before-import nudge', () => {
-    expect(panel).toContain('Tạo bản sao lưu trước khi nhập nhiều thẻ');
+    expect(panel).toContain("t('edugen.reviewGuard2')");
+    expect(viCopy).toContain('Tạo bản sao lưu trước khi nhập nhiều thẻ');
   });
 
   it('mentions the duplicate-skip safeguard so users are not surprised', () => {
-    expect(panel).toContain('Thẻ trùng câu hỏi/đáp án sẽ bị bỏ qua');
+    expect(panel).toContain("t('edugen.reviewGuard6')");
+    expect(viCopy).toContain('Thẻ trùng câu hỏi/đáp án sẽ bị bỏ qua');
   });
 
   it('does not assert forbidden positive claims', () => {
@@ -442,17 +445,20 @@ describe('Phase 16H — EduGenDraftReviewPanel copy', () => {
 
 describe('Phase 16H — Library route source-aware polish', () => {
   const library = read('src/routes/Library.jsx');
+  const viCopy = read('src/uiI18n/translations/vi.js');
 
   it('imports isSafeEdugenSourceMetadata', () => {
     expect(library).toContain('isSafeEdugenSourceMetadata');
   });
 
   it('renders a Bản nháp cần xem lại badge', () => {
-    expect(library).toContain('Bản nháp cần xem lại');
+    expect(library).toContain("t('library.draftNeedsReview'");
+    expect(viCopy).toContain('Bản nháp cần xem lại');
   });
 
   it('renders a Nguồn: EduGen badge', () => {
-    expect(library).toContain('Nguồn: EduGen');
+    expect(library).toContain("t('library.sourceEduGen')");
+    expect(viCopy).toContain('Nguồn: EduGen');
   });
 });
 

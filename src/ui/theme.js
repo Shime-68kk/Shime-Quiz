@@ -1,17 +1,20 @@
-const THEME_KEY = "theme";
+import {
+  applyUiTheme,
+  initializeUiTheme,
+  readStoredUiTheme
+} from '../uiTheme/themeRuntime.js';
 
 export function setTheme(theme) {
-  document.documentElement.setAttribute("data-theme", theme);
-  localStorage.setItem(THEME_KEY, theme);
+  return applyUiTheme(theme);
 }
 
 export function toggleTheme() {
-  const current = document.documentElement.getAttribute("data-theme") || "light";
-  setTheme(current === "light" ? "dark" : "light");
+  const current = document.documentElement.getAttribute('data-theme') || readStoredUiTheme();
+  return setTheme(current === 'light' ? 'dark' : 'light');
 }
 
 export function initTheme(button) {
-  const savedTheme = localStorage.getItem(THEME_KEY) || "light";
-  setTheme(savedTheme);
+  const savedTheme = initializeUiTheme();
   button?.addEventListener("click", toggleTheme);
+  return savedTheme;
 }

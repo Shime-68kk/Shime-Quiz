@@ -15,15 +15,18 @@ function read(relativePath) {
 }
 
 const dashboardSrc = read('src/routes/Dashboard.jsx');
+const viCopy = read('src/uiI18n/translations/vi.js');
 
 describe('Phase 35E — Dashboard local view state', () => {
   it("defaults to the Hôm nay learner-facing view", () => {
     expect(dashboardSrc).toMatch(/useState\(['"]today['"]\)/);
-    expect(dashboardSrc).toContain('Hôm nay');
+    expect(dashboardSrc).toContain("t('overview.today')");
+    expect(viCopy).toContain("'overview.today': 'Hôm nay'");
   });
 
   it('keeps the Progress Journal as the secondary tab', () => {
-    expect(dashboardSrc).toContain('Nhật ký tiến độ');
+    expect(dashboardSrc).toContain("t('overview.progress')");
+    expect(viCopy).toContain("'overview.progress': 'Tiến độ'");
     expect(dashboardSrc).toMatch(/setDashboardView\('progress'\)/);
   });
 });
@@ -57,7 +60,7 @@ describe('Phase 35E — Dashboard content split', () => {
     expect(todayPanel).toContain('<DashboardTodayCard />');
     expect(todayPanel).toContain('<TodayJourneyCard />');
     expect(todayPanel).toContain('<StudyGoalCard />');
-    expect(todayPanel).toContain('Chưa có dữ liệu học tập');
+    expect(todayPanel).toContain("t('overview.firstRunTitle')");
   });
 
   it('moves progress-journal surfaces behind Nhật ký tiến độ', () => {
@@ -68,17 +71,16 @@ describe('Phase 35E — Dashboard content split', () => {
     expect(progressPanel).toContain('<ReviewSchedulePanel />');
     expect(progressPanel).toContain('<SmartPracticePanel />');
     expect(progressPanel).toContain('<StudyHistoryPanel compact />');
-    expect(progressPanel).toContain('Nguồn dữ liệu');
-    expect(progressPanel).toContain('Tóm tắt học liệu');
+    expect(progressPanel).toContain("t('overview.librarySource')");
+    expect(progressPanel).toContain("t('overview.learningDataSummary')");
   });
 
   it('preserves the Dashboard header CTA and copy guardrails', () => {
-    expect(dashboardSrc).toContain('Chào mừng quay lại');
-    expect(dashboardSrc).toContain('Học tiếp');
-    expect(dashboardSrc).toContain('thử nghiệm');
+    expect(dashboardSrc).toContain("title={t('overview.title')}");
+    expect(dashboardSrc).toContain("t('overview.continue')");
+    expect(dashboardSrc).toContain("t('overview.mixedScheduler'");
     expect(dashboardSrc).not.toContain('BETA_READY');
     expect(dashboardSrc).not.toContain('public production');
     expect(dashboardSrc).not.toContain('cloud sync enabled');
   });
 });
-

@@ -17,7 +17,7 @@ describe('StudyRoomSubjectSpaces', () => {
       />
     );
     expect(html).toContain('Phòng học theo môn');
-    expect(html).toContain('Vuốt để chuyển môn');
+    expect(html).toContain('Vuốt hoặc dùng nút để chuyển môn');
     expect(html).toContain('Vật lý');
     expect(html).toContain('Sắp quên: urgent');
     expect(html).toContain('Ôn nhanh');

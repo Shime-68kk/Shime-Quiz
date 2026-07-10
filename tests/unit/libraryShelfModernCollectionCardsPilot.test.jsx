@@ -12,13 +12,16 @@ describe('Phase 37-uiD library shelf modern collection cards pilot', () => {
   const library = read('src/routes/Library.jsx');
   const css = read('src/styles/global.css');
   const workflow = read('.github/workflows/e2e-smoke.yml');
+  const viCopy = read('src/uiI18n/translations/vi.js');
 
   it('adds one passive Library host class without changing tab semantics', () => {
     expect(library).toContain('pageStack phase37uid-library-shelf-modern-collection-cards-pilot');
     expect(library).toContain('role="tablist" className="libraryTabList phase36e-library-tabs-touch-pilot"');
     expect(library.match(/role="tab"/g)).toHaveLength(2);
-    expect(library).toContain('Kệ sách của tôi');
-    expect(library).toContain('Xưởng nạp tài liệu');
+    expect(library).toContain("t('library.shelfTab')");
+    expect(library).toContain("t('library.addTab')");
+    expect(viCopy).toContain("'library.shelfTab': 'Học liệu của tôi'");
+    expect(viCopy).toContain("'library.addTab': 'Thêm học liệu'");
     expect(library).toContain("aria-selected={libraryTab === 'shelf'}");
     expect(library).toContain("aria-selected={libraryTab === 'workshop'}");
     expect(library).toContain('aria-controls="library-panel-shelf"');

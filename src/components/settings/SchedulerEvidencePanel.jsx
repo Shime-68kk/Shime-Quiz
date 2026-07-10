@@ -4,8 +4,10 @@ import Button from '../Button.jsx';
 import { runSchedulerComparisonLab } from '../../scheduler/schedulerComparisonLab.js';
 import { createPassingFsrsBetaEvidence, evaluateFsrsReadinessGate } from '../../scheduler/fsrsReadinessGate.js';
 import { createSchedulerPreferenceModel, applySchedulerPreferenceAction } from '../../scheduler/schedulerBetaPreferenceModel.js';
+import { useShimeLanguage } from '../../uiI18n/useShimeLanguage.js';
 
 export default function SchedulerEvidencePanel() {
+  const { t } = useShimeLanguage();
   const [comparison, setComparison] = useState(null);
   const [preference, setPreference] = useState({ state: 'sm2_stable', explicitUserOptIn: false });
   const evidence = useMemo(() => createPassingFsrsBetaEvidence(), []);
@@ -14,11 +16,10 @@ export default function SchedulerEvidencePanel() {
 
   return (
     <div className="settingsPanel">
-      <Card eyebrow="Nội bộ" title="Phòng thử nghiệm thuật toán ôn tập" variant="default">
+      <Card eyebrow={t('developer.schedulerEyebrow')} title={t('developer.schedulerTitle')} variant="default">
         <div className="settingsPanel__section">
           <p className="settingsPanel__helper">
-            SM2 vẫn là mặc định ổn định. FSRS là beta, chỉ bật khi người dùng chọn.
-            Có thể rollback về SM2. Không dùng cloud/AI/API. Không gửi nội dung câu hỏi/đáp án.
+            {t('developer.schedulerBody')}
           </p>
           <p className="settingsPanel__status">
             SM2 default · FSRS beta status: {readiness.recommendation} · readiness score: {readiness.readinessScore}
@@ -29,22 +30,22 @@ export default function SchedulerEvidencePanel() {
 
           <div className="buttonRow">
             <Button variant="secondary" onClick={() => setComparison(runSchedulerComparisonLab())}>
-              Chạy so sánh SM2 và FSRS
+              {t('developer.compareSchedulers')}
             </Button>
             <Button
               variant="ghost"
               onClick={() => setPreference(current => applySchedulerPreferenceAction(current, { type: 'preview_fsrs_effect' }))}
             >
-              Xem preview FSRS beta
+              {t('developer.previewFsrs')}
             </Button>
             <Button
               variant="ghost"
               onClick={() => setPreference(current => applySchedulerPreferenceAction(current, { type: 'rollback_to_sm2' }))}
             >
-              Mô phỏng rollback về SM2
+              {t('developer.rollbackSm2')}
             </Button>
             <Button variant="ghost" onClick={() => setComparison(null)}>
-              Xóa kết quả thử nghiệm
+              {t('developer.clearScheduler')}
             </Button>
           </div>
 
