@@ -10,6 +10,10 @@ export default function ShimeNavigationIcon({ route }) {
     'aria-hidden': 'true'
   };
 
+  if (route === '/on-thi') {
+    return <svg {...props}><circle cx="12" cy="12" r="8.5" /><circle cx="12" cy="12" r="4.5" /><circle cx="12" cy="12" r="1" /></svg>;
+  }
+
   if (route === '/library') {
     return <svg {...props}><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5z" /><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5z" /></svg>;
   }

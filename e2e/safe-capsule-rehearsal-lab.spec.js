@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('Safe Capsule Rehearsal Lab runs mock scenarios without raw payloads or send controls', async ({ page }) => {
   await page.goto('/settings');
+  await page.getByRole('button', { name: /Chẩn đoán dành cho nhà phát triển|Developer diagnostics/ }).click();
 
   const lab = page.getByLabel('Safe Capsule Rehearsal Lab — diễn tập mock');
   await expect(lab).toBeVisible();

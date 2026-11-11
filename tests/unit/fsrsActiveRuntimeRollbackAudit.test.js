@@ -276,10 +276,10 @@ describe('Test 8: scheduleFsrsReview throwing → SM-2 fallback, fsrsPayload pre
   });
 });
 
-// ─── Test 9: continueWithoutRating → SM-2 fallback, no FSRS call ─────────────
+// ─── Test 9: continueWithoutRating → objective two-button FSRS rating ────────
 
-describe('Test 9: continueWithoutRating → SM-2 fallback, no ts-fsrs.next() call', () => {
-  it('continueWithoutRating:true in context bypasses FSRS entirely', () => {
+describe('Test 9: continueWithoutRating → Good/Again without losing FSRS state', () => {
+  it('continueWithoutRating:true advances FSRS with objective correctness', () => {
     setGate(true, true);
     const result = scheduleActiveFsrsOrFallback(
       fsrsPlannedRecord(),
@@ -287,10 +287,10 @@ describe('Test 9: continueWithoutRating → SM-2 fallback, no ts-fsrs.next() cal
       { now: NOW, continueWithoutRating: true }
     );
     expect(result).not.toBeNull();
-    expect(scheduleFsrsReview).not.toHaveBeenCalled();
+    expect(scheduleFsrsReview).toHaveBeenCalledOnce();
   });
 
-  it('SM-2 fallback result has SM-2-like interval when continueWithoutRating', () => {
+  it('continueWithoutRating result remains an active FSRS record', () => {
     setGate(true, true);
     const result = scheduleActiveFsrsOrFallback(
       fsrsPlannedRecord({ repetitionCount: 0, intervalDays: 1 }),
@@ -298,15 +298,14 @@ describe('Test 9: continueWithoutRating → SM-2 fallback, no ts-fsrs.next() cal
       { now: NOW, continueWithoutRating: true }
     );
     expect(result).not.toBeNull();
-    // SM-2 interval for first correct: 1 day
-    expect(result.intervalDays).toBeGreaterThanOrEqual(1);
+    expect(result.schedulerKind).toBe(FSRS_ACTIVE_SCHEDULER_KIND);
   });
 });
 
-// ─── Test 10: no usable rating log → SM-2 fallback, no invented rating ────────
+// ─── Test 10: no usable rating log → objective two-button rating ─────────────
 
-describe('Test 10: no usable rating log from resolveMemoryRatingFromLogs → SM-2 fallback, no invented rating', () => {
-  it('no log at or after sessionStartedAt → continueWithoutRating path → no scheduleFsrsReview call', async () => {
+describe('Test 10: no usable rating log falls back to objective correctness', () => {
+  it('no log at or after sessionStartedAt → correct maps to an FSRS Good review', async () => {
     const { resolveMemoryRatingFromLogs } = await vi.importActual('../../src/state/reviewScheduleStorage.js');
     setGate(true, true);
 
@@ -324,7 +323,7 @@ describe('Test 10: no usable rating log from resolveMemoryRatingFromLogs → SM-
 
     const result = scheduleActiveFsrsOrFallback(record, 'correct', { now: NOW, ...context });
     expect(result).not.toBeNull();
-    expect(scheduleFsrsReview).not.toHaveBeenCalled();
+    expect(scheduleFsrsReview).toHaveBeenCalledOnce();
   });
 
   it('no fsrsReviewLogs at all → null rating → SM-2 fallback', async () => {
@@ -424,10 +423,10 @@ describe('Test 13: StudyRoom and Dashboard source unchanged in Phase 15D', () =>
 
 // ─── Test 14: no package/dependency changes ───────────────────────────────────
 
-describe('Test 14: no package/dependency changes in Phase 15D', () => {
-  it('package.json ts-fsrs remains pinned at 5.3.3', () => {
+describe('Test 14: production dependency policy', () => {
+  it('package.json ts-fsrs is pinned at the audited stable version', () => {
     const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-    expect(pkg.dependencies?.['ts-fsrs']).toBe('5.3.3');
+    expect(pkg.dependencies?.['ts-fsrs']).toBe('5.4.1');
   });
 
   it('package.json and package-lock.json do not reference native binding', () => {

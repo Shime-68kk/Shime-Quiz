@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Scene 01 Contact Sheet — BIG-UPDATE-14.8</title>
+<style>
+*{box-sizing:border-box;margin:0}
+body{background:#09090b;color:#f4f4f5;font-family:monospace;padding:20px}
+h1{font-size:1.1rem;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:8px;margin-bottom:16px}
+.sheet{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px}
+.card{background:#18181b;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:8px;text-align:center}
+.card.contact{border-color:#ef4444;background:rgba(239,68,68,.08)}
+.card canvas{width:100%;aspect-ratio:16/10;border-radius:4px;background:#111}
+.label{font-size:.7rem;color:#a1a1aa;margin-top:4px}
+.val{font-size:.72rem;color:#f4f4f5;font-weight:700}
+.data-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;font-size:.65rem;text-align:left;margin-top:6px;color:#a1a1aa}
+.data-grid span:nth-child(even){color:#f4f4f5;text-align:right}
+</style>
+</head>
+<body>
+<h1>SCENE 01 CONTACT SHEET (10 KEY FRAMES)</h1>
+<div class="sheet" id="sheet"></div>
+
+<script>
+const W=200,H=125,R=18,GY=100;
+const FRAMES=[
+  {id:'Pre-3',t:5130,label:'Pre-3',desc:'Approaching. Eyes open.'},
+  {id:'Pre-2',t:5250,label:'Pre-2 (SCARED)',desc:'Late realization.'},
+  {id:'Pre-1',t:5340,label:'Pre-1',desc:'Gap 4-7px. No blink.'},
+  {id:'Contact',t:5370,label:'CONTACT',desc:'Tangent touch. BLINK.',isContact:true},
+  {id:'MaxCompress',t:5410,label:'Max Compress',desc:'Shell squash peak.'},
+  {id:'Release',t:5460,label:'Release',desc:'Surfaces separate.'},
+  {id:'Rebound',t:5600,label:'Rebound',desc:'Arc left+up.'},
+  {id:'Landing',t:6100,label:'Landing',desc:'Corner-first settle.'},
+  {id:'Blackout',t:6500,label:'Blackout',desc:'OLED off.'},
+  {id:'Spark',t:6900,label:'First Spark',desc:'Tiny crackle.'}
+];
+
+const boulderX=155,boulderW=50,boulderH=45;
+
+function getState(t){
+  let s={x:0,y:0,rot:0,sx:1,sy:1,expr:'ATTENTION',gap:0,cpx:0};
+  const tC=5370;
+  if(t<5250){
+    let r=(t-4550)/820;
+    s.x=80+r*75; s.y=GY-Math.sin(r*Math.PI)*50;
+    s.rot=-5*r; s.expr='ATTENTION';
+  }else if(t<5370){
+    let r=(t-5250)/120;
+    s.x=155-R+3-r*6; s.y=GY-15+r*8;
+    s.rot=-5-r*3; s.expr='SCARED';
+  }else if(t<=5460){
+    let hold=t-5370;
+    s.x=boulderX-R-1; s.y=GY-7;
+    s.rot=-8; s.expr='BLINK_FAST';
+    if(hold<16){let p=hold/16;s.sx=1-.01*p;s.sy=1+.005*p;}
+    else if(hold<42){let p=(hold-16)/26;s.sx=.99-.06*p;s.sy=1.005+.045*p;}
+    else if(hold<66){s.sx=.93;s.sy=1.05;}
+    else{let p=(hold-66)/24;s.sx=.93+.03*p;s.sy=1.05-.03*p;}
+  }else if(t<=6050){
+    let r=(t-5460)/590;
+    let eo=1-Math.pow(1-r,2.5);
+    s.x=boulderX-R-1-eo*55; s.y=GY-7-Math.sin(r*Math.PI)*35;
+    s.rot=-8-r*15; s.expr=t>5600?'BLINK_FAST':'BLINK_FAST';
+  }else if(t<=6380){
+    let r=(t-6050)/330;
+    s.x=boulderX-R-56; s.y=GY-7+r*5;
+    s.rot=-23+r*30; s.expr='BLINK_FAST';
+    s.sy=1-r*.04;
+  }else{
+    s.x=boulderX-R-56; s.y=GY-2;
+    s.rot=7; s.expr=t>6820?'OFF':'OFF';
+  }
+  s.cpx=s.x+R*s.sx*Math.cos(s.rot*Math.PI/180);
+  s.gap=boulderX-s.cpx;
+  return s;
+}
+
+function drawFrame(ctx,t,f){
+  ctx.clearRect(0,0,W,H);
+  // Sky gradient
+  let g=ctx.createLinearGradient(0,0,0,GY);
+  g.addColorStop(0,'#ddd6fe');g.addColorStop(.6,'#fef3c7');g.addColorStop(1,'#f5f5f4');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,GY);
+  // Ground
+  ctx.fillStyle='#d6d3d1';ctx.fillRect(0,GY,W,H-GY);
+  ctx.strokeStyle='#a8a29e';ctx.lineWidth=.5;
+  ctx.beginPath();ctx.moveTo(0,GY);ctx.lineTo(W,GY);ctx.stroke();
+  // Grass hints
+  ctx.strokeStyle='#65a30d';ctx.lineWidth=.6;
+  for(let i=0;i<W;i+=20){ctx.beginPath();ctx.moveTo(i,GY);ctx.quadraticCurveTo(i+1,GY-8,i+2,GY-14);ctx.stroke();}
+  // Boulder
+  ctx.fillStyle='#78716c';ctx.beginPath();
+  ctx.moveTo(boulderX,GY);
+  ctx.quadraticCurveTo(boulderX-5,GY-boulderH*.8,boulderX+5,GY-boulderH);
+  ctx.quadraticCurveTo(boulderX+boulderW*.5,GY-boulderH-5,boulderX+boulderW,GY-boulderH*.6);
+  ctx.quadraticCurveTo(boulderX+boulderW+5,GY-boulderH*.2,boulderX+boulderW,GY);
+  ctx.closePath();ctx.fill();
+  ctx.strokeStyle='#57534e';ctx.lineWidth=.8;ctx.stroke();
+  // Moss
+  ctx.fillStyle='rgba(101,163,13,.2)';ctx.beginPath();
+  ctx.arc(boulderX+boulderW*.4,GY-boulderH*.85,8,0,Math.PI*2);ctx.fill();
+
+  let s=getState(t);
+  // Shadow
+  let shW=R*1.4,shOp=.2;
+  if(s.y>GY-10){shOp=.3;shW=R*1.1;}
+  ctx.fillStyle=`rgba(0,0,0,${shOp})`;
+  ctx.beginPath();ctx.ellipse(s.x,GY+2,shW,3,0,0,Math.PI*2);ctx.fill();
+
+  // Robot
+  ctx.save();ctx.translate(s.x,s.y);ctx.rotate(s.rot*Math.PI/180);ctx.scale(s.sx,s.sy);
+  ctx.fillStyle='#d4d4d8';ctx.strokeStyle='#71717a';ctx.lineWidth=1;
+  ctx.beginPath();ctx.arc(0,0,R,0,Math.PI*2);ctx.fill();ctx.stroke();
+  // OLED
+  ctx.fillStyle='#000';
+  let ow=22,oh=11;
+  ctx.fillRect(-ow/2,-oh/2-2,ow,oh);
+  // Eyes
+  if(s.expr==='BLINK_FAST'){
+    ctx.fillStyle='#fff';
+    ctx.fillRect(-ow/2+3,-1,7,1.5);ctx.fillRect(-ow/2+13,-1,7,1.5);
+  }else if(s.expr==='SCARED'){
+    ctx.fillStyle='#fff';
+    ctx.fillRect(-ow/2+3,-oh/2+1,6,8);ctx.fillRect(-ow/2+12,-oh/2+1,6,8);
+    ctx.fillStyle='#000';
+    ctx.beginPath();ctx.moveTo(-ow/2+3,-oh/2);ctx.lineTo(-ow/2+9,-oh/2);ctx.lineTo(-ow/2+3,-oh/2+4);ctx.fill();
+    ctx.beginPath();ctx.moveTo(-ow/2+12,-oh/2);ctx.lineTo(-ow/2+18,-oh/2);ctx.lineTo(-ow/2+18,-oh/2+4);ctx.fill();
+  }else if(s.expr!=='OFF'){
+    ctx.fillStyle='#fff';
+    let ew=s.expr==='ATTENTION'?7:6,eh=s.expr==='ATTENTION'?9:8;
+    ctx.fillRect(-ow/2+3,-eh/2-1,ew,eh);ctx.fillRect(-ow/2+12,-eh/2-1,ew,eh);
+  }
+  ctx.restore();
+
+  // Sparks (for late frames)
+  if(t>=6820&&t<=7480){
+    ctx.strokeStyle='rgba(254,240,138,.7)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(s.x-5,s.y-R+2);ctx.lineTo(s.x-3,s.y-R-5);ctx.stroke();
+    if(t>7000){ctx.beginPath();ctx.moveTo(s.x+4,s.y-R+3);ctx.lineTo(s.x+6,s.y-R-4);ctx.stroke();}
+  }
+
+  // Contact point indicator (debug)
+  if(f.isContact||f.id==='MaxCompress'||f.id==='Release'){
+    ctx.fillStyle='#22c55e';ctx.beginPath();ctx.arc(s.cpx,s.y,2,0,Math.PI*2);ctx.fill();
+  }
+
+  return s;
+}
+
+const sheet=document.getElementById('sheet');
+FRAMES.forEach(f=>{
+  const card=document.createElement('div');
+  card.className='card'+(f.isContact?' contact':'');
+  const cvs=document.createElement('canvas');
+  cvs.width=W;cvs.height=H;
+  card.appendChild(cvs);
+
+  const s=drawFrame(cvs.getContext('2d'),f.t,f);
+
+  card.innerHTML+=`
+    <div class="val">${f.label}</div>
+    <div class="label">${(f.t/1000).toFixed(3)}s — ${f.desc}</div>
+    <div class="data-grid">
+      <span>Contact X:</span><span>${s.cpx.toFixed(1)}</span>
+      <span>Gap:</span><span>${s.gap.toFixed(1)} units</span>
+      <span>scaleX:</span><span>${s.sx.toFixed(3)}</span>
+      <span>scaleY:</span><span>${s.sy.toFixed(3)}</span>
+      <span>Rotation:</span><span>${s.rot.toFixed(1)}°</span>
+      <span>Expression:</span><span>${s.expr}</span>
+      <span>Contact:</span><span>${s.gap<=0?'YES':'NO'}</span>
+    </div>`;
+  sheet.appendChild(card);
+});
+</script>
+</body>
+</html>

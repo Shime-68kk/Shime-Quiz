@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('Safe Capsule Control Center is mock-only and creates safe previews', async ({ page }) => {
   await page.goto('/settings');
+  await page.getByRole('button', { name: /Chẩn đoán dành cho nhà phát triển|Developer diagnostics/ }).click();
 
   const panel = page.getByLabel('Trung tâm Safe Capsule — chỉ mô phỏng');
   await expect(panel).toBeVisible();

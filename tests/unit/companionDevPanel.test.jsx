@@ -92,7 +92,7 @@ describe('CompanionDevPanel', () => {
 
 describe('CompanionDevPanel source safety', () => {
   it('is mounted in Settings as a separated dev-only panel', () => {
-    expect(settingsSource).toContain("import CompanionDevPanel from '../components/settings/CompanionDevPanel.jsx';");
+    expect(settingsSource).toContain("const CompanionDevPanel = lazy(() => import('../components/settings/CompanionDevPanel.jsx'));");
     expect(settingsSource).toContain('<CompanionDevPanel />');
   });
 

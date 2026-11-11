@@ -1,0 +1,1133 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scene 01 Poetic Chase Animatic — BIG-UPDATE-14.8</title>
+  <style>
+    :root {
+      --bg-dark: #09090b;
+      --bg-panel: #18181b;
+      --bg-card: #27272a;
+      --border-gray: rgba(255, 255, 255, 0.1);
+      --border-active: #10b981;
+      --text-bright: #f4f4f5;
+      --text-dim: #a1a1aa;
+      --color-shadow: rgba(0, 0, 0, 0.35);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg-dark);
+      color: var(--text-bright);
+      font-family: monospace;
+      padding: 15px;
+    }
+    header {
+      max-width: 1200px;
+      margin: 0 auto 15px;
+      border-bottom: 1px solid var(--border-gray);
+      padding-bottom: 10px;
+    }
+    h1 { font-size: 1.15rem; margin: 0 0 4px; color: var(--text-bright); }
+    p { margin: 0; font-size: 0.75rem; color: var(--text-dim); }
+
+    /* Control Panel Layout */
+    .controls-wrapper {
+      max-width: 1200px;
+      margin: 0 auto 15px;
+      background: var(--bg-panel);
+      border: 1px solid var(--border-gray);
+      border-radius: 6px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .control-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-gray);
+      color: var(--text-bright);
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.7rem;
+    }
+    .btn:hover { background: #3f3f46; }
+    .btn.active {
+      border-color: var(--border-active);
+      color: var(--border-active);
+      background: rgba(16, 185, 129, 0.1);
+    }
+    .slider-container {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .slider {
+      flex-grow: 1;
+      height: 6px;
+      border-radius: 3px;
+      outline: none;
+      background: #27272a;
+      -webkit-appearance: none;
+    }
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      background: var(--border-active);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    /* Screen viewports */
+    .viewports-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+    @media (min-width: 900px) {
+      .viewports-container.split {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .viewport-box {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-gray);
+      border-radius: 6px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .viewport-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-bottom: 1px solid var(--border-gray);
+      padding-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .viewport-frame {
+      position: relative;
+      background: #111;
+      border: 1px solid #27272a;
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+
+    /* Viewport crop dimensions */
+    .viewport-desktop {
+      width: 100%;
+      max-width: 720px;
+      aspect-ratio: 16/10; /* scale 0.50x of 1440x900 */
+    }
+    .viewport-mobile {
+      width: 195px; /* scale 0.50x of 390x844 */
+      height: 422px;
+    }
+
+    /* World canvas coordinates space */
+    .world-canvas {
+      position: absolute;
+      width: 1000px;
+      height: 600px;
+      transform-origin: top left;
+      background: #18181b;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+
+    /* Theme colors */
+    .theme-lavender {
+      background: linear-gradient(180deg, #ddd6fe 0%, #fef3c7 60%, #f5f5f4 100%);
+    }
+    .theme-forest {
+      background: linear-gradient(180deg, #0d302c 0%, #115e59 70%, #064e3b 100%);
+    }
+
+    .ground-line {
+      position: absolute;
+      bottom: 120px;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: #e7e5e4;
+      border-bottom: 2px solid #a8a29e;
+      transition: background 0.3s;
+    }
+    .theme-forest .ground-line {
+      background: #064e3b;
+      border-bottom: 2px solid #022c22;
+    }
+
+    /* Actors styling */
+    .actor-boulder {
+      position: absolute;
+      width: 145px;
+      height: 130px;
+      bottom: 120px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      transform-origin: bottom center;
+    }
+    .theme-lavender .actor-boulder {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 145 130"><path d="M20,130 Q5,100 8,65 Q12,25 45,10 Q75,2 110,20 Q135,40 140,78 Q142,110 130,130 Z" fill="%2378716c" stroke="%2357534e" stroke-width="2"/><path d="M30,30 Q50,15 70,22" stroke="%2365a30d" stroke-width="4" fill="none" opacity="0.3"/><path d="M55,35 L58,70 L62,90" stroke="%2344403c" stroke-width="1.5" fill="none"/></svg>');
+    }
+    .theme-forest .actor-boulder {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 145 130"><path d="M20,130 Q5,100 8,65 Q12,25 45,10 Q75,2 110,20 Q135,40 140,78 Q142,110 130,130 Z" fill="%232d3748" stroke="%231a202c" stroke-width="2"/><path d="M30,30 Q50,15 70,22" stroke="%232f855a" stroke-width="4" fill="none" opacity="0.4"/></svg>');
+    }
+
+    .actor-shime {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: #e4e4e7;
+      border: 3px solid #71717a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset -15px -15px 30px rgba(0,0,0,0.15), 5px 5px 15px rgba(0,0,0,0.1);
+      transform-origin: center center;
+    }
+    .theme-forest .actor-shime {
+      background: #cbd5e0;
+      border-color: #4a5568;
+    }
+
+    .shime-oled {
+      width: 128px;
+      height: 64px;
+      background: #000;
+      border-radius: 8px;
+      border: 2px solid #52525b;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .butterfly {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"><ellipse cx="15" cy="15" rx="1.5" ry="6" fill="%234a3728"/><path d="M14,12 Q5,2 10,15 Q7,18 14,17" fill="%23e9d5ff" stroke="%23c084fc" stroke-width="0.5"/><path d="M16,12 Q25,2 20,15 Q23,18 16,17" fill="%23e9d5ff" stroke="%23c084fc" stroke-width="0.5"/></svg>');
+      background-size: contain;
+      background-repeat: no-repeat;
+      pointer-events: none;
+    }
+
+    .shadow-shime {
+      position: absolute;
+      background: var(--color-shadow);
+      border-radius: 50%;
+      height: 12px;
+      transform-origin: center center;
+      pointer-events: none;
+    }
+
+    /* Electrical spark */
+    .spark {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15"><path d="M7,15 L9,8 L7,10 L11,0 L8,6 L9,4 L5,11 L7,9 Z" fill="%23fef08a"/></svg>');
+      background-size: contain;
+      background-repeat: no-repeat;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    /* Debug Guides */
+    .debug-guide {
+      position: absolute;
+      pointer-events: none;
+      z-index: 100;
+      display: none;
+    }
+    .guide-line {
+      border-left: 2px dashed #ef4444;
+      height: 100%;
+    }
+    .guide-point {
+      width: 8px;
+      height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .guide-path {
+      stroke: #a78bfa;
+      stroke-width: 1.5;
+      fill: none;
+      stroke-dasharray: 4,4;
+    }
+
+    /* Info Grid & Inspector */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 8px;
+      font-size: 0.7rem;
+      border-top: 1px solid var(--border-gray);
+      padding-top: 8px;
+    }
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Scene 01 Poetic Chase Animatic — BIG-UPDATE-14.8</h1>
+    <p>Lavender Field & Forest Dark | 1000×600 Single World Coordinate System | Pivot (94% 52%) Tangent Contact</p>
+  </header>
+
+  <!-- Control panel -->
+  <div class="controls-wrapper">
+    <div class="control-row">
+      <button class="btn" id="play-btn" onclick="togglePlay()">Play</button>
+      <button class="btn" onclick="restart()">Restart</button>
+      <div class="slider-container">
+        <input type="range" class="slider" id="timeline-scrubber" min="0" max="7800" value="0" oninput="manualScrub(this.value)">
+        <span style="font-size: 0.75rem;" id="time-val">0.000s</span>
+      </div>
+    </div>
+    <div class="control-row">
+      <span style="color: var(--text-dim); font-size: 0.7rem;">Speed:</span>
+      <button class="btn active" id="sp-1" onclick="setSpeed(1)">1.0x</button>
+      <button class="btn" id="sp-05" onclick="setSpeed(0.5)">0.5x</button>
+      <button class="btn" id="sp-025" onclick="setSpeed(0.25)">0.25x</button>
+
+      <span style="color: var(--text-dim); font-size: 0.7rem; margin-left: 10px;">Theme:</span>
+      <button class="btn active" id="th-lavender" onclick="setTheme('lavender')">Lavender Field</button>
+      <button class="btn" id="th-forest" onclick="setTheme('forest')">Forest Dark</button>
+
+      <span style="color: var(--text-dim); font-size: 0.7rem; margin-left: 10px;">View Mode:</span>
+      <button class="btn active" id="vm-split" onclick="setViewMode('split')">Split View</button>
+      <button class="btn" id="vm-desktop" onclick="setViewMode('desktop')">Desktop Viewport</button>
+      <button class="btn" id="vm-mobile" onclick="setViewMode('mobile')">Mobile Viewport</button>
+    </div>
+    <div class="control-row">
+      <span style="color: var(--text-dim); font-size: 0.7rem;">Display Mode:</span>
+      <button class="btn active" id="dm-normal" onclick="setDisplayMode('NORMAL')">Normal View</button>
+      <button class="btn" id="dm-debug" onclick="setDisplayMode('DEBUG')">Contact Debug</button>
+      <button class="btn" id="dm-path" onclick="setDisplayMode('PATH')">World Path View</button>
+    </div>
+    <div>
+      <span style="color: var(--text-dim); font-size: 0.7rem; margin-right: 6px;">Beat:</span>
+      <span id="stage-badge" style="background:#3b82f6; color:#fff; font-weight:700; padding:2px 6px; border-radius:3px; font-size:0.7rem;">ESTABLISHING</span>
+    </div>
+
+    <!-- Live physical variables readout -->
+    <div class="info-grid">
+      <div class="info-item"><span>Time:</span><span id="v-time">0.000s</span></div>
+      <div class="info-item"><span>OLED Face:</span><span id="v-face">NEUTRAL</span></div>
+      <div class="info-item"><span>World Contact X:</span><span>623.0 units</span></div>
+      <div class="info-item"><span>Robot Front Contact X:</span><span id="v-robot-x">-10.0 units</span></div>
+      <div class="info-item"><span>Signed Gap:</span><span id="v-gap-world">723.0 units</span></div>
+      <div class="info-item"><span>scaleX/scaleY:</span><span id="v-scale">1.000 / 1.000</span></div>
+      <div class="info-item"><span>Boulder Translate/Rotate:</span><span id="v-col">0.00px / 0.00°</span></div>
+      <div class="info-item"><span>OLED Inertia Lag:</span><span id="v-oled-lag">0.00px</span></div>
+    </div>
+  </div>
+
+  <div class="viewports-container split" id="viewports-wrapper">
+    <!-- Desktop Viewport Box -->
+    <div class="viewport-box" id="box-desktop">
+      <div class="viewport-title">
+        <span>Desktop Viewport (1440×900 scaled 0.5x, Crop 720×450)</span>
+        <span style="color: var(--text-dim);">X_contact = 64%, Y_contact = 48%</span>
+      </div>
+      <!-- frame scales the inner world-canvas -->
+      <div class="viewport-frame viewport-desktop">
+        <!-- Scale 0.36 of 1000x600 canvas to fit 360px height -->
+        <div class="world-canvas theme-lavender" id="canvas-desktop" style="transform: translate(0px, 0px) scale(0.72);">
+          <div class="ground-line"></div>
+          <svg class="debug-guide" style="width:100%;height:100%;top:0;left:0;" id="path-svg-dt">
+            <path class="guide-path" id="p-shime-dt"></path>
+            <path class="guide-path" id="p-butt-dt" style="stroke:#3b82f6;"></path>
+          </svg>
+          <!-- Red dashed line on contact surface X = 623 -->
+          <div class="debug-guide guide-line" style="left: 623px; display: none;" id="gl-dt"></div>
+          <div class="actor-boulder" id="boulder-dt" style="left: 680px;"></div>
+          <div class="shadow-shime" id="shadow-dt"></div>
+          <div class="actor-shime" id="shime-dt">
+            <div class="shime-oled">
+              <svg width="100%" height="100%" viewBox="0 0 128 64">
+                <rect x="0" y="0" width="128" height="64" fill="#000" />
+                <g id="eyes-dt">
+                  <rect id="eye-l-dt" x="27" y="14" width="32" height="36" rx="8" fill="#fff" />
+                  <rect id="eye-r-dt" x="69" y="14" width="32" height="36" rx="8" fill="#fff" />
+                </g>
+                <polygon id="scared-l-dt" points="27,13 59,13 27,25" fill="#000" opacity="0"/>
+                <polygon id="scared-r-dt" points="69,13 101,13 101,25" fill="#000" opacity="0"/>
+              </svg>
+            </div>
+          </div>
+          <!-- Spark element -->
+          <div class="spark" id="spark-dt"></div>
+          <div class="debug-guide guide-point" style="left: 623px; top: 468px; display: none;" id="gp-dt"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Viewport Box -->
+    <div class="viewport-box" id="box-mobile">
+      <div class="viewport-title">
+        <span>Mobile Viewport (390×844 scaled 0.5x, Crop 195×422)</span>
+        <span style="color: var(--text-dim);">X_contact = 62%, Y_contact = 45%</span>
+      </div>
+      <div class="viewport-frame viewport-mobile">
+        <!-- Scale 0.35x and translate so that contact lands at x=62%, y=45% of 195x422 viewport -->
+        <div class="world-canvas theme-lavender" id="canvas-mobile" style="transform: translate(-140px, -20px) scale(0.39);">
+          <div class="ground-line"></div>
+          <svg class="debug-guide" style="width:100%;height:100%;top:0;left:0;" id="path-svg-mb">
+            <path class="guide-path" id="p-shime-mb"></path>
+            <path class="guide-path" id="p-butt-mb" style="stroke:#3b82f6;"></path>
+          </svg>
+          <div class="debug-guide guide-line" style="left: 623px; display: none;" id="gl-mb"></div>
+          <div class="actor-boulder" id="boulder-mb" style="left: 680px;"></div>
+          <div class="shadow-shime" id="shadow-mb"></div>
+          <div class="actor-shime" id="shime-mb">
+            <div class="shime-oled">
+              <svg width="100%" height="100%" viewBox="0 0 128 64">
+                <rect x="0" y="0" width="128" height="64" fill="#000" />
+                <g id="eyes-mb">
+                  <rect id="eye-l-mb" x="27" y="14" width="32" height="36" rx="8" fill="#fff" />
+                  <rect id="eye-r-mb" x="69" y="14" width="32" height="36" rx="8" fill="#fff" />
+                </g>
+                <polygon id="scared-l-mb" points="27,13 59,13 27,25" fill="#000" opacity="0"/>
+                <polygon id="scared-r-mb" points="69,13 101,13 101,25" fill="#000" opacity="0"/>
+              </svg>
+            </div>
+          </div>
+          <div class="spark" id="spark-mb"></div>
+          <div class="debug-guide guide-point" style="left: 623px; top: 468px; display: none;" id="gp-mb"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Shared parameters
+    const GY = 480;
+    const boulderX = 680;
+    const contactX = 623;
+    const R = 90;
+    const localPivotX = 79.2;
+    const localPivotY = 3.6;
+
+    let timeMs = 0;
+    let isPlaying = false;
+    let speed = 1.0;
+    let lastTs = 0;
+    let currentTheme = 'lavender';
+    let currentDisplayMode = 'NORMAL';
+    let currentViewMode = 'split';
+    let animFrameId = null;
+
+    // Butterfly elements generated dynamically on canvases
+    const canvases = ['canvas-desktop', 'canvas-mobile'];
+    canvases.forEach(cid => {
+      const el = document.getElementById(cid);
+      const b = document.createElement('div');
+      b.className = 'butterfly';
+      b.id = 'butterfly-' + (cid.includes('desktop') ? 'dt' : 'mb');
+      el.appendChild(b);
+    });
+
+    // Helper functions for math
+    function clamp(val, min, max) {
+      return Math.min(Math.max(val, min), max);
+    }
+
+    function togglePlay() {
+      const btn = document.getElementById('play-btn');
+      if (isPlaying) {
+        isPlaying = false;
+        btn.textContent = "Play";
+        cancelAnimationFrame(animFrameId);
+      } else {
+        isPlaying = true;
+        btn.textContent = "Pause";
+        lastTs = performance.now();
+        animFrameId = requestAnimationFrame(animStep);
+      }
+    }
+
+    function setSpeed(val) {
+      speed = val;
+      document.querySelectorAll('.control-row button[id^="sp-"]').forEach(b => b.classList.remove('active'));
+      document.getElementById('sp-' + val.toString().replace('.', '')).classList.add('active');
+    }
+
+    function setTheme(theme) {
+      currentTheme = theme;
+      document.getElementById('th-lavender').classList.toggle('active', theme === 'lavender');
+      document.getElementById('th-forest').classList.toggle('active', theme === 'forest');
+      document.getElementById('canvas-desktop').className = 'world-canvas theme-' + theme;
+      document.getElementById('canvas-mobile').className = 'world-canvas theme-' + theme;
+    }
+
+    function setViewMode(mode) {
+      currentViewMode = mode;
+      document.getElementById('vm-split').classList.toggle('active', mode === 'split');
+      document.getElementById('vm-desktop').classList.toggle('active', mode === 'desktop');
+      document.getElementById('vm-mobile').classList.toggle('active', mode === 'mobile');
+
+      const wrapper = document.getElementById('viewports-wrapper');
+      const boxDt = document.getElementById('box-desktop');
+      const boxMb = document.getElementById('box-mobile');
+
+      if (mode === 'split') {
+        wrapper.className = 'viewports-container split';
+        boxDt.style.display = 'flex';
+        boxMb.style.display = 'flex';
+      } else if (mode === 'desktop') {
+        wrapper.className = 'viewports-container';
+        boxDt.style.display = 'flex';
+        boxMb.style.display = 'none';
+      } else {
+        wrapper.className = 'viewports-container';
+        boxDt.style.display = 'none';
+        boxMb.style.display = 'flex';
+      }
+    }
+
+    function setDisplayMode(mode) {
+      currentDisplayMode = mode;
+      document.getElementById('dm-normal').classList.toggle('active', mode === 'NORMAL');
+      document.getElementById('dm-debug').classList.toggle('active', mode === 'DEBUG');
+      document.getElementById('dm-path').classList.toggle('active', mode === 'PATH');
+
+      const showGuides = (mode === 'DEBUG' || mode === 'PATH');
+      document.querySelectorAll('.debug-guide').forEach(g => {
+        g.style.display = showGuides ? 'block' : 'none';
+      });
+
+      // Specific grid lines vs paths
+      const showLine = (mode === 'DEBUG');
+      document.getElementById('gl-dt').style.display = showLine ? 'block' : 'none';
+      document.getElementById('gl-mb').style.display = showLine ? 'block' : 'none';
+      document.getElementById('gp-dt').style.display = showLine ? 'block' : 'none';
+      document.getElementById('gp-mb').style.display = showLine ? 'block' : 'none';
+    }
+
+    function restart() {
+      timeMs = 0;
+      document.getElementById('timeline-scrubber').value = 0;
+      updateFrame(0);
+      if (isPlaying) {
+        lastTs = performance.now();
+      }
+    }
+
+    function manualScrub(val) {
+      timeMs = parseInt(val);
+      updateFrame(timeMs);
+    }
+
+    function animStep(timestamp) {
+      if (!isPlaying) return;
+      const delta = timestamp - lastTs;
+      lastTs = timestamp;
+
+      timeMs += delta * speed;
+      if (timeMs >= 7800) {
+        timeMs = 0;
+      }
+
+      document.getElementById('timeline-scrubber').value = Math.floor(timeMs);
+      updateFrame(Math.floor(timeMs));
+
+      animFrameId = requestAnimationFrame(animStep);
+    }
+
+    // Build path guides for path view
+    function initPathGuides() {
+      let shimePoints = [];
+      let buttPoints = [];
+      for (let t = 0; t <= 7800; t += 50) {
+        let state = getWorldState(t);
+        if (state.shimeVisible) shimePoints.push(`${state.robotX},${state.robotY}`);
+        if (state.butterflyVisible) buttPoints.push(`${state.butterflyX},${state.butterflyY}`);
+      }
+
+      // Convert world y coordinate back to bottom-based offset for SVG if needed, but here SVG is overlayed on world-canvas directly.
+      // So path points match canvas left/top offsets:
+      let pathShime = shimePoints.map(p => {
+        let parts = p.split(',');
+        return `${parts[0]},${600 - parseFloat(parts[1])}`;
+      }).join(' L ');
+
+      let pathButt = buttPoints.map(p => {
+        let parts = p.split(',');
+        return `${parts[0]},${600 - parseFloat(parts[1])}`;
+      }).join(' L ');
+
+      document.getElementById('p-shime-dt').setAttribute('d', 'M ' + pathShime);
+      document.getElementById('p-shime-mb').setAttribute('d', 'M ' + pathShime);
+      document.getElementById('p-butt-dt').setAttribute('d', 'M ' + pathButt);
+      document.getElementById('p-butt-mb').setAttribute('d', 'M ' + pathButt);
+    }
+
+    // Physics Engine / Timeline Evaluator
+    function getWorldState(t) {
+      let state = {
+        robotX: -100,
+        robotY: GY,
+        robotRot: 0,
+        scaleX: 1.0,
+        scaleY: 1.0,
+        boulderTx: 0,
+        boulderRot: 0,
+        butterflyX: 900,
+        butterflyY: 200,
+        butterflyVisible: false,
+        shimeVisible: false,
+        expression: 'NEUTRAL',
+        stage: 'ESTABLISHING',
+        signedGap: 723,
+        cpx: 0,
+        oledOffsetX: 0,
+        sparkOpacity: 0,
+        sparkPos: 'top_left',
+        shadowWidth: 160,
+        shadowOpacity: 0.35,
+        pivotX: 50,
+        pivotY: 50
+      };
+
+      // 0.00 - 0.75 Establishing
+      if (t < 750) {
+        state.stage = 'ESTABLISHING';
+        state.shimeVisible = false;
+        state.butterflyVisible = false;
+      }
+      // 0.75 - 1.35 Butterfly Enters
+      else if (t < 1350) {
+        state.stage = 'BUTTERFLY ENTERS';
+        state.shimeVisible = false;
+        state.butterflyVisible = true;
+        let r = (t - 750) / 600;
+        state.butterflyX = 950 - r * 530;
+        state.butterflyY = 180 + Math.sin(r * Math.PI) * 40;
+      }
+      // 1.35 - 2.15 Beat A: Slow Happy Bob
+      else if (t < 2150) {
+        state.stage = 'BEAT A: SLOW HAPPY BOB';
+        state.shimeVisible = true;
+        state.butterflyVisible = true;
+        state.expression = 'CURIOUS';
+
+        let r = (t - 1350) / 800;
+        state.robotX = -100 + r * 360;
+        // Bouncing/bobbing offset
+        state.robotY = GY - Math.abs(Math.sin(r * Math.PI * 2)) * 12;
+        state.robotRot = 3 - Math.sin(r * Math.PI) * 6;
+
+        // Butterfly paths gently S-curved
+        let br = (t - 1350) / 800;
+        state.butterflyX = 420 - br * 100;
+        state.butterflyY = 200 - Math.sin(br * Math.PI) * 30;
+      }
+      // 2.15 - 2.75 Beat B: Small Hop
+      else if (t < 2750) {
+        state.stage = 'BEAT B: SMALL HOP';
+        state.shimeVisible = true;
+        state.butterflyVisible = true;
+        state.expression = 'CURIOUS';
+
+        let r = (t - 2150) / 600;
+        state.robotX = 260 + r * 95;
+
+        // Jump physics
+        if (r < 0.16) {
+          // squashing squat
+          let pr = r / 0.16;
+          state.scaleX = 1.05;
+          state.scaleY = 0.95;
+          state.robotY = GY;
+        } else if (r < 0.8) {
+          // arc
+          let ar = (r - 0.16) / 0.64;
+          state.robotY = GY - Math.sin(ar * Math.PI) * 50;
+          state.scaleX = 0.98;
+          state.scaleY = 1.02;
+        } else {
+          // land settle
+          let lr = (r - 0.8) / 0.2;
+          state.robotY = GY;
+          state.scaleX = 1.04 - lr * 0.04;
+          state.scaleY = 0.96 + lr * 0.04;
+        }
+
+        let br = (t - 2150) / 600;
+        state.butterflyX = 320 + br * 80;
+        state.butterflyY = 170 - Math.sin(br * Math.PI) * 10;
+      }
+      // 2.75 - 3.35 Beat C: Slow Follow
+      else if (t < 3350) {
+        state.stage = 'BEAT C: SLOW FOLLOW';
+        state.shimeVisible = true;
+        state.butterflyVisible = true;
+        state.expression = 'ATTENTION';
+
+        let r = (t - 2750) / 600;
+        state.robotX = 355 + r * 65;
+        state.robotY = GY;
+        state.robotRot = -3 + Math.sin(r * Math.PI) * 5;
+
+        let br = (t - 2750) / 600;
+        state.butterflyX = 400 + br * 80;
+        state.butterflyY = 160 + Math.sin(br * Math.PI) * 15;
+      }
+      // 3.35 - 4.05 Beat D: Playful Hop
+      else if (t < 4050) {
+        state.stage = 'BEAT D: PLAYFUL HOP';
+        state.shimeVisible = true;
+        state.butterflyVisible = true;
+        state.expression = 'ATTENTION';
+
+        let r = (t - 3350) / 700;
+        state.robotX = 420 + r * 95;
+
+        if (r < 0.15) {
+          let pr = r / 0.15;
+          state.scaleX = 1.07;
+          state.scaleY = 0.93;
+          state.robotY = GY;
+        } else if (r < 0.75) {
+          let ar = (r - 0.15) / 0.6;
+          state.robotY = GY - Math.sin(ar * Math.PI) * 75;
+          state.scaleX = 0.96;
+          state.scaleY = 1.04;
+          state.robotRot = Math.sin(ar * Math.PI) * 8;
+        } else {
+          let lr = (r - 0.75) / 0.25;
+          state.robotY = GY;
+          state.scaleX = 1.06 - lr * 0.06;
+          state.scaleY = 0.94 + lr * 0.06;
+        }
+
+        let br = (t - 3350) / 700;
+        state.butterflyX = 480 + br * 80;
+        state.butterflyY = 175 - Math.sin(br * Math.PI) * 20;
+      }
+      // 4.05 - 4.55 Slow Follow 2
+      else if (t < 4550) {
+        state.stage = 'BEAT D: SLOW FOLLOW 2';
+        state.shimeVisible = true;
+        state.butterflyVisible = true;
+        state.expression = 'ATTENTION';
+
+        let r = (t - 4050) / 500;
+        state.robotX = 515 + r * 30;
+        state.robotY = GY;
+
+        let br = (t - 4050) / 500;
+        state.butterflyX = 560 + br * 40;
+        state.butterflyY = 155 + Math.sin(br * Math.PI) * 10;
+      }
+      // 4.55 - 5.25 Beat E: Final Jump
+      else if (t < 5250) {
+        state.stage = 'BEAT E: FINAL JUMP';
+        state.shimeVisible = true;
+        state.butterflyVisible = true;
+        state.expression = 'ATTENTION';
+
+        let r = (t - 4550) / 700;
+        state.robotX = 545 + r * 70;
+
+        if (r < 0.14) {
+          let pr = r / 0.14;
+          state.scaleX = 1.1;
+          state.scaleY = 0.9;
+          state.robotY = GY;
+        } else {
+          let ar = (r - 0.14) / 0.86;
+          state.robotY = GY - Math.sin(ar * Math.PI) * 100;
+          state.scaleX = 0.95;
+          state.scaleY = 1.05;
+          state.robotRot = -8 * ar;
+        }
+
+        let br = (t - 4550) / 700;
+        state.butterflyX = 600 + br * 120;
+        state.butterflyY = 165 - Math.sin(br * Math.PI) * 40;
+      }
+      // 5.25 - 5.37 Late Scared realization
+      else if (t < 5370) {
+        state.stage = 'LATE REALIZATION (SCARED)';
+        state.shimeVisible = true;
+        state.butterflyVisible = true;
+        state.expression = 'SCARED';
+
+        let r = (t - 5250) / 120;
+        state.robotX = 615 + r * 7;
+        state.robotY = GY - 15 + r * 3;
+        state.robotRot = -8;
+
+        state.butterflyX = 720;
+        state.butterflyY = 125;
+      }
+      // 5.37 - 5.46 Contact Hold (90ms)
+      else if (t <= 5460) {
+        state.stage = 'CONTACT HOLD';
+        state.shimeVisible = true;
+        state.butterflyVisible = true;
+        state.expression = 'BLINK_FAST';
+        state.robotRot = -8;
+
+        // Contact-relative transform pivot 94% 52%
+        state.pivotX = 94;
+        state.pivotY = 52;
+
+        let holdTime = t - 5370;
+        if (holdTime < 16) {
+          let pr = holdTime / 16;
+          state.scaleX = 1.0 - pr * 0.01;
+          state.scaleY = 1.0 + pr * 0.005;
+          state.boulderTx = pr * 0.2;
+          state.boulderRot = pr * 0.05;
+          state.oledOffsetX = -pr * 1.0;
+        } else if (holdTime < 42) {
+          let pr = (holdTime - 16) / 26;
+          state.scaleX = 0.99 - pr * 0.06;
+          state.scaleY = 1.005 + pr * 0.045;
+          state.boulderTx = 0.2 + pr * 0.8;
+          state.boulderRot = 0.05 + pr * 0.15;
+          state.oledOffsetX = -1.0 - pr * 1.5;
+        } else if (holdTime < 66) {
+          let pr = (holdTime - 42) / 24;
+          state.scaleX = 0.93;
+          state.scaleY = 1.05;
+          state.boulderTx = 1.0 + pr * 0.5;
+          state.boulderRot = 0.2 + pr * 0.1;
+          state.oledOffsetX = -2.5 + pr * 1.0;
+        } else {
+          let pr = (holdTime - 66) / 22;
+          state.scaleX = 0.93 + pr * 0.03;
+          state.scaleY = 1.05 - pr * 0.03;
+          state.boulderTx = 1.5 - pr * 0.5;
+          state.boulderRot = 0.3 - pr * 0.1;
+          state.oledOffsetX = -1.5 + pr * 1.5;
+        }
+
+        // Anchor math keeping front point pinned at contactX = 623
+        const rad = state.robotRot * Math.PI / 180;
+        state.robotX = contactX - localPivotX * state.scaleX * Math.cos(rad) + localPivotY * state.scaleY * Math.sin(rad);
+        state.robotY = GY - 12;
+
+        state.butterflyX = 740;
+        state.butterflyY = 120;
+      }
+      // 5.46 - 6.05 Rebound Short Arc
+      else if (t < 6050) {
+        state.stage = 'RELEASE & REBOUND';
+        state.shimeVisible = true;
+        state.butterflyVisible = true;
+        state.expression = 'BLINK_FAST';
+
+        let r = (t - 5460) / 590;
+        let easeOut = 1 - Math.pow(1 - r, 2.5); // parabolic rebound
+        state.robotX = (contactX - R) - easeOut * 70;
+        state.robotY = (GY - 12) - Math.sin(r * Math.PI) * 45;
+        state.robotRot = -8 - r * 15;
+
+        // Pivot transitions back to center
+        let pr = Math.min(1.0, (t - 5460) / 100);
+        state.pivotX = 94 - pr * 44;
+        state.pivotY = 52 - pr * 2;
+
+        // Boulder wiggles (damped settle)
+        let tCol = (t - 5460) / 1000;
+        state.boulderTx = 1.5 * Math.exp(-6 * tCol) * Math.cos(30 * tCol);
+        state.boulderRot = 0.3 * Math.exp(-6 * tCol) * Math.cos(30 * tCol);
+
+        state.butterflyX = 780 + r * 100;
+        state.butterflyY = 110 - r * 30;
+      }
+      // 6.05 - 6.38 Landing settle
+      else if (t < 6380) {
+        state.stage = 'LANDING SETTLE';
+        state.shimeVisible = true;
+        state.butterflyVisible = false;
+        state.expression = 'BLINK_FAST';
+
+        let r = (t - 6050) / 330;
+        state.robotX = (contactX - R - 70) - r * 5;
+        state.robotY = GY;
+        state.robotRot = -23 + r * 30; // landing tilt correction
+
+        // Corner landing compression
+        state.scaleY = 1.0 - (1 - r) * 0.04;
+      }
+      // 6.38 - 6.82 Blackout
+      else if (t < 6820) {
+        state.stage = 'BLACKOUT HOLD';
+        state.shimeVisible = true;
+        state.butterflyVisible = false;
+        state.expression = 'OFF';
+
+        state.robotX = contactX - R - 75;
+        state.robotY = GY;
+        state.robotRot = 7;
+      }
+      // 6.82 - 7.48 Electrical crackle
+      else if (t < 7480) {
+        state.stage = 'ELECTRICAL CRACKLE';
+        state.shimeVisible = true;
+        state.butterflyVisible = false;
+        state.expression = 'OFF';
+
+        state.robotX = contactX - R - 75;
+        state.robotY = GY;
+        state.robotRot = 7;
+
+        // Sparks sparks schedule
+        let crackTime = t - 6820;
+        if (crackTime >= 40 && crackTime < 100) {
+          state.sparkOpacity = 0.8;
+          state.sparkPos = 'top_left';
+        } else if (crackTime >= 190 && crackTime < 235) {
+          state.sparkOpacity = 0.7;
+          state.sparkPos = 'top_right';
+        } else if (crackTime >= 330 && crackTime < 365) {
+          state.sparkOpacity = 0.6;
+          state.sparkPos = 'top_center';
+        }
+
+        // Faint scanline spark flicker
+        if (crackTime >= 260 && crackTime < 300) {
+          state.expression = 'SCANLINE';
+        }
+
+        // Tiny mechanical shell jitter
+        state.robotX += (Math.random() - 0.5) * 1.5;
+        state.robotY += (Math.random() - 0.5) * 1.0;
+      }
+      // 7.48 - 7.80 Scene complete
+      else {
+        state.stage = 'SCENE COMPLETE';
+        state.shimeVisible = true;
+        state.butterflyVisible = false;
+        state.expression = 'OFF';
+
+        state.robotX = contactX - R - 75;
+        state.robotY = GY;
+        state.robotRot = 7;
+      }
+
+      // Calculate dynamic variables
+      state.cpx = state.robotX + R * state.scaleX * Math.cos(state.robotRot * Math.PI / 180);
+      state.signedGap = contactX - state.cpx;
+
+      // Shadow metrics
+      if (state.robotY < GY) {
+        let heightDiff = GY - state.robotY;
+        state.shadowWidth = clamp(160 - heightDiff * 0.4, 110, 160);
+        state.shadowOpacity = clamp(0.35 - heightDiff * 0.002, 0.12, 0.35);
+      } else {
+        state.shadowWidth = 160;
+        state.shadowOpacity = 0.35;
+      }
+
+      return state;
+    }
+
+    function updateFrame(t) {
+      const state = getWorldState(t);
+
+      // Scrubber info
+      document.getElementById('time-val').textContent = (t / 1000).toFixed(3) + "s";
+      document.getElementById('v-time').textContent = (t / 1000).toFixed(3) + "s";
+      document.getElementById('v-face').textContent = state.expression;
+      document.getElementById('v-robot-x').textContent = state.cpx.toFixed(1) + " units";
+      document.getElementById('v-gap-world').textContent = state.signedGap.toFixed(1) + " units";
+      document.getElementById('v-scale').textContent = `${state.scaleX.toFixed(3)} / ${state.scaleY.toFixed(3)}`;
+      document.getElementById('v-col').textContent = `${state.boulderTx.toFixed(2)}px / ${state.boulderRot.toFixed(2)}°`;
+      document.getElementById('v-oled-lag').textContent = state.oledOffsetX.toFixed(2) + "px";
+
+      // Badge
+      const badge = document.getElementById('stage-badge');
+      badge.textContent = state.stage;
+      if (state.stage.includes('CONTACT')) {
+        badge.style.background = '#ef4444';
+      } else if (state.stage.includes('REBOUND') || state.stage.includes('LANDING')) {
+        badge.style.background = '#10b981';
+      } else if (state.stage.includes('ELECTRICAL')) {
+        badge.style.background = '#eab308';
+      } else {
+        badge.style.background = '#3b82f6';
+      }
+
+      // Update actors
+      const shDt = document.getElementById('shime-dt');
+      const shMb = document.getElementById('shime-mb');
+      const blDt = document.getElementById('boulder-dt');
+      const blMb = document.getElementById('boulder-mb');
+      const swDt = document.getElementById('shadow-dt');
+      const swMb = document.getElementById('shadow-mb');
+
+      // Visibility
+      shDt.style.display = state.shimeVisible ? 'flex' : 'none';
+      shMb.style.display = state.shimeVisible ? 'flex' : 'none';
+      swDt.style.display = state.shimeVisible ? 'block' : 'none';
+      swMb.style.display = state.shimeVisible ? 'block' : 'none';
+
+      const bfDt = document.getElementById('butterfly-dt');
+      const bfMb = document.getElementById('butterfly-mb');
+      bfDt.style.display = state.butterflyVisible ? 'block' : 'none';
+      bfMb.style.display = state.butterflyVisible ? 'block' : 'none';
+
+      // Transform positioning (adjusting for bottom coordinates of world 600px height)
+      // center of shime actor is at state.robotX, (600 - state.robotY) from top-left
+      if (state.shimeVisible) {
+        let leftOffset = (state.robotX - 90);
+        let topOffset = (600 - state.robotY - 90);
+
+        // Desktop
+        shDt.style.left = leftOffset + 'px';
+        shDt.style.top = topOffset + 'px';
+        shDt.style.transformOrigin = `${state.pivotX}% ${state.pivotY}%`;
+        shDt.style.transform = `scale(${state.scaleX}, ${state.scaleY}) rotate(${-state.robotRot}deg)`;
+
+        // Mobile
+        shMb.style.left = leftOffset + 'px';
+        shMb.style.top = topOffset + 'px';
+        shMb.style.transformOrigin = `${state.pivotX}% ${state.pivotY}%`;
+        shMb.style.transform = `scale(${state.scaleX}, ${state.scaleY}) rotate(${-state.robotRot}deg)`;
+
+        // Shadows
+        let shadowLeft = state.robotX - 80;
+        swDt.style.left = shadowLeft + 'px';
+        swDt.style.width = state.shadowWidth + 'px';
+        swDt.style.opacity = state.shadowOpacity;
+        swDt.style.bottom = '116px'; // offset to lie exactly below shell
+
+        swMb.style.left = shadowLeft + 'px';
+        swMb.style.width = state.shadowWidth + 'px';
+        swMb.style.opacity = state.shadowOpacity;
+        swMb.style.bottom = '116px';
+      }
+
+      // Boulder displacement
+      let bLeft = 680 + state.boulderTx;
+      blDt.style.left = bLeft + 'px';
+      blDt.style.transform = `rotate(${state.boulderRot}deg)`;
+
+      blMb.style.left = bLeft + 'px';
+      blMb.style.transform = `rotate(${state.boulderRot}deg)`;
+
+      // Butterfly positioning
+      if (state.butterflyVisible) {
+        let bfLeft = state.butterflyX - 15;
+        let bfTop = 600 - state.butterflyY - 15;
+        bfDt.style.left = bfLeft + 'px';
+        bfDt.style.top = bfTop + 'px';
+
+        bfMb.style.left = bfLeft + 'px';
+        bfMb.style.top = bfTop + 'px';
+
+        // Wings flap animation
+        let wingSpeed = (t < 1350) ? 60 : 120; // faster flap when flying
+        let flap = Math.sin(performance.now() / wingSpeed) > 0;
+        bfDt.style.transform = flap ? 'scaleX(0.4)' : 'scaleX(1.0)';
+        bfMb.style.transform = flap ? 'scaleX(0.4)' : 'scaleX(1.0)';
+      }
+
+      // OLED eyes geometry updates
+      canvases.forEach(cid => {
+        const isDt = cid.includes('desktop');
+        const eyeL = document.getElementById(isDt ? 'eye-l-dt' : 'eye-l-mb');
+        const eyeR = document.getElementById(isDt ? 'eye-r-dt' : 'eye-r-mb');
+        const scL = document.getElementById(isDt ? 'scared-l-dt' : 'scared-l-mb');
+        const scR = document.getElementById(isDt ? 'scared-r-dt' : 'scared-r-mb');
+        const eyesG = document.getElementById(isDt ? 'eyes-dt' : 'eyes-mb');
+
+        // Reset
+        eyeL.setAttribute('y', '14');
+        eyeL.setAttribute('height', '36');
+        eyeR.setAttribute('y', '14');
+        eyeR.setAttribute('height', '36');
+        scL.setAttribute('opacity', '0');
+        scR.setAttribute('opacity', '0');
+
+        if (state.expression === 'CURIOUS') {
+          // Curised gaze look slightly right
+          eyesG.setAttribute('transform', `translate(${state.oledOffsetX + 4}, 0)`);
+        } else if (state.expression === 'ATTENTION') {
+          // Large eyes looking sensor-ward
+          eyeL.setAttribute('y', '13');
+          eyeL.setAttribute('height', '38');
+          eyeR.setAttribute('y', '13');
+          eyeR.setAttribute('height', '38');
+          eyesG.setAttribute('transform', `translate(${state.oledOffsetX + 2}, 0)`);
+        } else if (state.expression === 'SCARED') {
+          scL.setAttribute('opacity', '0.8');
+          scR.setAttribute('opacity', '0.8');
+          // jitter eyes
+          let jitX = (Math.random() - 0.5) * 2;
+          let jitY = (Math.random() - 0.5) * 2;
+          eyesG.setAttribute('transform', `translate(${state.oledOffsetX + jitX}, ${jitY})`);
+        } else if (state.expression === 'BLINK_FAST') {
+          // Closed eyes
+          eyeL.setAttribute('y', '30');
+          eyeL.setAttribute('height', '3');
+          eyeR.setAttribute('y', '30');
+          eyeR.setAttribute('height', '3');
+          eyesG.setAttribute('transform', `translate(${state.oledOffsetX}, 0)`);
+        } else if (state.expression === 'SCANLINE') {
+          eyeL.setAttribute('y', '32');
+          eyeL.setAttribute('height', '1');
+          eyeR.setAttribute('y', '32');
+          eyeR.setAttribute('height', '1');
+        } else if (state.expression === 'OFF') {
+          eyeL.setAttribute('height', '0');
+          eyeR.setAttribute('height', '0');
+        }
+      });
+
+      // Sparks positioning
+      const spDt = document.getElementById('spark-dt');
+      const spMb = document.getElementById('spark-mb');
+      if (state.sparkOpacity > 0) {
+        let leftS = state.robotX;
+        let topS = 600 - state.robotY - 95;
+        if (state.sparkPos === 'top_left') leftS -= 30;
+        if (state.sparkPos === 'top_right') leftS += 30;
+
+        spDt.style.left = leftS + 'px';
+        spDt.style.top = topS + 'px';
+        spDt.style.opacity = state.sparkOpacity;
+
+        spMb.style.left = leftS + 'px';
+        spMb.style.top = topS + 'px';
+        spMb.style.opacity = state.sparkOpacity;
+      } else {
+        spDt.style.opacity = 0;
+        spMb.style.opacity = 0;
+      }
+    }
+
+    // Initialize paths
+    initPathGuides();
+    updateFrame(0);
+  </script>
+
+</body>
+</html>

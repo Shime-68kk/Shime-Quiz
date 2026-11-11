@@ -6,8 +6,11 @@ import { getSettings } from './settingsStorage.js';
 import { readStudyHistory } from './studyHistoryStorage.js';
 import {
   isFsrsNewCardEnrollmentEligible,
+  createActiveFsrsOptions,
+  scheduleInitialActiveFsrsReview,
   scheduleDormantFsrsReview,
   scheduleReview,
+  scheduleCurrentReview,
   getSchedulerKind,
   SCHEDULER_KIND_FSRS_PLANNED
 } from '../quiz/reviewSchedulerAdapter.js';
@@ -33,13 +36,6 @@ function nowIso() {
   return new Date().toISOString();
 }
 
-
-function addDaysIso(baseDate, days) {
-  const date = baseDate instanceof Date ? new Date(baseDate.getTime()) : new Date(baseDate || Date.now());
-  if (Number.isNaN(date.getTime())) return nowIso();
-  date.setDate(date.getDate() + Math.max(0, Number(days) || 0));
-  return date.toISOString();
-}
 
 function isPlainObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -75,6 +71,32 @@ function getPreservedFsrsFields(record) {
       .filter(isPlainObject)
       .slice(-FSRS_REVIEW_LOG_CAP);
     if (logs.length > 0) preserved.fsrsReviewLogs = logs;
+  }
+  const schedulerId = typeof record.schedulerId === 'string' ? record.schedulerId.trim() : '';
+  const schedulerAdapterVersion = typeof record.schedulerAdapterVersion === 'string'
+    ? record.schedulerAdapterVersion.trim()
+    : '';
+  if (schedulerId) preserved.schedulerId = schedulerId;
+  if (typeof record.legacySchedulerId === 'string' && record.legacySchedulerId.trim()) {
+    preserved.legacySchedulerId = record.legacySchedulerId.trim().slice(0, 80);
+  }
+  if (schedulerAdapterVersion) preserved.schedulerAdapterVersion = schedulerAdapterVersion;
+  if (Number.isFinite(Number(record.schedulerStateSchemaVersion))) {
+    preserved.schedulerStateSchemaVersion = Math.max(1, Math.floor(Number(record.schedulerStateSchemaVersion)));
+  }
+  if (isPlainObject(record.schedulerState)) {
+    const schedulerState = cloneJsonSafe(record.schedulerState);
+    if (isPlainObject(schedulerState)) preserved.schedulerState = schedulerState;
+  }
+  if (isPlainObject(record.fallbackSnapshot)) {
+    const fallbackSnapshot = cloneJsonSafe(record.fallbackSnapshot);
+    if (isPlainObject(fallbackSnapshot)) preserved.fallbackSnapshot = fallbackSnapshot;
+  }
+  if (typeof record.schedulerFallbackReason === 'string') {
+    preserved.schedulerFallbackReason = record.schedulerFallbackReason.slice(0, 160);
+  }
+  if (record.schedulerFallbackAt) {
+    preserved.schedulerFallbackAt = normalizeDate(record.schedulerFallbackAt, '');
   }
 
   return preserved;
@@ -176,84 +198,12 @@ function writeRecords(records = [], options = {}) {
   }
 }
 
-function getNextCorrectIntervalDays(previousRecord) {
-  const repetitionCount = Math.max(0, Number(previousRecord?.repetitionCount) || 0);
-  const previousInterval = Math.max(1, Number(previousRecord?.intervalDays) || 1);
-  const easeFactor = clamp(previousRecord?.easeFactor, MIN_EASE_FACTOR, MAX_EASE_FACTOR, 2.2);
-
-  if (repetitionCount <= 0) return 1;
-  if (repetitionCount === 1) return 3;
-  return Math.max(1, Math.round(previousInterval * easeFactor));
-}
-
-function updateRecordFromResult(previousRecord, itemResult, completedAt) {
-  if (!itemResult?.itemId) return null;
-  const status = itemResult.status;
-  if (!['correct', 'wrong', 'unanswered'].includes(status)) return null;
-
-  const base = normalizeScheduleRecord(previousRecord) || {
-    itemId: String(itemResult.itemId),
-    subjectId: itemResult.subjectId ? String(itemResult.subjectId) : '',
-    topicId: itemResult.topicId ? String(itemResult.topicId) : '',
-    lastReviewedAt: completedAt,
-    dueAt: completedAt,
-    intervalDays: 0,
-    repetitionCount: 0,
-    easeFactor: 2.2,
-    correctStreak: 0,
-    wrongCount: 0
-  };
-
-  const reviewedAt = normalizeDate(completedAt, nowIso());
-
-  if (status === 'correct') {
-    const intervalDays = getNextCorrectIntervalDays(base);
-    return normalizeScheduleRecord({
-      ...base,
-      subjectId: itemResult.subjectId || base.subjectId,
-      topicId: itemResult.topicId || base.topicId,
-      lastReviewedAt: reviewedAt,
-      dueAt: addDaysIso(reviewedAt, intervalDays),
-      intervalDays,
-      repetitionCount: base.repetitionCount + 1,
-      easeFactor: clamp(base.easeFactor + 0.05, MIN_EASE_FACTOR, MAX_EASE_FACTOR, 2.25),
-      correctStreak: base.correctStreak + 1,
-      wrongCount: base.wrongCount
-    });
-  }
-
-  if (status === 'wrong') {
-    return normalizeScheduleRecord({
-      ...base,
-      subjectId: itemResult.subjectId || base.subjectId,
-      topicId: itemResult.topicId || base.topicId,
-      lastReviewedAt: reviewedAt,
-      dueAt: addDaysIso(reviewedAt, 1),
-      intervalDays: 1,
-      repetitionCount: base.repetitionCount,
-      easeFactor: clamp(base.easeFactor - 0.2, MIN_EASE_FACTOR, MAX_EASE_FACTOR, 2),
-      correctStreak: 0,
-      wrongCount: base.wrongCount + 1
-    });
-  }
-
-  // Unanswered scorable items are made due soon without increasing wrongCount.
-  return normalizeScheduleRecord({
-    ...base,
-    subjectId: itemResult.subjectId || base.subjectId,
-    topicId: itemResult.topicId || base.topicId,
-    lastReviewedAt: reviewedAt,
-    dueAt: addDaysIso(reviewedAt, 1),
-    intervalDays: 1,
-    repetitionCount: base.repetitionCount,
-    easeFactor: base.easeFactor,
-    correctStreak: 0,
-    wrongCount: base.wrongCount
-  });
-}
-
 export function createReviewScheduleRecordFromResult(previousRecord, itemResult, completedAt = nowIso()) {
-  return updateRecordFromResult(previousRecord, itemResult, completedAt);
+  return scheduleCurrentReview(previousRecord || {}, itemResult?.status, {
+    completedAt,
+    now: completedAt,
+    itemResult
+  });
 }
 
 // Returns FSRS rating string from most-recent log at or after sessionStartedAt, or null.
@@ -310,7 +260,10 @@ export function updateReviewScheduleFromHistoryRecord(historyRecord) {
   const completedAt = normalizeDate(historyRecord.completedAt, nowIso());
 
   // Phase 14L: re-read toggle at processing time; never use a session-start cache.
-  const fsrsToggleEnabled = getSettings().fsrsExperimentalEnabled === true;
+  const fsrsSettings = getSettings();
+  const fsrsToggleEnabled = fsrsSettings.fsrsExperimentalEnabled === true;
+  const fsrsActiveEnabled = fsrsToggleEnabled && fsrsSettings.fsrsActiveSchedulingEnabled === true;
+  const fsrsOptions = createActiveFsrsOptions(fsrsSettings);
   // Exclude the current session from prior-history: it may already be saved to storage.
   const priorHistoryRecords = fsrsToggleEnabled
     ? (readStudyHistory().records || []).filter(r => r.id !== historyRecord.id)
@@ -343,23 +296,44 @@ export function updateReviewScheduleFromHistoryRecord(historyRecord) {
         subjectId: itemResult.subjectId ? String(itemResult.subjectId) : '',
         topicId: itemResult.topicId ? String(itemResult.topicId) : ''
       };
-      nextRecord = scheduleDormantFsrsReview(baseRecord, resultStatus, { completedAt });
+      nextRecord = fsrsActiveEnabled
+        ? scheduleInitialActiveFsrsReview(baseRecord, resultStatus, {
+            completedAt,
+            now: completedAt,
+            itemResult,
+            fsrsOptions
+          })
+        : scheduleDormantFsrsReview(baseRecord, resultStatus, { completedAt });
     }
 
     // Phase 15B: for enrolled FSRS-family records, run through double-gated scheduleReview.
     if (!nextRecord && priorRecord && getSchedulerKind(priorRecord) === SCHEDULER_KIND_FSRS_PLANNED) {
-      const memoryRating = resolveMemoryRatingFromLogs(priorRecord, historyRecord.sessionStartedAt);
+      // Study history persists the session start as createdAt. Keep the older
+      // sessionStartedAt alias for imported/test records.
+      const sessionStartedAt = historyRecord.createdAt || historyRecord.sessionStartedAt;
+      const memoryRating = resolveMemoryRatingFromLogs(priorRecord, sessionStartedAt);
       const context = {
         completedAt,
+        now: completedAt,
         itemResult,
+        fsrsOptions,
         ...(memoryRating ? { memoryRating } : { continueWithoutRating: true })
       };
       nextRecord = scheduleReview(priorRecord, resultStatus, context);
     }
 
-    // SM-2 fallback for all ineligible or unenrolled items (intervals remain SM-2-like).
+    // Every production review, including stable SM-2, passes through Scheduler Kernel v2.
     if (!nextRecord) {
-      nextRecord = updateRecordFromResult(priorRecord, itemResult, completedAt);
+      const baseRecord = priorRecord || {
+        itemId,
+        subjectId: itemResult.subjectId ? String(itemResult.subjectId) : '',
+        topicId: itemResult.topicId ? String(itemResult.topicId) : ''
+      };
+      nextRecord = scheduleReview(baseRecord, resultStatus, {
+        completedAt,
+        now: completedAt,
+        itemResult
+      });
     }
 
     if (!nextRecord) {
@@ -384,6 +358,11 @@ export function updateReviewScheduleFromHistoryRecord(historyRecord) {
 // Bridges toggle state to StudyRoom without exposing settingsStorage directly.
 export function getBridgeToggleEnabled() {
   return getSettings().fsrsExperimentalEnabled === true;
+}
+
+export function getActiveFsrsSchedulingEnabled() {
+  const settings = getSettings();
+  return settings.fsrsExperimentalEnabled === true && settings.fsrsActiveSchedulingEnabled === true;
 }
 
 // Phase 14N: write-only inert log append for fsrs-planned records only.

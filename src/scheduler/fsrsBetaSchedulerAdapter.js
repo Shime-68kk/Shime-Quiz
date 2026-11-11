@@ -4,9 +4,14 @@ import {
   bucketInterval,
   normalizeSchedulerInput
 } from './schedulerAdapterContract.js';
+import {
+  createFsrsSeedPayload,
+  getFsrsRetrievability,
+  scheduleFsrsReview
+} from '../quiz/fsrsWrapper.js';
 
 export const FSRS_BETA_SCHEDULER_ID = 'fsrs-beta';
-export const FSRS_BETA_SCHEDULER_VERSION = 'shime-fsrs-beta-wrapper-v1';
+export const FSRS_BETA_SCHEDULER_VERSION = 'shime-ts-fsrs-5.4.1-fsrs6-beta-v2';
 
 function clamp(value, min, max, fallback) {
   const number = Number(value);
@@ -14,17 +19,35 @@ function clamp(value, min, max, fallback) {
   return Math.min(max, Math.max(min, number));
 }
 
-function getBetaInterval(input) {
-  const history = input.localReviewHistorySummary;
-  const base = Math.max(1, input.currentIntervalDays || 1);
-  const stability = clamp(input.schedulerState.stability, 0.5, 90, base);
-  const correctRate = history.recentCorrectRate;
+function mapRating(rating) {
+  if (rating === 'again' || rating === 'wrong' || rating === 'unanswered') return 'Again';
+  if (rating === 'hard') return 'Hard';
+  if (rating === 'easy') return 'Easy';
+  return 'Good';
+}
 
-  if (input.rating === 'again' || input.rating === 'wrong') return 1;
-  if (input.rating === 'hard') return Math.max(1, Math.round(Math.min(base, stability) * 0.7));
-  if (input.rating === 'easy') return Math.max(2, Math.round(Math.max(base + 1, stability * 1.8)));
-  if (correctRate >= 0.85 && history.totalReviews >= 3) return Math.max(2, Math.round(stability * 1.35));
-  return Math.max(1, Math.round(stability));
+function createPayload(input) {
+  const algorithmState = input.schedulerState?.algorithmState;
+  if (algorithmState && typeof algorithmState === 'object' && !Array.isArray(algorithmState)) {
+    return JSON.parse(JSON.stringify(algorithmState));
+  }
+  if (input.repetitionCount <= 0) {
+    return createFsrsSeedPayload(input.reviewedAt, { enableFuzz: false });
+  }
+
+  const intervalDays = Math.max(1, Math.round(input.currentIntervalDays || 1));
+  return {
+    due: addDaysIso(input.lastReviewedAt, intervalDays),
+    stability: clamp(input.schedulerState.stability, 0.01, 36500, intervalDays),
+    difficulty: clamp(input.schedulerState.difficulty, 1, 10, input.easeFactor < 1.8 ? 7 : 5),
+    elapsedDays: Math.max(0, Math.round(input.elapsedDays)),
+    scheduledDays: intervalDays,
+    reps: input.repetitionCount,
+    lapses: input.localReviewHistorySummary.lapseCount,
+    learningSteps: 0,
+    state: 'Review',
+    lastReview: input.lastReviewedAt
+  };
 }
 
 export function getFsrsBetaReadinessStatus(evidence = {}) {
@@ -40,8 +63,21 @@ export function getFsrsBetaReadinessStatus(evidence = {}) {
 
 export function computeFsrsBetaNextReview(rawInput) {
   const input = normalizeSchedulerInput(rawInput);
-  const intervalDays = getBetaInterval(input);
-  const difficulty = clamp(input.schedulerState.difficulty, 1, 10, input.easeFactor < 1.8 ? 7 : 5);
+  const reviewDate = input.reviewedAt;
+  const schedulerOptions = {
+    enableFuzz: input.schedulerState?.options?.enableFuzz ?? false,
+    requestRetention: input.schedulerState?.options?.requestRetention,
+    maximumInterval: input.schedulerState?.options?.maximumInterval,
+    enableShortTerm: input.schedulerState?.options?.enableShortTerm
+  };
+  const result = scheduleFsrsReview(
+    createPayload(input),
+    mapRating(input.rating),
+    reviewDate,
+    schedulerOptions
+  );
+  const intervalDays = result.intervalDays;
+  const difficulty = clamp(result.card.difficulty, 1, 10, 5);
   const decisionCodes = [
     'FSRS_BETA_BASELINE',
     intervalDays <= 3 ? 'FSRS_BETA_SHORT_REVIEW' : 'FSRS_BETA_LONG_REVIEW',
@@ -53,7 +89,7 @@ export function computeFsrsBetaNextReview(rawInput) {
 
   const output = {
     schedulerId: FSRS_BETA_SCHEDULER_ID,
-    nextReviewAt: addDaysIso(input.lastReviewedAt, intervalDays),
+    nextReviewAt: result.dueAt,
     intervalDays,
     easeFactor: input.easeFactor,
     stabilityBucket: bucketInterval(intervalDays),
@@ -64,6 +100,12 @@ export function computeFsrsBetaNextReview(rawInput) {
     migrationSafe: true,
     rollbackHint: 'rollback_to_sm2_available'
   };
+  output.schedulerState = {
+    schemaVersion: 1,
+    algorithmState: result.card.fsrsPayload,
+    reviewLog: result.reviewLog,
+    retrievability: result.card.retrievability
+  };
   assertSchedulerOutputSafe(output);
   return output;
 }
@@ -71,10 +113,22 @@ export function computeFsrsBetaNextReview(rawInput) {
 export const fsrsBetaSchedulerAdapter = {
   schedulerId: FSRS_BETA_SCHEDULER_ID,
   schedulerVersion: FSRS_BETA_SCHEDULER_VERSION,
+  stateSchemaVersion: 1,
+  decisionCodePrefix: 'FSRS_',
   stabilityLevel: 'beta',
   privacyClass: 'local_only',
   supportsRollback: true,
   requiresExplicitOptIn: true,
+  capabilities: ['schedule', 'due-cards', 'workload', 'explain', 'retrievability'],
+  migrateState(state = {}) {
+    const safeState = state && typeof state === 'object' && !Array.isArray(state) ? state : {};
+    return { ...safeState, schemaVersion: 1 };
+  },
+  getRetrievability(record, now = new Date()) {
+    const payload = record?.schedulerState?.algorithmState || record?.fsrsPayload;
+    if (!payload || typeof payload !== 'object') return null;
+    return getFsrsRetrievability(payload, now);
+  },
   computeNextReview: computeFsrsBetaNextReview,
   computeDueCards(input = {}) {
     const nowTime = new Date(input.now || Date.now()).getTime();

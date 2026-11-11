@@ -19,6 +19,7 @@
     "verify:safe-capsule-mock-handoff": "node scripts/verify-safe-capsule-mock-handoff.js",
     "test:robot-sensing-sim": "node scripts/run-radar-tof-sensing-scenarios.js --all",
     "validate:scheduler-engine": "node scripts/validate-big-update-5-scheduler-engine.js",
+    "validate:scheduler-kernel": "node scripts/validate-scheduler-kernel-v2.js",
     "test:scheduler-lab": "vitest run tests/unit/schedulerComparisonLab.test.js tests/unit/fsrsReadinessGate.test.js",
     "validate:studyroom-subject-spaces": "node scripts/validate-big-update-6-studyroom-subject-spaces.js",
     "validate:mobile-wireless-handoff": "node scripts/validate-big-update-7-mobile-wireless-handoff.js",
@@ -26,19 +27,30 @@
     "validate:architecture-foundation": "node scripts/validate-big-update-9-architecture-foundation.js",
     "validate:premium-ui": "node scripts/validate-big-update-10-premium-ui.js",
     "validate:experience-system": "node scripts/validate-big-update-12-experience-system.js",
+    "validate:embodied-navigation": "node scripts/validate-big-update-13-embodied-navigation.js",
+    "validate:robot-identity": "node scripts/validate-big-update-14-shime-launch.js",
+    "validate:robot-expression": "node scripts/validate-big-update-14-shime-launch.js",
+    "validate:shime-launch": "node scripts/validate-big-update-14-shime-launch.js",
     "test:unit": "vitest run tests/unit"
   },
   "dependencies": {
     "@vitejs/plugin-react": "5.0.4",
-    "react": "latest",
-    "react-dom": "latest",
-    "react-router-dom": "latest",
-    "ts-fsrs": "5.3.3",
-    "vite": "7.3.3",
+    "gsap": "^3.15.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "react-router-dom": "7.18.2",
+    "three": "^0.186.0",
+    "ts-fsrs": "5.4.1",
+    "vite": "7.3.6",
     "zod": "^3.25.76"
   },
   "devDependencies": {
     "@playwright/test": "^1.59.1",
     "vitest": "^4.1.5"
+  },
+  "overrides": {
+    "esbuild": "0.28.2",
+    "nanoid": "3.3.18",
+    "postcss": "8.5.26"
   }
 }

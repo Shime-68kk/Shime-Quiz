@@ -1,0 +1,246 @@
+{
+  "meta": {
+    "version": "14.8",
+    "title": "Scene 01 — Poetic Butterfly Chase",
+    "total_duration_ms": 7800
+  },
+  "world": {
+    "width": 1000,
+    "height": 600,
+    "ground_y": 480,
+    "floor_visible_pct_max": 22
+  },
+  "cameras": {
+    "desktop": { "viewport": [1440, 900], "scale": 0.72, "offset_x": -20, "offset_y": -40 },
+    "mobile":  { "viewport": [390, 844],  "scale": 0.39, "offset_x": 110, "offset_y": -20 },
+    "mobile_412": { "viewport": [412, 915], "scale": 0.41, "offset_x": 100, "offset_y": -25 },
+    "mobile_360": { "viewport": [360, 800], "scale": 0.36, "offset_x": 120, "offset_y": -15 }
+  },
+  "actors": {
+    "shime": {
+      "type": "sphere_robot",
+      "radius": 90,
+      "oled": { "viewBox": "0 0 128 64", "eye_w": 32, "eye_h": 36, "gap": 10, "radius": 8 },
+      "no_legs": true,
+      "start_world_x": -100,
+      "start_world_y": 480
+    },
+    "boulder": {
+      "type": "natural_rock",
+      "world_x": 680,
+      "world_y": 480,
+      "width_world": 145,
+      "height_world": 130,
+      "contact_surface_x": 623,
+      "contact_surface_angle_deg": 8
+    },
+    "butterfly": {
+      "type": "luminous_butterfly",
+      "wing_count": 4,
+      "start_world_x": 900,
+      "start_world_y": 200
+    }
+  },
+  "beats": [
+    {
+      "id": "establishing",
+      "t_start_ms": 0,
+      "t_end_ms": 750,
+      "description": "Poetic environment fades in. Boulder already present. No robot yet.",
+      "shime_visible": false,
+      "butterfly_visible": false
+    },
+    {
+      "id": "butterfly_enters",
+      "t_start_ms": 750,
+      "t_end_ms": 1350,
+      "description": "Butterfly flies into frame from upper-right, hovers gently.",
+      "shime_visible": false,
+      "butterfly_visible": true,
+      "butterfly_path": [
+        { "t": 750,  "x": 950, "y": 180 },
+        { "t": 1050, "x": 700, "y": 220 },
+        { "t": 1350, "x": 420, "y": 200 }
+      ]
+    },
+    {
+      "id": "beat_a_slow_happy_bob",
+      "t_start_ms": 1350,
+      "t_end_ms": 2150,
+      "description": "Shime appears from left. Slow curious approach. CURIOUS expression.",
+      "expression": "CURIOUS",
+      "shime_path": [
+        { "t": 1350, "x": -100, "y": 480 },
+        { "t": 1550, "x": 50,  "y": 480 },
+        { "t": 1750, "x": 140, "y": 474 },
+        { "t": 1950, "x": 210, "y": 480 },
+        { "t": 2150, "x": 260, "y": 478 }
+      ],
+      "gaze_target": "butterfly"
+    },
+    {
+      "id": "beat_b_small_hop",
+      "t_start_ms": 2150,
+      "t_end_ms": 2750,
+      "description": "First small hop. Compress, lift, apex, land.",
+      "expression": "CURIOUS",
+      "shime_path": [
+        { "t": 2150, "x": 260, "y": 478, "note": "pre-compress" },
+        { "t": 2250, "x": 265, "y": 488, "note": "squat" },
+        { "t": 2380, "x": 310, "y": 430, "note": "apex" },
+        { "t": 2520, "x": 345, "y": 476, "note": "land compress" },
+        { "t": 2600, "x": 350, "y": 480, "note": "settle" },
+        { "t": 2750, "x": 355, "y": 480, "note": "rest" }
+      ],
+      "gaze_target": "butterfly"
+    },
+    {
+      "id": "beat_c_slow_follow",
+      "t_start_ms": 2750,
+      "t_end_ms": 3350,
+      "description": "Slow follow. Shime looks at butterfly. Head tilts. Rest beat.",
+      "expression": "ATTENTION",
+      "shime_path": [
+        { "t": 2750, "x": 355, "y": 480 },
+        { "t": 2950, "x": 380, "y": 478 },
+        { "t": 3150, "x": 405, "y": 480 },
+        { "t": 3350, "x": 420, "y": 479 }
+      ],
+      "gaze_target": "butterfly"
+    },
+    {
+      "id": "beat_d_playful_hop",
+      "t_start_ms": 3350,
+      "t_end_ms": 4050,
+      "description": "Higher playful hop. More excitement. ATTENTION eyes.",
+      "expression": "ATTENTION",
+      "shime_path": [
+        { "t": 3350, "x": 420, "y": 479 },
+        { "t": 3430, "x": 425, "y": 490, "note": "squat deeper" },
+        { "t": 3580, "x": 470, "y": 405, "note": "higher apex" },
+        { "t": 3750, "x": 505, "y": 472, "note": "land" },
+        { "t": 3850, "x": 510, "y": 480, "note": "settle" },
+        { "t": 4050, "x": 515, "y": 480, "note": "rest" }
+      ],
+      "gaze_target": "butterfly"
+    },
+    {
+      "id": "beat_slow_follow_2",
+      "t_start_ms": 4050,
+      "t_end_ms": 4550,
+      "description": "Short slow follow and brief pause looking at butterfly.",
+      "expression": "ATTENTION",
+      "shime_path": [
+        { "t": 4050, "x": 515, "y": 480 },
+        { "t": 4300, "x": 535, "y": 478 },
+        { "t": 4550, "x": 545, "y": 480 }
+      ],
+      "gaze_target": "butterfly"
+    },
+    {
+      "id": "beat_e_final_distracted_jump",
+      "t_start_ms": 4550,
+      "t_end_ms": 5370,
+      "description": "Final big jump. Shime watches butterfly (which rounds boulder). Distracted.",
+      "expression": "ATTENTION",
+      "shime_path": [
+        { "t": 4550, "x": 545, "y": 480 },
+        { "t": 4650, "x": 548, "y": 495, "note": "deep squat" },
+        { "t": 4850, "x": 580, "y": 380, "note": "high apex" },
+        { "t": 5050, "x": 605, "y": 420, "note": "descending" },
+        { "t": 5250, "x": 615, "y": 455, "note": "approaching rock" },
+        { "t": 5370, "x": 623, "y": 468, "note": "contact imminent" }
+      ],
+      "butterfly_rounds_boulder_at_ms": 4800,
+      "gaze_target": "butterfly"
+    },
+    {
+      "id": "late_scared",
+      "t_start_ms": 5250,
+      "t_end_ms": 5370,
+      "description": "Late realization. SCARED expression. Eyes still open.",
+      "expression": "SCARED",
+      "duration_ms": 120
+    },
+    {
+      "id": "contact",
+      "t_start_ms": 5370,
+      "t_end_ms": 5460,
+      "description": "Shell front touches boulder surface. BLINK_FAST.",
+      "expression": "BLINK_FAST",
+      "contact_point": { "world_x": 623, "world_y": 468 },
+      "shell_deformation": {
+        "method": "contact_relative_squash",
+        "transform_origin": "94% 52%",
+        "phases": [
+          { "phase": "onset",       "t_offset_ms": 0,  "duration_ms": 16, "scaleX_dt": 0.99, "scaleY_dt": 1.01 },
+          { "phase": "compression", "t_offset_ms": 16, "duration_ms": 26, "scaleX_dt": 0.93, "scaleY_dt": 1.05 },
+          { "phase": "max_hold",    "t_offset_ms": 42, "duration_ms": 24, "scaleX_dt": 0.93, "scaleY_dt": 1.05 },
+          { "phase": "recovery",    "t_offset_ms": 66, "duration_ms": 22, "scaleX_dt": 0.96, "scaleY_dt": 1.02 }
+        ]
+      },
+      "boulder_reaction": {
+        "max_translate_px_desktop": 1.5,
+        "max_rotate_deg": 0.5,
+        "settle_type": "single_damped"
+      },
+      "max_overlap_px_desktop": 1.2,
+      "max_overlap_px_mobile": 0.8,
+      "oled_lag_ms": 16
+    },
+    {
+      "id": "rebound",
+      "t_start_ms": 5460,
+      "t_end_ms": 6050,
+      "description": "Short arc rebound. Left and slightly up. Eyes shut.",
+      "expression": "BLINK_FAST",
+      "rebound_path": [
+        { "t": 5460, "x": 623, "y": 468 },
+        { "t": 5550, "x": 590, "y": 440, "note": "lift" },
+        { "t": 5700, "x": 540, "y": 415, "note": "apex" },
+        { "t": 5850, "x": 510, "y": 450, "note": "descending" },
+        { "t": 6050, "x": 500, "y": 478, "note": "landing" }
+      ],
+      "max_rotation_deg": 18,
+      "rotation_pivot_transition": true
+    },
+    {
+      "id": "landing",
+      "t_start_ms": 6050,
+      "t_end_ms": 6380,
+      "description": "Corner-first ground contact. Shell compress. Tiny slide. Settle.",
+      "expression": "BLINK_FAST",
+      "landing_point": { "world_x": 500, "world_y": 480 },
+      "settle_duration_ms": 200
+    },
+    {
+      "id": "blackout",
+      "t_start_ms": 6380,
+      "t_end_ms": 6820,
+      "description": "OLED fades to black over 100ms. Hold dark for 340ms.",
+      "oled_fade_ms": 100,
+      "blackout_hold_ms": 340,
+      "expression": "OFF"
+    },
+    {
+      "id": "electrical_crackle",
+      "t_start_ms": 6820,
+      "t_end_ms": 7480,
+      "description": "2-3 tiny sparks near shell top. OLED stays mostly off.",
+      "sparks": [
+        { "t_start": 6860, "duration_ms": 60, "position": "top_left" },
+        { "t_start": 7010, "duration_ms": 45, "position": "top_right" },
+        { "t_start": 7150, "duration_ms": 35, "position": "top_center" }
+      ],
+      "oled_flicker": { "t": 7080, "duration_ms": 40, "type": "scanline" },
+      "shell_jitter_px": 1.0
+    },
+    {
+      "id": "scene_end",
+      "t_start_ms": 7480,
+      "t_end_ms": 7800,
+      "description": "Last spark fades. Scene 01 ends. Robot still down. OLED off.",
+      "expression": "OFF"
+    }
+  ]
+}

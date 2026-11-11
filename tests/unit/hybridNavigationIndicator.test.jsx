@@ -21,23 +21,21 @@ const bottomNav = read('src/layout/BottomNav.jsx');
 const css = read('src/styles/global.css');
 const routes = read('src/routes/routeConfig.js');
 
-describe('Phase 35H — route-driven indicator wiring', () => {
-  it('uses current location to derive active nav index in both primary nav surfaces', () => {
+describe('BIG-UPDATE-13 — deterministic route-driven navigation state', () => {
+  it('delegates active route state to NavLink in both primary nav surfaces', () => {
     for (const source of [sidebar, bottomNav]) {
-      expect(source).toContain('useLocation');
-      expect(source).toContain('navRoutes.findIndex');
-      expect(source).toContain('item.path === location.pathname');
-      expect(source).toContain('--nav-active-index');
-      expect(source).toContain('--nav-item-count');
+      expect(source).toContain('NavLink');
+      expect(source).toContain('to={item.path}');
+      expect(source).toMatch(/className=\{\(\{ isActive \}\) =>/);
     }
   });
 
-  it('adds one visual indicator element to desktop and mobile nav hosts', () => {
+  it('removes the moving visual indicator element from desktop and mobile hosts', () => {
     for (const source of [sidebar, bottomNav]) {
       expect(source).toContain('primaryNavIndicatorHost');
-      expect(source).toContain('primaryNavSlidingIndicator');
-      expect(source).toContain('aria-hidden="true"');
-      expect(source).toContain('data-nav-active');
+      expect(source).not.toContain('primaryNavSlidingIndicator');
+      expect(source).not.toContain('--nav-active-index');
+      expect(source).not.toContain('--phase37uih-active-index');
     }
   });
 
@@ -51,12 +49,12 @@ describe('Phase 35H — route-driven indicator wiring', () => {
   });
 });
 
-describe('Phase 35H — CSS indicator behavior', () => {
-  it('uses transform and opacity transitions for the sliding pill', () => {
+describe('BIG-UPDATE-13 — CSS active-state behavior', () => {
+  it('disables the legacy moving pill and uses one static active surface', () => {
     expect(css).toContain('.primaryNavSlidingIndicator');
-    expect(css).toContain('transform 210ms cubic-bezier(0.2, 0.8, 0.2, 1)');
-    expect(css).toContain('opacity 180ms ease');
-    expect(css).toContain('translate3d');
+    expect(css).toMatch(/BIG-UPDATE-13:[\s\S]*?\.primaryNavSlidingIndicator\s*\{[\s\S]*?display:\s*none/);
+    expect(css).toMatch(/BIG-UPDATE-13:[\s\S]*?\.navItem--active,[\s\S]*?background:\s*var\(--theme-navigation-active-background\)/);
+    expect(css).toMatch(/\.navItem--active::after\s*\{\s*content:\s*none/);
   });
 
   it('preserves focus-visible styling for nav items', () => {
@@ -69,7 +67,7 @@ describe('Phase 35H — CSS indicator behavior', () => {
     expect(css).toContain('@media (max-width: 860px)');
     expect(css).toContain('@media (max-width: 380px)');
     expect(css).toContain('@media (prefers-reduced-motion: reduce)');
-    expect(css).toMatch(/\.primaryNavSlidingIndicator,[\s\S]*transition: none;/);
+    expect(css).toMatch(/\.primaryNavSlidingIndicator\s*\{[\s\S]*?transition:\s*none/);
   });
 });
 

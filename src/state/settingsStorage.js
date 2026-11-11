@@ -14,6 +14,7 @@
 
 import { getLocalStorage } from '../utils/storage.js';
 import { publishLearningStorageChanged } from './localStorageSync.js';
+import { STUDENT_DEPLOYMENT } from '../config/studentDeployment.js';
 
 export const SETTINGS_STORAGE_KEY = 'shimeV2SettingsV1';
 export const SETTINGS_SCHEMA_VERSION = 'shime-v2-settings-v1';
@@ -61,8 +62,9 @@ export function getDefaultSettings() {
   return {
     schemaVersion: SETTINGS_SCHEMA_VERSION,
     updatedAt: '',
-    fsrsExperimentalEnabled: false,
-    fsrsActiveSchedulingEnabled: false,
+    // Student deployment: active FSRS scheduling is ON by default (users can still turn it off).
+    fsrsExperimentalEnabled: STUDENT_DEPLOYMENT,
+    fsrsActiveSchedulingEnabled: STUDENT_DEPLOYMENT,
     fsrsEnrollmentMode: FSRS_ENROLLMENT_MODE_NEW_CARDS_ONLY,
     fsrsEnabledAt: null,
     fsrsDesiredRetention: FSRS_DESIRED_RETENTION_DEFAULT,
@@ -98,7 +100,7 @@ export function normalizeSettings(raw) {
   const fsrsActiveSchedulingEnabled =
     typeof raw.fsrsActiveSchedulingEnabled === 'boolean'
       ? raw.fsrsActiveSchedulingEnabled
-      : false;
+      : defaults.fsrsActiveSchedulingEnabled;
 
   // fsrsEnrollmentMode is locked to 'new-cards-only' in Phase 14G.
   const fsrsEnrollmentMode = FSRS_ENROLLMENT_MODE_NEW_CARDS_ONLY;

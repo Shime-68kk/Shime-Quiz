@@ -406,10 +406,10 @@ describe('Test 13: no StudyRoom/Dashboard changes in Phase 15E', () => {
 
 // ─── Test 14: no package/dependency changes ───────────────────────────────────
 
-describe('Test 14: no package/dependency changes in Phase 15E', () => {
-  it('package.json ts-fsrs remains pinned at 5.3.3', () => {
+describe('Test 14: production dependency policy', () => {
+  it('package.json ts-fsrs is pinned at the audited stable version', () => {
     const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-    expect(pkg.dependencies?.['ts-fsrs']).toBe('5.3.3');
+    expect(pkg.dependencies?.['ts-fsrs']).toBe('5.4.1');
   });
 
   it('package.json does not reference native binding', () => {

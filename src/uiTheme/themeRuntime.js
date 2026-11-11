@@ -1,5 +1,8 @@
 export const UI_THEME_IDS = Object.freeze(['light', 'dark', 'ocean', 'sunset', 'lavender']);
-export const DEFAULT_UI_THEME = 'light';
+import { STUDENT_DEPLOYMENT } from '../config/studentDeployment.js';
+
+// Student deployment (Lệ Thủy) starts in the soft lavender theme; it can still be changed in Settings.
+export const DEFAULT_UI_THEME = STUDENT_DEPLOYMENT ? 'lavender' : 'light';
 export const UI_THEME_STORAGE_KEY = 'shime.ui.theme.v1';
 export const LEGACY_THEME_STORAGE_KEY = 'theme';
 
@@ -8,6 +11,9 @@ export const REQUIRED_THEME_ROLES = Object.freeze([
   'text-primary', 'text-secondary', 'text-muted', 'text-inverse', 'text-on-accent',
   'brand-primary', 'brand-primary-hover', 'brand-primary-active', 'brand-soft',
   'companion', 'companion-soft', 'companion-glow',
+  'robot-shell', 'robot-shell-elevated', 'robot-shell-border', 'robot-eye',
+  'robot-eye-soft', 'robot-glow', 'robot-shadow', 'robot-message-surface',
+  'robot-head-surface', 'robot-head-border', 'robot-oled-surface', 'robot-impact-particle',
   'border-default', 'border-strong', 'divider',
   'control-background', 'control-hover', 'control-active', 'focus-ring',
   'navigation-active-background', 'navigation-active-text',
@@ -57,4 +63,3 @@ export function applyUiTheme(theme, { persist = true, storage } = {}) {
 export function initializeUiTheme(storage) {
   return applyUiTheme(readStoredUiTheme(storage), { persist: false, storage });
 }
-

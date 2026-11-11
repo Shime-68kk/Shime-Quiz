@@ -21,14 +21,13 @@ const css = read('src/styles/global.css');
 const routes = read('src/routes/routeConfig.js');
 
 describe('Phase 36B — bottom nav route preservation', () => {
-  it('keeps route-driven NavLink destinations, active-index logic, and no click handlers', () => {
+  it('keeps route-driven NavLink destinations with no index choreography or click handlers', () => {
     expect(bottomNav).toContain("import { navRoutes } from '../routes/routeConfig.js'");
-    expect(bottomNav).toContain('navRoutes.findIndex');
-    expect(bottomNav).toContain('item.path === location.pathname');
     expect(bottomNav).toContain('to={item.path}');
     expect(bottomNav).toMatch(/className=\{\(\{ isActive \}\) =>/);
-    expect(bottomNav).toContain('--nav-active-index');
-    expect(bottomNav).toContain('--nav-item-count');
+    expect(bottomNav).not.toContain('navRoutes.findIndex');
+    expect(bottomNav).not.toContain('--nav-active-index');
+    expect(bottomNav).not.toContain('primaryNavSlidingIndicator');
     expect(bottomNav).not.toContain('onClick=');
     expect(bottomNav).not.toContain('navigate(');
   });

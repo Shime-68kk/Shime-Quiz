@@ -4,89 +4,75 @@ import Button from '../Button.jsx';
 import Card from '../Card.jsx';
 import { useDashboardLearningData } from '../../dashboard/DashboardLearningDataContext.jsx';
 import { RECOMMENDATION_TYPES } from '../../learning/recommendationLite.js';
+import {
+  createLearnerTodayDecision,
+  LEARNER_TODAY_DECISIONS
+} from '../../dashboard/learnerTodayDecision.js';
 import { useShimeLanguage } from '../../uiI18n/useShimeLanguage.js';
 
 function getSafeItemCount(summary = {}) {
   return Math.max(0, Number(summary.itemCount) || 0);
 }
 
-function getTodayCardState({ itemCount, recommendation, dueSummary, smartPracticeSelection, weakPracticeSelection, todayPlan, historyRecords, mastery, t }) {
+function getTodayCardState({ itemCount, recommendation, dueSummary, smartPracticeSelection, weakPracticeSelection, todayPlan, mastery, firstRun, t }) {
   const dueCount = Math.max(0, Number(dueSummary?.dueCount) || 0);
   const smartCount = Math.max(0, Number(smartPracticeSelection?.selectedCount) || 0);
   const weakCount = Math.max(0, Number(mastery?.weakItemCount) || 0);
-  const historyCount = Array.isArray(historyRecords) ? historyRecords.filter(Boolean).length : 0;
   const firstPlanStep = Array.isArray(todayPlan?.steps) ? todayPlan.steps[0] : null;
+  const decision = createLearnerTodayDecision({
+    itemCount,
+    dueCount,
+    smartCount,
+    weakCount,
+    firstPlanStep,
+    smartSelection: smartPracticeSelection,
+    weakSelection: weakPracticeSelection,
+    libraryEmpty: firstRun || recommendation?.type === RECOMMENDATION_TYPES.LIBRARY_EMPTY
+  });
 
-  if (!itemCount || recommendation?.type === RECOMMENDATION_TYPES.LIBRARY_EMPTY) {
+  if (decision.type === LEARNER_TODAY_DECISIONS.OPEN_LIBRARY) {
     return {
       badge: t('today.startBadge'),
-      title: t('today.emptyTitle'),
-      body: t('today.emptyBody'),
-      meta: [t('today.emptyItems'), t('today.noSchedule')],
+      title: firstRun ? t('overview.firstRunTitle') : t('today.emptyTitle'),
+      body: firstRun ? t('overview.firstRunBody') : t('today.emptyBody'),
+      meta: [],
       actionLabel: t('home.openLibrary'),
-      target: { route: '/library' }
+      target: decision
     };
   }
 
-  if (dueCount > 0) {
+  if (decision.type === LEARNER_TODAY_DECISIONS.REVIEW_DUE) {
     return {
       badge: t('today.dueBadge'),
       title: t('today.dueTitle', { count: dueCount }),
       body: t('today.dueBody'),
-      meta: [t('today.dueMeta', { count: dueCount }), t('today.libraryMeta', { count: itemCount })],
+      meta: [t('today.dueMeta', { count: dueCount })],
       actionLabel: t('today.studyToday'),
-      target: {
-        route: '/study-room',
-        state: {
-          selection: {
-            mode: 'due-review',
-            source: 'dashboard-today-card',
-            label: t('study.dueReview'),
-            dueCount
-          }
-        }
-      }
+      target: decision
     };
   }
 
-  if (firstPlanStep?.routeState) {
+  if (decision.type === LEARNER_TODAY_DECISIONS.FOLLOW_PLAN) {
     return {
       badge: t('today.suggestion'),
       title: t('today.planTitle'),
       body: t('today.planBody'),
-      meta: [
-        firstPlanStep.estimatedItemCount ? t('today.approxItems', { count: firstPlanStep.estimatedItemCount }) : t('today.libraryMeta', { count: itemCount }),
-        historyCount ? t('today.historyCount', { count: historyCount }) : t('today.noHistory')
-      ],
+      meta: decision.count ? [t('today.approxItems', { count: decision.count })] : [],
       actionLabel: t('today.startStudy'),
-      target: {
-        route: '/study-room',
-        state: { selection: firstPlanStep.routeState }
-      }
+      target: decision
     };
   }
 
-  if (smartCount > 0) {
+  if (decision.type === LEARNER_TODAY_DECISIONS.SMART_PRACTICE) {
     return {
-      badge: weakCount > 0 ? t('today.needsWork') : t('today.suggestion'),
-      title: weakCount > 0 ? t('today.weakTitle') : t('today.shortTitle'),
-      body: weakCount > 0
+      badge: decision.weak ? t('today.needsWork') : t('today.suggestion'),
+      title: decision.weak ? t('today.weakTitle') : t('today.shortTitle'),
+      body: decision.weak
         ? t('today.weakBody')
         : t('today.shortBody'),
-      meta: [t('today.suggestedItems', { count: smartCount }), t('today.libraryMeta', { count: itemCount })],
+      meta: [t('today.suggestedItems', { count: smartCount })],
       actionLabel: t('today.startStudy'),
-      target: {
-        route: '/study-room',
-        state: {
-          selection: {
-            mode: 'smart-practice',
-            source: 'dashboard-today-card',
-            label: weakCount > 0 ? t('overview.practiceWeak') : t('study.smartPractice'),
-            requestedCount: smartPracticeSelection.requestedCount,
-            selectedItemIds: (weakPracticeSelection?.selectedCount ? weakPracticeSelection : smartPracticeSelection).selectedItemIds
-          }
-        }
-      }
+      target: decision
     };
   }
 
@@ -94,9 +80,9 @@ function getTodayCardState({ itemCount, recommendation, dueSummary, smartPractic
     badge: t('today.readyBadge'),
     title: t('today.readyTitle'),
     body: t('today.readyBody'),
-    meta: [t('today.libraryMeta', { count: itemCount }), historyCount ? t('today.historyCount', { count: historyCount }) : t('today.noHistory')],
+    meta: [],
     actionLabel: t('study.continueStudy'),
-    target: { route: '/study-room' }
+    target: decision
   };
 }
 
@@ -107,7 +93,7 @@ function getGreeting(t) {
   return t('today.evening');
 }
 
-export default function DashboardTodayCard() {
+export default function DashboardTodayCard({ firstRun = false }) {
   const navigate = useNavigate();
   const { t } = useShimeLanguage();
   const {
@@ -117,7 +103,6 @@ export default function DashboardTodayCard() {
     smartPracticeSelection,
     weakPracticeSelection,
     todayPlan,
-    historyRecords,
     mastery,
     planStepProgress,
     goalProgress,
@@ -132,8 +117,8 @@ export default function DashboardTodayCard() {
     smartPracticeSelection,
     weakPracticeSelection,
     todayPlan,
-    historyRecords,
     mastery,
+    firstRun,
     t
   });
 
@@ -144,7 +129,7 @@ export default function DashboardTodayCard() {
   const totalSteps = planStepProgress?.totalSteps || 0;
   const stepPercent = totalSteps ? Math.round((completedSteps / totalSteps) * 100) : (goalProgress?.hasGoal ? goalProgress.progressPercent : 0);
 
-  const showRing = totalSteps > 0 || goalProgress?.hasGoal;
+  const showRing = completedSteps > 0 || goalProgress?.hasGoal;
   const ringLabel = totalSteps > 0 ? `${completedSteps}/${totalSteps}` : `${stepPercent}%`;
   const ringSub = totalSteps > 0 ? t('today.steps') : t('today.goal');
 
@@ -153,8 +138,12 @@ export default function DashboardTodayCard() {
   const strokeDashoffset = circumference - (stepPercent / 100) * circumference;
 
   function handlePrimaryAction() {
-    if (state.target?.state) {
-      navigate(state.target.route, { state: state.target.state });
+    if (state.target?.routeState) {
+      const routeState = { ...state.target.routeState };
+      if (routeState.selection?.mode === 'due-review') {
+        routeState.selection = { ...routeState.selection, label: t('study.dueReview') };
+      }
+      navigate(state.target.route, { state: routeState });
       return;
     }
     navigate(state.target?.route || '/study-room');
@@ -182,9 +171,11 @@ export default function DashboardTodayCard() {
           <Badge tone={itemCount ? 'info' : 'warning'}>{state.badge}</Badge>
           <h3 id="dashboardTodayCardTitle">{state.title}</h3>
           <p className="muted">{state.body}</p>
-          <ul className="dashboardTodayCard__meta" aria-label={t('today.summary')}>
-            {state.meta.map(item => <li key={item}>{item}</li>)}
-          </ul>
+          {state.meta.length ? (
+            <ul className="dashboardTodayCard__meta" aria-label={t('today.summary')}>
+              {state.meta.map(item => <li key={item}>{item}</li>)}
+            </ul>
+          ) : null}
         </div>
         <div className="dashboardTodayCard__action">
           {showRing && (

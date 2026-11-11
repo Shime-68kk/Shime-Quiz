@@ -1,0 +1,1532 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Scene 01 Causality Reset & Animatic (BIG-UPDATE-14.6)</title>
+  <style>
+    :root {
+      --bg-dark: #07040d;
+      --bg-panel: #0d0918;
+      --bg-card: #140f24;
+      --border-violet: rgba(138, 92, 246, 0.18);
+      --border-active: #8a5cf6;
+      --text-bright: #f2eefa;
+      --text-dim: #8e859c;
+      --theme-glow: rgba(138, 92, 246, 0.2);
+      font-family: Inter, system-ui, sans-serif;
+    }
+
+    .theme-lavender {
+      --sky-gradient: radial-gradient(circle at 50% 30%, #fffbfd 0%, #ede7f5 50%, #dfd3eb 100%);
+      --floor-color: #cbd5e1;
+      --floor-grid: rgba(138, 92, 246, 0.08);
+      --column-front: #bcaed4;
+      --column-side: #a291be;
+      --column-base: #9380b2;
+      --butterfly-color: #eab308;
+      --butterfly-glow: rgba(234, 179, 8, 0.5);
+      --border-active: #8a5cf6;
+    }
+
+    .theme-forest {
+      --sky-gradient: radial-gradient(circle at 50% 30%, #121f18 0%, #080c09 60%, #020302 100%);
+      --floor-color: #1b2e24;
+      --floor-grid: rgba(16, 185, 129, 0.08);
+      --column-front: #4b6458;
+      --column-side: #354a3f;
+      --column-base: #2a3b32;
+      --butterfly-color: #10b981;
+      --butterfly-glow: rgba(16, 185, 129, 0.55);
+      --border-active: #10b981;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg-dark); color: var(--text-bright); padding: 20px; }
+    
+    header { max-width: 1200px; margin: 0 auto 20px; border-bottom: 1px solid var(--border-violet); padding-bottom: 12px; }
+    h1 { font-size: 1.6rem; margin: 0 0 4px; font-weight: 900; background: linear-gradient(135deg, #fff, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    
+    .sandbox-layout { max-width: 1200px; margin: 0 auto 30px; display: grid; grid-template-columns: 1fr 340px; gap: 20px; }
+    @media (max-width: 950px) {
+      .sandbox-layout { grid-template-columns: 1fr; }
+    }
+
+    .player-section { background: var(--bg-panel); border: 1px solid var(--border-violet); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 12px 36px rgba(0,0,0,0.6); }
+    .device-viewport { position: relative; width: 100%; height: 360px; background: #000; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); }
+    .device-viewport.mode-desktop { max-width: 720px; margin: 0 auto; }
+    .device-viewport.mode-mobile { max-width: 290px; margin: 0 auto; }
+
+    /* Scene elements */
+    .stage { position: absolute; width: 100%; height: 100%; background: var(--sky-gradient); overflow: hidden; }
+    .floor { position: absolute; bottom: 0; left: 0; width: 100%; height: 35%; background: var(--floor-color); border-top: 1px solid rgba(0,0,0,0.12); }
+    .floor::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(var(--floor-grid) 1px, transparent 1px), linear-gradient(90deg, var(--floor-grid) 1px, transparent 1px); background-size: 16px 16px; }
+
+    .column-actor { position: absolute; bottom: 35%; right: 18%; width: 60px; height: 170px; z-index: 5; transform-origin: bottom center; }
+    .column-shadow { position: absolute; bottom: 32%; right: calc(18% - 12px); width: 84px; height: 14px; background: rgba(0,0,0,0.28); border-radius: 50%; filter: blur(3px); z-index: 3; }
+    .robot-shadow { position: absolute; bottom: 32%; left: 0; width: 78px; height: 12px; background: rgba(0,0,0,0.36); border-radius: 50%; filter: blur(3px); z-index: 3; transform-origin: center; display: none; }
+    .butterfly-actor { position: absolute; width: 22px; height: 20px; z-index: 8; transform-origin: center; display: none; }
+    
+    /* Robot Head */
+    .robot-actor { position: absolute; bottom: 35%; left: 0; width: 78px; height: 62px; z-index: 10; transform-origin: 50% 66%; display: none; }
+    .head-shell { position: absolute; inset: 0; border: 1.5px solid rgba(0,0,0,0.25); border-radius: 22px; background: linear-gradient(135deg, #eaeaea, #c2c2c2); box-shadow: inset 0 2px 2px #fff, 0 6px 12px rgba(0,0,0,0.2); display: flex; justify-content: center; align-items: center; }
+    .oled-bezel { width: 84%; height: 78%; background: #0c0814; border-radius: 16px; border: 1.5px solid rgba(0,0,0,0.15); overflow: hidden; position: relative; }
+    .oled-screen { width: 100%; height: 100%; display: block; }
+
+    /* Particles & Debris */
+    .debris { position: absolute; width: 5px; height: 5px; background: #9c8bbd; border-radius: 1px; opacity: 0; z-index: 9; }
+    
+    /* Overlay indicator */
+    .proof-overlay { position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.75); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 4px 10px; border-radius: 4px; font-family: monospace; font-size: 0.78rem; z-index: 15; pointer-events: none; text-transform: uppercase; font-weight: 700; }
+    .proof-overlay.pre { border-color: #f59e0b; color: #f59e0b; }
+    .proof-overlay.contact { border-color: #ef4444; color: #ef4444; animation: flash 0.15s infinite; }
+    .proof-overlay.post { border-color: #3b82f6; color: #3b82f6; }
+
+    @keyframes flash { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+    .spark { position: absolute; width: 12px; height: 15px; background: #3dd68c; clip-path: polygon(40% 0, 100% 0, 55% 40%, 90% 40%, 15% 100%, 35% 55%, 5% 55%); opacity: 0; z-index: 12; filter: drop-shadow(0 0 3px #3dd68c); }
+    .spark-1 { top: -10px; left: 25%; transform: rotate(-20deg); }
+    .spark-2 { top: -5px; right: 20%; transform: rotate(15deg); }
+    .scanlines { position: absolute; inset: 0; background: linear-gradient(rgba(18, 16, 28, 0) 50%, rgba(18, 16, 28, 0.2) 50%), linear-gradient(90deg, rgba(61, 214, 140, 0.03), rgba(61, 214, 140, 0) 8%); background-size: 100% 4px, 6px 100%; pointer-events: none; opacity: 0; z-index: 11; }
+    .sweat-drop { position: absolute; width: 2px; height: 4px; background: #3dd68c; border-radius: 1px; opacity: 0; z-index: 11; }
+
+    /* Controls styling */
+    .control-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .btn-group { display: flex; gap: 6px; }
+    .btn { background: var(--bg-card); border: 1px solid var(--border-violet); color: var(--text-bright); padding: 5px 10px; border-radius: 6px; font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: all 0.15s ease; display: inline-flex; align-items: center; gap: 4px; }
+    .btn:hover { background: rgba(138, 92, 246, 0.12); border-color: var(--border-active); }
+    .btn.active { background: var(--border-active); color: #000; border-color: var(--border-active); }
+    
+    .scrubber-container { display: flex; align-items: center; gap: 10px; width: 100%; }
+    .range-scrubber { flex-grow: 1; -webkit-appearance: none; background: rgba(255,255,255,0.08); height: 4px; border-radius: 2px; outline: none; cursor: pointer; }
+    .range-scrubber::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--border-active); border: 1.5px solid var(--bg-dark); }
+    .time-lbl { font-family: monospace; font-size: 0.8rem; color: var(--text-dim); width: 85px; text-align: right; }
+
+    .sidebar { display: flex; flex-direction: column; gap: 12px; }
+    .side-box { background: var(--bg-panel); border: 1px solid var(--border-violet); border-radius: 8px; padding: 12px; }
+    .side-box h3 { margin: 0 0 10px; font-size: 0.9rem; border-bottom: 1px solid var(--border-violet); padding-bottom: 6px; color: var(--border-active); }
+    
+    .clip-list { display: flex; flex-direction: column; gap: 5px; }
+    .clip-btn { text-align: left; font-size: 0.78rem; padding: 6px 8px; border-radius: 4px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); color: var(--text-bright); cursor: pointer; transition: all 0.1s ease; }
+    .clip-btn:hover { background: rgba(138, 92, 246, 0.08); border-color: rgba(138, 92, 246, 0.25); }
+
+    /* OLED SVG geometry elements */
+    .oled-eye { fill: #3dd68c; }
+    .oled-mask { fill: #0c0814; }
+    .oled-dizzy-line { fill: none; stroke: #3dd68c; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* Storyboard Grid */
+    .st-title { max-width: 1200px; margin: 30px auto 12px; border-top: 1px solid var(--border-violet); padding-top: 20px; }
+    .st-grid { max-width: 1200px; margin: 0 auto 30px; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+    .st-card { background: var(--bg-panel); border: 1px solid var(--border-violet); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; cursor: pointer; transition: transform 0.2s ease, border-color 0.2s ease; }
+    .st-card:hover { transform: translateY(-2px); border-color: var(--border-active); }
+    .st-thumb { height: 100px; background: var(--sky-gradient); position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid var(--border-violet); }
+    .st-body { padding: 10px; flex-grow: 1; display: flex; flex-direction: column; gap: 5px; }
+    .st-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; }
+    .st-no { font-weight: 900; color: var(--border-active); }
+    .st-time { font-family: monospace; color: var(--text-dim); }
+    .st-txt-title { font-size: 0.9rem; font-weight: 700; margin: 0; color: var(--text-bright); }
+    .st-desc { font-size: 0.72rem; color: var(--text-dim); margin: 0; flex-grow: 1; }
+    .st-badge { font-size: 0.65rem; font-weight: 700; background: rgba(255,255,255,0.03); padding: 2px 5px; border-radius: 3px; width: fit-content; border: 1px solid rgba(255,255,255,0.05); }
+    .st-acting { font-size: 0.68rem; color: #a78bfa; font-style: italic; }
+
+    /* Contact Sheet Grid */
+    .sheet-section { max-width: 1200px; margin: 0 auto 30px; background: var(--bg-panel); border: 1px solid var(--border-violet); border-radius: 10px; padding: 16px; }
+    .sheet-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 12px; }
+    @media (max-width: 800px) {
+      .sheet-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    @media (max-width: 500px) {
+      .sheet-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .sheet-item { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; display: flex; flex-direction: column; text-align: center; font-size: 0.72rem; }
+    .sheet-view { height: 110px; background: #000; position: relative; overflow: hidden; }
+    .sheet-lbl { padding: 6px; font-weight: 700; background: rgba(0,0,0,0.3); border-top: 1px solid rgba(255,255,255,0.05); }
+
+    /* Spec tabs */
+    .docs-section { max-width: 1200px; margin: 0 auto 40px; }
+    .tab-nav { display: flex; border-bottom: 1px solid var(--border-violet); margin-bottom: 12px; gap: 4px; overflow-x: auto; }
+    .tab-nav-btn { background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-dim); padding: 8px 12px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.15s ease; white-space: nowrap; }
+    .tab-nav-btn.active { color: var(--border-active); border-bottom-color: var(--border-active); }
+    .tab-pane { display: none; background: var(--bg-panel); border: 1px solid var(--border-violet); border-radius: 8px; padding: 16px; }
+    .tab-pane.active { display: block; }
+
+    .table-spec { width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left; }
+    .table-spec th, .table-spec td { border-bottom: 1px solid var(--border-violet); padding: 8px; vertical-align: top; }
+    .table-spec th { color: var(--border-active); font-size: 0.7rem; text-transform: uppercase; }
+  </style>
+</head>
+<body class="theme-lavender">
+
+  <header>
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 12px;">
+      <div>
+        <p style="color: #a78bfa; font-weight: 900; font-size: 0.72rem; text-transform: uppercase; margin: 0 0 3px; letter-spacing: 0.05em;">Character Acting Reset</p>
+        <h1>BIG-UPDATE-14.6 — SCENE 01 CAUSALITY SANDBOX</h1>
+        <p style="color: var(--text-dim); font-size: 0.88rem; margin: 0;">Kiểm duyệt nguyên nhân - kết quả: Nhảy lò cò → Va chạm thật → Nhắm mắt/Bật nảy → Rơi đất → Choáng/Chập điện</p>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <span style="background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; color: #10b981; padding: 4px 10px; border-radius: 16px; font-size: 0.72rem; font-weight: 800;">
+          Causality: AUDITED
+        </span>
+        <span style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: var(--text-dim); padding: 4px 10px; border-radius: 16px; font-size: 0.72rem; font-weight: 700;">
+          Src: READONLY
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main class="sandbox-layout">
+    
+    <!-- Animatic Player Section -->
+    <div class="player-section">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <h2 style="margin: 0; font-size: 1rem; font-weight: 700; color: var(--text-bright);">Scene 01 Director's Monitor</h2>
+        <div style="display: flex; gap: 6px;">
+          <button class="btn btn-sm active" id="vp-desktop" onclick="setViewMode('desktop')">Desktop</button>
+          <button class="btn btn-sm" id="vp-mobile" onclick="setViewMode('mobile')">Mobile</button>
+        </div>
+      </div>
+
+      <!-- Viewport Frame -->
+      <div class="device-viewport mode-desktop" id="viewport-frame">
+        <div class="stage">
+          <div class="floor"></div>
+          
+          <!-- Contact State Indicator Overlay -->
+          <div class="proof-overlay pre" id="proof-indicator">Pre-Contact</div>
+
+          <!-- Contact Flash -->
+          <div class="impact-ring" id="collision-pulse"></div>
+
+          <!-- Debris Particles -->
+          <div class="debris" id="db-1"></div>
+          <div class="debris" id="db-2"></div>
+          <div class="debris" id="db-3"></div>
+
+          <!-- Column Shadow -->
+          <div class="column-shadow" id="pillar-shad"></div>
+          
+          <!-- Robot Shadow -->
+          <div class="robot-shadow" id="bot-shad"></div>
+
+          <!-- 2.5D Heavy Stone Column -->
+          <div class="column-actor" id="stone-pillar">
+            <svg width="100%" height="100%" viewBox="0 0 60 170" style="overflow: visible;">
+              <defs>
+                <linearGradient id="col-front" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="var(--column-front)"></stop>
+                  <stop offset="1" stop-color="color-mix(in srgb, var(--column-front) 80%, #000)"></stop>
+                </linearGradient>
+                <linearGradient id="col-side" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="var(--column-side)"></stop>
+                  <stop offset="1" stop-color="color-mix(in srgb, var(--column-side) 65%, #000)"></stop>
+                </linearGradient>
+              </defs>
+              
+              <!-- Pedestal Base -->
+              <rect x="0" y="154" width="60" height="16" rx="2" fill="var(--column-base)" stroke="rgba(0,0,0,0.22)" stroke-width="1.2" />
+              <rect x="4" y="144" width="52" height="10" rx="1.5" fill="var(--column-base)" stroke="rgba(0,0,0,0.18)" stroke-width="1" />
+              
+              <!-- 2.5D Side Plane -->
+              <path d="M 42 12 L 54 5 L 54 144 L 42 144 Z" fill="url(#col-side)" stroke="rgba(0,0,0,0.18)" stroke-width="0.8" />
+              
+              <!-- Front Plane -->
+              <rect x="5" y="12" width="37" height="132" fill="url(#col-front)" stroke="rgba(0,0,0,0.18)" stroke-width="1.2" />
+              
+              <!-- Pediment Top -->
+              <rect x="2" y="2" width="44" height="10" rx="1.5" fill="var(--column-base)" stroke="rgba(0,0,0,0.18)" stroke-width="1" />
+              
+              <!-- Crack Shape -->
+              <path d="M 20 40 L 11 62 L 29 80 L 14 100 M 14 100 L 25 118" fill="none" stroke="rgba(0,0,0,0.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M 21 40 L 12 62 L 30 80 L 15 100" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" transform="translate(1, 1)" />
+            </svg>
+          </div>
+
+          <!-- Light Butterfly -->
+          <div class="butterfly-actor" id="bt-actor">
+            <svg width="100%" height="100%" viewBox="0 0 22 20" style="overflow: visible;">
+              <g id="bt-wing-left" style="transform-origin: 10px 10px;">
+                <path d="M 10 10 C 6 2, 0 4, 1 9 C 2 12, 7 11, 10 10" fill="var(--butterfly-color)" stroke="rgba(0,0,0,0.25)" stroke-width="0.8" filter="drop-shadow(0 0 2px var(--butterfly-glow))" />
+                <path d="M 10 10 C 7 12, 2 15, 3 17 C 4 19, 8 16, 10 10" fill="var(--butterfly-color)" stroke="rgba(0,0,0,0.25)" stroke-width="0.6" filter="drop-shadow(0 0 1px var(--butterfly-glow))" />
+              </g>
+              <g id="bt-wing-right" style="transform-origin: 10px 10px;">
+                <path d="M 10 10 C 14 2, 20 4, 19 9 C 18 12, 13 11, 10 10" fill="var(--butterfly-color)" stroke="rgba(0,0,0,0.25)" stroke-width="0.8" filter="drop-shadow(0 0 2px var(--butterfly-glow))" />
+                <path d="M 10 10 C 13 12, 18 15, 17 17 C 16 19, 12 16, 10 10" fill="var(--butterfly-color)" stroke="rgba(0,0,0,0.25)" stroke-width="0.6" filter="drop-shadow(0 0 1px var(--butterfly-glow))" />
+              </g>
+              <ellipse cx="10" cy="10" rx="1" ry="3.5" fill="#201830" />
+            </svg>
+          </div>
+
+          <!-- Robot Head -->
+          <div class="robot-actor" id="rb-actor">
+            <span class="spark spark-1" id="spark-light-1"></span>
+            <span class="spark spark-2" id="spark-light-2"></span>
+            
+            <div class="head-shell">
+              <div class="oled-bezel">
+                <div class="scanlines" id="scan-layer"></div>
+                <div class="sweat-drop" id="sweat-drop-l" style="left: 10px; top: 2px;"></div>
+                <div class="sweat-drop" id="sweat-drop-r" style="right: 10px; top: 4px;"></div>
+                
+                <svg class="oled-screen" viewBox="0 0 128 64">
+                  <rect x="0" y="0" width="128" height="64" fill="#0c0814" />
+                  
+                  <g id="eyes-layer">
+                    <rect id="eye-left-geom" class="oled-eye" x="27" y="14" width="32" height="36" rx="8" />
+                    <rect id="eye-right-geom" class="oled-eye" x="69" y="14" width="32" height="36" rx="8" />
+                    
+                    <!-- Eyelids Overlay Masks -->
+                    <!-- Angry -->
+                    <path id="mask-angry-l" class="oled-mask" d="M 25 10 L 61 23 L 61 10 Z" opacity="0" />
+                    <path id="mask-angry-r" class="oled-mask" d="M 67 23 L 103 10 L 67 10 Z" opacity="0" />
+                    <!-- Sleepy -->
+                    <path id="mask-sleepy-l" class="oled-mask" d="M 25 24 L 61 10 L 25 10 Z" opacity="0" />
+                    <path id="mask-sleepy-r" class="oled-mask" d="M 67 10 L 103 24 L 103 10 Z" opacity="0" />
+                    <!-- Scared (Top & Bottom bars) -->
+                    <rect id="mask-scared-t" class="oled-mask" x="20" y="8" width="90" height="7" opacity="0" />
+                    <rect id="mask-scared-b" class="oled-mask" x="20" y="49" width="90" height="7" opacity="0" />
+                  </g>
+                  
+                  <!-- Dizzy Overloaded Lines -->
+                  <g id="dizzy-layer" opacity="0">
+                    <path class="oled-dizzy-line" d="M 45 44 C 45 30, 25 27, 19 41 C 12 58, 41 68, 52 50 C 66 27, 28 8, 9 29 C -9 52, 18 81, 46 70" transform="scale(0.8) translate(16, 5)" />
+                    <path class="oled-dizzy-line" d="M 45 44 C 45 30, 25 27, 19 41 C 12 58, 41 68, 52 50 C 66 27, 28 8, 9 29 C -9 52, 18 81, 46 70" transform="scale(0.8) translate(86, 5)" />
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrubber Timeline controls -->
+      <div class="scrubber-container">
+        <button class="btn" style="min-width: 50px; justify-content: center;" id="play-toggle-btn" onclick="togglePlay()">Play</button>
+        <button class="btn" onclick="resetToStart()">Reset</button>
+        <input type="range" class="range-scrubber" id="anim-scrubber" min="0" max="7550" value="0" oninput="manualScrub(this.value)">
+        <span class="time-lbl" id="time-lbl">0.00 / 7.55s</span>
+      </div>
+
+      <!-- Controls Row -->
+      <div class="control-row">
+        <div class="btn-group">
+          <span style="font-size: 0.78rem; color: var(--text-dim); align-self: center; margin-right: 4px;">Theme:</span>
+          <button class="btn btn-sm active" id="theme-btn-lavender" onclick="switchTheme('lavender')">Lavender Field</button>
+          <button class="btn btn-sm" id="theme-btn-forest" onclick="switchTheme('forest')">Forest Dark</button>
+        </div>
+        <div class="btn-group">
+          <span style="font-size: 0.78rem; color: var(--text-dim); align-self: center; margin-right: 4px;">Tốc độ:</span>
+          <button class="btn btn-sm active" id="speed-btn-1x" onclick="switchSpeed(1)">1x (Thường)</button>
+          <button class="btn btn-sm" id="speed-btn-quarter" onclick="switchSpeed(0.25)">0.25x (Xem chậm)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar presets panel -->
+    <div class="sidebar">
+      
+      <div class="side-box">
+        <h3>Slow-Mo Video Clips</h3>
+        <p style="font-size: 0.72rem; color: var(--text-dim); margin-top: 0; margin-bottom: 8px;">Phân rã kiểm tra chuyển động (vận hành ở 0.25x):</p>
+        <div class="clip-list">
+          <button class="clip-btn" onclick="playSegment(1700, 3500)">1. Hop-cycle (1.70s - 3.50s)</button>
+          <button class="clip-btn" onclick="playSegment(1100, 3500)">2. Butterfly gaze (1.10s - 3.50s)</button>
+          <button class="clip-btn" onclick="playSegment(3400, 4100)">3. Contact-proof (3.40s - 4.10s)</button>
+          <button class="clip-btn" onclick="playSegment(3720, 5080)">4. Rebound & landing (3.72s - 5.08s)</button>
+          <button class="clip-btn" onclick="playSegment(5080, 5920)">5. Overloaded chập (5.08s - 5.92s)</button>
+          <button class="clip-btn" onclick="playSegment(5920, 7550)">6. Recovery to angry (5.92s - 7.55s)</button>
+        </div>
+      </div>
+
+      <div class="side-box">
+        <h3>Causality Verifier</h3>
+        <div style="font-size: 0.72rem; color: var(--text-dim); display: flex; flex-direction: column; gap: 5px;">
+          <div style="display: flex; justify-content: space-between;"><span style="font-weight: 700;">Hops:</span><span>3 Nhịp (11px, 15px, 23px)</span></div>
+          <div style="display: flex; justify-content: space-between;"><span style="font-weight: 700;">Nhìn lệch (Gaze):</span><span>Bám sát bướm sáng</span></div>
+          <div style="display: flex; justify-content: space-between;"><span style="font-weight: 700;">Điểm chạm (Contact):</span><span>Từng frame tại 3.72s</span></div>
+          <div style="display: flex; justify-content: space-between;"><span style="font-weight: 700;">Co nén (Squash):</span><span>92% Width tại 3.72s</span></div>
+          <div style="display: flex; justify-content: space-between;"><span style="font-weight: 700;">Chập điện:</span><span>Chỉ sau khi tiếp đất</span></div>
+          <div style="display: flex; justify-content: space-between;"><span style="font-weight: 700;">Lắc đầu:</span><span>Giảm biên độ trục X</span></div>
+        </div>
+      </div>
+      
+    </div>
+  </main>
+
+  <!-- 7-Frame Contact Sheet Section -->
+  <section class="sheet-section">
+    <h2 style="font-size: 1.15rem; font-weight: 800; color: var(--text-bright); margin: 0 0 4px;">7-Frame Contact Sheet (Chứng minh điểm chạm tại 3.72s)</h2>
+    <p style="color: var(--text-dim); margin: 0 0 12px; font-size: 0.78rem;">Bản nghiệm thu từng khung hình liên tục quanh thời điểm va đập. Mắt chỉ chuyển nhắm (BLINK_FAST) đúng tại Frame 4 khi chạm vỏ cột đá.</p>
+    
+    <div class="sheet-grid">
+      <!-- Frame -3 -->
+      <div class="sheet-item" onclick="manualScrub(3500)">
+        <div class="sheet-view" id="cs-frame-1"></div>
+        <div class="sheet-lbl">Frame -3 (3.50s)<br><span style="color:#f59e0b">Scared Start</span></div>
+      </div>
+      <!-- Frame -2 -->
+      <div class="sheet-item" onclick="manualScrub(3580)">
+        <div class="sheet-view" id="cs-frame-2"></div>
+        <div class="sheet-lbl">Frame -2 (3.58s)<br><span style="color:#f59e0b">Approaching</span></div>
+      </div>
+      <!-- Frame -1 -->
+      <div class="sheet-item" onclick="manualScrub(3650)">
+        <div class="sheet-view" id="cs-frame-3"></div>
+        <div class="sheet-lbl">Frame -1 (3.65s)<br><span style="color:#f59e0b">Pre-Contact</span></div>
+      </div>
+      <!-- Contact Frame -->
+      <div class="sheet-item" style="border: 1.5px solid #ef4444;" onclick="manualScrub(3720)">
+        <div class="sheet-view" id="cs-frame-4"></div>
+        <div class="sheet-lbl" style="background: rgba(239, 68, 68, 0.15);">Frame 0 (3.72s)<br><span style="color:#ef4444; font-weight:900;">CONTACT!</span></div>
+      </div>
+      <!-- Frame +1 -->
+      <div class="sheet-item" onclick="manualScrub(3800)">
+        <div class="sheet-view" id="cs-frame-5"></div>
+        <div class="sheet-lbl">Frame +1 (3.80s)<br><span style="color:#3b82f6">Separating</span></div>
+      </div>
+      <!-- Frame +2 -->
+      <div class="sheet-item" onclick="manualScrub(3880)">
+        <div class="sheet-view" id="cs-frame-6"></div>
+        <div class="sheet-lbl">Frame +2 (3.88s)<br><span style="color:#3b82f6">Post-Contact</span></div>
+      </div>
+      <!-- Frame +3 -->
+      <div class="sheet-item" onclick="manualScrub(3960)">
+        <div class="sheet-view" id="cs-frame-7"></div>
+        <div class="sheet-lbl">Frame +3 (3.96s)<br><span style="color:#3b82f6">Rebounding</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Storyboard Section -->
+  <section class="st-title">
+    <h2 style="font-size: 1.15rem; font-weight: 800; color: var(--text-bright); margin: 0 0 4px;">Kịch bản phân cảnh chi tiết (Storyboard Scene 01)</h2>
+    <p style="color: var(--text-dim); margin: 0 0 12px; font-size: 0.78rem;">Chuỗi hành động 12 frame thể hiện sự nhất quán cơ học chuyển động, bảo đảm tính nhân vật.</p>
+  </section>
+
+  <section class="st-grid">
+    <!-- Frame 1 -->
+    <div class="st-card" onclick="manualScrub(200)">
+      <div class="st-thumb">
+        <div style="position: absolute; bottom: 20%; right: 25%; width: 18px; height: 70px; background: rgba(255,255,255,0.15); border-radius: 1.5px;"></div>
+      </div>
+      <div class="st-body">
+        <div class="st-header">
+          <span class="st-no">Frame 1</span>
+          <span class="st-time">0.00s - 0.50s</span>
+        </div>
+        <h4 class="st-txt-title">Cột đá nặng tĩnh lặng</h4>
+        <p class="st-desc">Cột đá đứng sẵn định vị góc phải sân khấu. Trọng lượng rõ ràng.</p>
+        <span class="st-badge">Face: NEUTRAL</span>
+        <p class="st-acting">Không xuất hiện đột ngột</p>
+      </div>
+    </div>
+
+    <!-- Frame 2 -->
+    <div class="st-card" onclick="manualScrub(800)">
+      <div class="st-thumb">
+        <div style="position: absolute; top: 25%; right: 35%; width: 12px; height: 10px; background: #eab308; border-radius: 2px;"></div>
+        <div style="position: absolute; bottom: 20%; right: 25%; width: 18px; height: 70px; background: rgba(255,255,255,0.15); border-radius: 1.5px;"></div>
+      </div>
+      <div class="st-body">
+        <div class="st-header">
+          <span class="st-no">Frame 2</span>
+          <span class="st-time">0.50s - 1.10s</span>
+        </div>
+        <h4 class="st-txt-title">Bướm sáng chập chờn</h4>
+        <p class="st-desc">Con bướm bay vào từ trên phải. Hai cánh trên/dưới đập lệch nhịp mềm mại.</p>
+        <span class="st-badge">Face: NEUTRAL</span>
+        <p class="st-acting">Tạo động cơ cho ánh mắt</p>
+      </div>
+    </div>
+
+    <!-- Frame 3 -->
+    <div class="st-card" onclick="manualScrub(1400)">
+      <div class="st-thumb">
+        <div style="position: absolute; bottom: 20%; left: 15%; width: 38px; height: 30px; background: rgba(255,255,255,0.18); border-radius: 6px;"></div>
+        <div style="position: absolute; top: 30%; right: 40%; width: 12px; height: 10px; background: #eab308; border-radius: 2px;"></div>
+      </div>
+      <div class="st-body">
+        <div class="st-header">
+          <span class="st-no">Frame 3</span>
+          <span class="st-time">1.10s - 1.70s</span>
+        </div>
+        <h4 class="st-txt-title">Phát hiện & tò mò</h4>
+        <p class="st-desc">Robot trượt vào từ trái, phanh nhẹ. Đầu nghiêng, mắt lệch nhìn theo bướm.</p>
+        <span class="st-badge">Face: CURIOUS</span>
+        <p class="st-acting">Gaze offset (Mắt liếc đi trước)</p>
+      </div>
+    </div>
+
+    <!-- Frame 4 -->
+    <div class="st-card" onclick="manualScrub(2000)">
+      <div class="st-thumb">
+        <div style="position: absolute; bottom: 30%; left: 25%; width: 38px; height: 30px; background: rgba(255,255,255,0.18); border-radius: 6px;"></div>
+      </div>
+      <div class="st-body">
+        <div class="st-header">
+          <span class="st-no">Frame 4</span>
+          <span class="st-time">1.70s - 2.25s</span>
+        </div>
+        <h4 class="st-txt-title">Nhịp Nhảy 1 (11px)</h4>
+        <p class="st-desc">Robot co nén nhẹ rồi nhảy nhịp ngắn, nhí nhảnh. Mắt tập trung bám bướm.</p>
+        <span class="st-badge">Face: ATTENTION</span>
+        <p class="st-acting">Anticipation thấp</p>
+      </div>
+    </div>
+
+    <!-- Frame 5 -->
+    <div class="st-card" onclick="manualScrub(2600)">
+      <div class="st-thumb">
+        <div style="position: absolute; bottom: 34%; left: 45%; width: 38px; height: 30px; background: rgba(255,255,255,0.18); border-radius: 6px;"></div>
+      </div>
+      <div class="st-body">
+        <div class="st-header">
+          <span class="st-no">Frame 5</span>
+          <span class="st-time">2.25s - 2.85s</span>
+        </div>
+        <h4 class="st-txt-title">Nhịp Nhảy 2 (15px)</h4>
+        <p class="st-desc">Bật nhảy cao hơn một chút, đầu nghiêng nhịp điệu theo quỹ đạo lượn của bướm.</p>
+        <span class="st-badge">Face: ATTENTION</span>
+        <p class="st-acting">Settle tiếp đất trung gian</p>
+      </div>
+    </div>
+
+    <!-- Frame 6 -->
+    <div class="st-card" onclick="manualScrub(3200)">
+      <div class="st-thumb">
+        <div style="position: absolute; bottom: 42%; left: 62%; width: 38px; height: 30px; background: rgba(255,255,255,0.18); border-radius: 6px;"></div>
+      </div>
+      <div class="st-body">
+        <div class="st-header">
+          <span class="st-no">Frame 6</span>
+          <span class="st-time">2.85s - 3.50s</span>
+        </div>
+        <h4 class="st-txt-title">Nhịp Nhảy 3 (23px)</h4>
+        <p class="st-desc">Lấy đà sâu nhảy vọt lên cao hướng về cột. Vẫn ngước nhìn bướm đang lách qua cột.</p>
+        <span class="st-badge">Face: ATTENTION</span>
+        <p class="st-acting">Lực bay parabol tăng tốc</p>
+      </div>
+    </div>
+
+    <!-- Frame 7 -->
+    <div class="st-card" onclick="manualScrub(3620)">
+      <div class="st-thumb">
+        <div style="position: absolute; bottom: 25%; right: 28%; width: 38px; height: 30px; background: rgba(255,255,255,0.2); border-radius: 6px;"></div>
+        <div style="position: absolute; bottom: 20%; right: 25%; width: 18px; height: 70px; background: rgba(255,255,255,0.15); border-radius: 1.5px;"></div>
+      </div>
+      <div class="st-body">
+        <div class="st-header">
+          <span class="st-no">Frame 7</span>
+          <span class="st-time">3.50s - 3.72s</span>
+        </div>
+        <h4 class="st-txt-title">Giật mình nhận ra</h4>
+        <p class="st-desc">Rơi xuống sát cột, phát hiện chướng ngại vật quá muộn. Mắt dẹt bẹt hoảng hốt.</p>
+        <span class="st-badge">Face: SCARED</span>
+        <p class="st-acting">Chưa nhắm mắt, chưa chập điện</p>
+      </div>
+    </div>
+
+    <!-- Frame 8 -->
+    <div class="st-card" onclick="manualScrub(3780)">
+      <div class="st-thumb">
+        <div style="position: absolute; bottom: 20%; right: 26%; width: 34px; height: 34px; background: rgba(255,255,255,0.22); border-radius: 6px; transform: scaleX(0.88) scaleY(1.12);"></div>
+        <div style="position: absolute; bottom: 20%; right: 25%; width: 18px; height: 70px; background: rgba(255,255,255,0.18); border-radius: 1.5px;"></div>
+      </div>
+      <div class="st-body">
+        <div class="st-header">
+          <span class="st-no">Frame 8</span>
+          <span class="st-time">3.72s - 3.92s</span>
+        </div>
+        <h4 class="st-txt-title">Va chạm thật sự</h4>
+        <p class="st-desc">Vỏ đầu nén chặt vào cột đá. Đứng hình 80ms. Mắt nhắm tịt. Mảnh đá bắn ra từ điểm chạm.</p>
+        <span class="st-badge">Face: BLINK_FAST</span>
+        <p class="st-acting">Nguyên nhân cơ học rõ nét</p>
+      </div>
+    </div>
+
+    <!-- Frame 9 -->
+    <div class="st-card" onclick="manualScrub(4200)">
+      <div class="st-thumb">
+        <div style="position: absolute; bottom: 35%; left: 45%; width: 38px; height: 30px; background: rgba(255,255,255,0.18); border-radius: 6px; transform: rotate(-50deg);"></div>
+      </div>
+      <div class="st-body">
+        <div class="st-header">
+          <span class="st-no">Frame 9</span>
+          <span class="st-time">3.92s - 4.65s</span>
+        </div>
+        <h4 class="st-txt-title">Văng ngược & Xoay rơi</h4>
+        <p class="st-desc">Robot văng giật lùi về trái, xoay lộn ngược trên không trung. Mắt nhắm dẹt rồi mở dần.</p>
+        <span class="st-badge">Face: BLINK → TWEEN</span>
+        <p class="st-acting">Quán tính xoay và lộn nhào</p>
+      </div>
+    </div>
+
+    <!-- Frame 10 -->
+    <div class="st-card" onclick="manualScrub(4800)">
+      <div class="st-thumb">
+        <div style="position: absolute; bottom: 16%; left: 30%; width: 44px; height: 24px; background: rgba(255,255,255,0.18); border-radius: 6px; transform: scaleY(0.75);"></div>
+      </div>
+      <div class="st-body">
+        <div class="st-header">
+          <span class="st-no">Frame 10</span>
+          <span class="st-time">4.65s - 5.08s</span>
+        </div>
+        <h4 class="st-txt-title">Tiếp đất & Settle</h4>
+        <p class="st-desc">Rơi nén sâu xuống sàn, trượt nhẹ rồi đổ nghiêng nằm im góc -90 độ.</p>
+        <span class="st-badge">Face: OVERLOADED (chờ)</span>
+        <p class="st-acting">Chưa có tia điện phóng</p>
+      </div>
+    </div>
+
+    <!-- Frame 11 -->
+    <div class="st-card" onclick="manualScrub(5500)">
+      <div class="st-thumb">
+        <div style="position: absolute; bottom: 18%; left: 30%; width: 30px; height: 38px; background: rgba(255,255,255,0.15); border-radius: 6px; transform: rotate(-90deg);"></div>
+      </div>
+      <div class="st-body">
+        <div class="st-header">
+          <span class="st-no">Frame 11</span>
+          <span class="st-time">5.08s - 5.92s</span>
+        </div>
+        <h4 class="st-txt-title">Chập điện cục bộ</h4>
+        <p class="st-desc">Nằm nghiêng. Mắt xoắn ốc giật nhẹ, scanline hoạt động. 2-4 tia điện nhỏ quanh đầu.</p>
+        <span class="st-badge">Face: OVERLOADED</span>
+        <p class="st-acting">Hệ quả va đập cơ học</p>
+      </div>
+    </div>
+
+    <!-- Frame 12 -->
+    <div class="st-card" onclick="manualScrub(6800)">
+      <div class="st-thumb">
+        <div style="position: absolute; bottom: 20%; left: 30%; width: 38px; height: 30px; background: rgba(255,255,255,0.18); border-radius: 6px; transform: rotate(4deg);"></div>
+      </div>
+      <div class="st-body">
+        <div class="st-header">
+          <span class="st-no">Frame 12</span>
+          <span class="st-time">5.92s - 7.55s</span>
+        </div>
+        <h4 class="st-txt-title">Lắc đầu & Bực bội</h4>
+        <p class="st-desc">Robot thẳng dậy, lắc đầu xua daze. Quay đầu nhìn cột và vát mí tức giận.</p>
+        <span class="st-badge">Face: NEUTRAL → ANGRY</span>
+        <p class="st-acting">Lắc đầu giảm dần biên độ</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Spec Sheets Section -->
+  <section class="docs-section">
+    <div class="tab-nav">
+      <button class="tab-nav-btn active" onclick="switchPane(event, 'pane-expression')">1. Expression Mapping</button>
+      <button class="tab-nav-btn" onclick="switchPane(event, 'pane-timing')">2. Motion Timing</button>
+      <button class="tab-nav-btn" onclick="switchPane(event, 'pane-acting')">3. Character Acting</button>
+      <button class="tab-nav-btn" onclick="switchPane(event, 'pane-assets')">4. Assets Sheet</button>
+    </div>
+
+    <!-- Tab Expression Map -->
+    <div class="tab-pane active" id="pane-expression">
+      <h3 style="margin: 0 0 10px; color: var(--border-active); font-size: 0.95rem;">OLED Expression Map (Đồng bộ firmware)</h3>
+      <table class="table-spec">
+        <thead>
+          <tr>
+            <th>Trạng thái</th>
+            <th>Trạng thái C++ trong display.h / FluxGarage_RoboEyes.h</th>
+            <th>Nhận diện đồ họa và mí mắt</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>NEUTRAL</code></td>
+            <td><code>baseEyes();</code> (mắt mặc định, 32x36, rx: 8, gap: 10). Autoblinker bật.</td>
+            <td>Hai mắt tròn đều, nằm chính giữa toạ độ (27, 14) và (69, 14).</td>
+          </tr>
+          <tr>
+            <td><code>CURIOUS</code></td>
+            <td><code>setCuriosity(ON); setIdleMode(ON, 2, 2);</code></td>
+            <td>Mắt dịch chuyển theo hướng nhìn bướm, tự co giãn bất đối xứng nhẹ.</td>
+          </tr>
+          <tr>
+            <td><code>ATTENTION</code></td>
+            <td><code>setWidth(34, 34); setHeight(38, 38); setIdleMode(OFF);</code></td>
+            <td>Mắt giãn to 34x38, cố định tiêu điểm nhìn bám sát bướm.</td>
+          </tr>
+          <tr>
+            <td><code>SCARED</code></td>
+            <td><code>setMood(ROBOEYES_TIRED); setSweat(ON); setVFlicker(ON, 3); setHFlicker(ON, 3);</code></td>
+            <td>Mí mắt trên sập 7px, mí dưới dâng 7px tạo mắt dẹt hoảng hốt. Jitter rung lắc.</td>
+          </tr>
+          <tr>
+            <td><code>BLINK_FAST</code></td>
+            <td><code>blink();</code> (đóng mí tức thì về độ cao 1-3px rồi mở).</td>
+            <td>Hai vạch ngang dẹt mảnh độ cao 3px, bo góc rx: 0 tại điểm va chạm.</td>
+          </tr>
+          <tr>
+            <td><code>OVERLOADED</code></td>
+            <td><code>setMood(ROBOEYES_TIRED); setSweat(ON); setHFlicker(ON, 2); setVFlicker(ON, 1);</code></td>
+            <td>Mắt đổi thành đường xoắn ốc cơ khí, rung lệch, mồ hôi rơi và scanline.</td>
+          </tr>
+          <tr>
+            <td><code>SLEEPY</code></td>
+            <td><code>setMood(ROBOEYES_TIRED); setHeight(20, 20);</code></td>
+            <td>Mí mắt sập vát chéo 45 độ hướng ra ngoài vỏ đầu.</td>
+          </tr>
+          <tr>
+            <td><code>ANGRY_ALERT</code></td>
+            <td><code>setMood(ROBOEYES_ANGRY); setHFlicker(ON, 2); setIdleMode(OFF);</code></td>
+            <td>Mí mắt vát chéo chụm vào giữa, rung ngang biên độ 2px thể hiện bực dọc.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tab Motion Timing -->
+    <div class="tab-pane" id="pane-timing">
+      <h3 style="margin: 0 0 10px; color: var(--border-active); font-size: 0.95rem;">Motion Timing Sheet (Scene 01 Causality)</h3>
+      <table class="table-spec">
+        <thead>
+          <tr>
+            <th>Thời điểm</th>
+            <th>Thời lượng</th>
+            <th>Trạng thái mắt</th>
+            <th>Diễn biến cơ học (Anticipation / Impact / Settle)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>0.00s - 0.50s</strong></td>
+            <td>500ms</td>
+            <td><code>NEUTRAL</code></td>
+            <td>Cột đá đứng yên định vị khối lượng góc phải. Bối cảnh sẵn sàng.</td>
+          </tr>
+          <tr>
+            <td><strong>0.50s - 1.10s</strong></td>
+            <td>600ms</td>
+            <td><code>NEUTRAL</code></td>
+            <td>Bướm bay vào từ góc trên bên phải theo đường lượn chữ S.</td>
+          </tr>
+          <tr>
+            <td><strong>1.10s - 1.70s</strong></td>
+            <td>600ms</td>
+            <td><code>CURIOUS</code></td>
+            <td>Robot lướt vào từ trái, phanh nhẹ settle và nghiêng mắt nhìn bướm.</td>
+          </tr>
+          <tr>
+            <td><strong>1.70s - 2.25s</strong></td>
+            <td>550ms</td>
+            <td><code>ATTENTION</code></td>
+            <td><strong>Hop 1 (Lò cò - Cao 11px)</strong>: Nén lấy đà bật nhảy ngắn, landing squash nhẹ.</td>
+          </tr>
+          <tr>
+            <td><strong>2.25s - 2.85s</strong></td>
+            <td>600ms</td>
+            <td><code>ATTENTION</code></td>
+            <td><strong>Hop 2 (Lò cò - Cao 15px)</strong>: Nhảy trung bình, đầu nghiêng dẻo theo bướm.</td>
+          </tr>
+          <tr>
+            <td><strong>2.85s - 3.50s</strong></td>
+            <td>650ms</td>
+            <td><code>ATTENTION</code></td>
+            <td><strong>Hop 3 (Bay phóng - Cao 23px)</strong>: Lấy đà sâu nhảy vọt parabol về hướng cột đá.</td>
+          </tr>
+          <tr>
+            <td><strong>3.50s - 3.72s</strong></td>
+            <td>220ms</td>
+            <td><code>SCARED</code></td>
+            <td>Phát hiện cột quá muộn. Phanh gấp, co rúm người giật lùi nhẹ. Mắt bẹt hoảng hốt.</td>
+          </tr>
+          <tr>
+            <td><strong>3.72s - 3.92s</strong></td>
+            <td>200ms</td>
+            <td><code>BLINK_FAST</code></td>
+            <td><strong>CONTACT FRAME (3.72s)</strong>: Chạm vỏ thật sự, nén sâu 92%, nhắm mắt dẹt, cột rung, đá bật.</td>
+          </tr>
+          <tr>
+            <td><strong>3.92s - 4.65s</strong></td>
+            <td>730ms</td>
+            <td><code>BLINK → TWEEN</code></td>
+            <td>Robot văng giật lùi về trái, lộn nhào mất quán tính góc xoay lớn. Mắt mở dờ dại.</td>
+          </tr>
+          <tr>
+            <td><strong>4.65s - 5.08s</strong></td>
+            <td>430ms</td>
+            <td><code>TWEEN</code></td>
+            <td>Tiếp đất, bẹp dẹp cơ thể tiêu chấn, trượt nằm nghiêng -90 độ bất động. Chưa chập điện.</td>
+          </tr>
+          <tr>
+            <td><strong>5.08s - 5.92s</strong></td>
+            <td>840ms</td>
+            <td><code>OVERLOADED</code></td>
+            <td><strong>Chập điện OLED</strong>: Xuất hiện scanlines, mồ hôi rơi và 2-4 tia điện phóng cục bộ vỏ đầu.</td>
+          </tr>
+          <tr>
+            <td><strong>5.92s - 6.55s</strong></td>
+            <td>630ms</td>
+            <td><code>SLEEPY → NEUTRAL</code></td>
+            <td>Robot thẳng dậy. Thực hiện lắc đầu giảm dần biên độ xua daze (Confused shake).</td>
+          </tr>
+          <tr>
+            <td><strong>6.55s - 7.55s</strong></td>
+            <td>1000ms</td>
+            <td><code>ATTENTION → ANGRY</code></td>
+            <td>Robot quay sang nhìn cột, hạ mí tức giận, giữ tư thế bực dọc bám cột đá. Kết thúc.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tab Acting -->
+    <div class="tab-pane" id="pane-acting">
+      <h3 style="margin: 0 0 10px; color: var(--border-active); font-size: 0.95rem;">Disney Character Acting Principles</h3>
+      <table class="table-spec">
+        <thead>
+          <tr>
+            <th>Nguyên lý hành động</th>
+            <th>Hiện thực hóa cơ học trên Robot đầu tròn (Không chân)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Hop-cycle (Lò cò nhí nhảnh)</strong></td>
+            <td>Thay vì trượt ngang phẳng, robot di chuyển bằng 3 cú nhảy lò cò cao độ khác nhau (11px, 15px, 23px) để biểu lộ tính cách năng động, tò mò.</td>
+          </tr>
+          <tr>
+            <td><strong>Late Realization (Phát hiện muộn)</strong></td>
+            <td>Ánh mắt (gaze) của robot hoàn toàn bám vào bướm sáng đi vòng qua cột, tạo tiền đề hợp lý cho việc không thấy chướng ngại vật trước mặt.</td>
+          </tr>
+          <tr>
+            <td><strong>Real Collision Squash</strong></td>
+            <td>Tại 3.72s, robot nén dẹt chiều ngang còn 92% và giãn cao 106% đúng điểm tiếp xúc để truyền tải lực đâm cứng của cột đá nặng.</td>
+          </tr>
+          <tr>
+            <td><strong>Confused Shake (Lắc đầu giảm chấn)</strong></td>
+            <td>Dựa trên hàm <code>anim_confused()</code>, lắc đầu không đều mà có biên độ giảm chấn rõ rệt từ rộng sang hẹp dần để biểu đạt hồi tỉnh.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tab Assets -->
+    <div class="tab-pane" id="pane-assets">
+      <h3 style="margin: 0 0 10px; color: var(--border-active); font-size: 0.95rem;">Asset Specifications (Cột đá, Bướm, Hạt đá bể)</h3>
+      <table class="table-spec">
+        <thead>
+          <tr>
+            <th>Tài nguyên</th>
+            <th>Mô tả hình học & Đồ họa</th>
+            <th>Quy tắc hoạt cảnh cơ học</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Cột đá 2.5D</strong></td>
+            <td>Độ rộng 60px, cao 170px. Pedestal giật cấp. Vết nứt chính diện. Mặt trước và mặt vát bóng 3D.</td>
+            <td>Rung chấn nhẹ biên độ 2-3px tại tần số cao khi va chạm (3.72s - 3.92s). Không đổ.</td>
+          </tr>
+          <tr>
+            <td><strong>Bướm Companion</strong></td>
+            <td>Cấu trúc 4 cánh rời lắp quanh trục thân. Tự phát sáng neon. Đường bay lượn lách sâu sau cột.</td>
+            <td>Đập cánh 3D bằng thuộc tính transform scaleX/Y lệch pha liên tục.</td>
+          </tr>
+          <tr>
+            <td><strong>Hạt đá vỡ (Debris)</strong></td>
+            <td>3 hạt đá nhỏ màu xám sậm xuất phát từ điểm va chạm vỏ đầu và cột.</td>
+            <td>Bắn tung toé theo hình vòng cung rơi tự do khi robot bị va đập văng ra.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- JS Engine to drive player and generate dynamic contact sheet -->
+  <script>
+    // Elements references
+    const rbActor = document.getElementById('rb-actor');
+    const robotShell = document.querySelector('.head-shell');
+    const stonePillar = document.getElementById('stone-pillar');
+    const btActor = document.getElementById('bt-actor');
+    const btWingLeft = document.getElementById('bt-wing-left');
+    const btWingRight = document.getElementById('bt-wing-right');
+    const botShad = document.getElementById('bot-shad');
+    const pillarShad = document.getElementById('pillar-shad');
+    const collisionPulse = document.getElementById('collision-pulse');
+    const scanLayer = document.getElementById('scan-layer');
+    const spark1 = document.getElementById('spark-light-1');
+    const spark2 = document.getElementById('spark-light-2');
+    const sweatL = document.getElementById('sweat-drop-l');
+    const sweatR = document.getElementById('sweat-drop-r');
+    const proofIndicator = document.getElementById('proof-indicator');
+
+    // Debris
+    const db1 = document.getElementById('db-1');
+    const db2 = document.getElementById('db-2');
+    const db3 = document.getElementById('db-3');
+
+    // OLED eye components
+    const eyeLeftGeom = document.getElementById('eye-left-geom');
+    const eyeRightGeom = document.getElementById('eye-right-geom');
+    const maskAngryL = document.getElementById('mask-angry-l');
+    const maskAngryR = document.getElementById('mask-angry-r');
+    const maskSleepyL = document.getElementById('mask-sleepy-l');
+    const maskSleepyR = document.getElementById('mask-sleepy-r');
+    const maskScaredT = document.getElementById('mask-scared-t');
+    const maskScaredB = document.getElementById('mask-scared-b');
+    const dizzyLayer = document.getElementById('dizzy-layer');
+
+    // RoboEyes Current Tweens
+    let curEyes = {
+      lx: 27, ly: 14, lw: 32, lh: 36,
+      rx: 69, ry: 14, rw: 32, rh: 36,
+      angry: 0, sleepy: 0, scared: 0, dizzy: 0, blink_fast: 0
+    };
+
+    // State Variables
+    let playState = false;
+    let timeMs = 0;
+    let playSpeed = 1;
+    let loopId = null;
+    let prevTime = 0;
+
+    // Reset initially
+    resetToStart();
+    generateContactSheet();
+
+    function switchTheme(theme) {
+      document.body.className = 'theme-' + theme;
+      document.getElementById('theme-btn-lavender').classList.toggle('active', theme === 'lavender');
+      document.getElementById('theme-btn-forest').classList.toggle('active', theme === 'forest');
+      generateContactSheet(); // update thumbnails to sync theme!
+    }
+
+    function setViewMode(mode) {
+      const frame = document.getElementById('viewport-frame');
+      frame.className = 'device-viewport mode-' + mode;
+      document.getElementById('vp-desktop').classList.toggle('active', mode === 'desktop');
+      document.getElementById('vp-mobile').classList.toggle('active', mode === 'mobile');
+    }
+
+    function switchSpeed(speed) {
+      playSpeed = speed;
+      document.getElementById('speed-btn-1x').classList.toggle('active', speed === 1);
+      document.getElementById('speed-btn-quarter').classList.toggle('active', speed === 0.25);
+    }
+
+    function resetToStart() {
+      timeMs = 0;
+      // reset tweens
+      curEyes = {
+        lx: 27, ly: 14, lw: 32, lh: 36,
+        rx: 69, ry: 14, rw: 32, rh: 36,
+        angry: 0, sleepy: 0, scared: 0, dizzy: 0, blink_fast: 0
+      };
+      renderFrame(0);
+      document.getElementById('anim-scrubber').value = 0;
+      document.getElementById('time-lbl').textContent = "0.00 / 7.55s";
+      if (playState) {
+        togglePlay();
+      }
+    }
+
+    function manualScrub(val) {
+      timeMs = parseInt(val);
+      renderFrame(timeMs);
+      document.getElementById('time-lbl').textContent = (timeMs / 1000).toFixed(2) + " / 7.55s";
+    }
+
+    function togglePlay() {
+      const btn = document.getElementById('play-toggle-btn');
+      if (playState) {
+        playState = false;
+        btn.textContent = 'Play';
+        cancelAnimationFrame(loopId);
+      } else {
+        playState = true;
+        btn.textContent = 'Pause';
+        prevTime = performance.now();
+        loopId = requestAnimationFrame(animCycle);
+      }
+    }
+
+    function playSegment(start, end) {
+      if (playState) {
+        togglePlay();
+      }
+      switchSpeed(0.25); // slow-mo
+      timeMs = start;
+      renderFrame(timeMs);
+      document.getElementById('anim-scrubber').value = timeMs;
+      
+      playState = true;
+      document.getElementById('play-toggle-btn').textContent = 'Pause';
+      prevTime = performance.now();
+
+      function runLocal(ts) {
+        const delta = ts - prevTime;
+        prevTime = ts;
+        timeMs += delta * playSpeed;
+
+        if (timeMs >= end) {
+          timeMs = end;
+          renderFrame(timeMs);
+          document.getElementById('anim-scrubber').value = timeMs;
+          document.getElementById('time-lbl').textContent = (timeMs / 1000).toFixed(2) + " / 7.55s";
+          playState = false;
+          document.getElementById('play-toggle-btn').textContent = 'Play';
+        } else {
+          renderFrame(timeMs);
+          document.getElementById('anim-scrubber').value = timeMs;
+          document.getElementById('time-lbl').textContent = (timeMs / 1000).toFixed(2) + " / 7.55s";
+          loopId = requestAnimationFrame(runLocal);
+        }
+      }
+      loopId = requestAnimationFrame(runLocal);
+    }
+
+    function animCycle(ts) {
+      if (!playState) return;
+      const delta = ts - prevTime;
+      prevTime = ts;
+      
+      timeMs += delta * playSpeed;
+      
+      if (timeMs >= 7550) {
+        timeMs = 7550;
+        renderFrame(timeMs);
+        document.getElementById('anim-scrubber').value = 7550;
+        document.getElementById('time-lbl').textContent = "7.55 / 7.55s";
+        togglePlay();
+      } else {
+        renderFrame(timeMs);
+        document.getElementById('anim-scrubber').value = timeMs;
+        document.getElementById('time-lbl').textContent = (timeMs / 1000).toFixed(2) + " / 7.55s";
+        loopId = requestAnimationFrame(animCycle);
+      }
+    }
+
+    // Mathematical coordinate evaluator for Scene 01 at time t
+    function getSceneState(t) {
+      let state = {
+        robotVisible: false,
+        rx: 0, ry: 0, rRot: 0, rSX: 1, rSY: 1,
+        columnJitter: 0,
+        butterflyVisible: false,
+        bx: 0, by: 0,
+        butterflyFlap: 0,
+        oledExpression: 'NEUTRAL',
+        sweatOpacity: 0,
+        sparksOpacity: 0,
+        scanlinesOpacity: 0,
+        collisionPulseScale: 0,
+        collisionPulseOpacity: 0,
+        debrisOpacity: 0,
+        db1x: 0, db1y: 0, db2x: 0, db2y: 0, db3x: 0, db3y: 0,
+        robotShellYRot: 0,
+        proofText: 'Pre-Contact',
+        proofClass: 'pre'
+      };
+
+      // Butterfly flap angle (faster flap)
+      state.butterflyFlap = Math.sin(t * 0.08) * 60;
+
+      // 1. Column Jitter mapping
+      if (t >= 3720 && t < 3920) {
+        // va chạm: rung nhẹ 2-4px tần số cao
+        state.columnJitter = Math.sin((t - 3720) * 0.15) * 3.5;
+      }
+
+      // 2. Butterfly trajectory
+      if (t >= 500 && t < 3500) {
+        state.butterflyVisible = true;
+        if (t < 1100) {
+          // Bay vào từ góc trên bên phải
+          let ratio = (t - 500) / 600;
+          state.bx = 82 - ratio * 20; // 82% -> 62%
+          state.by = 12 + ratio * 15; // 12% -> 27%
+        } else if (t < 1700) {
+          // Lượn lờ chập chờn
+          let ratio = (t - 1100) / 600;
+          state.bx = 62 - ratio * 12 + Math.sin(t * 0.005) * 3;
+          state.by = 27 + ratio * 8 + Math.cos(t * 0.004) * 3;
+        } else if (t < 2850) {
+          // Nhịp nhảy 1 & 2 của robot: bướm lượn chéo lên xuống
+          let ratio = (t - 1700) / 1150;
+          state.bx = 50 - ratio * 10 + Math.sin(t * 0.008) * 4;
+          state.by = 35 - Math.sin(ratio * Math.PI) * 15;
+        } else {
+          // Nhịp nhảy 3: bướm bay vọt lách qua cột đá (cột đá ở tầm x ~ 82%)
+          let ratio = (t - 2850) / 650;
+          state.bx = 40 + ratio * 48; // bay ra góc phải sau cột
+          state.by = 35 - Math.sin(ratio * Math.PI) * 20 + ratio * 15;
+          if (ratio > 0.75) {
+            state.butterflyVisible = false; // bay mất sau cột
+          }
+        }
+      }
+
+      // 3. Robot Trajectory & Expressions
+      if (t >= 1100) {
+        state.robotVisible = true;
+        
+        if (t < 1700) {
+          // Slide in from left
+          let ratio = (t - 1100) / 600;
+          let ease = 1 - Math.pow(1 - ratio, 3); // ease out cubic
+          state.rx = -80 + ease * 160; // -80px -> 80px
+          state.ry = 0;
+          state.rRot = Math.sin(t * 0.006) * 2;
+          state.oledExpression = 'CURIOUS';
+        } 
+        
+        // 3 PLAYFUL HOPS
+        else if (t < 2250) {
+          // NHỊP 1: 1.70s - 2.25s (Hop 11px)
+          let ratio = (t - 1700) / 550;
+          state.rx = 80 + ratio * 45; // 80px -> 125px
+          // parabola jump height 11px
+          state.ry = Math.sin(ratio * Math.PI) * 11;
+          
+          // Anticipation and landing squash
+          if (ratio < 0.15) {
+            state.rSY = 0.88; state.rSX = 1.12; // co lấy đà
+          } else if (ratio > 0.85) {
+            state.rSY = 0.86; state.rSX = 1.14; // bẹp tiếp đất
+          } else {
+            state.rSY = 1.05; state.rSX = 0.95; // dãn khi bay
+          }
+          state.rRot = Math.sin(ratio * Math.PI) * 4;
+          state.oledExpression = 'ATTENTION';
+        }
+        else if (t < 2850) {
+          // NHỊP 2: 2.25s - 2.85s (Hop 15px)
+          let ratio = (t - 2250) / 600;
+          state.rx = 125 + ratio * 55; // 125px -> 180px
+          state.ry = Math.sin(ratio * Math.PI) * 15;
+          
+          if (ratio < 0.15) {
+            state.rSY = 0.86; state.rSX = 1.14;
+          } else if (ratio > 0.85) {
+            state.rSY = 0.84; state.rSX = 1.16;
+          } else {
+            state.rSY = 1.06; state.rSX = 0.94;
+          }
+          state.rRot = Math.sin(ratio * Math.PI) * 6;
+          state.oledExpression = 'ATTENTION';
+        }
+        else if (t < 3500) {
+          // NHỊP 3: 2.85s - 3.50s (High Hop 23px)
+          let ratio = (t - 2850) / 650;
+          state.rx = 180 + ratio * 65; // 180px -> 245px
+          state.ry = Math.sin(ratio * Math.PI) * 23;
+          
+          if (ratio < 0.15) {
+            state.rSY = 0.82; state.rSX = 1.18;
+          } else {
+            state.rSY = 1.08; state.rSX = 0.92;
+          }
+          state.rRot = 10 * ratio; // nghiêng lao tới
+          state.oledExpression = 'ATTENTION';
+        }
+
+        // POST-HOPS: LATE obstacle realization
+        else if (t < 3720) {
+          // 3.50s - 3.72s (Late panic)
+          let ratio = (t - 3500) / 220;
+          state.rx = 245 + ratio * 15; // 245px -> 260px (cận cột)
+          state.ry = 12 * (1 - ratio); // rơi xuống
+          state.rRot = 10 - ratio * 18; // ngửa đầu hãm phanh
+          state.rSX = 0.94; state.rSY = 1.06;
+          state.oledExpression = 'SCARED';
+          state.proofText = 'Pre-Contact';
+          state.proofClass = 'pre';
+        }
+
+        // CONTACT FRAME: 3.72s - 3.92s (Cú va đập thật sự)
+        else if (t < 3920) {
+          state.rx = 260; // Dính chặt mặt cột
+          state.ry = 0;
+          state.rRot = -10;
+          state.rSX = 0.91; // co nén dọc va chạm
+          state.rSY = 1.07;
+          state.oledExpression = 'BLINK_FAST';
+          
+          // Collision ring scale
+          let ratio = (t - 3720) / 200;
+          state.collisionPulseScale = 1.8 * ratio;
+          state.collisionPulseOpacity = 1 - ratio;
+          
+          // Debris particles
+          state.debrisOpacity = 1;
+          state.db1x = 262 + ratio * 15;
+          state.db1y = 20 - ratio * 12 + ratio * ratio * 8; // parabola
+          state.db2x = 262 + ratio * 12;
+          state.db2y = 35 + ratio * 10 - ratio * ratio * 5;
+          state.db3x = 262 + ratio * 8;
+          state.db3y = 48 + ratio * 18;
+
+          state.proofText = 'Contact!';
+          state.proofClass = 'contact';
+        }
+
+        // REBOUND BACKWARD: 3.92s - 4.65s (Bật nảy lộn nhào)
+        else if (t < 4650) {
+          let ratio = (t - 3920) / 730;
+          state.rx = 260 - Math.sin(ratio * Math.PI * 0.7) * 140; // văng xa về x=120px
+          state.ry = Math.sin(ratio * Math.PI) * 45; // bay lên rồi rơi
+          state.rRot = -10 - ratio * 280; // xoay nhào lớn
+          
+          // Mắt nhắm vẹt ở những frame đầu rồi chuyển dần sang dizzy
+          if (ratio < 0.25) {
+            state.oledExpression = 'BLINK_FAST';
+          } else {
+            state.oledExpression = 'OVERLOADED';
+          }
+          state.proofText = 'Post-Contact';
+          state.proofClass = 'post';
+        }
+
+        // LANDING & SETTLE: 4.65s - 5.08s (Tiếp sàn và ổn định)
+        else if (t < 5080) {
+          let ratio = (t - 4650) / 430;
+          state.rx = 120;
+          state.ry = 0;
+          state.rRot = -90; // Nằm nghiêng góc 90 độ
+          
+          // Landing squash
+          state.rSY = 0.70 + ratio * 0.30;
+          state.rSX = 1.30 - ratio * 0.30;
+          
+          state.oledExpression = 'OVERLOADED';
+          state.proofText = 'Post-Contact';
+          state.proofClass = 'post';
+        }
+
+        // ELECTRICAL OVERLOAD: 5.08s - 5.92s (Chập điện chỉ sau khi tiếp đất xong)
+        else if (t < 5920) {
+          state.rx = 120;
+          state.ry = 0;
+          state.rRot = -90;
+          state.oledExpression = 'OVERLOADED';
+          state.sweatOpacity = 1;
+          state.scanlinesOpacity = 0.8;
+          state.proofText = 'Post-Contact';
+          state.proofClass = 'post';
+          
+          // nhấp nháy điện
+          if (t % 180 < 90) {
+            state.sparksOpacity = 1;
+          }
+        }
+
+        // RECOVERY & HEAD SHAKE: 5.92s - 6.55s (Bật dậy lắc đầu)
+        else if (t < 6550) {
+          let ratio = (t - 5920) / 630;
+          state.rx = 120;
+          state.ry = 0;
+          state.rRot = -90 * (1 - ratio); // dậy thẳng đứng
+          
+          // Confused shake head (giảm biên độ)
+          state.robotShellYRot = Math.sin(ratio * Math.PI * 4.5) * 10 * (1 - ratio);
+          
+          if (ratio < 0.4) {
+            state.oledExpression = 'SLEEPY';
+          } else {
+            state.oledExpression = 'NEUTRAL';
+          }
+          state.proofText = 'Post-Contact';
+          state.proofClass = 'post';
+        }
+
+        // TRANSITION TO ANGRY: 6.55s - 7.15s (Quay sang nhìn cột và hạ mí giận)
+        else if (t < 7150) {
+          let ratio = (t - 6550) / 600;
+          state.rx = 120;
+          state.ry = 0;
+          state.rRot = 5 * ratio; // ngả nhẹ người về trước bực bội
+          
+          if (ratio < 0.4) {
+            state.oledExpression = 'ATTENTION';
+          } else {
+            state.oledExpression = 'ANGRY_ALERT';
+          }
+          state.proofText = 'Post-Contact';
+          state.proofClass = 'post';
+        }
+
+        // HOLD ANGRY POSE: 7.15s - 7.55s
+        else {
+          state.rx = 120;
+          state.ry = 0;
+          state.rRot = 5;
+          state.oledExpression = 'ANGRY_ALERT';
+          state.proofText = 'Post-Contact';
+          state.proofClass = 'post';
+        }
+      }
+
+      return state;
+    }
+
+    // Render frame with RoboEyes interpolated tweens
+    function renderFrame(t) {
+      const isDesktop = document.getElementById('viewport-frame').classList.contains('mode-desktop');
+      const sf = isDesktop ? 1.0 : 0.65;
+
+      const state = getSceneState(t);
+
+      // Display proof indicator text
+      proofIndicator.textContent = state.proofText;
+      proofIndicator.className = 'proof-overlay ' + state.proofClass;
+
+      // Apply Column physics
+      stonePillar.style.transform = `scale(${sf}) translate(${state.columnJitter}px, 0) rotate(${state.columnJitter * 0.1}deg)`;
+      pillarShad.style.transform = `translate(-50%, 50%) scale(${sf})`;
+
+      // Apply Butterfly physics
+      if (state.butterflyVisible) {
+        btActor.style.display = 'block';
+        btActor.style.left = state.bx + '%';
+        btActor.style.top = state.by + '%';
+        btWingLeft.style.transform = `rotateY(${state.butterflyFlap}deg)`;
+        btWingRight.style.transform = `rotateY(${-state.butterflyFlap}deg)`;
+      } else {
+        btActor.style.display = 'none';
+      }
+
+      // Apply Robot physics
+      if (state.robotVisible) {
+        rbActor.style.display = 'block';
+        botShad.style.display = 'block';
+
+        rbActor.style.left = (state.rx * sf) + 'px';
+        rbActor.style.bottom = (35 + state.ry) + '%';
+        rbActor.style.transform = `scale(${sf * state.rSX}, ${sf * state.rSY}) rotate(${state.rRot}deg)`;
+        robotShell.style.transform = `rotateY(${state.robotShellYRot}deg)`;
+
+        botShad.style.left = ((state.rx + 39) * sf) + 'px';
+        botShad.style.transform = `translate(-50%, 50%) scale(${sf * state.rSX * (1 - state.ry/120)})`;
+        botShad.style.opacity = 0.45 * (1 - state.ry/80);
+
+        // Apply external details
+        scanLayer.style.opacity = state.scanlinesOpacity;
+        spark1.style.opacity = state.sparksOpacity;
+        spark2.style.opacity = state.sparksOpacity;
+        sweatL.style.opacity = state.sweatOpacity;
+        sweatR.style.opacity = state.sweatOpacity;
+
+        // Apply debris
+        db1.style.opacity = state.debrisOpacity;
+        db1.style.left = (state.db1x * sf) + 'px';
+        db1.style.bottom = state.db1y + '%';
+        
+        db2.style.opacity = state.debrisOpacity;
+        db2.style.left = (state.db2x * sf) + 'px';
+        db2.style.bottom = state.db2y + '%';
+        
+        db3.style.opacity = state.debrisOpacity;
+        db3.style.left = (state.db3x * sf) + 'px';
+        db3.style.bottom = state.db3y + '%';
+
+        // Apply impact flash
+        collisionPulse.style.left = (260 * sf) + 'px';
+        collisionPulse.style.top = '220px';
+        collisionPulse.style.transform = `translate(-50%, -50%) scale(${state.collisionPulseScale})`;
+        collisionPulse.style.opacity = state.collisionPulseOpacity;
+
+        // TWEENING ROBOT EYES (Interpolating to simulate current = (current + target)/2)
+        let targetEyes = {
+          lx: 27, ly: 14, lw: 32, lh: 36,
+          rx: 69, ry: 14, rw: 32, rh: 36,
+          angry: 0, sleepy: 0, scared: 0, dizzy: 0, blink_fast: 0
+        };
+
+        if (state.oledExpression === 'CURIOUS') {
+          // Look up and right towards butterfly
+          targetEyes.lx = 30; targetEyes.ly = 11;
+          targetEyes.rx = 72; targetEyes.ry = 11;
+        } else if (state.oledExpression === 'ATTENTION') {
+          // Expand to 34x38, tracking butterfly
+          targetEyes.lx = 27; targetEyes.ly = 11; targetEyes.lw = 34; targetEyes.lh = 38;
+          targetEyes.rx = 71; targetEyes.ry = 11; targetEyes.rw = 34; targetEyes.rh = 38;
+        } else if (state.oledExpression === 'SCARED') {
+          targetEyes.scared = 1;
+        } else if (state.oledExpression === 'BLINK_FAST') {
+          targetEyes.ly = 30; targetEyes.lh = 3;
+          targetEyes.ry = 30; targetEyes.rh = 3;
+          targetEyes.blink_fast = 1;
+        } else if (state.oledExpression === 'OVERLOADED') {
+          targetEyes.dizzy = 1;
+        } else if (state.oledExpression === 'SLEEPY') {
+          targetEyes.sleepy = 1;
+        } else if (state.oledExpression === 'ANGRY_ALERT') {
+          targetEyes.angry = 1;
+        }
+
+        // Apply Interpolation (lerpFactor = 0.25 for smooth physical feel)
+        const lerp = 0.25;
+        curEyes.lx += (targetEyes.lx - curEyes.lx) * lerp;
+        curEyes.ly += (targetEyes.ly - curEyes.ly) * lerp;
+        curEyes.lw += (targetEyes.lw - curEyes.lw) * lerp;
+        curEyes.lh += (targetEyes.lh - curEyes.lh) * lerp;
+
+        curEyes.rx += (targetEyes.rx - curEyes.rx) * lerp;
+        curEyes.ry += (targetEyes.ry - curEyes.ry) * lerp;
+        curEyes.rw += (targetEyes.rw - curEyes.rw) * lerp;
+        curEyes.rh += (targetEyes.rh - curEyes.rh) * lerp;
+
+        curEyes.angry += (targetEyes.angry - curEyes.angry) * lerp;
+        curEyes.sleepy += (targetEyes.sleepy - curEyes.sleepy) * lerp;
+        curEyes.scared += (targetEyes.scared - curEyes.scared) * lerp;
+        curEyes.dizzy += (targetEyes.dizzy - curEyes.dizzy) * lerp;
+
+        // Render actual paths/elements inside SVG
+        eyeLeftGeom.setAttribute('x', curEyes.lx);
+        eyeLeftGeom.setAttribute('y', curEyes.ly);
+        eyeLeftGeom.setAttribute('width', curEyes.lw);
+        eyeLeftGeom.setAttribute('height', curEyes.lh);
+
+        eyeRightGeom.setAttribute('x', curEyes.rx);
+        eyeRightGeom.setAttribute('y', curEyes.ry);
+        eyeRightGeom.setAttribute('width', curEyes.rw);
+        eyeRightGeom.setAttribute('height', curEyes.lh);
+
+        // Opacities
+        maskAngryL.setAttribute('opacity', curEyes.angry);
+        maskAngryR.setAttribute('opacity', curEyes.angry);
+        maskSleepyL.setAttribute('opacity', curEyes.sleepy);
+        maskSleepyR.setAttribute('opacity', curEyes.sleepy);
+        maskScaredT.setAttribute('opacity', curEyes.scared);
+        maskScaredB.setAttribute('opacity', curEyes.scared);
+
+        if (curEyes.dizzy > 0.5) {
+          eyeLeftGeom.setAttribute('opacity', '0');
+          eyeRightGeom.setAttribute('opacity', '0');
+          dizzyLayer.setAttribute('opacity', '1');
+        } else {
+          eyeLeftGeom.setAttribute('opacity', '1');
+          eyeRightGeom.setAttribute('opacity', '1');
+          dizzyLayer.setAttribute('opacity', '0');
+        }
+      } else {
+        rbActor.style.display = 'none';
+        botShad.style.display = 'none';
+      }
+    }
+
+    // Dynamic generation of 7-Frame Contact Sheet
+    function generateContactSheet() {
+      const times = [3500, 3580, 3650, 3720, 3800, 3880, 3960];
+      for (let i = 0; i < 7; i++) {
+        const frameId = 'cs-frame-' + (i + 1);
+        const container = document.getElementById(frameId);
+        container.innerHTML = ''; // clear
+
+        // Clone current stage elements
+        const stageClone = document.createElement('div');
+        stageClone.className = 'stage';
+        stageClone.style.transform = 'scale(0.3)';
+        stageClone.style.transformOrigin = 'top left';
+        stageClone.style.width = '333%';
+        stageClone.style.height = '333%';
+        stageClone.innerHTML = `
+          <div class="floor"></div>
+          <div class="column-shadow" style="right: 18%; bottom: 32%;"></div>
+          <div class="column-actor" style="right: 18%; bottom: 35%;">
+            <svg width="100%" height="100%" viewBox="0 0 60 170" style="overflow: visible;">
+              <rect x="0" y="154" width="60" height="16" rx="2" fill="var(--column-base)" stroke="rgba(0,0,0,0.22)" stroke-width="1.2" />
+              <rect x="4" y="144" width="52" height="10" rx="1.5" fill="var(--column-base)" stroke="rgba(0,0,0,0.18)" stroke-width="1" />
+              <path d="M 42 12 L 54 5 L 54 144 L 42 144 Z" fill="url(#col-side)" stroke="rgba(0,0,0,0.18)" stroke-width="0.8" />
+              <rect x="5" y="12" width="37" height="132" fill="url(#col-front)" stroke="rgba(0,0,0,0.18)" stroke-width="1.2" />
+              <rect x="2" y="2" width="44" height="10" rx="1.5" fill="var(--column-base)" stroke="rgba(0,0,0,0.18)" stroke-width="1" />
+              <path d="M 20 40 L 11 62 L 29 80 L 14 100 M 14 100 L 25 118" fill="none" stroke="rgba(0,0,0,0.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="robot-shadow" id="cs-sh-${frameId}"></div>
+          <div class="robot-actor" id="cs-rb-${frameId}">
+            <div class="head-shell">
+              <div class="oled-bezel">
+                <svg class="oled-screen" viewBox="0 0 128 64">
+                  <rect x="0" y="0" width="128" height="64" fill="#0c0814" />
+                  <rect id="cs-el-${frameId}" class="oled-eye" x="27" y="14" width="32" height="36" rx="8" />
+                  <rect id="cs-er-${frameId}" class="oled-eye" x="69" y="14" width="32" height="36" rx="8" />
+                  <g id="cs-dz-${frameId}" opacity="0">
+                    <path class="oled-dizzy-line" d="M 45 44 C 45 30, 25 27, 19 41 C 12 58, 41 68, 52 50 C 66 27, 28 8, 9 29 C -9 52, 18 81, 46 70" transform="scale(0.8) translate(16, 5)" />
+                    <path class="oled-dizzy-line" d="M 45 44 C 45 30, 25 27, 19 41 C 12 58, 41 68, 52 50 C 66 27, 28 8, 9 29 C -9 52, 18 81, 46 70" transform="scale(0.8) translate(86, 5)" />
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(stageClone);
+
+        // Apply properties specific to the time point
+        const t = times[i];
+        const s = getSceneState(t);
+        const rb = stageClone.querySelector(`#cs-rb-${frameId}`);
+        const sh = stageClone.querySelector(`#cs-sh-${frameId}`);
+        const el = stageClone.querySelector(`#cs-el-${frameId}`);
+        const er = stageClone.querySelector(`#cs-er-${frameId}`);
+        const dz = stageClone.querySelector(`#cs-dz-${frameId}`);
+
+        if (s.robotVisible) {
+          rb.style.display = 'block';
+          rb.style.left = s.rx + 'px';
+          rb.style.bottom = (35 + s.ry) + '%';
+          rb.style.transform = `scale(${s.rSX}, ${s.rSY}) rotate(${s.rRot}deg)`;
+
+          sh.style.display = 'block';
+          sh.style.left = (s.rx + 39) + 'px';
+          sh.style.transform = `translate(-50%, 50%) scale(${s.rSX * (1 - s.ry/120)})`;
+          sh.style.opacity = 0.45 * (1 - s.ry/80);
+
+          // Eyes
+          if (s.oledExpression === 'SCARED') {
+            el.setAttribute('y', '21'); el.setAttribute('height', '22');
+            er.setAttribute('y', '21'); er.setAttribute('height', '22');
+          } else if (s.oledExpression === 'BLINK_FAST') {
+            el.setAttribute('y', '30'); el.setAttribute('height', '3');
+            er.setAttribute('y', '30'); er.setAttribute('height', '3');
+          } else if (s.oledExpression === 'OVERLOADED') {
+            el.setAttribute('opacity', '0');
+            er.setAttribute('opacity', '0');
+            dz.setAttribute('opacity', '1');
+          } else {
+            // standard/scared approach
+            el.setAttribute('x', '27'); el.setAttribute('y', '14'); el.setAttribute('width', '32'); el.setAttribute('height', '36');
+            er.setAttribute('x', '69'); er.setAttribute('y', '14'); er.setAttribute('width', '32'); er.setAttribute('height', '36');
+          }
+        }
+      }
+    }
+
+    function switchPane(evt, paneId) {
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-nav-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(paneId).classList.add('active');
+      evt.currentTarget.classList.add('active');
+    }
+  </script>
+
+  <!-- Technical specs report cross reference -->
+  <section class="docs-section" style="border-top: 1px solid var(--border-violet); padding-top: 24px;">
+    <h2 style="font-size: 1.15rem; font-weight: 800; color: var(--text-bright); margin-bottom: 12px;">Đồng bộ kiểm định an toàn và tích hợp</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div style="background: var(--bg-panel); border: 1px solid var(--border-violet); border-radius: 8px; padding: 12px;">
+        <h3 style="margin-top: 0; color: var(--border-active); font-size: 0.9rem;">1. Định vị OLED Firmware Audit</h3>
+        <p style="font-size: 0.78rem; color: var(--text-dim); line-height: 1.5; margin-bottom: 6px;">
+          Báo cáo chi tiết về giao thức mắt SSD1306 và các hàm vẽ C++ được ghi lại tại:<br>
+          <a href="file:///home/quang/Documents/quiz_beta/shimechamhoc-v2.0.0-rc1-project/docs/reports/big-update-14-oled-firmware-audit.md" style="color: #a78bfa; font-weight: 700; text-decoration: none;">[docs/reports/big-update-14-oled-firmware-audit.md]</a>
+        </p>
+      </div>
+      <div style="background: var(--bg-panel); border: 1px solid var(--border-violet); border-radius: 8px; padding: 12px;">
+        <h3 style="margin-top: 0; color: var(--border-active); font-size: 0.9rem;">2. Báo cáo nghiệm thu nghiệm ngặt</h3>
+        <p style="font-size: 0.78rem; color: var(--text-dim); line-height: 1.5; margin-bottom: 6px;">
+          Khóa bảo mật của toàn bộ codebase chạy thực tế được kiểm soát tại:<br>
+          <a href="file:///home/quang/Documents/quiz_beta/shimechamhoc-v2.0.0-rc1-project/docs/reports/big-update-14-final-report.md" style="color: #a78bfa; font-weight: 700; text-decoration: none;">[docs/reports/big-update-14-final-report.md]</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

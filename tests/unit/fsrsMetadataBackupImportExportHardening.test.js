@@ -646,10 +646,10 @@ describe('Test 13: StudyRoom and Dashboard remain unchanged — no production FS
 
 // ─── Test 14: No package/dependency changes ───────────────────────────────────
 
-describe('Test 14: backup/export/import hardening does not change package or dependencies', () => {
-  it('package.json ts-fsrs remains pinned at 5.3.3', () => {
+describe('Test 14: backup/export/import hardening keeps the audited dependency', () => {
+  it('package.json pins ts-fsrs to 5.4.1', () => {
     const pkg = JSON.parse(readProjectFile('package.json'));
-    expect(pkg.dependencies?.['ts-fsrs']).toBe('5.3.3');
+    expect(pkg.dependencies?.['ts-fsrs']).toBe('5.4.1');
   });
 
   it('package.json has no native binding dependency', () => {

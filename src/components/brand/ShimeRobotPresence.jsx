@@ -10,119 +10,97 @@
  * - No network, no hardware, no quiz content
  */
 
-import { useMemo } from 'react';
+import ShimeRobotHead, { SHIME_ROBOT_HEAD_SIZES, normalizeShimeRobotHeadSize } from './ShimeRobotHead.jsx';
 
 const STATE_CONFIG = Object.freeze({
-  idle:    { glow: 'rgba(49, 92, 77, 0.28)', eyeColor: '#5a9e7e', eyeOpacity: 0.7,  pulse: true,  label: 'Đang nghỉ' },
-  ready:   { glow: 'rgba(40, 122, 79, 0.38)', eyeColor: '#287a4f', eyeOpacity: 0.95, pulse: false, label: 'Sẵn sàng' },
-  focus:   { glow: 'rgba(47, 95, 159, 0.35)', eyeColor: '#2f5f9f', eyeOpacity: 1,   pulse: false, label: 'Đang tập trung' },
-  success: { glow: 'rgba(40, 122, 79, 0.45)', eyeColor: '#287a4f', eyeOpacity: 1,   pulse: false, label: 'Hoàn thành tốt' },
-  warning: { glow: 'rgba(167, 93, 19, 0.38)', eyeColor: '#a76513', eyeOpacity: 0.9, pulse: false, label: 'Cần chú ý' }
-});
-
-const SIZE_CONFIG = Object.freeze({
-  sm: { container: 48,  face: 36, eyeR: 3.5, eyeGap: 7,  glowBlur: 16 },
-  md: { container: 72,  face: 56, eyeR: 5,   eyeGap: 10, glowBlur: 24 },
-  lg: { container: 104, face: 80, eyeR: 7,   eyeGap: 14, glowBlur: 36 }
+  idle:    { label: 'Đang nghỉ' },
+  ready:   { label: 'Sẵn sàng' },
+  focus:   { label: 'Đang tập trung' },
+  success: { label: 'Hoàn thành tốt' },
+  warning: { label: 'Cần chú ý' }
 });
 
 /**
  * @param {object} props
  * @param {'idle'|'ready'|'focus'|'success'|'warning'} [props.state='idle']
- * @param {'sm'|'md'|'lg'} [props.size='md']
+ * @param {'xs'|'sm'|'md'|'lg'} [props.size='md']
+ * @param {'hardware'|'dot'} [props.eyeVariant='hardware']
  * @param {string} [props.label] - if non-decorative, provide accessible label
  * @param {boolean} [props.decorative=true] - if true, hidden from screen readers
  * @param {boolean} [props.reducedMotion] - override; auto-reads from CSS media if omitted
+ * @param {boolean} [props.arrival=false] - one-shot first-session arrival treatment
+ * @param {'rest'|'action'} [props.gaze='rest'] - visual gaze direction; never sensor-driven
  */
 export default function ShimeRobotPresence({
   state = 'idle',
   size = 'md',
   label,
   decorative = true,
-  reducedMotion
+  reducedMotion,
+  arrival = false,
+  gaze = 'rest',
+  expression,
+  motion = 'static',
+  blinkPhase = 'a',
+  onArrivalEnd
 }) {
   const cfg = STATE_CONFIG[state] || STATE_CONFIG.idle;
-  const sz = SIZE_CONFIG[size] || SIZE_CONFIG.md;
+  const normalizedSize = normalizeShimeRobotHeadSize(size);
+  const dimensions = SHIME_ROBOT_HEAD_SIZES[normalizedSize];
 
   // Prefer prop override, else rely on CSS to disable animation via reduced-motion class
   const disableMotion = typeof reducedMotion === 'boolean' ? reducedMotion : false;
 
-  const containerStyle = useMemo(() => ({
-    width: sz.container,
-    height: sz.container,
+  const containerStyle = {
+    width: dimensions.width + (normalizedSize === 'large' ? 12 : 8),
+    height: dimensions.height + (normalizedSize === 'large' ? 12 : 8),
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
     flexShrink: 0
-  }), [sz.container]);
+  };
 
-  const glowStyle = useMemo(() => ({
-    position: 'absolute',
-    inset: 0,
-    borderRadius: '50%',
-    background: cfg.glow,
-    filter: `blur(${sz.glowBlur}px)`,
-    opacity: disableMotion ? 0.6 : undefined,
-    // Animation controlled via CSS class + @keyframes; no inline animation
-  }), [cfg.glow, sz.glowBlur, disableMotion]);
-
-  const faceStyle = useMemo(() => ({
-    position: 'relative',
-    width: sz.face,
-    height: sz.face,
-    borderRadius: '38% 38% 44% 44% / 36% 36% 52% 52%',
-    background: 'linear-gradient(160deg, var(--surface-strong, #fff) 0%, var(--color-primary-soft, #e4efe8) 100%)',
-    border: '1px solid var(--glass-border, rgba(49,92,77,0.12))',
-    boxShadow: `0 4px 16px rgba(36,45,62,0.10), inset 0 1px 0 rgba(255,255,255,0.8)`,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: sz.eyeGap,
-    zIndex: 1
-  }), [sz]);
-
-  const eyeStyle = useMemo(() => ({
-    width: sz.eyeR * 2,
-    height: sz.eyeR * 2,
-    borderRadius: '50%',
-    background: cfg.eyeColor,
-    opacity: cfg.eyeOpacity,
-    flexShrink: 0,
-    boxShadow: `0 0 ${sz.eyeR * 2}px ${cfg.eyeColor}60`
-  }), [sz, cfg]);
-
-  const pulseClass = (!disableMotion && cfg.pulse) ? 'shimeRobotPresence__glow--pulse' : '';
   const stateClass = `shimeRobotPresence--${state}`;
   const reducedMotionClass = disableMotion ? 'shimeRobotPresence--reduced-motion' : '';
+  const arrivalActive = Boolean(arrival && !disableMotion);
+  const arrivalClass = arrivalActive ? 'shimeRobotPresence--arrival' : '';
+  const normalizedMotion = ['static', 'idle', 'feedback'].includes(motion) ? motion : 'static';
+  const normalizedBlinkPhase = ['a', 'b', 'c'].includes(blinkPhase) ? blinkPhase : 'a';
+  const faceExpression = expression || (
+    state === 'focus' ? 'attentive' : state === 'success' ? 'correct' : state === 'warning' ? 'incorrect' : 'neutral'
+  );
+
+  function handleAnimationEnd(event) {
+    if (event.target === event.currentTarget && event.animationName === 'bu13-robot-arrival') {
+      onArrivalEnd?.();
+    }
+  }
 
   return (
     <span
-      className={`shimeRobotPresence ${stateClass} ${reducedMotionClass}`.trim()}
+      className={`shimeRobotPresence ${stateClass} shimeRobotPresence--motion-${normalizedMotion} shimeRobotPresence--blink-${normalizedBlinkPhase} ${reducedMotionClass} ${arrivalClass}`.trim()}
       style={containerStyle}
       role={decorative ? undefined : 'img'}
       aria-label={decorative ? undefined : (label || cfg.label)}
       aria-hidden={decorative ? 'true' : undefined}
       data-robot-state={state}
-      data-robot-size={size}
+      data-robot-size={normalizedSize}
+      data-eye-variant="oled"
+      data-robot-arrival={arrivalActive ? 'true' : 'false'}
+      data-robot-expression={faceExpression}
+      data-robot-motion={normalizedMotion}
+      onAnimationEnd={handleAnimationEnd}
     >
       {/* Ambient glow layer */}
-      <span
-        className={`shimeRobotPresence__glow ${pulseClass}`}
-        style={glowStyle}
-        aria-hidden="true"
+      <span className="shimeRobotPresence__glow" aria-hidden="true" />
+      <ShimeRobotHead
+        size={normalizedSize}
+        expression={faceExpression}
+        wink={arrivalActive}
+        gaze={gaze}
+        decorative
       />
-      {/* Robot face */}
-      <span
-        className="shimeRobotPresence__face"
-        style={faceStyle}
-        aria-hidden="true"
-      >
-        {/* Left eye */}
-        <span className="shimeRobotPresence__eye" style={eyeStyle} aria-hidden="true" />
-        {/* Right eye */}
-        <span className="shimeRobotPresence__eye" style={eyeStyle} aria-hidden="true" />
-      </span>
     </span>
   );
 }

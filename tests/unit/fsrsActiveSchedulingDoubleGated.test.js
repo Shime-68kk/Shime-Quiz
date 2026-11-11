@@ -221,11 +221,11 @@ describe('Test 10: gate on → fsrsReviewLogs gets a new entry', () => {
 
 // ─── Tests 11–14: resolveActiveSchedulingRating ───────────────────────────────
 
-describe('Test 11: continueWithoutRating → useSm2Fallback', () => {
-  it('continueWithoutRating:true returns useSm2Fallback:true', () => {
+describe('Test 11: continueWithoutRating → objective two-button rating', () => {
+  it('continueWithoutRating:true maps a correct answer to Good', () => {
     const { rating, useSm2Fallback } = resolveActiveSchedulingRating('correct', { continueWithoutRating: true });
-    expect(useSm2Fallback).toBe(true);
-    expect(rating).toBeNull();
+    expect(useSm2Fallback).toBe(false);
+    expect(rating).toBe('Good');
   });
 });
 
@@ -304,10 +304,10 @@ describe('Test 19: invalid fsrsPayload → SM-2 fallback', () => {
   });
 });
 
-describe('Test 20: continueWithoutRating → SM-2 fallback without FSRS call', () => {
-  it('continueWithoutRating blocks scheduleFsrsReview', () => {
+describe('Test 20: continueWithoutRating → objective two-button FSRS call', () => {
+  it('continueWithoutRating still advances FSRS using objective correctness', () => {
     scheduleActiveFsrsOrFallback(dormantRecord(), 'correct', { now: NOW, continueWithoutRating: true });
-    expect(scheduleFsrsReview).not.toHaveBeenCalled();
+    expect(scheduleFsrsReview).toHaveBeenCalledOnce();
   });
 });
 
@@ -335,7 +335,8 @@ describe('Test 23: wrong outcome → Again rating passed to FSRS', () => {
     expect(scheduleFsrsReview).toHaveBeenCalledWith(
       expect.any(Object),
       'Again',
-      expect.any(Date)
+      NOW.toISOString(),
+      expect.objectContaining({ enableFuzz: false })
     );
   });
 });
@@ -424,7 +425,7 @@ describe('Test 32: FSRS_ACTIVE_SCHEDULER_KIND and VERSION are exported', () => {
   it('FSRS_ACTIVE_SCHEDULER_KIND equals fsrs-active', () => {
     expect(FSRS_ACTIVE_SCHEDULER_KIND).toBe('fsrs-active');
   });
-  it('FSRS_ACTIVE_SCHEDULER_VERSION equals phase15b-active-scheduling', () => {
-    expect(FSRS_ACTIVE_SCHEDULER_VERSION).toBe('phase15b-active-scheduling');
+  it('FSRS_ACTIVE_SCHEDULER_VERSION identifies the production library and algorithm', () => {
+    expect(FSRS_ACTIVE_SCHEDULER_VERSION).toBe('ts-fsrs-5.4.1-fsrs-6-active-v1');
   });
 });

@@ -7,10 +7,21 @@ import {
 } from 'ts-fsrs';
 
 export const FSRS_TEST_SCHEDULER_KIND = 'fsrs-v4-test';
-export const FSRS_TEST_SCHEDULER_VERSION = 'ts-fsrs-5.3.3-test';
+export const FSRS_ALGORITHM_VERSION = 'fsrs-6';
+export const FSRS_LIBRARY_VERSION = 'ts-fsrs-5.4.1';
+export const FSRS_TEST_SCHEDULER_VERSION = `${FSRS_LIBRARY_VERSION}-test`;
 
 export const FSRS_ACTIVE_SCHEDULER_KIND = 'fsrs-active';
-export const FSRS_ACTIVE_SCHEDULER_VERSION = 'phase15b-active-scheduling';
+export const FSRS_ACTIVE_SCHEDULER_VERSION = `${FSRS_LIBRARY_VERSION}-${FSRS_ALGORITHM_VERSION}-active-v1`;
+
+export const DEFAULT_FSRS_SCHEDULER_OPTIONS = Object.freeze({
+  requestRetention: 0.9,
+  maximumInterval: 36500,
+  enableFuzz: false,
+  enableShortTerm: true,
+  learningSteps: ['1m', '10m'],
+  relearningSteps: ['10m']
+});
 
 const RATING_NAMES = {
   [Rating.Again]: 'Again',
@@ -40,7 +51,67 @@ const STATE_VALUES = {
   relearning: State.Relearning
 };
 
-const scheduler = fsrs(generatorParameters({ enable_fuzz: false }));
+function clamp(value, min, max, fallback) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return fallback;
+  return Math.min(max, Math.max(min, number));
+}
+
+function firstDefined(...values) {
+  return values.find(value => value !== undefined && value !== null);
+}
+
+export function normalizeFsrsSchedulerOptions(options = {}, payload = {}) {
+  const saved = payload?.schedulerConfig && typeof payload.schedulerConfig === 'object'
+    ? payload.schedulerConfig
+    : {};
+
+  return {
+    requestRetention: clamp(
+      firstDefined(options.requestRetention, options.request_retention, options.fsrsDesiredRetention, saved.requestRetention),
+      0.7,
+      0.97,
+      DEFAULT_FSRS_SCHEDULER_OPTIONS.requestRetention
+    ),
+    maximumInterval: Math.round(clamp(
+      firstDefined(options.maximumInterval, options.maximum_interval, options.fsrsMaximumInterval, saved.maximumInterval),
+      1,
+      36500,
+      DEFAULT_FSRS_SCHEDULER_OPTIONS.maximumInterval
+    )),
+    enableFuzz: firstDefined(options.enableFuzz, options.enable_fuzz, saved.enableFuzz)
+      ?? DEFAULT_FSRS_SCHEDULER_OPTIONS.enableFuzz,
+    enableShortTerm: firstDefined(options.enableShortTerm, options.enable_short_term, saved.enableShortTerm)
+      ?? DEFAULT_FSRS_SCHEDULER_OPTIONS.enableShortTerm,
+    learningSteps: Array.isArray(firstDefined(options.learningSteps, options.learning_steps, saved.learningSteps))
+      ? [...firstDefined(options.learningSteps, options.learning_steps, saved.learningSteps)]
+      : [...DEFAULT_FSRS_SCHEDULER_OPTIONS.learningSteps],
+    relearningSteps: Array.isArray(firstDefined(options.relearningSteps, options.relearning_steps, saved.relearningSteps))
+      ? [...firstDefined(options.relearningSteps, options.relearning_steps, saved.relearningSteps)]
+      : [...DEFAULT_FSRS_SCHEDULER_OPTIONS.relearningSteps]
+  };
+}
+
+function createFsrsRuntime(options = {}, payload = {}) {
+  const normalized = normalizeFsrsSchedulerOptions(options, payload);
+  const parameters = generatorParameters({
+    request_retention: normalized.requestRetention,
+    maximum_interval: normalized.maximumInterval,
+    enable_fuzz: normalized.enableFuzz === true,
+    enable_short_term: normalized.enableShortTerm !== false,
+    learning_steps: normalized.learningSteps,
+    relearning_steps: normalized.relearningSteps
+  });
+
+  return {
+    scheduler: fsrs(parameters),
+    config: {
+      algorithmVersion: FSRS_ALGORITHM_VERSION,
+      libraryVersion: FSRS_LIBRARY_VERSION,
+      ...normalized
+    }
+  };
+}
 
 function toDate(value, label) {
   const date = value instanceof Date ? new Date(value.getTime()) : new Date(value || '');
@@ -136,7 +207,7 @@ function toRawFsrsCard(card) {
   return rawCard;
 }
 
-function calculateRetrievability(rawCard, now) {
+function calculateRetrievability(rawCard, now, scheduler) {
   if (!rawCard || rawCard.state === State.New || !rawCard.last_review || rawCard.stability <= 0) {
     return null;
   }
@@ -147,7 +218,18 @@ function calculateRetrievability(rawCard, now) {
   return roundNumber(percentage / 100, 6);
 }
 
-export function serializeFsrsCard(card, now = card?.due) {
+function enforceMaximumInterval(card, reviewDate, maximumInterval) {
+  if (!card || Number(card.scheduled_days) <= maximumInterval) return card;
+  const due = new Date(reviewDate.getTime());
+  due.setUTCDate(due.getUTCDate() + maximumInterval);
+  return {
+    ...card,
+    due,
+    scheduled_days: maximumInterval
+  };
+}
+
+function serializeFsrsCardWithRuntime(card, now, runtime) {
   if (!card || typeof card !== 'object') {
     throw new TypeError('FSRS card must be an object.');
   }
@@ -163,7 +245,7 @@ export function serializeFsrsCard(card, now = card?.due) {
   const lapses = toNonNegativeInteger(card.lapses, 'card.lapses');
   const learningSteps = toNonNegativeInteger(card.learning_steps, 'card.learning_steps');
   const state = STATE_NAMES[stateValue];
-  const retrievability = calculateRetrievability({ ...card, state: stateValue }, now);
+  const retrievability = calculateRetrievability({ ...card, state: stateValue }, now, runtime.scheduler);
 
   return {
     schedulerKind: FSRS_TEST_SCHEDULER_KIND,
@@ -192,9 +274,14 @@ export function serializeFsrsCard(card, now = card?.due) {
       learningSteps,
       state,
       stateValue,
-      lastReview: lastReviewedAt
+      lastReview: lastReviewedAt,
+      schedulerConfig: runtime.config
     }
   };
+}
+
+export function serializeFsrsCard(card, now = card?.due, options = {}) {
+  return serializeFsrsCardWithRuntime(card, now, createFsrsRuntime(options));
 }
 
 export function serializeFsrsReviewLog(log) {
@@ -286,13 +373,21 @@ export function validateFsrsPayload(payload) {
   return true;
 }
 
-export function scheduleFsrsReview(fsrsPayload, rating, now = new Date()) {
+export function getFsrsRetrievability(fsrsPayload, now = new Date(), options = {}) {
+  const rawCard = toRawFsrsCardFromPayload(fsrsPayload);
+  const runtime = createFsrsRuntime(options, fsrsPayload);
+  return calculateRetrievability(rawCard, now, runtime.scheduler);
+}
+
+export function scheduleFsrsReview(fsrsPayload, rating, now = new Date(), options = {}) {
   const reviewDate = toDate(now, 'review date');
   const rawCard = toRawFsrsCardFromPayload(fsrsPayload);
   const ratingValue = normalizeRating(rating);
-  const result = scheduler.next(rawCard, reviewDate, ratingValue);
+  const runtime = createFsrsRuntime(options, fsrsPayload);
+  const result = runtime.scheduler.next(rawCard, reviewDate, ratingValue);
+  const boundedCard = enforceMaximumInterval(result.card, reviewDate, runtime.config.maximumInterval);
 
-  const card = serializeFsrsCard(result.card, reviewDate);
+  const card = serializeFsrsCardWithRuntime(boundedCard, reviewDate, runtime);
   const reviewLog = serializeFsrsReviewLog(result.log);
   const dueAt = card.dueAt;
   const intervalDays = card.scheduledDays ?? 0;
@@ -300,28 +395,35 @@ export function scheduleFsrsReview(fsrsPayload, rating, now = new Date()) {
   return { card, reviewLog, dueAt, intervalDays };
 }
 
-export function createFsrsSeedCardForTest(now = new Date()) {
-  return serializeFsrsCard(createEmptyCard(toDate(now, 'seed date')), now);
+export function createFsrsSeedCardForTest(now = new Date(), options = {}) {
+  return serializeFsrsCard(createEmptyCard(toDate(now, 'seed date')), now, options);
 }
 
-export function scheduleFsrsReviewForTest(card, rating, now = new Date()) {
+export function createFsrsSeedPayload(now = new Date(), options = {}) {
+  return createFsrsSeedCardForTest(now, options).fsrsPayload;
+}
+
+export function scheduleFsrsReviewForTest(card, rating, now = new Date(), options = {}) {
   const reviewDate = toDate(now, 'review date');
   const rawCard = toRawFsrsCard(card);
   const ratingValue = normalizeRating(rating);
-  const result = scheduler.next(rawCard, reviewDate, ratingValue);
+  const runtime = createFsrsRuntime(options, card.fsrsPayload);
+  const result = runtime.scheduler.next(rawCard, reviewDate, ratingValue);
+  const boundedCard = enforceMaximumInterval(result.card, reviewDate, runtime.config.maximumInterval);
 
   return {
     schedulerKind: FSRS_TEST_SCHEDULER_KIND,
     schedulerVersion: FSRS_TEST_SCHEDULER_VERSION,
     rating: RATING_NAMES[ratingValue],
-    previousCard: serializeFsrsCard(rawCard, reviewDate),
-    card: serializeFsrsCard(result.card, reviewDate),
+    previousCard: serializeFsrsCardWithRuntime(rawCard, reviewDate, runtime),
+    card: serializeFsrsCardWithRuntime(boundedCard, reviewDate, runtime),
     reviewLog: serializeFsrsReviewLog(result.log)
   };
 }
 
 export function getFsrsDueStatusForTest(card, now = new Date()) {
   const rawCard = toRawFsrsCard(card);
+  const runtime = createFsrsRuntime({}, card.fsrsPayload);
   const dueAt = toIso(rawCard.due, 'fsrsPayload.due');
   const dueTime = rawCard.due.getTime();
   const nowDate = toDate(now, 'due status date');
@@ -333,6 +435,6 @@ export function getFsrsDueStatusForTest(card, now = new Date()) {
     dueTime,
     schedulerKind: FSRS_TEST_SCHEDULER_KIND,
     schedulerVersion: FSRS_TEST_SCHEDULER_VERSION,
-    retrievability: calculateRetrievability(rawCard, nowDate)
+    retrievability: calculateRetrievability(rawCard, nowDate, runtime.scheduler)
   };
 }

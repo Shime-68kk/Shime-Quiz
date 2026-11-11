@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <title>Scene 01 Poetic Chase — Asset Sheet</title>
+  <style>
+    text { font-family: monospace; font-size: 10px; fill: #666; }
+    .label { font-size: 12px; font-weight: bold; fill: #333; }
+  </style>
+
+  <!-- ═══ SHIME SHELL LAYERS ═══ -->
+  <g transform="translate(60, 40)">
+    <text class="label" y="-8">SHIME SHELL (no legs)</text>
+    <!-- Outer shell -->
+    <circle cx="60" cy="60" r="58" fill="#d4d4d8" stroke="#71717a" stroke-width="2"/>
+    <!-- Shell highlight -->
+    <ellipse cx="45" cy="40" rx="20" ry="15" fill="#f4f4f5" opacity="0.5"/>
+    <!-- Shell seam line -->
+    <path d="M8,65 Q60,72 112,65" stroke="#a1a1aa" stroke-width="1" fill="none"/>
+    <!-- OLED bezel -->
+    <rect x="16" y="28" width="88" height="48" rx="6" fill="#27272a" stroke="#52525b" stroke-width="1.5"/>
+    <!-- OLED screen area -->
+    <rect x="20" y="32" width="80" height="40" rx="3" fill="#000"/>
+    <text x="0" y="140">60×60 units nominal</text>
+  </g>
+
+  <!-- ═══ OLED EXPRESSIONS ═══ -->
+  <g transform="translate(220, 40)">
+    <text class="label" y="-8">OLED — CURIOUS</text>
+    <rect width="128" height="64" rx="4" fill="#000" stroke="#52525b"/>
+    <rect x="27" y="14" width="32" height="36" rx="8" fill="#fff"/>
+    <rect x="69" y="14" width="32" height="36" rx="8" fill="#fff"/>
+  </g>
+  <g transform="translate(370, 40)">
+    <text class="label" y="-8">OLED — ATTENTION</text>
+    <rect width="128" height="64" rx="4" fill="#000" stroke="#52525b"/>
+    <rect x="25" y="13" width="34" height="38" rx="8" fill="#fff"/>
+    <rect x="69" y="13" width="34" height="38" rx="8" fill="#fff"/>
+  </g>
+  <g transform="translate(520, 40)">
+    <text class="label" y="-8">OLED — SCARED</text>
+    <rect width="128" height="64" rx="4" fill="#000" stroke="#52525b"/>
+    <rect x="27" y="14" width="32" height="36" rx="8" fill="#fff"/>
+    <rect x="69" y="14" width="32" height="36" rx="8" fill="#fff"/>
+    <!-- Tired eyelids (triangles) -->
+    <polygon points="27,13 59,13 27,31" fill="#000" opacity="0.8"/>
+    <polygon points="69,13 101,13 101,31" fill="#000" opacity="0.8"/>
+    <!-- Sweat drops -->
+    <ellipse cx="18" cy="20" rx="3" ry="5" fill="#fff" opacity="0.6"/>
+    <ellipse cx="110" cy="25" rx="2" ry="4" fill="#fff" opacity="0.4"/>
+  </g>
+  <g transform="translate(670, 40)">
+    <text class="label" y="-8">OLED — BLINK_FAST</text>
+    <rect width="128" height="64" rx="4" fill="#000" stroke="#52525b"/>
+    <rect x="27" y="30" width="32" height="3" rx="1" fill="#fff"/>
+    <rect x="69" y="30" width="32" height="3" rx="1" fill="#fff"/>
+  </g>
+
+  <!-- ═══ BUTTERFLY ═══ -->
+  <g transform="translate(60, 220)">
+    <text class="label" y="-8">BUTTERFLY</text>
+    <!-- Body -->
+    <ellipse cx="30" cy="30" rx="2" ry="8" fill="#4a3728"/>
+    <!-- Antennae -->
+    <line x1="29" y1="22" x2="24" y2="14" stroke="#4a3728" stroke-width="0.8"/>
+    <line x1="31" y1="22" x2="36" y2="14" stroke="#4a3728" stroke-width="0.8"/>
+    <circle cx="24" cy="13" r="1.2" fill="#4a3728"/>
+    <circle cx="36" cy="13" r="1.2" fill="#4a3728"/>
+    <!-- Upper wings -->
+    <path d="M28,26 Q10,10 20,30 Q15,36 28,34" fill="#e9d5ff" stroke="#c084fc" stroke-width="0.5" opacity="0.85"/>
+    <path d="M32,26 Q50,10 40,30 Q45,36 32,34" fill="#e9d5ff" stroke="#c084fc" stroke-width="0.5" opacity="0.85"/>
+    <!-- Lower wings -->
+    <path d="M28,32 Q16,40 22,35 Q18,38 28,36" fill="#f3e8ff" stroke="#c084fc" stroke-width="0.4" opacity="0.7"/>
+    <path d="M32,32 Q44,40 38,35 Q42,38 32,36" fill="#f3e8ff" stroke="#c084fc" stroke-width="0.4" opacity="0.7"/>
+    <!-- Glow core -->
+    <circle cx="30" cy="28" r="4" fill="#fef3c7" opacity="0.3"/>
+    <text x="0" y="60">4-wing, cream-gold core</text>
+  </g>
+
+  <!-- ═══ BOULDER ═══ -->
+  <g transform="translate(140, 200)">
+    <text class="label" y="-8">BOULDER</text>
+    <!-- Main rock shape -->
+    <path d="M20,100 Q5,80 8,50 Q12,20 45,8 Q75,2 110,15 Q135,30 140,60 Q142,85 130,100 Q100,108 60,105 Z"
+          fill="#78716c" stroke="#57534e" stroke-width="1.5"/>
+    <!-- Moss patches -->
+    <path d="M30,20 Q50,12 70,18 Q55,25 35,22 Z" fill="#65a30d" opacity="0.3"/>
+    <path d="M90,10 Q105,15 100,25 Q85,20 90,10 Z" fill="#65a30d" opacity="0.2"/>
+    <!-- Crack -->
+    <path d="M55,30 L58,55 L62,70 L60,85" stroke="#44403c" stroke-width="0.8" fill="none"/>
+    <!-- Shadow at base -->
+    <ellipse cx="75" cy="108" rx="55" ry="6" fill="#000" opacity="0.15"/>
+    <text x="0" y="125">Natural rock, 145×130 world units</text>
+  </g>
+
+  <!-- ═══ GRASS FOREGROUND ═══ -->
+  <g transform="translate(350, 220)">
+    <text class="label" y="-8">GRASS FOREGROUND</text>
+    <path d="M0,60 Q3,30 5,10 Q7,30 10,60" stroke="#4d7c0f" stroke-width="1" fill="none" opacity="0.7"/>
+    <path d="M15,60 Q18,25 20,5 Q22,25 25,60" stroke="#65a30d" stroke-width="1" fill="none" opacity="0.6"/>
+    <path d="M30,60 Q34,35 36,15 Q38,35 42,60" stroke="#4d7c0f" stroke-width="0.8" fill="none" opacity="0.5"/>
+    <path d="M50,60 Q52,28 54,8 Q56,28 60,60" stroke="#65a30d" stroke-width="1" fill="none" opacity="0.7"/>
+    <!-- Lavender flowers -->
+    <g transform="translate(8, 0)">
+      <path d="M0,55 Q1,40 2,25" stroke="#7c3aed" stroke-width="0.6" fill="none"/>
+      <circle cx="2" cy="25" r="1.5" fill="#8b5cf6"/>
+      <circle cx="1" cy="28" r="1.2" fill="#a78bfa"/>
+      <circle cx="3" cy="22" r="1" fill="#7c3aed"/>
+    </g>
+    <text x="0" y="80">Silhouette layer, subtle sway</text>
+  </g>
+
+  <!-- ═══ DISTANT ENVIRONMENT ═══ -->
+  <g transform="translate(500, 220)">
+    <text class="label" y="-8">DISTANT SILHOUETTES</text>
+    <!-- Hills -->
+    <path d="M0,60 Q30,20 80,35 Q120,10 160,40 Q180,25 200,60" fill="#d8b4fe" opacity="0.2" stroke="none"/>
+    <path d="M0,60 Q50,40 100,45 Q150,30 200,60" fill="#c4b5fd" opacity="0.15" stroke="none"/>
+    <!-- Tree silhouettes -->
+    <circle cx="40" cy="38" r="8" fill="#6b21a8" opacity="0.1"/>
+    <circle cx="130" cy="32" r="10" fill="#6b21a8" opacity="0.08"/>
+    <text x="0" y="80">Very faint, parallax-ready</text>
+  </g>
+
+  <!-- ═══ SPARKS ═══ -->
+  <g transform="translate(60, 400)">
+    <text class="label" y="-8">ELECTRICAL SPARKS</text>
+    <!-- Spark 1 -->
+    <path d="M10,20 L14,12 L12,18 L18,8" stroke="#fef08a" stroke-width="1.2" fill="none" opacity="0.8"/>
+    <!-- Spark 2 -->
+    <path d="M40,15 L43,8 L41,13 L46,5" stroke="#fde68a" stroke-width="1" fill="none" opacity="0.6"/>
+    <!-- Spark 3 -->
+    <path d="M65,18 L67,12 L66,16 L70,10" stroke="#fef9c3" stroke-width="0.8" fill="none" opacity="0.5"/>
+    <text x="0" y="40">Theme-aware, pale yellow-white, ≤20% robot width</text>
+  </g>
+
+  <!-- ═══ SHADOW ═══ -->
+  <g transform="translate(200, 400)">
+    <text class="label" y="-8">CONTACT SHADOW STATES</text>
+    <!-- Grounded -->
+    <ellipse cx="30" cy="20" rx="25" ry="5" fill="#000" opacity="0.25"/>
+    <text x="0" y="10" font-size="9">grounded</text>
+    <!-- Airborne -->
+    <ellipse cx="110" cy="20" rx="30" ry="4" fill="#000" opacity="0.15"/>
+    <text x="85" y="10" font-size="9">airborne</text>
+    <!-- Contact -->
+    <ellipse cx="190" cy="20" rx="20" ry="6" fill="#000" opacity="0.35"/>
+    <text x="168" y="10" font-size="9">contact</text>
+    <!-- Release -->
+    <ellipse cx="270" cy="20" rx="35" ry="3" fill="#000" opacity="0.12"/>
+    <text x="248" y="10" font-size="9">release</text>
+  </g>
+
+  <!-- ═══ OLED OFF ═══ -->
+  <g transform="translate(500, 400)">
+    <text class="label" y="-8">OLED — OFF (blackout)</text>
+    <rect width="128" height="64" rx="4" fill="#000" stroke="#27272a"/>
+    <text x="0" y="80">No eyes. Completely dark.</text>
+  </g>
+
+</svg>

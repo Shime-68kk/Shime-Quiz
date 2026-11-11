@@ -1,7 +1,12 @@
 import { useMemo, useSyncExternalStore } from 'react';
 import { createLearningDataAdapter, normalizeLearningData, summarizeLearningData } from './learningDataAdapter.js';
 import { validateLearningDataImport } from './importValidator.js';
-import mockLearningData from './mockLearningData.js';
+import sampleLearningData from './mockLearningData.js';
+import leThuyDeck from './leThuyDeck.js';
+import { STUDENT_DEPLOYMENT } from '../config/studentDeployment.js';
+
+// Student deployment ships Lệ Thủy's GDQP-AN deck instead of the sample data.
+const mockLearningData = STUDENT_DEPLOYMENT ? leThuyDeck : sampleLearningData;
 import { getLocalStorage } from '../utils/storage.js';
 import { publishLearningStorageChanged, subscribeLearningStorageChanged } from '../state/localStorageSync.js';
 

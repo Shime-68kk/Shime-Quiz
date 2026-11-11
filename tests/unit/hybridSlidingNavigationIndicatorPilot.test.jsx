@@ -22,33 +22,26 @@ const css = read('src/styles/global.css');
 const workflow = read('.github/workflows/e2e-smoke.yml');
 const validator = read('scripts/validate-phase37-uih-hybrid-sliding-navigation-indicator-pilot.js');
 
-describe('Phase 37-uiH — hybrid sliding navigation indicator pilot', () => {
-  it('adds passive Phase 37-uiH host markers to desktop and mobile nav only', () => {
+describe('BIG-UPDATE-13 — superseded sliding navigation indicator', () => {
+  it('retains historical host markers but removes moving indicator instances', () => {
     expect(sidebar).toContain('phase37uih-hybrid-sliding-navigation-indicator-pilot--desktop');
     expect(bottomNav).toContain('phase37uih-hybrid-sliding-navigation-indicator-pilot--mobile');
-    expect(sidebar).toContain('primaryNavSlidingIndicator');
-    expect(bottomNav).toContain('primaryNavSlidingIndicator');
+    expect(sidebar).not.toContain('primaryNavSlidingIndicator');
+    expect(bottomNav).not.toContain('primaryNavSlidingIndicator');
   });
 
-  it('derives visual active index from current location without changing links or handlers', () => {
+  it('uses NavLink active state without index choreography or click handlers', () => {
     for (const source of [sidebar, bottomNav]) {
-      expect(source).toContain('useLocation');
-      expect(source).toContain('navRoutes.findIndex');
-      expect(source).toContain('item.path === location.pathname');
-      expect(source).toContain('--phase37uih-active-index');
+      expect(source).toContain('NavLink');
       expect(source).toContain('to={item.path}');
       expect(source).not.toContain('onClick=');
       expect(source).not.toContain('navigate(');
     }
   });
 
-  it('scopes cream and moss sliding-pill treatment with vertical and horizontal transforms', () => {
-    expect(css).toContain('.phase37uih-hybrid-sliding-navigation-indicator-pilot');
-    expect(css).toContain('--phase37uih-nav-cream');
-    expect(css).toContain('--phase37uih-nav-moss');
-    expect(css).toContain('--phase37uih-nav-shadow');
-    expect(css).toContain('calc(var(--phase37uih-active-index, var(--nav-active-index, 0)) * var(--nav-item-step, 58px))');
-    expect(css).toContain('calc(var(--phase37uih-active-index, var(--nav-active-index, 0)) * (100% + var(--nav-item-gap, 0px)))');
+  it('hides the historical pill and keeps the semantic static active surface', () => {
+    expect(css).toMatch(/BIG-UPDATE-13:[\s\S]*?\.primaryNavSlidingIndicator\s*\{[\s\S]*?display:\s*none/);
+    expect(css).toContain('background: var(--theme-navigation-active-background)');
   });
 
   it('preserves focus-visible, reduced-motion, and mobile safe-area coverage', () => {

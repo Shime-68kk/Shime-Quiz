@@ -10,9 +10,16 @@ import ProgressBar from '../components/ProgressBar.jsx';
 import StudyItemRenderer from '../components/study/StudyItemRenderer.jsx';
 import StudyResultSummary from '../components/study/StudyResultSummary.jsx';
 import StudyRoomSubjectSpaces from '../components/study/StudyRoomSubjectSpaces.jsx';
+import ShimeStudyCompanion from '../components/study/ShimeStudyCompanion.jsx';
 import FsrsProductionMemoryRatingBridge from '../components/study/FsrsProductionMemoryRatingBridge.jsx';
 import { createStudyHistoryRecord, saveStudyHistoryRecord } from '../state/studyHistoryStorage.js';
-import { readReviewSchedule, updateReviewScheduleFromHistoryRecord, appendFsrsReviewLog, getBridgeToggleEnabled } from '../state/reviewScheduleStorage.js';
+import {
+  readReviewSchedule,
+  updateReviewScheduleFromHistoryRecord,
+  appendFsrsReviewLog,
+  getBridgeToggleEnabled,
+  getActiveFsrsSchedulingEnabled
+} from '../state/reviewScheduleStorage.js';
 import { selectDueReviewItems } from '../study/dueReviewSelector.js';
 import { selectWeightedPracticeItems } from '../learning/weightedPracticeSelector.js';
 import { readStudyHistory } from '../state/studyHistoryStorage.js';
@@ -33,7 +40,6 @@ import { createSubjectForgettingAlerts } from '../studyRoom/subjectForgettingAle
 import { resolveStudyRoomSubjectNavigation } from '../studyRoom/studyRoomSubjectNavigationModel.js';
 import { resolveStudyRoomSwipeGesture } from '../studyRoom/studyRoomSwipeGesture.js';
 import { useShimeLanguage } from '../uiI18n/useShimeLanguage.js';
-import ShimeRobotPresence from '../components/brand/ShimeRobotPresence.jsx';
 
 function getStudyMode(selection) {
   if (selection?.mode === 'due-review') return 'due-review';
@@ -356,7 +362,7 @@ export default function StudyRoom() {
     appendFsrsReviewLog(currentItemId, {
       rating: 'Again',
       source: 'phase14n-studyroom-bridge',
-      activeScheduling: false,
+      activeScheduling: getActiveFsrsSchedulingEnabled(),
       reviewedAt: new Date().toISOString(),
       objectiveCorrect: false
     });
@@ -829,7 +835,7 @@ export default function StudyRoom() {
     appendFsrsReviewLog(currentItemId, {
       rating,
       source: 'phase14n-studyroom-bridge',
-      activeScheduling: false,
+      activeScheduling: getActiveFsrsSchedulingEnabled(),
       reviewedAt: new Date().toISOString(),
       objectiveCorrect: true
     });
@@ -1175,19 +1181,11 @@ export default function StudyRoom() {
 
 function StudyMascot({ reaction, message }) {
   const { t } = useShimeLanguage();
-  const robotState = reaction === 'correct' || reaction === 'completed'
-    ? 'success'
-    : reaction === 'incorrect'
-      ? 'warning'
-      : reaction === 'revealed'
-        ? 'focus'
-        : 'idle';
   return (
-    <div className="studyMascotContainer" aria-label={t('study.companionLabel')}>
-      <ShimeRobotPresence state={robotState} size="sm" decorative />
-      <div className="mascotBubble">
-        <p>{message}</p>
-      </div>
-    </div>
+    <ShimeStudyCompanion
+      reaction={reaction}
+      message={message}
+      label={t('study.companionLabel')}
+    />
   );
 }

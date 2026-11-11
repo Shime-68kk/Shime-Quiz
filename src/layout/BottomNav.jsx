@@ -1,30 +1,29 @@
-import { NavLink, useLocation } from 'react-router-dom';
+import { useRef } from 'react';
+import { NavLink } from 'react-router-dom';
 import { navRoutes } from '../routes/routeConfig.js';
+import { preloadRoute } from '../routes/routeConfig.js';
 import ShimeNavigationIcon from '../components/brand/ShimeNavigationIcon.jsx';
 import { useShimeLanguage } from '../uiI18n/useShimeLanguage.js';
+import LiquidGlassNavPill from '../components/navigation/LiquidGlassNavPill.jsx';
 
 export default function BottomNav() {
-  const location = useLocation();
   const { t } = useShimeLanguage();
-  const activeIndex = navRoutes.findIndex(item => item.path === location.pathname);
-  const hasActiveItem = activeIndex >= 0;
+  const navRef = useRef(null);
 
   return (
     <nav
-      className="bottomNav primaryNavIndicatorHost phase36b-bottom-nav-touch-pilot phase37uih-hybrid-sliding-navigation-indicator-pilot phase37uih-hybrid-sliding-navigation-indicator-pilot--mobile"
+      ref={navRef}
+      className="bottomNav bottomNav--liquid primaryNavIndicatorHost phase36b-bottom-nav-touch-pilot phase37uih-hybrid-sliding-navigation-indicator-pilot phase37uih-hybrid-sliding-navigation-indicator-pilot--mobile"
       aria-label={t('shell.mobileNavigation')}
-      data-nav-active={hasActiveItem ? 'true' : 'false'}
-      style={{
-        '--nav-active-index': hasActiveItem ? activeIndex : 0,
-        '--phase37uih-active-index': hasActiveItem ? activeIndex : 0,
-        '--nav-item-count': navRoutes.length
-      }}
+      style={navRoutes.length !== 4 ? { '--nav-item-count': navRoutes.length } : undefined}
     >
-      <span className="primaryNavSlidingIndicator" aria-hidden="true" />
+      <LiquidGlassNavPill hostRef={navRef} activeSelector=".bottomNav__item--active" />
       {navRoutes.map(item => (
         <NavLink
           key={item.path}
           to={item.path}
+          onPointerEnter={() => preloadRoute(item.path)}
+          onFocus={() => preloadRoute(item.path)}
           className={({ isActive }) => (isActive ? 'bottomNav__item bottomNav__item--active' : 'bottomNav__item')}
         >
           {({ isActive }) => (

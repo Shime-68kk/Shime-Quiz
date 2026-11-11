@@ -1,0 +1,34 @@
+.routeLoading {
+  min-height: min(42vh, 22rem);
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 0.8rem;
+  color: var(--color-text-secondary, #596579);
+}
+
+.routeLoading p {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 650;
+}
+
+.routeLoading__spinner {
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 3px solid color-mix(in srgb, currentColor 20%, transparent);
+  border-top-color: var(--color-primary, #4b6ee8);
+  border-radius: 50%;
+  animation: routeLoadingSpin 700ms linear infinite;
+}
+
+@keyframes routeLoadingSpin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .routeLoading__spinner {
+    animation: none;
+    border-top-color: currentColor;
+  }
+}

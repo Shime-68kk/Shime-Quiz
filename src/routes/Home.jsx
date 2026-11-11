@@ -21,6 +21,7 @@ import Button from '../components/Button.jsx';
 import Badge from '../components/Badge.jsx';
 import Card from '../components/Card.jsx';
 import ShimeRobotPresence from '../components/brand/ShimeRobotPresence.jsx';
+import ContextualBackControl from '../components/navigation/ContextualBackControl.jsx';
 import { useShimeLanguage } from '../uiI18n/useShimeLanguage.js';
 
 // Vietnamese source-copy contracts retained for BIG-UPDATE-11 validators:
@@ -72,8 +73,22 @@ export default function Home() {
   const navigate = useNavigate();
   const { t } = useShimeLanguage();
 
+  function openSmartPractice() {
+    navigate('/study-room', {
+      state: {
+        selection: {
+          mode: 'smart-practice',
+          source: 'home-intent',
+          requestedCount: 10
+        }
+      }
+    });
+  }
+
   return (
     <div className="pageStack publicLanding shimeLanding" aria-label={t('home.pageLabel')}>
+
+      <ContextualBackControl />
 
       {/* ═══════════════════════════════════════════════════════════
           HERO — Robot identity + clear primary CTA
@@ -86,7 +101,7 @@ export default function Home() {
 
           {/* Robot identity chip */}
           <div className="shimeLandingRobotChip" aria-label={t('home.robotLabel')}>
-            <ShimeRobotPresence state="ready" size="sm" decorative={false} label="Robot Shime" />
+            <ShimeRobotPresence state="ready" size="sm" eyeVariant="hardware" motion="idle" blinkPhase="a" decorative={false} label="Robot Shime" />
             <span className="shimeLandingRobotChip__label">{t('home.robotSafe')}</span>
           </div>
 
@@ -102,15 +117,16 @@ export default function Home() {
             {t('home.lead')}
           </p>
 
+          <p className="shimeLandingIntentPrompt">{t('home.intentQuestion')}</p>
           <div className="publicLandingHero__actions shimeLandingHero__actions" aria-label={t('home.actionsLabel')}>
             <Button
               type="button"
               size="lg"
-              aria-label={t('home.startLabel')}
+              aria-label={t('home.continueLearning')}
               onClick={() => navigate('/dashboard')}
               className="shimeLandingCta--primary"
             >
-              {t('home.start')}
+              {t('home.continueLearning')}
             </Button>
             <Button
               type="button"
@@ -124,9 +140,9 @@ export default function Home() {
               type="button"
               variant="ghost"
               size="lg"
-              onClick={() => navigate('/library')}
+              onClick={openSmartPractice}
             >
-              {t('home.useSample')}
+              {t('home.smartPractice')}
             </Button>
           </div>
         </div>
@@ -138,10 +154,8 @@ export default function Home() {
           className="publicLandingHero__card shimeLandingHero__card"
         >
           <div className="shimeLandingStartCard">
-            <ShimeRobotPresence state="ready" size="lg" decorative={false} label={t('home.companionReady')} />
-            <p className="muted">
-              {t('home.companionBody')}
-            </p>
+            <ShimeRobotPresence state="ready" size="md" expression="attentive" motion="idle" blinkPhase="b" decorative />
+            <p className="shimeLandingStartCard__copy">{t('home.companionBody')}</p>
             <Badge tone="success">{t('home.companionBadge')}</Badge>
           </div>
         </Card>

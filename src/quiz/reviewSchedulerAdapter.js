@@ -1,15 +1,18 @@
 import {
-  FSRS_REVIEW_LOG_CAP,
-  createReviewScheduleRecordFromResult
-} from '../state/reviewScheduleStorage.js';
-import {
   scheduleFsrsReviewForTest,
-  scheduleFsrsReview,
+  createFsrsSeedPayload,
   validateFsrsPayload,
   FSRS_ACTIVE_SCHEDULER_KIND,
   FSRS_ACTIVE_SCHEDULER_VERSION
 } from './fsrsWrapper.js';
 import { getSettings } from '../state/settingsStorage.js';
+import {
+  SCHEDULER_REVIEW_LOG_CAP,
+  resolveRecordSchedulerId,
+  scheduleRecordWithKernel
+} from '../scheduler/schedulerKernel.js';
+import { SM2_SCHEDULER_ID } from '../scheduler/sm2SchedulerAdapter.js';
+import { FSRS_BETA_SCHEDULER_ID } from '../scheduler/fsrsBetaSchedulerAdapter.js';
 
 export { FSRS_ACTIVE_SCHEDULER_KIND, FSRS_ACTIVE_SCHEDULER_VERSION };
 
@@ -22,12 +25,14 @@ export const SCHEDULER_VERSION_CURRENT = 'v2-review-schedule-v1';
 export const SCHEDULER_VERSION_FSRS_PLANNED = 'fsrs-planned-v1';
 
 const CURRENT_KIND_ALIASES = new Set([
+  'sm2',
   SCHEDULER_KIND_CURRENT,
   SCHEDULER_VERSION_CURRENT,
   'current-heuristic'
 ]);
 
 const FSRS_KIND_ALIASES = new Set([
+  'fsrs-beta',
   SCHEDULER_KIND_FSRS_PLANNED,
   SCHEDULER_VERSION_FSRS_PLANNED,
   'fsrs-v4',
@@ -40,6 +45,7 @@ const FSRS_TEST_KIND_ALIASES = new Set([
 ]);
 
 const VALID_CURRENT_OUTCOMES = new Set(['correct', 'wrong', 'unanswered']);
+const FSRS_REVIEW_LOG_CAP = SCHEDULER_REVIEW_LOG_CAP;
 
 function normalizeKindValue(value) {
   return String(value ?? '').trim();
@@ -92,10 +98,12 @@ function createItemResult(record, outcome, context = {}) {
 }
 
 export function getSchedulerKind(record) {
+  const explicitId = normalizeKindValue(record?.schedulerId);
   const explicitKind = normalizeKindValue(record?.schedulerKind);
   const explicitVersion = normalizeKindValue(record?.schedulerVersion);
 
   if (
+    FSRS_KIND_ALIASES.has(explicitId) ||
     FSRS_KIND_ALIASES.has(explicitKind) ||
     FSRS_KIND_ALIASES.has(explicitVersion) ||
     FSRS_TEST_KIND_ALIASES.has(explicitKind) ||
@@ -104,7 +112,11 @@ export function getSchedulerKind(record) {
     return SCHEDULER_KIND_FSRS_PLANNED;
   }
 
-  if (CURRENT_KIND_ALIASES.has(explicitKind) || CURRENT_KIND_ALIASES.has(explicitVersion)) {
+  if (
+    CURRENT_KIND_ALIASES.has(explicitId) ||
+    CURRENT_KIND_ALIASES.has(explicitKind) ||
+    CURRENT_KIND_ALIASES.has(explicitVersion)
+  ) {
     return SCHEDULER_KIND_CURRENT;
   }
 
@@ -187,9 +199,12 @@ export function getDueSummary(records = [], now = new Date()) {
 export function scheduleCurrentReview(record, outcome, context = {}) {
   const itemResult = createItemResult(record, outcome, context);
   if (!itemResult) return null;
-
-  const completedAt = toSafeDate(context.completedAt || context.now || new Date()).toISOString();
-  return createReviewScheduleRecordFromResult(preserveCurrentRecord(record), itemResult, completedAt);
+  return scheduleRecordWithKernel({
+    record: preserveCurrentRecord(record),
+    outcome,
+    schedulerId: SM2_SCHEDULER_ID,
+    context: { ...context, itemResult }
+  });
 }
 
 function mapOutcomeToFsrsRating(outcome) {
@@ -210,8 +225,12 @@ export function scheduleCurrentReviewPreservingFsrs(record, outcome, context = {
   const itemResult = createItemResult(record, outcome, context);
   if (!itemResult) return null;
 
-  const completedAt = toSafeDate(context.completedAt || context.now || new Date()).toISOString();
-  const sm2Result = createReviewScheduleRecordFromResult(preserveCurrentRecord(record), itemResult, completedAt);
+  const sm2Result = scheduleRecordWithKernel({
+    record: preserveCurrentRecord(record),
+    outcome,
+    schedulerId: SM2_SCHEDULER_ID,
+    context: { ...context, itemResult }
+  });
   if (!sm2Result) return null;
 
   return {
@@ -225,7 +244,7 @@ export function scheduleCurrentReviewPreservingFsrs(record, outcome, context = {
 
 // Maps normalized outcome + context to FSRS rating or SM-2 fallback flag.
 export function resolveActiveSchedulingRating(normalizedOutcome, context = {}) {
-  if (context.continueWithoutRating === true) return { rating: null, useSm2Fallback: true };
+  if (context.forceSm2Fallback === true) return { rating: null, useSm2Fallback: true };
   if (context.memoryRating) {
     const r = context.memoryRating;
     if (r === 'Hard' || r === 'Good' || r === 'Easy') return { rating: r, useSm2Fallback: false };
@@ -233,6 +252,17 @@ export function resolveActiveSchedulingRating(normalizedOutcome, context = {}) {
   if (normalizedOutcome === 'wrong' || normalizedOutcome === 'unanswered') return { rating: 'Again', useSm2Fallback: false };
   if (normalizedOutcome === 'correct') return { rating: 'Good', useSm2Fallback: false };
   return { rating: 'Good', useSm2Fallback: false };
+}
+
+export function createActiveFsrsOptions(settings = {}, context = {}) {
+  return {
+    requestRetention: context.fsrsOptions?.requestRetention ?? settings.fsrsDesiredRetention,
+    maximumInterval: context.fsrsOptions?.maximumInterval ?? settings.fsrsMaximumInterval,
+    // Production fuzz prevents cards learned together from remaining locked to
+    // the same due date. Tests and simulations may explicitly turn it off.
+    enableFuzz: context.fsrsOptions?.enableFuzz ?? true,
+    enableShortTerm: context.fsrsOptions?.enableShortTerm ?? true
+  };
 }
 
 // Validates payload, resolves rating, calls scheduleFsrsReview; try/catch → SM-2 fallback.
@@ -254,32 +284,65 @@ export function scheduleActiveFsrsOrFallback(record, outcome, context = {}) {
   }
 
   try {
-    const now = context.now ? toSafeDate(context.now) : new Date();
-    const fsrsResult = scheduleFsrsReview(record.fsrsPayload, rating, now);
-
-    const completedAt = toSafeDate(context.completedAt || context.now || new Date()).toISOString();
-    const sm2Base = createReviewScheduleRecordFromResult(preserveCurrentRecord(record), itemResult, completedAt);
-    if (!sm2Base) return null;
-
-    const existingLogs = Array.isArray(record.fsrsReviewLogs) ? record.fsrsReviewLogs : [];
-    const newLog = { ...fsrsResult.reviewLog, reviewedAt: now.toISOString() };
-    const fsrsReviewLogs = [...existingLogs, newLog].slice(-FSRS_REVIEW_LOG_CAP);
-
+    const result = scheduleRecordWithKernel({
+      record: preserveCurrentRecord(record),
+      outcome,
+      schedulerId: FSRS_BETA_SCHEDULER_ID,
+      context: {
+        ...context,
+        itemResult,
+        memoryRating: rating,
+        schedulerOptions: context.fsrsOptions
+      }
+    });
+    if (result.schedulerId !== FSRS_BETA_SCHEDULER_ID) {
+      return {
+        ...result,
+        schedulerKind: record.schedulerKind ?? SCHEDULER_KIND_FSRS_PLANNED,
+        schedulerVersion: record.schedulerVersion ?? ''
+      };
+    }
     return {
-      ...sm2Base,
-      dueAt: fsrsResult.dueAt,
-      intervalDays: fsrsResult.intervalDays,
+      ...result,
       schedulerKind: FSRS_ACTIVE_SCHEDULER_KIND,
-      schedulerVersion: FSRS_ACTIVE_SCHEDULER_VERSION,
-      fsrsPayload: fsrsResult.card.fsrsPayload,
-      fsrsReviewLogs
+      schedulerVersion: FSRS_ACTIVE_SCHEDULER_VERSION
     };
   } catch {
     return scheduleCurrentReviewPreservingFsrs(record, outcome, context);
   }
 }
 
+export function scheduleInitialActiveFsrsReview(record, outcome, context = {}) {
+  const now = context.now ? toSafeDate(context.now) : toSafeDate(context.completedAt || new Date());
+  const seedRecord = {
+    ...preserveCurrentRecord(record),
+    schedulerKind: SCHEDULER_KIND_FSRS_PLANNED,
+    schedulerVersion: SCHEDULER_VERSION_FSRS_PLANNED,
+    fsrsPayload: createFsrsSeedPayload(now, context.fsrsOptions),
+    fsrsReviewLogs: []
+  };
+
+  return scheduleActiveFsrsOrFallback(seedRecord, outcome, {
+    ...context,
+    now,
+    // A new card has no rating bridge yet, so use the standard two-button
+    // interpretation: incorrect → Again, correct → Good.
+    memoryRating: outcome === 'correct' ? 'Good' : 'Again',
+    continueWithoutRating: false
+  });
+}
+
 export function scheduleReview(record, outcome, context = {}) {
+  const registeredSchedulerId = resolveRecordSchedulerId(record);
+  if (![SM2_SCHEDULER_ID, FSRS_BETA_SCHEDULER_ID].includes(registeredSchedulerId)) {
+    return scheduleRecordWithKernel({
+      record: preserveCurrentRecord(record),
+      outcome,
+      schedulerId: registeredSchedulerId,
+      context
+    });
+  }
+
   if (getSchedulerKind(record) === SCHEDULER_KIND_FSRS_PLANNED && context.enableFsrsTestRoute === true) {
     return scheduleGatedFsrsReview(record, outcome, context);
   }
@@ -288,7 +351,12 @@ export function scheduleReview(record, outcome, context = {}) {
     const settings = getSettings();
     const doubleGateOn =
       settings.fsrsExperimentalEnabled === true && settings.fsrsActiveSchedulingEnabled === true;
-    if (doubleGateOn) return scheduleActiveFsrsOrFallback(record, outcome, context);
+    if (doubleGateOn) {
+      return scheduleActiveFsrsOrFallback(record, outcome, {
+        ...context,
+        fsrsOptions: createActiveFsrsOptions(settings, context)
+      });
+    }
     return scheduleCurrentReviewPreservingFsrs(record, outcome, context);
   }
 

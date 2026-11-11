@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { DashboardLearningDataProvider, useDashboardLearningData } from '../dashboard/DashboardLearningDataContext.jsx';
 import { computeMixedSchedulerDueSummary } from '../quiz/reviewSchedulerAdapter.js';
 import { useShimeLanguage } from '../uiI18n/useShimeLanguage.js';
+import { CRAM_ROUTE_PATH, STUDENT_DEPLOYMENT } from '../config/studentDeployment.js';
 
 // BIG-UPDATE-11 source contracts: title="Thông tin nâng cao";
 // title="Chẩn đoán dành cho nhà phát triển".
@@ -130,6 +131,13 @@ function DashboardContent() {
         actions={<Button type="button" size="lg" onClick={() => navigate('/study-room')}>{t('overview.continue')}</Button>}
       />
 
+      {STUDENT_DEPLOYMENT ? (
+        <Card title="Ôn thi cấp tốc · GDQP – An ninh" eyebrow="Thi ngày mai? Bắt đầu từ đây" className="dashboardCramCard">
+          <p className="muted">Shime tự nhắc lại từng chương đúng lúc bạn sắp quên. Chỉ cần bấm nút dưới đây và trả lời.</p>
+          <Button type="button" size="lg" onClick={() => navigate(CRAM_ROUTE_PATH)}>Vào ôn thi ngay</Button>
+        </Card>
+      ) : null}
+
       <div role="tablist" className="dashboardCalmTabs" aria-label={t('overview.modeLabel')}>
         <button
           id="dashboard-tab-today"
@@ -166,28 +174,18 @@ function DashboardContent() {
         className="dashboardCalmPanel"
         hidden={dashboardView !== 'today'}
       >
-        <DashboardTodayCard />
+        <DashboardTodayCard firstRun={isFirstRunEmptyState} />
 
-        {isFirstRunEmptyState ? (
-          <Card title={t('overview.firstRunTitle')} eyebrow={t('overview.firstRunEyebrow')} className="dashboardFirstRunOnboardingCard">
-            <div className="textImportCard__intro">
-              <p className="muted">
-                {t('overview.firstRunBody')}
-              </p>
-            </div>
-            <div className="textImportActions">
-              <Button type="button" variant="secondary" onClick={() => navigate('/library')}>
-                {t('home.openLibrary')}
-              </Button>
-              <span className="muted">{t('home.privacyTitle')}</span>
-            </div>
-          </Card>
-        ) : null}
-
-        <div className="dashboardTodayGrid">
-          <TodayJourneyCard />
-          <StudyGoalCard />
-        </div>
+        <OverviewDisclosure
+          title={t('overview.planOptions')}
+          description={t('overview.planOptionsBody')}
+          level="planning"
+        >
+          <div className="dashboardTodayGrid">
+            <TodayJourneyCard />
+            <StudyGoalCard />
+          </div>
+        </OverviewDisclosure>
       </div>
 
       <div

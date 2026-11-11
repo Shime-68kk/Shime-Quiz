@@ -45,7 +45,7 @@ export function computeSm2NextReview(rawInput) {
 
   const output = {
     schedulerId: SM2_SCHEDULER_ID,
-    nextReviewAt: addDaysIso(input.lastReviewedAt, intervalDays),
+    nextReviewAt: addDaysIso(input.reviewedAt, intervalDays),
     intervalDays,
     easeFactor,
     stabilityBucket: bucketInterval(intervalDays),
@@ -63,9 +63,16 @@ export function computeSm2NextReview(rawInput) {
 export const sm2SchedulerAdapter = {
   schedulerId: SM2_SCHEDULER_ID,
   schedulerVersion: SM2_SCHEDULER_VERSION,
+  stateSchemaVersion: 1,
+  decisionCodePrefix: 'SM2_',
   stabilityLevel: 'stable',
   privacyClass: 'local_only',
   supportsRollback: true,
+  capabilities: ['schedule', 'due-cards', 'workload', 'explain'],
+  migrateState(state = {}) {
+    const safeState = state && typeof state === 'object' && !Array.isArray(state) ? state : {};
+    return { ...safeState, schemaVersion: 1 };
+  },
   computeNextReview: computeSm2NextReview,
   computeDueCards(input = {}) {
     const nowTime = new Date(input.now || Date.now()).getTime();
@@ -97,5 +104,7 @@ export const sm2SchedulerAdapter = {
     };
   }
 };
+
+Object.freeze(sm2SchedulerAdapter);
 
 export default sm2SchedulerAdapter;

@@ -80,6 +80,10 @@ export function normalizeSchedulerInput(input = {}) {
   const easeFactor = Math.min(2.8, Math.max(1.3, finiteNumber(input.easeFactor, 2.2)));
   const lastReviewedAt = safeIso(input.lastReviewedAt);
   const elapsedDays = Math.max(0, finiteNumber(input.elapsedDays, currentIntervalDays));
+  const reviewedAt = safeIso(
+    input.reviewedAt,
+    lastReviewedAt
+  );
   const localReviewHistorySummary = isPlainObject(input.localReviewHistorySummary)
     ? {
         totalReviews: nonNegativeInteger(input.localReviewHistorySummary.totalReviews, repetitionCount),
@@ -94,6 +98,7 @@ export function normalizeSchedulerInput(input = {}) {
     repetitionCount,
     easeFactor,
     lastReviewedAt,
+    reviewedAt,
     rating: normalizeRating(input.rating),
     elapsedDays,
     localReviewHistorySummary,
@@ -101,7 +106,7 @@ export function normalizeSchedulerInput(input = {}) {
   };
 }
 
-export function assertSchedulerOutputSafe(output) {
+export function assertSchedulerOutputSafe(output, options = {}) {
   if (!isPlainObject(output)) throw new TypeError('Scheduler output must be a plain object.');
   for (const key of Object.keys(output)) {
     if (BLOCKED_INPUT_KEYS.has(key)) throw new TypeError(`Scheduler output cannot include unsafe field: ${key}`);
@@ -111,8 +116,15 @@ export function assertSchedulerOutputSafe(output) {
   if (!Number.isFinite(nextReviewTime)) throw new TypeError('Scheduler output requires valid nextReviewAt.');
   if (finiteNumber(output.intervalDays, -1) < 0) throw new TypeError('Scheduler output intervalDays cannot be negative.');
   if (!Array.isArray(output.decisionCodes)) throw new TypeError('Scheduler output requires decisionCodes.');
+  const decisionCodePrefix = String(options.decisionCodePrefix || '').trim();
   for (const code of output.decisionCodes) {
-    if (!SAFE_DECISION_CODES.has(code)) throw new TypeError(`Unsafe scheduler decision code: ${code}`);
+    const isNamespacedCode =
+      decisionCodePrefix &&
+      String(code).startsWith(decisionCodePrefix) &&
+      /^[A-Z][A-Z0-9_]{2,63}$/.test(String(code));
+    if (!SAFE_DECISION_CODES.has(code) && !isNamespacedCode) {
+      throw new TypeError(`Unsafe scheduler decision code: ${code}`);
+    }
   }
   if (output.migrationSafe !== true) throw new TypeError('Scheduler output must be migrationSafe.');
   return true;
@@ -120,28 +132,50 @@ export function assertSchedulerOutputSafe(output) {
 
 export function validateSchedulerAdapter(adapter) {
   if (!isPlainObject(adapter)) return { ok: false, error: 'adapter_not_object' };
-  const requiredFunctions = ['computeNextReview', 'computeDueCards', 'summarizeWorkload', 'validateInput', 'explainDecision'];
-  for (const field of ['schedulerId', 'schedulerVersion', 'stabilityLevel', 'privacyClass']) {
+  const requiredFunctions = [
+    'computeNextReview',
+    'computeDueCards',
+    'summarizeWorkload',
+    'validateInput',
+    'explainDecision',
+    'migrateState'
+  ];
+  for (const field of ['schedulerId', 'schedulerVersion', 'stabilityLevel', 'privacyClass', 'decisionCodePrefix']) {
     if (!String(adapter[field] || '').trim()) return { ok: false, error: `missing_${field}` };
   }
   if (!SCHEDULER_STABILITY_LEVELS.has(adapter.stabilityLevel)) return { ok: false, error: 'invalid_stability' };
   if (adapter.privacyClass !== SCHEDULER_PRIVACY_CLASS_LOCAL_ONLY) return { ok: false, error: 'invalid_privacy' };
   if (typeof adapter.supportsRollback !== 'boolean') return { ok: false, error: 'missing_rollback_flag' };
+  if (!Number.isInteger(adapter.stateSchemaVersion) || adapter.stateSchemaVersion < 1) {
+    return { ok: false, error: 'invalid_state_schema_version' };
+  }
+  if (adapter.capabilities != null && !Array.isArray(adapter.capabilities)) {
+    return { ok: false, error: 'invalid_capabilities' };
+  }
+  if (adapter.capabilities?.includes('retrievability') && typeof adapter.getRetrievability !== 'function') {
+    return { ok: false, error: 'missing_retrievability_capability' };
+  }
   for (const name of requiredFunctions) {
     if (typeof adapter[name] !== 'function') return { ok: false, error: `missing_${name}` };
   }
   try {
+    const migratedState = adapter.migrateState({ schemaVersion: 0 });
+    if (!isPlainObject(migratedState)) {
+      return { ok: false, error: 'invalid_state_migration' };
+    }
     const sampleInput = normalizeSchedulerInput({
       cardId: 'contract-sample',
       currentIntervalDays: 1,
       repetitionCount: 1,
       easeFactor: 2.2,
       lastReviewedAt: '2026-01-01T00:00:00.000Z',
+      reviewedAt: '2026-01-02T00:00:00.000Z',
       rating: 'good',
-      elapsedDays: 1
+      elapsedDays: 1,
+      schedulerState: migratedState
     });
     const output = adapter.computeNextReview(sampleInput);
-    assertSchedulerOutputSafe(output);
+    assertSchedulerOutputSafe(output, { decisionCodePrefix: adapter.decisionCodePrefix });
   } catch (error) {
     return { ok: false, error: 'contract_probe_failed', detail: String(error?.message || error) };
   }

@@ -212,10 +212,10 @@ describe('Test 13: Active scheduling double-gate source remains intact from Phas
   });
 });
 
-describe('Test 14: No package/dependency changes', () => {
-  it('package.json ts-fsrs remains pinned at 5.3.3', () => {
+describe('Test 14: audited package policy', () => {
+  it('package.json ts-fsrs is pinned at 5.4.1', () => {
     const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-    expect(pkg.dependencies?.['ts-fsrs']).toBe('5.3.3');
+    expect(pkg.dependencies?.['ts-fsrs']).toBe('5.4.1');
   });
 
   it('package.json and package-lock.json do not reference native binding', () => {

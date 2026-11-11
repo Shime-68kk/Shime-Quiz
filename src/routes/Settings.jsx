@@ -1,10 +1,6 @@
-import { useCallback } from 'react';
+import { lazy, Suspense, useCallback } from 'react';
 import PageHeader from '../components/PageHeader.jsx';
-import FsrsExperimentalSettingsPanel from '../components/settings/FsrsExperimentalSettingsPanel.jsx';
-import EduGenDraftWorkshopPanel from '../components/settings/EduGenDraftWorkshopPanel.jsx';
-import EduGenDraftReviewPanel from '../components/edugen/EduGenDraftReviewPanel.jsx';
 // Phase 31C — default-off Data Safety Center prototype (hidden unless explicitly enabled in test/dev)
-import DataSafetyCenterPrototype from '../features/dataSafety/DataSafetyCenterPrototype.jsx';
 import { shouldShowDataSafetyCenterPrototype } from '../features/dataSafety/dataSafetyCenterPrototype.js';
 // Phase 31G — internal visibility config derived from env; default-off; no user-visible toggle; no storage writes
 import { createDataSafetyInternalVisibilityConfig } from '../features/dataSafety/dataSafetyInternalVisibility.js';
@@ -83,16 +79,33 @@ const PHASE31C_PROTOTYPE_CONFIG = createDataSafetyInternalVisibilityConfig(
 );
 
 import ThemeSettingsPanel from '../components/settings/ThemeSettingsPanel.jsx';
-import DeviceBridgeUiConcept from '../components/settings/DeviceBridgeUiConcept.jsx';
-import CompanionDevPanel from '../components/settings/CompanionDevPanel.jsx';
-import SafeCapsuleControlCenter from '../components/settings/SafeCapsuleControlCenter.jsx';
-import SafeCapsuleRehearsalLab from '../components/settings/SafeCapsuleRehearsalLab.jsx';
-import SafeCapsuleExportVault from '../components/settings/SafeCapsuleExportVault.jsx';
-import SafeCapsuleEndToEndVerificationPanel from '../components/settings/SafeCapsuleEndToEndVerificationPanel.jsx';
-import SchedulerEvidencePanel from '../components/settings/SchedulerEvidencePanel.jsx';
 import ShimeLanguageSwitch from '../uiI18n/ShimeLanguageSwitch.jsx';
 import { useShimeLanguage } from '../uiI18n/useShimeLanguage.js';
 import SettingsDisclosure from '../components/settings/SettingsDisclosure.jsx';
+import { shouldShowDeveloperTools } from '../config/productSurface.js';
+
+const SHOW_DEVELOPER_TOOLS = shouldShowDeveloperTools(
+  typeof import.meta !== 'undefined' ? import.meta.env : {}
+);
+
+// Heavy optional panels stay out of the Settings route until their disclosure
+// is opened. Developer panels are additionally protected by the product surface
+// gate above, so learner builds neither render nor request them by default.
+const FsrsExperimentalSettingsPanel = lazy(() => import('../components/settings/FsrsExperimentalSettingsPanel.jsx'));
+const EduGenDraftWorkshopPanel = lazy(() => import('../components/settings/EduGenDraftWorkshopPanel.jsx'));
+const EduGenDraftReviewPanel = lazy(() => import('../components/edugen/EduGenDraftReviewPanel.jsx'));
+const DeviceBridgeUiConcept = lazy(() => import('../components/settings/DeviceBridgeUiConcept.jsx'));
+const CompanionDevPanel = lazy(() => import('../components/settings/CompanionDevPanel.jsx'));
+const SafeCapsuleControlCenter = lazy(() => import('../components/settings/SafeCapsuleControlCenter.jsx'));
+const SafeCapsuleRehearsalLab = lazy(() => import('../components/settings/SafeCapsuleRehearsalLab.jsx'));
+const SafeCapsuleExportVault = lazy(() => import('../components/settings/SafeCapsuleExportVault.jsx'));
+const SafeCapsuleEndToEndVerificationPanel = lazy(() => import('../components/settings/SafeCapsuleEndToEndVerificationPanel.jsx'));
+const SchedulerEvidencePanel = lazy(() => import('../components/settings/SchedulerEvidencePanel.jsx'));
+const DataSafetyCenterPrototype = lazy(() => import('../features/dataSafety/DataSafetyCenterPrototype.jsx'));
+
+function SettingsPanelLoading({ label }) {
+  return <p className="settingsMotionNote" role="status">{label}</p>;
+}
 
 export default function Settings() {
   const { t } = useShimeLanguage();
@@ -115,42 +128,40 @@ export default function Settings() {
           <p className="settingsMotionNote">{t('settings.reducedMotionNote')}</p>
         </section>
 
-        <section className="settingsSection settingsSection--experimental" aria-labelledby="settings-experimental-title">
-          <div className="settingsSection__heading">
-            <p className="eyebrow">{t('status.beta')}</p>
-            <h2 id="settings-experimental-title">{t('settings.experimental')}</h2>
-            <p>{t('settings.experimentalBody')}</p>
-          </div>
-        <FsrsExperimentalSettingsPanel />
-          <p className="settingsBoundaryNote">{t('settings.noScheduleChange')} {t('settings.noCardMigration')}</p>
-        </section>
-
         <SettingsDisclosure
           title={t('settings.advanced')}
           description={t('settings.advancedBody')}
           tone="advanced"
         >
-          <EduGenDraftWorkshopPanel />
-          <EduGenDraftReviewPanel onConfirmImport={onConfirmImport} />
+          <Suspense fallback={<SettingsPanelLoading label={t('settings.loadingOptions')} />}>
+            <FsrsExperimentalSettingsPanel />
+            <p className="settingsBoundaryNote">{t('settings.noScheduleChange')} {t('settings.noCardMigration')}</p>
+            <EduGenDraftWorkshopPanel />
+            <EduGenDraftReviewPanel onConfirmImport={onConfirmImport} />
+          </Suspense>
         </SettingsDisclosure>
 
-        <SettingsDisclosure
-          title={t('settings.developer')}
-          description={t('settings.developerBody')}
-          tone="developer"
-        >
-          <p className="settingsBoundaryNote">{t('settings.safeCapsuleOnly')}</p>
-          <DeviceBridgeUiConcept />
-          <CompanionDevPanel />
-          <SafeCapsuleControlCenter />
-          <SafeCapsuleRehearsalLab />
-          <SafeCapsuleExportVault />
-          <SafeCapsuleEndToEndVerificationPanel />
-          <SchedulerEvidencePanel />
-          {shouldShowDataSafetyCenterPrototype(PHASE31C_PROTOTYPE_CONFIG) && (
-            <DataSafetyCenterPrototype />
-          )}
-        </SettingsDisclosure>
+        {SHOW_DEVELOPER_TOOLS ? (
+          <SettingsDisclosure
+            title={t('settings.developer')}
+            description={t('settings.developerBody')}
+            tone="developer"
+          >
+            <Suspense fallback={<SettingsPanelLoading label={t('settings.loadingDeveloperTools')} />}>
+              <p className="settingsBoundaryNote">{t('settings.safeCapsuleOnly')}</p>
+              <DeviceBridgeUiConcept />
+              <CompanionDevPanel />
+              <SafeCapsuleControlCenter />
+              <SafeCapsuleRehearsalLab />
+              <SafeCapsuleExportVault />
+              <SafeCapsuleEndToEndVerificationPanel />
+              <SchedulerEvidencePanel />
+              {shouldShowDataSafetyCenterPrototype(PHASE31C_PROTOTYPE_CONFIG) && (
+                <DataSafetyCenterPrototype />
+              )}
+            </Suspense>
+          </SettingsDisclosure>
+        ) : null}
     </div>
   );
 }

@@ -16,6 +16,7 @@ import { readStudyHistory } from '../../src/state/studyHistoryStorage.js';
 import {
   updateReviewScheduleFromHistoryRecord,
   readReviewSchedule,
+  appendFsrsReviewLog,
   FSRS_REVIEW_LOG_CAP
 } from '../../src/state/reviewScheduleStorage.js';
 
@@ -79,8 +80,8 @@ afterEach(() => {
   teardownMockWindow();
 });
 
-function makeHistoryRecord({ id = 'session-test-1', completedAt = NOW_ISO, itemResults = [] } = {}) {
-  return { id, completedAt, itemResults };
+function makeHistoryRecord({ id = 'session-test-1', createdAt, completedAt = NOW_ISO, itemResults = [] } = {}) {
+  return { id, ...(createdAt ? { createdAt } : {}), completedAt, itemResults };
 }
 
 function makeItemResult(itemId, status = 'correct', extras = {}) {
@@ -116,6 +117,70 @@ function defaultMocks({ toggleEnabled = false, priorHistory = [] } = {}) {
   getSettings.mockReturnValue({ fsrsExperimentalEnabled: toggleEnabled });
   readStudyHistory.mockReturnValue({ records: priorHistory });
 }
+
+function activeMocks({ priorHistory = [], retention = 0.91, maximumInterval = 730 } = {}) {
+  getSettings.mockReturnValue({
+    fsrsExperimentalEnabled: true,
+    fsrsActiveSchedulingEnabled: true,
+    fsrsDesiredRetention: retention,
+    fsrsMaximumInterval: maximumInterval
+  });
+  readStudyHistory.mockReturnValue({ records: priorHistory });
+}
+
+describe('FSRS production enrollment and session wiring', () => {
+  it('schedules a new card with real FSRS from its first completed review', () => {
+    activeMocks({ retention: 0.93, maximumInterval: 365 });
+    const history = makeHistoryRecord({
+      id: 'active-first',
+      createdAt: '2026-05-13T23:58:00.000Z',
+      completedAt: '2026-05-14T00:00:00.000Z',
+      itemResults: [makeItemResult('active-card', 'correct')]
+    });
+
+    expect(updateReviewScheduleFromHistoryRecord(history).ok).toBe(true);
+    const record = readReviewSchedule().records.find(item => item.itemId === 'active-card');
+
+    expect(record.schedulerKind).toBe('fsrs-active');
+    expect(record.schedulerVersion).toBe('ts-fsrs-5.4.1-fsrs-6-active-v1');
+    expect(record.fsrsPayload.reps).toBe(1);
+    expect(record.fsrsPayload.schedulerConfig).toMatchObject({
+      requestRetention: 0.93,
+      maximumInterval: 365,
+      enableFuzz: true
+    });
+  });
+
+  it('uses createdAt to resolve the memory rating for the correct session', () => {
+    activeMocks();
+    updateReviewScheduleFromHistoryRecord(makeHistoryRecord({
+      id: 'rating-first',
+      createdAt: '2026-05-13T23:58:00.000Z',
+      completedAt: '2026-05-14T00:00:00.000Z',
+      itemResults: [makeItemResult('rating-card', 'correct')]
+    }));
+
+    expect(appendFsrsReviewLog('rating-card', {
+      rating: 'Hard',
+      reviewedAt: '2026-05-15T00:01:00.000Z',
+      source: 'production-memory-bridge'
+    }).ok).toBe(true);
+
+    const second = makeHistoryRecord({
+      id: 'rating-second',
+      createdAt: '2026-05-15T00:00:00.000Z',
+      completedAt: '2026-05-15T00:05:00.000Z',
+      itemResults: [makeItemResult('rating-card', 'correct')]
+    });
+    expect(updateReviewScheduleFromHistoryRecord(second).ok).toBe(true);
+
+    const record = readReviewSchedule().records.find(item => item.itemId === 'rating-card');
+    expect(record.schedulerKind).toBe('fsrs-active');
+    expect(record.fsrsPayload.reps).toBe(2);
+    expect(record.fsrsReviewLogs.at(-1).rating).toBe('Hard');
+    expect(record.fsrsReviewLogs.at(-1).reviewedAt).toBe('2026-05-15T00:05:00.000Z');
+  });
+});
 
 // ─── Test 1: Toggle OFF → SM-2 schedule, no FSRS metadata ──────────────────
 

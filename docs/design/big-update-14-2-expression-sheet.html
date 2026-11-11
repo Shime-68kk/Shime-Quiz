@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>BIG-UPDATE-14.2 OLED Expression Sheet</title>
+  <style>
+    :root { font-family: Inter, ui-sans-serif, system-ui, sans-serif; --bg:#f3eef8; --ink:#211b30; --muted:#756b7d; --line:#cfc2d9; --face:#0d1713; --eye:#55e1aa; --soft:#baffdf; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; color:var(--ink); background:radial-gradient(circle at 50% 0,#fffaf7,transparent 42%),var(--bg); }
+    main { width:min(1440px,100%); margin:auto; padding:44px clamp(22px,4vw,66px) 58px; }
+    header { display:flex; align-items:end; justify-content:space-between; gap:32px; margin-bottom:30px; border-bottom:1px solid var(--line); padding-bottom:22px; }
+    h1 { margin:0; font-family:Georgia,"Times New Roman",serif; font-size:clamp(34px,4vw,58px); line-height:1; letter-spacing:0; }
+    header p { max-width:520px; margin:0; color:var(--muted); font-size:15px; line-height:1.5; }
+    .grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }
+    article { min-width:0; padding:19px; border:1px solid color-mix(in srgb,var(--line) 76%,white); border-radius:8px; background:rgba(255,255,255,.48); box-shadow:0 16px 30px rgba(54,38,65,.07); }
+    .face { position:relative; aspect-ratio:2/1; overflow:hidden; border:5px solid #eaf4ef; border-radius:27px; background:var(--face); box-shadow:0 0 0 2px #8ab49f, inset 0 12px 22px rgba(255,255,255,.05), 0 14px 22px rgba(42,34,47,.16); }
+    .face::after { position:absolute; inset:7px 13px auto; height:32%; border-radius:50%; content:""; background:linear-gradient(rgba(255,255,255,.12),transparent); }
+    svg { width:100%; height:100%; filter:drop-shadow(0 0 7px rgba(85,225,170,.3)); }
+    .eye { fill:var(--eye); } .soft { fill:var(--soft); } .mask { fill:var(--face); }
+    .stroke { fill:none; stroke:var(--eye); stroke-width:10; stroke-linecap:round; stroke-linejoin:round; }
+    h2 { margin:16px 0 4px; font-size:16px; letter-spacing:0; }
+    article p { margin:0; min-height:38px; color:var(--muted); font-size:13px; line-height:1.45; }
+    .index { display:block; margin-bottom:7px; color:#8063a9; font-size:11px; font-weight:800; letter-spacing:.08em; }
+    .turbo { grid-column:span 2; }
+    .turbo .face { aspect-ratio:3.8/1; }
+    footer { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:28px; padding-top:22px; border-top:1px solid var(--line); color:var(--muted); font-size:13px; line-height:1.5; }
+    footer strong { display:block; margin-bottom:4px; color:var(--ink); }
+    @media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.turbo{grid-column:span 2}header{align-items:start;flex-direction:column}footer{grid-template-columns:1fr}}
+    @media(max-width:520px){main{padding:28px 16px}.grid{grid-template-columns:1fr}.turbo{grid-column:auto}.turbo .face{aspect-ratio:2/1}article{padding:16px}}
+  </style>
+</head>
+<body>
+  <main>
+    <header><h1>OLED acting system</h1><p>Eleven launch-only expressions with different silhouettes, eye mass, gaze direction, and emotional intent. Every state remains readable without color or motion.</p></header>
+    <section class="grid">
+      <article class="turbo"><span class="index">01 · ENTRY</span><div class="face"><svg viewBox="0 0 200 100"><path class="eye" d="M26 18h31l27 32-27 32H26l28-32z"/><path class="eye" d="M174 18h-31l-27 32 27 32h31l-28-32z"/><circle class="soft" cx="16" cy="50" r="4"/><circle class="soft" cx="184" cy="50" r="4"/></svg></div><h2>Turbo excited</h2><p>Large inward chevrons and edge sparks. Energetic and eager, not angry.</p></article>
+      <article><span class="index">02 · FIRST IMPACT</span><div class="face"><svg viewBox="0 0 200 100"><path class="eye" d="m28 19 12-7 22 25 22-25 12 7-23 31 23 31-12 7-22-25-22 25-12-7 23-31z"/><path class="eye" d="m104 19 12-7 22 25 22-25 12 7-23 31 23 31-12 7-22-25-22 25-12-7 23-31z"/></svg></div><h2>Impact shock</h2><p>Full X shapes compress the whole face into a single collision reaction.</p></article>
+      <article><span class="index">03 · REBOUND</span><div class="face"><svg viewBox="0 0 200 100"><path class="stroke" d="M83 49c0-19-31-23-39-5-10 23 31 37 46 13 19-31-32-56-57-24-24 31 12 70 49 54"/><path class="stroke" d="M166 49c0-19-31-23-39-5-10 23 31 37 46 13 19-31-32-56-57-24-24 31 12 70 49 54"/></svg></div><h2>Dizzy spiral</h2><p>Two held spirals remain legible through the airborne rebound and landing.</p></article>
+      <article><span class="index">04 · RECOVERY</span><div class="face"><svg viewBox="0 0 200 100"><path class="eye" d="M25 34 88 18v55H25zM112 18l63 16v39h-63z"/><path class="mask" d="m22 15 69 1-4 24-65 8zM109 16h69v32l-65-8z"/></svg></div><h2>Annoyed</h2><p>Heavy inward lids create a low, irritated stare before the leg deployment.</p></article>
+      <article><span class="index">05 · APPROACH</span><div class="face"><svg viewBox="0 0 200 100"><path class="eye" d="M24 31 89 18v61H24zM111 18l65 13v48h-65z"/><path class="mask" d="m21 14 72 1-6 24-66 10zM107 15h72v34l-66-10z"/><circle class="mask" cx="72" cy="56" r="8"/><circle class="mask" cx="160" cy="56" r="8"/></svg></div><h2>Determined</h2><p>Focused pupils lock onto the pillar while the inner brows angle down.</p></article>
+      <article><span class="index">06 · AFTER KICK</span><div class="face"><svg viewBox="0 0 200 100"><path class="stroke" d="M27 64q28-34 58 0"/><path class="eye" d="M113 39h62v31h-62z"/><path class="mask" d="M109 27h70v26h-70z"/></svg></div><h2>Smug delight</h2><p>One pleased arc and one half-lidded eye form a deliberately asymmetric beat.</p></article>
+      <article><span class="index">07 · RETURN</span><div class="face"><svg viewBox="0 0 200 100"><rect class="soft" x="23" y="10" width="66" height="80" rx="27"/><rect class="soft" x="111" y="10" width="66" height="80" rx="27"/><circle class="mask" cx="70" cy="35" r="13"/><circle class="mask" cx="158" cy="35" r="13"/></svg></div><h2>Return panic</h2><p>Maximum eye area with both pupils pulled upward toward the returning pillar.</p></article>
+      <article><span class="index">08 · SECOND IMPACT</span><div class="face"><svg viewBox="0 0 200 100"><rect class="eye" x="20" y="41" width="72" height="18" rx="9"/><rect class="eye" x="108" y="41" width="72" height="18" rx="9"/><path class="soft" d="M96 18h8v64h-8z"/></svg></div><h2>Compressed impact</h2><p>Thin horizontal eyes and a center flash communicate vertical compression.</p></article>
+      <article><span class="index">09 · TUMBLE</span><div class="face"><svg viewBox="0 0 200 100"><g transform="rotate(-22 57 50)"><path class="eye" d="m27 24 10-6 20 23 20-23 10 6-21 26 21 26-10 6-20-23-20 23-10-6 21-26z"/></g><g transform="rotate(18 143 50)" opacity=".7"><path class="eye" d="M111 27h64v19l-17 27h-47z"/></g></svg></div><h2>Tumble dazed</h2><p>Mismatched rotated shapes keep the face readable while the body spins.</p></article>
+      <article><span class="index">10 · TITLE ASSEMBLY</span><div class="face"><svg viewBox="0 0 200 100"><rect class="soft" x="24" y="18" width="66" height="64" rx="22"/><rect class="soft" x="112" y="18" width="66" height="64" rx="22"/><rect class="mask" x="59" y="26" width="23" height="48" rx="11"/><rect class="mask" x="147" y="26" width="23" height="48" rx="11"/></svg></div><h2>Side gaze</h2><p>Dark pupils shift right so the robot clearly reads the assembled title.</p></article>
+      <article><span class="index">11 · FINAL HOLD</span><div class="face"><svg viewBox="0 0 200 100"><path class="stroke" d="M24 67q33-47 66 0M110 67q33-47 66 0"/></svg></div><h2>Final delight</h2><p>Two clean upward arcs create a proud, calm smile for the two-second hold.</p></article>
+    </section>
+    <footer><div><strong>Silhouette rule</strong>No state relies on a tiny pupil adjustment alone.</div><div><strong>OLED rule</strong>All paths remain high-contrast and feasible on a monochrome hardware display.</div><div><strong>Motion rule</strong>Expression changes reinforce a visible story beat; they do not carry meaning alone.</div></footer>
+  </main>
+</body>
+</html>

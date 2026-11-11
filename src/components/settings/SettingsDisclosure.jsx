@@ -1,8 +1,13 @@
-import { useId, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 
 export default function SettingsDisclosure({ title, description, tone = 'advanced', children }) {
   const [open, setOpen] = useState(false);
+  const [hasOpened, setHasOpened] = useState(false);
   const panelId = useId();
+
+  useEffect(() => {
+    if (open) setHasOpened(true);
+  }, [open]);
 
   return (
     <section className={`settingsGroup settingsGroup--${tone}`}>
@@ -22,9 +27,8 @@ export default function SettingsDisclosure({ title, description, tone = 'advance
         </svg>
       </button>
       <div id={panelId} className="settingsGroup__content" hidden={!open}>
-        {children}
+        {hasOpened ? children : null}
       </div>
     </section>
   );
 }
-

@@ -176,8 +176,11 @@ describe('BIG-UPDATE-10.1 — Home motion contract', () => {
 
   it('preserves all Home route callback destinations and counts', () => {
     expect(homeSource.match(/onClick=\{\(\) => navigate\('\/dashboard'\)\}/g)).toHaveLength(2);
-    expect(homeSource.match(/onClick=\{\(\) => navigate\('\/library'\)\}/g)).toHaveLength(3);
+    expect(homeSource.match(/onClick=\{\(\) => navigate\('\/library'\)\}/g)).toHaveLength(2);
     expect(homeSource.match(/onClick=\{\(\) => navigate\('\/study-room'\)\}/g)).toHaveLength(1);
+    expect(homeSource).toContain('function openSmartPractice()');
+    expect(homeSource).toContain("navigate('/study-room', {");
+    expect(homeSource).toContain("mode: 'smart-practice'");
   });
 
   it('adds no timers, forbidden APIs, or route-transition mechanism', () => {

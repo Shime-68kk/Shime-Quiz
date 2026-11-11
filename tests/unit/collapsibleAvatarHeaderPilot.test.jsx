@@ -32,11 +32,12 @@ describe('Phase 37-uiN — collapsible avatar header pilot', () => {
     expect(bottomNav).not.toContain('phase37uin-collapsible-avatar-header-pilot');
   });
 
-  it('preserves route-driven sidebar navigation without new handlers or destinations', () => {
-    expect(sidebar).toContain('useLocation');
-    expect(sidebar).toContain('navRoutes.findIndex');
-    expect(sidebar).toContain('item.path === location.pathname');
+  it('preserves route-driven sidebar navigation and adds only the approved Home brand destination', () => {
+    expect(sidebar).toContain("import { Link, NavLink } from 'react-router-dom'");
+    expect(sidebar).toContain('to="/"');
     expect(sidebar).toContain('to={item.path}');
+    expect(sidebar).not.toContain('navRoutes.findIndex');
+    expect(sidebar).not.toContain('primaryNavSlidingIndicator');
     expect(sidebar).not.toContain('onClick=');
     expect(sidebar).not.toContain('navigate(');
   });

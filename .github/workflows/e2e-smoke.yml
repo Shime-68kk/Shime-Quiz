@@ -57,6 +57,9 @@ jobs:
           test -x node_modules/.bin/vite
           test -x node_modules/.bin/vitest
 
+      - name: Validate Scheduler Kernel v2
+        run: npm run validate:scheduler-kernel
+
       # Phase 35P validator retained as historical reference; not run as Phase 36 merge-blocking gate.
       # Validate Phase 35P Core UI Plan Completion Review
       # node scripts/validate-phase35p-core-ui-plan-completion-review.js
@@ -241,6 +244,9 @@ jobs:
           node scripts/validate-phase37f-limited-release-evidence-review.js
 
       - name: Build app
+        env:
+          # E2E smoke covers the generic app; the Lệ Thủy cram deployment is built separately.
+          VITE_SHIME_STUDENT_DEPLOYMENT: 'off'
         run: npm run build
 
       - name: Run Vitest unit tests

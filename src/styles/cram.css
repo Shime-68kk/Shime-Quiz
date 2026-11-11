@@ -1,0 +1,554 @@
+/* Ôn thi cấp tốc — learner-facing screens.
+   Calm, typographic, phone-first (iPhone 14 Pro 393pt / XS Max 414pt).
+   Uses the app's theme tokens so every theme keeps working. */
+
+.cramPage,
+.cramActionBar,
+.cramTour {
+  --cram-radius: 20px;
+  --cram-radius-sm: 14px;
+  --cram-accent: var(--theme-brand-primary, var(--color-primary, #059669));
+  --cram-accent-strong: var(--theme-brand-primary-hover, var(--color-primary-strong, #047857));
+  --cram-accent-soft: var(--theme-brand-soft, rgba(5, 150, 105, 0.1));
+  --cram-ink: var(--theme-text-primary, var(--color-text, #0f172a));
+  --cram-muted: var(--theme-text-muted, var(--color-text-muted, #64748b));
+  --cram-surface: var(--theme-surface, var(--color-surface, #fff));
+  --cram-sunken: var(--theme-canvas-muted, #f1f5f9);
+  --cram-line: var(--theme-border, var(--color-border, rgba(15, 23, 42, 0.08)));
+  --cram-ok: var(--color-success, #16a34a);
+  --cram-ok-soft: var(--color-success-soft, rgba(22, 163, 74, 0.1));
+  --cram-bad: var(--color-danger, #dc2626);
+  --cram-bad-soft: var(--color-danger-soft, rgba(220, 38, 38, 0.08));
+
+}
+
+.cramPage {
+  width: min(100%, 640px);
+  margin: 0 auto;
+  padding: 4px 0 40px;
+  color: var(--cram-ink);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  font-variant-numeric: tabular-nums;
+}
+
+.cramPage button,
+.cramTour button,
+.cramActionBar button {
+  font: inherit;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.cramKicker {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--cram-muted);
+}
+
+.cramSubtle { margin: 0; color: var(--cram-muted); line-height: 1.5; }
+.cramSubtle b { color: var(--cram-ink); font-weight: 700; }
+
+/* ── Buttons ─────────────────────────────────────────── */
+.cramBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 999px;
+  font-weight: 650;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 140ms ease, background-color 140ms ease, opacity 140ms ease;
+}
+.cramBtn:active:not(:disabled) { transform: scale(0.97); }
+.cramBtn--lg { min-height: 56px; font-size: 1.05rem; width: 100%; }
+.cramBtn--primary { background: var(--cram-accent); color: var(--theme-text-on-accent, #fff); }
+.cramBtn--primary:hover:not(:disabled) { background: var(--cram-accent-strong); }
+.cramBtn--ink { background: var(--cram-ink); color: var(--cram-surface); }
+.cramBtn--quiet { background: var(--cram-sunken); color: var(--cram-ink); }
+.cramBtn:disabled { background: var(--cram-sunken); color: var(--cram-muted); cursor: default; }
+
+.cramLink {
+  background: none;
+  border: 0;
+  padding: 8px 4px;
+  color: var(--cram-muted);
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+.cramLink--strong { color: var(--cram-ink); font-weight: 600; }
+.cramLink--danger { color: var(--cram-bad); font-weight: 600; }
+
+.cramBtn:focus-visible,
+.cramLink:focus-visible,
+.cramStart:focus-visible,
+.cramTool:focus-visible,
+.cramChapter:focus-visible,
+.cramChoice:focus-visible,
+.cramSegment__opt:focus-visible,
+.cramRobotTap:focus-visible,
+.cramActionBar__mode:focus-visible {
+  outline: 3px solid var(--shime-focus-ring, rgba(5, 150, 105, 0.35));
+  outline-offset: 2px;
+}
+
+/* ── Gate (who are you / need a guide?) ──────────────── */
+.cramPage--gate { min-height: 78vh; display: grid; align-content: center; }
+.cramGate {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  text-align: center;
+  padding: 8px 4px;
+}
+.cramGate .shimeRobotPresence { margin-bottom: 8px; }
+.cramGate__title { margin: 0; font-size: clamp(1.6rem, 6.4vw, 2.1rem); line-height: 1.2; letter-spacing: -0.02em; text-wrap: balance; }
+.cramGate .cramSubtle { max-width: 34ch; }
+.cramGate__actions { display: grid; gap: 10px; width: 100%; max-width: 380px; margin-top: 16px; }
+
+/* ── Home ────────────────────────────────────────────── */
+.cramHome { display: grid; gap: 14px; }
+
+.cramHello { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 4px 2px 2px; }
+.cramHello__title { margin: 2px 0 0; font-size: clamp(1.7rem, 7vw, 2.2rem); line-height: 1.1; letter-spacing: -0.025em; }
+
+.cramPanel {
+  background: var(--cram-surface);
+  border: 1px solid var(--cram-line);
+  border-radius: var(--cram-radius);
+}
+
+.cramProgressPanel { display: flex; align-items: center; gap: 20px; padding: 18px 20px; }
+.cramProgressPanel__ring { position: relative; width: 132px; height: 132px; flex-shrink: 0; }
+.cramRing__track { stroke: var(--cram-sunken); }
+.cramRing__value { stroke: var(--cram-accent); transition: stroke-dashoffset 600ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+.cramProgressPanel__value { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+.cramProgressPanel__value strong { font-size: 2.3rem; line-height: 1; letter-spacing: -0.03em; }
+.cramProgressPanel__value strong span { font-size: 1.1rem; margin-left: 1px; color: var(--cram-muted); }
+.cramProgressPanel__value small { margin-top: 4px; font-size: 0.78rem; color: var(--cram-muted); }
+.cramProgressPanel__text { display: grid; gap: 6px; min-width: 0; }
+.cramProgressPanel__level { margin: 0; font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; color: var(--cram-accent-strong); }
+
+.cramStart {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  padding: 18px 22px;
+  border: 0;
+  border-radius: var(--cram-radius);
+  background: var(--cram-accent);
+  color: var(--theme-text-on-accent, #fff);
+  text-align: left;
+  cursor: pointer;
+  position: relative;
+  transition: transform 140ms ease, background-color 140ms ease;
+}
+.cramStart::after {
+  content: '→';
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  opacity: 0.9;
+}
+.cramStart:active { transform: scale(0.985); }
+.cramStart:hover { background: var(--cram-accent-strong); }
+.cramStart__label { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.01em; }
+.cramStart__hint { font-size: 0.92rem; opacity: 0.88; padding-right: 36px; }
+
+.cramTools { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.cramTool {
+  display: grid;
+  gap: 2px;
+  padding: 14px 16px;
+  min-height: 72px;
+  border: 1px solid var(--cram-line);
+  border-radius: var(--cram-radius-sm);
+  background: var(--cram-surface);
+  color: var(--cram-ink);
+  text-align: left;
+  cursor: pointer;
+  transition: transform 140ms ease, border-color 140ms ease;
+}
+.cramTool:active:not(:disabled) { transform: scale(0.98); }
+.cramTool:disabled { opacity: 0.5; cursor: default; }
+.cramTool__label { font-weight: 650; }
+.cramTool__hint { font-size: 0.85rem; color: var(--cram-muted); }
+
+.cramSection { display: grid; gap: 8px; margin-top: 6px; }
+.cramSection__title { margin: 0 4px; font-size: 0.82rem; font-weight: 600; color: var(--cram-muted); letter-spacing: 0.02em; }
+
+/* Grouped list, iOS-style */
+.cramChapters {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: var(--cram-surface);
+  border: 1px solid var(--cram-line);
+  border-radius: var(--cram-radius);
+  overflow: hidden;
+}
+.cramChapters li + li { border-top: 1px solid var(--cram-line); }
+.cramChapter {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 26px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.cramChapter:active { background: var(--cram-sunken); }
+.cramChapter__num { font-weight: 700; color: var(--cram-muted); text-align: center; }
+.cramChapter__body { display: grid; gap: 8px; min-width: 0; }
+.cramChapter__title { font-weight: 550; line-height: 1.35; font-size: 0.97rem; }
+.cramChapter__pct { font-weight: 700; font-size: 0.95rem; min-width: 3.2ch; text-align: right; }
+.cramChapter__bar,
+.cramBar {
+  display: block;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--cram-sunken);
+  overflow: hidden;
+}
+.cramChapter__bar > span,
+.cramBar > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--cram-accent);
+  transition: width 400ms ease;
+}
+
+.cramSegment {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--cram-sunken);
+}
+.cramSegment__opt {
+  min-height: 40px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--cram-muted);
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+.cramSegment__opt.is-on {
+  background: var(--cram-surface);
+  color: var(--cram-ink);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
+}
+
+.cramFooter { display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 14px; margin-top: 8px; }
+
+/* ── Session ─────────────────────────────────────────── */
+.cramSession { display: grid; gap: 14px; }
+.cramSessionTop {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+}
+.cramSessionTop__title { text-align: center; font-weight: 650; }
+.cramSessionTop__meta { font-size: 0.85rem; color: var(--cram-muted); font-weight: 600; }
+
+/* Robot hero: the Shime robot sits on top, big and tappable; it nods when right, shakes gently when wrong. */
+.cramHero { display: grid; justify-items: center; gap: 10px; text-align: center; }
+.cramRobotTap {
+  display: inline-grid;
+  place-items: center;
+  padding: 4px;
+  border: 0;
+  background: transparent;
+  border-radius: 28px;
+  cursor: pointer;
+  transform-origin: 50% 85%;
+}
+.cramHero__robot .shimeRobotPresence { zoom: 0.78; }
+.cramHero__bubble {
+  position: relative;
+  margin: 0;
+  max-width: 40ch;
+  padding: 10px 16px;
+  border-radius: 16px;
+  background: var(--cram-surface);
+  border: 1px solid var(--cram-line);
+  color: var(--theme-text-secondary, var(--cram-ink));
+  font-size: 0.97rem;
+  line-height: 1.45;
+}
+.cramHero__bubble::before {
+  content: '';
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  background: inherit;
+  border-left: 1px solid var(--cram-line);
+  border-top: 1px solid var(--cram-line);
+  transform: translateX(-50%) rotate(45deg);
+}
+.cramHero--correct .cramHero__bubble { border-color: color-mix(in srgb, var(--cram-ok) 35%, transparent); }
+.cramHero--incorrect .cramHero__bubble { border-color: color-mix(in srgb, var(--cram-bad) 30%, transparent); }
+.cramRobotTap--nod { animation: cramRobotNod 620ms cubic-bezier(0.3, 0.7, 0.3, 1) 1 both; }
+.cramRobotTap--shake { animation: cramRobotHeadShake 760ms cubic-bezier(0.36, 0.07, 0.19, 0.97) 1 both; }
+
+@keyframes cramRobotHeadShake {
+  0%, 100% { transform: rotate(0deg); }
+  18% { transform: rotate(-7deg); }
+  38% { transform: rotate(6deg); }
+  58% { transform: rotate(-4deg); }
+  76% { transform: rotate(2deg); }
+}
+
+@keyframes cramRobotNod {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  22% { transform: translateY(5px) rotate(0deg) scaleY(0.97); }
+  44% { transform: translateY(-3px); }
+  66% { transform: translateY(4px) scaleY(0.98); }
+  84% { transform: translateY(-1px); }
+}
+
+.cramHello__robot .shimeRobotPresence { zoom: 0.9; }
+
+.cramQuestion { display: grid; gap: 12px; }
+.cramQuestion__prompt { margin: 0; font-size: 1.2rem; line-height: 1.45; font-weight: 650; letter-spacing: -0.01em; }
+.cramChoices { display: grid; gap: 10px; margin-top: 2px; }
+.cramChoice {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  align-items: start;
+  gap: 12px;
+  width: 100%;
+  min-height: 56px;
+  padding: 14px;
+  border: 1.5px solid var(--cram-line);
+  border-radius: var(--cram-radius-sm);
+  background: var(--cram-surface);
+  color: inherit;
+  text-align: left;
+  font-size: 1rem;
+  line-height: 1.45;
+  cursor: pointer;
+  transition: border-color 140ms ease, background-color 140ms ease, transform 140ms ease, opacity 200ms ease;
+}
+.cramChoice:active:not(:disabled) { transform: scale(0.985); }
+.cramChoice:disabled { cursor: default; }
+.cramChoice__letter {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--cram-sunken);
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+.cramChoice__text { padding-top: 3px; }
+.cramChoice.is-selected { border-color: var(--cram-accent); background: var(--cram-accent-soft); }
+.cramChoice.is-selected .cramChoice__letter { background: var(--cram-accent); color: #fff; }
+.cramChoice.is-correct { border-color: var(--cram-ok); background: var(--cram-ok-soft); }
+.cramChoice.is-correct .cramChoice__letter { background: var(--cram-ok); color: #fff; }
+.cramChoice.is-wrong { border-color: var(--cram-bad); background: var(--cram-bad-soft); }
+.cramChoice.is-wrong .cramChoice__letter { background: var(--cram-bad); color: #fff; }
+.cramChoice.is-dim { opacity: 0.5; }
+@media (hover: hover) and (pointer: fine) {
+  .cramChoice:hover:not(:disabled) { border-color: var(--cram-accent); }
+  .cramTool:hover:not(:disabled) { border-color: var(--cram-accent); }
+  .cramChapter:hover { background: var(--cram-sunken); }
+}
+
+/* Action bar sticks to the bottom of the content column, so it lines up with the question on every screen. */
+.cramActionBar {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  margin-top: 4px;
+  padding: 18px 0 calc(10px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(to top, var(--theme-canvas, #f8fafc) 72%, color-mix(in srgb, var(--theme-canvas, #f8fafc) 0%, transparent));
+}
+.cramActionBar__inner { display: grid; gap: 4px; justify-items: center; }
+.cramActionBar .cramBtn { width: 100%; min-height: 54px; font-size: 1.05rem; }
+.cramActionBar__hint { margin: 0; min-height: 54px; display: grid; place-items: center; color: var(--theme-text-muted, #64748b); font-weight: 600; }
+.cramActionBar__mode {
+  background: none;
+  border: 0;
+  padding: 6px 10px;
+  font-size: 0.82rem;
+  color: var(--theme-text-muted, #64748b);
+  cursor: pointer;
+}
+
+/* While answering, hide the app nav so nothing competes with the action bar. */
+html.cram-in-session .bottomNav,
+html:has(.cramPage--gate) .bottomNav { display: none !important; }
+html.cram-in-session .mainContent,
+html:has(.cramPage--gate) .mainContent { padding-bottom: 24px; }
+
+/* ── Summary ─────────────────────────────────────────── */
+.cramSummary { display: grid; justify-items: center; gap: 8px; text-align: center; padding-top: 4px; }
+.cramSummary .cramHero { margin-bottom: 8px; }
+.cramSummary__score { margin: 0; font-size: 4.2rem; font-weight: 750; line-height: 1; letter-spacing: -0.04em; }
+.cramSummary__score span { font-size: 1.8rem; color: var(--cram-muted); margin-left: 2px; }
+.cramSummary__overall {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  margin-top: 12px;
+  padding: 14px 18px;
+  border-radius: var(--cram-radius-sm);
+  background: var(--cram-sunken);
+}
+.cramSummary__overall span { color: var(--cram-muted); }
+.cramSummary__actions { display: grid; gap: 10px; width: 100%; margin-top: 12px; }
+
+/* ── Guided tour ─────────────────────────────────────── */
+.cramTour { position: fixed; inset: 0; z-index: 10000; }
+.cramTour__dim { position: absolute; inset: 0; background: rgba(2, 6, 23, 0.6); }
+.cramTour__spot {
+  position: fixed;
+  border-radius: 22px;
+  box-shadow: 0 0 0 9999px rgba(2, 6, 23, 0.62);
+  transition: top 260ms ease, left 260ms ease, width 260ms ease, height 260ms ease;
+  pointer-events: none;
+}
+.cramTour__tip {
+  position: fixed;
+  left: max(16px, env(safe-area-inset-left, 0px));
+  right: max(16px, env(safe-area-inset-right, 0px));
+  margin: 0 auto;
+  max-width: 420px;
+  display: grid;
+  gap: 8px;
+  padding: 20px;
+  border-radius: 22px;
+  background: var(--theme-surface, #fff);
+  color: var(--theme-text-primary, #0f172a);
+  box-shadow: 0 24px 48px -16px rgba(2, 6, 23, 0.5);
+}
+.cramTour__tip h2 { margin: 0; font-size: 1.2rem; line-height: 1.3; letter-spacing: -0.01em; }
+.cramTour__tip p { margin: 0; line-height: 1.5; }
+.cramTour__actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 8px; }
+.cramTour__actions .cramBtn { min-width: 128px; }
+
+/* ── Phones ──────────────────────────────────────────── */
+@media (max-width: 440px) {
+  .cramPage { padding-top: 0; }
+  .cramProgressPanel { gap: 16px; padding: 16px; }
+  .cramProgressPanel__ring,
+  .cramProgressPanel__ring .cramRing { width: 116px; height: 116px; }
+  .cramProgressPanel__value strong { font-size: 2rem; }
+  .cramQuestion__prompt { font-size: 1.12rem; }
+  .cramChoice { padding: 13px 12px; }
+  .cramHero { gap: 8px; }
+  .cramHero__robot .shimeRobotPresence { zoom: 0.52; }
+  .cramHero__bubble { font-size: 0.92rem; padding: 8px 14px; }
+  .cramHello__robot .shimeRobotPresence { zoom: 0.75; }
+}
+
+/* Five-item bottom nav (student deployment adds "Ôn thi"): keep labels readable on 393pt phones. */
+@media (max-width: 440px) {
+  .bottomNav[style*="--nav-item-count"] .bottomNav__item span:not(.srOnly):not(.bottomNav__icon) {
+    font-size: 0.7rem;
+    letter-spacing: -0.01em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cramBtn, .cramStart, .cramTool, .cramChoice, .cramRing__value, .cramChapter__bar > span, .cramBar > span, .cramTour__spot { transition: none; }
+  .cramRobotTap--nod,
+  .cramRobotTap--shake { animation: none; }
+}
+
+/* ── Liquid-glass tab pill (bottom nav) ─────────────────
+   The pill is the only active surface; the active item keeps only its colour,
+   so there is never a second background lagging behind (BIG-UPDATE-13 issue). */
+.bottomNav.bottomNav--liquid { isolation: isolate; }
+.bottomNav.bottomNav--liquid .bottomNav__item,
+.bottomNav.bottomNav--liquid .bottomNav__item--active,
+.bottomNav.bottomNav--liquid .bottomNav__item--active:hover,
+.bottomNav.bottomNav--liquid .bottomNav__item--active .bottomNav__icon {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.bottomNav.bottomNav--liquid .bottomNav__item { transition: color 220ms ease, transform 160ms ease; }
+.bottomNav.bottomNav--liquid .bottomNav__item--active { color: var(--theme-navigation-active-text, var(--theme-brand-primary)); }
+
+.liquidNavPill {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 22px;
+  transform-origin: 50% 50%;
+  will-change: transform;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.12) 55%, rgba(255, 255, 255, 0.28)),
+    color-mix(in srgb, var(--theme-brand-primary, #7c3aed) 14%, transparent);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.9),
+    inset 0 -2px 6px color-mix(in srgb, var(--theme-brand-primary, #7c3aed) 18%, transparent),
+    0 6px 18px -6px color-mix(in srgb, var(--theme-brand-primary, #7c3aed) 45%, transparent);
+  -webkit-backdrop-filter: blur(8px) saturate(1.8);
+  backdrop-filter: blur(8px) saturate(1.8);
+  transition: opacity 180ms ease;
+}
+.liquidNavPill::after {
+  content: '';
+  position: absolute;
+  inset: 3px 10% auto;
+  height: 38%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
+  opacity: 0.7;
+}
+[data-theme='dark'] .liquidNavPill {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04) 55%, rgba(255, 255, 255, 0.1)),
+    color-mix(in srgb, var(--theme-brand-primary, #a78bfa) 22%, transparent);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+[data-theme='dark'] .liquidNavPill::after { opacity: 0.25; }
+
+/* Segmented control ("Bấm Kiểm tra / Hiện ngay") gets the same sliding glass thumb. */
+.cramSegment { position: relative; isolation: isolate; }
+.cramSegment::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 6px);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.7));
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 8px -2px rgba(15, 23, 42, 0.18), inset 0 1px 0 #fff;
+  transform: translateX(calc(var(--seg-index, 0) * (100% + 4px)));
+  transition: transform 420ms cubic-bezier(0.3, 1.35, 0.45, 1);
+}
+[data-theme='dark'] .cramSegment::before { background: rgba(255, 255, 255, 0.14); border-color: rgba(255, 255, 255, 0.2); box-shadow: none; }
+.cramSegment__opt { position: relative; z-index: 1; }
+.cramSegment__opt.is-on { background: transparent; box-shadow: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cramSegment::before { transition: none; }
+}

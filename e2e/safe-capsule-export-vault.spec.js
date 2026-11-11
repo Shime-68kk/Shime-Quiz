@@ -3,6 +3,7 @@ import { expect, test } from '@playwright/test';
 
 test('Safe Capsule Export Vault builds manual JSONL handoff without raw payloads', async ({ page }) => {
   await page.goto('/settings');
+  await page.getByRole('button', { name: /Chẩn đoán dành cho nhà phát triển|Developer diagnostics/ }).click();
   const vault = page.getByLabel('Safe Capsule Export Vault — gói bàn giao thủ công');
   await expect(vault).toBeVisible();
   await expect(vault).toContainText('Bàn giao thủ công, không kết nối robot thật');

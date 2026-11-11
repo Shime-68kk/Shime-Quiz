@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bản Demo Tích Hợp GSAP cho Shime Quiz</title>
+  <!-- Nhúng GSAP từ CDN cdnjs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <style>
+    :root {
+      --bg-color: #0d1527;
+      --card-bg: #162238;
+      --card-border: rgba(255, 255, 255, 0.1);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --success: #10b981;
+      --danger: #ef4444;
+      --option-bg: rgba(255, 255, 255, 0.04);
+      --option-hover: rgba(56, 189, 248, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 620px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* ─── 1. PROGRESS BAR ─── */
+    .progress-section {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .progress-meta strong {
+      color: var(--accent);
+      font-size: 1.1rem;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #0284c7, #38bdf8);
+      border-radius: 999px;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+    }
+
+    /* ─── 2. QUIZ CARD ─── */
+    .quiz-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quiz-badge {
+      display: inline-block;
+      padding: 0.25rem 0.6rem;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .quiz-prompt {
+      font-size: 1.25rem;
+      line-height: 1.5;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.9rem 1.1rem;
+      background: var(--option-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      user-select: none;
+    }
+
+    .option-item:hover {
+      background: var(--option-hover);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+
+    .option-marker {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+      font-weight: 600;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .option-text {
+      flex: 1;
+      font-size: 0.95rem;
+    }
+
+    .option-item.selected {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: var(--accent);
+    }
+
+    .option-item.correct {
+      background: rgba(16, 185, 129, 0.15) !important;
+      border-color: var(--success) !important;
+    }
+
+    .option-item.wrong {
+      background: rgba(239, 68, 68, 0.15) !important;
+      border-color: var(--danger) !important;
+    }
+
+    .option-status {
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: none;
+    }
+
+    .option-item.correct .option-status {
+      display: inline;
+      color: var(--success);
+    }
+
+    .option-item.wrong .option-status {
+      display: inline;
+      color: var(--danger);
+    }
+
+    /* ─── 3. FEEDBACK BOX ─── */
+    .feedback-box {
+      padding: 1rem 1.25rem;
+      border-radius: 10px;
+      margin-top: 1.25rem;
+      display: none;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .feedback-box.correct {
+      background: rgba(16, 185, 129, 0.15);
+      border-left: 4px solid var(--success);
+      color: #a7f3d0;
+    }
+
+    .feedback-box.wrong {
+      background: rgba(239, 68, 68, 0.15);
+      border-left: 4px solid var(--danger);
+      color: #fecaca;
+    }
+
+    /* ─── CONTROLS ─── */
+    .controls {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.7rem 1.25rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background: #0284c7;
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #0369a1;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>Trình Diễn Hiệu Ứng GSAP Quiz</h1>
+      <p>Mã nguồn mẫu trực quan kiểm thử trực tiếp trên trình duyệt</p>
+    </div>
+
+    <!-- 1. THANH TIẾN ĐỘ GSAP -->
+    <div class="progress-section">
+      <div class="progress-meta">
+        <span>Tiến độ làm bài (<span id="currentQuestionLabel">1</span>/3)</span>
+        <strong id="progressCounter">0%</strong>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <!-- 2. KHUNG CÂU HỎI GSAP TRANSITION -->
+    <div class="quiz-card" id="quizCard">
+      <span class="quiz-badge" id="quizBadge">Câu hỏi 1</span>
+      <h2 class="quiz-prompt" id="quizPrompt">...</h2>
+
+      <div class="options-list" id="optionsList">
+        <!-- Phương án được render bằng JS -->
+      </div>
+
+      <div class="controls">
+        <button class="btn btn-primary" id="btnCheck" disabled>Kiểm tra đáp án</button>
+        <button class="btn btn-secondary" id="btnNext" style="display: none;">Câu tiếp theo →</button>
+        <button class="btn btn-secondary" id="btnRestart" style="display: none;">Làm lại từ đầu</button>
+      </div>
+
+      <!-- 3. HỘP PHẢN HỒI KẾT QUẢ GSAP -->
+      <div class="feedback-box" id="feedbackBox">
+        <strong id="feedbackTitle"></strong>
+        <p id="feedbackText" style="margin-top: 0.35rem;"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        prompt: "GSAP là viết tắt của cụm từ nào?",
+        choices: [
+          "GreenSock Animation Platform",
+          "Global Standard Animation Protocol",
+          "General Scripting Animation Plugin",
+          "Graphical Styling Animation Package"
+        ],
+        answer: 0,
+        explanation: "GSAP (GreenSock Animation Platform) là thư viện tiêu chuẩn công nghiệp cho web animation hiệu năng cao."
+      },
+      {
+        prompt: "Ưu điểm vượt trội của GSAP so với CSS Transitions thuần là gì?",
+        choices: [
+          "Chỉ hoạt động được trên trình duyệt Chrome",
+          "Kiểm soát Timeline chuỗi chuyển động, Tự động dọn dẹp, Tương thích đa nền tảng mượt mà",
+          "Tăng dung lượng web thêm 5MB",
+          "Không hỗ trợ trên thiết bị di động"
+        ],
+        answer: 1,
+        explanation: "GSAP hỗ trợ Timeline mạnh mẽ cho phép xâu chuỗi, gối đầu hiệu ứng (stagger, overlap) và kiểm soát hoàn hảo từng frame."
+      },
+      {
+        prompt: "Trong quiz app, hiệu ứng nào phù hợp nhất khi người dùng chọn sai đáp án?",
+        choices: [
+          "Xoay 360 độ liên tục",
+          "Rung lắc ngang (Shake effect) kết hợp đổi màu viền đỏ",
+          "Biến mất toàn bộ trang web",
+          "Phóng to màn hình gấp đôi"
+        ],
+        answer: 1,
+        explanation: "Hiệu ứng Shake (rung lắc ngang ngắn ~0.3s) là ngôn ngữ giao diện chuẩn quốc tế giúp thông báo lỗi trực quan mà không gây khó chịu."
+      }
+    ];
+
+    let currentIdx = 0;
+    let selectedIdx = null;
+    let isChecked = false;
+    let prevPercent = 0;
+
+    const quizCard = document.getElementById('quizCard');
+    const quizBadge = document.getElementById('quizBadge');
+    const quizPrompt = document.getElementById('quizPrompt');
+    const optionsList = document.getElementById('optionsList');
+    const btnCheck = document.getElementById('btnCheck');
+    const btnNext = document.getElementById('btnNext');
+    const btnRestart = document.getElementById('btnRestart');
+    const feedbackBox = document.getElementById('feedbackBox');
+    const progressFill = document.getElementById('progressFill');
+    const progressCounter = document.getElementById('progressCounter');
+    const currentQuestionLabel = document.getElementById('currentQuestionLabel');
+
+    // ──────────────────────────────────────────
+    // 1. ANIMATION: THANH TIẾN ĐỘ (GSAP)
+    // ──────────────────────────────────────────
+    function updateProgress(fromVal, toVal) {
+      const counterObj = { val: fromVal };
+      gsap.to(counterObj, {
+        val: toVal,
+        duration: 0.5,
+        ease: 'power2.out',
+        onUpdate: () => {
+          progressCounter.textContent = Math.round(counterObj.val) + '%';
+          progressFill.style.width = counterObj.val + '%';
+        }
+      });
+      // Hiệu ứng pulse nhẹ đầu thanh khi tăng
+      gsap.fromTo(progressFill, { opacity: 0.85 }, { opacity: 1, duration: 0.3 });
+    }
+
+    // ──────────────────────────────────────────
+    // 2. ANIMATION: CHUYỂN CÂU HỎI (GSAP)
+    // ──────────────────────────────────────────
+    function renderQuestion(idx, direction = 1) {
+      currentIdx = idx;
+      selectedIdx = null;
+      isChecked = false;
+
+      const q = questions[idx];
+      quizBadge.textContent = 'Câu hỏi ' + (idx + 1);
+      quizPrompt.textContent = q.prompt;
+      currentQuestionLabel.textContent = (idx + 1);
+
+      optionsList.innerHTML = '';
+      feedbackBox.style.display = 'none';
+      btnCheck.style.display = 'inline-block';
+      btnCheck.disabled = true;
+      btnNext.style.display = 'none';
+      btnRestart.style.display = 'none';
+
+      q.choices.forEach((choice, i) => {
+        const item = document.createElement('div');
+        item.className = 'option-item';
+        item.innerHTML = `
+          <span class="option-marker">${String.fromCharCode(65 + i)}</span>
+          <span class="option-text">${choice}</span>
+          <span class="option-status"></span>
+        `;
+        item.onclick = () => selectOption(i, item);
+        optionsList.appendChild(item);
+      });
+
+      // Cập nhật tiến độ
+      const targetPercent = Math.round(((idx + 1) / questions.length) * 100);
+      updateProgress(prevPercent, targetPercent);
+      prevPercent = targetPercent;
+
+      // GSAP: Animate thẻ câu hỏi trượt vào và Stagger các phương án
+      const tl = gsap.timeline();
+      tl.fromTo(quizCard, 
+        { opacity: 0, x: direction * 35, scale: 0.98 },
+        { opacity: 1, x: 0, scale: 1, duration: 0.35, ease: 'power2.out' }
+      );
+      tl.fromTo('.option-item',
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.25, stagger: 0.06, ease: 'power2.out' },
+        '-=0.2'
+      );
+    }
+
+    // Micro-interaction khi click chọn đáp án
+    function selectOption(index, element) {
+      if (isChecked) return;
+      selectedIdx = index;
+      btnCheck.disabled = false;
+
+      document.querySelectorAll('.option-item').forEach((el, i) => {
+        if (i === index) {
+          el.classList.add('selected');
+          // GSAP click pulse
+          gsap.fromTo(el, { scale: 0.97 }, { scale: 1, duration: 0.18, ease: 'back.out(2)' });
+        } else {
+          el.classList.remove('selected');
+        }
+      });
+    }
+
+    // ──────────────────────────────────────────
+    // 3. ANIMATION: PHẢN HỒI ĐÚNG / SAI (GSAP)
+    // ──────────────────────────────────────────
+    btnCheck.onclick = () => {
+      if (selectedIdx === null || isChecked) return;
+      isChecked = true;
+      btnCheck.style.display = 'none';
+
+      const q = questions[currentIdx];
+      const isCorrect = (selectedIdx === q.answer);
+      const options = document.querySelectorAll('.option-item');
+      const selectedEl = options[selectedIdx];
+      const correctEl = options[q.answer];
+
+      feedbackBox.style.display = 'block';
+      feedbackBox.className = 'feedback-box ' + (isCorrect ? 'correct' : 'wrong');
+      document.getElementById('feedbackTitle').textContent = isCorrect ? '🎉 Chính xác!' : '⚠️ Chưa đúng!';
+      document.getElementById('feedbackText').textContent = q.explanation;
+
+      if (isCorrect) {
+        selectedEl.classList.add('correct');
+        selectedEl.querySelector('.option-status').textContent = '✓ Đúng';
+
+        // GSAP: Pop & Bounce cho đáp án đúng
+        gsap.timeline()
+          .to(selectedEl, { scale: 1.03, duration: 0.16, ease: 'back.out(2)' })
+          .to(selectedEl, { scale: 1, duration: 0.12 });
+
+        // Slide down feedback
+        gsap.fromTo(feedbackBox,
+          { opacity: 0, y: -10 },
+          { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }
+        );
+      } else {
+        selectedEl.classList.add('wrong');
+        selectedEl.querySelector('.option-status').textContent = '✗ Sai';
+        correctEl.classList.add('correct');
+        correctEl.querySelector('.option-status').textContent = '✓ Đáp án đúng';
+
+        // GSAP: Shake effect (rung lắc ngang) cho đáp án sai
+        gsap.to(selectedEl, {
+          keyframes: [
+            { x: -8, duration: 0.05 },
+            { x: 8, duration: 0.05 },
+            { x: -6, duration: 0.05 },
+            { x: 6, duration: 0.05 },
+            { x: -3, duration: 0.04 },
+            { x: 3, duration: 0.04 },
+            { x: 0, duration: 0.05 }
+          ],
+          ease: 'power1.inOut'
+        });
+
+        // Nhấp nháy nhẹ đáp án đúng để gợi ý
+        gsap.to(correctEl, {
+          scale: 1.02,
+          duration: 0.2,
+          yoyo: true,
+          repeat: 2,
+          ease: 'power1.inOut',
+          delay: 0.2
+        });
+
+        // Slide down feedback
+        gsap.fromTo(feedbackBox,
+          { opacity: 0, y: -8 },
+          { opacity: 1, y: 0, duration: 0.28, ease: 'power2.out' }
+        );
+      }
+
+      if (currentIdx < questions.length - 1) {
+        btnNext.style.display = 'inline-block';
+      } else {
+        btnRestart.style.display = 'inline-block';
+      }
+    };
+
+    btnNext.onclick = () => {
+      if (currentIdx < questions.length - 1) {
+        renderQuestion(currentIdx + 1, 1);
+      }
+    };
+
+    btnRestart.onclick = () => {
+      prevPercent = 0;
+      renderQuestion(0, -1);
+    };
+
+    // Khởi chạy câu hỏi đầu tiên
+    renderQuestion(0, 0);
+  </script>
+</body>
+</html>

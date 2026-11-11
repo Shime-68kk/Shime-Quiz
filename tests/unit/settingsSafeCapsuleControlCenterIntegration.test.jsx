@@ -9,7 +9,7 @@ describe('Settings Safe Capsule Control Center integration', () => {
   it('Settings imports and renders SafeCapsuleControlCenter', () => {
     const source = settingsSource();
 
-    expect(source).toMatch(/import SafeCapsuleControlCenter/);
+    expect(source).toContain("const SafeCapsuleControlCenter = lazy(() => import('../components/settings/SafeCapsuleControlCenter.jsx'));");
     expect(source).toMatch(/<SafeCapsuleControlCenter \/>/);
   });
 

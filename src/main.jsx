@@ -1,36 +1,47 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import App from './App.jsx';
-import Home from './routes/Home.jsx';
 import { routes } from './routes/routeConfig.js';
 import { initTheme } from './ui/theme.js';
 import { ShimeLanguageProvider } from './uiI18n/ShimeLanguageProvider.jsx';
 import { initializeUiLocale } from './uiI18n/localeStorage.js';
+import { CRAM_ROUTE_PATH, STUDENT_DEPLOYMENT } from './config/studentDeployment.js';
+import InternalRouteHistoryProvider from './navigation/InternalRouteHistoryProvider.jsx';
 import './styles/global.css';
 import './styles/phase34b-leader-ui-effects.css';
+import './styles/route-loading.css';
+import './styles/cram.css';
+
+const Home = React.lazy(() => import('./routes/Home.jsx'));
 
 // Khởi tạo theme từ localStorage ngay lập tức để tránh nhấp nháy giao diện khi F5
 initTheme();
 initializeUiLocale();
 
 const routerBase = import.meta.env.BASE_URL === './' ? '/' : import.meta.env.BASE_URL;
+// Hash routing for hosts that serve the app from a sub-path without SPA rewrites (e.g. a shared preview link).
+const useHashRouter = String(import.meta.env.VITE_SHIME_HASH_ROUTER || '').toLowerCase() === 'on';
+const Router = useHashRouter ? HashRouter : BrowserRouter;
+const routerProps = useHashRouter ? {} : { basename: routerBase };
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter basename={routerBase}>
+    <Router {...routerProps}>
       <ShimeLanguageProvider>
-        <Routes>
-          <Route element={<App />}>
-            <Route index element={<Home />} />
-            {routes.map(route => {
-              const RouteElement = route.element;
-              return <Route key={route.path} path={route.path.replace(/^\//, '')} element={<RouteElement />} />;
-            })}
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
-          </Route>
-        </Routes>
+          <InternalRouteHistoryProvider>
+            <Routes>
+              <Route element={<App />}>
+                <Route index element={STUDENT_DEPLOYMENT ? <Navigate to={CRAM_ROUTE_PATH} replace /> : <Home />} />
+                {routes.map(route => {
+                  const RouteElement = route.element;
+                  return <Route key={route.path} path={route.path.replace(/^\//, '')} element={<RouteElement />} />;
+                })}
+                <Route path="*" element={<Navigate to="/dashboard" replace />} />
+              </Route>
+            </Routes>
+          </InternalRouteHistoryProvider>
       </ShimeLanguageProvider>
-    </BrowserRouter>
+    </Router>
   </React.StrictMode>
 );

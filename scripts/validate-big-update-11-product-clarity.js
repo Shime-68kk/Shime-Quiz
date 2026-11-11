@@ -42,6 +42,7 @@ const bottomNav = read('src/layout/BottomNav.jsx');
 const summary = read('src/components/learning/OverviewLearnerSummary.jsx');
 const disclosure = read('src/components/learning/OverviewDisclosure.jsx');
 const history = read('src/components/study/StudyHistoryPanel.jsx');
+const studyRoom = read('src/routes/StudyRoom.jsx');
 const brandMark = read('src/components/brand/ShimeBrandMark.jsx');
 const navIcon = read('src/components/brand/ShimeNavigationIcon.jsx');
 const tokens = read('src/design-system/tokens.css');
@@ -95,12 +96,16 @@ const forbiddenPrefixes = [
   'src/state/settingsStorage.js', 'src/deviceBridge/', 'src/companion/', 'src/robotSensing/',
   'src/shimeIntelligence/', 'src/storage/', 'src/data/importValidator.js', 'src/data/csvImportParser.js',
   'src/data/textQuizParser.js', 'src/data/quizParser.js', 'src/data/libraryExport.js',
-  'src/data/learningDataStore.js', 'src/data/learningDataAdapter.js', 'src/routes/StudyRoom.jsx',
+  'src/data/learningDataStore.js', 'src/data/learningDataAdapter.js',
   'src/routes/routeConfig.js', 'src/dashboard/DashboardLearningDataContext.jsx', 'package-lock.json'
 ];
 for (const forbiddenPath of forbiddenPrefixes) {
   assert(!changed.some(file => file === forbiddenPath || file.startsWith(forbiddenPath)), `Locked path unchanged: ${forbiddenPath}`);
 }
+
+assert(studyRoom.includes("import ShimeStudyCompanion from '../components/study/ShimeStudyCompanion.jsx'"), 'StudyRoom uses the approved presentation-only companion');
+assert(studyRoom.includes("return objectiveCorrect === true ? 'correct' : 'incorrect';"), 'StudyRoom preserves its existing coarse feedback mapping');
+assert(studyRoom.includes('<StudyMascot reaction={mascotReaction} message={mascotMessage} />'), 'StudyRoom passes only coarse reaction and localized message');
 
 const readinessGate = read('src/scheduler/fsrsReadinessGate.js');
 assert(/fsrsCanBeDefault:\s*false/.test(readinessGate), 'fsrsCanBeDefault remains false');

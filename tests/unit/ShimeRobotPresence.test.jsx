@@ -8,10 +8,11 @@ import ShimeRobotPresence from '../../src/components/brand/ShimeRobotPresence.js
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const source = fs.readFileSync(resolve(__dirname, '../../src/components/brand/ShimeRobotPresence.jsx'), 'utf8');
+const faceSource = fs.readFileSync(resolve(__dirname, '../../src/components/brand/ShimeRobotFace.jsx'), 'utf8');
+const oledSource = fs.readFileSync(resolve(__dirname, '../../src/components/brand/ShimeOledFace.jsx'), 'utf8');
+const headSource = fs.readFileSync(resolve(__dirname, '../../src/components/brand/ShimeRobotHead.jsx'), 'utf8');
 const css = fs.readFileSync(resolve(__dirname, '../../src/styles/global.css'), 'utf8');
 const homeMotionStart = css.indexOf('BIG-UPDATE-10: Premium Shime Landing Page Styles');
-const homeMotionEnd = css.indexOf('.storageQuotaWarning', homeMotionStart);
-const homeMotionCss = css.slice(homeMotionStart, homeMotionEnd);
 const reducedMotionStart = css.indexOf('@media (prefers-reduced-motion: reduce)', homeMotionStart);
 const reducedMotionEnd = css.indexOf('/* ── Responsive: Proof grid ── */', reducedMotionStart);
 const reducedMotionCss = css.slice(reducedMotionStart, reducedMotionEnd);
@@ -81,28 +82,33 @@ describe('ShimeRobotPresence — state data attributes', () => {
   });
 
   it('attaches data-robot-size to the container', () => {
-    ['sm', 'md', 'lg'].forEach(size => {
+    Object.entries({ sm: 'small', md: 'medium', lg: 'large' }).forEach(([size, normalized]) => {
       const html = render({ size });
-      expect(html).toContain(`data-robot-size="${size}"`);
+      expect(html).toContain(`data-robot-size="${normalized}"`);
     });
   });
 });
 
 describe('ShimeRobotPresence — reduced motion', () => {
-  it('does not apply pulse class when reducedMotion=true', () => {
-    const idleHtml = render({ state: 'idle', reducedMotion: true });
-    expect(idleHtml).not.toContain('--pulse');
+  it('does not activate arrival eye motion when reducedMotion=true', () => {
+    const html = render({ state: 'idle', arrival: true, gaze: 'action', reducedMotion: true });
+    expect(html).not.toContain('shimeRobotFace__eye--arrival-wink');
+    expect(html).not.toContain('shimeRobotFace__eye--arrival-gaze');
   });
 
-  it('applies pulse class in idle state without reducedMotion override', () => {
-    const idleHtml = render({ state: 'idle', reducedMotion: false });
-    expect(idleHtml).toContain('--pulse');
+  it('keeps both hardware eyes present in reduced motion', () => {
+    const html = render({ reducedMotion: true });
+    expect(html).toContain('viewBox="0 0 128 64"');
+    expect(html).toContain('x="27" y="14" width="32" height="36" rx="8"');
+    expect(html).toContain('x="69" y="14" width="32" height="36" rx="8"');
+    expect(html).toContain('data-eye-variant="oled"');
   });
 
-  it('does not apply pulse in non-idle states regardless of reducedMotion', () => {
+  it('does not add continuous-motion classes in any state', () => {
     ['ready', 'focus', 'success', 'warning'].forEach(state => {
       const html = render({ state, reducedMotion: false });
       expect(html).not.toContain('--pulse');
+      expect(html).not.toContain('shimeRobotEyeBlink');
     });
   });
 
@@ -113,60 +119,59 @@ describe('ShimeRobotPresence — reduced motion', () => {
 });
 
 describe('ShimeRobotPresence — calm CSS motion', () => {
-  it('renders eye hooks and defines a sparse blink keyframe', () => {
+  it('renders canonical OLED eye hooks with sparse CSS motion', () => {
     const html = render({ state: 'ready' });
-    expect(html.match(/shimeRobotPresence__eye/g)).toHaveLength(2);
-    expect(css).toContain('@keyframes shimeRobotEyeBlink');
-    expect(css).toContain('scaleY(0.12)');
-    expect(css).toMatch(/shimeRobotEyeBlink 6\.8s linear infinite/);
+    expect(html).toContain('shimeOledFace__eye--left');
+    expect(html).toContain('shimeOledFace__eye--right');
+    expect(css).toContain('@keyframes shimeOledIdleBlink');
+    expect(css).toContain('scaleY(0.04)');
   });
 
-  it('keeps ambient movement within the approved amplitude', () => {
-    expect(homeMotionCss).toContain('translateY(-1.5px) scale(1.008)');
-    expect(homeMotionCss).toContain('scale(1.005)');
-    expect(homeMotionCss).not.toContain('rotate(');
+  it('does not apply continuous ambient movement to the robot', () => {
+    const presenceRule = css.match(/\.shimeRobotPresence\s*\{([^}]*)\}/)?.[1] || '';
+    const glowRule = css.match(/\.shimeRobotPresence__glow\s*\{([^}]*)\}/)?.[1] || '';
+    expect(presenceRule).not.toContain('animation:');
+    expect(glowRule).not.toContain('animation:');
   });
 
-  it('disables blink, ambient presence, and glow under reduced motion', () => {
-    expect(reducedMotionStart).toBeGreaterThan(-1);
-    expect(reducedMotionCss).toMatch(/\.shimeRobotPresence__eye\s*\{[\s\S]*?animation: none !important/);
-    expect(reducedMotionCss).toMatch(/\.shimeRobotPresence,[\s\S]*?animation: none !important/);
-    expect(reducedMotionCss).toContain('.shimeRobotPresence__glow--pulse');
+  it('disables eye, arrival, and face transforms under reduced motion', () => {
+    expect(css).toMatch(/prefers-reduced-motion:[\s\S]*?\.shimeRobotPresence \.shimeRobotHead,[\s\S]*?animation: none !important/);
+    expect(css).toContain('.shimeOledFace__eyeGeometry');
   });
 
   it('does not introduce JavaScript animation timers', () => {
-    expect(source).not.toMatch(/\b(?:setTimeout|setInterval|requestAnimationFrame)\s*\(/);
+    expect(`${source}\n${faceSource}\n${oledSource}\n${headSource}`).not.toMatch(/\b(?:setTimeout|setInterval|requestAnimationFrame)\s*\(/);
   });
 });
 
 describe('ShimeRobotPresence — source safety', () => {
   it('does not use network APIs', () => {
     ['fetch(', 'XMLHttpRequest', 'WebSocket', 'navigator.serial', 'navigator.bluetooth'].forEach(api => {
-      expect(source).not.toContain(api);
+      expect(`${source}\n${faceSource}`).not.toContain(api);
     });
   });
 
   it('does not use storage APIs', () => {
     ['localStorage', 'sessionStorage', 'indexedDB'].forEach(api => {
-      expect(source).not.toContain(api);
+      expect(`${source}\n${faceSource}`).not.toContain(api);
     });
   });
 
   it('does not leak raw quiz content identifiers', () => {
     ['correctAnswer', 'rawQuizPayload', 'importedDocumentText', 'explanation'].forEach(field => {
-      expect(source).not.toContain(field);
+      expect(`${source}\n${faceSource}`).not.toContain(field);
     });
   });
 
   it('does not import heavy animation libraries', () => {
     ['framer-motion', 'gsap', 'three', 'lottie', 'matter-js'].forEach(lib => {
-      expect(source).not.toContain(lib);
+      expect(`${source}\n${faceSource}`).not.toContain(lib);
     });
   });
 
   it('does not use canvas or WebGL', () => {
-    expect(source).not.toContain('getContext(');
-    expect(source).not.toContain('WebGL');
-    expect(source).not.toContain('canvas');
+    expect(`${source}\n${faceSource}`).not.toContain('getContext(');
+    expect(`${source}\n${faceSource}`).not.toContain('WebGL');
+    expect(`${source}\n${faceSource}`).not.toContain('canvas');
   });
 });

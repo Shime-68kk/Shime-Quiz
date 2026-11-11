@@ -57,10 +57,10 @@ describe('Phase 35E — Dashboard content split', () => {
       dashboardSrc.indexOf('id="dashboard-panel-progress"')
     );
 
-    expect(todayPanel).toContain('<DashboardTodayCard />');
+    expect(todayPanel).toContain('<DashboardTodayCard firstRun={isFirstRunEmptyState} />');
     expect(todayPanel).toContain('<TodayJourneyCard />');
     expect(todayPanel).toContain('<StudyGoalCard />');
-    expect(todayPanel).toContain("t('overview.firstRunTitle')");
+    expect(todayPanel).toContain('firstRun={isFirstRunEmptyState}');
   });
 
   it('moves progress-journal surfaces behind Nhật ký tiến độ', () => {

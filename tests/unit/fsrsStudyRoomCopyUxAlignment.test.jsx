@@ -402,10 +402,10 @@ describe('Phase 15F — no new ts-fsrs.next() call sites', () => {
 
 // ── 10. No package/dependency changes ───────────────────────────────────────
 
-describe('Phase 15F — no package or dependency changes', () => {
-  it('package.json still pins ts-fsrs to 5.3.3', () => {
+describe('Phase 15F — audited package policy', () => {
+  it('package.json pins ts-fsrs to 5.4.1', () => {
     const pkg = JSON.parse(readProjectFile('package.json'));
-    expect(pkg.dependencies['ts-fsrs']).toBe('5.3.3');
+    expect(pkg.dependencies['ts-fsrs']).toBe('5.4.1');
   });
 
   it('package.json contains no native binding dependency for ts-fsrs', () => {

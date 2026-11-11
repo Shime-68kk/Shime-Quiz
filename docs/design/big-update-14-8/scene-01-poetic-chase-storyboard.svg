@@ -1,0 +1,312 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1050" width="1400" height="1050">
+  <title>Scene 01 Poetic Chase — 14-Frame Storyboard</title>
+  <style>
+    .frame-border { fill: #f5f5f4; stroke: #a1a1aa; stroke-width: 1; rx: 4; }
+    .frame-label { font-family: monospace; font-size: 9px; fill: #52525b; }
+    .frame-time { font-family: monospace; font-size: 8px; fill: #a1a1aa; }
+    .frame-title { font-family: monospace; font-size: 10px; fill: #18181b; font-weight: bold; }
+    .ground { stroke: #a1a1aa; stroke-width: 0.5; }
+    .robot-shell { fill: #d4d4d8; stroke: #71717a; stroke-width: 1; }
+    .oled { fill: #000; rx: 2; }
+    .eye { fill: #fff; }
+    .boulder-fill { fill: #78716c; stroke: #57534e; stroke-width: 0.8; }
+    .sky-grad { fill: url(#lavenderSky); }
+    .grass { stroke: #65a30d; fill: none; stroke-width: 0.6; }
+    .butterfly { fill: #e9d5ff; stroke: #c084fc; stroke-width: 0.4; }
+    .shadow-el { fill: #000; opacity: 0.2; }
+    .spark { stroke: #fef08a; fill: none; stroke-width: 0.8; }
+  </style>
+  <defs>
+    <linearGradient id="lavenderSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ddd6fe"/>
+      <stop offset="60%" stop-color="#fef3c7"/>
+      <stop offset="100%" stop-color="#f5f5f4"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="1050" fill="#fafaf9"/>
+
+  <!-- Title -->
+  <text x="700" y="24" text-anchor="middle" font-family="monospace" font-size="14" fill="#18181b" font-weight="bold">
+    SCENE 01 — POETIC BUTTERFLY CHASE — 14-FRAME STORYBOARD (BIG-UPDATE-14.8)
+  </text>
+
+  <!-- Frame grid: 4 cols × 4 rows, each frame 310×140 -->
+  <!-- Row 1 -->
+  <!-- F1: Establishing -->
+  <g transform="translate(30, 45)">
+    <rect class="frame-border" width="310" height="140"/>
+    <rect width="310" height="100" class="sky-grad" rx="4"/>
+    <line x1="0" y1="100" x2="310" y2="100" class="ground"/>
+    <!-- Boulder -->
+    <path d="M200,100 Q195,80 200,65 Q215,55 240,60 Q260,70 255,100 Z" class="boulder-fill"/>
+    <!-- Grass -->
+    <path d="M20,100 Q22,85 23,75" class="grass"/>
+    <path d="M280,100 Q282,88 283,78" class="grass"/>
+    <!-- Butterfly -->
+    <circle cx="250" cy="45" r="4" class="butterfly"/>
+    <text class="frame-title" x="5" y="130">F1: Establishing</text>
+    <text class="frame-time" x="5" y="138">0.00–0.75s</text>
+    <text class="frame-label" x="200" y="138">No robot. Boulder present.</text>
+  </g>
+
+  <!-- F2: Butterfly enters -->
+  <g transform="translate(360, 45)">
+    <rect class="frame-border" width="310" height="140"/>
+    <rect width="310" height="100" class="sky-grad" rx="4"/>
+    <line x1="0" y1="100" x2="310" y2="100" class="ground"/>
+    <path d="M200,100 Q195,80 200,65 Q215,55 240,60 Q260,70 255,100 Z" class="boulder-fill"/>
+    <!-- Butterfly path -->
+    <path d="M290,30 Q220,40 150,35" stroke="#c084fc" stroke-width="0.5" fill="none" stroke-dasharray="3,3"/>
+    <circle cx="150" cy="35" r="5" class="butterfly"/>
+    <text class="frame-title" x="5" y="130">F2: Butterfly hovers</text>
+    <text class="frame-time" x="5" y="138">0.75–1.35s</text>
+  </g>
+
+  <!-- F3: Shime appears, CURIOUS -->
+  <g transform="translate(690, 45)">
+    <rect class="frame-border" width="310" height="140"/>
+    <rect width="310" height="100" class="sky-grad" rx="4"/>
+    <line x1="0" y1="100" x2="310" y2="100" class="ground"/>
+    <path d="M220,100 Q215,80 220,65 Q235,55 260,60 Q280,70 275,100 Z" class="boulder-fill"/>
+    <!-- Robot -->
+    <circle cx="60" cy="82" r="18" class="robot-shell"/>
+    <ellipse cx="60" cy="100" rx="14" ry="3" class="shadow-el"/>
+    <rect x="46" y="74" width="28" height="14" class="oled"/>
+    <rect x="50" y="77" width="8" height="9" rx="2" class="eye"/>
+    <rect x="60" y="77" width="8" height="9" rx="2" class="eye"/>
+    <!-- Butterfly -->
+    <circle cx="140" cy="40" r="4" class="butterfly"/>
+    <!-- Gaze arrow -->
+    <line x1="70" y1="78" x2="130" y2="45" stroke="#c084fc" stroke-width="0.4" stroke-dasharray="2,2"/>
+    <text class="frame-title" x="5" y="130">F3: CURIOUS approach</text>
+    <text class="frame-time" x="5" y="138">1.35–2.15s | CURIOUS</text>
+  </g>
+
+  <!-- F4: Small hop takeoff -->
+  <g transform="translate(1020, 45)">
+    <rect class="frame-border" width="310" height="140"/>
+    <rect width="310" height="100" class="sky-grad" rx="4"/>
+    <line x1="0" y1="100" x2="310" y2="100" class="ground"/>
+    <path d="M240,100 Q235,80 240,65 Q255,55 280,60 Q300,70 295,100 Z" class="boulder-fill"/>
+    <!-- Robot compressed pre-hop -->
+    <ellipse cx="90" cy="90" rx="18" ry="15" class="robot-shell"/>
+    <ellipse cx="90" cy="100" rx="15" ry="3" class="shadow-el"/>
+    <rect x="76" y="82" width="28" height="14" class="oled"/>
+    <rect x="80" y="85" width="8" height="9" rx="2" class="eye"/>
+    <rect x="90" y="85" width="8" height="9" rx="2" class="eye"/>
+    <text class="frame-title" x="5" y="130">F4: Hop 1 squat</text>
+    <text class="frame-time" x="5" y="138">2.15–2.25s | compress</text>
+  </g>
+
+  <!-- Row 2 -->
+  <!-- F5: Small hop apex -->
+  <g transform="translate(30, 210)">
+    <rect class="frame-border" width="310" height="140"/>
+    <rect width="310" height="100" class="sky-grad" rx="4"/>
+    <line x1="0" y1="100" x2="310" y2="100" class="ground"/>
+    <path d="M240,100 Q235,80 240,65 Q255,55 280,60 Q300,70 295,100 Z" class="boulder-fill"/>
+    <!-- Robot airborne -->
+    <circle cx="110" cy="65" r="18" class="robot-shell"/>
+    <ellipse cx="110" cy="100" rx="16" ry="2.5" fill="#000" opacity="0.12"/>
+    <rect x="96" y="57" width="28" height="14" class="oled"/>
+    <rect x="100" y="60" width="8" height="9" rx="2" class="eye"/>
+    <rect x="110" y="60" width="8" height="9" rx="2" class="eye"/>
+    <circle cx="170" cy="35" r="4" class="butterfly"/>
+    <text class="frame-title" x="5" y="130">F5: Hop 1 apex</text>
+    <text class="frame-time" x="5" y="138">2.38s | airborne</text>
+  </g>
+
+  <!-- F6: Slow follow -->
+  <g transform="translate(360, 210)">
+    <rect class="frame-border" width="310" height="140"/>
+    <rect width="310" height="100" class="sky-grad" rx="4"/>
+    <line x1="0" y1="100" x2="310" y2="100" class="ground"/>
+    <path d="M230,100 Q225,80 230,65 Q245,55 270,60 Q290,70 285,100 Z" class="boulder-fill"/>
+    <!-- Robot on ground, head tilted -->
+    <g transform="rotate(-5, 120, 82)">
+      <circle cx="120" cy="82" r="18" class="robot-shell"/>
+      <rect x="106" y="74" width="28" height="14" class="oled"/>
+      <rect x="110" y="77" width="9" height="10" rx="2" class="eye"/>
+      <rect x="121" y="77" width="9" height="10" rx="2" class="eye"/>
+    </g>
+    <ellipse cx="120" cy="100" rx="14" ry="3" class="shadow-el"/>
+    <circle cx="200" cy="30" r="4" class="butterfly"/>
+    <text class="frame-title" x="5" y="130">F6: Slow follow + gaze</text>
+    <text class="frame-time" x="5" y="138">2.75–3.35s | ATTENTION</text>
+  </g>
+
+  <!-- F7: Playful hop apex -->
+  <g transform="translate(690, 210)">
+    <rect class="frame-border" width="310" height="140"/>
+    <rect width="310" height="100" class="sky-grad" rx="4"/>
+    <line x1="0" y1="100" x2="310" y2="100" class="ground"/>
+    <path d="M220,100 Q215,80 220,65 Q235,55 260,60 Q280,70 275,100 Z" class="boulder-fill"/>
+    <!-- Robot higher in air, tilted playfully -->
+    <g transform="rotate(8, 140, 52)">
+      <circle cx="140" cy="52" r="18" class="robot-shell"/>
+      <rect x="126" y="44" width="28" height="14" class="oled"/>
+      <rect x="130" y="47" width="9" height="10" rx="2" class="eye"/>
+      <rect x="141" y="47" width="9" height="10" rx="2" class="eye"/>
+    </g>
+    <ellipse cx="140" cy="100" rx="18" ry="2" fill="#000" opacity="0.1"/>
+    <circle cx="210" cy="28" r="4" class="butterfly"/>
+    <text class="frame-title" x="5" y="130">F7: Playful hop apex</text>
+    <text class="frame-time" x="5" y="138">3.58s | higher arc</text>
+  </g>
+
+  <!-- F8: Slow follow 2 -->
+  <g transform="translate(1020, 210)">
+    <rect class="frame-border" width="310" height="140"/>
+    <rect width="310" height="100" class="sky-grad" rx="4"/>
+    <line x1="0" y1="100" x2="310" y2="100" class="ground"/>
+    <path d="M200,100 Q195,80 200,65 Q215,55 240,60 Q260,70 255,100 Z" class="boulder-fill"/>
+    <circle cx="160" cy="82" r="18" class="robot-shell"/>
+    <ellipse cx="160" cy="100" rx="14" ry="3" class="shadow-el"/>
+    <rect x="146" y="74" width="28" height="14" class="oled"/>
+    <rect x="150" y="77" width="9" height="10" rx="2" class="eye"/>
+    <rect x="161" y="77" width="9" height="10" rx="2" class="eye"/>
+    <circle cx="220" cy="32" r="4" class="butterfly"/>
+    <text class="frame-title" x="5" y="130">F8: Brief pause, watching</text>
+    <text class="frame-time" x="5" y="138">4.05–4.55s | ATTENTION</text>
+  </g>
+
+  <!-- Row 3 -->
+  <!-- F9: Final jump apex (distracted) -->
+  <g transform="translate(30, 375)">
+    <rect class="frame-border" width="310" height="140"/>
+    <rect width="310" height="100" class="sky-grad" rx="4"/>
+    <line x1="0" y1="100" x2="310" y2="100" class="ground"/>
+    <path d="M210,100 Q205,80 210,65 Q225,55 250,60 Q270,70 265,100 Z" class="boulder-fill"/>
+    <!-- Robot high, looking UP at butterfly (past boulder) -->
+    <g transform="rotate(-8, 175, 40)">
+      <circle cx="175" cy="40" r="18" class="robot-shell"/>
+      <rect x="161" y="32" width="28" height="14" class="oled"/>
+      <rect x="165" y="35" width="9" height="10" rx="2" class="eye"/>
+      <rect x="176" y="35" width="9" height="10" rx="2" class="eye"/>
+    </g>
+    <ellipse cx="175" cy="100" rx="20" ry="2" fill="#000" opacity="0.08"/>
+    <!-- Butterfly past boulder -->
+    <circle cx="280" cy="25" r="4" class="butterfly"/>
+    <line x1="183" y1="35" x2="270" y2="28" stroke="#c084fc" stroke-width="0.3" stroke-dasharray="2,2"/>
+    <text class="frame-title" x="5" y="130">F9: Final distracted jump</text>
+    <text class="frame-time" x="5" y="138">4.85s | ATTENTION, eyes on butterfly</text>
+  </g>
+
+  <!-- F10: Late SCARED -->
+  <g transform="translate(360, 375)">
+    <rect class="frame-border" width="310" height="140"/>
+    <rect width="310" height="100" class="sky-grad" rx="4"/>
+    <line x1="0" y1="100" x2="310" y2="100" class="ground"/>
+    <path d="M210,100 Q205,80 210,65 Q225,55 250,60 Q270,70 265,100 Z" class="boulder-fill"/>
+    <!-- Robot very close to boulder, SCARED -->
+    <g transform="rotate(-5, 195, 68)">
+      <circle cx="195" cy="68" r="18" class="robot-shell"/>
+      <rect x="181" y="60" width="28" height="14" class="oled"/>
+      <rect x="185" y="63" width="8" height="9" rx="2" class="eye"/>
+      <rect x="195" y="63" width="8" height="9" rx="2" class="eye"/>
+      <!-- Scared eyelids -->
+      <polygon points="185,62 193,62 185,66" fill="#000" opacity="0.6"/>
+      <polygon points="195,62 203,62 203,66" fill="#000" opacity="0.6"/>
+    </g>
+    <!-- Gap visible between robot and boulder -->
+    <line x1="210" y1="60" x2="210" y2="80" stroke="#ef4444" stroke-width="0.5" stroke-dasharray="1,2"/>
+    <text class="frame-title" x="5" y="130">F10: Late SCARED</text>
+    <text class="frame-time" x="5" y="138">5.25–5.37s | gap still visible</text>
+  </g>
+
+  <!-- F11: CONTACT -->
+  <g transform="translate(690, 375)">
+    <rect class="frame-border" width="310" height="140"/>
+    <rect width="310" height="100" class="sky-grad" rx="4"/>
+    <line x1="0" y1="100" x2="310" y2="100" class="ground"/>
+    <path d="M210,100 Q205,80 210,65 Q225,55 250,60 Q270,70 265,100 Z" class="boulder-fill"/>
+    <!-- Robot touching boulder, squashed -->
+    <g transform="rotate(-8, 200, 72)">
+      <ellipse cx="197" cy="72" rx="17" ry="19" class="robot-shell"/>
+      <rect x="183" y="64" width="28" height="14" class="oled"/>
+      <!-- Blink - thin lines -->
+      <rect x="187" y="70" width="8" height="2" rx="1" class="eye"/>
+      <rect x="197" y="70" width="8" height="2" rx="1" class="eye"/>
+    </g>
+    <!-- Contact indicator -->
+    <circle cx="213" cy="70" r="2" fill="#22c55e"/>
+    <text class="frame-title" x="5" y="130" fill="#ef4444">F11: CONTACT</text>
+    <text class="frame-time" x="5" y="138">5.37s | BLINK_FAST, tangent touch</text>
+  </g>
+
+  <!-- F12: Rebound -->
+  <g transform="translate(1020, 375)">
+    <rect class="frame-border" width="310" height="140"/>
+    <rect width="310" height="100" class="sky-grad" rx="4"/>
+    <line x1="0" y1="100" x2="310" y2="100" class="ground"/>
+    <path d="M220,100 Q215,80 220,65 Q235,55 260,60 Q280,70 275,100 Z" class="boulder-fill"/>
+    <!-- Robot rebounding left+up -->
+    <g transform="rotate(15, 160, 55)">
+      <circle cx="160" cy="55" r="18" class="robot-shell"/>
+      <rect x="146" y="47" width="28" height="14" class="oled"/>
+      <rect x="150" y="53" width="8" height="2" rx="1" class="eye"/>
+      <rect x="160" y="53" width="8" height="2" rx="1" class="eye"/>
+    </g>
+    <ellipse cx="170" cy="100" rx="16" ry="2" fill="#000" opacity="0.1"/>
+    <!-- Rebound arc -->
+    <path d="M210,70 Q180,45 155,55" stroke="#a1a1aa" stroke-width="0.5" fill="none" stroke-dasharray="2,2"/>
+    <text class="frame-title" x="5" y="130">F12: Short rebound arc</text>
+    <text class="frame-time" x="5" y="138">5.46–6.05s | eyes shut</text>
+  </g>
+
+  <!-- Row 4 -->
+  <!-- F13: Landing -->
+  <g transform="translate(30, 540)">
+    <rect class="frame-border" width="310" height="140"/>
+    <rect width="310" height="100" class="sky-grad" rx="4"/>
+    <line x1="0" y1="100" x2="310" y2="100" class="ground"/>
+    <path d="M220,100 Q215,80 220,65 Q235,55 260,60 Q280,70 275,100 Z" class="boulder-fill"/>
+    <!-- Robot landed, tilted -->
+    <g transform="rotate(12, 155, 85)">
+      <ellipse cx="155" cy="85" rx="18" ry="16" class="robot-shell"/>
+      <rect x="141" y="77" width="28" height="14" class="oled"/>
+      <rect x="145" y="83" width="8" height="2" rx="1" class="eye"/>
+      <rect x="155" y="83" width="8" height="2" rx="1" class="eye"/>
+    </g>
+    <ellipse cx="155" cy="100" rx="16" ry="3" class="shadow-el"/>
+    <text class="frame-title" x="5" y="130">F13: Landing settle</text>
+    <text class="frame-time" x="5" y="138">6.05–6.38s | corner-first</text>
+  </g>
+
+  <!-- F14: Blackout + sparks -->
+  <g transform="translate(360, 540)">
+    <rect class="frame-border" width="310" height="140"/>
+    <rect width="310" height="100" class="sky-grad" rx="4"/>
+    <line x1="0" y1="100" x2="310" y2="100" class="ground"/>
+    <path d="M220,100 Q215,80 220,65 Q235,55 260,60 Q280,70 275,100 Z" class="boulder-fill"/>
+    <!-- Robot on ground, OLED off -->
+    <g transform="rotate(10, 155, 88)">
+      <circle cx="155" cy="88" r="18" class="robot-shell"/>
+      <rect x="141" y="80" width="28" height="14" rx="2" fill="#000" stroke="#27272a"/>
+    </g>
+    <ellipse cx="155" cy="100" rx="14" ry="3" class="shadow-el"/>
+    <!-- Sparks -->
+    <path d="M148,70 L151,63 L149,68 L154,60" class="spark"/>
+    <path d="M162,72 L164,66 L163,70 L167,64" class="spark" opacity="0.5"/>
+    <text class="frame-title" x="5" y="130">F14: Blackout + sparks</text>
+    <text class="frame-time" x="5" y="138">6.38–7.80s | OLED off, tiny crackle</text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(690, 540)">
+    <rect width="640" height="140" fill="#fafaf9" stroke="#e5e5e5" rx="4"/>
+    <text class="frame-title" x="10" y="20">LEGEND</text>
+    <circle cx="20" cy="38" r="6" class="robot-shell"/><text class="frame-label" x="32" y="41">Shime (spherical, no legs)</text>
+    <path d="M15,55 Q20,48 25,55 Q20,50 15,55" class="boulder-fill"/><text class="frame-label" x="32" y="58">Boulder (natural rock)</text>
+    <circle cx="20" cy="72" r="4" class="butterfly"/><text class="frame-label" x="32" y="75">Butterfly (luminous)</text>
+    <circle cx="20" cy="88" r="2" fill="#22c55e"/><text class="frame-label" x="32" y="91">Contact point</text>
+    <path d="M15,102 L20,96 L18,100 L23,94" class="spark"/><text class="frame-label" x="32" y="105">Electrical spark</text>
+    <text class="frame-label" x="250" y="41">Expression order:</text>
+    <text class="frame-label" x="250" y="55">CURIOUS → ATTENTION → SCARED → BLINK_FAST → OFF</text>
+    <text class="frame-label" x="250" y="75">No OVERLOADED in Scene 01.</text>
+    <text class="frame-label" x="250" y="89">No ANGRY_ALERT in Scene 01.</text>
+    <text class="frame-label" x="250" y="103">No legs. No recovery. Ends in blackout.</text>
+  </g>
+</svg>

@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('End-to-end mock verification passes and blocks checksum mismatch without bridge controls', async ({ page }) => {
   await page.goto('/settings');
+  await page.getByRole('button', { name: /Chẩn đoán dành cho nhà phát triển|Developer diagnostics/ }).click();
   const panel = page.getByLabel('Xác minh App → Robot Mock — chưa kết nối thật');
   await expect(panel).toBeVisible();
   await expect(panel).toContainText('Luồng này chỉ xác minh gói mock đã được robot mock import chấp nhận');

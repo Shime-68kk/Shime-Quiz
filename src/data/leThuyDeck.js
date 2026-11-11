@@ -1,0 +1,6210 @@
+// Bộ ôn thi GDQP-AN cho Lệ Thủy — sinh tự động từ "ĐAP ÁN A.docx" (đáp án = dòng tô đỏ).
+// ID câu hỏi cố định (gdqp-a-001…219) để lịch ôn FSRS không bị mất khi cập nhật bộ đề.
+const leThuyDeck = {
+ "version": "le-thuy-gdqp-a-v1",
+ "subjects": [
+  {
+   "id": "subject:gdqp-an",
+   "title": "Giáo dục Quốc phòng – An ninh",
+   "description": "Bộ ôn thi cấp tốc cho Lệ Thủy · 219 câu trắc nghiệm (Đề A)."
+  }
+ ],
+ "topics": [
+  {
+   "id": "topic:gdqp-c01",
+   "subjectId": "subject:gdqp-an",
+   "title": "Chương 1. Quan điểm Mác – Lênin, tư tưởng Hồ Chí Minh về chiến tranh, quân đội và bảo vệ Tổ quốc",
+   "description": "24 câu trắc nghiệm."
+  },
+  {
+   "id": "topic:gdqp-c02",
+   "subjectId": "subject:gdqp-an",
+   "title": "Chương 2. Xây dựng nền quốc phòng toàn dân, an ninh nhân dân",
+   "description": "49 câu trắc nghiệm."
+  },
+  {
+   "id": "topic:gdqp-c03",
+   "subjectId": "subject:gdqp-an",
+   "title": "Chương 3. Chiến tranh nhân dân bảo vệ Tổ quốc Việt Nam XHCN",
+   "description": "24 câu trắc nghiệm."
+  },
+  {
+   "id": "topic:gdqp-c04",
+   "subjectId": "subject:gdqp-an",
+   "title": "Chương 4. Xây dựng lực lượng vũ trang nhân dân Việt Nam",
+   "description": "24 câu trắc nghiệm."
+  },
+  {
+   "id": "topic:gdqp-c05",
+   "subjectId": "subject:gdqp-an",
+   "title": "Chương 5. Kết hợp phát triển kinh tế – xã hội với tăng cường củng cố quốc phòng – an ninh",
+   "description": "23 câu trắc nghiệm."
+  },
+  {
+   "id": "topic:gdqp-c06",
+   "subjectId": "subject:gdqp-an",
+   "title": "Chương 6. Nghệ thuật quân sự Việt Nam",
+   "description": "25 câu trắc nghiệm."
+  },
+  {
+   "id": "topic:gdqp-c07",
+   "subjectId": "subject:gdqp-an",
+   "title": "Chương 7. Xây dựng và bảo vệ chủ quyền biển, đảo, biên giới quốc gia trong tình hình mới",
+   "description": "11 câu trắc nghiệm."
+  },
+  {
+   "id": "topic:gdqp-c08",
+   "subjectId": "subject:gdqp-an",
+   "title": "Chương 8. Xây dựng lực lượng dân quân tự vệ, dự bị động viên và động viên quốc phòng",
+   "description": "20 câu trắc nghiệm."
+  },
+  {
+   "id": "topic:gdqp-c09",
+   "subjectId": "subject:gdqp-an",
+   "title": "Chương 9. Xây dựng phong trào toàn dân bảo vệ Tổ quốc",
+   "description": "11 câu trắc nghiệm."
+  },
+  {
+   "id": "topic:gdqp-c10",
+   "subjectId": "subject:gdqp-an",
+   "title": "Chương 10. Những vấn đề cơ bản về bảo vệ an ninh quốc gia và bảo đảm trật tự an toàn xã hội",
+   "description": "8 câu trắc nghiệm."
+  }
+ ],
+ "items": [
+  {
+   "id": "gdqp-a-001",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Nội dung nào dưới đây thuộc quan điểm chủ nghĩa Mác - Lênin về chiến tranh?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Chiến tranh là một hiện tượng chính trị - xã hội có tính khoa học."
+    },
+    {
+     "id": "B",
+     "text": "Chiến tranh là một hiện tượng chính trị - xã hội có tính thời sự."
+    },
+    {
+     "id": "C",
+     "text": "Chiến tranh là một hiện tượng chính trị - xã hội có tính lâu dài."
+    },
+    {
+     "id": "D",
+     "text": "Chiến tranh là một hiện tượng chính trị - xã hội có tính lịch sử."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Chiến tranh là một hiện tượng chính trị - xã hội có tính lịch sử.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-002",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Nội dung nào dưới đây thuộc quan điểm chủ nghĩa Mác - Lênin về chiến tranh?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Thuộc tính của chiến tranh."
+    },
+    {
+     "id": "B",
+     "text": "Bản chất của chiến tranh."
+    },
+    {
+     "id": "C",
+     "text": "Thủ đoạn của chiến tranh."
+    },
+    {
+     "id": "D",
+     "text": "Âm mưu của chiến tranh."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Bản chất của chiến tranh.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-003",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Nội dung nào dưới đây thuộc quan điểm chủ nghĩa Mác - Lênin về chiến tranh?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Nguồn gốc nảy sinh ra chiến tranh."
+    },
+    {
+     "id": "B",
+     "text": "Giai đoạn của chiến tranh."
+    },
+    {
+     "id": "C",
+     "text": "Tính chất của chiến tranh."
+    },
+    {
+     "id": "D",
+     "text": "Cội nguồn của chiến tranh."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Nguồn gốc nảy sinh ra chiến tranh.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-004",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Theo quan điểm chủ nghĩa Mác - Lênin chiến tranh ra đời từ mấy nguồn gốc?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Có 3 nguồn gốc"
+    },
+    {
+     "id": "B",
+     "text": "Có 4 nguồn gốc"
+    },
+    {
+     "id": "C",
+     "text": "Có 2 nguồn gốc."
+    },
+    {
+     "id": "D",
+     "text": "Có 5 nguồn gốc"
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Có 2 nguồn gốc.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-005",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Nội dung nào dưới đây thuộc tư tưởng Hồ Chí Minh về Chiến tranh?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Xác định tích chất chính trị của chiến tranh, phân tích tính chất xã hội của chiến tranh xâm lược thuộc địa, chiến tranh ăn cướp của chủ nghĩa đế quốc."
+    },
+    {
+     "id": "B",
+     "text": "Xác định tích chất xã hội của chiến tranh, phân tích tính chất chính trị - xã hội của chiến tranh xâm lược thuộc địa, chiến tranh ăn cướp của chủ nghĩa đế quốc..."
+    },
+    {
+     "id": "C",
+     "text": "Xác định tích chất dân tộc của chiến tranh, phân tích tính chất quân sự của chiến tranh xâm lược thuộc địa, chiến tranh ăn cướp của chủ nghĩa đế quốc..."
+    },
+    {
+     "id": "D",
+     "text": "Xác định tích chất vũ trang của chiến tranh, phân tích tính chất chính trị - xã hội của chiến tranh xâm lược thuộc địa, chiến tranh vũ trang của chủ nghĩa đế quốc..."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Xác định tích chất xã hội của chiến tranh, phân tích tính chất chính trị - xã hội của chiến tranh xâm lược thuộc địa, chiến tranh ăn cướp của chủ nghĩa đế quốc...",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-006",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Nội dung nào dưới đây thuộc tư tưởng Hồ Chí Minh về Chiến tranh?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Hồ Chí Minh Khẳng định: Ngày nay chiến tranh giải phóng dân tộc của nhân dân ta là chiến tranh dân tộc dưới sự lãnh đạo của Đảng."
+    },
+    {
+     "id": "B",
+     "text": "Hồ Chí Minh Khẳng định: Ngày nay chiến tranh giải phóng dân tộc của nhân dân ta là chiến tranh nhân dân dưới sự lãnh đạo của Đảng."
+    },
+    {
+     "id": "C",
+     "text": "Hồ Chí Minh Khẳng định: Ngày nay chiến tranh giải phóng dân tộc của nhân dân ta là chiến tranh giai cấp dưới sự lãnh đạo của Đảng."
+    },
+    {
+     "id": "D",
+     "text": "Hồ Chí Minh Khẳng định: Ngày nay chiến tranh giải phóng dân tộc của nhân dân ta là chiến tranh tôn giáo dưới sự lãnh đạo của Đảng."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Hồ Chí Minh Khẳng định: Ngày nay chiến tranh giải phóng dân tộc của nhân dân ta là chiến tranh nhân dân dưới sự lãnh đạo của Đảng.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-007",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Nội dung nào dưới đây thuộc tư tưởng Hồ Chí Minh về chiến tranh?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Trên cơ sở lập trường duy vật biện chứng, Hồ Chí Minh đã sớm đánh giá đúng đắn bản chất, quy luật của chiến tranh, tác động của chiến tranh đến đời sống xã hội."
+    },
+    {
+     "id": "B",
+     "text": "Hồ Chí Minh Khẳng định: Ngày nay chiến tranh giải phóng dân tộc của nhân dân ta là chiến tranh nhân dân dưới sự lãnh đạo của Đảng."
+    },
+    {
+     "id": "C",
+     "text": "Xác định tích chất xã hội của chiến tranh, phân tích tính chất chính trị - xã hội của chiến tranh xâm lược thuộc địa, chiến tranh ăn cướp của chủ nghĩa đế quốc, chỉ ra tính chất chính nghĩa của chiến tranh giải phóng dân tộc."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên"
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Cả 3 phương án trên",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-008",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Nội dung nào dưới đây thuộc quan điểm chủ nghĩa Mác - Lênin về quân đội?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Chiến tranh sinh ra quân đội."
+    },
+    {
+     "id": "B",
+     "text": "Đảng tổ chức ra quân đội."
+    },
+    {
+     "id": "C",
+     "text": "Nhân dân tổ chức ra quân đội."
+    },
+    {
+     "id": "D",
+     "text": "Nguồn gốc ra đời của quân đội."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Nguồn gốc ra đời của quân đội.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-009",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Nội dung nào dưới đây thuộc quan điểm chủ nghĩa Mác - Lênin về quân đội?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Bản chất chiến đấu quân đội."
+    },
+    {
+     "id": "B",
+     "text": "Bản chất hiếu chiến của quân đội."
+    },
+    {
+     "id": "C",
+     "text": "Bản chất giai cấp của quân đội."
+    },
+    {
+     "id": "D",
+     "text": "Bản chất anh hùng của quân đội."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Bản chất giai cấp của quân đội.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-010",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Nội dung nào dưới đây thuộc quan điểm chủ nghĩa Mác - Lênin về quân đội?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Đơn vị chiến đấu của quân đội."
+    },
+    {
+     "id": "B",
+     "text": "Lực lượng chiến đấu của quân đội."
+    },
+    {
+     "id": "C",
+     "text": "Vũ khí chiến đấu của quân đội."
+    },
+    {
+     "id": "D",
+     "text": "Sức mạnh chiến đấu của quân đội."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Sức mạnh chiến đấu của quân đội.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-011",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Có mấy nguyên tắc xây dựng quân đội kiểu mới của V.I. Lênin?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Có 6."
+    },
+    {
+     "id": "B",
+     "text": "Có 7."
+    },
+    {
+     "id": "C",
+     "text": "Có 8."
+    },
+    {
+     "id": "D",
+     "text": "Có 9."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Có 8.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-012",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Nội dung nào dưới đây thuộc nguyên tắc xây dựng quân đội kiểu mới của V.I. Lênin?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Đoàn kết thống nhất quân đội với công nhân."
+    },
+    {
+     "id": "B",
+     "text": "Đoàn kết thống nhất quân đội với nhân dân."
+    },
+    {
+     "id": "C",
+     "text": "Đoàn kết thống nhất quân đội với nông dân."
+    },
+    {
+     "id": "D",
+     "text": "Đoàn kết thống nhất quân đội với trí thức."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Đoàn kết thống nhất quân đội với nhân dân.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-013",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Nội dung nào dưới đây thuộc nguyên tắc xây dựng quân đội kiểu mới của V.I. Lênin?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Sẵn sàng đàm phán."
+    },
+    {
+     "id": "B",
+     "text": "Sẵn sàng cơ động."
+    },
+    {
+     "id": "C",
+     "text": "Sẵn sàng chiến đấu."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Sẵn sàng chiến đấu.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-014",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Nội dung nào dưới đây thuộc tư tưởng Hồ Chí Minh về quân đội?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Khẳng định sự ra đời của quân đội là một bắt buộc trong đấu tranh giai cấp, đấu tranh dân tộc ở Việt Nam."
+    },
+    {
+     "id": "B",
+     "text": "Khẳng định sự ra đời của quân đội là một tất yếu, là vấn đề có tính quy luật trong đấu tranh giai cấp, đấu tranh dân tộc ở Việt Nam."
+    },
+    {
+     "id": "C",
+     "text": "Khẳng định sự ra đời của quân đội điều kiện có tính quy luật trong đấu tranh giai cấp, đấu tranh dân tộc ở Việt Nam."
+    },
+    {
+     "id": "D",
+     "text": "Khẳng định sự ra đời của quân đội là một tất yếu, là vấn đề có tính thực tiễn trong đấu tranh giai cấp, đấu tranh dân tộc ở Việt Nam."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Khẳng định sự ra đời của quân đội là một tất yếu, là vấn đề có tính quy luật trong đấu tranh giai cấp, đấu tranh dân tộc ở Việt Nam.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-015",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Quân đội nhân dân Việt Nam được thành lập ngày, tháng, năm nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "22/12/1943."
+    },
+    {
+     "id": "B",
+     "text": "22/12/1944."
+    },
+    {
+     "id": "C",
+     "text": "22/12/1945."
+    },
+    {
+     "id": "D",
+     "text": "22/12/1946."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. 22/12/1944.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-016",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Đảng cộng sản Việt nam lãnh đạo Quân đội nhân dân Việt Nam theo nguyên tắc nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Đảng lãnh đạo, Nhà nước quản lý."
+    },
+    {
+     "id": "B",
+     "text": "Tuyệt đối, trực tiếp, về mọi mặt."
+    },
+    {
+     "id": "C",
+     "text": "Tuyệt đối, dân chủ, về mọi mặt."
+    },
+    {
+     "id": "D",
+     "text": "Trực tiếp, toàn diện, về mọi mặt."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Tuyệt đối, trực tiếp, về mọi mặt.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-017",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Theo tư tưởng Hồ Chí Minh quân đội có mấy nhiệm vụ?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Có 2."
+    },
+    {
+     "id": "B",
+     "text": "Có 3."
+    },
+    {
+     "id": "C",
+     "text": "Có 4."
+    },
+    {
+     "id": "D",
+     "text": "Có 5."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Có 2.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-018",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Theo tư tưởng Hồ Chí Minh quân đội có mấy chức năng?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Có 2."
+    },
+    {
+     "id": "B",
+     "text": "Có 3."
+    },
+    {
+     "id": "C",
+     "text": "Có 4."
+    },
+    {
+     "id": "D",
+     "text": "Có 5."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Có 3.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-019",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Có mấy Quan điểm của chủ nghĩa Mác-Lênin về bảo vệ Tổ quốc xã hội chủ nghĩa?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Có 2."
+    },
+    {
+     "id": "B",
+     "text": "Có 3."
+    },
+    {
+     "id": "C",
+     "text": "Có 4."
+    },
+    {
+     "id": "D",
+     "text": "Có 5."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Có 4.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-020",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Nội dung nào dưới đây thuộc Quan điểm của chủ nghĩa Mác-Lênin về bảo vệ Tổ quốc xã hội chủ nghĩa?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Bảo vệ Tổ quốc xã hội chủ nghĩa là một tất yếu khách quan."
+    },
+    {
+     "id": "B",
+     "text": "Bảo vệ Tổ quốc xã hội chủ nghĩa là bắt buộc đối với các nước."
+    },
+    {
+     "id": "C",
+     "text": "Bảo vệ Tổ quốc xã hội chủ nghĩa là một nguyên tắc trong xây dựng đất nước."
+    },
+    {
+     "id": "D",
+     "text": "Bảo vệ Tổ quốc xã hội chủ nghĩa là tất yếu để tăng cường sức mạnh của quân đội."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Bảo vệ Tổ quốc xã hội chủ nghĩa là một tất yếu khách quan.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-021",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Nội dung nào dưới đây thuộc Quan điểm của chủ nghĩa Mác-Lênin về bảo vệ Tổ quốc xã hội chủ nghĩa?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Bảo vệ Tổ quốc XHCN, phải thường xuyên tăng cường tiềm lực kinh tế - xã hội."
+    },
+    {
+     "id": "B",
+     "text": "Bảo vệ Tổ quốc XHCN, phải thường xuyên tăng cường tiềm lực quốc phòng gắn với phát triển kinh tế - xã hội."
+    },
+    {
+     "id": "C",
+     "text": "Bảo vệ Tổ quốc XHCN, phải thường xuyên tăng cường tiềm lực quốc phòng gắn với an ninh nhân dân."
+    },
+    {
+     "id": "D",
+     "text": "Bảo vệ Tổ quốc XHCN, phải thường xuyên tăng cường tiềm lực quốc phòng gắn với phát triển chính trị - xã hội."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Bảo vệ Tổ quốc XHCN, phải thường xuyên tăng cường tiềm lực quốc phòng gắn với phát triển kinh tế - xã hội.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-022",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Nội dung nào dưới đây thuộc tư tưởng Hồ Chí Minh về bảo vệ Tổ quốc xã hội chủ nghĩa?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Bảo vệ Tổ quốc Việt Nam XHCN là một nguyên tắc."
+    },
+    {
+     "id": "B",
+     "text": "Bảo vệ Tổ quốc Việt Nam XHCN là một tất yếu khách quan."
+    },
+    {
+     "id": "C",
+     "text": "Bảo vệ Tổ quốc Việt Nam XHCN là một nhiệm vụ lâu dài."
+    },
+    {
+     "id": "D",
+     "text": "Bảo vệ Tổ quốc Việt Nam XHCN là một yêu cầu cấp thiết."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Bảo vệ Tổ quốc Việt Nam XHCN là một tất yếu khách quan.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-023",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Nội dung nào dưới đây thuộc tư tưởng Hồ Chí Minh về bảo vệ Tổ quốc xã hội chủ nghĩa?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Mục tiêu bảo vệ Tổ quốc là độc lập dân tộc và CNXH, là nghĩa vụ và trách nhiệm của mọi công dân."
+    },
+    {
+     "id": "B",
+     "text": "Mục tiêu bảo vệ Tổ quốc là CNXH, là nghĩa vụ và trách nhiệm của mọi công dân."
+    },
+    {
+     "id": "C",
+     "text": "Mục tiêu bảo vệ Tổ quốc là độc lập dân tộc, là nghĩa vụ của mọi công dân."
+    },
+    {
+     "id": "D",
+     "text": "Mục tiêu bảo vệ Tổ quốc là nghĩa vụ của dân tộc và là trách nhiệm của mọi công dân."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Mục tiêu bảo vệ Tổ quốc là độc lập dân tộc và CNXH, là nghĩa vụ và trách nhiệm của mọi công dân.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-024",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c01",
+   "prompt": "Nội dung nào dưới đây thuộc tư tưởng Hồ Chí Minh về bảo vệ Tổ quốc xã hội chủ nghĩa?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Sức mạnh bảo vệ Tổ quốc là sức mạnh tổng hợp của cả dân tộc, kết hợp với sức mạnh thời đại."
+    },
+    {
+     "id": "B",
+     "text": "Sức mạnh bảo vệ Tổ quốc là sức mạnh tổng hợp của cả nước, kết hợp sức mạnh thời đại."
+    },
+    {
+     "id": "C",
+     "text": "Sức mạnh bảo vệ Tổ quốc là sức mạnh tổng hợp của các nước XHCN."
+    },
+    {
+     "id": "D",
+     "text": "Sức mạnh bảo vệ Tổ quốc là sức mạnh tổng hợp của cả dân tộc, cả nước, kết hợp với sức mạnh thời đại."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Sức mạnh bảo vệ Tổ quốc là sức mạnh tổng hợp của cả dân tộc, cả nước, kết hợp với sức mạnh thời đại.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-025",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Nội dung nào dưới đây thuộc khái niệm Quốc phòng toàn dân?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là nền quốc phòng mang tính chất“ Của dân, do dân, vì dân”, phát triển theo phương hướng toàn dân, toàn diện và ngày càng hiện đại..."
+    },
+    {
+     "id": "B",
+     "text": "Là nền quốc phòng mang tính chất“ Của dân, do dân, vì dân”, phát triển theo phương hướng độc lập, tự chủ, tự lực, tự cường và ngày càng hiện đại..."
+    },
+    {
+     "id": "C",
+     "text": "Là nền quốc phòng phát triển theo phương hướng toàn dân, toàn diện, độc lập, tự chủ, tự lực, tự cường và ngày càng hiện đại..."
+    },
+    {
+     "id": "D",
+     "text": "Là nền quốc phòng mang tính chất“ Của dân, do dân, vì dân”, phát triển theo phương hướng toàn dân, toàn diện, độc lập, tự chủ, tự lực, tự cường và ngày càng hiện đại..."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Là nền quốc phòng mang tính chất“ Của dân, do dân, vì dân”, phát triển theo phương hướng toàn dân, toàn diện, độc lập, tự chủ, tự lực, tự cường và ngày càng hiện đại...",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-026",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Nội dung nào dưới đây thuộc khái niệm Nền quốc phòng toàn dân?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là sức mạnh quốc phòng của đất nước được xây dựng trên nền tảng nhân lực, vật lực, tinh thần mang tính chất toàn dân, toàn diện, độc lập, tự chủ, tự cường."
+    },
+    {
+     "id": "B",
+     "text": "Là sức mạnh quốc phòng của đất nước được xây dựng trên nền tảng nhân lực, vật lực, tinh thần của dân tộc."
+    },
+    {
+     "id": "C",
+     "text": "Là sức mạnh quốc phòng của đất nước được xây dựng trên nền tảng nhân lực, vật lực và tinh thần."
+    },
+    {
+     "id": "D",
+     "text": "Là sức mạnh quốc phòng của đất nước được xây dựng trên nền tảng vật lực, tinh thần mang tính chất toàn dân, tự chủ, tự cường."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Là sức mạnh quốc phòng của đất nước được xây dựng trên nền tảng nhân lực, vật lực, tinh thần mang tính chất toàn dân, toàn diện, độc lập, tự chủ, tự cường.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-027",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Nội dung nào dưới đây thuộc khái niệm An ninh nhân dân?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là sự nghiệp của lực lượng an ninh nhân dân dưới sự lãnh đạo của Đảng và sự quản lí của Nhà nước..."
+    },
+    {
+     "id": "B",
+     "text": "Là sự nghiệp của toàn dân, do nhân dân tiến hành dưới sự lãnh đạo của Đảng và sự quản lí của Nhà nước..."
+    },
+    {
+     "id": "C",
+     "text": "Là sự nghiệp của toàn dân, do nhân dân tiến hành, lực lượng an ninh nhân dân làm nòng cốt dưới sự lãnh đạo của Đảng và sự quản lí của Nhà nước..."
+    },
+    {
+     "id": "D",
+     "text": "Là sự nghiệp của toàn dân, do nhân dân tiến hành, lực lượng quân đội nhân dân làm nòng cốt."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Là sự nghiệp của toàn dân, do nhân dân tiến hành, lực lượng an ninh nhân dân làm nòng cốt dưới sự lãnh đạo của Đảng và sự quản lí của Nhà nước...",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-028",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Nội dung nào dưới đây thuộc khái niệm Nền an ninh?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là sức mạnh về tinh thần của toàn dân tộc được huy động vào sự nghiệp bảo vệ an ninh quốc gia..."
+    },
+    {
+     "id": "B",
+     "text": "Là sức mạnh về tinh thần, vật chất, sự đoàn kết và truyền thống dựng nước, giữ nước của toàn dân tộc được huy động vào sự nghiệp bảo vệ an ninh quốc gia..."
+    },
+    {
+     "id": "C",
+     "text": "Là sức mạnh về vật chất và truyền thống dựng nước, giữ nước của toàn dân tộc được huy động vào sự nghiệp bảo vệ an ninh quốc gia..."
+    },
+    {
+     "id": "D",
+     "text": "Là sức mạnh về truyền thống dựng nước, giữ nước của toàn dân tộc được huy động vào sự nghiệp bảo vệ an ninh quốc gia..."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Là sức mạnh về tinh thần, vật chất, sự đoàn kết và truyền thống dựng nước, giữ nước của toàn dân tộc được huy động vào sự nghiệp bảo vệ an ninh quốc gia...",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-029",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Nội dung nào dưới đây thuộc vị trí nền quốc phòng toàn dân, an ninh nhân dân?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Xây dựng nền quốc phòng, an ninh nhân dân vững mạnh là tạo ra sức mạnh quân sự để đánh bại mọi âm mưu, hành động xâm lược của chủ nghĩa đế quốc."
+    },
+    {
+     "id": "B",
+     "text": "Xây dựng nền quốc phòng, an ninh nhân dân vững mạnh là tạo ra sức mạnh để ngăn ngừa, đẩy lùi, đánh bại mọi âm mưu, hành động xâm hại đến mục tiêu trong sự nghiệp xây dựng và bảo vệ Tổ quốc Việt Nam XHCN."
+    },
+    {
+     "id": "C",
+     "text": "Xây dựng nền quốc phòng, an ninh nhân dân vững mạnh là tạo ra sức mạnh của các lực lượng vũ trang để bảo vệ Tổ quốc Việt Nam XHCN."
+    },
+    {
+     "id": "D",
+     "text": "Xây dựng nền quốc phòng, an ninh nhân dân vững mạnh để đánh bại mọi hành động xâm hại sự nghiệp xây dựng và bảo vệ Tổ quốc Việt Nam XHCN."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Xây dựng nền quốc phòng, an ninh nhân dân vững mạnh là tạo ra sức mạnh để ngăn ngừa, đẩy lùi, đánh bại mọi âm mưu, hành động xâm hại đến mục tiêu trong sự nghiệp xây dựng và bảo vệ Tổ quốc Việt Nam XHCN.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-030",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Nội dung nào dưới đây thuộc vị trí nền quốc phòng toàn dân, an ninh nhân dân?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Đảng ta đã khẳng định: “Trong khi đặt trọng tâm vào nhiệm vụ xây dựng chủ nghĩa xã hội, chúng ta không một chút lơi lỏng nhiệm vụ đối ngoại”."
+    },
+    {
+     "id": "B",
+     "text": "Đảng ta đã khẳng định: “Trong khi đặt trọng tâm vào nhiệm vụ xây dựng chủ nghĩa xã hội, chúng ta luôn coi trọng phát triển văn hóa”."
+    },
+    {
+     "id": "C",
+     "text": "Đảng ta đã khẳng định: “Trong khi đặt trọng tâm vào nhiệm vụ bảo vệ Tổ quốc, luôn luôn coi trọng phát triển khoa học, kỹ thuật."
+    },
+    {
+     "id": "D",
+     "text": "Đảng ta đã khẳng định: “Trong khi đặt trọng tâm vào nhiệm vụ xây dựng chủ nghĩa xã hội, chúng ta không một chút lơi lỏng nhiệm vụ bảo vệ Tổ quốc...”."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Đảng ta đã khẳng định: “Trong khi đặt trọng tâm vào nhiệm vụ xây dựng chủ nghĩa xã hội, chúng ta không một chút lơi lỏng nhiệm vụ bảo vệ Tổ quốc...”.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-031",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Nội dung nào dưới đây thuộc đặc trưng nền quốc phòng toàn dân, an ninh nhân dân?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Nền quốc phòng toàn dân, an ninh nhân dân chỉ có mục đích duy nhất là chống chiến tranh xâm lược."
+    },
+    {
+     "id": "B",
+     "text": "Nền quốc phòng toàn dân, an ninh nhân dân chỉ có mục đích duy nhất là xây dựng quân đội và công an hùng mạnh."
+    },
+    {
+     "id": "C",
+     "text": "Nền quốc phòng toàn dân, an ninh nhân dân chỉ có mục đích duy nhất là tự vệ chính đáng."
+    },
+    {
+     "id": "D",
+     "text": "Nền quốc phòng toàn dân, an ninh nhân dân chỉ có mục đích duy nhất là xây dựng các lực lượng vũ trang vững mạnh."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Nền quốc phòng toàn dân, an ninh nhân dân chỉ có mục đích duy nhất là tự vệ chính đáng.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-032",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Nội dung nào dưới đây thuộc đặc trưng nền quốc phòng toàn dân, an ninh nhân dân?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Đó là nền quốc phòng, an ninh do toàn thể nhân dân tiến hành."
+    },
+    {
+     "id": "B",
+     "text": "Đó là nền quốc phòng, an ninh của dân và do nhân dân tiến hành."
+    },
+    {
+     "id": "C",
+     "text": "Đó là nền quốc phòng, an ninh vì dân, của dân và do toàn thể nhân dân tiến hành."
+    },
+    {
+     "id": "D",
+     "text": "Đó là nền quốc phòng, an ninh vì dân, của dân."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Đó là nền quốc phòng, an ninh vì dân, của dân và do toàn thể nhân dân tiến hành.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-033",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Nội dung nào dưới đây thuộc đặc trưng nền quốc phòng toàn dân, an ninh nhân dân?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Đó là nền quốc phòng, an ninh có sức mạnh tổng hợp do nhiều yếu tố tạo thành."
+    },
+    {
+     "id": "B",
+     "text": "Đó là nền quốc phòng, an ninh có sức mạnh kinh tế và chính trị tạo thành."
+    },
+    {
+     "id": "C",
+     "text": "Đó là nền quốc phòng, an ninh có sức mạnh tổng hợp về quân sự tạo thành."
+    },
+    {
+     "id": "D",
+     "text": "Đó là nền quốc phòng, an ninh có sức mạnh của các lực lượng vũ trang tạo thành."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Đó là nền quốc phòng, an ninh có sức mạnh tổng hợp do nhiều yếu tố tạo thành.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-034",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Nội dung nào dưới đây thuộc đặc trưng nền quốc phòng toàn dân, an ninh nhân dân?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Nền quốc phòng, an ninh nhân dân được xây dựng toàn diện và đồng bộ."
+    },
+    {
+     "id": "B",
+     "text": "Nền quốc phòng, an ninh nhân dân được xây dựng toàn diện và từng bước hiện đại"
+    },
+    {
+     "id": "C",
+     "text": "Nền quốc phòng, an ninh nhân dân được xây dựng hiện đại."
+    },
+    {
+     "id": "D",
+     "text": "Nền quốc phòng, an ninh nhân dân được xây dựng đồng bộ và hiện đại hóa."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Nền quốc phòng, an ninh nhân dân được xây dựng toàn diện và từng bước hiện đại",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-035",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Nội dung nào dưới đây thuộc đặc trưng nền quốc phòng toàn dân, an ninh nhân dân?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Nền quốc phòng toàn dân gắn chặt với nền kinh tế."
+    },
+    {
+     "id": "B",
+     "text": "Nền quốc phòng toàn dân gắn chặt với nền văn hóa dân tộc."
+    },
+    {
+     "id": "C",
+     "text": "Nền quốc phòng toàn dân gắn chặt với nền an ninh nhân dân."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Nền quốc phòng toàn dân gắn chặt với nền an ninh nhân dân.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-036",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Nội dung nào dưới đây thuộc đặc trưng nền quốc phòng toàn dân, an ninh nhân dân?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Nền quốc phòng toàn dân, an ninh nhân dân chỉ có mục đích duy nhất là tự vệ chính đáng."
+    },
+    {
+     "id": "B",
+     "text": "Đó là nền quốc phòng, an ninh có sức mạnh tổng hợp do nhiều yếu tố tạo thành."
+    },
+    {
+     "id": "C",
+     "text": "Đó là nền quốc phòng, an ninh vì dân, của dân và do toàn thể nhân dân tiến hành."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Cả 3 phương án trên.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-037",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Nội dung nào dưới đây thuộc đặc trưng nền quốc phòng toàn dân, an ninh nhân dân?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Đó là nền quốc phòng, an ninh vì dân, của dân và do toàn thể nhân dân tiến hành."
+    },
+    {
+     "id": "B",
+     "text": "Nền quốc phòng, an ninh nhân dân được xây dựng toàn diện và từng bước hiện đại"
+    },
+    {
+     "id": "C",
+     "text": "Nền quốc phòng toàn dân gắn chặt với nền an ninh nhân dân."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Cả 3 phương án trên.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-038",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Nền quốc phòng toàn dân, an ninh nhân dân có mấy đặc trưng?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Có 2."
+    },
+    {
+     "id": "B",
+     "text": "Có 3."
+    },
+    {
+     "id": "C",
+     "text": "Có 4."
+    },
+    {
+     "id": "D",
+     "text": "Có 5."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Có 5.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-039",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Xây dựng nền quốc phòng toàn dân, an ninh nhân dân vững mạnh nhằm mục đích gì?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Tạo sức mạnh tổng hợp của đất nước cả về chính trị, quân sự, an ninh, kinh tế, văn hoá, xã hội, khoa học, công nghệ để giữ vững hoà bình, ổn định, đẩy lùi, ngăn chặn nguy cơ chiến tranh..."
+    },
+    {
+     "id": "B",
+     "text": "Tạo sức mạnh tổng hợp của đất nước cả về chính trị, quân sự, an ninh, kinh tế, văn hoá, xã hội, khoa học, công nghệ để giữ vững hoà bình xây dựng đất nước..."
+    },
+    {
+     "id": "C",
+     "text": "Tạo sức mạnh tổng hợp của đất nước cả về chính trị, quân sự, kinh tế, văn hoá, xã hội, khoa học để đánh bại chiến tranh xâm lược của kẻ thù."
+    },
+    {
+     "id": "D",
+     "text": "Tạo sức mạnh tổng hợp của đất nước để giữ vững hoà bình, ổn định, đẩy lùi, ngăn chặn nguy cơ chiến tranh dưới mọi hình thức và quy mô..."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Tạo sức mạnh tổng hợp của đất nước cả về chính trị, quân sự, an ninh, kinh tế, văn hoá, xã hội, khoa học, công nghệ để giữ vững hoà bình, ổn định, đẩy lùi, ngăn chặn nguy cơ chiến tranh...",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-040",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Xây dựng nền quốc phòng toàn dân, an ninh nhân dân vững mạnh nhằm mục đích gì?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Tạo thế chủ động cho sự nghiệp bảo vệ Tổ quốc và phát triển khoa học."
+    },
+    {
+     "id": "B",
+     "text": "Tạo thế chủ động cho sự nghiệp xây dựng kinh tế."
+    },
+    {
+     "id": "C",
+     "text": "Tạo thế chủ động cho sự nghiệp xây dựng và bảo vệ Tổ quốc..."
+    },
+    {
+     "id": "D",
+     "text": "Tạo thế chủ động cho sự nghiệp quốc phòng, an ninh và đối ngoại."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Tạo thế chủ động cho sự nghiệp xây dựng và bảo vệ Tổ quốc...",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-041",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Nhiệm vụ xây dựng nền quốc phòng toàn dân, an ninh nhân dân vững mạnh là gì?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Xây dựng lực lượng quốc phòng, an ninh đáp ứng yêu cầu bảo vệ nhân dân trong mọi tình huống."
+    },
+    {
+     "id": "B",
+     "text": "Xây dựng lực lượng quốc phòng, an ninh đáp ứng yêu cầu bảo vệ vững chắc Tổ quốc Việt Nam xã hội chủ nghĩa."
+    },
+    {
+     "id": "C",
+     "text": "Xây dựng lực lượng quốc phòng, an ninh đáp ứng yêu cầu bảo vệ vững chắc chế độ chính trị, kinh tế xã hội chủ nghĩa."
+    },
+    {
+     "id": "D",
+     "text": "Xây dựng lực lượng quốc phòng, an ninh đáp ứng yêu cầu làm nhiệm vụ quốc tế."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Xây dựng lực lượng quốc phòng, an ninh đáp ứng yêu cầu bảo vệ vững chắc Tổ quốc Việt Nam xã hội chủ nghĩa.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-042",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Nhiệm vụ xây dựng nền quốc phòng toàn dân, an ninh nhân dân vững mạnh là gì?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Xây dựng lực lượng quốc phòng, an ninh là xây dựng lực lượng chính trị và lực lượng vũ trang nhân dân đáp ứng yêu cầu của quốc phòng, an ninh, bảo vệ Tổ quốc..."
+    },
+    {
+     "id": "B",
+     "text": "Xây dựng lực lượng quốc phòng, an ninh là xây dựng lực lượng quân đội và công an đáp ứng yêu cầu của quốc phòng, an ninh, bảo vệ Tổ quốc Việt Nam XHCN."
+    },
+    {
+     "id": "C",
+     "text": "Xây dựng lực lượng quốc phòng, an ninh là xây dựng lực lượng chính trị và lực lượng vũ trang nhân dân đáp ứng yêu cầu của quân đội bảo vệ Tổ quốc Việt Nam XHCN."
+    },
+    {
+     "id": "D",
+     "text": "Xây dựng lực lượng quốc phòng, an ninh là xây dựng lực lượng kinh tế, chính trị, quân sự đáp ứng yêu cầu của quốc phòng, an ninh, bảo vệ Tổ quốc Việt Nam XHCN."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Xây dựng lực lượng quốc phòng, an ninh là xây dựng lực lượng chính trị và lực lượng vũ trang nhân dân đáp ứng yêu cầu của quốc phòng, an ninh, bảo vệ Tổ quốc...",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-043",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Có mấy nhiệm vụ xây dựng nền quốc phòng toàn dân, an ninh nhân dân vững mạnh?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Có 2."
+    },
+    {
+     "id": "B",
+     "text": "Có 3."
+    },
+    {
+     "id": "C",
+     "text": "Có 4."
+    },
+    {
+     "id": "D",
+     "text": "Có 5."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Có 2.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-044",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Khái niệm tiềm lực quốc phòng, an ninh là gì?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là khả năng về nhân lực có thể huy động để thực hiện nhiệm vụ quốc phòng, an ninh."
+    },
+    {
+     "id": "B",
+     "text": "Là khả năng về tài chính có thể huy động để thực hiện nhiệm vụ quốc phòng, an ninh."
+    },
+    {
+     "id": "C",
+     "text": "Là khả năng của các lực lượng vũ trang có thể huy động để thực hiện nhiệm vụ quốc phòng, an ninh."
+    },
+    {
+     "id": "D",
+     "text": "Là khả năng về nhân lực, vật lực, tài chính có thể huy động để thực hiện nhiệm vụ quốc phòng, an ninh."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Là khả năng về nhân lực, vật lực, tài chính có thể huy động để thực hiện nhiệm vụ quốc phòng, an ninh.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-045",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Xây dựng tiền lực quốc phòng, an ninh ngày càng vững mạnh cần tập trung ở những tiềm lực nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Tiềm lực văn hóa, xã hội; tiềm lực kinh tế; tiềm lực khoa học, công nghệ; tiềm lực quân sự, an ninh."
+    },
+    {
+     "id": "B",
+     "text": "Tiềm lực chính trị, tinh thần; tiềm lực tiềm lực kinh tế, tiềm lực khoa học, công nghệ; tiềm lực quân sự an ninh."
+    },
+    {
+     "id": "C",
+     "text": "Tiềm lực kinh tế; tiềm lực đối ngoại; tiềm lực văn hóa; tiềm lực quốc phòng, an ninh."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Tiềm lực chính trị, tinh thần; tiềm lực tiềm lực kinh tế, tiềm lực khoa học, công nghệ; tiềm lực quân sự an ninh.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-046",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Tiềm lực chính trị, tinh thần của nền quốc phòng toàn dân, an ninh nhân dân là gì?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là khả năng về văn hóa có thể huy động tạo nên sức mạnh để thực hiện nhiệm vụ quốc phòng, an ninh."
+    },
+    {
+     "id": "B",
+     "text": "Là khả năng về tình yêu quê hương, đất nước có thể huy động tạo nên sức mạnh để thực hiện nhiệm vụ quốc phòng, an ninh."
+    },
+    {
+     "id": "C",
+     "text": "Là khả năng về chính trị, tinh thần có thể huy động tạo nên sức mạnh để thực hiện nhiệm vụ quốc phòng, an ninh."
+    },
+    {
+     "id": "D",
+     "text": "Là khả năng về ngoại giao có thể huy động tạo nên sức mạnh để thực hiện nhiệm vụ quốc phòng, an ninh."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Là khả năng về chính trị, tinh thần có thể huy động tạo nên sức mạnh để thực hiện nhiệm vụ quốc phòng, an ninh.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-047",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Tiềm lực chính trị, tinh thần được biểu hiện ở đâu?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Được biểu hiện ở năng lực lãnh đạo của Đảng, quản lí điều hành của Nhà nước; ý chí, quyết tâm của nhân dân, của các lực lượng vũ trang..."
+    },
+    {
+     "id": "B",
+     "text": "Được biểu hiện ở năng lực quản lí điều hành của Nhà nước; ý chí, quyết tâm của nhân dân, của các lực lượng vũ trang và của dân tộc."
+    },
+    {
+     "id": "C",
+     "text": "Được biểu hiện ở năng lực lãnh đạo của Đảng, của giai cấp công nhân, của nhân dân lao động và của các lực lượng vũ trang."
+    },
+    {
+     "id": "D",
+     "text": "Được biểu hiện ở năng lực của toàn dân tộc, của các lực lượng vũ trang và sự giúp đỡ của nước ngoài."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Được biểu hiện ở năng lực lãnh đạo của Đảng, quản lí điều hành của Nhà nước; ý chí, quyết tâm của nhân dân, của các lực lượng vũ trang...",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-048",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Vị trí tiềm lực chính trị, tinh thần được biểu hiện ở nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là nhân tố cơ bản tạo nên sức mạnh của quốc phòng, an ninh, có tác động to lớn đến hiệu quả xây dựng và sử dụng các tiềm lực khác, là cơ sở, nền tảng của tiềm lực quân sự, an ninh."
+    },
+    {
+     "id": "B",
+     "text": "Là nhân tố cơ bản tạo nên sức mạnh của quân đội, có tác động to lớn đến hiệu quả xây dựng các tiềm lực khác, là cơ sở, nền tảng của tiềm lực quân sự, an ninh."
+    },
+    {
+     "id": "C",
+     "text": "Là nhân tố cơ bản tạo nên sức mạnh của quốc gia, có tác động to lớn đến hiệu quả xây dựng và sử dụng các tiềm lực quân sự, an ninh."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Là nhân tố cơ bản tạo nên sức mạnh của quốc phòng, an ninh, có tác động to lớn đến hiệu quả xây dựng và sử dụng các tiềm lực khác, là cơ sở, nền tảng của tiềm lực quân sự, an ninh.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-049",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Xây dựng tiềm lực chính trị, tinh thần cần tập trung vào nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Xây dựng tình yêu đất nước, yêu chủ nghĩa xã hội."
+    },
+    {
+     "id": "B",
+     "text": "Xây dựng tình yêu quê hương đất nước, ý chí căm thù giặc sâu sắc."
+    },
+    {
+     "id": "C",
+     "text": "Xây dựng tình yêu quê hương đất nước, niềm tin đối với sự lãnh đạo của Đảng, quản lí của nhà nước, đối với chế độ xã hội chủ nghĩa."
+    },
+    {
+     "id": "D",
+     "text": "Xây dựng niềm tin vào sự lãnh đạo của Đảng, quản lí của nhà nước đối với xây dựng nền văn hóa Việt Nam tiên tiến đàm đà bản sắc dân tộc."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Xây dựng tình yêu quê hương đất nước, niềm tin đối với sự lãnh đạo của Đảng, quản lí của nhà nước, đối với chế độ xã hội chủ nghĩa.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-050",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Xây dựng tiềm lực chính trị, tinh thần cần tập trung vào nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Xây dựng nhà nước trong sạch vững mạnh, phát huy quyền làm chủ tập thể của nhân dân."
+    },
+    {
+     "id": "B",
+     "text": "Xây dựng hệ thống chính trị trong sạch vững mạnh, phát huy quyền làm chủ của nhân dân."
+    },
+    {
+     "id": "C",
+     "text": "Xây dựng Đảng trong sạch vững mạnh, phát huy quyền làm chủ tập thể của nhân dân."
+    },
+    {
+     "id": "D",
+     "text": "Xây dựng bộ máy công quyền vững mạnh, phát huy quyền làm chủ của nhân dân."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Xây dựng hệ thống chính trị trong sạch vững mạnh, phát huy quyền làm chủ của nhân dân.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-051",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Xây dựng tiềm lực chính trị, tinh thần cần tập trung vào nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Xây dựng nhà nước; khối đại đoàn kết toàn dân; giữ vững ổn định trật tự an toàn xã hội."
+    },
+    {
+     "id": "B",
+     "text": "Xây dựng tổ chức đảng vững manh; nâng cao cảnh giác cách mạng; giữ vững ổn định chính trị, trật tự an toàn xã hội."
+    },
+    {
+     "id": "C",
+     "text": "Xây dựng khối đại đoàn kết quốc tế; bảo đảm an ninh chính trị, trật tự an toàn xã hội."
+    },
+    {
+     "id": "D",
+     "text": "Xây dựng khối đại đoàn kết toàn dân; nâng cao cảnh giác cách mạng; giữ vững ổn định chính trị, trật tự an toàn xã hội."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Xây dựng khối đại đoàn kết toàn dân; nâng cao cảnh giác cách mạng; giữ vững ổn định chính trị, trật tự an toàn xã hội.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-052",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Xây dựng tiềm lực chính trị, tinh thần cần tập trung vào nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Xây dựng tình yêu quê hương đất nước, niềm tin đối với sự lãnh đạo của Đảng, quản lí của nhà nước, đối với chế độ xã hội chủ nghĩa."
+    },
+    {
+     "id": "B",
+     "text": "Xây dựng khối đại đoàn kết toàn dân; nâng cao cảnh giác cách mạng; giữ vững ổn định chính trị, trật tự an toàn xã hội."
+    },
+    {
+     "id": "C",
+     "text": "Xây dựng hệ thống chính trị trong sạch vững mạnh, phát huy quyền làm chủ của nhân dân."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Cả 3 phương án trên.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-053",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Xây dựng tiềm lực chính trị, tinh thần cần tập trung vào biện pháp nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Thực hiện tốt giáo dục quốc phòng, an ninh cho toàn thể quần chúng nhân dân nắm chắc đường lối, chính sách của đảng và nhà nước về QP,AN."
+    },
+    {
+     "id": "B",
+     "text": "Thực hiện tốt giáo dục quốc phòng, an ninh cho sinh viên nắm chắc đường lối, chính sách của đảng và nhà nước về QP,AN."
+    },
+    {
+     "id": "C",
+     "text": "Thực hiện tốt giáo dục quốc phòng, an ninh cho lực lượng vũ trang nắm chắc đường lối, chính sách của đảng và nhà nước về QP,AN."
+    },
+    {
+     "id": "D",
+     "text": "Thực hiện tốt giáo dục quốc phòng, an ninh cho dân quân tự vệ nắm chắc đường lối, chính sách của đảng và nhà nước về QP,AN."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Thực hiện tốt giáo dục quốc phòng, an ninh cho toàn thể quần chúng nhân dân nắm chắc đường lối, chính sách của đảng và nhà nước về QP,AN.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-054",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Xây dựng tiềm lực chính trị, tinh thần cần tập trung vào biện pháp nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Tích cực chủ động trong phòng chống ”Diễn biến hòa bình”, bạo loạn lật đổ."
+    },
+    {
+     "id": "B",
+     "text": "Tích cực chủ động trong đề ra đường lối chiến lược xây dựng hệ thống chính trị."
+    },
+    {
+     "id": "C",
+     "text": "Tích cực chủ động trong xây dựng đội ngũ cán bộ các cấp."
+    },
+    {
+     "id": "D",
+     "text": "Tích cực chủ động trong phòng chống tham ô, tham nhũng, lãng phí."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Tích cực chủ động trong phòng chống tham ô, tham nhũng, lãng phí.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-055",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Tiềm lực kinh tế của nền quốc phòng toàn dân, an ninh nhân dân là gì?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là khả năng về vật chất của đất nước có thể khai thác, huy động nhằm phục vụ cho quốc phòng, an ninh."
+    },
+    {
+     "id": "B",
+     "text": "Là khả năng về lương thực của đất nước có thể khai thác, huy động nhằm phục vụ cho quốc phòng, an ninh."
+    },
+    {
+     "id": "C",
+     "text": "Là khả năng về kinh tế của đất nước có thể khai thác, huy động nhằm phục vụ cho quốc phòng, an ninh."
+    },
+    {
+     "id": "D",
+     "text": "Là khả năng về cơ sở hạ tầng của đất nước có thể khai thác, huy động nhằm phục vụ cho quốc phòng, an ninh."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Là khả năng về kinh tế của đất nước có thể khai thác, huy động nhằm phục vụ cho quốc phòng, an ninh.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-056",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Tiềm lực kinh tế được biểu hiện ở đâu?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Ở nhân lực của quốc gia có thể huy động cho quốc phòng, an ninh."
+    },
+    {
+     "id": "B",
+     "text": "Ở nhân lực, vật lực, tài lực của quốc gia có thể huy động cho quốc phòng, an ninh và tính cơ động của nền kinh tế đất nước trong mọi điều kiện hoàn cảnh."
+    },
+    {
+     "id": "C",
+     "text": "Ở vật lực của quốc gia có thể huy động cho quốc phòng, an ninh và tính cơ động của nền kinh tế đất nước."
+    },
+    {
+     "id": "D",
+     "text": "Ở tài chính của quốc gia có thể huy động cho quốc phòng, an ninh và tính cơ động của nền kinh tế đất nước trong mọi điều kiện hoàn cảnh."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Ở nhân lực, vật lực, tài lực của quốc gia có thể huy động cho quốc phòng, an ninh và tính cơ động của nền kinh tế đất nước trong mọi điều kiện hoàn cảnh.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-057",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Vị trí tiềm lực kinh tế được biểu hiện ở nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Tiềm lực kinh tế tạo sức mạnh vật chất cho nền quốc phòng toàn dân, an ninh nhân dân, là cơ sở vật chất của các tiềm lực khác."
+    },
+    {
+     "id": "B",
+     "text": "Tiềm lực kinh tế tạo sức mạnh vũ khí cho nền quốc phòng toàn dân, an ninh nhân dân, là cơ sở vật chất của các tiềm lực khác."
+    },
+    {
+     "id": "C",
+     "text": "Tiềm lực kinh tế tạo sức mạnh con người cho nền quốc phòng toàn dân, an ninh nhân dân, là cơ sở vật chất của các tiềm lực khác."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Tiềm lực kinh tế tạo sức mạnh vật chất cho nền quốc phòng toàn dân, an ninh nhân dân, là cơ sở vật chất của các tiềm lực khác.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-058",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Xây dựng tiềm lực kinh tế cần tập trung vào nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là tạo nên khả năng về vũ khí trang bị hiện đại."
+    },
+    {
+     "id": "B",
+     "text": "Là tạo nên khả năng về quốc phòng, an ninh."
+    },
+    {
+     "id": "C",
+     "text": "Là tạo nên khả năng về văn hóa, khoa học, kỹ thuật của đất nước."
+    },
+    {
+     "id": "D",
+     "text": "Là tạo nên khả năng về kinh tế của đất nước."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Là tạo nên khả năng về kinh tế của đất nước.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-059",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Xây dựng tiềm lực kinh tế cần tập trung vào biện pháp nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Đẩy mạnh cách mạng khoa học công nghệ, xây dựng nền kinh tế độc lập, tự chủ."
+    },
+    {
+     "id": "B",
+     "text": "Đẩy mạnh công nghiệp nhẹ của đất nước, xây dựng nền kinh tế độc lập, tự chủ."
+    },
+    {
+     "id": "C",
+     "text": "Đẩy mạnh công nghiệp hoá, hiện đại hoá đất nước, xây dựng nền kinh tế độc lập, tự chủ."
+    },
+    {
+     "id": "D",
+     "text": "Đẩy mạnh phát triển nông nghiệp công nghệ cao, xây dựng nền kinh tế độc lập, tự chủ."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Đẩy mạnh công nghiệp hoá, hiện đại hoá đất nước, xây dựng nền kinh tế độc lập, tự chủ.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-060",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Xây dựng tiềm lực kinh tế cần tập trung vào biện pháp nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Kết hợp chặt chẽ phát triển kinh tế - xã hội với tăng cường an ninh kinh tế; trang bị kĩ thuật hiện đại cho Quân đội và Công an."
+    },
+    {
+     "id": "B",
+     "text": "Kết hợp chặt chẽ phát triển kinh tế - xã hội với tăng cường quốc phòng, an ninh; phát triển công nghiệp quốc phòng, trang bị kĩ thuật hiện đại cho Quân đội và Công an."
+    },
+    {
+     "id": "C",
+     "text": "Kết hợp chặt chẽ phát triển kinh tế - xã hội với tăng cường quốc phòng; phát triển công nghiệp quốc phòng, trang bị kĩ thuật hiện đại cho các lực lượng vũ trang."
+    },
+    {
+     "id": "D",
+     "text": "Kết hợp chặt chẽ phát triển kinh tế - xã hội với phát triển công nghiệp quốc phòng, trang bị kĩ thuật hiện đại cho dân quân tự vệ."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Kết hợp chặt chẽ phát triển kinh tế - xã hội với tăng cường quốc phòng, an ninh; phát triển công nghiệp quốc phòng, trang bị kĩ thuật hiện đại cho Quân đội và Công an.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-061",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Xây dựng tiềm lực kinh tế cần tập trung vào biện pháp nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Kết hợp xây dựng cơ sở hạ tầng kinh tế với cơ sở hạ tầng quốc phòng; không ngừng cải thiện đời sống vật chất, tinh thần cho các lực lượng vũ trang nhân dân."
+    },
+    {
+     "id": "B",
+     "text": "Kết hợp xây dựng kinh tế với quốc phòng; không ngừng cải thiện trang bị vũ khí hiện đại cho các lực lượng vũ trang nhân dân."
+    },
+    {
+     "id": "C",
+     "text": "Kết hợp xây dựng cơ sở hạ tầng kinh tế với không ngừng cải thiện đời sống vật chất, tinh thần cho các quân đội nhân dân."
+    },
+    {
+     "id": "D",
+     "text": "Kết hợp xây dựng cơ sở hạ tầng kinh tế với phát triển khoa học quân sự; nân cao đời sống vật chất, tinh thần cho quân đội và công an nhân dân."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Kết hợp xây dựng cơ sở hạ tầng kinh tế với cơ sở hạ tầng quốc phòng; không ngừng cải thiện đời sống vật chất, tinh thần cho các lực lượng vũ trang nhân dân.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-062",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Xây dựng tiềm lực kinh tế cần tập trung vào biện pháp nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Có kế hoạch tổng động viên kinh tế thời chiến và duy trì sự phát triển của nền kinh tế."
+    },
+    {
+     "id": "B",
+     "text": "Có kế hoạch động viên công nghiệp thời chiến và duy trì sự phát triển của nền kinh tế."
+    },
+    {
+     "id": "C",
+     "text": "Có kế hoạch chuyển sản xuất từ thời bình sang thời chiến và duy trì sự phát triển của nền kinh tế."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Có kế hoạch chuyển sản xuất từ thời bình sang thời chiến và duy trì sự phát triển của nền kinh tế.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-063",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Xây dựng tiềm lực kinh tế cần tập trung vào biện pháp nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Đẩy mạnh công nghiệp hoá, hiện đại hoá đất nước, xây dựng nền kinh tế độc lập, tự chủ."
+    },
+    {
+     "id": "B",
+     "text": "Kết hợp chặt chẽ phát triển kinh tế - xã hội với tăng cường quốc phòng, an ninh; phát triển công nghiệp quốc phòng, trang bị kĩ thuật hiện đại cho Quân đội và Công an."
+    },
+    {
+     "id": "C",
+     "text": "Có kế hoạch chuyển sản xuất từ thời bình sang thời chiến và duy trì sự phát triển của nền kinh tế."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Cả 3 phương án trên.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-064",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Tiềm lực tiềm lực khoa học, công nghệ của nền quốc phòng toàn dân, an ninh nhân dân là gì?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là khả năng về khoa học tự nhiên có thể khai thác, huy động để phục vụ cho quốc phòng, an ninh."
+    },
+    {
+     "id": "B",
+     "text": "Là khả năng về khoa học (khoa học tự nhiên, khoa học xã hội - nhân văn) và công nghệ của quốc gia có thể khai thác, huy động để phục vụ cho quốc phòng, an ninh."
+    },
+    {
+     "id": "C",
+     "text": "Là khả năng về khoa học xã hội - nhân văn của quốc gia có thể khai thác, huy động để phục vụ cho quốc phòng, an ninh."
+    },
+    {
+     "id": "D",
+     "text": "Là khả năng về công nghệ thông tin của quốc gia có thể khai thác, huy động để phục vụ cho quốc phòng, an ninh."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Là khả năng về khoa học (khoa học tự nhiên, khoa học xã hội - nhân văn) và công nghệ của quốc gia có thể khai thác, huy động để phục vụ cho quốc phòng, an ninh.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-065",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Tiềm lực khoa học, công nghệ được biểu hiện ở đâu?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Ở số lượng, chất lượng đội ngũ cán bộ khoa học kĩ thuật, cơ sở vật chất có thể huy động phục vụ cho quốc phòng, an ninh."
+    },
+    {
+     "id": "B",
+     "text": "Ở số lượng, chất lượng cơ sở vật chất kĩ thuật có thể huy động phục vụ cho quốc phòng, an ninh và năng lực sử dụng các loại vũ khí công nghệ cao cho quốc phòng, an ninh."
+    },
+    {
+     "id": "C",
+     "text": "Ở số lượng, chất lượng đội ngũ cán bộ khoa học kĩ thuật, cơ sở vật chất kĩ thuật có thể huy động phục vụ cho quốc phòng, an ninh..."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Ở số lượng, chất lượng đội ngũ cán bộ khoa học kĩ thuật, cơ sở vật chất kĩ thuật có thể huy động phục vụ cho quốc phòng, an ninh...",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-066",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Vị trí tiềm lực khoa học, công nghệ được biểu hiện ở nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là tạo nên khả năng về khoa học, công nghệ của quốc gia có thể khai thác, huy động phục vụ cho quốc phòng, an ninh."
+    },
+    {
+     "id": "B",
+     "text": "Là tạo nên khả năng về công nghệ thông tin của quốc gia có thể khai thác, huy động phục vụ cho quốc phòng, an ninh."
+    },
+    {
+     "id": "C",
+     "text": "Là tạo nên khả năng về khoa học xã hội – nhân văn của quốc gia có thể khai thác, huy động phục vụ cho quốc phòng, an ninh."
+    },
+    {
+     "id": "D",
+     "text": "Là tạo nên khả năng về khoa học tự nhiên của quốc gia có thể khai thác, huy động phục vụ cho quốc phòng, an ninh."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Là tạo nên khả năng về khoa học, công nghệ của quốc gia có thể khai thác, huy động phục vụ cho quốc phòng, an ninh.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-067",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Xây dựng tiềm lực khoa học, công nghệ cần tập trung vào nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Huy động tổng lực công nghệ thông tin của quốc gia để nghiên cứu các loại vũ khí công nghệ cao và sửa chữa, cải tiến, sản xuất các loại vũ khí trang bị."
+    },
+    {
+     "id": "B",
+     "text": "Phải huy động tổng lực khoa học xã hội và nhân văn để xây dựng con người cho sự nghiệp quốc phòng, an ninh và sửa chữa, cải tiến, sản xuất các loại vũ khí trang bị."
+    },
+    {
+     "id": "C",
+     "text": "Phải huy động tổng lực các khoa học, công nghệ quốc gia, trong đó khoa học quân sự, an ninh làm nòng cốt để nghiên cứu các vấn đề về quân sự, an ninh..."
+    },
+    {
+     "id": "D",
+     "text": "Phải huy động tổng lực các khoa học, công nghệ quốc gia để nghiên cứu các vấn đề về quân sự, an ninh và mua sắm các loại vũ khí trang bị hiên đại."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Phải huy động tổng lực các khoa học, công nghệ quốc gia, trong đó khoa học quân sự, an ninh làm nòng cốt để nghiên cứu các vấn đề về quân sự, an ninh...",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-068",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Xây dựng tiềm lực khoa học, công nghệ cần tập trung vào biện pháp nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Phải thực hiện tốt nghiên cứu khoa học, kĩ thuật."
+    },
+    {
+     "id": "B",
+     "text": "Phải thực hiện tốt công tác ứng dụng khoa học, kĩ thuật vào sản xuất loại vũ khí, trang bị."
+    },
+    {
+     "id": "C",
+     "text": "Phải thực hiện tốt hợp tác khoa học, kĩ thuật với các nước tiên tiến trên thế giới."
+    },
+    {
+     "id": "D",
+     "text": "Phải thực hiện tốt công tác đào tạo, bồi dưỡng, sử dụng có hiệu quả đội ngũ cán bộ khoa học, kĩ thuật."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Phải thực hiện tốt công tác đào tạo, bồi dưỡng, sử dụng có hiệu quả đội ngũ cán bộ khoa học, kĩ thuật.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-069",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Tiềm lực tiềm lực quân sự, an ninh của nền quốc phòng toàn dân, an ninh nhân dân là gì?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là khả năng về vật chất và tinh thần có thể huy động tạo thành sức mạnh phục vụ cho nhiệm vụ quân sự, an ninh, cho chiến tranh."
+    },
+    {
+     "id": "B",
+     "text": "Là khả năng về vũ khí trang bị có thể huy động tạo thành sức mạnh phục vụ cho nhiệm vụ quân sự, an ninh, cho chiến tranh."
+    },
+    {
+     "id": "C",
+     "text": "Là khả năng về kinh tế và khoa học công nghệ có thể huy động tạo thành sức mạnh phục vụ cho nhiệm vụ quân sự, an ninh, cho chiến tranh."
+    },
+    {
+     "id": "D",
+     "text": "Là khả năng của quân đội và công an có thể huy động tạo thành sức mạnh phục vụ cho nhiệm vụ quân sự, an ninh, cho chiến tranh."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Là khả năng về vật chất và tinh thần có thể huy động tạo thành sức mạnh phục vụ cho nhiệm vụ quân sự, an ninh, cho chiến tranh.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-070",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Vị trí tiềm lực quân sự, an ninh được biểu hiện ở nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là biểu hiện sức mạnh quân sự của Đảng để bảo vệ Tổ quốc."
+    },
+    {
+     "id": "B",
+     "text": "Là nhân tố cơ bản, là biểu hiện tập trung, trực tiếp sức mạnh quân sự, an ninh của nhà nước giữ vai trò nòng cốt để bảo vệ Tổ quốc trong mọi tình huống."
+    },
+    {
+     "id": "C",
+     "text": "Là biểu hiện tập trung, trực tiếp sức kinh tế, chính trị của nhà nước giữ vai trò nòng cốt để bảo vệ Tổ quốc."
+    },
+    {
+     "id": "D",
+     "text": "Là biểu hiện sức mạnh quân sự, an ninh của Đảng giữ vai trò chủ đạo để bảo vệ Tổ quốc."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Là nhân tố cơ bản, là biểu hiện tập trung, trực tiếp sức mạnh quân sự, an ninh của nhà nước giữ vai trò nòng cốt để bảo vệ Tổ quốc trong mọi tình huống.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-071",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Xây dựng tiềm lực quân sự, an ninh cần tập trung vào nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Tiềm lực quân sự, an ninh được xây dựng trên nền tảng của các tiềm lực văn hóa - xã hội."
+    },
+    {
+     "id": "B",
+     "text": "Tiềm lực quân sự, an ninh được xây dựng trên nền tảng của các tiềm lực đối ngoại, hợp tác kinh tế."
+    },
+    {
+     "id": "C",
+     "text": "Tiềm lực quân sự, an ninh được xây dựng trên nền tảng của các tiềm lực chính trị tinh thần, kinh tế, khoa học công nghệ."
+    },
+    {
+     "id": "D",
+     "text": "Tiềm lực quân sự, an ninh được xây dựng trên nền tảng của các tiềm lực khoa học công nghệ và môi trường."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Tiềm lực quân sự, an ninh được xây dựng trên nền tảng của các tiềm lực chính trị tinh thần, kinh tế, khoa học công nghệ.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-072",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Xây dựng tiềm lực quân sự, an ninh cần tập trung vào biện pháp nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Xây dựng lực lượng vũ trang nhân dân vững mạnh toàn diện,"
+    },
+    {
+     "id": "B",
+     "text": "Gắn quá trình công nghiệp hoá, hiện đại hoá đất nước với quá trình tăng cường vũ khí trang bị cho các lực lượng vũ trang nhân dân."
+    },
+    {
+     "id": "C",
+     "text": "Gắn quá trình phát triển nông nghiệp với xây dựng con người mới xã hội chủ nghĩa."
+    },
+    {
+     "id": "D",
+     "text": "Biện pháp a và b."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Biện pháp a và b.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-073",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c02",
+   "prompt": "Xây dựng tiềm lực quân sự, an ninh cần tập trung vào biện pháp nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Xây dựng đội ngũ cán bộ trong lực lượng vũ trang nhân dân đáp ứng yêu cầu nhiệm vụ bảo vệ Tổ quốc trong tình hình mới."
+    },
+    {
+     "id": "B",
+     "text": "Xây dựng đội ngũ cán bộ dân quân tự vệ đáp ứng yêu cầu nhiệm vụ bảo vệ Tổ quốc trong tình hình mới."
+    },
+    {
+     "id": "C",
+     "text": "Xây dựng đội ngũ hạ sĩ quan, chiến sĩ trong quân đội nhân dân đáp ứng yêu cầu nhiệm vụ bảo vệ Tổ quốc trong tình hình mới."
+    },
+    {
+     "id": "D",
+     "text": "Xây dựng đội ngũ chiến sĩ công an nhân dân đáp ứng yêu cầu nhiệm vụ bảo vệ Tổ quốc trong tình hình mới."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Xây dựng đội ngũ cán bộ trong lực lượng vũ trang nhân dân đáp ứng yêu cầu nhiệm vụ bảo vệ Tổ quốc trong tình hình mới.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-074",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Mục đích của chiến tranh nhân dân nhằm:",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Đánh bại ý đồ xâm lược lật đổ của kẻ thù đối với cách mạng Việt Nam."
+    },
+    {
+     "id": "B",
+     "text": "Đánh bại ý đồ chiến tranh kinh tế của chủ nghĩa tư bản với cách mạng Việt Nam."
+    },
+    {
+     "id": "C",
+     "text": "Đánh bại xâm lược của Chủ nghĩa đế quốc đối với Việt Nam."
+    },
+    {
+     "id": "D",
+     "text": "Đánh bại chủ nghĩa đế quốc đối với cách mạng Việt Nam."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Đánh bại ý đồ xâm lược lật đổ của kẻ thù đối với cách mạng Việt Nam.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-075",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Mục đích của chiến tranh nhân dân nhằm:",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Bảo vệ vững chắc vùng đất, vùng trời của đất nước, trật tự an toàn xã hội và nền văn hoá."
+    },
+    {
+     "id": "B",
+     "text": "Bảo vệ nền kinh tế, chính trị, xã hội và nền văn hoá."
+    },
+    {
+     "id": "C",
+     "text": "Bảo vệ vững chắc độc lập, chủ quyền, thống nhất, toàn vẹn lãnh thổ, bảo vệ an ninh quốc gia, trật tự an toàn xã hội và nền văn hoá."
+    },
+    {
+     "id": "D",
+     "text": "Bảo vệ vững chắc vùng trời, vùng biển của Tổ quốc."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Bảo vệ vững chắc độc lập, chủ quyền, thống nhất, toàn vẹn lãnh thổ, bảo vệ an ninh quốc gia, trật tự an toàn xã hội và nền văn hoá.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-076",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Mục đích của chiến tranh nhân dân nhằm:",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Bảo vệ nền kinh tế xã hội chủ nghĩa."
+    },
+    {
+     "id": "B",
+     "text": "Bảo vệ Đảng, Nhà nước, nhân dân và chế độ xã hội chủ nghĩa."
+    },
+    {
+     "id": "C",
+     "text": "Bảo vệ chế độ chính trị xã hội chủ nghĩa."
+    },
+    {
+     "id": "D",
+     "text": "Bảo vệ nền dân chủ xã hội chủ nghĩa."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Bảo vệ Đảng, Nhà nước, nhân dân và chế độ xã hội chủ nghĩa.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-077",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Mục đích của chiến tranh nhân dân nhằm:",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Bảo vệ lợi ích các nước xã hội chủ nghĩa."
+    },
+    {
+     "id": "B",
+     "text": "Bảo vệ lợi ích quốc gia, dân tộc."
+    },
+    {
+     "id": "C",
+     "text": "Bảo vệ lợi ích của giai cấp công nhân."
+    },
+    {
+     "id": "D",
+     "text": "Bảo vệ lợi ích của các dân tộc bị áp bức, bóc lột."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Bảo vệ lợi ích quốc gia, dân tộc.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-078",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Mục đích của chiến tranh nhân dân nhằm:",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Giữ vững hòa bình, phát triển đất nước để nhanh chóng hội nhập quốc tế."
+    },
+    {
+     "id": "B",
+     "text": "Giữ vững ổn định chính trị và môi trường hòa bình, phát triển đất nước theo định hướng tư bản chủ nghĩa."
+    },
+    {
+     "id": "C",
+     "text": "Giữ vững ổn định đất nước và phát triển nền văn hóa xã hội chủ nghĩa."
+    },
+    {
+     "id": "D",
+     "text": "Giữ vững ổn định chính trị và môi trường hòa bình, phát triển đất nước theo định hướng xã hội chủ nghĩa."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Giữ vững ổn định chính trị và môi trường hòa bình, phát triển đất nước theo định hướng xã hội chủ nghĩa.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-079",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Đối tượng tác chiến của cách mạng Việt Nam hiện nay là đối tượng nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là chủ nghĩa đế quốc và các thế lực phản động."
+    },
+    {
+     "id": "B",
+     "text": "Là chủ nghĩa tư bản độc quyền."
+    },
+    {
+     "id": "C",
+     "text": "Là Trung quốc và các thế lực phản động."
+    },
+    {
+     "id": "D",
+     "text": "Là chủ nghĩa đế quốc và tay sai."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Là chủ nghĩa đế quốc và các thế lực phản động.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-080",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Âm mưu, thủ đoạn chủ yếu của kẻ thù khi xâm lược nước ta là nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Thực hiện đánh hợp đồng tác chiến với các nước trong phe đồng minh."
+    },
+    {
+     "id": "B",
+     "text": "Thực hiện lâu dài."
+    },
+    {
+     "id": "C",
+     "text": "Thực hiện đánh nhanh, thắng nhanh."
+    },
+    {
+     "id": "D",
+     "text": "Thực hiện đánh nhanh bằng vũ khí công nghệ cao."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Thực hiện đánh nhanh, thắng nhanh.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-081",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Âm mưu, thủ đoạn chủ yếu của kẻ thù khi xâm lược nước ta là nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Kết hợp tiến công quân sự từ bên ngoài vào với bọn quá kích từ bên trong."
+    },
+    {
+     "id": "B",
+     "text": "Kết hợp tiến công quân sự từ bên ngoài vào và nổi dậy của nhân dân từ bên trong."
+    },
+    {
+     "id": "C",
+     "text": "Kết hợp tiến công quân sự và ngoại giao."
+    },
+    {
+     "id": "D",
+     "text": "Kết hợp tiến công quân sự từ bên ngoài vào với hành động bạo loạn lật đổ từ bên trong."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Kết hợp tiến công quân sự từ bên ngoài vào với hành động bạo loạn lật đổ từ bên trong.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-082",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Âm mưu, thủ đoạn chủ yếu của kẻ thù khi xâm lược nước ta là nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Kết hợp với các biện pháp phi vũ trang để lừa bịp dư luận."
+    },
+    {
+     "id": "B",
+     "text": "Kết hợp với các biện pháp dân tộc, tôn giao để lừa bịp dư luận."
+    },
+    {
+     "id": "C",
+     "text": "Kết hợp với các biện pháp dăn đe để lừa bịp dư luận."
+    },
+    {
+     "id": "D",
+     "text": "Kết hợp với các biện pháp văn hóa để lừa bịp dư luận."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Kết hợp với các biện pháp phi vũ trang để lừa bịp dư luận.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-083",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Âm mưu, thủ đoạn chủ yếu của kẻ thù khi xâm lược nước ta là nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Khi tiến công thường trong giai đoạn đầu sử dụng hoả lực đánh bất ngờ, ồ ạt."
+    },
+    {
+     "id": "B",
+     "text": "Khi tiến công thường trong giai đoạn đầu sẽ bao vây, phong toả sau sử dụng hoả lực đánh bất ngờ, ồ ạt."
+    },
+    {
+     "id": "C",
+     "text": "Khi tiến công thường đánh hiệp đồng quân, binh chủng."
+    },
+    {
+     "id": "D",
+     "text": "Khi tiến công thường đánh bằng không quân và hải quân."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Khi tiến công thường trong giai đoạn đầu sẽ bao vây, phong toả sau sử dụng hoả lực đánh bất ngờ, ồ ạt.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-084",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Khi tiến hành chiến tranh xâm lược địch có điểm mạnh gì?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Có ưu thế tuyệt đối về quân số đông."
+    },
+    {
+     "id": "B",
+     "text": "Có ưu thế tuyệt đối về vũ khí trang bị."
+    },
+    {
+     "id": "C",
+     "text": "Có ưu thế tuyệt đối về sức mạnh quân sự, kinh tế và tiềm lực khoa học công nghệ."
+    },
+    {
+     "id": "D",
+     "text": "Có ưu thế tuyệt đối về tiềm lực khoa học hiện đại."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Có ưu thế tuyệt đối về sức mạnh quân sự, kinh tế và tiềm lực khoa học công nghệ.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-085",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Khi tiến hành chiến tranh xâm lược địch có điểm yếu gì?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Đây là cuộc chiến tranh bằng vũ khí công nghệ cao chắc chắn bị nhân loại phản đối."
+    },
+    {
+     "id": "B",
+     "text": "Đây là cuộc chiến tranh hiện đại chắc chắn bị nhân loại phản đối."
+    },
+    {
+     "id": "C",
+     "text": "Đây là cuộc chiến tranh hủy diệt, chắc chắn bị nhân loại phản đối."
+    },
+    {
+     "id": "D",
+     "text": "Đây là cuộc chiến tranh phi nghĩa, chắc chắn bị nhân loại phản đối."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Đây là cuộc chiến tranh phi nghĩa, chắc chắn bị nhân loại phản đối.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-086",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Khi tiến hành chiến tranh xâm lược địch có điểm yếu gì?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Chúng gặp phải một dân tộc Việt Nam có truyền thống chống giặc ngoại xâm và có nền kinh tế, văn hóa phát triển."
+    },
+    {
+     "id": "B",
+     "text": "Chúng gặp phải một dân tộc Việt Nam có các nước xã hội chủ nghĩa ủng hộ."
+    },
+    {
+     "id": "C",
+     "text": "Chúng gặp phải một dân tộc Việt Nam có các nước trên thế giới ủng hộ."
+    },
+    {
+     "id": "D",
+     "text": "Chúng gặp phải một dân tộc Việt Nam có truyền thống yêu nước, chống xâm lược, chắc chắn sẽ làm cho chúng bị tổn thất năng nề, đánh bại xâm lược của địch."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Chúng gặp phải một dân tộc Việt Nam có truyền thống yêu nước, chống xâm lược, chắc chắn sẽ làm cho chúng bị tổn thất năng nề, đánh bại xâm lược của địch.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-087",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Nội dung nào dưới đây thuộc tính chất của chiến tranh nhân nhân bảo vệ Tổ quốc?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là cuộc chiến tranh phòng ngự."
+    },
+    {
+     "id": "B",
+     "text": "Là cuộc chiến tranh chính nghĩa, tự vệ cách mạng."
+    },
+    {
+     "id": "C",
+     "text": "Là cuộc chiến tranh tổng hợp."
+    },
+    {
+     "id": "D",
+     "text": "Là cuộc chiến tranh tiến công."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Là cuộc chiến tranh chính nghĩa, tự vệ cách mạng.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-088",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Nội dung nào dưới đây thuộc tính chất của chiến tranh nhân nhân bảo vệ Tổ quốc?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là cuộc chiến tranh du kích."
+    },
+    {
+     "id": "B",
+     "text": "Là cuộc chiến tranh tương đối hiện đại."
+    },
+    {
+     "id": "C",
+     "text": "Là cuộc chiến công nghệ cao."
+    },
+    {
+     "id": "D",
+     "text": "Là cuộc chiến tranh mang tính hiện đại."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Là cuộc chiến tranh mang tính hiện đại.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-089",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Nội dung nào dưới đây thuộc tính chất của chiến tranh nhân nhân bảo vệ Tổ quốc?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là cuộc chiến tranh toàn dân, toàn diện, lấy lực lượng vũ trang ba thứ quân làm nòng cốt, dưới sự lãnh đạo của Đảng cộng sản Việt Nam."
+    },
+    {
+     "id": "B",
+     "text": "Là cuộc chiến tranh chính nghĩa, tự vệ cách mạng."
+    },
+    {
+     "id": "C",
+     "text": "Là cuộc chiến tranh mạng tính hiện đại."
+    },
+    {
+     "id": "D",
+     "text": "d) Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. d) Cả 3 phương án trên.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-090",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Nội dung nào dưới đây thuộc đặc điểm của chiến tranh nhân nhân bảo vệ Tổ quốc?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Chiến tranh diễn ra khẩn trương, quyết liệt phức tạp ngay từ đầu và trong suốt quá trình chiến tranh."
+    },
+    {
+     "id": "B",
+     "text": "Chiến tranh diễn ra theo lần lượt theo từng trạng thái chiến đấu."
+    },
+    {
+     "id": "C",
+     "text": "Chiến tranh hủy diệt ngay từ đầu và trong suốt quá trình chiến tranh."
+    },
+    {
+     "id": "D",
+     "text": "Chiến tranh ngoại giao diễn ra ngay từ đầu và trong suốt quá trình chiến tranh."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Chiến tranh diễn ra khẩn trương, quyết liệt phức tạp ngay từ đầu và trong suốt quá trình chiến tranh.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-091",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Nội dung nào dưới đây thuộc đặc điểm của chiến tranh nhân nhân bảo vệ Tổ quốc?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Kinh tế đất nước được chuẩn bị sẵn, quân đội nhân dân ngày càng chính quy."
+    },
+    {
+     "id": "B",
+     "text": "Hình thái đất nước được chuẩn bị sẵn sàng, thế trận quốc phòng, an ninh nhân dân ngày càng được củng cố vững chắc."
+    },
+    {
+     "id": "C",
+     "text": "Chính trị đất nước được chuẩn bị sẵn, công an nhân dân ngày càng chính quy."
+    },
+    {
+     "id": "D",
+     "text": "Văn hóa - xã hôi được chuẩn bị sẵn, dân quân tự về được xây dựng vững mạnh."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Hình thái đất nước được chuẩn bị sẵn sàng, thế trận quốc phòng, an ninh nhân dân ngày càng được củng cố vững chắc.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-092",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Có mấy quan điểm của Đảng trong chiến tranh nhân dân bảo vệ Tổ quốc?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Có 4."
+    },
+    {
+     "id": "B",
+     "text": "Có 5."
+    },
+    {
+     "id": "C",
+     "text": "Có 6."
+    },
+    {
+     "id": "D",
+     "text": "Có 7."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Có 6.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-093",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Quan điểm của Đảng trong chiến tranh nhân dân bảo vệ Tổ quốc là quan điểm nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Tiến hành chiến tranh nhân dân, thực hiện toàn dân đánh giặc lấy lực lượng vũ trang nhân dân làm nòng cốt…"
+    },
+    {
+     "id": "B",
+     "text": "Tiến hành chiến tranh tiến công, lấy quân đội nhân dân làm nòng cốt. Kết hợp tác chiến của lực lượng vũ trang địa phương với dân quân tự vệ."
+    },
+    {
+     "id": "C",
+     "text": "Tiến hành chiến phòng ngự lấy lực lượng vũ trang nhân dân làm nòng cốt. Kết hợp tác của nhân dân địa phương."
+    },
+    {
+     "id": "D",
+     "text": "Tiến hành chiến tranh tổng hợp, lấy quân đội nhân dân làm nòng cốt. Kết hợp tác chiến của công an và dân quân tự vệ."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Tiến hành chiến tranh nhân dân, thực hiện toàn dân đánh giặc lấy lực lượng vũ trang nhân dân làm nòng cốt…",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-094",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Quan điểm của Đảng trong chiến tranh nhân dân bảo vệ Tổ quốc là quan điểm nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Chuẩn bị sức mạnh quân sự để đủ sức đánh được lâu dài, rút ngắn thời gian của chiến tranh giành thắng lợi càng sớm càng tốt."
+    },
+    {
+     "id": "B",
+     "text": "Chuẩn bị kinh tế để đủ sức đánh được lâu dài, ra sức thu hẹp không gian của chiến tranh giành thắng lợi càng sớm càng tốt."
+    },
+    {
+     "id": "C",
+     "text": "Chuẩn bị sức mạng văn hóa, tư tưởng trên cả nước cũng như từng khu vực để giành thắng lợi trong chiến tranh."
+    },
+    {
+     "id": "D",
+     "text": "Chuẩn bị mọi mặt trên cả nước cũng như từng khu vực để đủ sức đánh được lâu dài, ra sức thu hẹp không gian, rút ngắn thời gian của chiến tranh ..."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Chuẩn bị mọi mặt trên cả nước cũng như từng khu vực để đủ sức đánh được lâu dài, ra sức thu hẹp không gian, rút ngắn thời gian của chiến tranh ...",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-095",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Quan điểm của Đảng trong chiến tranh nhân dân bảo vệ Tổ quốc là quan điểm nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Tiến hành chiến tranh nhân dân, thực hiện toàn dân đánh giặc lấy lực lượng vũ trang nhân dân làm nòng cốt..."
+    },
+    {
+     "id": "B",
+     "text": "Tiến hành chiến tranh toàn diện, kết hợp chặt chẽ giữa đấu tranh quân sự, chính trị, ngoại giao, kinh tế, văn hoá và tư tưởng, lấy đấu tranh quân sự là chủ yếu..."
+    },
+    {
+     "id": "C",
+     "text": "Chuẩn bị mọi mặt trên cả nước cũng như từng khu vực để đủ sức đánh được lâu dài, ra sức thu hẹp không gian, rút ngắn thời gian của chiến tranh ..."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Cả 3 phương án trên.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-096",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Tổ chức lực lượng chiến tranh nhân dân bao gồm nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Lực lượng chiến tranh nhân dân là toàn dân đánh giặc kết hợp với dân quân du tự vệ dưới sự lãnh đạo của Đảng."
+    },
+    {
+     "id": "B",
+     "text": "Lực lượng chiến tranh nhân dân là quân đội kết hợp với nhân dân đánh giặc."
+    },
+    {
+     "id": "C",
+     "text": "Lực lượng chiến tranh nhân dân là toàn dân đánh giặc, đánh giặc toàn diện lấy lực lượng vũ trang nhân dân gồm 3 thứ quân làm nòng cốt."
+    },
+    {
+     "id": "D",
+     "text": "Lực lượng chiến tranh nhân dân là nông dân đánh giặc dưới sự lãnh đạo của Đảng."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Lực lượng chiến tranh nhân dân là toàn dân đánh giặc, đánh giặc toàn diện lấy lực lượng vũ trang nhân dân gồm 3 thứ quân làm nòng cốt.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-097",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c03",
+   "prompt": "Tổ chức lực lượng chiến tranh nhân dân bao gồm nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Lực lượng chiến tranh nhân dân là toàn dân đánh giặc, đánh giặc toàn diện lấy lực lượng vũ trang nhân dân gồm 3 thứ quân làm nòng cốt"
+    },
+    {
+     "id": "B",
+     "text": "Lực lượng toàn dân được tổ chức chặt chẽ thành lực lượng quần chúng rộng rãi và lực lượng quân sự"
+    },
+    {
+     "id": "C",
+     "text": "Lực lượng vũ trang nhân dân đựơc xây dựng vững mạnh toàn diện, coi trọng cả số lượng và chất lượng, trong dó lấy chất lượng là chính, lấy xây dựng chính trị làm cơ sở."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Cả 3 phương án trên.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-098",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Nội dung nào dưới đây thuộc khái niệm lực lượng vũ trang nhân dân?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là các tổ chức vũ trang của nhân dân Việt Nam, do Đảng Cộng sản Việt Nam lãnh đạo, Nhà nước cộng hòa xã hội chủ nghĩa Việt Nam quản lí..."
+    },
+    {
+     "id": "B",
+     "text": "Là quân đội nhân dân Việt Nam, do Đảng Cộng sản Việt Nam lãnh đạo, Nhà nước cộng hòa xã hội chủ nghĩa Việt Nam quản lí."
+    },
+    {
+     "id": "C",
+     "text": "Là công an nhân dân Việt Nam, do Đảng Cộng sản Việt Nam lãnh đạo, Nhà nước cộng hòa xã hội chủ nghĩa Việt Nam quản lí."
+    },
+    {
+     "id": "D",
+     "text": "Là dân quân tự vệ của nhân dân Việt Nam, do Đảng Cộng sản Việt Nam lãnh đạo, Nhà nước cộng hòa xã hội chủ nghĩa Việt Nam quản lí."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Là các tổ chức vũ trang của nhân dân Việt Nam, do Đảng Cộng sản Việt Nam lãnh đạo, Nhà nước cộng hòa xã hội chủ nghĩa Việt Nam quản lí...",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-099",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Trong khái niệm lực lượng vũ trang nhân dân có nhiệm vụ gì?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Chiến đấu giành độc lập thống nhất Tổ quốc."
+    },
+    {
+     "id": "B",
+     "text": "Chiến đấu giành và giữ vững độc lập, chủ quyền thống nhất và toàn vẹn lãnh thổ của Tổ quốc."
+    },
+    {
+     "id": "C",
+     "text": "Chống “Diễn biến hòa bình” bảo vệ chế độ xã hội chủ nghĩa."
+    },
+    {
+     "id": "D",
+     "text": "Chiến đấu giành giành thắng lợi cho Tổ quốc."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Chiến đấu giành và giữ vững độc lập, chủ quyền thống nhất và toàn vẹn lãnh thổ của Tổ quốc.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-100",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Trong khái niệm lực lượng vũ trang nhân dân có nhiệm vụ gì?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Bảo vệ an ninh quốc gia giữ gìn an ninh chính trị và trật tự an toàn xã hội, bảo vệ nhân dân, bảo vệ chế độ xã hội chủ nghĩa và những thành quả cách mạng."
+    },
+    {
+     "id": "B",
+     "text": "Bảo vệ nền văn hóa xã hội chủ nghĩa."
+    },
+    {
+     "id": "C",
+     "text": "Bảo vệ chế độ chính trị xã hội chủ nghĩa."
+    },
+    {
+     "id": "D",
+     "text": "Bảo vệ an ninh tư tưởng văn hóa, an ninh chính trị và an ninh kinh tế xã hội chủ nghĩa."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Bảo vệ an ninh quốc gia giữ gìn an ninh chính trị và trật tự an toàn xã hội, bảo vệ nhân dân, bảo vệ chế độ xã hội chủ nghĩa và những thành quả cách mạng.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-101",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Trong khái niệm lực lượng vũ trang nhân dân có nhiệm vụ gì?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là lực lượng nòng cốt trong xây dựng nền quốc phòng toàn dân và chiến tranh nhân dân."
+    },
+    {
+     "id": "B",
+     "text": "Là lực lượng nòng cốt xây dựng kinh tế và quốc phòng."
+    },
+    {
+     "id": "C",
+     "text": "Là lực lượng nòng cốt trong xây dựng căn cứ quân sự và chiến tranh nhân dân."
+    },
+    {
+     "id": "D",
+     "text": "Là lực lượng nòng cốt trong đấu tranh chính trị và đấu tranh vũ trang."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Là lực lượng nòng cốt trong xây dựng nền quốc phòng toàn dân và chiến tranh nhân dân.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-102",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Lực lượng vũ trang nhân dân gồm mấy thành phần?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Có 2."
+    },
+    {
+     "id": "B",
+     "text": "Có 3."
+    },
+    {
+     "id": "C",
+     "text": "Có 4."
+    },
+    {
+     "id": "D",
+     "text": "Có 5."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Có 3.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-103",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": ": Lực lượng vũ trang nhân dân gồm những thành phần nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Quân đội nhân dân."
+    },
+    {
+     "id": "B",
+     "text": "Công an nhân dân."
+    },
+    {
+     "id": "C",
+     "text": "Dân quân tự vệ"
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Cả 3 phương án trên.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-104",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Quân đội bao gồm những lực lượng nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Lực lượng thường trực."
+    },
+    {
+     "id": "B",
+     "text": "Lực lượng cơ động."
+    },
+    {
+     "id": "C",
+     "text": "Lực lượng tại chỗ."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Lực lượng thường trực.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-105",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Quân đội bao gồm những lực lượng nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Lực lượng dân quân."
+    },
+    {
+     "id": "B",
+     "text": "Lực lượng du kích."
+    },
+    {
+     "id": "C",
+     "text": "Lực lượng dự bị động viên."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Lực lượng dự bị động viên.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-106",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Công an nhân dân Việt Nam được thành lập ngày, tháng, năm nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "19/8/1944."
+    },
+    {
+     "id": "B",
+     "text": "19/8/1945."
+    },
+    {
+     "id": "C",
+     "text": "19/8/1946."
+    },
+    {
+     "id": "D",
+     "text": "19/8/1947."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. 19/8/1945.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-107",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Nội dung nào dưới đây thuộc quan điểm nguyên tắc xây dựng lực lượng vũ trang nhân dân trong thời kỳ mới của Đảng ta?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Giữ vững và tăng cường sự lãnh đạo của Đảng cộng sản Việt nam đối với các lực lượng vũ trang nhân dân."
+    },
+    {
+     "id": "B",
+     "text": "Giữ vững và tăng cường sự quản lý của Nhà nước đối với các lực lượng vũ trang nhân dân."
+    },
+    {
+     "id": "C",
+     "text": "Giữ vững và tăng cường sự lãnh đạo của giai cấp công nhân đối với các lực lượng vũ trang nhân dân."
+    },
+    {
+     "id": "D",
+     "text": "Giữ vững và tăng cường sự liên minh giai cấp công, nông, binh trong các lực lượng vũ trang nhân dân."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Giữ vững và tăng cường sự lãnh đạo của Đảng cộng sản Việt nam đối với các lực lượng vũ trang nhân dân.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-108",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Nội dung nào dưới đây thuộc quan điểm nguyên tắc xây dựng lực lượng vũ trang nhân dân trong thời kỳ mới của Đảng ta?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Tăng cường đối ngoại để xây dựng lực lượng vũ trang nhân dân."
+    },
+    {
+     "id": "B",
+     "text": "Tự lực, tự cường xây dựng lực lượng vũ trang nhân dân."
+    },
+    {
+     "id": "C",
+     "text": "Kêu gọi viện trợ của nước ngoài để xây dựng lực lượng vũ trang nhân dân."
+    },
+    {
+     "id": "D",
+     "text": "Tự lực, tự cường xây dựng cán bộ, chiến sĩ lực lượng vũ trang nhân dân."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Tự lực, tự cường xây dựng lực lượng vũ trang nhân dân.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-109",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Nội dung nào dưới đây thuộc quan điểm nguyên tắc xây dựng lực lượng vũ trang nhân dân trong thời kỳ mới của Đảng ta?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Bảo đảm cho lực lượng vũ trang nhân dân luôn trong trạng thái sẵn sàng chiến đấu và chiến đấu thắng lợi."
+    },
+    {
+     "id": "B",
+     "text": "Bảo đảm cho lực lượng vũ trang nhân dân luôn được trang bị hiện đại."
+    },
+    {
+     "id": "C",
+     "text": "Bảo đảm cho lực lượng vũ trang nhân dân luôn trong trạng thái sẵn sàng chiến đấu và đi làm kinh tế."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Bảo đảm cho lực lượng vũ trang nhân dân luôn trong trạng thái sẵn sàng chiến đấu và chiến đấu thắng lợi.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-110",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Có mấy quan điểm nguyên tắc xây dựng lực lượng vũ trang nhân dân?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Có 3."
+    },
+    {
+     "id": "B",
+     "text": "Có 4."
+    },
+    {
+     "id": "C",
+     "text": "Có 5."
+    },
+    {
+     "id": "D",
+     "text": "Có 6."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Có 4.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-111",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Đảng Cộng sản Việt nam lãnh đạo lực lượng vũ trang nhân dân theo nguyên tắc nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "“Tuyệt đối, về mọi mặt\"."
+    },
+    {
+     "id": "B",
+     "text": "“Trực tiếp về mọi mặt\"."
+    },
+    {
+     "id": "C",
+     "text": "“Về mọi mặt\"."
+    },
+    {
+     "id": "D",
+     "text": "“Tuyệt đối, trực tiếp về mọi mặt\"."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. “Tuyệt đối, trực tiếp về mọi mặt\".",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-112",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Quán triệt quan điểm “Tự lực tự cường trong xây dựng lực lượng vũ trang” hiện nay cần tập trung vào nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Tích cực tham gia nghiên cứu khoa học."
+    },
+    {
+     "id": "B",
+     "text": "Tích cực tham gia xây dựng nông thôn mới."
+    },
+    {
+     "id": "C",
+     "text": "Tích cực tham gia xây dựng phát triển kinh tế, thực hành tiết kiệm."
+    },
+    {
+     "id": "D",
+     "text": "Tích cực tham gia xây dựng phát triển kinh tế vùng 135."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Tích cực tham gia xây dựng phát triển kinh tế, thực hành tiết kiệm.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-113",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Quán triệt quan điểm “Xây dựng lực lượng vũ trang nhân dân lấy chất lượng là chính, lấy xây dựng chính trị làm cơ sở” cần thực hiện tốt nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Phải xây dựng quân đông, vũ khí hiện đại để đáp ứng yêu cầu chiến tranh."
+    },
+    {
+     "id": "B",
+     "text": "Giải quyết tốt mối quan hệ giữa số lượng và chất lượng, lấy số lượng là chính."
+    },
+    {
+     "id": "C",
+     "text": "Giải quyết tốt mối quan hệ giữa con người và vũ khí trang bị, trong đó vũ khí là quyết định."
+    },
+    {
+     "id": "D",
+     "text": "Nắm vững và giải quyết tốt mối quan hệ giữa số lượng và chất lượng. Nâng cao chất lượng là chính, đồng thời có số lượng phù hợp với tình hình nhiệm vụ và khả năng kinh tế của đất nước…"
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Nắm vững và giải quyết tốt mối quan hệ giữa số lượng và chất lượng. Nâng cao chất lượng là chính, đồng thời có số lượng phù hợp với tình hình nhiệm vụ và khả năng kinh tế của đất nước…",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-114",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Quán triệt quan điểm “Xây dựng lực lượng vũ trang nhân dân lấy chất lượng là chính, lấy xây dựng chính trị làm cơ sở” cần thực hiện tốt nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Làm tốt công tác xây dựng công sự trận địa của lực lượng vũ trang nhân dân."
+    },
+    {
+     "id": "B",
+     "text": "Thường xuyên làm tốt công tác huấn luyện, diễn tập nâng cao trình độ sẵn sàng chiến đấu của lực lượng vũ trang nhân dân."
+    },
+    {
+     "id": "C",
+     "text": "Làm tốt công tác huấn luyện chiến sĩ mới của lực lượng vũ trang nhân dân."
+    },
+    {
+     "id": "D",
+     "text": "Thường xuyên làm tốt công tác xây dựng chính quy để nâng cao trình độ sẵn sàng chiến đấu của lực lượng vũ trang nhân dân."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Thường xuyên làm tốt công tác huấn luyện, diễn tập nâng cao trình độ sẵn sàng chiến đấu của lực lượng vũ trang nhân dân.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-115",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Phương hướng cơ bản xây dựng lực lượng vũ trang nhân dân là nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Xây dựng quân đội, công an nhân dân theo hướng cách mạng, chính quy, tinh nhuệ, từng bước hiện đại."
+    },
+    {
+     "id": "B",
+     "text": "Xây dựng quân đội, công an nhân dân theo hướng hiện đại."
+    },
+    {
+     "id": "C",
+     "text": "Xây dựng quân đội, công an theo hướng cách mạng, chính quy."
+    },
+    {
+     "id": "D",
+     "text": "Xây dựng quân đội, công an nhân dân theo hướng tinh nhuệ, hiện đại."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Xây dựng quân đội, công an nhân dân theo hướng cách mạng, chính quy, tinh nhuệ, từng bước hiện đại.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-116",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Phương hướng cơ bản xây dựng lực lượng vũ trang nhân dân là nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Xây dựng lực lượng cảnh sát biển hùng hậu được huấn luyện và động viên nhanh theo kế hoạch."
+    },
+    {
+     "id": "B",
+     "text": "Xây dựng lực lượng dự bị động viên hùng hậu được huấn luyện và quản lý tốt, đảm bảo khi cần thiết động viên nhanh theo kế hoạch."
+    },
+    {
+     "id": "C",
+     "text": "Xây dựng lực lượng sinh viên hùng hậu được huấn luyện quốc phòng an ninh, khi cần thiết động viên nhanh theo kế hoạch."
+    },
+    {
+     "id": "D",
+     "text": "Xây dựng lực lượng bộ đội biên phòng hùng hậu được huấn luyện và khi cần thiết động viên nhanh theo kế hoạch."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Xây dựng lực lượng dự bị động viên hùng hậu được huấn luyện và quản lý tốt, đảm bảo khi cần thiết động viên nhanh theo kế hoạch.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-117",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Phương hướng cơ bản xây dựng lực lượng vũ trang nhân dân là nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Xây dựng lực lượng vệ binh vững mạnh, lấy chất lượng làm chính."
+    },
+    {
+     "id": "B",
+     "text": "Xây dựng lực lượng anh ninh vững mạnh, rộng khắp, lấy chất lượng làm chính."
+    },
+    {
+     "id": "C",
+     "text": "Xây dựng lực lượng dân quân tự vệ vững mạnh, rộng khắp, lấy chất lượng làm chính."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Xây dựng lực lượng dân quân tự vệ vững mạnh, rộng khắp, lấy chất lượng làm chính.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-118",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Nội dung nào dưới đây là biện pháp chủ yếu xây dựng lực lượng vũ trang nhân dân?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Tổ chức các đơn vị quân phải đông, có sức chiến đấu cao."
+    },
+    {
+     "id": "B",
+     "text": "Tổ chức các đơn vị phải gọn, mạnh, cơ động; có sức chiến đấu cao. Có số lượng phù hợp, chất lượng tốt..."
+    },
+    {
+     "id": "C",
+     "text": "Tổ chức các đơn vị phải mạnh, số lượng đông, có sức chiến đấu cao."
+    },
+    {
+     "id": "D",
+     "text": "Tổ chức các đơn vị phải có sức chiến đấu cao. Có số lượng đông, chất lượng tốt."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Tổ chức các đơn vị phải gọn, mạnh, cơ động; có sức chiến đấu cao. Có số lượng phù hợp, chất lượng tốt...",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-119",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Nội dung nào dưới đây là biện pháp chủ yếu xây dựng lực lượng vũ trang nhân dân?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Nâng cao chất lượng văn hóa trong xây dựng và phát triển quân đội và công an Việt nam."
+    },
+    {
+     "id": "B",
+     "text": "Nâng cao chất lượng huấn luyện thể lực, xây dựng và phát triển các môn nghệ thuật trong quân đội và công an."
+    },
+    {
+     "id": "C",
+     "text": "Nâng cao chất lượng huấn luyện, giáo dục, xây dựng và phát triển khoa học nghệ thuật quân sự, khoa học công an Việt Nam."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Nâng cao chất lượng huấn luyện, giáo dục, xây dựng và phát triển khoa học nghệ thuật quân sự, khoa học công an Việt Nam.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-120",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Nội dung nào dưới đây là biện pháp chủ yếu xây dựng lực lượng vũ trang nhân dân?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Xây dựng đội ngũ cán bộ, chiến sĩ có giác ngộ tốt."
+    },
+    {
+     "id": "B",
+     "text": "Xây dựng đội ngũ cán bộ lực lượng vũ trang có trình độ tiên tiến."
+    },
+    {
+     "id": "C",
+     "text": "Xây dựng đội ngũ cán bộ giỏi về chiến đấu."
+    },
+    {
+     "id": "D",
+     "text": "Xây dựng đội ngũ cán bộ lực lượng vũ trang có phẩm chất, năng lực tốt."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Xây dựng đội ngũ cán bộ lực lượng vũ trang có phẩm chất, năng lực tốt.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-121",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c04",
+   "prompt": "Nội dung nào dưới đây là biện pháp chủ yếu xây dựng lực lượng vũ trang nhân dân?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Thực hiện nghiêm túc và đầy đủ các chính sách của Đảng, nhà nước đối với lực lượng vũ trang nhân dân."
+    },
+    {
+     "id": "B",
+     "text": "Từng bước giải quyết yêu cầu về vũ khí, trang bị kỹ thuật của lực lượng vũ trang."
+    },
+    {
+     "id": "C",
+     "text": "Xây dựng đội ngũ cán bộ lực lượng vũ trang có phẩm chất, năng lực tốt."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Cả 3 phương án trên.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-122",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Kết hợp phát triển kinh tế- xã hội với tăng cường củng cố quốc phòng- an ninh là gì?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là hoạt động phát triển kinh tế - xã hội và xây dựng quốc phòng - an ninh."
+    },
+    {
+     "id": "B",
+     "text": "Là hoạt động tích cực, chủ động của Đảng trong việc gắn kết chặt chẽ hoạt động kinh tế- xã hội với quốc phòng - an ninh."
+    },
+    {
+     "id": "C",
+     "text": "Là hoạt động tích cực, chủ động của nhân dân trong việc phát triển kinh tế- xã hội và quốc phòng - an ninh."
+    },
+    {
+     "id": "D",
+     "text": "Là hoạt động tích cực, chủ động của Nhà nước và nhân dân trong việc gắn kết chặt chẽ hoạt động kinh tế- xã hội, quốc phòng - an ninh trong một chỉnh thể thống nhất trên phạm vi cả nước cũng như ở từng địa phương..."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Là hoạt động tích cực, chủ động của Nhà nước và nhân dân trong việc gắn kết chặt chẽ hoạt động kinh tế- xã hội, quốc phòng - an ninh trong một chỉnh thể thống nhất trên phạm vi cả nước cũng như ở từng địa phương...",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-123",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Nội dung nào dưới đây thuộc cơ sở lý luận của việc kết hợp phát triển kinh tế - xã hội với tăng cường củng cố quốc phòng - an ninh?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Kinh tế, quốc phòng, an ninh là những mặt hoạt động cơ bản của mỗi quốc gia, dân tộc độc lập có chủ quyền. Mỗi lĩnh vực có mục đích, cách thức hoạt động riêng và chịu sự chi phối của hệ thống quy luật riêng, song giữa chúng lại có mối quan hệ, tác động qua lại lẫn nhau."
+    },
+    {
+     "id": "B",
+     "text": "Kinh tế, quốc phòng, an ninh là những mặt hoạt động của các quốc gia; chịu sự chi phối của hệ thống quy luật riêng và chúng không có mối quan hệ với nhau."
+    },
+    {
+     "id": "C",
+     "text": "Kinh tế, quốc phòng, an ninh là những phạm trù riêng biết. Mỗi lĩnh vực có mục đích, cách thức hoạt động riêng và chúng không có liên quan đến nhau."
+    },
+    {
+     "id": "D",
+     "text": "Kinh tế, quốc phòng, an ninh là những nội dung để xây dựng và bảo vệ đất nước. Mỗi lĩnh vực có các bộ, ngành lãnh đạo riêng và chúng không có mối quan hệ với nhau."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Kinh tế, quốc phòng, an ninh là những mặt hoạt động cơ bản của mỗi quốc gia, dân tộc độc lập có chủ quyền. Mỗi lĩnh vực có mục đích, cách thức hoạt động riêng và chịu sự chi phối của hệ thống quy luật riêng, song giữa chúng lại có mối quan hệ, tác động qua lại lẫn nhau.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-124",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Kinh tế - xã hội quyết định tới quốc phòng - an ninh ở nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Kinh tế quyết định đến việc đối ngoại của của quốc phòng - an ninh."
+    },
+    {
+     "id": "B",
+     "text": "Kinh tế quyết định đến chính trị của quốc phòng - an ninh."
+    },
+    {
+     "id": "C",
+     "text": "Kinh tế quyết định đến sức mạnh văn hóa nghệ thuật của quốc phòng - an ninh."
+    },
+    {
+     "id": "D",
+     "text": "Kinh tế quyết định đến nguồn gốc ra đời, sức mạnh của quốc phòng - an ninh."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Kinh tế quyết định đến nguồn gốc ra đời, sức mạnh của quốc phòng - an ninh.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-125",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Kinh tế - xã hội quyết định tới quốc phòng - an ninh ở nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Kinh tế quyết định mối quan hệ của nhà nước với hoạt động quốc phòng - an ninh."
+    },
+    {
+     "id": "B",
+     "text": "Kinh tế quyết định đến việc cung cấp cơ sở vật chất kĩ thuật, nhân lực cho hoạt động quốc phòng- an ninh."
+    },
+    {
+     "id": "C",
+     "text": "Kinh tế quyết định đến sự lãnh đạo của Đảng với hoạt động quốc phòng- an ninh."
+    },
+    {
+     "id": "D",
+     "text": "Kinh tế quyết định các mối quan hệ trong hoạt động quốc phòng- an ninh."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Kinh tế quyết định đến việc cung cấp cơ sở vật chất kĩ thuật, nhân lực cho hoạt động quốc phòng- an ninh.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-126",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Kinh tế - xã hội quyết định tới quốc phòng - an ninh ở nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Kinh tế còn quyết định đến việc cung cấp số lượng, chất lượng nguồn nhân lực cho quốc phòng - an ninh, qua đó quyết định đến tổ chức Biên chế của lực lượng vũ trang; quyết định đến đường lối chiến lược quốc phòng- an ninh."
+    },
+    {
+     "id": "B",
+     "text": "Kinh tế quyết định đến nguồn gốc ra đời, sức mạnh của QP-AN."
+    },
+    {
+     "id": "C",
+     "text": "Bản chất của chế độ kinh tế- xã hội quyết định đến bản chất của quốc phòng - an ninh."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Cả 3 phương án trên.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-127",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Quốc phòng - an ninh tác động trở lại kinh tế - xã hội như thế nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Quốc phòng - an ninh vững mạnh sẽ sản xuất được nhiều vũ khí hiện đại để trao đổi, buôn bán làm cho kinh tế phát triển."
+    },
+    {
+     "id": "B",
+     "text": "Quốc phòng - an ninh vững mạnh sẽ tạo được áp lực với các nước để ký kết các hợp đồng kinh tế."
+    },
+    {
+     "id": "C",
+     "text": "Quốc phòng - An ninh vững mạnh sẽ tạo môi trường hoà bình, ổn định lâu dài, tạo điều kiện thuận lợi cho phát triển kinh tế - xã hội."
+    },
+    {
+     "id": "D",
+     "text": "Quốc phòng - an ninh vững mạnh sẽ xây dựng được đội ngũ cán bộ có tri thức để làm kinh tế phát triển"
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Quốc phòng - An ninh vững mạnh sẽ tạo môi trường hoà bình, ổn định lâu dài, tạo điều kiện thuận lợi cho phát triển kinh tế - xã hội.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-128",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Để kết hợp phát triên kinh tế xã hội với tăng cường củng cố quốc phòng, an ninh và đối ngoại ở nước ta hiện nay cần thực hiện tốt nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Kết hợp trong dự toán ngân sách của Nhà nước."
+    },
+    {
+     "id": "B",
+     "text": "Kết hợp trong xác định chiến lược phát triển kinh tế- xã hội."
+    },
+    {
+     "id": "C",
+     "text": "Kết hợp trong xác định đường lối phát triển kinh tế- xã hội ở cấp xã, phường."
+    },
+    {
+     "id": "D",
+     "text": "Kết hợp trong xác định phát triển kinh tế ở từng địa phương."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Kết hợp trong xác định chiến lược phát triển kinh tế- xã hội.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-129",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Để kết hợp phát triên kinh tế xã hội với tăng cường củng cố quốc phòng, an ninh và đối ngoại ở nước ta hiện nay cần thực hiện tốt nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Kết hợp phát tiển kinh tế xã hội với tăng cường, củng cố quốc phòng, an ninh trong ngành địa chất."
+    },
+    {
+     "id": "B",
+     "text": "Kết hợp phát tiển kinh tế xã hội với tăng cường, củng cố quốc phòng, an ninh trong ngành khai khoáng."
+    },
+    {
+     "id": "C",
+     "text": "Kết hợp phát tiển kinh tế xã hội với tăng cường, củng cố quốc phòng, an ninh trong các ngành kinh tế mũi nhọn."
+    },
+    {
+     "id": "D",
+     "text": "Kết hợp phát tiển kinh tế xã hội với tăng cường, củng cố quốc phòng, an ninh trong các ngành, các lĩnh vực kinh tế chủ yếu."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Kết hợp phát tiển kinh tế xã hội với tăng cường, củng cố quốc phòng, an ninh trong các ngành, các lĩnh vực kinh tế chủ yếu.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-130",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Để kết hợp phát triên kinh tế xã hội với tăng cường củng cố quốc phòng, an ninh và đối ngoại ở nước ta hiện nay cần thực hiện tốt nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Kết hợp trong xác định chiến lược phát triển kinh tế- xã hội."
+    },
+    {
+     "id": "B",
+     "text": "Kết hợp phát triển kinh tế- xã hội với tăng cường củng cố quốc phòng- an ninh trong phát triển các vùng lãnh thổ."
+    },
+    {
+     "id": "C",
+     "text": "Kết hợp phát tiển kinh tế xã hội với tăng cường, củng cố quốc phòng, an ninh trong các ngành, các lĩnh vực kinh tế chủ yếu."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Cả 3 phương án trên.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-131",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Có mấy nội dung kết hợp phát triên kinh tế xã hội với tăng cường củng cố quốc phòng, an ninh và đối ngoại ở nước ta hiện nay?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Có 3."
+    },
+    {
+     "id": "B",
+     "text": "Có 4."
+    },
+    {
+     "id": "C",
+     "text": "Có 5."
+    },
+    {
+     "id": "D",
+     "text": "Có 6."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Có 5.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-132",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Kết hợp phát triển kinh tế- xã hội với tăng cường củng cố quốc phòng- an ninh đối với vùng núi, biên giới cần thực hiện tốt nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Phải quan tâm đầu tư phát triển kinh tế, củng cố quốc phòng, an ninh ở các vùng cửa khẩu, các vùng giáp biên giới với các nước."
+    },
+    {
+     "id": "B",
+     "text": "Phải quan tâm đầu tư phát triển kinh tế, củng cố quốc phòng, an ninh ở các vùng du lịch ở cửa khẩu."
+    },
+    {
+     "id": "C",
+     "text": "Phải quan tâm đầu tư phát triển kinh tế, củng cố quốc phòng, an ninh ở các vùng núi cao, rừng sâu."
+    },
+    {
+     "id": "D",
+     "text": "Phải quan tâm đầu tư phát triển kinh tế, củng cố quốc phòng, an ninh ở các vùng giáp biên giới với Lào."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Phải quan tâm đầu tư phát triển kinh tế, củng cố quốc phòng, an ninh ở các vùng cửa khẩu, các vùng giáp biên giới với các nước.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-133",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Kết hợp phát triển kinh tế- xã hội với tăng cường củng cố quốc phòng- an ninh đối với vùng núi, biên giới cần thực hiện tốt nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Thực hiện tốt chương trình xây dựng nông thôn mới đối với các xã nghèo."
+    },
+    {
+     "id": "B",
+     "text": "Thực hiện tốt chương trình văn hóa - thể thao đối với các xã nghèo."
+    },
+    {
+     "id": "C",
+     "text": "Thực hiện tốt chương trình xóa đói, giảm nghèo, chương trình 135 về phát triển kinh tế - xã hội đối với các xã nghèo."
+    },
+    {
+     "id": "D",
+     "text": "Thực hiện tốt chương trình viện trợ kinh tế đối với các xã nghèo."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Thực hiện tốt chương trình xóa đói, giảm nghèo, chương trình 135 về phát triển kinh tế - xã hội đối với các xã nghèo.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-134",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Kết hợp phát triển kinh tế- xã hội với tăng cường củng cố quốc phòng- an ninh đối với vùng núi, biên giới cần thực hiện tốt nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Đối với những nơi có địa thế quan trọng, vùng sâu, vùng xa còn nhiều khó khăn, cần kết hợp mọi nguồn lực, mọi lực lượng của cả Trung ương và địa phương để cùng giải quyết."
+    },
+    {
+     "id": "B",
+     "text": "Đối với những nơi có địa thế quan trọng, vùng sâu, vùng xa, cần kết hợp mọi nguồn lực của cả Trung ương để giải quyết."
+    },
+    {
+     "id": "C",
+     "text": "Đối với những nơi có địa thế quan trọng, vùng sâu, vùng xa, cần kết hợp mọi nguồn lực của địa phương để giải quyết."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Đối với những nơi có địa thế quan trọng, vùng sâu, vùng xa còn nhiều khó khăn, cần kết hợp mọi nguồn lực, mọi lực lượng của cả Trung ương và địa phương để cùng giải quyết.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-135",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Kết hợp phát triển kinh tế- xã hội với tăng cường củng cố quốc phòng - an ninh đối với biển đảo cần thực hiện tốt nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Tập trung trước hết vào xây dựng, hoàn thiện chiến lược phát triển kinh tế và xây dựng thế trận quốc phòng, an ninh bảo vệ biển, đảo trong tình hình mới."
+    },
+    {
+     "id": "B",
+     "text": "Tập trung trước hết vào phát triển kinh tế, văn hóa biển, đảo trong tình hình mới."
+    },
+    {
+     "id": "C",
+     "text": "Tập trung trước hết vào xây dựng quốc phòng, an ninh bảo vệ biển, đảo trong tình hình mới."
+    },
+    {
+     "id": "D",
+     "text": "Tập trung trước hết vào phát triển du lịch biển, đảo trong tình hình mới."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Tập trung trước hết vào xây dựng, hoàn thiện chiến lược phát triển kinh tế và xây dựng thế trận quốc phòng, an ninh bảo vệ biển, đảo trong tình hình mới.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-136",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Kết hợp phát triển kinh tế- xã hội với tăng cường củng cố quốc phòng - an ninh trong công nghiệp cần thực hiện tốt nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Kết hợp ngay từ khâu quy hoạch bố trí các đơn vị kinh tế của ngành công nghiệp. Bố trí một cách hợp lý trên các vùng lãnh thổ, quan tâm đến vùng sâu, vùng xa…"
+    },
+    {
+     "id": "B",
+     "text": "Kết hợp ngay từ khâu lập dự án các đơn vị kinh tế của ngành công nghiệp. Bố trí dàn đều trên các vùng lãnh thổ …"
+    },
+    {
+     "id": "C",
+     "text": "Kết hợp ngay từ khâu ký kết các dự án các đơn vị kinh tế của ngành công nghiệp. Bố trí vào địa bàn vùng sâu, vùng xa…"
+    },
+    {
+     "id": "D",
+     "text": "Kết hợp ngay từ khâu xây dựng kết hoạch phát triển các đơn vị kinh tế của ngành công nghiệp."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Kết hợp ngay từ khâu quy hoạch bố trí các đơn vị kinh tế của ngành công nghiệp. Bố trí một cách hợp lý trên các vùng lãnh thổ, quan tâm đến vùng sâu, vùng xa…",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-137",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Kết hợp phát triển kinh tế- xã hội với tăng cường củng cố quốc phòng - an ninh trong lĩnh vực y tế cần thực hiện tốt nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Phối hợp, kết hợp chặt chẽ giữa ngành y tế dân sự với y tế công an trong khám chữa bệnh cho nhân dân, bộ đội và cho người nước ngoài."
+    },
+    {
+     "id": "B",
+     "text": "Đào tạo nguồn nhân lực y tế quân đội, đáp ứng nhu cầu khám chữa bệnh cho nhân dân, bộ đội và cho người nước ngoài."
+    },
+    {
+     "id": "C",
+     "text": "Phối hợp, kết hợp chặt chẽ giữa ngành y tế quân đội và công an trong khám chữa bệnh cho nhân dân, bộ đội và cho người nước ngoài."
+    },
+    {
+     "id": "D",
+     "text": "Phối hợp, kết hợp chặt chẽ giữa ngành y tế dân sự với y tế quân sự trong nghiên cứu, ứng dụng, trong đào tạo nguồn nhân lực, trong khám chữa bệnh cho nhân dân, bộ đội"
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Phối hợp, kết hợp chặt chẽ giữa ngành y tế dân sự với y tế quân sự trong nghiên cứu, ứng dụng, trong đào tạo nguồn nhân lực, trong khám chữa bệnh cho nhân dân, bộ đội",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-138",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Kết hợp phát triển kinh tế- xã hội với tăng cường củng cố quốc phòng - an ninh trong nhiệm vụ chiến lược bảo vệ Tổ quốc là nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Tổ chức biên chế và bố trí lực lượng vũ trang phải phù hợp với điều kiện kinh tế và nhu cầu phòng thủ đất nước."
+    },
+    {
+     "id": "B",
+     "text": "Tổ chức biên chế và bố trí lực lượng vũ trang có số lượng đông, vũ khí hiện đại."
+    },
+    {
+     "id": "C",
+     "text": "Tổ chức biên chế và bố trí lực lượng quân đội phải hiện đại đáp ứng nhu cầu phòng thủ đất nước."
+    },
+    {
+     "id": "D",
+     "text": "Tổ chức biên chế và bố trí lực lượng công an mạnh, quân đông, trang bị vũ khí hiện đại để bảo vệ đất nước."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Tổ chức biên chế và bố trí lực lượng vũ trang phải phù hợp với điều kiện kinh tế và nhu cầu phòng thủ đất nước.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-139",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Kết hợp phát triển kinh tế- xã hội với tăng cường củng cố quốc phòng - an ninh trong nhiệm vụ chiến lược bảo vệ Tổ quốc là nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Sử dụng tối đa tài chính, cơ sở vật chất kĩ thuật cho huấn luyện, chiến đấu và sẵn sàng chiến đấu của lực lượng vũ trang."
+    },
+    {
+     "id": "B",
+     "text": "Sử dụng tiết kiệm, hiệu quả nhân lực, tài chính, cơ sở vật chất kĩ thuật trong huấn luyện, chiến đấu và sẵn sàng chiến đấu của lực lượng vũ trang."
+    },
+    {
+     "id": "C",
+     "text": "Sử dụng tối thiểu nguồn nhân lực, tài chính cho huấn luyện, chiến đấu và sẵn sàng chiến đấu của lực lượng vũ trang để tiết kiện xây dựng đất nước."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Sử dụng tiết kiệm, hiệu quả nhân lực, tài chính, cơ sở vật chất kĩ thuật trong huấn luyện, chiến đấu và sẵn sàng chiến đấu của lực lượng vũ trang.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-140",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Kết hợp phát triển kinh tế- xã hội với tăng cường củng cố quốc phòng - an ninh trong nhiệm vụ chiến lược bảo vệ Tổ quốc là nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Phát huy tốt vai trò tham mưu của các tổ chức chính trị - xã hội trong việc thẩm định, đánh giá các dự án đầu tư, nhất là các dự án đầu tư có vốn nước ngoài."
+    },
+    {
+     "id": "B",
+     "text": "Phát huy tốt vai trò tham mưu của các tổ chức quần chúng trong việc thẩm định, đánh giá các dự án đầu tư, nhất là các dự án đầu tư có vốn nước ngoài."
+    },
+    {
+     "id": "C",
+     "text": "Phát huy tốt vai trò tham mưu của dân quân tự vệ trong việc thẩm định, đánh giá các dự án đầu tư, nhất là các dự án đầu tư có vốn nước ngoài."
+    },
+    {
+     "id": "D",
+     "text": "Phát huy tốt vai trò tham mưu của các cơ quan quân sự, công an các cấp trong việc thẩm định, đánh giá các dự án đầu tư, nhất là các dự án đầu tư có vốn nước ngoài."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Phát huy tốt vai trò tham mưu của các cơ quan quân sự, công an các cấp trong việc thẩm định, đánh giá các dự án đầu tư, nhất là các dự án đầu tư có vốn nước ngoài.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-141",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Kết hợp phát triển kinh tế- xã hội với tăng cường củng cố quốc phòng - an ninh trong nhiệm vụ chiến lược bảo vệ Tổ quốc là nội dung nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Phát huy tốt vai trò tham mưu của các cơ quan quân sự, công an các cấp trong việc thẩm định, đánh giá các dự án đầu tư, nhất là các dự án đầu tư có vốn nước ngoài."
+    },
+    {
+     "id": "B",
+     "text": "Tổ chức biên chế và bố trí lực lượng vũ trang phải phù hợp với điều kiện kinh tế và nhu cầu phòng thủ đất nước."
+    },
+    {
+     "id": "C",
+     "text": "Sử dụng tiết kiệm, hiệu quả nhân lực, tài chính, cơ sở vật chất kĩ thuật trong huấn luyện, chiến đấu và sẵn sàng chiến đấu của lực lượng vũ trang."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Cả 3 phương án trên.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-142",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Nội dung nào dưới đây thuộc giải pháp thực hiện kết hợp phát triển kinh tế - xã hội gắn với tăng cường củng cố quốc phòng - an ninh ở nước ta hiện nay?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Xây dựng các cơ quan chỉ đao kết hợp phát triển kinh tế - xã hội với tăng cường củng cố quốc phòng - an ninh trong tình hình mới."
+    },
+    {
+     "id": "B",
+     "text": "Hoàn chỉnh hệ thống pháp luật, cơ chế chính sách có liên quan đến thực hiện kết hợp phát triển kinh tế - xã hội với tăng cường củng cố quốc phòng - an ninh trong tình hình mới."
+    },
+    {
+     "id": "C",
+     "text": "Hoàn chỉnh hệ thống văn bản chỉ đạo kết hợp phát triển kinh tế - xã hội với tăng cường củng cố quốc phòng - an ninh trong tình hình mới."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Hoàn chỉnh hệ thống pháp luật, cơ chế chính sách có liên quan đến thực hiện kết hợp phát triển kinh tế - xã hội với tăng cường củng cố quốc phòng - an ninh trong tình hình mới.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-143",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Nội dung nào dưới đây thuộc giải pháp thực hiện kết hợp phát triển kinh tế - xã hội gắn với tăng cường củng cố quốc phòng - an ninh ở nước ta hiện nay?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Củng cố kiện toàn và phát huy vai trò tham mưu của đơn vị quân đôi các cấp."
+    },
+    {
+     "id": "B",
+     "text": "Củng cố kiện toàn và phát huy vai trò tham mưu của cơ quan chuyên trách quốc phòng, an ninh các cấp."
+    },
+    {
+     "id": "C",
+     "text": "Củng cố kiện toàn và phát huy vai trò tham mưu đơn vị công an các cấp."
+    },
+    {
+     "id": "D",
+     "text": "Củng cố kiện toàn và phát huy vai trò tham mưu Dân quân tự vệ các cấp."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Củng cố kiện toàn và phát huy vai trò tham mưu của cơ quan chuyên trách quốc phòng, an ninh các cấp.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-144",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c05",
+   "prompt": "Nội dung nào dưới đây thuộc giải pháp thực hiện kết hợp phát triển kinh tế - xã hội gắn với tăng cường củng cố quốc phòng - an ninh ở nước ta hiện nay?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Xây dựng chiến lược tổng thể kết hợp phát triển kinh tế - xã hội với tăng cường củng cố quốc phòng, an ninh trong thời kỳ mới."
+    },
+    {
+     "id": "B",
+     "text": "Hoàn chỉnh hệ thống pháp luật, cơ chế chính sách có liên quan đến thực hiện kết hợp phát triển triển kinh tế - xã hội với tăng cường củng cố quốc phòng, an ninh trong tình hình mới."
+    },
+    {
+     "id": "C",
+     "text": "Củng cố kiện toàn và phát huy vai trò tham mưu của cơ quan chuyên trách quốc phòng, an ninh các cấp."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Cả 3 phương án trên.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-145",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Cuộc chiến tranh giữ nước đầu tiên là cuộc kháng chiến chống quân nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Nhà Đường."
+    },
+    {
+     "id": "B",
+     "text": "Nhà Tần."
+    },
+    {
+     "id": "C",
+     "text": "Nhà Tỳ."
+    },
+    {
+     "id": "D",
+     "text": "Nhà Nam Hán."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Nhà Tần.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-146",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Cuộc khởi nghĩa của hai bà Trưng vào mùa xuân năm nào (TCN)?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "40."
+    },
+    {
+     "id": "B",
+     "text": "44."
+    },
+    {
+     "id": "C",
+     "text": "50."
+    },
+    {
+     "id": "D",
+     "text": "54."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. 40.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-147",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Ba lần kháng chiến chống quân Nguyên của nhà Trần ở thế kỉ XIII vào những năm nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Cuộc kháng chiến lần thứ nhất vào năm 1258."
+    },
+    {
+     "id": "B",
+     "text": "Cuộc kháng chiến lần thứ hai vào năm 1285."
+    },
+    {
+     "id": "C",
+     "text": "Cuộc kháng chiến lần thứ ba vào năm 1287-1288."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Cả 3 phương án trên.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-148",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Nội dung nào dưới đây thuộc nghệ thuật đánh giặc của ông cha?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Về tư tưởng chỉ đạo tác chiến."
+    },
+    {
+     "id": "B",
+     "text": "Về tư tưởng chỉ đạo quân sự."
+    },
+    {
+     "id": "C",
+     "text": "Về tư tưởng chỉ đạo kỹ thuật."
+    },
+    {
+     "id": "D",
+     "text": "Về tư tưởng chỉ đạo chính trị."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Về tư tưởng chỉ đạo tác chiến.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-149",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Nội dung nào dưới đây thuộc nghệ thuật đánh giặc của ông cha?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Về mưu kế ngoại giao."
+    },
+    {
+     "id": "B",
+     "text": "Về mưu kế giảng hòa."
+    },
+    {
+     "id": "C",
+     "text": "Về mưu kế đánh giặc."
+    },
+    {
+     "id": "D",
+     "text": "Về mưu kế tạo phản."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Về mưu kế đánh giặc.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-150",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Nội dung nào dưới đây thuộc nghệ thuật đánh giặc của ông cha?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Nghệ thuật chiến tranh nhân dân, lấy quân của địa phương đánh giặc."
+    },
+    {
+     "id": "B",
+     "text": "Nghệ thuật chiến tranh du kích, lấy dân binh đánh giặc."
+    },
+    {
+     "id": "C",
+     "text": "Nghệ thuật chiến tranh nhân dân, thực hiện toàn dân đánh giặc."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Nghệ thuật chiến tranh nhân dân, thực hiện toàn dân đánh giặc.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-151",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Nội dung nào dưới đây thuộc nghệ thuật đánh giặc của ông cha?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Nghệ thuật biết công, biết thủ."
+    },
+    {
+     "id": "B",
+     "text": "Nghệ thuật biết tiến, biết thoái."
+    },
+    {
+     "id": "C",
+     "text": "Nghệ thuật lấy lớn đánh nhỏ, lấy nhiều địch ít, lấy mạnh chống yếu."
+    },
+    {
+     "id": "D",
+     "text": "Nghệ thuật lấy nhỏ đánh lớn, lấy ít địch nhiều, lấy yếu chống mạnh."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Nghệ thuật lấy nhỏ đánh lớn, lấy ít địch nhiều, lấy yếu chống mạnh.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-152",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Nội dung nào dưới đây thuộc nghệ thuật đánh giặc của ông cha?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Nghệ thuật kết hợp đấu tranh giữa các mặt trận quân sự, chính trị, ngoại giao và binh vận."
+    },
+    {
+     "id": "B",
+     "text": "Nghệ thuật kết hợp đấu tranh giữa các mặt trận quân sự và binh vận."
+    },
+    {
+     "id": "C",
+     "text": "Nghệ thuật đấu tranh trên tất cả các mặt trận."
+    },
+    {
+     "id": "D",
+     "text": "Nghệ thuật kết hợp đấu tranh giữa các mặt trận lấy mặt trận ngoại giao là chủ yếu."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Nghệ thuật kết hợp đấu tranh giữa các mặt trận quân sự, chính trị, ngoại giao và binh vận.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-153",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Nội dung nào dưới đây thuộc nghệ thuật đánh giặc của ông cha?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Về nghệ thuật tổ chức và thực hành các trận đánh nhỏ lẻ."
+    },
+    {
+     "id": "B",
+     "text": "Về nghệ thuật tổ chức và thực hành các trận đánh lớn."
+    },
+    {
+     "id": "C",
+     "text": "Về nghệ thuật tổ chức và thực hành các trận đánh du kích."
+    },
+    {
+     "id": "D",
+     "text": "Về nghệ thuật tổ chức và thực hành các trận đánh phòng ngự."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Về nghệ thuật tổ chức và thực hành các trận đánh lớn.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-154",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Nội dung nào dưới đây thuộc nghệ thuật đánh giặc của ông cha?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Về tư tưởng chỉ đạo tác chiến: Tích cực chủ động tiến công"
+    },
+    {
+     "id": "B",
+     "text": "Về mưu kế đánh giặc."
+    },
+    {
+     "id": "C",
+     "text": "Nghệ thuật chiến tranh nhân dân, thực hiện toàn dân đánh giặc."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Cả 3 phương án trên.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-155",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Nghệ thuật đánh giặc của ông cha có mấy nội dung?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "5."
+    },
+    {
+     "id": "B",
+     "text": "6."
+    },
+    {
+     "id": "C",
+     "text": "7."
+    },
+    {
+     "id": "D",
+     "text": "8."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. 6.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-156",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Có mấy cơ sở hình thành nghệ thuật quân sự Việt Nam?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "5."
+    },
+    {
+     "id": "B",
+     "text": "4."
+    },
+    {
+     "id": "C",
+     "text": "3."
+    },
+    {
+     "id": "D",
+     "text": "2."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. 3.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-157",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Nội dung nào dưới đấy thuộc cơ sở hình thành nghệ thuật quân sự Việt Nam?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Truyền thống đánh giặc của ông cha."
+    },
+    {
+     "id": "B",
+     "text": "Truyền thống đánh giặc của các đời vua Hùng."
+    },
+    {
+     "id": "C",
+     "text": "Truyền thống đánh giặc của Nhà Lý."
+    },
+    {
+     "id": "D",
+     "text": "Truyền thống đánh giặc của Nhà Trần."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Truyền thống đánh giặc của ông cha.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-158",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Nội dung nào dưới đấy thuộc cơ sở hình thành nghệ thuật quân sự Việt Nam?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Chủ nghĩa Mác về chiến tranh, quân đội và bảo vệ Tổ quốc."
+    },
+    {
+     "id": "B",
+     "text": "Quan điểm của Lênin về chiến tranh, quân đội và bảo vệ Tổ quốc."
+    },
+    {
+     "id": "C",
+     "text": "Chủ nghĩa Mác - Ăng gen - Lênin về chiến tranh, quân đội và bảo vệ Tổ quốc."
+    },
+    {
+     "id": "D",
+     "text": "Chủ nghĩa Mác - Lênin về chiến tranh, quân đội và bảo vệ Tổ quốc."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Chủ nghĩa Mác - Lênin về chiến tranh, quân đội và bảo vệ Tổ quốc.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-159",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Nội dung nào dưới đấy thuộc cơ sở hình thành nghệ thuật quân sự Việt Nam?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Tư tưởng quân sự Hồ Chí Minh."
+    },
+    {
+     "id": "B",
+     "text": "Tư tưởng quân sự Phan Bội Châu."
+    },
+    {
+     "id": "C",
+     "text": "Tư tưởng quân sự Phan Chu Trinh"
+    },
+    {
+     "id": "D",
+     "text": "Tư tưởng quân sự Võ Nguyên Giáp."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Tư tưởng quân sự Hồ Chí Minh.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-160",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Có mấy nội dung nghệ thuật quân sự Việt Nam từ khi có Đảng lãnh đạo?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "5."
+    },
+    {
+     "id": "B",
+     "text": "4."
+    },
+    {
+     "id": "C",
+     "text": "3."
+    },
+    {
+     "id": "D",
+     "text": "2."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. 3.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-161",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Ý nào dưới đây là nội dung nghệ thuật quân sự Việt Nam từ khi có Đảng lãnh đạo?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Chiến lược quân sự."
+    },
+    {
+     "id": "B",
+     "text": "Chiến tranh du kích."
+    },
+    {
+     "id": "C",
+     "text": "Chiến tranh nhân dân."
+    },
+    {
+     "id": "D",
+     "text": "Chiến tranh tự vệ."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Chiến lược quân sự.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-162",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Ý nào dưới đây là nội dung nghệ thuật quân sự Việt Nam từ khi có Đảng lãnh đạo?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Nghệ thuật đấu tranh quân sự."
+    },
+    {
+     "id": "B",
+     "text": "Nghệ thuật chiến dịch."
+    },
+    {
+     "id": "C",
+     "text": "Nghệ thuật binh vận."
+    },
+    {
+     "id": "D",
+     "text": "Nghệ thuật địch vận."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Nghệ thuật chiến dịch.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-163",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Ý nào dưới đây là nội dung nghệ thuật quân sự Việt Nam từ khi có Đảng lãnh đạo?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Chiến sự."
+    },
+    {
+     "id": "B",
+     "text": "Chiến thuật."
+    },
+    {
+     "id": "C",
+     "text": "Chiến tranh."
+    },
+    {
+     "id": "D",
+     "text": "Chiến binh."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Chiến thuật.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-164",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Nội dung nào dưới đây thuộc chiến lược quân sự?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Xác định đúng kẻ thù, đúng đối tượng tác chiến."
+    },
+    {
+     "id": "B",
+     "text": "Xác định đúng đối tác giúp ta tác chiến."
+    },
+    {
+     "id": "C",
+     "text": "Chuẩn bị tốt phương án chiến tranh."
+    },
+    {
+     "id": "D",
+     "text": "Chuẩn bị tốt lực lượng chiến tranh."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Xác định đúng kẻ thù, đúng đối tượng tác chiến.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-165",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Nội dung nào dưới đây thuộc khái niệm chiến lược quân sự?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Chiến lược quân sự là tổng thể phương châm, chính sách và mưu lược được hoạch định để ngăn ngừa và sẵn sàng tiến hành chiến tranh thắng lợi."
+    },
+    {
+     "id": "B",
+     "text": "Chiến lược quân sự là xác định cách đánh và phương thức sử dụng lực lượng chiến tranh."
+    },
+    {
+     "id": "C",
+     "text": "Chiến lược quân sự là tổng thể các loại hình tác chiến."
+    },
+    {
+     "id": "D",
+     "text": "Chiến lược quân sự là tổng thể phương án sẵn sàng tiến hành chiến tranh thắng lợi."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Chiến lược quân sự là tổng thể phương châm, chính sách và mưu lược được hoạch định để ngăn ngừa và sẵn sàng tiến hành chiến tranh thắng lợi.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-166",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Nội dung nào dưới đây thuộc khái niệm nghệ thuật chiến dịch?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Nghệ thuật chiến dịch là cách thức chuẩn bị các hoạt động tác chiến."
+    },
+    {
+     "id": "B",
+     "text": "Nghệ thuật chiến dịch, lí luận và thực tiễn chuẩn bị, thực hành chiến dịch và các hoạt động tác chiến tương đương."
+    },
+    {
+     "id": "C",
+     "text": "Nghệ thuật chiến dịch, lí luận và phương án thực hành chiến dịch và các hoạt động tác chiến tương đương."
+    },
+    {
+     "id": "D",
+     "text": "Nghệ thuật chiến dịch là tiến hành một trận đánh cấp chiến dịch."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Nghệ thuật chiến dịch, lí luận và thực tiễn chuẩn bị, thực hành chiến dịch và các hoạt động tác chiến tương đương.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-167",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Nội dung nào dưới đây thuộc loại hình chiến dịch?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Chiến dịch tiến công."
+    },
+    {
+     "id": "B",
+     "text": "Chiến dịch tập kích."
+    },
+    {
+     "id": "C",
+     "text": "Chiến dịch phục kích."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 phương án trên."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Chiến dịch tiến công.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-168",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Nội dung nào dưới đây thuộc loại hình chiến dịch?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Chiến dịch pháo binh."
+    },
+    {
+     "id": "B",
+     "text": "Chiến dịch phòng không."
+    },
+    {
+     "id": "C",
+     "text": "Chiến dịch bộ binh."
+    },
+    {
+     "id": "D",
+     "text": "Chiến dịch công binh."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Chiến dịch phòng không.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-169",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c06",
+   "prompt": "Nội dung nào dưới đây thuộc khái niệm chiến thuật?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Chiến thuật là lý luận và thực tiễn về tổ chức và thực hành trận chiến đấu của phân đội, binh đội, binh đoàn lực lượng vũ trang."
+    },
+    {
+     "id": "B",
+     "text": "Chiến thuật là lý luận và thực tiễn về tổ chức và thực hành trận chiến đấu phòng ngự."
+    },
+    {
+     "id": "C",
+     "text": "Chiến thuật là lý luận và thực tiễn về tổ chức và thực hành trận chiến đấu tiến công."
+    },
+    {
+     "id": "D",
+     "text": "Chiến thuật là lý luận và thực tiễn về tổ chức và thực hành trận chiến đấu cấp trung đoàn lực lượng vũ trang."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Chiến thuật là lý luận và thực tiễn về tổ chức và thực hành trận chiến đấu của phân đội, binh đội, binh đoàn lực lượng vũ trang.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-170",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c07",
+   "prompt": "Luật biên giới quốc gia Việt Nam được Quốc hội thông qua năm nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Năm 2001"
+    },
+    {
+     "id": "B",
+     "text": "Năm 2002"
+    },
+    {
+     "id": "C",
+     "text": "Năm 2003"
+    },
+    {
+     "id": "D",
+     "text": "Năm 2004"
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Năm 2003",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-171",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c07",
+   "prompt": "Việt Nam có đường biên giới quốc gia trên đất liền dài bao nhiêu Km?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "4.550Km"
+    },
+    {
+     "id": "B",
+     "text": "4.650Km"
+    },
+    {
+     "id": "C",
+     "text": "4.700Km"
+    },
+    {
+     "id": "D",
+     "text": "5000Km"
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. 4.550Km",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-172",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c07",
+   "prompt": "Đường biên giới trên đất liền Việt Nam tiếp giáp với các quốc gia nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Với Trung Quốc, Cămpuchia, Philippines."
+    },
+    {
+     "id": "B",
+     "text": "Với Trung Quốc, Indonesia, Lào"
+    },
+    {
+     "id": "C",
+     "text": "Với Trung Quốc, Cămpuchia, Lào"
+    },
+    {
+     "id": "D",
+     "text": "Với Trung Quốc, Cămpuchia, Thái Lan"
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Với Trung Quốc, Cămpuchia, Lào",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-173",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c07",
+   "prompt": "Có mấy nội dung xây dựng và bảo vệ biên giới quốc gia?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "5 nội dung"
+    },
+    {
+     "id": "B",
+     "text": "6 nội dung"
+    },
+    {
+     "id": "C",
+     "text": "7 nội dung"
+    },
+    {
+     "id": "D",
+     "text": "8 nội dung"
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. 7 nội dung",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-174",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c07",
+   "prompt": "Ý nào dưới đây thuộc nội dung xây dựng và bảo vệ biên giới quốc gia?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Ưu tiên đầu tư xây dựng phát triển, kinh tế nông nghiệp hiện đại"
+    },
+    {
+     "id": "B",
+     "text": "Ưu tiên đầu tư xây dựng về mọi mặt của đời sống xã hội"
+    },
+    {
+     "id": "C",
+     "text": "Ưu tiên đầu tư xây dựng triển một cách toàn diện nhất"
+    },
+    {
+     "id": "D",
+     "text": "Ưu tiên đầu tư xây dựng khu vực biên giới vững mạnh toàn diện về chính trị, kinh tế - xã hội…"
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Ưu tiên đầu tư xây dựng khu vực biên giới vững mạnh toàn diện về chính trị, kinh tế - xã hội…",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-175",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c07",
+   "prompt": "Ý nào dưới đây thuộc nội dung xây dựng và bảo vệ biên giới quốc gia?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Tăng cường mở rộng quan hệ đối ngoại các cấp trên khu vực biên giới…"
+    },
+    {
+     "id": "B",
+     "text": "Tăng cường mở rộng đấu tranh để xây dựng phát triển, về mọi mặt"
+    },
+    {
+     "id": "C",
+     "text": "Tăng cường mở rộng đấu tranh để phát triển một cách toàn diện"
+    },
+    {
+     "id": "D",
+     "text": "Tăng cường mở rộng đấu tranh để làm thất bại mọi âm mưu và hành động phá hoại biên giới"
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Tăng cường mở rộng quan hệ đối ngoại các cấp trên khu vực biên giới…",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-176",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c07",
+   "prompt": "Ý nào dưới đây thuộc nội dung xây dựng và bảo vệ biên giới quốc gia?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Bảo vệ toàn vẹn vùng trời của Tổ quốc."
+    },
+    {
+     "id": "B",
+     "text": "Bảo vệ toàn vẹn vùng biển của Tổ quốc."
+    },
+    {
+     "id": "C",
+     "text": "Bảo vệ toàn vẹn vùng đất của Tổ quốc."
+    },
+    {
+     "id": "D",
+     "text": "Bảo vệ sự toàn vẹn lãnh thổ của Tổ quốc."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Bảo vệ sự toàn vẹn lãnh thổ của Tổ quốc.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-177",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c07",
+   "prompt": "Ý nào dưới đây thuộc nội dung xây dựng và bảo vệ biên giới quốc gia?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Bảo vệ để phát triển, kinh tế toàn diện nhất"
+    },
+    {
+     "id": "B",
+     "text": "Bảo vệ để xây dựng phát triển, về mọi mặt của đời sống nhân dân"
+    },
+    {
+     "id": "C",
+     "text": "Bảo vệ phát triển một cách toàn diện nhất trong các lĩnh vực"
+    },
+    {
+     "id": "D",
+     "text": "Bảo vệ tài nguyên môi sinh, môi trường."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Bảo vệ tài nguyên môi sinh, môi trường.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-178",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c07",
+   "prompt": "Ý nào dưới đây thuộc nội dung xây dựng và bảo vệ biên giới quốc gia?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Bảo vệ lợi ích kinh tế toàn diện nhất"
+    },
+    {
+     "id": "B",
+     "text": "Bảo vệ mọi mặt của đời sống nhân dân"
+    },
+    {
+     "id": "C",
+     "text": "Bảo vệ lợi ích toàn diện nhất trong các lĩnh vực"
+    },
+    {
+     "id": "D",
+     "text": "Bảo vệ lợi ích quốc gia trên khu vực biên giới."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Bảo vệ lợi ích quốc gia trên khu vực biên giới.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-179",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c07",
+   "prompt": "Ý nào dưới đây thuộc nội dung xây dựng và bảo vệ biên giới quốc gia?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Giữ gìn tình hình chính trị khu vực biên giới"
+    },
+    {
+     "id": "B",
+     "text": "Giữ gìn an ninh, an toàn mọi mặt của đời sống nhân dân khu vực biên giới"
+    },
+    {
+     "id": "C",
+     "text": "Giữ gìn trật tự an toàn khu vực biên giới"
+    },
+    {
+     "id": "D",
+     "text": "Giữ gìn an ninh chính trị, trật tự an toàn xã hội ở khu vực biên giới."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Giữ gìn an ninh chính trị, trật tự an toàn xã hội ở khu vực biên giới.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-180",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c07",
+   "prompt": "Ý nào dưới đây thuộc nội dung xây dựng và bảo vệ biên giới quốc gia?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Phối hợp với các nước trong khu vực để phát triển, kinh tế toàn diện nhất"
+    },
+    {
+     "id": "B",
+     "text": "Phối hợp với các nước để đấu tranh bảo vệ khu vực biên giới"
+    },
+    {
+     "id": "C",
+     "text": "Phối hợp với các quốc gia có chung đường biên giới để ngăn chặn các hoạt động phá hoại"
+    },
+    {
+     "id": "D",
+     "text": "Phối hợp với các nước, đấu tranh ngăn chặn mọi hành động phá hoại tình đoàn kết…"
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Phối hợp với các nước, đấu tranh ngăn chặn mọi hành động phá hoại tình đoàn kết…",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-181",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c08",
+   "prompt": "Nội dung nào dưới đây được nêu trong khái niệm dân quân tự vệ?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Dân quân tự vệ là lực lượng vũ trang quần chúng không thoát ly sản xuất, công tác."
+    },
+    {
+     "id": "B",
+     "text": "Dân quân tự vệ là lực lượng bảo vệ Đảng, bảo vệ chính quyền, bảo vệ tính mạng, tài sản..."
+    },
+    {
+     "id": "C",
+     "text": "Dân quân tự vệ là thành phần của lực lượng vũ trang nhân dân nước Cộng hòa xã hội chủ nghĩa Việt Nam."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 nội dung trên."
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Cả 3 nội dung trên.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-182",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c08",
+   "prompt": "Theo khái niệm dân quân tự vệ thì lực lượng nào được bố trí ở cấp xã, phường, thị trấn?.",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Dân quân."
+    },
+    {
+     "id": "B",
+     "text": "Tự vệ"
+    },
+    {
+     "id": "C",
+     "text": "Bộ đội chủ lực"
+    },
+    {
+     "id": "D",
+     "text": "Bảo vệ"
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Dân quân.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-183",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c08",
+   "prompt": "Theo khái niệm dân quân tự vệ thì lực lượng nào được bố trí ở cơ quan, tổ chức?.",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Dân quân."
+    },
+    {
+     "id": "B",
+     "text": "Tự vệ"
+    },
+    {
+     "id": "C",
+     "text": "Bộ đội chủ lực"
+    },
+    {
+     "id": "D",
+     "text": "Bảo vệ"
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Tự vệ",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-184",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c08",
+   "prompt": "Dân quân tự vệ có mấy nhiệm vụ ?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "6 nhiệm vụ"
+    },
+    {
+     "id": "B",
+     "text": "5 nhiệm vụ"
+    },
+    {
+     "id": "C",
+     "text": "4 nhiệm vụ"
+    },
+    {
+     "id": "D",
+     "text": "3 nhiệm vụ"
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. 6 nhiệm vụ",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-185",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c08",
+   "prompt": "Nội dung nào dưới đây thuộc nhiệm vụ của của lực lượng dân quân tự vệ?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Sẵn sàng chiến đấu, chiến đấu và phục vụ chiến đấu để bảo vệ địa phương, cơ sở…"
+    },
+    {
+     "id": "B",
+     "text": "Sẵn sàng chiến đấu có tác động mạnh mẽ đến ý chí, tinh thần của lực lượng vũ trang."
+    },
+    {
+     "id": "C",
+     "text": "Sẵn sàng chiến đấu có tác động tích cực và trực tiếp đến trình độ của toàn dân trong nhiệm vụ bảo vệ Tổ quốc."
+    },
+    {
+     "id": "D",
+     "text": "Sẵn sàng chiến đấu tác động trực tiếp đến trình độ nhận thức của toàn dân về quốc phòng."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Sẵn sàng chiến đấu, chiến đấu và phục vụ chiến đấu để bảo vệ địa phương, cơ sở…",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-186",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c08",
+   "prompt": "Nội dung nào dưới đây thuộc nhiệm vụ của của lực lượng dân quân tự vệ?.",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Học tập và thực hiện theo Hiến pháp và luật pháp."
+    },
+    {
+     "id": "B",
+     "text": "Học tập chính trị, pháp luật, huấn luyện quân sự và diễn tập."
+    },
+    {
+     "id": "C",
+     "text": "Học tập đường lối, chủ trương, chính sách của Đảng, Nhà nước."
+    },
+    {
+     "id": "D",
+     "text": "Học tập các môn chính trị, xã hội."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Học tập chính trị, pháp luật, huấn luyện quân sự và diễn tập.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-187",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c08",
+   "prompt": "Có mấy nội dung xây dựng lực lượng dân quân tự vệ?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "2 nội dung"
+    },
+    {
+     "id": "B",
+     "text": "3 nội dung"
+    },
+    {
+     "id": "C",
+     "text": "4 nội dung"
+    },
+    {
+     "id": "D",
+     "text": "5 nội dung"
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. 3 nội dung",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-188",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c08",
+   "prompt": "Nội dung dưới đây thuộc phương châm xây dựng lực lượng dân quân tự vệ?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là xây dựng về nhiều lĩnh vực"
+    },
+    {
+     "id": "B",
+     "text": "Là xây dựng Sẵn sàng chiến đấu của lực lượng vũ trang."
+    },
+    {
+     "id": "C",
+     "text": "Là xây dựng vững mạnh"
+    },
+    {
+     "id": "D",
+     "text": "Là xây dựng trình độ nhận thức của toàn dân về quốc phòng."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Là xây dựng vững mạnh",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-189",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c08",
+   "prompt": "Nội dung dưới đây thuộc phương châm xây dựng lực lượng dân quân tự vệ?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là xây dựng về nhiều lĩnh vực"
+    },
+    {
+     "id": "B",
+     "text": "Là xây dựng Sẵn sàng chiến đấu của lực lượng vũ trang."
+    },
+    {
+     "id": "C",
+     "text": "Là xây dựng trình độ nhận thức của toàn dân về quốc phòng."
+    },
+    {
+     "id": "D",
+     "text": "Là xây dựng rộng khắp"
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Là xây dựng rộng khắp",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-190",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c08",
+   "prompt": "Nội dung dưới đây thuộc phương châm xây dựng lực lượng dân quân tự vệ?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là xây dựng về nhiều mặt trận"
+    },
+    {
+     "id": "B",
+     "text": "Là xây dựng sẵn sàng chiến đấu của lực lượng tự vệ ."
+    },
+    {
+     "id": "C",
+     "text": "Là xây dựng coi trọng chất lượng là chính"
+    },
+    {
+     "id": "D",
+     "text": "Là xây dựng trình độ nhận thức của toàn dân về chiến tranh."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Là xây dựng coi trọng chất lượng là chính",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-191",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c08",
+   "prompt": "Nội dung xây dựng lực lượng dân quân tự vệ là nội dung nào ?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Là xây dựng coi trọng chất lượng là chính"
+    },
+    {
+     "id": "B",
+     "text": "Là xây dựng vững mạnh"
+    },
+    {
+     "id": "C",
+     "text": "Là xây dựng rộng khắp"
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 nội dung trên"
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Cả 3 nội dung trên",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-192",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c08",
+   "prompt": "Trong khái niệm lực lượng dự bị động viên được xác định gồm 2 lực lượng nào?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Quân nhân dự bị và phương tiện kỹ thuật."
+    },
+    {
+     "id": "B",
+     "text": "Quân chủ lực và công an."
+    },
+    {
+     "id": "C",
+     "text": "Quân nhân dự bị và bộ đội địa phương"
+    },
+    {
+     "id": "D",
+     "text": "Quân nhân dự bị và dân quân tự vệ."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Quân nhân dự bị và phương tiện kỹ thuật.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-193",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c08",
+   "prompt": "Có mấy quan điểm, nguyên tắc xây dựng lực lượng dự bị động viên?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "3 quan điểm"
+    },
+    {
+     "id": "B",
+     "text": "4 quan điểm"
+    },
+    {
+     "id": "C",
+     "text": "5 quan điểm"
+    },
+    {
+     "id": "D",
+     "text": "6 quan điểm"
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. 3 quan điểm",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-194",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c08",
+   "prompt": "Nội dung dưới đây thuộc quan điểm, nguyên tắc xây dựng lực lượng dự bị động viên",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Xây dựng ý thức tham gia chiến đấu cao nhất"
+    },
+    {
+     "id": "B",
+     "text": "Xây dựng lực lượng dự bị động viên bảo đảm số lượng đủ, chất lượng cao"
+    },
+    {
+     "id": "C",
+     "text": "Xây dựng ý chí, tinh thần của lực lượng vũ trang."
+    },
+    {
+     "id": "D",
+     "text": "Xây dựng có tác động trực tiếp đến trình độ nhận thức của toàn dân về quốc phòng"
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Xây dựng lực lượng dự bị động viên bảo đảm số lượng đủ, chất lượng cao",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-195",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c08",
+   "prompt": "Nội dung nào dưới đây thuộc phương thức tổ chức các đơn vị dự bị động viên",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Đơn vị biên chế khung thường trực và đơn vị không biên chế khung thường trực"
+    },
+    {
+     "id": "B",
+     "text": "Đơn vị biên chế dự bị động viên."
+    },
+    {
+     "id": "C",
+     "text": "Xây dựng ý chí, tinh thần của lực lượng vũ trang."
+    },
+    {
+     "id": "D",
+     "text": "Xây dựng có tác động trực tiếp đến trình độ nhận thức của toàn dân về quốc phòng."
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Đơn vị biên chế khung thường trực và đơn vị không biên chế khung thường trực",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-196",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c08",
+   "prompt": "Có mấy biện pháp xây dựng lực lượng dự bị động viên?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Có 2 biện pháp"
+    },
+    {
+     "id": "B",
+     "text": "Có 3 biện pháp"
+    },
+    {
+     "id": "C",
+     "text": "Có 4 biện pháp"
+    },
+    {
+     "id": "D",
+     "text": "Có 5 biện pháp"
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Có 4 biện pháp",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-197",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c08",
+   "prompt": "Nội dung dưới đây thuộc biện pháp xây dựng lực lượng dự bị động viên?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Thường xuyên giáo dục, sâu rộng trong toàn Đảng, toàn dân, toàn quân về vị trí nhiệm vụ quan điểm của Đảnh, Nhà nước đối với lực lượng dự bị động viên."
+    },
+    {
+     "id": "B",
+     "text": "Thường xuyên thực hiện đường lối, chủ trương của Đảng về lực lượng dự bị động viên."
+    },
+    {
+     "id": "C",
+     "text": "Thường xuyên thực hiện chính sách, pháp luật của Nhà nước về lực lượng dự bị động viên"
+    },
+    {
+     "id": "D",
+     "text": "Thường xuyên thực hiện chấp hành các qui định của địa phương về lực lượng dự bị động viên"
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Thường xuyên giáo dục, sâu rộng trong toàn Đảng, toàn dân, toàn quân về vị trí nhiệm vụ quan điểm của Đảnh, Nhà nước đối với lực lượng dự bị động viên.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-198",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c08",
+   "prompt": "Có mấy nguyên tắc động viên công nghiệp quốc phòng?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "2 nguyên tắc"
+    },
+    {
+     "id": "B",
+     "text": "3 nguyên tắc"
+    },
+    {
+     "id": "C",
+     "text": "4 nguyên tắc"
+    },
+    {
+     "id": "D",
+     "text": "5 nguyên tắc"
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. 3 nguyên tắc",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-199",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c08",
+   "prompt": "Có mấy yêu cầu động viên công nghiệp quốc phòng?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "2 yêu cầu"
+    },
+    {
+     "id": "B",
+     "text": "3 yêu cầu"
+    },
+    {
+     "id": "C",
+     "text": "4 yêu cầu"
+    },
+    {
+     "id": "D",
+     "text": "5 yêu cầu"
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. 2 yêu cầu",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-200",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c08",
+   "prompt": "Có mấy biện pháp thực hiện động viên công nghiệp quốc phòng?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "2 biện pháp"
+    },
+    {
+     "id": "B",
+     "text": "3 biện pháp"
+    },
+    {
+     "id": "C",
+     "text": "4 biện pháp"
+    },
+    {
+     "id": "D",
+     "text": "5 biện pháp"
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. 3 biện pháp",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-201",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c09",
+   "prompt": "Có mấy vai trò của quần chúng nhân dân trong bảo vệ an ninh Tổ quốc?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "3 vai trò"
+    },
+    {
+     "id": "B",
+     "text": "4 vai trò"
+    },
+    {
+     "id": "C",
+     "text": "5 vai trò"
+    },
+    {
+     "id": "D",
+     "text": "6 vai trò"
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. 3 vai trò",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-202",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c09",
+   "prompt": "Nội dung nào dưới đây thuộc vai trò của quần chúng nhân dân trong bảo vệ an ninh Tổ quốc?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Quần chúng có nhiều khả năng trong công cuộc xây dựng nền văn hóa của nước ta."
+    },
+    {
+     "id": "B",
+     "text": "Quần chúng nhân dân có khả năng phát hiện, quản lí, giáo dục, cải tạo các loại tội phạm..."
+    },
+    {
+     "id": "C",
+     "text": "Quần chúng nhân dân luôn tin tưởng vào công cuộc phòng chống tội phạm. .."
+    },
+    {
+     "id": "D",
+     "text": "Quần chúng bảo vệ các dân tộc trong nước và thế giới."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Quần chúng nhân dân có khả năng phát hiện, quản lí, giáo dục, cải tạo các loại tội phạm...",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-203",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c09",
+   "prompt": "Có mấy vị trí của phòng trào toàn dân bảo vệ an ninh Tổ quốc?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "2 vị trí"
+    },
+    {
+     "id": "B",
+     "text": "3 vị trí"
+    },
+    {
+     "id": "C",
+     "text": "4 vị trí"
+    },
+    {
+     "id": "D",
+     "text": "5 vị trí"
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. 2 vị trí",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-204",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c09",
+   "prompt": "Có mấy đặc điểm của phòng trào toàn dân bảo vệ an ninh Tổ quốc?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Đối tượng than gia phong trào toàn dân bảo vệ an ninh Tổ quốc là quân đội..."
+    },
+    {
+     "id": "B",
+     "text": "Đối tượng tham gia phong trào toàn dân bảo vệ an ninh Tổ quốc đa dạng..."
+    },
+    {
+     "id": "C",
+     "text": "Đối tượng than gia phong trào toàn dân bảo vệ an ninh Tổ quốc là sinh viên..."
+    },
+    {
+     "id": "D",
+     "text": "Đối tượng than gia phong trào toàn dân bảo vệ an ninh Tổ quốc là lưc lượng dân quân tự vệ."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Đối tượng tham gia phong trào toàn dân bảo vệ an ninh Tổ quốc đa dạng...",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-205",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c09",
+   "prompt": "Nội dung nào dưới đây thuộc đặc điểm của phòng trào toàn dân bảo vệ an ninh Tổ quốc?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Xây dựng phong trào toàn dân bảo vệ an ninh Tổ quốc gắn với phát triển kinh tế..."
+    },
+    {
+     "id": "B",
+     "text": "Xây dựng phong trào toàn dân bảo vệ an ninh Tổ quốc gắn liền với các cuộc vận động khác của Đảng và Nhà nước..."
+    },
+    {
+     "id": "C",
+     "text": "Xây dựng phong trào toàn dân bảo vệ an ninh Tổ quốc chỉ gắn với phong trào đoàn thanh niên..."
+    },
+    {
+     "id": "D",
+     "text": "Xây dựng phong trào toàn dân bảo vệ an ninh Tổ quốc gắn với hoạt động phát triển kinh tế - xã hội..."
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Xây dựng phong trào toàn dân bảo vệ an ninh Tổ quốc gắn liền với các cuộc vận động khác của Đảng và Nhà nước...",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-206",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c09",
+   "prompt": "Có mấy nội dung cơ bản của công tác xây dựng phòng trào toàn dân bảo vệ an ninh Tổ quốc?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "2 nội dung"
+    },
+    {
+     "id": "B",
+     "text": "3 nội dung"
+    },
+    {
+     "id": "C",
+     "text": "4 nội dung"
+    },
+    {
+     "id": "D",
+     "text": "5 nội dung"
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. 4 nội dung",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-207",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c09",
+   "prompt": "Có mấy phương pháp xây dựng phòng trào toàn dân bảo vệ an ninh Tổ quốc?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "5 phương pháp"
+    },
+    {
+     "id": "B",
+     "text": "6 phương pháp"
+    },
+    {
+     "id": "C",
+     "text": "7 phương pháp"
+    },
+    {
+     "id": "D",
+     "text": "8 phương pháp"
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. 6 phương pháp",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-208",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c09",
+   "prompt": "Vội dung nào dưới đây thuộc phương pháp xây dựng phòng trào toàn dân bảo vệ an ninhTổ quốc?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Tuyên truyên giáo dục, phát động nhân dân bảo vệ môi vệ môi trường."
+    },
+    {
+     "id": "B",
+     "text": "Tuyên truyền giáo dục và hướng dẫn quần chúng nhân dân bảo vệ nền văn hóa mới."
+    },
+    {
+     "id": "C",
+     "text": "Tuyên truyền giáo dục và hướng dẫn nhân dân tham gia bảo vệ an ninh giao thông."
+    },
+    {
+     "id": "D",
+     "text": "Tuyên truyền giáo dục và hướng dẫn quần chúng nhân dân thực hiện nhệm vụ bảo vệ an ninh trật tự"
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Tuyên truyền giáo dục và hướng dẫn quần chúng nhân dân thực hiện nhệm vụ bảo vệ an ninh trật tự",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-209",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c09",
+   "prompt": "Nội dung nào dưới đây thuộc trách nhiệm của sinh viên trong việc tham gia xây dựng phòng trào bảo vệ an ninh Tổ quốc?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Mỗi sinh viên phải có nhận thức nhiệm vụ bảo vệ an ninh - trật tự là của lực lượng công an."
+    },
+    {
+     "id": "B",
+     "text": "Mỗi sinh viên phải có nhận thức đúng đắn đầy đủ về trách nhiệm công dân đối với công cuộc bảo vệ an ninh - trật tự."
+    },
+    {
+     "id": "C",
+     "text": "Mỗi sinh viên phải có nhận thức nhiệm vụ bảo vệ an ninh - trật tự là của lực lượng quân đội."
+    },
+    {
+     "id": "D",
+     "text": "Mỗi sinh viên phải có nhận thức nhiệm vụ bảo vệ an ninh - trật tự là của lực lượng quân đội và công an"
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Mỗi sinh viên phải có nhận thức đúng đắn đầy đủ về trách nhiệm công dân đối với công cuộc bảo vệ an ninh - trật tự.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-210",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c09",
+   "prompt": "Nội dung nào dưới đây thuộc trách nhiệm của sinh viên trong việc tham gia xây dựng phòng trào bảo vệ an ninh Tổ quốc?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Luôn luôn nêu cao ý thức cảnh giác, tích cực tham gia hoạt động phòng chống tội phạm ở địa phương…"
+    },
+    {
+     "id": "B",
+     "text": "Luôn luôn nêu cao ý thức cảnh giác khi tham gia hoạt động quốc phòng, an ninh."
+    },
+    {
+     "id": "C",
+     "text": "Hướng dẫn quần chúng nhân dân tích cực tham gia bảo vệ xây dựng nền văn hóa các dân tộc"
+    },
+    {
+     "id": "D",
+     "text": "Hướng dẫn quần chúng nhân dân tích cực tham gia bảo vệ truyền thống dân tộc"
+    }
+   ],
+   "correctAnswer": "A",
+   "explanation": "Đáp án đúng: A. Luôn luôn nêu cao ý thức cảnh giác, tích cực tham gia hoạt động phòng chống tội phạm ở địa phương…",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-211",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c09",
+   "prompt": "Nội dung nào dưới đây thuộc trách nhiệm của sinh viên trong việc tham gia xây dựng phòng trào bảo vệ an ninh Tổ quốc?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Mỗi sinh viên tự giác chấp hành các qui định về bảo đảo an ninh trật tự của nhà trường và của địa phương nơi cư trú"
+    },
+    {
+     "id": "B",
+     "text": "Tích cực tham gia vào các phong trào bảo vệ an ninh trật tự của địa phương."
+    },
+    {
+     "id": "C",
+     "text": "Luôn luôn nêu cao ý thức cảnh giác, tích cực tham gia hoạt động phòng chống tội phạm ở địa phương..."
+    },
+    {
+     "id": "D",
+     "text": "Cả 3 nội dung trên"
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Cả 3 nội dung trên",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-212",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c10",
+   "prompt": "Có mấy nhiệm vụ bảo vệ an ninh quốc gia?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "3 nhiệm vụ"
+    },
+    {
+     "id": "B",
+     "text": "4 nhiệm vụ"
+    },
+    {
+     "id": "C",
+     "text": "5 nhiệm vụ"
+    },
+    {
+     "id": "D",
+     "text": "6 nhiệm vụ"
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. 5 nhiệm vụ",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-213",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c10",
+   "prompt": "Nội dung nào dưới đây thuộc nhiệm vụ bảo vệ an ninh quốc gia?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Bảo vệ về mọi mặt trong xã hội và mọi đất nước..."
+    },
+    {
+     "id": "B",
+     "text": "Bảo vệ các dân tộc, con người.."
+    },
+    {
+     "id": "C",
+     "text": "Bảo vệ các dân tộc luôn phát triển tồn tại tiến bộ.."
+    },
+    {
+     "id": "D",
+     "text": "Bảo vệ chế độ chính trị và Nhà nước cộng hòa xã hội chủ nghĩa Việt Nam…"
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Bảo vệ chế độ chính trị và Nhà nước cộng hòa xã hội chủ nghĩa Việt Nam…",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-214",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c10",
+   "prompt": "Nội dung nào dưới đây thuộc nhiệm vụ bảo vệ an ninh quốc gia?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Bảo vệ an ninh các tổ chức kinh tế.."
+    },
+    {
+     "id": "B",
+     "text": "Bảo vệ an ninh tinh thần người dân..."
+    },
+    {
+     "id": "C",
+     "text": "Bảo vệ an ninh tư tưởng và văn hóa…"
+    },
+    {
+     "id": "D",
+     "text": "Bảo vệ an ninh các dân tộc tiến bộ ..."
+    }
+   ],
+   "correctAnswer": "C",
+   "explanation": "Đáp án đúng: C. Bảo vệ an ninh tư tưởng và văn hóa…",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-215",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c10",
+   "prompt": "Có mấy nguyên tắc bảo vệ an ninh quốc gia?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "2 nguyên tắc"
+    },
+    {
+     "id": "B",
+     "text": "3 nguyên tắc"
+    },
+    {
+     "id": "C",
+     "text": "4 nguyên tắc"
+    },
+    {
+     "id": "D",
+     "text": "5 nguyên tắc"
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. 3 nguyên tắc",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-216",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c10",
+   "prompt": "Nội dung nào dưới đây thuộc nguyên tắc bảo vệ an ninh quốc gia?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Tuân thủ các qui định trong xã hội ."
+    },
+    {
+     "id": "B",
+     "text": "Tuân thủ các qui định bảo vệ các dân tộc, quốc gia..."
+    },
+    {
+     "id": "C",
+     "text": "Tuân thủ nguyên tắc bảo vệ các dân tộc luôn phát triển tồn tại.."
+    },
+    {
+     "id": "D",
+     "text": "Tuân thủ hiến pháp, pháp luật, bảo đảm lợi ích của Nhà nước…"
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. Tuân thủ hiến pháp, pháp luật, bảo đảm lợi ích của Nhà nước…",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-217",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c10",
+   "prompt": "Có mấy cơ quan chuyên trách bảo vệ an ninh quốc gia?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "2 cơ quan"
+    },
+    {
+     "id": "B",
+     "text": "3 cơ quan"
+    },
+    {
+     "id": "C",
+     "text": "4 cơ quan"
+    },
+    {
+     "id": "D",
+     "text": "5 cơ quan"
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. 3 cơ quan",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-218",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c10",
+   "prompt": "Tổ chức nào dưới đây thuộc cơ quan chuyên trách bảo vệ an ninh quốc gia?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "Cơ quan chỉ đạo, chỉ huy lực lượng dân quân, tự vệ ở các địa phương."
+    },
+    {
+     "id": "B",
+     "text": "Cơ quan chỉ đạo, chỉ huy và các đơn vị an ninh, tình báo, cảnh sát, cảnh vệ công an nhân dân."
+    },
+    {
+     "id": "C",
+     "text": "Cơ quan chỉ đạo cảnh vệ ở các nhà máy, xí nghiệp."
+    },
+    {
+     "id": "D",
+     "text": "Cơ quan chỉ đạo, chỉ huy và các lực lượng vũ trang"
+    }
+   ],
+   "correctAnswer": "B",
+   "explanation": "Đáp án đúng: B. Cơ quan chỉ đạo, chỉ huy và các đơn vị an ninh, tình báo, cảnh sát, cảnh vệ công an nhân dân.",
+   "source": "ĐÁP ÁN A.docx"
+  },
+  {
+   "id": "gdqp-a-219",
+   "type": "multiple_choice",
+   "subjectId": "subject:gdqp-an",
+   "topicId": "topic:gdqp-c10",
+   "prompt": "Có mấy nội dung bảo vệ an ninh quốc?",
+   "choices": [
+    {
+     "id": "A",
+     "text": "4 nội dung"
+    },
+    {
+     "id": "B",
+     "text": "5 nội dung"
+    },
+    {
+     "id": "C",
+     "text": "6 nội dung"
+    },
+    {
+     "id": "D",
+     "text": "7 nội dung"
+    }
+   ],
+   "correctAnswer": "D",
+   "explanation": "Đáp án đúng: D. 7 nội dung",
+   "source": "ĐÁP ÁN A.docx"
+  }
+ ]
+};
+
+export default leThuyDeck;

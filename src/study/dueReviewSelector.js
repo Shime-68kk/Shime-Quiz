@@ -1,5 +1,6 @@
 import { normalizeDateObject, toTime } from '../utils/date.js';
 import { safeNumber } from '../utils/number.js';
+import { getSchedulerRetrievability } from '../scheduler/schedulerKernel.js';
 function safeDateTime(value) {
   return toTime(value, Number.POSITIVE_INFINITY);
 }
@@ -16,16 +17,20 @@ function makeItemLookup(items = []) {
   );
 }
 
-function normalizeDueRecord(record) {
+function normalizeDueRecord(record, now = new Date()) {
   if (!record?.itemId) return null;
   const dueTime = safeDateTime(record.dueAt);
   if (!Number.isFinite(dueTime)) return null;
+
+  let retrievability = null;
+  retrievability = getSchedulerRetrievability(record, now);
 
   return {
     ...record,
     itemId: String(record.itemId),
     dueTime,
-    wrongCount: Math.max(0, safeNumber(record.wrongCount, 0))
+    wrongCount: Math.max(0, safeNumber(record.wrongCount, 0)),
+    retrievability
   };
 }
 
@@ -36,11 +41,17 @@ export function selectDueReviewItems({ items = [], scheduleRecords = [], now = n
   const seen = new Set();
 
   const dueEntries = (Array.isArray(scheduleRecords) ? scheduleRecords : [])
-    .map(normalizeDueRecord)
+    .map(record => normalizeDueRecord(record, nowDate))
     .filter(Boolean)
     .filter(record => record.dueTime <= nowTime)
     .filter(record => itemLookup.has(record.itemId))
     .sort((left, right) => {
+      const leftHasRetrievability = Number.isFinite(left.retrievability);
+      const rightHasRetrievability = Number.isFinite(right.retrievability);
+      if (leftHasRetrievability && rightHasRetrievability) {
+        const retrievabilityDelta = left.retrievability - right.retrievability;
+        if (retrievabilityDelta !== 0) return retrievabilityDelta;
+      }
       const overdueDelta = (nowTime - right.dueTime) - (nowTime - left.dueTime);
       if (overdueDelta !== 0) return overdueDelta;
       const dueDelta = left.dueTime - right.dueTime;
@@ -66,7 +77,7 @@ export function getDueReviewSummary({ items = [], scheduleRecords = [], now = ne
   const nowDate = normalizeNow(now);
   const nowTime = nowDate.getTime();
   const safeRecords = (Array.isArray(scheduleRecords) ? scheduleRecords : [])
-    .map(normalizeDueRecord)
+    .map(record => normalizeDueRecord(record, nowDate))
     .filter(Boolean);
   const dueRecords = safeRecords.filter(record => record.dueTime <= nowTime);
   const dueEntries = selectDueReviewItems({ items, scheduleRecords: safeRecords, now: nowDate, limit });
