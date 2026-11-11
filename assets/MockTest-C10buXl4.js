@@ -1,0 +1,1 @@
+import{j as t}from"./index-DWElhZrZ.js";import r from"./CramStudy-CKAoFt05.js";import"./cramStorage-C1ZIeMDi.js";import"./storage-BngJtddx.js";import"./ShimeRobotPresence-O-S0Zw79.js";import"./cramEngine-Dy3GFdmJ.js";import"./fsrsWrapper-VER-wsQL.js";function a(){return t.jsx(r,{view:"test"})}export{a as default};
