@@ -1,12 +1,12 @@
 {
-  "name": "ShimeChamhoc v2",
-  "short_name": "Shime v2",
+  "name": "Shime – Ôn thi",
+  "short_name": "Shime",
   "description": "Ứng dụng học tập cục bộ hỗ trợ nhập học liệu, luyện tập và sao lưu dữ liệu v2.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#07111f",
-  "theme_color": "#07111f",
+  "background_color": "#7C5CE0",
+  "theme_color": "#7C5CE0",
   "orientation": "portrait-primary",
   "icons": [
     {
@@ -20,6 +20,12 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ]
 }
