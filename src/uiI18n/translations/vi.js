@@ -36,6 +36,7 @@ export const vi = Object.freeze({
   'nav.overview': 'Tổng quan',
   'nav.cram': 'Ôn thi cấp tốc',
   'nav.cramShort': 'Ôn thi',
+  'nav.mockTest': 'Thi thử',
   'nav.library': 'Thư viện',
   'nav.studyRoom': 'Phòng học',
   'nav.studyShort': 'Học',

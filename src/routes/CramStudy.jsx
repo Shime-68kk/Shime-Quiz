@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import leThuyDeck from '../data/leThuyDeck.js';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { CHAPTERS, CHAPTER_BY_ID, DECK, ITEMS, ITEM_BY_ID } from '../cram/cramDeck.js';
+import RevealToggle from '../components/cram/RevealToggle.jsx';
 import ShimeRobotPresence from '../components/brand/ShimeRobotPresence.jsx';
 import {
   MOCK_TEST_SIZE,
@@ -24,21 +26,13 @@ import {
   readCramStates,
   resetCramStates,
   saveCramPrefs,
+  readMockResults,
   saveCramProfile,
-  saveCramStates
+  saveCramStates,
+  saveMockResult
 } from '../cram/cramStorage.js';
 import '../styles/cram.css';
 
-const DECK = leThuyDeck;
-const ITEMS = DECK.items;
-const ITEM_BY_ID = new Map(ITEMS.map(item => [item.id, item]));
-const CHAPTERS = DECK.topics.map((topic, index) => ({
-  ...topic,
-  number: index + 1,
-  shortTitle: topic.title.replace(/^Chương \d+\.\s*/u, ''),
-  items: ITEMS.filter(item => item.topicId === topic.id)
-}));
-const CHAPTER_BY_ID = new Map(CHAPTERS.map(chapter => [chapter.id, chapter]));
 const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
 
 function useNow(intervalMs = 30000) {
@@ -92,7 +86,55 @@ function planTitle(plan) {
   return 'Học liên tục';
 }
 
-/* Tap the robot: it nods or shakes its head (the same motions used for right / wrong answers). */
+/* Robot motion. The robot itself (ShimeRobotPresence) is unchanged; this wrapper adds
+   a body that moves, a ground shadow that reacts to it, and a small geometric effect layer.
+   hop   → right answer: anticipation squash, jump, land, plus a burst of flat shapes.
+   shake → wrong answer: gentle head shake and droop, plus one sweat drop.
+   nod / wiggle → playful reactions when the robot is tapped. */
+const BURST = [
+  { shape: 'circle', color: 'accent', angle: -90, dist: 78, rot: 0 },
+  { shape: 'square', color: 'mint', angle: -38, dist: 84, rot: 70 },
+  { shape: 'triangle', color: 'amber', angle: 8, dist: 74, rot: -90 },
+  { shape: 'plus', color: 'accent', angle: 52, dist: 70, rot: 45 },
+  { shape: 'circle', color: 'mint', angle: 130, dist: 76, rot: 0 },
+  { shape: 'square', color: 'amber', angle: 172, dist: 82, rot: -60 },
+  { shape: 'triangle', color: 'accent', angle: -142, dist: 80, rot: 120 },
+  { shape: 'circle', color: 'amber', angle: -115, dist: 60, rot: 0 }
+];
+
+function RobotBurst() {
+  return (
+    <span className="cramFx cramFx--burst" aria-hidden="true">
+      <span className="cramFx__ring" />
+      {BURST.map((piece, index) => {
+        const rad = (piece.angle * Math.PI) / 180;
+        return (
+          <span
+            key={index}
+            className={`cramFx__piece cramFx__piece--${piece.shape} cramFx__piece--${piece.color}`}
+            style={{
+              '--dx': `${Math.round(Math.cos(rad) * piece.dist)}px`,
+              '--dy': `${Math.round(Math.sin(rad) * piece.dist)}px`,
+              '--rot': `${piece.rot}deg`,
+              '--delay': `${60 + (index % 3) * 30}ms`
+            }}
+          />
+        );
+      })}
+    </span>
+  );
+}
+
+function RobotSweat() {
+  return (
+    <span className="cramFx cramFx--sweat" aria-hidden="true">
+      <svg className="cramFx__drop" viewBox="0 0 20 28" width="14" height="20">
+        <path d="M10 1 C10 1 2 12 2 18 a8 8 0 0 0 16 0 C18 12 10 1 10 1 Z" />
+      </svg>
+    </span>
+  );
+}
+
 function TappableRobot({ children, className = '', mood = '' }) {
   const [tapMove, setTapMove] = useState('');
   const [tapKey, setTapKey] = useState(0);
@@ -102,14 +144,23 @@ function TappableRobot({ children, className = '', mood = '' }) {
       type="button"
       className={`cramRobotTap${move ? ` cramRobotTap--${move}` : ''} ${className}`.trim()}
       aria-label="Chạm vào robot Shime"
-      key={`${mood}-${tapKey}`}
       onClick={() => {
-        setTapMove(Math.random() < 0.5 ? 'nod' : 'shake');
+        setTapMove(Math.random() < 0.5 ? 'nod' : 'wiggle');
         setTapKey(value => value + 1);
       }}
-      onAnimationEnd={() => setTapMove('')}
     >
-      {children}
+      <span className="cramRobotTap__shadow" aria-hidden="true" key={`shadow-${move}-${tapKey}`} />
+      <span
+        className="cramRobotTap__body"
+        key={`body-${move}-${tapKey}`}
+        onAnimationEnd={event => {
+          if (event.target === event.currentTarget && tapMove) setTapMove('');
+        }}
+      >
+        {children}
+      </span>
+      {move === 'hop' ? <RobotBurst key={`burst-${tapKey}`} /> : null}
+      {move === 'shake' ? <RobotSweat key={`sweat-${tapKey}`} /> : null}
     </button>
   );
 }
@@ -258,28 +309,6 @@ function GuideTour({ step, onNext, onClose, onStartLearning }) {
 
 /* ───────────────────────── Home ───────────────────────── */
 
-function RevealToggle({ revealMode, onChange }) {
-  return (
-    <div className="cramSegment" role="radiogroup" aria-label="Cách hiện đáp án" style={{ '--seg-index': revealMode === REVEAL_INSTANT ? 1 : 0 }}>
-      {[
-        [REVEAL_CHECK, 'Bấm Kiểm tra'],
-        [REVEAL_INSTANT, 'Hiện ngay']
-      ].map(([mode, label]) => (
-        <button
-          key={mode}
-          type="button"
-          role="radio"
-          aria-checked={revealMode === mode}
-          className={`cramSegment__opt${revealMode === mode ? ' is-on' : ''}`}
-          onClick={() => onChange(mode)}
-        >
-          {label}
-        </button>
-      ))}
-    </div>
-  );
-}
-
 function CramHome({ profile, states, now, onStart, onSwitchProfile, onReset, confirmReset, revealMode, onRevealMode, onShowGuide }) {
   const overall = useMemo(() => summarize(ITEMS, states, now), [states, now]);
   const chapters = useMemo(
@@ -365,17 +394,8 @@ function CramHome({ profile, states, now, onStart, onSwitchProfile, onReset, con
         </ul>
       </section>
 
-      <section className="cramSection">
-        <h2 className="cramSection__title">Cách hiện đáp án</h2>
-        <RevealToggle revealMode={revealMode} onChange={onRevealMode} />
-      </section>
-
       <footer className="cramFooter">
         <button type="button" className="cramLink" onClick={onShowGuide}>Xem hướng dẫn</button>
-        <button type="button" className="cramLink" onClick={onSwitchProfile}>Đổi người học</button>
-        <button type="button" className={`cramLink${confirmReset ? ' cramLink--danger' : ''}`} onClick={onReset}>
-          {confirmReset ? 'Bấm lần nữa để xóa tiến độ' : 'Học lại từ đầu'}
-        </button>
       </footer>
     </div>
   );
@@ -404,7 +424,7 @@ function SessionSummary({ plan, stats, states, onAgain, onExit, onMistakes }) {
   return (
     <section className="cramSummary" aria-live="polite">
       <div className="cramHero cramHero--correct">
-        <TappableRobot className="cramHero__robot" mood={good ? 'nod' : ''}>
+        <TappableRobot className="cramHero__robot" mood={good ? 'hop' : ''}>
           <ShimeRobotPresence state="success" size="lg" expression={good ? 'complete' : 'attentive'} motion="feedback" blinkPhase="b" decorative />
         </TappableRobot>
         <p className="cramHero__bubble">
@@ -433,7 +453,7 @@ function SessionSummary({ plan, stats, states, onAgain, onExit, onMistakes }) {
   );
 }
 
-function CramSession({ plan, states, onStates, onExit, onRestart, revealMode, onRevealMode }) {
+function CramSession({ plan, states, onStates, onExit, onRestart, revealMode, onRevealMode, onTestFinished }) {
   const scopeItems = useMemo(() => getScopeItems(plan), [plan]);
   const isTest = plan.kind === 'test';
   const [recent, setRecent] = useState([]);
@@ -460,6 +480,13 @@ function CramSession({ plan, states, onStates, onExit, onRestart, revealMode, on
   useEffect(() => {
     if (!itemId && !finished) setFinished(true);
   }, [itemId, finished]);
+
+  const reportedRef = useRef(false);
+  useEffect(() => {
+    if (!finished || !isTest || reportedRef.current || stats.answered === 0) return;
+    reportedRef.current = true;
+    onTestFinished?.(stats);
+  }, [finished, isTest, stats, onTestFinished]);
 
   const submit = useCallback(choiceId => {
     if (!item || picked || !choiceId) return;
@@ -570,7 +597,7 @@ function CramSession({ plan, states, onStates, onExit, onRestart, revealMode, on
       <div className={`cramHero cramHero--${reaction}`}>
         <TappableRobot
           className="cramHero__robot"
-          mood={reaction === 'correct' ? 'nod' : reaction === 'incorrect' ? 'shake' : ''}
+          mood={reaction === 'correct' ? 'hop' : reaction === 'incorrect' ? 'shake' : ''}
           key={`robot-${turn}-${reaction}`}
         >
           <ShimeRobotPresence
@@ -640,7 +667,54 @@ function CramSession({ plan, states, onStates, onExit, onRestart, revealMode, on
 
 /* ───────────────────────── Root ───────────────────────── */
 
-export default function CramStudy() {
+function formatTestDate(iso) {
+  try {
+    return new Intl.DateTimeFormat('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit' }).format(new Date(iso));
+  } catch {
+    return '';
+  }
+}
+
+function TestHome({ results, onStart }) {
+  const best = results.reduce((max, r) => Math.max(max, r.percent), 0);
+  return (
+    <div className="cramHome">
+      <header className="cramHello">
+        <div>
+          <p className="cramKicker">Thi thử GDQP – An ninh</p>
+          <h1 className="cramHello__title">Thi thử</h1>
+        </div>
+      </header>
+      <section className="cramPanel cramTestIntro">
+        <p className="cramSubtle">{MOCK_TEST_SIZE} câu trộn đủ 10 chương, giống một đề thi thật. Làm xong sẽ chấm điểm phần trăm. Câu sai được ghi lại để ôn tiếp.</p>
+        <button type="button" className="cramStart" onClick={onStart}>
+          <span className="cramStart__label">Bắt đầu bài thi thử</span>
+          <span className="cramStart__hint">{results.length ? `Điểm cao nhất: ${best}%` : 'Lần đầu thi thử'}</span>
+        </button>
+      </section>
+      <section className="cramSection" aria-labelledby="cram-tests-title">
+        <h2 id="cram-tests-title" className="cramSection__title">Kết quả gần đây</h2>
+        {results.length ? (
+          <ul className="cramChapters">
+            {results.map(result => (
+              <li key={result.at} className="cramTestRow">
+                <span className="cramTestRow__date">{formatTestDate(result.at)}</span>
+                <span className="cramChapter__bar" aria-hidden="true"><span style={{ width: `${result.percent}%` }} /></span>
+                <span className="cramChapter__pct">{result.percent}%</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="cramSubtle cramEmpty">Chưa có bài thi thử nào. Làm thử một bài để biết mình đang ở đâu.</p>
+        )}
+      </section>
+    </div>
+  );
+}
+
+export default function CramStudy({ view = 'home' }) {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [profile, setProfile] = useState(() => readCramProfile());
   const [states, setStates] = useState(() => (profile ? readCramStates(profile.id, DECK.version) : {}));
   const [plan, setPlan] = useState(null);
@@ -648,6 +722,7 @@ export default function CramStudy() {
   const [askGuide, setAskGuide] = useState(false);
   const [tourStep, setTourStep] = useState(null);
   const [confirmReset, setConfirmReset] = useState(false);
+  const [mockResults, setMockResults] = useState(() => (profile ? readMockResults(profile.id, DECK.version) : []));
   const changeRevealMode = useCallback(mode => setPrefs(saveCramPrefs({ revealMode: mode })), []);
   const [now, setNow] = useNow();
   const notifiedRef = useRef(false);
@@ -680,10 +755,30 @@ export default function CramStudy() {
     setPlan({ ...next, key: Date.now() });
   }
 
+  // Requests from other tabs: Thư viện → "Học chương này", Cài đặt → "Xem lại hướng dẫn".
+  useEffect(() => {
+    const request = location.state;
+    if (!request || !profile) return;
+    if (request.startPlan) startPlan(request.startPlan);
+    if (request.showGuide) setTourStep(0);
+    navigate(location.pathname, { replace: true, state: null });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.state, profile]);
+
+  const handleTestFinished = useCallback(stats => {
+    if (!profile || !stats.answered) return;
+    setMockResults(saveMockResult(profile.id, DECK.version, {
+      percent: Math.round((stats.correct / stats.answered) * 100),
+      correct: stats.correct,
+      total: stats.answered
+    }));
+  }, [profile]);
+
   function chooseProfile(id) {
     const saved = saveCramProfile(id);
     setProfile(saved);
     setStates(readCramStates(saved.id, DECK.version));
+    setMockResults(readMockResults(saved.id, DECK.version));
     setAskGuide(!readCramPrefs().guideSeen);
   }
 
@@ -726,9 +821,12 @@ export default function CramStudy() {
         revealMode={prefs.revealMode}
         onRevealMode={changeRevealMode}
         onRestart={startPlan}
+        onTestFinished={handleTestFinished}
         onExit={() => { setPlan(null); setNow(Date.now()); }}
       />
     );
+  } else if (view === 'test') {
+    content = <TestHome results={mockResults} onStart={() => startPlan({ kind: 'test', itemIds: buildMockTest(CHAPTERS) })} />;
   } else {
     content = (
       <CramHome
@@ -749,7 +847,7 @@ export default function CramStudy() {
   return (
     <div className={`cramPage${!profile || askGuide ? ' cramPage--gate' : ''}${plan ? ' cramPage--session' : ''}`}>
       {content}
-      {profile && !plan && !askGuide && tourStep !== null ? (
+      {profile && !plan && !askGuide && view === 'home' && tourStep !== null ? (
         <GuideTour
           step={tourStep}
           onNext={() => setTourStep(step => Math.min(TOUR_STEPS.length - 1, step + 1))}

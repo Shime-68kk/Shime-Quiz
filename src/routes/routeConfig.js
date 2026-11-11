@@ -9,6 +9,9 @@ const loadLibrary = () => import('./Library.jsx');
 const loadStudyRoom = () => import('./StudyRoom.jsx');
 const loadSettings = () => import('./Settings.jsx');
 const loadCramStudy = () => import('./CramStudy.jsx');
+const loadMockTest = () => import('./MockTest.jsx');
+const loadStudentLibrary = () => import('./StudentLibrary.jsx');
+const loadStudentSettings = () => import('./StudentSettings.jsx');
 const loadFsrsUiFixture = () => import('./FsrsUiFixture.jsx');
 const loadBackupHealthDevHarness = () => import('../components/dev/BackupHealthDevHarness.jsx');
 
@@ -17,6 +20,9 @@ const Library = lazy(loadLibrary);
 const StudyRoom = lazy(loadStudyRoom);
 const Settings = lazy(loadSettings);
 const CramStudy = lazy(loadCramStudy);
+const MockTest = lazy(loadMockTest);
+const StudentLibrary = lazy(loadStudentLibrary);
+const StudentSettings = lazy(loadStudentSettings);
 const FsrsUiFixture = lazy(loadFsrsUiFixture);
 // Phase 26D — hidden default-off dev/test harness (showInNav: false, returns null with no props)
 const BackupHealthDevHarness = lazy(loadBackupHealthDevHarness);
@@ -39,6 +45,43 @@ export const routes = [
     element: CramStudy,
     preload: loadCramStudy
   },
+  // Student deployment tabs: Ôn thi · Thư viện · Thi thử · Cài đặt (simple, learner-only screens).
+  {
+    path: '/thu-vien',
+    label: 'Thư viện',
+    shortLabel: 'Thư viện',
+    labelKey: 'nav.library',
+    shortLabelKey: 'nav.library',
+    icon: '▦',
+    showInNav: STUDENT_DEPLOYMENT,
+    focusMode: false,
+    element: StudentLibrary,
+    preload: loadStudentLibrary
+  },
+  {
+    path: '/thi-thu',
+    label: 'Thi thử',
+    shortLabel: 'Thi thử',
+    labelKey: 'nav.mockTest',
+    shortLabelKey: 'nav.mockTest',
+    icon: '✓',
+    showInNav: STUDENT_DEPLOYMENT,
+    focusMode: false,
+    element: MockTest,
+    preload: loadMockTest
+  },
+  {
+    path: '/cai-dat',
+    label: 'Cài đặt',
+    shortLabel: 'Cài đặt',
+    labelKey: 'nav.settings',
+    shortLabelKey: 'nav.settings',
+    icon: '⚙',
+    showInNav: STUDENT_DEPLOYMENT,
+    focusMode: false,
+    element: StudentSettings,
+    preload: loadStudentSettings
+  },
   {
     path: '/dashboard',
     label: 'Tổng quan',
@@ -46,7 +89,8 @@ export const routes = [
     labelKey: 'nav.overview',
     shortLabelKey: 'nav.overview',
     icon: '⌂',
-    showInNav: true,
+    showInNav: !STUDENT_DEPLOYMENT,
+    studentRedirect: '/on-thi',
     focusMode: false,
     element: Dashboard,
     preload: loadDashboard
@@ -58,7 +102,8 @@ export const routes = [
     labelKey: 'nav.library',
     shortLabelKey: 'nav.library',
     icon: '▦',
-    showInNav: true,
+    showInNav: !STUDENT_DEPLOYMENT,
+    studentRedirect: '/thu-vien',
     focusMode: false,
     element: Library,
     preload: loadLibrary
@@ -70,7 +115,8 @@ export const routes = [
     labelKey: 'nav.studyRoom',
     shortLabelKey: 'nav.studyShort',
     icon: '◉',
-    showInNav: true,
+    showInNav: !STUDENT_DEPLOYMENT,
+    studentRedirect: '/on-thi',
     focusMode: true,
     element: StudyRoom,
     preload: loadStudyRoom
@@ -82,7 +128,8 @@ export const routes = [
     labelKey: 'nav.settings',
     shortLabelKey: 'nav.settings',
     icon: '⚙',
-    showInNav: true,
+    showInNav: !STUDENT_DEPLOYMENT,
+    studentRedirect: '/cai-dat',
     focusMode: false,
     element: Settings,
     preload: loadSettings

@@ -64,3 +64,19 @@ export function saveCramPrefs(prefs) {
   setStorageItem(PREFS_KEY, JSON.stringify(next));
   return next;
 }
+
+// Mock test results (per learner): newest first, last 10 kept.
+function mockKey(profileId, deckVersion) {
+  return `shimeCramMockV1:${profileId}:${deckVersion}`;
+}
+
+export function readMockResults(profileId, deckVersion) {
+  const value = parseJsonSafely(getStorageItem(mockKey(profileId, deckVersion)), []);
+  return Array.isArray(value) ? value : [];
+}
+
+export function saveMockResult(profileId, deckVersion, result) {
+  const next = [{ ...result, at: new Date().toISOString() }, ...readMockResults(profileId, deckVersion)].slice(0, 10);
+  setStorageItem(mockKey(profileId, deckVersion), JSON.stringify(next));
+  return next;
+}

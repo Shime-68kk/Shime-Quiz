@@ -35,9 +35,13 @@ createRoot(document.getElementById('root')).render(
                 <Route index element={STUDENT_DEPLOYMENT ? <Navigate to={CRAM_ROUTE_PATH} replace /> : <Home />} />
                 {routes.map(route => {
                   const RouteElement = route.element;
-                  return <Route key={route.path} path={route.path.replace(/^\//, '')} element={<RouteElement />} />;
+                  // Student deployment: legacy screens send the learner to the simple equivalent.
+                  const element = STUDENT_DEPLOYMENT && route.studentRedirect
+                    ? <Navigate to={route.studentRedirect} replace />
+                    : <RouteElement />;
+                  return <Route key={route.path} path={route.path.replace(/^\//, '')} element={element} />;
                 })}
-                <Route path="*" element={<Navigate to="/dashboard" replace />} />
+                <Route path="*" element={<Navigate to={STUDENT_DEPLOYMENT ? CRAM_ROUTE_PATH : '/dashboard'} replace />} />
               </Route>
             </Routes>
           </InternalRouteHistoryProvider>

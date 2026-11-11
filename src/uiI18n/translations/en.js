@@ -36,6 +36,7 @@ export const en = Object.freeze({
   'nav.overview': 'Overview',
   'nav.cram': 'Exam cram',
   'nav.cramShort': 'Cram',
+  'nav.mockTest': 'Mock test',
   'nav.library': 'Library',
   'nav.studyRoom': 'Study Room',
   'nav.studyShort': 'Study',
