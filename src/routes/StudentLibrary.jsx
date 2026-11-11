@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CHAPTERS, DECK, ITEMS } from '../cram/cramDeck.js';
 import { getRecord, isKnown, summarize } from '../cram/cramEngine.js';
@@ -51,6 +51,26 @@ export default function StudentLibrary() {
   const [query, setQuery] = useState('');
   const [openId, setOpenId] = useState(CHAPTERS[0]?.id || '');
   const [showAnswer, setShowAnswer] = useState(true);
+  const chapterRefs = useRef(new Map());
+  const scrollOnOpenRef = useRef(false);
+
+  // After opening a chapter, bring its header to the top so question 1 is right there.
+  useEffect(() => {
+    if (!openId || !scrollOnOpenRef.current) return undefined;
+    scrollOnOpenRef.current = false;
+    const frame = requestAnimationFrame(() => {
+      const element = chapterRefs.current.get(openId);
+      if (!element) return;
+      const top = element.getBoundingClientRect().top + window.scrollY - 12;
+      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [openId]);
+
+  function toggleChapter(chapterId, open) {
+    scrollOnOpenRef.current = !open;
+    setOpenId(open ? '' : chapterId);
+  }
   const profile = readCramProfile();
   const states = useMemo(() => (profile ? readCramStates(profile.id, DECK.version) : {}), [profile?.id]);
   const now = Date.now();
@@ -124,12 +144,19 @@ export default function StudentLibrary() {
               const open = openId === chapter.id;
               const summary = summarize(chapter.items, states, now);
               return (
-                <li key={chapter.id} className={`libChapter${open ? ' is-open' : ''}`}>
+                <li
+                  key={chapter.id}
+                  className={`libChapter${open ? ' is-open' : ''}`}
+                  ref={element => {
+                    if (element) chapterRefs.current.set(chapter.id, element);
+                    else chapterRefs.current.delete(chapter.id);
+                  }}
+                >
                   <button
                     type="button"
                     className="libChapter__head"
                     aria-expanded={open}
-                    onClick={() => setOpenId(open ? '' : chapter.id)}
+                    onClick={() => toggleChapter(chapter.id, open)}
                   >
                     <span className="cramChapter__num">{chapter.number}</span>
                     <span className="libChapter__title">{chapter.shortTitle}</span>

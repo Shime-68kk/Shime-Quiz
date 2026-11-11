@@ -718,7 +718,7 @@ html:has(.cramPage--gate) .mainContent { padding-bottom: 24px; }
   background: var(--cram-surface);
   border: 1px solid var(--cram-line);
   border-radius: var(--cram-radius);
-  overflow: hidden;
+  scroll-margin-top: 12px;
 }
 .libChapter__head {
   width: 100%;
@@ -734,7 +734,8 @@ html:has(.cramPage--gate) .mainContent { padding-bottom: 24px; }
   cursor: pointer;
 }
 .libChapter__title { font-weight: 600; line-height: 1.35; }
-.libChapter.is-open .libChapter__head { border-bottom: 1px solid var(--cram-line); }
+.libChapter__head { border-radius: var(--cram-radius); }
+.libChapter.is-open .libChapter__head { border-bottom: 1px solid var(--cram-line); border-radius: var(--cram-radius) var(--cram-radius) 0 0; }
 .libChapter__body { display: grid; gap: 12px; padding: 14px 16px 16px; }
 .libStudy { justify-self: start; }
 .libList { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
@@ -807,3 +808,8 @@ html:has(.cramPage--gate) .mainContent { padding-bottom: 24px; }
   .setTheme__swatch { width: 34px; height: 34px; }
   .cramTestRow { grid-template-columns: 6.8em 1fr auto; }
 }
+
+/* iOS Safari repaint fix: the route-enter animation used fill-mode "both", which left a
+   permanent transform on the page wrapper. With a transformed ancestor, Safari can paint
+   stale tiles when content height changes (opening a chapter showed old content on top). */
+.routeStage { animation-fill-mode: backwards !important; }
