@@ -1,16 +1,14 @@
-import ShimeRobotHead from './ShimeRobotHead.jsx';
+import ShimeLogoMark from './ShimeLogoMark.jsx';
 
+// The app's brand mark is the Shime logo ("Nháy mắt đúng", 2026-11-11).
+// The animated companion robot (ShimeRobotPresence / ShimeRobotHead) is unchanged.
 const SIZE_CLASS = Object.freeze({
   sm: 'shimeBrandMark--sm',
   md: 'shimeBrandMark--md',
   lg: 'shimeBrandMark--lg'
 });
 
-const FACE_SIZE = Object.freeze({
-  sm: 'xs',
-  md: 'sm',
-  lg: 'md'
-});
+const PIXELS = Object.freeze({ sm: 30, md: 40, lg: 54 });
 
 export default function ShimeBrandMark({
   size = 'md',
@@ -23,9 +21,8 @@ export default function ShimeBrandMark({
       role={decorative ? undefined : 'img'}
       aria-hidden={decorative ? 'true' : undefined}
       aria-label={decorative ? undefined : label}
-      data-eye-variant="oled"
     >
-      <ShimeRobotHead size={FACE_SIZE[size] || FACE_SIZE.md} expression="neutral" signal decorative />
+      <ShimeLogoMark size={PIXELS[size] || PIXELS.md} tile="app" decorative />
     </span>
   );
 }

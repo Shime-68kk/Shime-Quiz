@@ -552,3 +552,16 @@ html:has(.cramPage--gate) .mainContent { padding-bottom: 24px; }
 @media (prefers-reduced-motion: reduce) {
   .cramSegment::before { transition: none; }
 }
+
+/* Shime logo ("Nháy mắt đúng") carries its own tile: drop the old wrapper chrome. */
+.brandMark:has(.shimeLogoMark),
+.phase37uin-collapsible-avatar-header-pilot .brandMark:has(.shimeLogoMark) {
+  padding: 0 !important;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+.shimeLogoMark { display: block; }
+.shimeLogoMark--app { filter: drop-shadow(0 4px 10px color-mix(in srgb, var(--theme-brand-primary, #7C5CE0) 30%, transparent)); }
+.brandMark .shimeBrandMark,
+.brandMark .shimeLogoMark { width: 40px; height: 40px; }

@@ -48,12 +48,13 @@ describe('BIG-UPDATE-14 canonical OLED geometry', () => {
     }
   });
 
-  it('makes Presence and BrandMark compose the same head and OLED implementation', () => {
+  it('keeps the companion robot on the OLED head and uses the chosen Shime logo for the brand mark', () => {
     expect(presenceSource).toContain("import ShimeRobotHead");
-    expect(brandSource).toContain("import ShimeRobotHead");
     expect(headSource).toContain("import ShimeOledFace");
     expect(renderToStaticMarkup(<ShimeRobotPresence />)).toContain('data-oled-viewbox="0 0 128 64"');
-    expect(renderToStaticMarkup(<ShimeBrandMark />)).toContain('data-oled-viewbox="0 0 128 64"');
+    // 2026-11-11: the user chose the "Nháy mắt đúng" (check-wink) logo for the brand mark.
+    expect(brandSource).toContain("import ShimeLogoMark");
+    expect(renderToStaticMarkup(<ShimeBrandMark />)).toContain('data-shime-logo="check-wink"');
   });
 });
 
