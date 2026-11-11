@@ -1,0 +1,1 @@
+import{j as o}from"./index-DRVx84yR.js";function r({children:s,tone:a="neutral",className:e=""}){const n=["badge",`badge--${a}`,e].filter(Boolean).join(" ");return o.jsx("span",{className:n,children:s})}export{r as B};
