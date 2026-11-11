@@ -165,6 +165,96 @@ function TappableRobot({ children, className = '', mood = '' }) {
   );
 }
 
+/* A robot that feels alive between answers. It runs a small "idle script" of beats:
+   where the eyes look, an expression (happy squint = 'complete', wide eyes = 'attentive'),
+   a blink or wink, and a body move (nod / wiggle). The robot component is unchanged;
+   eye direction, blink and wink are CSS on its OLED face. Reduced motion → it stays still. */
+const IDLE_SCRIPTS = {
+  home: [
+    { look: 'center', ms: 2200 },
+    { look: 'down', ms: 1500 },
+    { look: 'down', expression: 'complete', ms: 1300 },
+    { look: 'center', blink: true, ms: 160 },
+    { look: 'center', ms: 1100 },
+    { look: 'left', ms: 800 },
+    { look: 'right', ms: 800 },
+    { look: 'center', move: 'wiggle', ms: 900 },
+    { look: 'center', wink: true, ms: 450 },
+    { look: 'center', ms: 1400 },
+    { look: 'up', expression: 'attentive', ms: 1200 },
+    { look: 'center', move: 'nod', ms: 1000 }
+  ],
+  thinking: [
+    { look: 'down', ms: 1300 },
+    { look: 'down-left', ms: 800 },
+    { look: 'down-right', ms: 800 },
+    { look: 'down', blink: true, ms: 160 },
+    { look: 'down', expression: 'complete', ms: 1100 },
+    { look: 'center', move: 'wiggle', ms: 900 },
+    { look: 'center', ms: 1500 },
+    { look: 'down', expression: 'attentive', ms: 1200 },
+    { look: 'center', wink: true, ms: 450 },
+    { look: 'center', move: 'nod', ms: 1000 }
+  ]
+};
+
+function usePrefersReducedMotion() {
+  const [reduced] = useState(() => {
+    try {
+      return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    } catch {
+      return false;
+    }
+  });
+  return reduced;
+}
+
+function LivelyRobot({ size = 'lg', className = '', script = 'home', followScroll = false }) {
+  const reduced = usePrefersReducedMotion();
+  const beats = IDLE_SCRIPTS[script] || IDLE_SCRIPTS.home;
+  const [index, setIndex] = useState(0);
+  const [scrolledDown, setScrolledDown] = useState(false);
+
+  useEffect(() => {
+    if (reduced) return undefined;
+    const beat = beats[index];
+    const jitter = 0.85 + Math.random() * 0.35;
+    const timer = window.setTimeout(() => {
+      setIndex(value => (value + 1) % beats.length);
+    }, beat.ms * (beat.blink || beat.wink ? 1 : jitter));
+    return () => window.clearTimeout(timer);
+  }, [index, beats, reduced]);
+
+  useEffect(() => {
+    if (!followScroll) return undefined;
+    const onScroll = () => setScrolledDown(window.scrollY > 60);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [followScroll]);
+
+  const beat = reduced ? { look: 'center' } : beats[index];
+  const look = scrolledDown ? 'down' : beat.look;
+  return (
+    <span
+      className="cramLively"
+      data-look={look}
+      data-blink={beat.blink ? 'true' : 'false'}
+      data-wink={beat.wink ? 'true' : 'false'}
+    >
+      <TappableRobot className={className} mood={beat.move || ''}>
+        <ShimeRobotPresence
+          state="ready"
+          size={size}
+          expression={beat.expression || 'neutral'}
+          motion="static"
+          decorative
+        />
+      </TappableRobot>
+    </span>
+  );
+}
+
 /* ───────────────────────── Onboarding ───────────────────────── */
 
 function ProfileGate({ onChoose }) {
@@ -334,9 +424,7 @@ function CramHome({ profile, states, now, onStart, onSwitchProfile, onReset, con
           <p className="cramKicker">Ôn thi GDQP – An ninh</p>
           <h1 className="cramHello__title">{name ? `Chào ${name}` : 'Chào bạn'}</h1>
         </div>
-        <TappableRobot className="cramHello__robot">
-          <ShimeRobotPresence state={overall.due > 0 ? 'focus' : 'ready'} size="md" motion="idle" blinkPhase="a" decorative />
-        </TappableRobot>
+        <LivelyRobot className="cramHello__robot" size="md" script="home" followScroll />
       </header>
 
       <section className="cramPanel cramProgressPanel" data-tour="progress" aria-label="Tiến độ">
@@ -595,20 +683,24 @@ function CramSession({ plan, states, onStates, onExit, onRestart, revealMode, on
       <div className="cramBar" aria-hidden="true"><span style={{ width: `${progressPercent}%` }} /></div>
 
       <div className={`cramHero cramHero--${reaction}`}>
-        <TappableRobot
-          className="cramHero__robot"
-          mood={reaction === 'correct' ? 'hop' : reaction === 'incorrect' ? 'shake' : ''}
-          key={`robot-${turn}-${reaction}`}
-        >
-          <ShimeRobotPresence
-            state="ready"
-            size="lg"
-            expression={reaction === 'correct' ? 'correct' : reaction === 'incorrect' ? 'incorrect' : 'attentive'}
-            motion={feedback ? 'feedback' : 'idle'}
-            blinkPhase="c"
-            decorative
-          />
-        </TappableRobot>
+        {feedback ? (
+          <TappableRobot
+            className="cramHero__robot"
+            mood={reaction === 'correct' ? 'hop' : 'shake'}
+            key={`robot-${turn}-${reaction}`}
+          >
+            <ShimeRobotPresence
+              state="ready"
+              size="lg"
+              expression={reaction === 'correct' ? 'correct' : 'incorrect'}
+              motion="feedback"
+              blinkPhase="c"
+              decorative
+            />
+          </TappableRobot>
+        ) : (
+          <LivelyRobot className="cramHero__robot" size="lg" script="thinking" key={`thinking-${turn}`} />
+        )}
         <p className="cramHero__bubble" role="status" aria-live="polite">{companionMessage(feedback, revealMode)}</p>
       </div>
 

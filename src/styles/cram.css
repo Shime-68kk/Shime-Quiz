@@ -813,3 +813,39 @@ html:has(.cramPage--gate) .mainContent { padding-bottom: 24px; }
    permanent transform on the page wrapper. With a transformed ancestor, Safari can paint
    stale tiles when content height changes (opening a chapter showed old content on top). */
 .routeStage { animation-fill-mode: backwards !important; }
+
+/* ── Lively robot (idle script) ──────────────────────────────────────── */
+.cramLively { display: inline-grid; }
+.cramLively .shimeOledFace__eyes { transition: transform 320ms cubic-bezier(0.3, 0.7, 0.3, 1); }
+.cramLively .shimeOledFace__eyeGeometry,
+.cramLively .shimeOledFace__mask { transition: opacity 220ms ease, transform 110ms ease; }
+.cramLively .shimeOledFace__eye { transition: transform 110ms ease; }
+.cramLively[data-look='down'] .shimeOledFace__eyes { transform: translate(0, 7px); }
+.cramLively[data-look='up'] .shimeOledFace__eyes { transform: translate(0, -4px); }
+.cramLively[data-look='left'] .shimeOledFace__eyes { transform: translate(-9px, 0); }
+.cramLively[data-look='right'] .shimeOledFace__eyes { transform: translate(9px, 0); }
+.cramLively[data-look='down-left'] .shimeOledFace__eyes { transform: translate(-8px, 6px); }
+.cramLively[data-look='down-right'] .shimeOledFace__eyes { transform: translate(8px, 6px); }
+.cramLively[data-blink='true'] .shimeOledFace__eyeGeometry { transform: scaleY(0.08); }
+.cramLively[data-wink='true'] .shimeOledFace__eye--left { transform: scaleY(0.08); }
+/* Head follows the gaze a little. */
+.cramLively .cramRobotTap__body > * { transition: transform 360ms cubic-bezier(0.3, 0.7, 0.3, 1); }
+.cramLively[data-look='down'] .cramRobotTap__body > *,
+.cramLively[data-look='down-left'] .cramRobotTap__body > *,
+.cramLively[data-look='down-right'] .cramRobotTap__body > * { transform: translateY(2px) rotate(0deg); }
+.cramLively[data-look='left'] .cramRobotTap__body > *,
+.cramLively[data-look='down-left'] .cramRobotTap__body > * { transform: rotate(-4deg); }
+.cramLively[data-look='right'] .cramRobotTap__body > *,
+.cramLively[data-look='down-right'] .cramRobotTap__body > * { transform: rotate(4deg); }
+.cramLively[data-look='up'] .cramRobotTap__body > * { transform: translateY(-2px); }
+/* Gentle breathing when no move is playing. */
+.cramLively .cramRobotTap:not([class*='cramRobotTap--']) .cramRobotTap__body { animation: cramBreath 3.8s ease-in-out infinite; }
+@keyframes cramBreath {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-2px) scale(1.012); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cramLively .cramRobotTap__body,
+  .cramLively .cramRobotTap__body > *,
+  .cramLively .shimeOledFace__eyes { animation: none !important; transition: none !important; }
+}
